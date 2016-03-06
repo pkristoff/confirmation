@@ -1,4 +1,4 @@
-module DeviseHelpersNew
+module DeviseHelpersEdit
   def resource_name
     :user
   end

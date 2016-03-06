@@ -1,16 +1,16 @@
 
-describe 'layouts/_messages.html.erb' do
-  before do
-    view.stub(:flash).and_return([['notice', 'nnn'],['error', 'errormessage'],['error', 'errormessage2']])
-  end
-  it 'Form layout' do
+describe 'layouts/_navigation.html.erb' do
+  it 'navigation layout' do
 
     render
 
-    puts rendered
+    expect(rendered).to have_selector('button', text: 'Toggle navigation')
+    expect(rendered).to have_selector('a[href="/"]', text: 'Home')
+    expect(rendered).to have_selector('a[href="/pages/about"]', text: 'About')
 
-    expect(rendered).to have_selector('div[id=flash_notice]', text: 'nnn')
-    expect(rendered).to have_selector('div[id=flash_error]', text: 'errormessage')
-    expect(rendered).to have_selector('div[id=flash_error]', text: 'errormessage2')
+    expect(rendered).to have_selector('a[href="/users/sign_in"]', text: 'Sign in')
+    expect(rendered).to have_selector('a[href="/users/sign_up"]', text: 'Sign up')
+    expect(rendered).to have_selector('a[href="/admins/sign_in"]', text: 'Sign in admin')
+    expect(rendered).to have_selector('a[href="/admins/sign_up"]', text: 'Sign up admin')
   end
 end

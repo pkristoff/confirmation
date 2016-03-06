@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  attr_accessor :users # for testing
+
   before_action :authenticate_user!
 
   def index

@@ -1,20 +1,20 @@
 
-describe UsersController do
+describe AdminsController do
 
-  it "should have a current_user" do
+  it "should NOT have a current_user" do
     expect(subject.current_user).to eq(nil)
   end
 
-  it "should have a current_admin" do
-    login_admin
+  it "should fail authentication" do
+    login_user
     get :index
     expect(@users).to eq(nil)
   end
 
-  it "should have a current_admin" do
-    login_user
+  it "should pass authentication and set @admins" do
+    login_admin
     get :index
-    expect(subject.users.size).to eq(1)
+    expect(subject.admins.size).to eq(1)
   end
 
 end

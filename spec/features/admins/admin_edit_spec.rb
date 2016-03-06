@@ -16,7 +16,6 @@ feature 'Admin edit', :devise do
   #   When I change my email address
   #   Then I see an account updated message
   scenario 'admin changes email address' do
-    skip 'works when debugging but not in straight mode - sign in'
     admin = FactoryGirl.create(:admin)
     login_as(admin, :scope => :admin)
     visit edit_admin_registration_path(admin)

@@ -16,6 +16,7 @@ feature 'Admin profile page', :devise do
   #   When I visit the admin profile page
   #   Then I see my own email address
   scenario 'admin sees own profile' do
+    # puts "request.env[\"HTTP_REFERER\"]=#{request.env["HTTP_REFERER"]}"
     # skip 'does not work - visit: NameError: uninitialized constant AdminsController::Admins'
     admin = FactoryGirl.create(:admin)
     login_as(admin, :scope => :admin)

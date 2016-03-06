@@ -9,8 +9,9 @@ feature 'Sign out', :devise do
   #   When I sign out
   #   Then I see a signed out message
   scenario 'user signs out successfully' do
-    user = FactoryGirl.create(:user)
-    signin_user(user.email, user.password)
+    # skip 'works when debugging but not in straight mode - sign in'
+    admin = FactoryGirl.create(:admin)
+    signin_admin(admin.email, admin.password)
     expect(page).to have_content I18n.t 'devise.sessions.signed_in'
     click_link 'Sign out'
     expect(page).to have_content I18n.t 'devise.sessions.signed_out'
