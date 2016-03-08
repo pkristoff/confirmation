@@ -1,5 +1,25 @@
 Confirmation
 ================
+v0.1
+Features:
+o devise implementation for user & admin
+o Home page
+o About page
+o Admin:
+    - login
+    - creation
+    - reset password
+    - edit account
+    - cancel account
+    - list of Admins
+o User:
+    - login
+    - creation
+    - reset password
+    - edit account
+    - cancel account
+    - list of Users
+================
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
