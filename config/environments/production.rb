@@ -74,7 +74,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: Rails.application.secrets.email_provider_address,
     port: 587,
-    domain: Rails.application.secrets.domain_name,
+    domain: Rails.application.secrets.email_provider_domain,
     authentication: "plain",
     enable_starttls_auto: true,
     user_name: Rails.application.secrets.email_provider_username,
@@ -82,7 +82,7 @@ Rails.application.configure do
     openssl_verify_mode: 'none'
   }
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'lit-earth-34236.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
