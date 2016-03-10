@@ -10,7 +10,7 @@ feature 'Home page' do
   #   Then I see "Welcome"
   scenario 'visit the home page' do
     visit root_path
-    expect(page).to have_content 'Toggle navigation Home About Sign in Sign up Sign in admin Sign up admin Start Bootstrap Dashboard Shortcuts Overview Events About Services Contact Simple Sidebar This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas. Make sure to keep all page content within the #page-content-wrapper. Toggle Menu'
+    expect(page).to have_content 'Toggle navigation Home About Sign in Sign in admin Start Bootstrap Dashboard Shortcuts Overview Events About Services Contact Simple Sidebar This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas. Make sure to keep all page content within the #page-content-wrapper. Toggle Menu'
   end
 
 end
