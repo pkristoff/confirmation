@@ -18,6 +18,7 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
 
       expect(rendered).to have_selector('a[href="/users/edit"]', text: 'Edit account')
       expect(rendered).to have_selector('a[href="/users/sign_out"]', text: 'Sign out')
+      expect(rendered).not_to have_selector('a[href="/admins/sign_up"]', text: 'Sign up admin')
     end
   end
   context "login as admin" do
@@ -29,6 +30,7 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
       expect(rendered).to have_selector('a[href="/admins/edit"]', text: 'Edit account')
       expect(rendered).to have_selector('a[href="/admins/sign_out"]', text: 'Sign out')
       expect(rendered).to have_selector('a[href="/admins"]', text: 'Admins')
+      expect(rendered).to have_selector('a[href="/admins/sign_up"]', text: 'Sign up admin')
       expect(rendered).to have_selector('a[href="/users"]', text: 'Users')
     end
   end

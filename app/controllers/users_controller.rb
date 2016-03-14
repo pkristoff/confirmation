@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   attr_accessor :users # for testing
+  attr_accessor :user # for testing
 
   before_action :check_user_or_admin_logged_in!
 

@@ -29,7 +29,6 @@ group :development, :test do
   gem 'rspec-rails'
 end
 group :production do
-  gem 'rails_12factor'
   gem 'unicorn'
 end
 group :test do
@@ -37,6 +36,7 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'selenium-webdriver'
+  gem 'rspec-rails'
 end
 
 gem 'pg'
