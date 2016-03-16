@@ -23,7 +23,7 @@ describe 'devise/confirmations/new.html.erb' do
     expect(rendered).to have_selector('input[id=user_email][value="aaa@bbb.com"]')
 
     expect(rendered).to have_selector('a[href="/users/sign_in"]', text: 'Log in')
-    expect(rendered).to have_selector('a[href="/users/sign_up"]', text: 'Sign up')
+    expect(rendered).not_to have_selector('a[href="/users/sign_up"]', text: 'Sign up')
     expect(rendered).to have_selector('a[href="/users/password/new"]', text: 'Forgot your password?')
 
   end
