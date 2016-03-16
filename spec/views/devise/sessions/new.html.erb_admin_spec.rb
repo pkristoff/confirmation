@@ -28,7 +28,7 @@ describe 'devise/sessions/new.html.erb' do
     expect(rendered).to have_selector('input[type=submit][name="commit"][value="Sign in admin"]')
 
     expect(rendered).to have_selector('a[href="/admins/sign_in"]', text: 'Log in')
-    expect(rendered).to have_selector('a[href="/admins/sign_up"]', text: 'Sign up')
+    expect(rendered).not_to have_selector('a[href="/admins/sign_up"]', text: 'Sign up')
     expect(rendered).to have_selector('a[href="/admins/password/new"]', text: 'Forgot your password?')
 
   end
