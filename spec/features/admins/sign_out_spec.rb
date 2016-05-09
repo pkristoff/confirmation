@@ -1,14 +1,14 @@
 # Feature: Sign out
-#   As a user
+#   As a candidate
 #   I want to sign out
 #   So I can protect my account from unauthorized access
 feature 'Sign out', :devise do
 
-  # Scenario: User signs out successfully
+  # Scenario: Candidate signs out successfully
   #   Given I am signed in
   #   When I sign out
   #   Then I see a signed out message
-  scenario 'user signs out successfully' do
+  scenario 'candidate signs out successfully' do
     # skip 'works when debugging but not in straight mode - sign in'
     admin = FactoryGirl.create(:admin)
     signin_admin(admin.email, admin.password)

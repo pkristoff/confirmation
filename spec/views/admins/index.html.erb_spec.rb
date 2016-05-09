@@ -5,6 +5,6 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect(rendered).to have_selector("tr:nth-of-type(1) td:nth-of-type(1)", text: 'Admin User')
+    expect(rendered).to have_selector("tr:nth-of-type(1) td:nth-of-type(1)", text: 'Admin Candidate')
   end
 end

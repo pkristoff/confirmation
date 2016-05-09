@@ -6,11 +6,11 @@ module ControllerMacros
     end
   end
 
-  def login_user
+  def login_candidate
     before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:user]
-      user = FactoryGirl.create(:user)
-      sign_in user
+      @request.env["devise.mapping"] = Devise.mappings[:candidate]
+      candidate = FactoryGirl.create(:candidate)
+      sign_in candidate
     end
   end
 end

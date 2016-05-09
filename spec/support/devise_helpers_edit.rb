@@ -1,13 +1,13 @@
 module DeviseHelpersEdit
   def resource_name
-    :user
+    :candidate
   end
 
   def resource
-    @resource ||= User.new
+    @resource ||= Candidate.new
   end
 
   def devise_mapping
-    @devise_mapping ||= Devise.mappings[:user]
+    @devise_mapping ||= Devise.mappings[:candidate]
   end
 end

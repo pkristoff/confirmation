@@ -1,48 +1,48 @@
 # Feature: Sign in
-#   As a user
+#   As a candidate
 #   I want to sign in
 #   So I can visit protected areas of the site
 feature 'Sign in', :devise do
 
-  # Scenario: User cannot sign in if not registered
-  #   Given I do not exist as a user
+  # Scenario: Candidate cannot sign in if not registered
+  #   Given I do not exist as a candidate
   #   When I sign in with valid credentials
   #   Then I see an invalid credentials message
-  scenario 'user cannot sign in if not registered' do
-    signin_user('test@example.com', 'please123')
+  scenario 'candidate cannot sign in if not registered' do
+    signin_candidate('test@example.com', 'please123')
     expect(page).to have_content I18n.t 'devise.failure.not_found_in_database', authentication_keys: 'email'
   end
 
-  # Scenario: User can sign in with valid credentials
-  #   Given I exist as a user
+  # Scenario: Candidate can sign in with valid credentials
+  #   Given I exist as a candidate
   #   And I am not signed in
   #   When I sign in with valid credentials
   #   Then I see a success message
-  scenario 'user can sign in with valid credentials' do
-    user = FactoryGirl.create(:user)
-    signin_user(user.email, user.password)
+  scenario 'candidate can sign in with valid credentials' do
+    candidate = FactoryGirl.create(:candidate)
+    signin_candidate(candidate.email, candidate.password)
     expect(page).to have_content(I18n.t 'devise.sessions.signed_in')
   end
 
-  # Scenario: User cannot sign in with wrong email
-  #   Given I exist as a user
+  # Scenario: Candidate cannot sign in with wrong email
+  #   Given I exist as a candidate
   #   And I am not signed in
   #   When I sign in with a wrong email
   #   Then I see an invalid email message
-  scenario 'user cannot sign in with wrong email' do
-    user = FactoryGirl.create(:user)
-    signin_user('invalid@email.com', user.password)
+  scenario 'candidate cannot sign in with wrong email' do
+    candidate = FactoryGirl.create(:candidate)
+    signin_candidate('invalid@email.com', candidate.password)
     expect(page).to have_content I18n.t 'devise.failure.not_found_in_database', authentication_keys: 'email'
   end
 
-  # Scenario: User cannot sign in with wrong password
-  #   Given I exist as a user
+  # Scenario: Candidate cannot sign in with wrong password
+  #   Given I exist as a candidate
   #   And I am not signed in
   #   When I sign in with a wrong password
   #   Then I see an invalid password message
-  scenario 'user cannot sign in with wrong password' do
-    user = FactoryGirl.create(:user)
-    signin_user(user.email, 'invalidpass')
+  scenario 'candidate cannot sign in with wrong password' do
+    candidate = FactoryGirl.create(:candidate)
+    signin_candidate(candidate.email, 'invalidpass')
     expect(page).to have_content I18n.t 'devise.failure.invalid', authentication_keys: 'email'
   end
 

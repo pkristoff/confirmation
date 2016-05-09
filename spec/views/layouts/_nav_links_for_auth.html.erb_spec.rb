@@ -4,20 +4,20 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
 
       render
 
-      expect(rendered).to have_selector('a[href="/users/sign_in"]', text: 'Sign in')
-      expect(rendered).not_to have_selector('a[href="/users/sign_up"]', text: 'Sign up')
+      expect(rendered).to have_selector('a[href="/candidates/sign_in"]', text: 'Sign in')
+      expect(rendered).not_to have_selector('a[href="candidates/sign_up"]', text: 'Sign up')
       expect(rendered).to have_selector('a[href="/admins/sign_in"]', text: 'Sign in admin')
       expect(rendered).not_to have_selector('a[href="/admins/sign_up"]', text: 'Sign up admin')
     end
   end
-  context "login as user" do
-    login_user
-    it 'nav links layout for user' do
+  context "login as candidate" do
+    login_candidate
+    it 'nav links layout for candidate' do
 
       render
 
-      expect(rendered).to have_selector('a[href="/users/edit"]', text: 'Edit account')
-      expect(rendered).to have_selector('a[href="/users/sign_out"]', text: 'Sign out')
+      expect(rendered).to have_selector('a[href="/candidates/edit"]', text: 'Edit account')
+      expect(rendered).to have_selector('a[href="/candidates/sign_out"]', text: 'Sign out')
       expect(rendered).not_to have_selector('a[href="/admins/sign_up"]', text: 'Sign up admin')
     end
   end
@@ -31,7 +31,7 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
       expect(rendered).to have_selector('a[href="/admins/sign_out"]', text: 'Sign out')
       expect(rendered).to have_selector('a[href="/admins"]', text: 'Admins')
       expect(rendered).to have_selector('a[href="/admins/sign_up"]', text: 'Sign up admin')
-      expect(rendered).to have_selector('a[href="/users"]', text: 'Users')
+      expect(rendered).to have_selector('a[href="/candidates"]', text: 'Candidates')
     end
   end
 end

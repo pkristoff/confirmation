@@ -8,8 +8,8 @@ describe 'layouts/_navigation.html.erb' do
     expect(rendered).to have_selector('a[href="/"]', text: 'Home')
     expect(rendered).to have_selector('a[href="/pages/about"]', text: 'About')
 
-    expect(rendered).to have_selector('a[href="/users/sign_in"]', text: 'Sign in')
-    expect(rendered).not_to have_selector('a[href="/users/sign_up"]', text: 'Sign up')
+    expect(rendered).to have_selector('a[href="/candidates/sign_in"]', text: 'Sign in')
+    expect(rendered).not_to have_selector('a[href="/candidates/sign_up"]', text: 'Sign up')
     expect(rendered).to have_selector('a[href="/admins/sign_in"]', text: 'Sign in admin')
     expect(rendered).not_to have_selector('a[href="/admins/sign_up"]', text: 'Sign up admin')
   end

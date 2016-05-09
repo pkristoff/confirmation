@@ -24,12 +24,12 @@ feature 'Admin sign up', :devise do
   end
 
   # Scenario: only an admin can sign up another admin 2
-  #   Given user is signed in (not admin)
+  #   Given candidate is signed in (not admin)
   #   When i click sign up
   #   Then I am blocked from creating an admin
   scenario 'only an admin can sign up another admin' do
-    user = FactoryGirl.create(:user)
-    login_as(user, :scope => :user)
+    candidate = FactoryGirl.create(:candidate)
+    login_as(candidate, :scope => :candidate)
     referer = new_admin_session_path
     Capybara.current_session.driver.header 'Referer', referer
     visit new_admin_registration_path # click Sign up admin
@@ -134,7 +134,7 @@ feature 'Admin sign up', :devise do
     fill_in 'Password confirmation', :with => 'abcdefgh'
     click_button 'Sign up'
 
-    expect(page).to have_content('Admin User')
+    expect(page).to have_content('Admin Candidate')
     expect(page).to have_content('test@example.com')
 
     expect(page).to have_content('otherName')

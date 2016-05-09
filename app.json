@@ -18,7 +18,7 @@
   "env": {
     "ADMIN_EMAIL": {
       "description": "The administrator's email address for signing in.",
-      "value": "user@example.com",
+      "value": "candidate@example.com",
       "required": true
     },
     "ADMIN_PASSWORD": {
