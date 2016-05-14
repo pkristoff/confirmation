@@ -22,8 +22,7 @@ feature 'Candidate edit', :devise do
     fill_in 'Parent email 1', :with => 'newemail@example.com'
     fill_in 'Current password', :with => candidate.password
     click_button 'Update'
-    txts = [I18n.t( 'devise.registrations.updated'), I18n.t( 'devise.registrations.update_needs_confirmation')]
-    expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)
+    expect(page).to have_content('Candidate sophiaagusta updated successfully')
   end
 
   # Scenario: Candidate cannot edit another candidate's profile
