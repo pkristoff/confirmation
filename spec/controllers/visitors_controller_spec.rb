@@ -11,7 +11,7 @@ describe VisitorsController do
   end
 
   it "should have a current_candidate" do
-    login_candidate
+    @candidate = login_candidate
     expect(subject.current_candidate).to eq(@candidate)
   end
 
@@ -22,7 +22,7 @@ describe VisitorsController do
   end
 
   it "should have a current_admin" do
-    login_admin
+    @admin = login_admin
     expect(subject.current_admin).to eq(@admin)
   end
 

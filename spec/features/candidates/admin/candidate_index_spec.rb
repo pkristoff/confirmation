@@ -17,7 +17,8 @@ feature 'Candidate index page', :devise do
   #   Then I see my own email address
   scenario 'candidate sees own email address' do
     candidate = FactoryGirl.create(:candidate)
-    login_as(candidate, scope: :candidate)
+    admin = FactoryGirl.create(:admin)
+    login_as(admin, scope: :admin)
     visit candidates_path
     expect(page).to have_content candidate.parent_email_1
   end

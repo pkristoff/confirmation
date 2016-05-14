@@ -5,11 +5,12 @@ Rails.application.routes.draw do
   # namespace :dev do
   #   devise_for :candidates
   # end
-  devise_for :candidates, :path_prefix => 'dev'
+  devise_for :candidates, :path_prefix => 'dev',
+             controllers: {:registrations => "registrations"}
   resources :candidates
-  namespace :dev do
-    devise_for :candidates
-    resources :candidates
-  end
+  # namespace :dev do
+  #   devise_for :candidates
+  #   resources :candidates
+  # end
   root to: 'visitors#index'
 end

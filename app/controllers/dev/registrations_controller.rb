@@ -1,26 +1,28 @@
-class RegistrationsController < Devise::RegistrationsController
+module Dev
+  class RegistrationsController < Devise::RegistrationsController
 
-  skip_before_filter :require_no_authentication, only: [:new, :create, :destroy]
+    before_action :authenticate_candidate!
+    # skip_before_filter :require_no_authentication, only: [:new, :create, :destroy]
 
-  def create
-    unless admin_signed_in?
-      return redirect_to :back, :alert => "Please login as admin to create another admin."
+    def create
+      unless admin_signed_in?
+        return redirect_to :back, :alert => "Please login as admin to create another admin."
+      end
+      super
     end
-    super
-  end
 
-  def destroy
-    unless admin_signed_in?
-      return redirect_to :back, :alert => "Please login as admin to remove a candidate."
+    def destroy
+      unless admin_signed_in?
+        return redirect_to :back, :alert => "Please login as admin to remove a candidate."
+      end
+      super
     end
-    super
-  end
 
-  def new
-    unless admin_signed_in?
-      return redirect_to :back, :alert => "Please login as admin to create another admin."
+    def new
+      unless admin_signed_in?
+        return redirect_to :back, :alert => "Please login as admin to create another candidate."
+      end
+      super
     end
-    super
   end
-
 end

@@ -9,7 +9,8 @@ feature 'Sign Up', :devise do
   #   When I sign up with a valid email address and password
   #   Then I see a successful sign up message
   scenario 'visitor can sign up with valid candidate id, email address and password' do
-    signin_admin('test@example.com', 'please123')
+    admin = FactoryGirl.create(:admin)
+    signin_admin(admin.email, admin.password)
     sign_up_candidate_with('candidateId', 'test@example.com', 'please123', 'please123')
     txts = [I18n.t( 'devise.registrations.signed_up'), I18n.t( 'devise.registrations.signed_up_but_unconfirmed')]
     expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)

@@ -1,5 +1,7 @@
 class CandidatesController < ApplicationController
 
+  # ADMIN ONLY
+
   helper DeviseHelper
 
   helpers = %w(resource scope_name resource_name signed_in_resource
@@ -10,7 +12,7 @@ class CandidatesController < ApplicationController
   attr_accessor :candidate # for testing
 
   before_action :puts_controller
-  before_action :authenticate_candidate!
+  before_action :authenticate_admin!
 
   def index
     @candidates = Candidate.all
@@ -23,8 +25,21 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def destroy
+    @candidate = Candidate.find(params[:id])
+    @candidate.destroy
+    flash[:notice] = "Candidate #{@candidate.candidate_id} successfully removed"
+    @candidates = Candidate.all
+    render :index
+  end
+
   def edit
     @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+  end
+
+  def new
+    @resource = Candidate.new
   end
 
   def update
@@ -45,7 +60,7 @@ class CandidatesController < ApplicationController
   private
 
   def puts_controller
-    puts 'NOdev/CandidatesController before'
+    puts 'NOdev/CandidatesController admin should be logged in'
   end
 
   def candidate_params
@@ -55,11 +70,6 @@ class CandidatesController < ApplicationController
                                  :password_confirmation)
   end
 
-
-  def check_candidate_or_admin_logged_in!
-    authenticate_candidate! unless admin_signed_in?
-  end
-
   protected
   def resource_class
     devise_mapping.to
@@ -67,7 +77,7 @@ class CandidatesController < ApplicationController
 
   # Since going around devise mechanisms - add some helpers back in.
   def resource
-    instance_variable_get(:"@#{resource_name}")
+    @resource
   end
 
   # Since going around devise mechanisms - add some helpers back in.

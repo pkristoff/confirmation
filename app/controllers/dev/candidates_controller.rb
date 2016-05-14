@@ -1,6 +1,8 @@
 module Dev
 class CandidatesController < ApplicationController
 
+  # CANDIDATE ONLY
+
   helper DeviseHelper
 
   helpers = %w(resource scope_name resource_name signed_in_resource
@@ -17,6 +19,10 @@ class CandidatesController < ApplicationController
     @candidates = Candidate.all
   end
 
+  def destroy
+    puts "I am here"
+  end
+
   def show
     @candidate = Candidate.find(params[:id])
   end
@@ -24,15 +30,6 @@ class CandidatesController < ApplicationController
   def edit
     @candidate = Candidate.find(params[:id])
   end
-
-  def update
-
-    if params[:candidate][:password].blank?
-      params[:candidate].delete(:password)
-      params[:candidate].delete(:password_confirmation)
-    end
-
-    end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_in) do |user_params|
@@ -47,7 +44,7 @@ class CandidatesController < ApplicationController
   end
 
   def puts_controller
-    puts 'dev/CandidatesController before'
+    puts 'dev/CandidatesController signed in as candidate'
   end
 
 end
