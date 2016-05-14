@@ -13,3 +13,20 @@
  *= require_tree .
  *= require_self
  */
+
+fieldset {
+  border-width: 20px;
+  border-color: black;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+legend {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.fieldset-div {
+  padding-left: 10px;
+}

@@ -4,13 +4,13 @@ describe 'layouts/_navigation.html.erb' do
 
     render
 
-    expect(rendered).to have_selector('button', text: 'Toggle navigation')
-    expect(rendered).to have_selector('a[href="/"]', text: 'Home')
-    expect(rendered).to have_selector('a[href="/pages/about"]', text: 'About')
+    expect(rendered).to have_button('Toggle navigation')
+    expect(rendered).to have_link('Home', href: '/')
+    expect(rendered).to have_link('About', href: '/pages/about')
 
-    expect(rendered).to have_selector('a[href="/candidates/sign_in"]', text: 'Sign in')
-    expect(rendered).not_to have_selector('a[href="/candidates/sign_up"]', text: 'Sign up')
-    expect(rendered).to have_selector('a[href="/admins/sign_in"]', text: 'Sign in admin')
-    expect(rendered).not_to have_selector('a[href="/admins/sign_up"]', text: 'Sign up admin')
+    expect(rendered).to have_link('Sign in', href: '/dev/candidates/sign_in')
+    expect(rendered).not_to have_link('Sign up', href: '/dev/candidates/sign_up')
+    expect(rendered).to have_link('Sign in admin', href: '/admins/sign_in')
+    expect(rendered).not_to have_link('Sign up admin', href: '/admins/sign_up')
   end
 end

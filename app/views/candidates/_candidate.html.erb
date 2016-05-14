@@ -1,2 +1,8 @@
-<td><%= link_to candidate.name, candidate %></td>
-<td><%= link_to candidate.email, candidate %></td>
+<td><%= link_to candidate.candidate_id, edit_candidate_path(candidate.id) %></td>
+<td><%= candidate.first_name %></td>
+<td><%= candidate.last_name %></td>
+<td><%= candidate.attending %></td>
+<td><%= candidate.grade %></td>
+<td><%= candidate.candidate_id %></td>
+<td><%= candidate.parent_email_1 %></td>
+<td><%= candidate.parent_email_2 %></td>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160509160541) do
+ActiveRecord::Schema.define(version: 20160510110638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,23 +37,28 @@ ActiveRecord::Schema.define(version: 20160509160541) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "candidates", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "parent_email_1",                       default: "",        null: false
+    t.string   "encrypted_password",                   default: "",        null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                        default: 0,         null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "name"
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
+    t.string   "candidate_id"
+    t.string   "first_name",                           default: "",        null: false
+    t.string   "last_name",                            default: "",        null: false
+    t.decimal  "grade",                  precision: 2
+    t.string   "candidate_email",                      default: "",        null: false
+    t.string   "parent_email_2",                       default: "",        null: false
+    t.string   "attending",                            default: "The Way", null: false
   end
 
-  add_index "candidates", ["email"], name: "index_candidates_on_email", unique: true, using: :btree
-  add_index "candidates", ["name"], name: "index_candidates_on_name", unique: true, using: :btree
+  add_index "candidates", ["candidate_id"], name: "index_candidates_on_candidate_id", unique: true, using: :btree
   add_index "candidates", ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true, using: :btree
 
 end

@@ -21,12 +21,12 @@ describe CandidatesController do
 
   end
 
-  describe 'index' do
+  describe 'show' do
 
-    it 'show should not rediect if admin' do
-      candidate = FactoryGirl.create(:candidate)
+    it 'show should not rediect if candidate is logged in.' do
+      candidate = login_candidate
       @request.env['HTTP_REFERER'] = 'XXX'
-      login_admin
+
       get :show, {:id => candidate.id}
       expect(response).to render_template('show')
       expect(controller.candidate).to eq(candidate)
@@ -43,7 +43,7 @@ describe CandidatesController do
     end
 
     it 'show should rediect if another use' do
-      other = FactoryGirl.create(:candidate, {name: 'other', email: 'abc@xxx.com'})
+      other = FactoryGirl.create(:candidate, {parent_email_1: 'other@test.com', candidate_id: 'other'})
       login_candidate
       @request.env['HTTP_REFERER'] = 'XXX'
       get :show, {:id => other.id}
@@ -56,15 +56,15 @@ describe CandidatesController do
 end
 
 
-def login_candidate
-  @request.env['devise.mapping'] = Devise.mappings[:candidate]
-  @candidate = FactoryGirl.create(:candidate)
-  sign_in @candidate
-  @candidate
-end
-
-def login_admin
-  @request.env['devise.mapping'] = Devise.mappings[:admin]
-  @admin = FactoryGirl.create(:admin)
-  sign_in @admin
-end
+# def login_candidate
+#   @request.env['devise.mapping'] = Devise.mappings[:candidate]
+#   @candidate = FactoryGirl.create(:candidate)
+#   sign_in @candidate
+#   @candidate
+# end
+#
+# def login_admin
+#   @request.env['devise.mapping'] = Devise.mappings[:admin]
+#   @admin = FactoryGirl.create(:admin)
+#   sign_in @admin
+# end

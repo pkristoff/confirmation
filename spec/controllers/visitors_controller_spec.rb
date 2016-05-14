@@ -33,14 +33,14 @@ describe VisitorsController do
   end
 
 
-  def login_candidate
-      @request.env["devise.mapping"] = Devise.mappings[:candidate]
-      @candidate = FactoryGirl.create(:candidate)
-      sign_in @candidate
-  end
-  def login_admin
-      @request.env["devise.mapping"] = Devise.mappings[:admin]
-      @admin = FactoryGirl.create(:admin)
-      sign_in @admin
-  end
+  # def login_candidate
+  #     @request.env["devise.mapping"] = Devise.mappings[:candidate]
+  #     @candidate = FactoryGirl.create(:candidate)
+  #     sign_in @candidate
+  # end
+  # def login_admin
+  #     @request.env["devise.mapping"] = Devise.mappings[:admin]
+  #     @admin = FactoryGirl.create(:admin)
+  #     sign_in @admin
+  # end
 end

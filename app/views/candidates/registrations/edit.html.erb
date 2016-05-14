@@ -1,0 +1,88 @@
+<h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put}) do |f| %>
+    <%= devise_error_messages! %>
+
+    <div class="field">
+      <%= f.label :candidate_id %><br/>
+      <%= f.text_field :candidate_id, readonly: true %>
+    </div>
+
+    <%= field_set_tag 'Candidate Name', class: 'fieldsetxxx' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= f.label :first_name %><br/>
+            <%= f.text_field :first_name, autofocus: true %>
+          </div>
+
+          <div class="field">
+            <%= f.label :last_name %><br/>
+            <%= f.text_field :last_name %>
+          </div>
+        </div>
+    <% end %>
+
+    <%= field_set_tag 'Email', class: 'fieldsetxxx' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= f.label :candidate_email %><br/>
+            <%= f.email_field :candidate_email %>
+          </div>
+
+          <div class="field">
+            <%= f.label :parent_email_1 %><br/>
+            <%= f.email_field :parent_email_1 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :parent_email_2 %><br/>
+            <%= f.email_field :parent_email_2 %>
+          </div>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :grade %><br/>
+      <%= f.number_field :grade, min: 8, max: 12 %>
+    </div>
+
+    <%= field_set_tag 'Attending', class: 'fieldsetxxx' do %>
+        <div class="fieldset-div">
+          <%= f.radio_button(:attending, 'Catholic High School') %> <%= f.label :attending, 'Catholic High School', value: 'Catholic High School' %><br/>
+          <%= f.radio_button(:attending, 'The Way') %> <%= f.label :attending, 'The Way', value: 'The Way' %>
+        </div>
+    <% end %>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
+
+    <%= field_set_tag 'Password', class: 'fieldsetxxx' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br/>
+            <%= f.password_field :password, autocomplete: "off" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password_confirmation %><br/>
+            <%= f.password_field :password_confirmation, autocomplete: "off" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br/>
+            <%= f.password_field :current_password, autocomplete: "off" %>
+          </div>
+        </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit "Update" %>
+    </div>
+<% end %>
+
+<h3>Cancel my account</h3>
+
+<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: {confirm: "Are you sure?"}, method: :delete %></p>
+
+<%= link_to "Back", :back %>

@@ -1,16 +1,15 @@
 module ControllerMacros
   def login_admin
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:admin]
-      sign_in FactoryGirl.create(:admin) # Using factory girl as an example
-    end
+    @request.env['devise.mapping'] = Devise.mappings[:admin]
+    xxxadmin = FactoryGirl.create(:admin)
+    sign_in xxxadmin # Using factory girl as an example
+    xxxadmin
   end
 
   def login_candidate
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:candidate]
-      candidate = FactoryGirl.create(:candidate)
-      sign_in candidate
-    end
+    @request.env['devise.mapping'] = Devise.mappings[:candidate]
+    xxxcandidate = FactoryGirl.create(:candidate)
+    sign_in xxxcandidate
+    xxxcandidate
   end
 end
