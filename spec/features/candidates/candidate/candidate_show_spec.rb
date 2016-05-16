@@ -18,7 +18,7 @@ feature 'Candidate profile page', :devise do
   scenario 'candidate sees own profile' do
     candidate = FactoryGirl.create(:candidate)
     login_as(candidate, :scope => :candidate)
-    visit candidate_path(candidate)
+    visit dev_candidate_path(candidate)
     expect(page).to have_content 'Candidate'
     expect(page).to have_content candidate.parent_email_1
   end
@@ -31,8 +31,8 @@ feature 'Candidate profile page', :devise do
     me = FactoryGirl.create(:candidate)
     other = FactoryGirl.create(:candidate, parent_email_1: 'other@example.com', candidate_id: 'other')
     login_as(me, :scope => :candidate)
-    Capybara.current_session.driver.header 'Referer', root_path
-    visit candidate_path(other)
+    Capybara.current_session.driver.header 'Referer', dev_candidate_path(me)
+    visit dev_candidate_path(other)
     expect(page).to have_content 'Access denied.'
   end
 

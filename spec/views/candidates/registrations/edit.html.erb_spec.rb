@@ -17,7 +17,7 @@ describe 'candidates/registrations/edit.html.erb' do
 
     render
 
-    expect(rendered).to have_selector('form[id=edit_candidate][action="/dev/candidates"]')
+    expect(rendered).to have_selector("form[id=edit_candidate][action=\"/update/#{@resource.id}\"]")
 
     expect(rendered).to have_field('Candidate', with: 'sophiaagusta', type: 'text')
 
@@ -38,7 +38,6 @@ describe 'candidates/registrations/edit.html.erb' do
     expect(rendered).to have_field('Current password', type: 'password')
 
     expect(rendered).to have_button('Update')
-    expect(rendered).to have_button('Cancel my account')
 
   end
 end

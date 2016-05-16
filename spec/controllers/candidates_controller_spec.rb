@@ -1,4 +1,7 @@
 describe CandidatesController do
+  before(:each) do
+    @admdin = login_admin
+  end
 
   it 'should NOT have a current_candidate' do
     expect(subject.current_candidate).to eq(nil)
@@ -6,65 +9,27 @@ describe CandidatesController do
 
   describe 'index' do
 
-    it 'should fail authentication' do
-      login_admin
+    it 'should show list of candidates' do
+      candidate = FactoryGirl.create(:candidate)
       get :index
-      expect(@candidates).to eq(nil)
-    end
-
-    it 'should pass authentication and set @candidates' do
-      login_candidate
-      get :index
-      expect(subject.candidates.size).to eq(1)
       expect(response).to render_template('index')
+      expect(response.status).to eq(200)
+      expect(controller.candidates.size).to eq(1)
+      expect(controller.candidates[0]).to eq(candidate)
     end
 
   end
 
   describe 'show' do
 
-    it 'show should not rediect if candidate is logged in.' do
-      candidate = login_candidate
-      @request.env['HTTP_REFERER'] = 'XXX'
-
-      get :show, {:id => candidate.id}
+    it 'show should show candidate.' do
+      candidate = FactoryGirl.create(:candidate)
+      get :show, {id: candidate.id}
       expect(response).to render_template('show')
       expect(controller.candidate).to eq(candidate)
       expect(@request.fullpath).to eq("/candidates/#{candidate.id}")
-    end
-
-    it 'show should not rediect if candidate' do
-      candidate = login_candidate
-      @request.env['HTTP_REFERER'] = 'XXX'
-      get :show, {:id => candidate.id}
-      expect(response).to render_template('show')
-      expect(controller.candidate).to eq(candidate)
-      expect(@request.fullpath).to eq("/candidates/#{candidate.id}")
-    end
-
-    it 'show should rediect if another use' do
-      other = FactoryGirl.create(:candidate, {parent_email_1: 'other@test.com', candidate_id: 'other'})
-      login_candidate
-      @request.env['HTTP_REFERER'] = 'XXX'
-      get :show, {:id => other.id}
-      expect(response).not_to render_template('show')
-      expect(response).to redirect_to('XXX')
     end
 
   end
 
 end
-
-
-# def login_candidate
-#   @request.env['devise.mapping'] = Devise.mappings[:candidate]
-#   @candidate = FactoryGirl.create(:candidate)
-#   sign_in @candidate
-#   @candidate
-# end
-#
-# def login_admin
-#   @request.env['devise.mapping'] = Devise.mappings[:admin]
-#   @admin = FactoryGirl.create(:admin)
-#   sign_in @admin
-# end

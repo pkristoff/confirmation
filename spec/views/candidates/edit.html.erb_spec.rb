@@ -38,7 +38,6 @@ describe 'candidates/edit.html.erb' do
     expect(rendered).to have_field('Current password', type: 'password')
 
     expect(rendered).to have_button('Update')
-    expect(rendered).to have_button('Cancel my account')
 
   end
 end

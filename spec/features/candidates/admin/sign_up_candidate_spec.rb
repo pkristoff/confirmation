@@ -12,6 +12,7 @@ feature 'Sign Up', :devise do
     admin = FactoryGirl.create(:admin)
     signin_admin(admin.email, admin.password)
     sign_up_candidate_with('candidateId', 'test@example.com', 'please123', 'please123')
+    puts page.html
     txts = [I18n.t( 'devise.registrations.signed_up'), I18n.t( 'devise.registrations.signed_up_but_unconfirmed')]
     expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)
   end

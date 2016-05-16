@@ -11,11 +11,7 @@ feature 'Candidate index page', :devise do
     Warden.test_reset!
   end
 
-  # Scenario: Candidate listed on index page
-  #   Given I am signed in
-  #   When I visit the candidate index page
-  #   Then I see my own email address
-  scenario 'candidate sees own email address' do
+  scenario 'admin can get list of candidates' do
     candidate = FactoryGirl.create(:candidate)
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)

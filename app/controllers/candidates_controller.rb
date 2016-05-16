@@ -20,9 +20,6 @@ class CandidatesController < ApplicationController
 
   def show
     @candidate = Candidate.find(params[:id])
-    unless @candidate == current_candidate
-      redirect_to :back, :alert => "Access denied."
-    end
   end
 
   def destroy

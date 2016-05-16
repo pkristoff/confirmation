@@ -61,7 +61,7 @@ describe 'candidates/index.html.erb' do
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(3)", text: candidate.last_name)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(4)", text: candidate.attending)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(5)", text: candidate.grade)
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(6)", text: candidate.candidate_id)
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(6)", text: candidate.candidate_email)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(7)", text: candidate.parent_email_1)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(8)", text: candidate.parent_email_2)
   end
