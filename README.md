@@ -2,7 +2,7 @@ Confirmation
 ================
 v0.1
 Features:
-o devise implementation for user & admin
+o devise implementation for candidate & admin
 o Home page
 o About page
 o Admin:
@@ -12,13 +12,13 @@ o Admin:
     - edit account
     - cancel account
     - list of Admins
-o User:
+o Candidate:
     - login
     - creation
     - reset password
     - edit account
     - cancel account
-    - list of Users
+    - list of Candidates
 ================
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)

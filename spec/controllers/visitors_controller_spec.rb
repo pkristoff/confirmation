@@ -1,8 +1,8 @@
 
 describe VisitorsController do
 
-  it "should NOT have a current_user" do
-    expect(subject.current_user).to eq(nil)
+  it "should NOT have a current_candidate" do
+    expect(subject.current_candidate).to eq(nil)
   end
 
   it "renders the index template" do
@@ -10,37 +10,37 @@ describe VisitorsController do
     expect(response).to render_template("index")
   end
 
-  it "should have a current_user" do
-    login_user
-    expect(subject.current_user).to eq(@user)
+  describe 'Login as candidate' do
+
+    before(:each) do
+      @candidate = login_candidate
+    end
+
+    it "should have a current_candidate" do
+      expect(subject.current_candidate).to eq(@candidate)
+    end
+
+    it "redirects to candidates show" do
+      get :index
+      expect(response).to redirect_to("http://test.host/show/#{@candidate.id}")
+    end
+
   end
 
-  it "renders the index template" do
-    login_user
-    get :index
-    expect(response).to redirect_to("http://test.host/users#index")
-  end
+  describe 'Login as admin' do
 
-  it "should have a current_admin" do
-    login_admin
-    expect(subject.current_admin).to eq(@admin)
-  end
+    before(:each) do
+      @admin = login_admin
+    end
 
-  it "renders the index template" do
-    login_admin
-    get :index
-    expect(response).to redirect_to("http://test.host/admins#index")
-  end
+    it "should have a current_admin" do
+      expect(subject.current_admin).to eq(@admin)
+    end
 
+    it "redirects to candidates show" do
+      get :index
+      expect(response).to redirect_to("http://test.host/admins#show/#{@admin.id}")
+    end
 
-  def login_user
-      @request.env["devise.mapping"] = Devise.mappings[:user]
-      @user = FactoryGirl.create(:user)
-      sign_in @user
-  end
-  def login_admin
-      @request.env["devise.mapping"] = Devise.mappings[:admin]
-      @admin = FactoryGirl.create(:admin)
-      sign_in @admin
   end
 end

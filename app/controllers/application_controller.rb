@@ -10,7 +10,24 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation, :remember_me) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:name, :email, :password, :remember_me) }
-    devise_parameter_sanitizer.for(:account_update) {|u| u.permit(:name, :email, :password, :password_confirmation, :current_password)}
+    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :current_password) }
+  end
+
+  def puts_controller
+    puts "#{self.class.to_s} before"
+  end
+
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) ||
+        if resource.is_a?(Candidate)
+          if candidate_signed_in?
+            dev_candidate_url(resource.id)
+          else
+            candidate_url(resource.id)
+          end
+        else
+          super
+        end
   end
 
 end

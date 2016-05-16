@@ -1,6 +1,6 @@
-<% if user_signed_in? %>
-    <li><%= link_to 'Edit account', edit_user_registration_path %></li>
-    <li><%= link_to 'Sign out', destroy_user_session_path, :method => 'delete' %></li>
+<% if candidate_signed_in? %>
+    <li><%= link_to 'Edit account', edit_candidate_registration_path %></li>
+    <li><%= link_to 'Sign out', destroy_candidate_session_path, :method => 'delete' %></li>
     <% end %>
     <% if admin_signed_in? %>
     <li><%= link_to 'Sign up admin', new_admin_registration_path %></li>
@@ -8,11 +8,11 @@
     <li><%= link_to 'Sign out', destroy_admin_session_path, :method => 'delete' %></li>
 <% end %>
 
-<% if ! (admin_signed_in? or user_signed_in?) %>
-    <li><%= link_to 'Sign in', new_user_session_path %></li>
+<% if ! (admin_signed_in? or candidate_signed_in?) %>
+    <li><%= link_to 'Sign in', new_candidate_session_path %></li>
     <li><%= link_to 'Sign in admin', new_admin_session_path %></li>
 <% end %>
 <% if admin_signed_in? %>
-    <li><%= link_to 'Users', users_path %></li>
+    <li><%= link_to 'Candidates', candidates_path %></li>
     <li><%= link_to 'Admins', admins_path %></li>
 <% end %>
