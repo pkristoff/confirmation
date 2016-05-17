@@ -4,7 +4,7 @@ describe Admin do
 
   subject { @admin }
 
-  it "#email returns a string" do
+  it '#email returns a string' do
     expect(@admin.email).to match 'candidate@example.com'
   end
 

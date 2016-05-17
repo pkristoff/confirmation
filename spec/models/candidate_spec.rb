@@ -4,7 +4,7 @@ describe Candidate do
 
   subject { @candidate }
 
-  it "#email returns a string" do
+  it '#email returns a string' do
     expect(@candidate.parent_email_1).to match 'candidate@example.com'
   end
 

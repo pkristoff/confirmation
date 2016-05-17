@@ -4,10 +4,10 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
 
       render
 
+      expect(rendered).to have_selector('li', count: 2)
+
       expect(rendered).to have_link('Sign in', href: '/dev/candidates/sign_in')
-      expect(rendered).not_to have_link('Sign up', href: '/dev/candidates/sign_up')
       expect(rendered).to have_link('Sign in admin', href: '/admins/sign_in')
-      expect(rendered).not_to have_link('Sign up admin', href: '/admins/sign_up')
     end
   end
   context 'login as candidate' do
@@ -16,9 +16,10 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
 
       render
 
+      expect(rendered).to have_selector('li', count: 2)
+
       expect(rendered).to have_link('Edit account', href: '/dev/candidates/edit')
       expect(rendered).to have_link('Sign out', href: '/dev/candidates/sign_out')
-      expect(rendered).not_to have_link('Sign up admin', href: '/admins/sign_up')
     end
   end
   context 'login as admin' do
@@ -27,11 +28,14 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
 
       render
 
+      expect(rendered).to have_selector('li', count: 6)
+
+      expect(rendered).to have_link('Add new admin', href: '/admins/sign_up')
       expect(rendered).to have_link('Edit account', href: '/admins/edit')
       expect(rendered).to have_link('Sign out', href: '/admins/sign_out')
-      expect(rendered).to have_link('Admins', href: '/admins')
-      expect(rendered).to have_link('Sign up admin', href: '/admins/sign_up')
       expect(rendered).to have_link('Candidates', href: '/candidates')
+      expect(rendered).to have_link('Add new candidate', href: '/candidates/new')
+      expect(rendered).to have_link('Admins', href: '/admins')
     end
   end
 end

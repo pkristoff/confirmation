@@ -1,7 +1,7 @@
 
 describe 'layouts/_messages.html.erb' do
   before do
-    view.stub(:flash).and_return([['notice', 'nnn'],['error', 'errormessage'],['error', 'errormessage2']])
+    allow(view).to receive_messages(:flash => [['notice', 'nnn'],['error', 'errormessage'],['error', 'errormessage2']])
   end
   it 'Form layout' do
 

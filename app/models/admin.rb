@@ -4,5 +4,6 @@ class Admin < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :authentication_keys => [:email]
+         :authentication_keys => [:email],
+         :reset_password_keys => [:email]
 end

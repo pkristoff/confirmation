@@ -1,0 +1,38 @@
+-- enable_extension("plpgsql")
+   -> 0.0193s
+-- create_table("admins", {:force=>:cascade})
+   -> 0.0126s
+-- add_index("admins", ["email"], {:name=>"index_admins_on_email", :unique=>true, :using=>:btree})
+   -> 0.0038s
+-- add_index("admins", ["name"], {:name=>"index_admins_on_name", :unique=>true, :using=>:btree})
+   -> 0.0030s
+-- add_index("admins", ["reset_password_token"], {:name=>"index_admins_on_reset_password_token", :unique=>true, :using=>:btree})
+   -> 0.0028s
+-- create_table("candidates", {:force=>:cascade})
+   -> 0.0071s
+-- add_index("candidates", ["candidate_id"], {:name=>"index_candidates_on_candidate_id", :unique=>true, :using=>:btree})
+   -> 0.0031s
+-- add_index("candidates", ["reset_password_token"], {:name=>"index_candidates_on_reset_password_token", :unique=>true, :using=>:btree})
+   -> 0.0028s
+-- initialize_schema_migrations_table()
+   -> 0.0081s
+-- enable_extension("plpgsql")
+   -> 0.0284s
+-- create_table("admins", {:force=>:cascade})
+   -> 0.0093s
+-- add_index("admins", ["email"], {:name=>"index_admins_on_email", :unique=>true, :using=>:btree})
+   -> 0.0039s
+-- add_index("admins", ["name"], {:name=>"index_admins_on_name", :unique=>true, :using=>:btree})
+   -> 0.0034s
+-- add_index("admins", ["reset_password_token"], {:name=>"index_admins_on_reset_password_token", :unique=>true, :using=>:btree})
+   -> 0.0029s
+-- create_table("candidates", {:force=>:cascade})
+   -> 0.0071s
+-- add_index("candidates", ["candidate_id"], {:name=>"index_candidates_on_candidate_id", :unique=>true, :using=>:btree})
+   -> 0.0030s
+-- add_index("candidates", ["reset_password_token"], {:name=>"index_candidates_on_reset_password_token", :unique=>true, :using=>:btree})
+   -> 0.0025s
+-- initialize_schema_migrations_table()
+   -> 0.0051s
+CREATED ADMIN: confirmation@kristoffs.com
+CREATED CANDIDATE: paul@kristoffs.com

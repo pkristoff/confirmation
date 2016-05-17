@@ -11,18 +11,16 @@ module Dev
 
     attr_accessor :candidates # for testing
     attr_accessor :candidate # for testing
-
-    before_action :puts_controller
     before_action :authenticate_candidate!
 
     def index
       unless admin_signed_in?
-        return redirect_to :back, :alert => "Please login as admin to see list of candidates."
+        return redirect_to :back, alert: 'Please login as admin to see list of candidates.'
       end
     end
 
     def destroy
-      puts "I am here"
+      puts 'I am here'
     end
 
     def edit
@@ -32,11 +30,9 @@ module Dev
     def show
       @candidate = Candidate.find(params[:id])
       unless @candidate == current_candidate
-        redirect_to :back, :alert => "Access denied."
+        redirect_to :back, alert: 'Access denied.'
       end
 
-      # set_flash_message(:notice, :confirmed) if is_flashing_format?
-      # respond_with_navigational(resource) { redirect_to after_confirmation_path_for(resource_name, resource) }
     end
 
     def configure_permitted_parameters
@@ -49,10 +45,6 @@ module Dev
       devise_parameter_sanitizer.permit(:account_update) do |user_params|
         user_params.permit(:candidate_id, :parent_email_1)
       end
-    end
-
-    def puts_controller
-      puts 'dev/CandidatesController signed in as candidate'
     end
 
   end

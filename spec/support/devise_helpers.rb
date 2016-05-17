@@ -13,10 +13,5 @@ module DeviseHelpers
 
   def confirmation_path name
     "#{name.to_s}_confirmation_path"
-    # if name == :admin
-    #   admin_confirmation_path
-    # else
-    #   candidate_confirmation_path
-    # end
   end
 end

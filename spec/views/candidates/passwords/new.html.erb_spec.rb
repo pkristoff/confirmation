@@ -11,7 +11,7 @@ describe 'candidates/passwords/new.html.erb' do
 
     expect(rendered).to have_selector('form[id=new_candidate][action="/dev/candidates/password"]')
 
-    expect(rendered).to have_field('Parent email 1', with: '', type: 'email')
+    expect(rendered).to have_field('Candidate', type: 'text')
     expect(rendered).to have_button('Reset Password')
 
   end

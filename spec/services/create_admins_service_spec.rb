@@ -6,7 +6,7 @@ describe CreateAdminsService do
 
   subject { @admin }
 
-  it "#email returns a string" do
+  it '#email returns a string' do
     expect(@admin.email).to match 'confirmation@kristoffs.com'
     expect(@admin.name).to match 'Admin'
     expect(@admin.password).to match '12345678'

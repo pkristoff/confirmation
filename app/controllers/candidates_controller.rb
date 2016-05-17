@@ -11,16 +11,7 @@ class CandidatesController < ApplicationController
   attr_accessor :candidates # for testing
   attr_accessor :candidate # for testing
 
-  before_action :puts_controller
   before_action :authenticate_admin!
-
-  def index
-    @candidates = Candidate.all
-  end
-
-  def show
-    @candidate = Candidate.find(params[:id])
-  end
 
   def destroy
     @candidate = Candidate.find(params[:id])
@@ -35,8 +26,16 @@ class CandidatesController < ApplicationController
     @resource = @candidate
   end
 
+  def index
+    @candidates = Candidate.all
+  end
+
   def new
     @resource = Candidate.new
+  end
+
+  def show
+    @candidate = Candidate.find(params[:id])
   end
 
   def update
@@ -55,10 +54,6 @@ class CandidatesController < ApplicationController
   end
 
   private
-
-  def puts_controller
-    puts 'NOdev/CandidatesController admin should be logged in'
-  end
 
   def candidate_params
     params.require(:candidate).permit(:candidate_id, :first_name, :last_name,
@@ -88,14 +83,16 @@ class CandidatesController < ApplicationController
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_in) do |user_params|
-      user_params.permit(:candidate_id, :parent_email_1)
+    devise_parameter_sanitizer.permit(:sign_in) do |candidate_parms|
+      candidate_parms.permit(:candidate_id, :parent_email_1)
     end
-    devise_parameter_sanitizer.permit(:sign_in) do |user_params|
-      user_params.permit(:candidate_id, :parent_email_1)
+    devise_parameter_sanitizer.permit(:sign_up) do |candidate_parms|
+      candidate_parms.permit(:candidate_id, :first_name, :last_name, :candidate_email, :parent_email_1,
+                             :parent_email_2, :grade, :attending, :password, :password_confirmation)
     end
-    devise_parameter_sanitizer.permit(:account_update) do |user_params|
-      user_params.permit(:candidate_id, :parent_email_1)
+    devise_parameter_sanitizer.permit(:account_update) do |candidate_parms|
+      candidate_parms.permit(:candidate_id, :first_name, :last_name, :candidate_email, :parent_email_1,
+                             :parent_email_2, :grade, :attending, :password, :password_confirmation)
     end
   end
 

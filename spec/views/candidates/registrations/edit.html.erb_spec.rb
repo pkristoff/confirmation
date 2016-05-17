@@ -1,4 +1,5 @@
 include DeviseHelpers
+include ViewsHelpers
 describe 'candidates/registrations/edit.html.erb' do
 
   before(:each) do
@@ -17,27 +18,6 @@ describe 'candidates/registrations/edit.html.erb' do
 
     render
 
-    expect(rendered).to have_selector("form[id=edit_candidate][action=\"/update/#{@resource.id}\"]")
-
-    expect(rendered).to have_field('Candidate', with: 'sophiaagusta', type: 'text')
-
-    expect(rendered).to have_field('First name', with: 'Sophia', type: 'text')
-    expect(rendered).to have_field('Last name', with: 'Agusta', type: 'text')
-
-    expect(rendered).to have_field('Grade', with: 10, type: 'number')
-
-    expect(rendered).to have_unchecked_field('Catholic High School', type: 'radio')
-    expect(rendered).to have_checked_field('The Way', type: 'radio')
-
-    expect(rendered).to have_field('Candidate email', with: '', type: 'email')
-    expect(rendered).to have_field('Parent email 1', with: 'test@example.com', type: 'email')
-    expect(rendered).to have_field('Parent email 2', with: '', type: 'email')
-
-    expect(rendered).to have_field('Password', type: 'password')
-    expect(rendered).to have_field('Password confirmation', type: 'password')
-    expect(rendered).to have_field('Current password', type: 'password')
-
-    expect(rendered).to have_button('Update')
-
+    expect_edit_and_new_view(rendered, @resource, "/update/#{@resource.id}", 'Update', true, false)
   end
 end
