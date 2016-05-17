@@ -14,7 +14,8 @@ class Candidate < ActiveRecord::Base
             }
 
   def self.find_first_by_auth_conditions(tainted_conditions, options = {})
-    if login = tainted_conditions.delete(:candidate_id)
+    login = tainted_conditions.delete(:candidate_id)
+    if login
       conditions = devise_parameter_filter.filter(value: login.downcase)
       where(['lower(candidate_id) = :value OR lower(parent_email_1) = :value', conditions]).first
     else
@@ -22,15 +23,11 @@ class Candidate < ActiveRecord::Base
     end
   end
 
-  def send_devise_notification a, b, c
-    super a, b, c
-  end
-
   def email
     self.parent_email_1
   end
 
-  def email= value
+  def email=(value)
     self.parent_email_1= value
   end
 
