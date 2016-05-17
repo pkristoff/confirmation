@@ -15,18 +15,29 @@
  */
 
 fieldset {
-  border-width: 20px;
-  border-color: black;
   padding-bottom: 10px;
-  padding-top: 10px;
+  background-color: #EAE2E2;
+  margin-top: 10px;
 }
 
 legend {
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 5px;
+  background-color: #eee;
 }
 
 .fieldset-div {
   padding-left: 10px;
+}
+
+label {
+}
+
+input[type=email] {
+  width: 300px;
+}
+
+.actions {
+  padding-top: 10px;
 }
