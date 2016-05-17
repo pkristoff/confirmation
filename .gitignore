@@ -82,3 +82,12 @@ pickle-email-*.html
 
 # tilde files are usually backup files from a text editor
 *~
+public/assets/.sprockets-manifest-69f4b1d54a3a70de4d859a660721d49b.json
+public/assets/application-4deecdfce61f786fba7b284359335eed46deb55270280ba1ac1e6d90cc931f67.css.gz
+public/assets/application-67e813d7608ca8a39df8ca64175263795f01b1b1adcd96c618407edbdf9ed325.css.gz
+public/assets/application-a27372b10ac62f4b09609360baf05195f164804b49ea75350fc8d20e1361f3ac.css.gz
+public/assets/application-ae3abd31c57e5d96d947ab6858996a02dba0c3c09ae44b07bfedaf96bc66069c.css.gz
+public/assets/application-c4fd9350fd02e281762151ab796e1c5b5c6f4b786cb63cab860fe66d9faaf850.css.gz
+public/assets/application-d6a18fec36566c1b0611682191b7be366b34478e65b4bb5ccb0c0cbd46e60d39.css.gz
+public/assets/application-e403026e16e1a976a3a741766cc6625fce13d6d8710bd96d373cb9f63057f60a.css.gz
+public/assets/application-ff5e25509ac1972dd85a717eba93fea66dfae5bb132483c7c2185a2536ff0f54.css.gz
