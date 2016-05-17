@@ -6,7 +6,7 @@ describe 'candidates/new.html.erb' do
 
     render
 
-    expect(rendered).to have_selector('form[id=new_candidate][action="/candidates/candidate"]')
+    expect(rendered).to have_selector('form[id=new_candidate][action="/create"]')
 
     expect(rendered).to have_field('Candidate', type: 'text')
 

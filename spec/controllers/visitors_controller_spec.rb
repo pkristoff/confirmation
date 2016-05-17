@@ -39,7 +39,7 @@ describe VisitorsController do
 
     it "redirects to candidates show" do
       get :index
-      expect(response).to redirect_to("http://test.host/admins#show/#{@admin.id}")
+      expect(response).to redirect_to("http://test.host/admins/#{@admin.id}")
     end
 
   end

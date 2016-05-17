@@ -4,8 +4,8 @@
     <p>We'll send password reset instructions.</p>
     <%= devise_error_messages! %>
     <div class="form-group">
-      <%= f.label :parent_email_1 %>
-      <%= f.email_field :parent_email_1, :autofocus => true, class: 'form-control' %>
+      <%= f.label :candidate_id %>
+      <%= f.text_field :candidate_id, :autofocus => true, class: 'form-control' %>
     </div>
      <%= f.submit 'Reset Password', :class => 'button right' %>
   <% end %>

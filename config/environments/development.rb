@@ -27,6 +27,16 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # config.action_mailer.smtp_settings = {
+  #     :address              => "smtp.gmail.com",
+  #     :port                 => 587,
+  #     :domain               => "gmail.com",
+  #     :user_name            => "xyz@gmail.com",
+  #     :password             => "yourpassword",
+  #     :authentication       => :plain,
+  #     :enable_starttls_auto => true
+  # }
+
   config.action_mailer.smtp_settings = {
       address: Rails.application.secrets.email_provider_address,
       port: 587,
@@ -34,8 +44,8 @@ Rails.application.configure do
       authentication: "plain",
       enable_starttls_auto: true,
       user_name: Rails.application.secrets.email_provider_username,
-      password: Rails.application.secrets.email_provider_password,
-      openssl_verify_mode: 'none'
+      password: Rails.application.secrets.email_provider_password
+
   }
   # ActionMailer Config
   config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }

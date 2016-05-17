@@ -3,7 +3,6 @@ class AdminsController < ApplicationController
   attr_accessor :admins # for testing
 
   before_action :authenticate_admin!
-  before_action :puts_controller
 
   def index
     @admins = Admin.all

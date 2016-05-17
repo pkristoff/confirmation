@@ -9,8 +9,6 @@ describe 'admins/registrations/new.html.erb' do
 
     render
 
-    puts rendered
-
     expect(rendered).to have_selector('form[id=new_admin][action="/admins"]')
 
     expect(rendered).to have_field('Name', type: 'text')

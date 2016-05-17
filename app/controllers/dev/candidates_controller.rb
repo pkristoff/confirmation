@@ -11,8 +11,6 @@ module Dev
 
     attr_accessor :candidates # for testing
     attr_accessor :candidate # for testing
-
-    before_action :puts_controller
     before_action :authenticate_candidate!
 
     def index
@@ -49,10 +47,6 @@ module Dev
       devise_parameter_sanitizer.permit(:account_update) do |user_params|
         user_params.permit(:candidate_id, :parent_email_1)
       end
-    end
-
-    def puts_controller
-      puts 'dev/CandidatesController signed in as candidate'
     end
 
   end
