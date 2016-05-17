@@ -16,7 +16,7 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect(rendered).to have_css("table#admins_table tr", :count => 0)
+    expect(rendered).to have_css('table#admins_table tr', :count => 0)
   end
 
   it 'display @admins 1' do
@@ -25,7 +25,7 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect(rendered).to have_css("table#admins_table tr", :count => 1)
+    expect(rendered).to have_css('table#admins_table tr', :count => 1)
 
     expect_admin(rendered, 1, @admin2)
   end
@@ -36,7 +36,7 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect(rendered).to have_css("table#admins_table tr", :count => 2)
+    expect(rendered).to have_css('table#admins_table tr', :count => 2)
 
     expect_admin(rendered, 1, @admin1)
     expect_admin(rendered, 2, @admin2)
