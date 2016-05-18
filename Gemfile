@@ -42,3 +42,4 @@ end
 gem 'pg'
 gem 'rails_12factor', group: :production
 gem 'puma'
+gem 'roo', '~> 2.4.0'
