@@ -40,13 +40,13 @@ class Candidate < ActiveRecord::Base
   end
 
   def self.import(uploaded_file)
-    header = [:last_name, :first_name, :grade, :attending, :parent_email_1, :parent_email_2]
-    allowed_attributes = header.concat([:candidate_id, :password])
+    header = [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2]
+    allowed_attributes = header.concat([:candidate_id, :password, :attending])
     spreadsheet = open_spreadsheet(uploaded_file)
     attending = 'The Way'
     (1..spreadsheet.last_row).each do |i|
       spreadsheet_row = spreadsheet.row(i)
-      if !spreadsheet_row[0].nil? # empty row
+      unless spreadsheet_row[0].nil? # empty row
         if spreadsheet_row[1].nil?
           if spreadsheet_row[0].include?('The Way')
             attending = 'The Way'

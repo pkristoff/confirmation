@@ -21,6 +21,8 @@ describe Candidate do
       expect(candidate.last_name).to eq('Annunziata')
       expect(candidate.grade).to eq(10)
       expect(candidate.attending).to eq('Catholic High School')
+      expect(candidate.parent_email_1).to eq('lannunz@nc.rr.com')
+      expect(candidate.parent_email_2).to eq('rannunz@nc.rr.com')
 
     end
   end
