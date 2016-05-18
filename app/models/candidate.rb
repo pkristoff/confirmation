@@ -12,6 +12,8 @@ class Candidate < ActiveRecord::Base
             :uniqueness => {
                 :case_sensitive => false
             }
+  validates_presence_of :first_name, :last_name, :parent_email_1
+  validate :validate_emails
 
   def self.find_first_by_auth_conditions(tainted_conditions, options = {})
     login = tainted_conditions.delete(:candidate_id)
@@ -39,66 +41,27 @@ class Candidate < ActiveRecord::Base
     false
   end
 
-  def self.import(uploaded_file)
-    header = [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2]
-    allowed_attributes = header.concat([:candidate_id, :password, :attending])
-    spreadsheet = open_spreadsheet(uploaded_file)
-    attending = 'The Way'
-    (1..spreadsheet.last_row).each do |i|
-      spreadsheet_row = spreadsheet.row(i)
-      unless spreadsheet_row[0].nil? # empty row
-        if spreadsheet_row[1].nil?
-          if spreadsheet_row[0].include?('The Way')
-            attending = 'The Way'
-          else
-            attending = 'Catholic High School'
-          end
-        else
-          row = Hash.new
-          spreadsheet_row.each_with_index do |item, index|
-            item.strip! unless item.nil?
-            case header[index]
-              when :grade
-                if item.nil?
-                  row[:grade] = 10
-                else
-                  row[:grade] = item.slice(/^\D*[\d]*/)
-                end
-              when :parent_email_1
-                item_split = item.split(';')
-                row[:parent_email_1] = item_split[0].strip
-                row[:parent_email_2] = item_split[1].strip if item_split.size > 1
-              else
-                row[header[index]] = item
-            end
-          end
-
-          candidate_id = String.new(row[:last_name]).concat(row[:first_name]).downcase
-          row[:candidate_id] = candidate_id
-          row[:password] = '12345678'
-          row[:attending] = attending
-
-          candidate = find_by_candidate_id(row[:candidate_id]) || new
-          candidate.attributes = row.to_hash.select { |k, v| allowed_attributes.include? k }
-          candidate.save!
-        end
-      end
-    end
+  def self.candidate_params
+    params = attribute_names.collect{|e| e.to_sym} & [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2, :candidate_id, :password, :attending]
+    params = params << :password
+    params
   end
 
-
-  def self.open_spreadsheet(uploaded_file)
-    case File.extname(uploaded_file.original_filename)
-      when '.csv' then
-        Roo::Csv.new(uploaded_file.path)
-      when '.xls' then
-        Roo::Excel.new(uploaded_file.path)
-      when '.xlsx' then
-        # Roo::Spreadsheet.open(uploaded_file.path)
-        Roo::Excelx.new(uploaded_file.path, file_warning: :ignore)
-      else
-        raise "Unknown file type: #{uploaded_file.original_filename}"
+  def validate_emails
+    unless candidate_email.nil? or candidate_email.empty?
+      errors.add(:candidate_email, "is an invalid email") unless validate_email(candidate_email)
     end
+    unless parent_email_1.nil? or parent_email_1.empty?
+      errors.add(:parent_email_1, "is an invalid email") unless validate_email(parent_email_1)
+    end
+    unless parent_email_2.nil? or parent_email_2.empty?
+      errors.add(:parent_email_2, "is an invalid email") unless validate_email(parent_email_2)
+    end
+
+  end
+
+  def validate_email(value)
+    value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   end
 
 end

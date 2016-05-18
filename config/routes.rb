@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'candidate_imports_controller/new'
+
+  get 'candidate_imports_controller/create'
+
   devise_for :admins,
              controllers: {:registrations => "registrations"}
   resources :admins
