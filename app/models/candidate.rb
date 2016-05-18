@@ -40,7 +40,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def self.import(uploaded_file)
-    header = [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2]
+    header = [:last_name, :first_name, :grade, :attending, :parent_email_1, :parent_email_2]
     allowed_attributes = header.concat([:candidate_id, :password])
     spreadsheet = open_spreadsheet(uploaded_file)
     attending = 'The Way'
@@ -56,6 +56,7 @@ class Candidate < ActiveRecord::Base
         else
           row = Hash.new
           spreadsheet_row.each_with_index do |item, index|
+            item.strip! unless item.nil?
             case header[index]
               when :grade
                 if item.nil?
@@ -64,17 +65,18 @@ class Candidate < ActiveRecord::Base
                   row[:grade] = item.slice(/^\D*[\d]*/)
                 end
               when :parent_email_1
-                item_split = item.split(',')
-                row[:parent_email_1] = item_split[0]
-                row[:parent_email_2] = item_split[1] if item_split.size > 1
+                item_split = item.split(';')
+                row[:parent_email_1] = item_split[0].strip
+                row[:parent_email_2] = item_split[1].strip if item_split.size > 1
               else
                 row[header[index]] = item
             end
           end
 
-          candidate_id = row[:last_name].concat(row[:first_name]).downcase!
+          candidate_id = String.new(row[:last_name]).concat(row[:first_name]).downcase
           row[:candidate_id] = candidate_id
           row[:password] = '12345678'
+          row[:attending] = attending
 
           candidate = find_by_candidate_id(row[:candidate_id]) || new
           candidate.attributes = row.to_hash.select { |k, v| allowed_attributes.include? k }
