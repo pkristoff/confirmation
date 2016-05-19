@@ -91,11 +91,34 @@ class CandidateImport
       when '.xls' then
         Roo::Excel.new(uploaded_file.path)
       when '.xlsx' then
-        # Roo::Spreadsheet.open(uploaded_file.path)
         Roo::Excelx.new(uploaded_file.path, file_warning: :ignore)
       else
         raise "Unknown file type: #{uploaded_file.original_filename}"
     end
+  end
+
+  def reset
+    Candidate.all.each do | candidate |
+      candidate.delete
+    end
+    CreateTestCandidateService.new.call
+
+    Admin.all.each do | admin |
+      admin.delete
+    end
+    add_base_admin
+  end
+
+  def add_base_admin
+
+    admin = Admin.find_or_create_by!(email: 'confirmation@kristoffs.com') do |admin|
+      admin.parent_email_1 = 'paul@kristoffs.com'
+      admin.first_name = 'Vicki'
+      admin.last_name = 'Kristoff'
+      admin.password = Rails.application.secrets.admin_password
+      admin.password_confirmation = Rails.application.secrets.admin_password
+    end
+    admin.save
   end
 
 end

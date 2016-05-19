@@ -4,10 +4,6 @@ class CandidateImportsController < ApplicationController
 
   attr_accessor :candidate_import
 
-  def new
-    @candidate_import = CandidateImport.new
-  end
-
   def create
     @candidate_import = CandidateImport.new(uploaded_file: params[:candidate_import].values.first)
     if @candidate_import.save
@@ -15,5 +11,14 @@ class CandidateImportsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def reset
+    sign_out current_user
+    CandidateImport.reset
+  end
+
+  def new
+    @candidate_import = CandidateImport.new
   end
 end

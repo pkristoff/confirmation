@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'candidate_imports/reset'
+
   resources :candidate_imports
 
   devise_for :admins,
