@@ -7,8 +7,6 @@ describe 'candidate_imports/new.html.erb' do
 
     render
 
-    puts rendered
-
     expect(rendered).to have_selector("li[id=column-0] strong", text: 'last_name')
     expect(rendered).to have_selector("li[id=column-1] strong", text: 'first_name')
     expect(rendered).to have_selector("li[id=column-2] strong", text: 'grade')
@@ -26,8 +24,6 @@ describe 'candidate_imports/new.html.erb' do
     @candidate_import.save
 
     render
-
-    puts rendered
 
     expect(rendered).to have_selector("li[id=column-0] strong", text: 'last_name')
     expect(rendered).to have_selector("li[id=column-1] strong", text: 'first_name')

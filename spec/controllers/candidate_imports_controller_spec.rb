@@ -32,7 +32,7 @@ describe CandidateImportsController do
     it 'should import candidates with valid excel file' do
       login_admin
       uploaded_file = fixture_file_upload('Small.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      get :create, candidate_import: uploaded_file
+      get :create, ActionController::Parameters.new(candidate_import: ActionController::Parameters.new(file: uploaded_file))
       expect(response).to redirect_to(root_url)
       expect(controller.candidate_import).not_to eq(nil)
       expect(controller.candidate_import.errors.size).to eq(0)
@@ -41,7 +41,7 @@ describe CandidateImportsController do
     it 'should import candidates with invalid excel file' do
       login_admin
       uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      get :create, candidate_import: uploaded_file
+      get :create, ActionController::Parameters.new(candidate_import: ActionController::Parameters.new(file: uploaded_file))
       expect(response).to render_template('new')
       expect(controller.candidate_import).not_to eq(nil)
       expect(controller.candidate_import.errors.size).to eq(5)
