@@ -36,7 +36,7 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
       expect(rendered).to have_link('Candidates', href: '/candidates')
       expect(rendered).to have_link('Add new candidate', href: '/candidates/new')
       expect(rendered).to have_link('Admins', href: '/admins')
-      expect(rendered).to have_link('Import candidates', href: '/candidate_imports_controller/new')
+      expect(rendered).to have_link('Import candidates', href: '/candidate_imports/new')
     end
   end
 end

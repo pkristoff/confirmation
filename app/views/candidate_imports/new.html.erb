@@ -1,0 +1,41 @@
+<h1>Candidate Import</h1>
+
+<p>
+  An Excel file can be used to import records.
+  If a row has a string in the first column and nothing else in the remaining column,
+  the first cell indicates whether the candidate is attending "The Way" or a "Catholic High School".
+  All rows under that will get the associated attending value until another row is encounterd that
+  what they are attending.
+
+  The following column names and types are allowed and in order assumed:
+</p>
+
+<ul>
+  <% ['last_name', 'first_name', 'grade', 'parent_email_1'].each_with_index do | column_name, index | %>
+      <% valid_column = Candidate.columns.select {|column| column.name == column_name}.first %>
+      <li id="column-<%= index %>">
+        <strong><%= valid_column.name %></strong> -
+        <%= valid_column.type.to_s.titleize %> type
+      </li>
+  <% end %>
+</ul>
+
+<p>If an <strong>id</strong> is supplied it will update the matching record instead of creating a new one.</p>
+
+<%= form_for @candidate_import do |f| %>
+    <% if @candidate_import.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@candidate_import.errors.count, "error") %> prohibited this import from completing:</h2>
+          <ul>
+            <% @candidate_import.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.file_field :file %>
+    </div>
+    <div class="buttons"><%= f.submit "Import" %></div>
+<% end %>
