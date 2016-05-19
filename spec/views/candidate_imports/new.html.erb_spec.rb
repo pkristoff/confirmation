@@ -15,6 +15,17 @@ describe 'candidate_imports/new.html.erb' do
 
     expect(rendered).to have_selector("div[id=error_explanation] li", count: 0)
 
+
+    expect(rendered).to have_selector('section[id=import] form[id=new_candidate_import][action="/candidate_imports"]')
+    expect(rendered).to have_button('Import')
+
+    expect(rendered).to have_selector('section[id=remove_all_candidates] form[id=new_candidate_import][action="/candidate_imports/remove_all_candidates"]')
+    expect(rendered).to have_button('Reset the Database')
+
+    expect(rendered).to have_selector('section[id=reset_database] form[id=new_candidate_import][action="/candidate_imports/reset_database"]')
+    expect(rendered).to have_button('Remove All Candidates')
+
+
   end
 
   it 'layout with errors' do
@@ -25,10 +36,10 @@ describe 'candidate_imports/new.html.erb' do
 
     render
 
-    expect(rendered).to have_selector("li[id=column-0] strong", text: 'last_name')
-    expect(rendered).to have_selector("li[id=column-1] strong", text: 'first_name')
-    expect(rendered).to have_selector("li[id=column-2] strong", text: 'grade')
-    expect(rendered).to have_selector("li[id=column-3] strong", text: 'parent_email_1')
+    expect(rendered).to have_selector("section[id=import] li[id=column-0] strong", text: 'last_name')
+    expect(rendered).to have_selector("section[id=import] li[id=column-1] strong", text: 'first_name')
+    expect(rendered).to have_selector("section[id=import] li[id=column-2] strong", text: 'grade')
+    expect(rendered).to have_selector("section[id=import] li[id=column-3] strong", text: 'parent_email_1')
 
 
     expect(rendered).to have_selector("div[id=error_explanation] li", count: 5)

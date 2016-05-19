@@ -12,9 +12,9 @@ feature 'Sign out', :devise do
     # skip 'works when debugging but not in straight mode - sign in'
     admin = FactoryGirl.create(:admin)
     signin_admin(admin.email, admin.password)
-    expect(page).to have_content I18n.t 'devise.sessions.signed_in'
+    expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.sessions.signed_in'))
     click_link 'Sign out'
-    expect(page).to have_content I18n.t 'devise.sessions.signed_out'
+    expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.sessions.signed_out'))
   end
 
 end

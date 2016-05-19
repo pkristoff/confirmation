@@ -20,7 +20,7 @@ feature 'Admin delete', :devise do
     login_as(admin, :scope => :admin)
     visit edit_admin_registration_path(admin)
     click_button 'Cancel my account'
-    expect(page).to have_content I18n.t 'devise.registrations.destroyed'
+    expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.registrations.destroyed'))
   end
 
 end

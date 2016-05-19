@@ -20,7 +20,7 @@ feature 'Admin sign up', :devise do
     Capybara.current_session.driver.header 'Referer', referer
     visit new_admin_registration_path # click Sign up admin
     expect(page.current_path).to eq(referer)
-    expect(page).to have_content('Please login as admin to create another admin.')
+    expect(page).to have_selector('div[id=flash_alert]', text: 'Please login as admin to create another admin.')
   end
 
   # Scenario: only an admin can sign up another admin 2
@@ -34,7 +34,7 @@ feature 'Admin sign up', :devise do
     Capybara.current_session.driver.header 'Referer', referer
     visit new_admin_registration_path # click Sign up admin
     expect(page.current_path).to eq(referer)
-    expect(page).to have_content('Please login as admin to create another admin.')
+    expect(page).to have_selector('div[id=flash_alert]', text: 'Please login as admin to create another admin.')
   end
 
   describe 'Sign in admin' do
@@ -60,9 +60,8 @@ feature 'Admin sign up', :devise do
     #   Then I see a successful sign up message
     scenario 'visitor can sign up with valid email address and password' do
       sign_up_admin_with('test1@example.com', 'please123', 'please123')
-      expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.registrations.signed_up'))
       txts = [I18n.t('devise.registrations.signed_up'), I18n.t('devise.registrations.signed_up_but_unconfirmed')]
-      expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)
+      expect(page).to have_selector('div[id=flash_notice]', text: /.*#{txts[0]}.*|.*#{txts[1]}.*/)
     end
 
     # Scenario: Visitor cannot sign up with invalid email address
@@ -71,7 +70,7 @@ feature 'Admin sign up', :devise do
     #   Then I see an invalid email message
     scenario 'visitor cannot sign up with invalid email address' do
       sign_up_admin_with('bogus', 'please123', 'please123')
-      expect(page).to have_content 'Email is invalid'
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Email is invalid')
     end
 
     # Scenario: Visitor cannot sign up without password
@@ -80,7 +79,7 @@ feature 'Admin sign up', :devise do
     #   Then I see a missing password message
     scenario 'visitor cannot sign up without password' do
       sign_up_admin_with('test1@example.com', '', '')
-      expect(page).to have_content "Password can't be blank"
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Password can\'t be blank')
     end
 
     # Scenario: Visitor cannot sign up with a short password
@@ -89,7 +88,7 @@ feature 'Admin sign up', :devise do
     #   Then I see a 'too short password' message
     scenario 'visitor cannot sign up with a short password' do
       sign_up_admin_with('test1@example.com', 'please', 'please')
-      expect(page).to have_content "Password is too short"
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Password is too short')
     end
 
     # Scenario: Visitor cannot sign up without password confirmation
@@ -98,7 +97,7 @@ feature 'Admin sign up', :devise do
     #   Then I see a missing password confirmation message
     scenario 'visitor cannot sign up without password confirmation' do
       sign_up_admin_with('test1@example.com', 'please123', '')
-      expect(page).to have_content 'Password confirmation doesn\'t match'
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Password confirmation doesn\'t match')
     end
 
     # Scenario: Visitor cannot sign up with mismatched password and confirmation
@@ -107,7 +106,7 @@ feature 'Admin sign up', :devise do
     #   Then I should see a mismatched password message
     scenario 'visitor cannot sign up with mismatched password and confirmation' do
       sign_up_admin_with('test1@example.com', 'please123', 'mismatch')
-      expect(page).to have_content 'Password confirmation doesn\'t match'
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Password confirmation doesn\'t match')
     end
 
 

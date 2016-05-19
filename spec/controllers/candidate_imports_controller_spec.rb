@@ -47,6 +47,41 @@ describe CandidateImportsController do
       expect(controller.candidate_import.errors.size).to eq(5)
     end
 
+    it 'should remove all candidates' do
+      expect(Candidate.all.size).to eq(0)
+      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      FactoryGirl.create(:candidate, candidate_id: 'a2')
+      FactoryGirl.create(:candidate, candidate_id: 'a3')
+      expect(Candidate.all.size).to eq(3)
+      login_admin
+
+      get :remove_all_candidates
+
+      expect(response).to redirect_to(root_url)
+      expect(Candidate.all.size).to eq(0)
+
+    end
+
+    it 'should reset database' do
+      expect(Candidate.all.size).to eq(0)
+      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      FactoryGirl.create(:candidate, candidate_id: 'a2')
+      FactoryGirl.create(:candidate, candidate_id: 'a3')
+      expect(Candidate.all.size).to eq(3)
+      login_admin
+
+      expect(Admin.all.size).to eq(1)
+      FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+      expect(Admin.all.size).to eq(2)
+
+      get :reset_database
+
+      expect(response).to redirect_to(root_url)
+      expect(Candidate.all.size).to eq(1)
+      expect(Admin.all.size).to eq(1)
+
+    end
+
   end
 
 end

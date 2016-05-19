@@ -97,24 +97,29 @@ class CandidateImport
     end
   end
 
-  def reset
+  def remove_all_candidates
+
     Candidate.all.each do | candidate |
       candidate.delete
     end
+
+  end
+
+  def reset_database
+
+    remove_all_candidates
     CreateTestCandidateService.new.call
 
     Admin.all.each do | admin |
       admin.delete
     end
-    add_base_admin
+    add_admin
   end
 
-  def add_base_admin
+  def add_admin(email='confirmation@kristoffs.com', name='confirmation')
 
-    admin = Admin.find_or_create_by!(email: 'confirmation@kristoffs.com') do |admin|
-      admin.parent_email_1 = 'paul@kristoffs.com'
-      admin.first_name = 'Vicki'
-      admin.last_name = 'Kristoff'
+    admin = Admin.find_or_create_by!(email: email) do |admin|
+      admin.name = name
       admin.password = Rails.application.secrets.admin_password
       admin.password_confirmation = Rails.application.secrets.admin_password
     end

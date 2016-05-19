@@ -38,4 +38,31 @@ describe CandidateImport do
     end
   end
 
+  describe 'reset system back to original state' do
+
+    it 'reset after adding in some candidates' do
+
+      expect(Candidate.all.size).to eq(0)
+      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      FactoryGirl.create(:candidate, candidate_id: 'a2')
+      FactoryGirl.create(:candidate, candidate_id: 'a3')
+      expect(Candidate.all.size).to eq(3)
+
+      expect(Admin.all.size).to eq(0)
+      FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+      FactoryGirl.create(:admin, email: 'vicki@kristoffs.com', name: 'Vicki')
+      expect(Admin.all.size).to eq(2)
+
+      CandidateImport.new.reset_database
+
+      expect(Candidate.all.size).to eq(1)
+      expect(Candidate.find_by_candidate_id('vickikristoff')).not_to eq(nil)
+      expect(Admin.all.size).to eq(1)
+      expect(Admin.find_by_email('confirmation@kristoffs.com')).not_to eq(nil)
+
+    end
+
+
+  end
+
 end

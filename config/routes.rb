@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  get 'candidate_imports/reset'
-
   resources :candidate_imports
+
+  post 'candidate_imports/reset_database'
+  post 'candidate_imports/remove_all_candidates'
 
   devise_for :admins,
              controllers: {:registrations => "registrations"}
@@ -12,7 +13,6 @@ Rails.application.routes.draw do
   devise_for :candidates, :path_prefix => 'dev',
              controllers: {:registrations => "dev/registrations"}
   devise_scope :candidates do
-    # get :index, to: "dev/candidates#index", as: "dev_candidates"
     get 'show/:id', to: "dev/candidates#show", as: "dev_candidate"
     post 'update/:id', to: "dev/registrations#update", as: "update_candidate_registration"
     post 'create', to: "registrations#create", as: 'create_candidate'
