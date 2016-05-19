@@ -1,3 +1,4 @@
+include ActionDispatch::TestProcess
 describe Candidate do
 
   before(:each) { @candidate = Candidate.new(parent_email_1: 'candidate@example.com') }

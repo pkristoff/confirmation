@@ -1,0 +1,78 @@
+<section id="import">
+
+  <h2>Candidate Import</h2>
+
+  <p>
+    An Excel file can be used to import records.
+    If a row has a string in the first column and nothing else in the remaining column,
+    the first cell indicates whether the candidate is attending "The Way" or a "Catholic High School".
+    All rows under that will get the associated attending value until another row is encounterd that
+    what they are attending.
+
+    The following column names and types are allowed and in order assumed:
+  </p>
+
+  <ul>
+    <% ['last_name', 'first_name', 'grade', 'parent_email_1'].each_with_index do |column_name, index| %>
+        <% valid_column = Candidate.columns.select { |column| column.name == column_name }.first %>
+        <li id="column-<%= index %>">
+          <strong><%= valid_column.name %></strong> -
+          <%= valid_column.type.to_s.titleize %> type
+        </li>
+    <% end %>
+  </ul>
+
+  <%= form_for @candidate_import do |f| %>
+      <% if @candidate_import.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@candidate_import.errors.count, "error") %> prohibited this import from completing:</h2>
+            <ul>
+              <% @candidate_import.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+
+      <div class="field">
+        <%= f.file_field :file %>
+      </div>
+      <div class="buttons"><%= f.submit "Import" %></div>
+  <% end %>
+</section>
+
+<section id="remove_all_candidates">
+
+  <%= form_for @candidate_import, url: candidate_imports_remove_all_candidates_path do |f| %>
+      <h2>Remove All Candidates</h2>
+
+      <h3>You cannot recover from this.</h3>
+      <p>
+        This will
+      </p>
+      <ul>
+        <li>Candidates: All will be removed from the database</li>
+        <li>Admins: not affected</li>
+        <li>Remain logged in: yes</li>
+      </ul>
+      <div class="buttons"><%= f.submit "Remove All Candidates", data: { confirm: 'Are you sure?' } %></div>
+  <% end %>
+</section>
+
+<section id="reset_database">
+  <h2>Reset the Database</h2>
+
+  <%= form_for @candidate_import, url: candidate_imports_reset_database_path do |f| %>
+
+      <h3>You cannot recover from this.</h3>
+      <p>
+        This will
+      </p>
+      <ul>
+        <li>Candidates: All will be removed from the database. A test Candidate will be added.</li>
+        <li>Admins: All will be removed from the database. The default Admin will be added.</li>
+        <li>Remain logged in: no</li>
+      </ul>
+      <div class="buttons"><%= f.submit "Reset the Database", data: { confirm: 'Are you sure?' } %></div>
+  <% end %>
+</section>

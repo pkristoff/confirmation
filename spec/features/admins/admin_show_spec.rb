@@ -36,7 +36,7 @@ feature 'Admin profile page', :devise do
     login_as(me, :scope => :admin)
     Capybara.current_session.driver.header 'Referer', root_path
     visit admin_path(other)
-    expect(page).to have_content 'Access denied.'
+    expect(page).to have_selector('div[id=flash_alert]', text: 'Access denied.')
   end
 
 end

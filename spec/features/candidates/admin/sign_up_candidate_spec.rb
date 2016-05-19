@@ -25,7 +25,7 @@ feature 'Sign Up', :devise do
     #   When I sign up with a valid email address and password
     #   Then I see a successful sign up message
     scenario 'visitor can sign up with valid candidate id, email address and password' do
-      sign_up_candidate_with('candidateId', 'test@example.com', 'please123', 'please123')
+      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', 'please123', 'please123')
       expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.registrations.signed_up'))
     end
 
@@ -34,8 +34,8 @@ feature 'Sign Up', :devise do
     #   When I sign up with an invalid email address
     #   Then I see an invalid email message
     scenario 'visitor cannot sign up with invalid candidate id' do
-      sign_up_candidate_with('', 'test@example.com', 'please123', 'please123')
-      expect(page).to have_content 'Candidate can\'t be blank'
+      sign_up_candidate_with('', 'Paul', 'K', 'test@example.com', 'please123', 'please123')
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Candidate can\'t be blank')
     end
 
     # Scenario: Visitor cannot sign up without password
@@ -43,8 +43,8 @@ feature 'Sign Up', :devise do
     #   When I sign up without a password
     #   Then I see a missing password message
     scenario 'visitor cannot sign up without password' do
-      sign_up_candidate_with('candidateId', 'test@example.com', '', '')
-      expect(page).to have_content 'Password can\'t be blank'
+      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', '', '')
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Password can\'t be blank')
     end
 
     # Scenario: Visitor cannot sign up with a short password
@@ -52,8 +52,8 @@ feature 'Sign Up', :devise do
     #   When I sign up with a short password
     #   Then I see a 'too short password' message
     scenario 'visitor cannot sign up with a short password' do
-      sign_up_candidate_with('candidateId', 'test@example.com', 'please', 'please')
-      expect(page).to have_content 'Password is too short'
+      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', 'please', 'please')
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Password is too short')
     end
 
     # Scenario: Visitor cannot sign up without password confirmation
@@ -61,8 +61,8 @@ feature 'Sign Up', :devise do
     #   When I sign up without a password confirmation
     #   Then I see a missing password confirmation message
     scenario 'visitor cannot sign up without password confirmation' do
-      sign_up_candidate_with('candidateId', 'test@example.com', 'please123', '')
-      expect(page).to have_content 'Password confirmation doesn\'t match'
+      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', 'please123', '')
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Password confirmation doesn\'t match')
     end
 
     # Scenario: Visitor cannot sign up with mismatched password and confirmation
@@ -70,8 +70,8 @@ feature 'Sign Up', :devise do
     #   When I sign up with a mismatched password confirmation
     #   Then I should see a mismatched password message
     scenario 'visitor cannot sign up with mismatched password and confirmation' do
-      sign_up_candidate_with('candidateId', 'test@example.com', 'please123', 'mismatch')
-      expect(page).to have_content 'Password confirmation doesn\'t match'
+      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', 'please123', 'mismatch')
+      expect(page).to have_selector('div[id=error_explanation]', text: 'Password confirmation doesn\'t match')
     end
 
   end

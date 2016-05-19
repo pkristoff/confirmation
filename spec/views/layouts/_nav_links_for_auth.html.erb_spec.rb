@@ -28,7 +28,7 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
 
       render
 
-      expect(rendered).to have_selector('li', count: 6)
+      expect(rendered).to have_selector('li', count: 7)
 
       expect(rendered).to have_link('Add new admin', href: '/admins/sign_up')
       expect(rendered).to have_link('Edit account', href: '/admins/edit')
@@ -36,6 +36,7 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
       expect(rendered).to have_link('Candidates', href: '/candidates')
       expect(rendered).to have_link('Add new candidate', href: '/candidates/new')
       expect(rendered).to have_link('Admins', href: '/admins')
+      expect(rendered).to have_link('Other', href: '/candidate_imports/new')
     end
   end
 end

@@ -34,7 +34,6 @@ feature 'Candidate profile page', :devise do
     Capybara.current_session.driver.header 'Referer', dev_candidate_path(me)
     visit dev_candidate_path(other)
     expect(page).to have_selector('div[id=flash_alert]', text: 'Access denied.')
-    expect(page).to have_content 'Access denied.'
   end
 
 end
