@@ -16,8 +16,6 @@ feature 'Admin profile page', :devise do
   #   When I visit the admin profile page
   #   Then I see my own email address
   scenario 'admin sees own profile' do
-    # puts "request.env[\"HTTP_REFERER\"]=#{request.env["HTTP_REFERER"]}"
-    # skip 'does not work - visit: NameError: uninitialized constant AdminsController::Admins'
     admin = FactoryGirl.create(:admin)
     login_as(admin, :scope => :admin)
     visit admin_path(admin)
@@ -30,7 +28,6 @@ feature 'Admin profile page', :devise do
   #   When I visit another admin's profile
   #   Then I see an 'access denied' message
   scenario "admin cannot see another admin's profile" do
-    # skip 'does not work - visit: NameError: uninitialized constant AdminsController::Admins'
     me = FactoryGirl.create(:admin)
     other = FactoryGirl.create(:admin, name: 'other', email: 'other@example.com')
     login_as(me, :scope => :admin)

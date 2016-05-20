@@ -46,7 +46,6 @@ feature 'Sign in', :devise do
     #   When I sign in with valid credentials
     #   Then I see a success message
     scenario 'admin can sign in with valid credentials' do
-      # skip 'works when debugging but not in straight mode - sign in'
       FactoryGirl.create(:admin) do |admin|
         signin_admin(admin.email, admin.password)
         expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.sessions.signed_in'))

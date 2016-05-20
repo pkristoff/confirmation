@@ -1,5 +1,8 @@
 class Candidate < ActiveRecord::Base
 
+  belongs_to(:address)
+  accepts_nested_attributes_for :address, allow_destroy: true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -23,6 +26,14 @@ class Candidate < ActiveRecord::Base
     else
       super
     end
+  end
+
+  # Could not figure out the "Ruby Way" for creating an associated object.
+  # so decided to use this.
+  def self.new_with_address
+    candidate = Candidate.new
+    candidate.build_address
+    candidate
   end
 
   def email

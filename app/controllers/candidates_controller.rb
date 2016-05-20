@@ -31,7 +31,7 @@ class CandidatesController < ApplicationController
   end
 
   def new
-    @resource = Candidate.new
+    @resource = Candidate.new_with_address
   end
 
   def show
@@ -56,10 +56,7 @@ class CandidatesController < ApplicationController
   private
 
   def candidate_params
-    params.require(:candidate).permit(:candidate_id, :first_name, :last_name,
-                                 :candidate_email, :parent_email_1, :parent_email_2,
-                                 :grade, :attending, :password,
-                                 :password_confirmation)
+    params.require(:candidate).permit(candidate_permitted_params)
   end
 
   protected
@@ -80,20 +77,6 @@ class CandidatesController < ApplicationController
   # Since going around devise mechanisms - add some helpers back in.
   def devise_mapping
     Devise.mappings[:candidate]
-  end
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_in) do |candidate_parms|
-      candidate_parms.permit(:candidate_id, :parent_email_1)
-    end
-    devise_parameter_sanitizer.permit(:sign_up) do |candidate_parms|
-      candidate_parms.permit(:candidate_id, :first_name, :last_name, :candidate_email, :parent_email_1,
-                             :parent_email_2, :grade, :attending, :password, :password_confirmation)
-    end
-    devise_parameter_sanitizer.permit(:account_update) do |candidate_parms|
-      candidate_parms.permit(:candidate_id, :first_name, :last_name, :candidate_email, :parent_email_1,
-                             :parent_email_2, :grade, :attending, :password, :password_confirmation)
-    end
   end
 
 end

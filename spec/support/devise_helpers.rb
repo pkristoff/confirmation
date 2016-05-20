@@ -4,7 +4,7 @@ module DeviseHelpers
   end
 
   def resource
-    @resource ||= @resource_class.new
+    @resource ||= (@resource_class == Candidate ? @resource_class.new_with_address : @resource_class.new)
   end
 
   def devise_mapping

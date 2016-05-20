@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510110638) do
+ActiveRecord::Schema.define(version: 20160519204818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string   "street_1",   default: "",      null: false
+    t.string   "string",     default: "27502", null: false
+    t.string   "street_2",   default: "",      null: false
+    t.string   "city",       default: "Apex",  null: false
+    t.string   "state",      default: "NC",    null: false
+    t.string   "zip_code",   default: "27502", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -56,9 +67,12 @@ ActiveRecord::Schema.define(version: 20160510110638) do
     t.string   "candidate_email",                      default: "",        null: false
     t.string   "parent_email_2",                       default: "",        null: false
     t.string   "attending",                            default: "The Way", null: false
+    t.integer  "address_id"
   end
 
+  add_index "candidates", ["address_id"], name: "index_candidates_on_address_id", using: :btree
   add_index "candidates", ["candidate_id"], name: "index_candidates_on_candidate_id", unique: true, using: :btree
   add_index "candidates", ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "candidates", "addresses"
 end

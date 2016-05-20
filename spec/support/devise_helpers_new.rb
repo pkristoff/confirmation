@@ -4,7 +4,7 @@ module DeviseHelpersNew
   end
 
   def resource
-    @resource ||= Candidate.new
+    @resource ||= Candidate.new_with_address
   end
 
   def devise_mapping

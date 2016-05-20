@@ -7,6 +7,8 @@ FactoryGirl.define do
     last_name 'Agusta'
     grade 10
     attending 'The Way'
-
+    after(:build) do |candidate|
+      candidate.address ||= FactoryGirl.create(:address)
+    end
   end
 end
