@@ -26,7 +26,8 @@ feature 'Candidate edit', :devise do
     fill_in 'Parent email 1', :with => 'newemail@example.com'
     fill_in 'Current password', :with => @candidate.password
     click_button 'Update'
-    expect(page).not_to have_selector('div[id=flash_alert]', text: 'You need to sign in or sign up before continuing.')
+    expect(page).not_to have_selector('div[id=error_explanation]')
+    expect(page).not_to have_selector('div[id=flash_alert]')
     expect(page).to have_selector('div[id=flash_notice]', text: 'Your account has been updated successfully.')
   end
 

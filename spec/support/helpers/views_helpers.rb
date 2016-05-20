@@ -18,6 +18,12 @@ module ViewsHelpers
     expect(rendered).to have_selector("input[id=candidate_first_name]#{first_name_autofocus}")
     expect(rendered).to have_field('Last name', with: (candidate ? candidate.last_name : ''), type: 'text')
 
+    expect(rendered).to have_field('candidate_address_attributes_street_1', with: (candidate ? candidate.address.street_1 : ''), type: 'text')
+    expect(rendered).to have_field('candidate_address_attributes_street_2', with: (candidate ? candidate.address.street_2 : ''), type: 'text')
+    expect(rendered).to have_field('candidate_address_attributes_city', with: (candidate ? candidate.address.city : 'Apex'), type: 'text')
+    expect(rendered).to have_field('candidate_address_attributes_state', with: (candidate ? candidate.address.state : 'NC'), type: 'text')
+    expect(rendered).to have_field('candidate_address_attributes_zip_code', with: (candidate ? candidate.address.zip_code : '27502'), type: 'text')
+
     if candidate
       expect(rendered).to have_field('Grade', with: candidate.grade, type: 'number')
     else

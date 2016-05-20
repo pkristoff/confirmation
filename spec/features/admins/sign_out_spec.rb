@@ -9,7 +9,6 @@ feature 'Sign out', :devise do
   #   When I sign out
   #   Then I see a signed out message
   scenario 'candidate signs out successfully' do
-    # skip 'works when debugging but not in straight mode - sign in'
     admin = FactoryGirl.create(:admin)
     signin_admin(admin.email, admin.password)
     expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.sessions.signed_in'))

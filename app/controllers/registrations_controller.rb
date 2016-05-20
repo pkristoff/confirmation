@@ -39,22 +39,4 @@ class RegistrationsController < Devise::RegistrationsController
     mapping
   end
 
-  def configure_permitted_parameters
-    if (devise_mapping.name == :admin)
-      super
-    else
-      devise_parameter_sanitizer.for(:sign_in) do |candidate_parms|
-        candidate_parms.permit(:candidate_id, :parent_email_1)
-      end
-      devise_parameter_sanitizer.for(:sign_up) do |candidate_parms|
-        candidate_parms.permit(:candidate_id, :first_name, :last_name, :candidate_email, :parent_email_1,
-                               :parent_email_2, :grade, :attending, :password, :password_confirmation)
-      end
-      devise_parameter_sanitizer.for(:account_update) do |candidate_parms|
-        candidate_parms.permit(:candidate_id, :first_name, :last_name, :candidate_email, :parent_email_1,
-                               :parent_email_2, :grade, :attending, :password, :password_confirmation)
-      end
-    end
-  end
-
 end

@@ -1,4 +1,4 @@
-<% is_candidate_signed_in_and_not_new = (by_candidate and ! is_new) %>
+<% is_candidate_signed_in_and_not_new = (by_candidate and !is_new) %>
 
 <%= devise_error_messages! %>
 
@@ -18,6 +18,28 @@
         <%= f.label :last_name %><br/>
         <%= f.text_field :last_name %>
       </div>
+    </div>
+<% end %>
+
+<%= field_set_tag 'Address', class: 'fieldset' do %>
+    <div class="fieldset-div">
+      <%= f.fields_for :address do |address_fields| %>
+          <div class="field">
+            Street 1 : <%= address_fields.text_field :street_1 %>
+          </div>
+          <div class="field">
+            Street 2 : <%= address_fields.text_field :street_2 %>
+          </div>
+          <div class="field">
+            City : <%= address_fields.text_field :city %>
+          </div>
+          <div class="field">
+            State : <%= address_fields.text_field :state %>
+          </div>
+          <div class="field">
+            Zip code: <%= address_fields.text_field :zip_code %>
+          </div>
+      <% end %>
     </div>
 <% end %>
 

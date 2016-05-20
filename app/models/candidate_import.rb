@@ -73,7 +73,7 @@ class CandidateImport
           row[:password] = '12345678'
           row[:attending] = attending
 
-          candidate = Candidate.find_by_candidate_id(row[:candidate_id]) || Candidate.new
+          candidate = Candidate.find_by_candidate_id(row[:candidate_id]) || Candidate.new_with_address
           candidate.attributes = row.to_hash.select { |k, v| Candidate.candidate_params.include? k }
           candidates.push(candidate)
           @candidate_to_row[candidate] = i

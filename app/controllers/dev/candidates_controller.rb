@@ -19,10 +19,6 @@ module Dev
       end
     end
 
-    def destroy
-      puts 'I am here'
-    end
-
     def edit
       @candidate = Candidate.find(params[:id])
     end
@@ -33,18 +29,6 @@ module Dev
         redirect_to :back, alert: 'Access denied.'
       end
 
-    end
-
-    def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_in) do |user_params|
-        user_params.permit(:candidate_id, :parent_email_1)
-      end
-      devise_parameter_sanitizer.permit(:sign_in) do |user_params|
-        user_params.permit(:candidate_id, :parent_email_1)
-      end
-      devise_parameter_sanitizer.permit(:account_update) do |user_params|
-        user_params.permit(:candidate_id, :parent_email_1)
-      end
     end
 
   end
