@@ -99,7 +99,7 @@ class CandidateImport
 
   def remove_all_candidates
 
-    Candidate.all.each do | candidate |
+    Candidate.all.each do |candidate|
       candidate.delete
     end
 
@@ -110,7 +110,7 @@ class CandidateImport
     remove_all_candidates
     CreateTestCandidateService.new.call
 
-    Admin.all.each do | admin |
+    Admin.all.each do |admin|
       admin.delete
     end
     add_admin
@@ -124,6 +124,37 @@ class CandidateImport
       admin.password_confirmation = Rails.application.secrets.admin_password
     end
     admin.save
+  end
+
+  def to_xlxs
+
+    create_xlsx_package.to_stream
+  end
+
+  def xlsx_columns
+    ['candidate_id', 'first_name', 'last_name', 'candidate_email', 'parent_email_1',
+     'parent_email_2', 'grade', 'attending',
+     'address.street_1', 'address.street_2', 'address.city', 'address.state', 'address.zip_code']
+  end
+
+  def create_xlsx_package
+    columns = xlsx_columns
+    p = Axlsx::Package.new(author: 'Admin')
+    wb = p.workbook
+    wb.add_worksheet(name: 'Candidates with address') do |sheet|
+      sheet.add_row columns
+      Candidate.all.each do |candidate|
+        sheet.add_row (columns.map do |col|
+          split = col.split('.')
+          if split.size == 1
+            candidate.send(col)
+          else
+            candidate.send(split[0]).send(split[1])
+          end
+        end)
+      end
+    end
+    p
   end
 
 end

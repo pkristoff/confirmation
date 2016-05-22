@@ -18,6 +18,14 @@ class CandidateImportsController < ApplicationController
     end
   end
 
+  def export_to_excel
+
+    respond_to do |format|
+      format.xlsx { send_data(CandidateImport.new.to_xlxs().read, disposition: 'attachment; filename=aaa_stream_2.xlsx') }
+    end
+
+  end
+
   def reset_database
     sign_out current_admin
     CandidateImport.new.reset_database

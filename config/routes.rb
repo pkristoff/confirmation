@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   post 'candidate_imports/reset_database'
   post 'candidate_imports/remove_all_candidates'
+  post 'candidate_imports/export_to_excel'
 
   devise_for :admins,
              controllers: {:registrations => "registrations"}

@@ -1,4 +1,3 @@
-
 describe CandidateImportsController do
 
   describe 'new' do
@@ -46,6 +45,9 @@ describe CandidateImportsController do
       expect(controller.candidate_import).not_to eq(nil)
       expect(controller.candidate_import.errors.size).to eq(5)
     end
+  end
+
+  describe 'remove_all_candidates' do
 
     it 'should remove all candidates' do
       expect(Candidate.all.size).to eq(0)
@@ -55,12 +57,15 @@ describe CandidateImportsController do
       expect(Candidate.all.size).to eq(3)
       login_admin
 
-      get :remove_all_candidates
+      post :remove_all_candidates
 
       expect(response).to redirect_to(root_url)
       expect(Candidate.all.size).to eq(0)
 
     end
+  end
+
+  describe 'reset_database' do
 
     it 'should reset database' do
       expect(Candidate.all.size).to eq(0)
@@ -74,11 +79,46 @@ describe CandidateImportsController do
       FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
       expect(Admin.all.size).to eq(2)
 
-      get :reset_database
+      post :reset_database
 
       expect(response).to redirect_to(root_url)
       expect(Candidate.all.size).to eq(1)
       expect(Admin.all.size).to eq(1)
+
+    end
+
+  end
+
+  describe 'export_to_excel' do
+
+    it 'should download an excel spreadsheet.' do
+      login_admin
+
+      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      FactoryGirl.create(:candidate, candidate_id: 'a2')
+      FactoryGirl.create(:candidate, candidate_id: 'a3')
+
+      post :export_to_excel, format: 'xlsx'
+
+      expect(controller.headers["Content-Transfer-Encoding"]).to eq("binary")
+      expect(response.header['Content-Type']).to eq('application/octet-stream')
+      expect(response.status).to eq(200)
+
+    end
+
+    it 'should not download an excel spreadsheet if format is wrong' do
+      login_admin
+
+      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      FactoryGirl.create(:candidate, candidate_id: 'a2')
+      FactoryGirl.create(:candidate, candidate_id: 'a3')
+
+      begin
+        post :export_to_excel, format: 'xls'
+        expect(false).to eq(true) # should never be executed.
+      rescue ActionController::UnknownFormat => err
+        expect(err.message).to eq('ActionController::UnknownFormat')
+      end
 
     end
 

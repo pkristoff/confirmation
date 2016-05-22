@@ -12,7 +12,7 @@ feature 'Sign in', :devise do
     #   Then I see an invalid credentials message
     scenario 'admin cannot sign in if not registered' do
       signin_admin('test@example.com', 'please123')
-      expect(page).to have_selector('div[id=flash_alert]', text: I18n.t('devise.failure.not_found_in_database', authentication_keys: 'email'))
+      expect(page).to have_selector('div[id=flash_alert]', text: I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
     end
 
   end
@@ -27,7 +27,7 @@ feature 'Sign in', :devise do
     scenario 'admin cannot sign in with wrong email' do
       admin = FactoryGirl.create(:admin)
       signin_admin('invalid@email.com', admin.password)
-      expect(page).to have_selector('div[id=flash_alert]', text: I18n.t('devise.failure.not_found_in_database', authentication_keys: 'email'))
+      expect(page).to have_selector('div[id=flash_alert]', text: I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
     end
 
     # Scenario: Admin cannot sign in with wrong password
@@ -38,7 +38,7 @@ feature 'Sign in', :devise do
     scenario 'admin cannot sign in with wrong password' do
       admin = FactoryGirl.create(:admin)
       signin_admin(admin.email, 'invalidpass')
-      expect(page).to have_selector('div[id=flash_alert]', text: I18n.t('devise.failure.not_found_in_database', authentication_keys: 'email'))
+      expect(page).to have_selector('div[id=flash_alert]', text: I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
     end
     # Scenario: Admin can sign in with valid credentials
     #   Given I exist as a admin

@@ -1,3 +1,4 @@
+# require 'axlsx'
 class Candidate < ActiveRecord::Base
 
   belongs_to(:address)
