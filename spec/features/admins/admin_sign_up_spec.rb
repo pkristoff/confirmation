@@ -61,7 +61,7 @@ feature 'Admin sign up', :devise do
     scenario 'visitor can sign up with valid email address and password' do
       sign_up_admin_with('test1@example.com', 'please123', 'please123')
       txts = [I18n.t('devise.registrations.signed_up'), I18n.t('devise.registrations.signed_up_but_unconfirmed')]
-      expect(page).to have_selector('div[id=flash_notice]', text: /.*#{txts[0]}.*|.*#{txts[1]}.*/)
+      expect_message :flash_notice, /.*#{txts[0]}.*|.*#{txts[1]}.*/
     end
 
     # Scenario: Visitor cannot sign up with invalid email address
@@ -70,7 +70,7 @@ feature 'Admin sign up', :devise do
     #   Then I see an invalid email message
     scenario 'visitor cannot sign up with invalid email address' do
       sign_up_admin_with('bogus', 'please123', 'please123')
-      expect(page).to have_selector('div[id=error_explanation]', text: 'Email is invalid')
+      expect_message :error_explanation, 'Email is invalid'
     end
 
     # Scenario: Visitor cannot sign up without password
@@ -79,7 +79,7 @@ feature 'Admin sign up', :devise do
     #   Then I see a missing password message
     scenario 'visitor cannot sign up without password' do
       sign_up_admin_with('test1@example.com', '', '')
-      expect(page).to have_selector('div[id=error_explanation]', text: 'Password can\'t be blank')
+      expect_message :error_explanation, 'Password can\'t be blank'
     end
 
     # Scenario: Visitor cannot sign up with a short password
@@ -88,7 +88,7 @@ feature 'Admin sign up', :devise do
     #   Then I see a 'too short password' message
     scenario 'visitor cannot sign up with a short password' do
       sign_up_admin_with('test1@example.com', 'please', 'please')
-      expect(page).to have_selector('div[id=error_explanation]', text: 'Password is too short')
+      expect_message :error_explanation, 'Password is too short'
     end
 
     # Scenario: Visitor cannot sign up without password confirmation
@@ -97,7 +97,7 @@ feature 'Admin sign up', :devise do
     #   Then I see a missing password confirmation message
     scenario 'visitor cannot sign up without password confirmation' do
       sign_up_admin_with('test1@example.com', 'please123', '')
-      expect(page).to have_selector('div[id=error_explanation]', text: 'Password confirmation doesn\'t match')
+      expect_message :error_explanation, 'Password confirmation doesn\'t match'
     end
 
     # Scenario: Visitor cannot sign up with mismatched password and confirmation
@@ -106,7 +106,7 @@ feature 'Admin sign up', :devise do
     #   Then I should see a mismatched password message
     scenario 'visitor cannot sign up with mismatched password and confirmation' do
       sign_up_admin_with('test1@example.com', 'please123', 'mismatch')
-      expect(page).to have_selector('div[id=error_explanation]', text: 'Password confirmation doesn\'t match')
+      expect_message :error_explanation, 'Password confirmation doesn\'t match'
     end
 
 

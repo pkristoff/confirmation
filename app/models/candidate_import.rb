@@ -7,6 +7,7 @@ class CandidateImport
 
   def initialize(attributes = {})
     attributes.each { |name, value| send("#{name}=", value) }
+    @worksheet_name = 'Candidates with address'
   end
 
   def persisted?
@@ -32,51 +33,72 @@ class CandidateImport
   end
 
   def load_imported_candidates
+    candidates = []
     @candidate_to_row = {}
     header = [:last_name, :first_name, :grade, :parent_email_1]
     spreadsheet = open_spreadsheet
-    attending = 'The Way'
-    candidates = []
-    (1..spreadsheet.last_row).each do |i|
-      spreadsheet_row = spreadsheet.row(i)
-      unless spreadsheet_row[0].nil? and spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil? # empty row
-        if spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil?
-          if spreadsheet_row[0].include?('The Way')
-            attending = 'The Way'
+    if spreadsheet.sheets[0] == @worksheet_name
+      sheet = spreadsheet.sheet(@worksheet_name)
+      header_row = sheet.row(1)
+      candidate_id_index = header_row.find_index { |cell| cell == 'candidate_id' }
+      (2..spreadsheet.last_row).each do |i|
+        row = sheet.row(i)
+
+        candidate = Candidate.find_by_candidate_id(row[candidate_id_index]) || Candidate.new_with_address
+        row.each_with_index do |cell, index|
+          column_name_split = header_row[index].split('.')
+          if column_name_split.size == 1
+            candidate.send("#{column_name_split[0]}=", cell)
           else
-            attending = 'Catholic High School'
+            candidate.send(column_name_split[0]).send("#{column_name_split[1]}=", cell)
           end
-        else
-          row = Hash.new
-          spreadsheet_row.each_with_index do |item, index|
-            item.strip! unless item.nil?
-            case header[index]
-              when :grade
-                if item.nil?
-                  row[:grade] = 10
-                else
-                  row[:grade] = item.slice(/^\D*[\d]*/)
-                end
-              when :parent_email_1
-                unless item.nil?
-                  item_split = item.split(';')
-                  row[:parent_email_1] = item_split[0].strip
-                  row[:parent_email_2] = item_split[1].strip if item_split.size > 1
-                end
-              else
-                row[header[index]] = item
+        end
+        candidate.password = '12345678'
+        candidates.push(candidate)
+      end
+    else
+      attending = 'The Way'
+      (1..spreadsheet.last_row).each do |i|
+        spreadsheet_row = spreadsheet.row(i)
+        unless spreadsheet_row[0].nil? and spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil? # empty row
+          if spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil?
+            if spreadsheet_row[0].include?('The Way')
+              attending = 'The Way'
+            else
+              attending = 'Catholic High School'
             end
+          else
+            row = Hash.new
+            spreadsheet_row.each_with_index do |item, index|
+              item.strip! unless item.nil?
+              case header[index]
+                when :grade
+                  if item.nil?
+                    row[:grade] = 10
+                  else
+                    row[:grade] = item.slice(/^\D*[\d]*/)
+                  end
+                when :parent_email_1
+                  unless item.nil?
+                    item_split = item.split(';')
+                    row[:parent_email_1] = item_split[0].strip
+                    row[:parent_email_2] = item_split[1].strip if item_split.size > 1
+                  end
+                else
+                  row[header[index]] = item
+              end
+            end
+
+            candidate_id = String.new(row[:last_name] || '').concat(row[:first_name] || '').downcase
+            row[:candidate_id] = candidate_id
+            row[:password] = '12345678'
+            row[:attending] = attending
+
+            candidate = Candidate.find_by_candidate_id(row[:candidate_id]) || Candidate.new_with_address
+            candidate.attributes = row.to_hash.select { |k, v| Candidate.candidate_params.include? k }
+            candidates.push(candidate)
+            @candidate_to_row[candidate] = i
           end
-
-          candidate_id = String.new(row[:last_name] || '').concat(row[:first_name] || '').downcase
-          row[:candidate_id] = candidate_id
-          row[:password] = '12345678'
-          row[:attending] = attending
-
-          candidate = Candidate.find_by_candidate_id(row[:candidate_id]) || Candidate.new_with_address
-          candidate.attributes = row.to_hash.select { |k, v| Candidate.candidate_params.include? k }
-          candidates.push(candidate)
-          @candidate_to_row[candidate] = i
         end
       end
     end
@@ -141,17 +163,17 @@ class CandidateImport
     columns = xlsx_columns
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
-    wb.add_worksheet(name: 'Candidates with address') do |sheet|
+    wb.add_worksheet(name: @worksheet_name) do |sheet|
       sheet.add_row columns
       Candidate.all.each do |candidate|
         sheet.add_row (columns.map do |col|
-          split = col.split('.')
-          if split.size == 1
-            candidate.send(col)
-          else
-            candidate.send(split[0]).send(split[1])
-          end
-        end)
+                        split = col.split('.')
+                        if split.size == 1
+                          candidate.send(col)
+                        else
+                          candidate.send(split[0]).send(split[1])
+                        end
+                      end)
       end
     end
     p
