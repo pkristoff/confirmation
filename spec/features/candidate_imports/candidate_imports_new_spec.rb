@@ -5,7 +5,7 @@ Warden.test_mode!
 #   As a admin
 #   I want to delete my admin profile
 #   So I can close my account
-feature 'Admin delete', :devise do
+feature 'Other', :devise do
 
   after(:each) do
     Warden.test_reset!
@@ -45,7 +45,7 @@ feature 'Admin delete', :devise do
     scenario 'admin can remove all candidates from database' do
       FactoryGirl.create(:candidate)
       FactoryGirl.create(:candidate, candidate_id: 'a1')
-      expect(Candidate.all.size).to eq(2)  #prove there are only 2
+      expect(Candidate.all.size).to eq(2) #prove there are only 2
       admin = FactoryGirl.create(:admin)
       login_as(admin, :scope => :admin)
       visit new_candidate_import_path
@@ -61,11 +61,11 @@ feature 'Admin delete', :devise do
     scenario 'admin can reset the database' do
       FactoryGirl.create(:candidate)
       FactoryGirl.create(:candidate, candidate_id: 'a1')
-      expect(Candidate.all.size).to eq(2)  #prove there are only 2
+      expect(Candidate.all.size).to eq(2) #prove there are only 2
       FactoryGirl.create(:admin)
       admin = FactoryGirl.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
       login_as(admin, :scope => :admin)
-      expect(Admin.all.size).to eq(2)  #prove there are only 2
+      expect(Admin.all.size).to eq(2) #prove there are only 2
       visit new_candidate_import_path
       click_button 'Reset the Database'
       expect(page).to have_selector('div[id=flash_notice]', text: 'Database successfully reset.')
@@ -75,4 +75,40 @@ feature 'Admin delete', :devise do
 
   end
 
+  describe 'Export to excel' do
+
+    xlsx_filename = 'exported_candidates.xlsx'
+
+    scenario 'admin can export to excel and read it back in.' do
+      FactoryGirl.create(:candidate)
+      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      expect(Candidate.all.size).to eq(2) #prove there are only 2
+      FactoryGirl.create(:admin)
+      admin = FactoryGirl.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
+      login_as(admin, :scope => :admin)
+      expect(Admin.all.size).to eq(2) #prove there are only 2
+      visit new_candidate_import_path
+      click_button 'Excel'
+
+      File.open(xlsx_filename, 'w') { |f| f.write(page.html) }
+      begin
+
+        visit new_candidate_import_path
+        click_button 'Remove All Candidates'
+        expect(Candidate.all.size).to eq(0)
+
+        visit new_candidate_import_path
+        attach_file :candidate_import_file, xlsx_filename
+        click_button 'Import'
+        expect(Candidate.all.size).to eq(2)
+      ensure
+        if File.exist? xlsx_filename
+          File.delete xlsx_filename
+        end
+      end
+
+    end
+
+  end
 end
+

@@ -1,3 +1,11 @@
+<section id="export">
+  <%= form_for @candidate_import, url: candidate_imports_export_to_excel_path(format: 'xlsx') do |f| %>
+
+      <div class="buttons"><%= f.submit 'Excel' %></div>
+
+  <% end %>
+</section>
+
 <section id="import">
 
   <h2>Candidate Import</h2>

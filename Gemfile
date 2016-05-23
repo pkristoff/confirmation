@@ -36,10 +36,11 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'selenium-webdriver'
-  gem 'rspec-rails'
 end
 
 gem 'pg'
 gem 'rails_12factor', group: :production
 gem 'puma'
 gem 'roo', '~> 2.4.0'
+gem 'zip-zip'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
