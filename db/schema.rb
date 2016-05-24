@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160519204818) do
+ActiveRecord::Schema.define(version: 20160524104652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,16 @@ ActiveRecord::Schema.define(version: 20160519204818) do
   add_index "admins", ["name"], name: "index_admins_on_name", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
+  create_table "candidate_events", force: :cascade do |t|
+    t.date     "completed_date"
+    t.boolean  "admin_confirmed"
+    t.integer  "confirmation_event_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "candidate_events", ["confirmation_event_id"], name: "index_candidate_events_on_confirmation_event_id", using: :btree
+
   create_table "candidates", force: :cascade do |t|
     t.string   "parent_email_1",                       default: "",        null: false
     t.string   "encrypted_password",                   default: "",        null: false
@@ -74,5 +84,20 @@ ActiveRecord::Schema.define(version: 20160519204818) do
   add_index "candidates", ["candidate_id"], name: "index_candidates_on_candidate_id", unique: true, using: :btree
   add_index "candidates", ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true, using: :btree
 
+  create_table "confirmation_event_candidate_events", force: :cascade do |t|
+    t.integer  "confirmation_event_id"
+    t.integer  "candidate_event_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  create_table "confirmation_events", force: :cascade do |t|
+    t.string   "name"
+    t.date     "due_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "candidate_events", "confirmation_events"
   add_foreign_key "candidates", "addresses"
 end
