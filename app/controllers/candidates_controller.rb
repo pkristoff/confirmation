@@ -16,7 +16,7 @@ class CandidatesController < ApplicationController
   def destroy
     @candidate = Candidate.find(params[:id])
     @candidate.destroy
-    flash[:notice] = "Candidate #{@candidate.candidate_id} successfully removed"
+    flash[:notice] = "Candidate #{@candidate.account_name} successfully removed"
     @candidates = Candidate.all
     render :index
   end
@@ -45,7 +45,7 @@ class CandidatesController < ApplicationController
     end
     @candidate = Candidate.find(params[:id])
     if @candidate.update_attributes(candidate_params)
-      flash[:notice] = "Candidate #{@candidate.candidate_id} updated successfully"
+      flash[:notice] = "Candidate #{@candidate.account_name} updated successfully"
       @candidates = Candidate.all
       render :index
     else

@@ -35,7 +35,7 @@ feature 'Sign Up', :devise do
     #   Then I see an invalid email message
     scenario 'visitor cannot sign up with invalid candidate id' do
       sign_up_candidate_with('', 'Paul', 'K', 'test@example.com', 'please123', 'please123')
-      expect_message :error_explanation, 'Candidate can\'t be blank'
+      expect_message :error_explanation, 'Account name can\'t be blank'
     end
 
     # Scenario: Visitor cannot sign up without password

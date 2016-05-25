@@ -9,7 +9,7 @@ describe CandidateImport do
       expect(candidate_import.save).to eq(true)
 
       expect(Candidate.all.size).to eq(4)
-      candidate = Candidate.find_by_candidate_id('annunziatarobert')
+      candidate = Candidate.find_by_account_name('annunziatarobert')
       expect(candidate.first_name).to eq('Robert')
       expect(candidate.last_name).to eq('Annunziata')
       expect(candidate.grade).to eq(10)
@@ -59,9 +59,9 @@ describe CandidateImport do
     it 'reset after adding in some candidates' do
 
       expect(Candidate.all.size).to eq(0)
-      FactoryGirl.create(:candidate, candidate_id: 'a1')
-      FactoryGirl.create(:candidate, candidate_id: 'a2')
-      FactoryGirl.create(:candidate, candidate_id: 'a3')
+      FactoryGirl.create(:candidate, account_name: 'a1')
+      FactoryGirl.create(:candidate, account_name: 'a2')
+      FactoryGirl.create(:candidate, account_name: 'a3')
       expect(Candidate.all.size).to eq(3)
 
       expect(Admin.all.size).to eq(0)
@@ -72,7 +72,7 @@ describe CandidateImport do
       CandidateImport.new.reset_database
 
       expect(Candidate.all.size).to eq(1)
-      expect(Candidate.find_by_candidate_id('vickikristoff')).not_to eq(nil)
+      expect(Candidate.find_by_account_name('vickikristoff')).not_to eq(nil)
       expect(Admin.all.size).to eq(1)
       expect(Admin.find_by_email('confirmation@kristoffs.com')).not_to eq(nil)
 
@@ -84,11 +84,11 @@ describe CandidateImport do
     it 'reset after adding in some candidates' do
 
       c1 = FactoryGirl.create(:candidate,
-                              candidate_id: 'c1',
+                              account_name: 'c1',
                               parent_email_1: 'test@example.com',
                               candidate_email: 'candiate@example.com')
-      c2 = FactoryGirl.create(:candidate, candidate_id: 'c2')
-      c3 = FactoryGirl.create(:candidate, candidate_id: 'c3')
+      c2 = FactoryGirl.create(:candidate, account_name: 'c2')
+      c3 = FactoryGirl.create(:candidate, account_name: 'c3')
 
       candidate_import = CandidateImport.new
       package = candidate_import.create_xlsx_package

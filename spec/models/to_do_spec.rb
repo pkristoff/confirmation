@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe ConfirmationEventCandidateEvent, type: :model do
+RSpec.describe ToDo, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

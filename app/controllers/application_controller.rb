@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     else
       # admin is editing a candidate's account info
       devise_parameter_sanitizer.permit(:sign_in) do |candidate_parms|
-        candidate_parms.permit(:candidate_id, :parent_email_1)
+        candidate_parms.permit(:account_name, :parent_email_1)
       end
       devise_parameter_sanitizer.permit(:sign_up) do |candidate_parms|
         candidate_parms.permit(*candidate_permitted_params)
@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def candidate_permitted_params
-    [:candidate_id, :first_name, :last_name, :candidate_email, :parent_email_1,
+    [:account_name, :first_name, :last_name, :candidate_email, :parent_email_1,
      :parent_email_2, :grade, :attending, :password, :password_confirmation,
      address_attributes: [:street_1, :street_2, :city, :state, :zip_code]]
   end

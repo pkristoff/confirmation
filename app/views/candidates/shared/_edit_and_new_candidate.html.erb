@@ -3,8 +3,8 @@
 <%= devise_error_messages! %>
 
 <div class="field">
-  <%= f.label :candidate_id %><br/>
-  <%= f.text_field :candidate_id, readonly: is_candidate_signed_in_and_not_new, autofocus: !is_candidate_signed_in_and_not_new %>
+  <%= f.label :account_name %><br/>
+  <%= f.text_field :account_name, readonly: is_candidate_signed_in_and_not_new, autofocus: !is_candidate_signed_in_and_not_new %>
 </div>
 
 <%= field_set_tag 'Candidate Name', class: 'fieldset' do %>

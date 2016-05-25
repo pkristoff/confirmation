@@ -44,7 +44,7 @@ feature 'Other', :devise do
 
     scenario 'admin can remove all candidates from database' do
       FactoryGirl.create(:candidate)
-      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      FactoryGirl.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) #prove there are only 2
       admin = FactoryGirl.create(:admin)
       login_as(admin, :scope => :admin)
@@ -60,7 +60,7 @@ feature 'Other', :devise do
 
     scenario 'admin can reset the database' do
       FactoryGirl.create(:candidate)
-      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      FactoryGirl.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) #prove there are only 2
       FactoryGirl.create(:admin)
       admin = FactoryGirl.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
@@ -81,7 +81,7 @@ feature 'Other', :devise do
 
     scenario 'admin can export to excel and read it back in.' do
       FactoryGirl.create(:candidate)
-      FactoryGirl.create(:candidate, candidate_id: 'a1')
+      FactoryGirl.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) #prove there are only 2
       FactoryGirl.create(:admin)
       admin = FactoryGirl.create(:admin, name: 'foo', email: 'paul@kristoffs.com')

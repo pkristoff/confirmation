@@ -1,6 +1,6 @@
 class CreateTestCandidateService
   def call
-    candidate = Candidate.find_or_create_by!(candidate_id: 'vickikristoff') do |candidate|
+    candidate = Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.create_address
       candidate.parent_email_1 = 'paul@kristoffs.com'
       candidate.first_name = 'Vicki'

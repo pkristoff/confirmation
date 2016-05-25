@@ -2,15 +2,16 @@ class Candidate < ActiveRecord::Base
 
   belongs_to(:address)
   accepts_nested_attributes_for :address, allow_destroy: true
+  has_many(:candidate_events)
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :authentication_keys => [:candidate_id],
-         :reset_password_keys => [:candidate_id]
+         :authentication_keys => [:account_name],
+         :reset_password_keys => [:account_name]
 
-  validates :candidate_id,
+  validates :account_name,
             :presence => true,
             :uniqueness => {
                 :case_sensitive => false
@@ -19,10 +20,10 @@ class Candidate < ActiveRecord::Base
   validate :validate_emails
 
   def self.find_first_by_auth_conditions(tainted_conditions, options = {})
-    login = tainted_conditions.delete(:candidate_id)
+    login = tainted_conditions.delete(:account_name)
     if login
       conditions = devise_parameter_filter.filter(value: login.downcase)
-      where(['lower(candidate_id) = :value OR lower(parent_email_1) = :value', conditions]).first
+      where(['lower(account_name) = :value OR lower(parent_email_1) = :value', conditions]).first
     else
       super
     end
@@ -53,7 +54,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def self.candidate_params
-    params = attribute_names.collect{|e| e.to_sym} & [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2, :candidate_id, :password, :attending]
+    params = attribute_names.collect{|e| e.to_sym} & [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2, :account_name, :password, :attending]
     params = params << :password
     params
   end

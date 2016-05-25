@@ -3,9 +3,3 @@
 <%= form_for(resource, as: resource_name, url: candidate_path(resource), html: {method: :put}) do |f| %>
     <%= render partial: 'candidates/shared/edit_and_new_candidate', :locals => {f: f, by_candidate: false, is_new: false} %>
 <% end %>
-
-<h3>Cancel candidate account</h3>
-
-<p>Unhappy? <%= button_to 'Cancel candidate account', candidate_path(resource.id), data: {confirm: 'Are you sure?'}, method: :delete %></p>
-
-<%= link_to 'Back', :back %>

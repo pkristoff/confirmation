@@ -29,7 +29,7 @@ feature 'Candidate profile page', :devise do
   #   Then I see an 'access denied' message
   scenario "candidate cannot see another candidate's profile" do
     me = FactoryGirl.create(:candidate)
-    other = FactoryGirl.create(:candidate, parent_email_1: 'other@example.com', candidate_id: 'other')
+    other = FactoryGirl.create(:candidate, parent_email_1: 'other@example.com', account_name: 'other')
     login_as(me, :scope => :candidate)
     Capybara.current_session.driver.header 'Referer', dev_candidate_path(me)
     visit dev_candidate_path(other)

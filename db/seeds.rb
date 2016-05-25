@@ -9,4 +9,4 @@ admin = CreateAdminsService.new.call
 puts 'CREATED ADMIN: ' << admin.email
 
 candidate = CreateTestCandidateService.new.call
-puts 'CREATED CANDIDATE: ' << candidate.candidate_id
+puts 'CREATED CANDIDATE: ' << candidate.account_name

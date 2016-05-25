@@ -47,6 +47,7 @@ This application requires:
 - Rails 4.2.5.1
 
 Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
+Learn more about [Associatiions](http://guides.rubyonrails.org/association_basics.html).
 
 Getting Started
 ---------------
