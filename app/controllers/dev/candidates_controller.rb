@@ -13,14 +13,18 @@ module Dev
     attr_accessor :candidate # for testing
     before_action :authenticate_candidate!
 
+    def edit
+      @candidate = Candidate.find(params[:id])
+    end
+
+    def home
+      @candidate = Candidate.find(params[:id])
+    end
+
     def index
       unless admin_signed_in?
         return redirect_to :back, alert: 'Please login as admin to see list of candidates.'
       end
-    end
-
-    def edit
-      @candidate = Candidate.find(params[:id])
     end
 
     def show

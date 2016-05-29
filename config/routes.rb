@@ -15,6 +15,7 @@ Rails.application.routes.draw do
              controllers: {:registrations => "dev/registrations"}
   devise_scope :candidates do
     get 'show/:id', to: "dev/candidates#show", as: "dev_candidate"
+    get 'home/:id', to: "candidates#home", as: "candidate"
     post 'update/:id', to: "dev/registrations#update", as: "update_candidate_registration"
     post 'create', to: "registrations#create", as: 'create_candidate'
   end

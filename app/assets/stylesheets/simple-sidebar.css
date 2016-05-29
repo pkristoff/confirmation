@@ -51,8 +51,8 @@
 /* Sidebar Styles */
 
 .sidebar-nav {
+    top: 30px;
     position: absolute;
-    top: 0;
     width: 250px;
     margin: 0;
     padding: 0;
@@ -122,4 +122,14 @@
         position: relative;
         margin-right: 0;
     }
+}
+
+.sidebar-text {
+    color: rgb(153,153,153);
+    margin: 0px;
+}
+
+.sidbar-header{
+    color: rgb(153,153,153);
+    padding-left: 40px;
 }

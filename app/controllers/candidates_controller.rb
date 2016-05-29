@@ -26,6 +26,10 @@ class CandidatesController < ApplicationController
     @resource = @candidate
   end
 
+  def home
+    @candidate = Candidate.find(params[:id])
+  end
+
   def index
     @candidates = Candidate.all
   end
