@@ -27,7 +27,7 @@ class CandidatesController < ApplicationController
   end
 
   def home
-    @candidate = Candidate.find(params[:id])
+    @resource = Candidate.find(params[:id])
   end
 
   def index
@@ -35,7 +35,7 @@ class CandidatesController < ApplicationController
   end
 
   def new
-    @resource = Candidate.new_with_address
+    @resource = AppFactory.create_candidate
   end
 
   def show

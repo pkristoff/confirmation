@@ -17,7 +17,7 @@ describe Candidate do
   end
 
   it 'can retrieve a new candiadate\'s address' do
-    @candidate = Candidate.new_with_address
+    @candidate = AppFactory.create_candidate
     expect(@candidate.account_name).to match nil
     expect(@candidate.parent_email_1).to match ''
 

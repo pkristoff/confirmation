@@ -55,7 +55,7 @@ describe 'candidates/index.html.erb' do
 
     expect(rendered).to have_css("table#candidates_table tbody tr:nth-of-type(#{row}) td", :count => 9)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(1)", text: 'Delete')
-    expect(rendered).to have_link('Delete', href: "/candidates/#{candidate.id}")
+    expect(rendered).to have_link('Delete', href: "/home/#{candidate.id}")
 
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(2)", text: candidate.account_name)
     expect(rendered).to have_link(candidate.account_name, href: "/candidates/#{candidate.id}/edit")

@@ -38,7 +38,6 @@ describe Dev::CandidatesController do
     it 'show should not rediect if admin is logged in.' do
 
       get :show, id: @login_candidate.id
-      puts response.body
       expect(response).to render_template('show')
       expect(controller.candidate).to eq(@login_candidate)
       expect(@request.fullpath).to eq("/show/#{@login_candidate.id}")

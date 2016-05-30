@@ -3,6 +3,7 @@ class Candidate < ActiveRecord::Base
   belongs_to(:address)
   accepts_nested_attributes_for :address, allow_destroy: true
   has_many(:candidate_events)
+  accepts_nested_attributes_for :candidate_events, allow_destroy: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

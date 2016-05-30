@@ -123,7 +123,8 @@ feature 'Admin sign up', :devise do
       fill_in 'Password confirmation', :with => 'abcdefgh'
       click_button 'Sign up'
 
-      expect(page).to have_selector('p', count: 2)
+      expect(page).to have_selector('p', count: 3)
+      expect(page).to have_selector('p', text: 'Admin: otherName')
       expect(page).to have_selector('p', text: 'Name: otherName')
       expect(page).to have_selector('p', text: 'Email: otheremail@example.com')
     end

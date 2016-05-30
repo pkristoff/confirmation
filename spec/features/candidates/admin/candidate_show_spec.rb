@@ -11,7 +11,7 @@ feature 'Candidate profile page', :devise do
     Warden.test_reset!
   end
 
-  # Scenario: Admin sees candide profile
+  # Scenario: Admin sees candidate profile
   #   Given Admin is signed in
   #   When I visit the candidate profile page
   #   Then I see account_name

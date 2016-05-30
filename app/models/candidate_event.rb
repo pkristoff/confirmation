@@ -5,6 +5,7 @@ class CandidateEvent < ActiveRecord::Base
 
   has_one :to_do
   has_one :confirmation_event, through: :to_do
+  accepts_nested_attributes_for :confirmation_event, allow_destroy: false
   belongs_to(:candidate)
 
   def due_date

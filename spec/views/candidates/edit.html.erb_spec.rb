@@ -18,10 +18,7 @@ describe 'candidates/edit.html.erb' do
 
     render
 
-    expect_edit_and_new_view(rendered, @resource, "/candidates/#{@resource.id}", 'Update', false, false)
-
-    expect(rendered).to have_selector("form[action=\"/candidates/#{@resource.id}\"]")
-    expect(rendered).not_to have_button('Cancel candidate account')
+    expect_edit_and_new_view(rendered, @resource, "/home/#{@resource.id}", 'Update', false, false)
 
   end
 end

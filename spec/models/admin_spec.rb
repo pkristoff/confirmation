@@ -1,6 +1,6 @@
 describe Admin do
 
-  before(:each) { @admin = Admin.new(email: 'candidate@example.com') }
+  before(:each) { @admin = AppFactory.create_admin(email: 'candidate@example.com') }
 
   subject { @admin }
 

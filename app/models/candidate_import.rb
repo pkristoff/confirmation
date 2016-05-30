@@ -44,7 +44,7 @@ class CandidateImport
       (2..spreadsheet.last_row).each do |i|
         row = sheet.row(i)
 
-        candidate = Candidate.find_by_account_name(row[account_name_index]) || Candidate.new_with_address
+        candidate = Candidate.find_by_account_name(row[account_name_index]) || AppFactory.create_candidate
         row.each_with_index do |cell, index|
           column_name_split = header_row[index].split('.')
           unless cell.nil?
@@ -96,7 +96,7 @@ class CandidateImport
             row[:password] = '12345678'
             row[:attending] = attending
 
-            candidate = Candidate.find_by_account_name(row[:account_name]) || Candidate.new_with_address
+            candidate = Candidate.find_by_account_name(row[:account_name]) || AppFactory.create_candidate
             candidate.attributes = row.to_hash.select { |k, v| Candidate.candidate_params.include? k }
             candidates.push(candidate)
             @candidate_to_row[candidate] = i

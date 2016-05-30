@@ -1,0 +1,28 @@
+<h2>Status <%= "#{resource.account_name}" %></h2>
+
+<%= devise_error_messages! %>
+
+<%= form_for(resource, as: resource_name, url: create_candidate_path(), html: {role: 'form'}) do |f| %>
+
+
+    <% @resource.candidate_events.each do |candidate_event| %>
+
+        <%= f.fields_for :candidate_event do |candidate_event_fields| %>
+            <div class="field">
+              Completed : <%= candidate_event_fields.date_field :completed_date %>
+            </div>
+            <div class="field">
+              Admin Confirmed : <%= candidate_event_fields.check_box :admin_confirmed %>
+            </div>
+            <%= candidate_event_fields.fields_for :confirmation_event do |confirmation_event_fields| %>
+                <div class="field">
+                  Due Date : <%= confirmation_event_fields.date_field :due_date, read_only: true %>
+                </div>
+                <div class="field">
+                  Name : <%= confirmation_event_fields.text_field :name, read_only: true %>
+                </div>
+            <% end %>
+        <% end %>
+
+    <% end %>
+<% end %>
