@@ -1,6 +1,6 @@
 <h2>Edit Candidate</h2>
 
-<%= form_for(resource, as: resource_name, url: update_candidate_registration_path(resource), html: {method: :post}) do |f| %>
+<%= form_for(current_candidate, as: :candidate, url: update_candidate_registration_path(current_candidate), html: {method: :post}) do |f| %>
 
         <%= render partial: 'candidates/shared/edit_and_new_candidate', :locals => {f: f, by_candidate: true, is_new: false} %>
 

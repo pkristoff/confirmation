@@ -16,8 +16,8 @@ describe 'layouts/_side_bar.html.erb' do
 
       expect(rendered).to have_selector('li', count: 2)
 
-      expect(rendered).to have_link('Edit account', href: '/dev/candidates/edit')
-      expect(rendered).to have_link('Events', href: "/home/#{candidate.id}")
+      expect(rendered).to have_link('Edit Sophia Agusta', href: '/dev/candidates/edit')
+      expect(rendered).to have_link('Events Sophia Agusta', href: "/event/#{candidate.id}")
     end
   end
   context 'login as admin' do

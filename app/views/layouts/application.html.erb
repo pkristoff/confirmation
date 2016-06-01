@@ -20,10 +20,10 @@
     <div id="sidebar-wrapper">
       <header>
         <% if admin_signed_in? %>
-            <p class="sidbar-header">Admin: <%= "#{current_admin.name}" %></p>
+            <p class="sidebar-header">Admin: <%= "#{current_admin.name}" %></p>
         <% end %>
         <% if candidate_signed_in? %>
-            <p class="sidbar-header">Candidate: <%= "#{current_candidate.account_name}" %></p>
+            <p class="sidebar-header">Candidate: <%= "#{current_candidate.account_name}" %></p>
         <% end %>
 
       </header>

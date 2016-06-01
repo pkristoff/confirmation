@@ -29,11 +29,17 @@ module Dev
 
     def show
       @candidate = Candidate.find(params[:id])
+      # @resource = @candidate
       unless @candidate == current_candidate
         redirect_to :back, alert: 'Access denied.'
       end
 
     end
+
+    # Since going around devise mechanisms - add some helpers back in.
+    # def resource
+    #   @resource
+    # end
 
   end
 end

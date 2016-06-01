@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     put 'home/:id', to: "candidates#update", as: "update_candidate"
     delete 'home/:id', to: "candidates#destroy", as: "destroy_candidate"
     post 'update/:id', to: "dev/registrations#update", as: "update_candidate_registration"
+    get 'event/:id', to: "dev/registrations#event", as: "event_candidate_registration"
     post 'create', to: "registrations#create", as: 'create_candidate'
   end
 
