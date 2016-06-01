@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20160524203611) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "name"
+    t.string   "name",                   default: "", null: false
   end
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
@@ -69,14 +69,14 @@ ActiveRecord::Schema.define(version: 20160524203611) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
-    t.string   "account_name"
+    t.string   "account_name",                         default: "",        null: false
     t.string   "first_name",                           default: "",        null: false
     t.string   "last_name",                            default: "",        null: false
-    t.decimal  "grade",                  precision: 2
+    t.decimal  "grade",                  precision: 2, default: 9,         null: false
     t.string   "candidate_email",                      default: "",        null: false
     t.string   "parent_email_2",                       default: "",        null: false
     t.string   "attending",                            default: "The Way", null: false
-    t.integer  "address_id"
+    t.integer  "address_id",                                               null: false
   end
 
   add_index "candidates", ["account_name"], name: "index_candidates_on_account_name", unique: true, using: :btree

@@ -38,6 +38,12 @@ class Candidate < ActiveRecord::Base
     candidate
   end
 
+  def add_candidate_event (confirmation_event)
+    candidate_event = AppFactory.create_candidate_event(confirmation_event)
+    candidate_events << candidate_event
+    candidate_event
+  end
+
   def email
     self.parent_email_1
   end

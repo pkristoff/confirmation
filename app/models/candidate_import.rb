@@ -96,7 +96,7 @@ class CandidateImport
             row[:password] = '12345678'
             row[:attending] = attending
 
-            candidate = Candidate.find_by_account_name(row[:account_name]) || AppFactory.create_candidate
+            candidate = Candidate.find_by_account_name(row[:account_name]) || ::AppFactory.create_candidate
             candidate.attributes = row.to_hash.select { |k, v| Candidate.candidate_params.include? k }
             candidates.push(candidate)
             @candidate_to_row[candidate] = i
@@ -132,12 +132,11 @@ class CandidateImport
   def reset_database
 
     remove_all_candidates
-    CreateTestCandidateService.new.call
 
     Admin.all.each do |admin|
       admin.delete
     end
-    add_admin
+    AppFactory.generate_seed
   end
 
   def add_admin(email='confirmation@kristoffs.com', name='confirmation')
@@ -150,8 +149,7 @@ class CandidateImport
     admin.save
   end
 
-  def to_xlxs
-
+  def to_xlsx
     create_xlsx_package.to_stream
   end
 

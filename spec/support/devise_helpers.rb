@@ -4,7 +4,7 @@ module DeviseHelpers
   end
 
   def resource
-    @resource ||= AppFactory.create(@resource_class)
+    @resource ||= ::AppFactory.create(@resource_class)
   end
 
   def devise_mapping

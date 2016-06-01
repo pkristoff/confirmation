@@ -5,8 +5,5 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-admin = CreateAdminsService.new.call
-puts 'CREATED ADMIN: ' << admin.email
 
-candidate = CreateTestCandidateService.new.call
-puts 'CREATED CANDIDATE: ' << candidate.account_name
+AppFactory.generate_seed
