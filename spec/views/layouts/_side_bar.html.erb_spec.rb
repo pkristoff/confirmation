@@ -17,7 +17,7 @@ describe 'layouts/_side_bar.html.erb' do
       expect(rendered).to have_selector('li', count: 2)
 
       expect(rendered).to have_link('Edit Sophia Agusta', href: '/dev/candidates/edit')
-      expect(rendered).to have_link('Events Sophia Agusta', href: "/event/#{candidate.id}")
+      expect(rendered).to have_link('Events Sophia Agusta', href: "/dev/registrations/event/#{candidate.id}")
     end
   end
   context 'login as admin' do
@@ -52,7 +52,7 @@ describe 'layouts/_side_bar.html.erb' do
       expect(rendered).to have_link('Other', href: '/candidate_imports/new')
 
       expect(rendered).to have_link('Edit Sophia Agusta', href: "/candidates/#{@resource.id}/edit")
-      expect(rendered).to have_link('Events Sophia Agusta', href: "/home/#{@resource.id}")
+      expect(rendered).to have_link('Events Sophia Agusta', href: "/event/#{@resource.id}")
     end
   end
 end

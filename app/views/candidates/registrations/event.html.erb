@@ -1,5 +1,5 @@
 <h2>Status <%= "#{current_candidate.account_name}" %></h2>
 
 <%= form_for(current_candidate, as: :candidate, url: event_candidate_registration_path(current_candidate), html: {role: 'form'}) do |f| %>
-    <%= render partial: 'candidates/shared/home.html.erb', :locals => {f: f, by_candidate: true} %>
+    <%= render partial: 'candidates/shared/event.html.erb', :locals => {f: f, by_candidate: true} %>
 <% end %>

@@ -15,11 +15,11 @@ Rails.application.routes.draw do
              controllers: {:registrations => "dev/registrations"}
   devise_scope :candidates do
     get 'show/:id', to: "dev/candidates#show", as: "dev_candidate"
-    get 'home/:id', to: "candidates#home", as: "candidate"
-    put 'home/:id', to: "candidates#update", as: "update_candidate"
-    delete 'home/:id', to: "candidates#destroy", as: "destroy_candidate"
+    get 'event/:id', to: "candidates#event", as: "event_candidate"
+    put 'event/:id', to: "candidates#update", as: "update_candidate"
+    delete 'event/:id', to: "candidates#destroy", as: "destroy_candidate"
     post 'update/:id', to: "dev/registrations#update", as: "update_candidate_registration"
-    get 'event/:id', to: "dev/registrations#event", as: "event_candidate_registration"
+    get 'dev/registrations/event/:id', to: "dev/registrations#event", as: "event_candidate_registration"
     post 'create', to: "registrations#create", as: 'create_candidate'
   end
 

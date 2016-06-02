@@ -1,4 +1,4 @@
-<td><%= link_to 'Delete', candidate_path(candidate.id), data: {confirm: 'Are you sure?'}, method: :delete  %></td>
+<td><%= link_to 'Delete', event_candidate_path(candidate.id), data: {confirm: 'Are you sure?'}, method: :delete  %></td>
 <td><%= link_to candidate.account_name, edit_candidate_path(candidate.id) %></td>
 <td><%= candidate.first_name %></td>
 <td><%= candidate.last_name %></td>

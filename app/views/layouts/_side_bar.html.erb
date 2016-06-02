@@ -10,7 +10,7 @@
               <p class="sidebar-header">Candidate <%= "#{resource.first_name} #{resource.last_name}" %></p>
 
               <li><%= link_to "Edit #{resource.first_name} #{resource.last_name}", edit_candidate_path(resource.id) %></li>
-              <li><%= link_to "Events #{resource.first_name} #{resource.last_name}", candidate_path(resource.id) %></li>
+              <li><%= link_to "Events #{resource.first_name} #{resource.last_name}", event_candidate_path(resource.id) %></li>
           <% end %>
       <% end %>
 <% end %>

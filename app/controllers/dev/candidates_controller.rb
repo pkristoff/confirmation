@@ -17,7 +17,7 @@ module Dev
       @candidate = Candidate.find(params[:id])
     end
 
-    def home
+    def event
       @candidate = Candidate.find(params[:id])
     end
 

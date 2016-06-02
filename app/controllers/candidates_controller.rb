@@ -26,7 +26,7 @@ class CandidatesController < ApplicationController
     @resource = @candidate
   end
 
-  def home
+  def event
     @resource = Candidate.find(params[:id])
   end
 

@@ -22,8 +22,7 @@ feature 'Candidate edit', :devise do
   #   Then I see an account updated message
   scenario 'candidate changes email address' do
     candidate = FactoryGirl.create(:candidate)
-    visit edit_candidate_path(candidate.id) # views/candidates/edit.html.erb
-    # /candidates/1 - put: candidate_path(resource)
+    visit edit_candidate_path(candidate.id)
     fill_in 'Parent email 1', :with => 'newemail@example.com'
     click_button 'Update'
     expect(page).to have_selector('div[id=flash_notice]', text: 'Candidate sophiaagusta updated successfully')

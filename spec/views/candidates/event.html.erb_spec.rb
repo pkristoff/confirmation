@@ -1,7 +1,7 @@
 include DeviseHelpers
 include ViewsHelpers
 
-describe 'candidates/home.html.erb' do
+describe 'candidates/event.html.erb' do
 
   before(:each) do
 
