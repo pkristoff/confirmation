@@ -16,4 +16,20 @@ class CandidateEvent < ActiveRecord::Base
     confirmation_event.name
   end
 
+  def started?
+    ! due_date.nil?
+  end
+
+  def awaiting_candidate?
+    started? and completed_date.nil?
+  end
+
+  def completed?
+    started? and admin_confirmed
+  end
+
+  def late?
+    started? and awaiting_candidate? and (due_date < Date.today)
+  end
+
 end

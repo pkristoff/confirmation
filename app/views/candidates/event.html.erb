@@ -2,6 +2,4 @@
 
 <%= devise_error_messages! %>
 
-<%= form_for(resource, as: resource_name, url: create_candidate_path(), html: {role: 'form'}) do |f| %>
-    <%= render partial: 'candidates/shared/event.html.erb', :locals => {f: f, by_candidate: false} %>
-<% end %>
+<%= render partial: 'candidates/shared/event.html.erb', :locals => {candidate: resource, by_candidate: false} %>

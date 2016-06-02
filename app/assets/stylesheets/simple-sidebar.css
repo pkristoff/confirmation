@@ -133,3 +133,32 @@
     color: rgb(153,153,153);
     padding-left: 40px;
 }
+
+.event-awaiting-candidate{
+    background-color: #4cae4c;
+}
+
+.event-awaiting-admin{
+    background-color: #ffffe0;
+}
+
+.event-completed{
+    background-color: #adff2f;
+}
+
+.event-late{
+    background-color: #ff0000;
+}
+
+.left-col{
+    float: left;
+    width: 50%;
+}
+.right-col{
+    float: right;
+    width: 50%;
+}
+
+.clear{
+    clear: both;
+}

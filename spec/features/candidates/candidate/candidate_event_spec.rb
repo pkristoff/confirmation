@@ -24,15 +24,15 @@ feature 'Candidate event', :devise do
 
     # if this passes then going to wrong controller
     expect(page).not_to have_selector("form[id=new_admin]")
-    expect_event 0, 'Going out to eat', 'Due Date : 2016-05-24', 1, 'Completed :'
-    expect_event 1, 'Staying home', 'Due Date : 2016-04-01', 1, 'Completed : 2016-03-29'
+    expect_candidate_event 0, 'Going out to eat', '2016-05-24', false, ''
+    expect_candidate_event 1, 'Staying home', '2016-04-01', false, ' 2016-03-29'
   end
 
-  def expect_event index, title, due_date, admin_confirmed, completed_date
-    expect(page).to have_selector("fieldset[id=candidate_candidate_events_attributes_#{index}_confirmation_event_attributes_name]", text: title)
-    expect(page).to have_selector("div[id=candidate_candidate_events_attributes_#{index}_confirmation_event_attributes_due_date]", text: due_date)
-    expect(page).to have_field("candidate_candidate_events_attributes_#{index}_admin_confirmed", with: admin_confirmed)
-    expect(page).to have_selector("div[id=candidate_candidate_events_attributes_#{index}_confirmation_event_attributes_completed_date]", text: completed_date)
+  def expect_candidate_event index, name, due_date, admin_confirmed, completed_date
+    expect(page).to have_selector("header[id=candidate_event_#{index}_header]", text: name)
+    expect(page).to have_selector("div[id=candidate_event_#{index}_due_date]", text: "Due Date: #{due_date}")
+    expect(page).to have_selector("div[id=candidate_event_#{index}_admin_confirmed]", text: "Admin Confirmed: #{admin_confirmed}")
+    expect(page).to have_selector("div[id=candidate_event_#{index}_completed_date]", text: "Completed Date:#{completed_date}")
   end
 
 end

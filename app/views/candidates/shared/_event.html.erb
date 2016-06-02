@@ -1,18 +1,35 @@
-<%= f.fields_for :candidate_events do |candidate_event_fields| %>
-    <%= candidate_event_fields.fields_for :confirmation_event do |confirmation_event_fields| %>
-        <%= field_set_tag confirmation_event_fields.object.name, class: 'fieldset', id: "candidate_candidate_events_attributes_#{candidate_event_fields.index}_confirmation_event_attributes_name" do %>
-            <div class="fieldset-div">
-              <div class="field" id='<%= "candidate_candidate_events_attributes_#{candidate_event_fields.index}_confirmation_event_attributes_due_date" %>'>
-                Due Date : <%= l confirmation_event_fields.object.due_date, format: :default %>
-              </div>
-              <div class="field">
-                Admin Confirmed : <%= candidate_event_fields.check_box :admin_confirmed, readonly: by_candidate %>
-              </div>
-              <div class="field" id='<%= "candidate_candidate_events_attributes_#{candidate_event_fields.index}_confirmation_event_attributes_completed_date" %>'>
-                <% completed_date = candidate_event_fields.object.completed_date %>
-                Completed : <%= (completed_date.nil?) ? '' : l(completed_date, format: :default) %>
-              </div>
-            </div>
-        <% end %>
-    <% end %>
+<% candidate.candidate_events.each_with_index do |candidate_event, index|
+
+  confirmation_event = candidate_event.confirmation_event
+  event_class = ''
+  if candidate_event.late?
+    event_class = 'event-late'
+  elsif candidate_event.completed?
+    event_class = 'event-completed'
+  elsif candidate_event.awaiting_candidate?
+    event_class = 'event-awaiting-admin'
+  end
+%>
+    <div class="<%= event_class %>">
+
+      <header id="<%= "candidate_event_#{index}_header" %>"><h3><%= confirmation_event.name %></h3></header>
+
+      <section id="<%= "candidate_event_#{index}_section_left" %>" class="left-col">
+        <div id="<%= "candidate_event_#{index}_due_date" %>">
+          Due Date: <%= l confirmation_event.due_date, format: :default %>
+        </div>
+        <div id="<%= "candidate_event_#{index}_admin_confirmed" %>">
+          Admin Confirmed: <%= candidate_event.admin_confirmed %>
+        </div>
+        <div id="<%= "candidate_event_#{index}_completed_date" %>">
+          Completed Date: <%= (candidate_event.completed_date.nil?) ? '' : l(candidate_event.completed_date, format: :default) %>
+        </div>
+      </section>
+
+      <section id="<%= "candidate_event_#{index}_section_right" %>" class="right-col">
+        <h3>How to complete</h3>
+        <p>ccc</p>
+      </section>
+    </div>
+    <div class="clear"></div>
 <% end %>
