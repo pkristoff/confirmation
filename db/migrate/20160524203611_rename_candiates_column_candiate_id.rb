@@ -13,6 +13,7 @@ class RenameCandiatesColumnCandiateId < ActiveRecord::Migration
       puts "migrating: #{candidate.account_name}"
       candidate.account_name='' if candidate.account_name.nil?
       candidate.grade=10 if candidate.grade.nil?
+      candidate.save
     end
 
     change_column_null(:candidates, :account_name, false)
@@ -25,6 +26,7 @@ class RenameCandiatesColumnCandiateId < ActiveRecord::Migration
     Admin.all.each do |admin|
       puts "migrating: #{admin.name}"
       admin.name='' if admin.name.nil?
+      admin.save
     end
 
     change_column_null(:admins, :name, false)
