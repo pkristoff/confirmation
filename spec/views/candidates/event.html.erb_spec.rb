@@ -14,6 +14,7 @@ describe 'candidates/event.html.erb' do
   it 'Form layout' do
 
     login_admin
+    allow(controller).to receive(:event_class) { '' }
 
     render
 

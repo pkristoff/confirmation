@@ -26,12 +26,13 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect(rendered).to have_selector('li', count: 6)
+      expect(rendered).to have_selector('li', count: 7)
       expect(rendered).to have_link('Add new admin', href: '/admins/sign_up')
       expect(rendered).to have_link('Edit account', href: '/admins/edit')
       expect(rendered).to have_link('Candidates', href: '/candidates')
       expect(rendered).to have_link('Add new candidate', href: '/candidates/new')
       expect(rendered).to have_link('Admins', href: '/admins')
+      expect(rendered).to have_link('Events', href: '/events')
       expect(rendered).to have_link('Other', href: '/candidate_imports/new')
     end
   end
@@ -43,12 +44,13 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect(rendered).to have_selector('li', count: 8)
+      expect(rendered).to have_selector('li', count: 9)
       expect(rendered).to have_link('Add new admin', href: '/admins/sign_up')
       expect(rendered).to have_link('Edit account', href: '/admins/edit')
       expect(rendered).to have_link('Candidates', href: '/candidates')
       expect(rendered).to have_link('Add new candidate', href: '/candidates/new')
       expect(rendered).to have_link('Admins', href: '/admins')
+      expect(rendered).to have_link('Events', href: '/events')
       expect(rendered).to have_link('Other', href: '/candidate_imports/new')
 
       expect(rendered).to have_link('Edit Sophia Agusta', href: "/candidates/#{@resource.id}/edit")

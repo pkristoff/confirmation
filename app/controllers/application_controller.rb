@@ -5,6 +5,23 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  def event_class candidate_event
+
+    if candidate_event.due_date.nil?
+      'event-unitialized'
+    elsif candidate_event.late?
+      'event-late'
+    elsif candidate_event.awaiting_candidate?
+      'event-awaiting-candidate'
+    elsif candidate_event.awaiting_admin?
+      'event-awaiting-verification'
+    elsif candidate_event.completed?
+      'event-completed'
+    else
+      ''
+    end
+  end
+
   protected
 
   def configure_permitted_parameters
