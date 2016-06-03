@@ -24,6 +24,10 @@ class CandidateEvent < ActiveRecord::Base
     started? and completed_date.nil?
   end
 
+  def awaiting_admin?
+    started? and !completed_date.nil? and !admin_confirmed?
+  end
+
   def completed?
     started? and admin_confirmed
   end

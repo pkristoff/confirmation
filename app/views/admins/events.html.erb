@@ -1,0 +1,27 @@
+<h2>Events</h2>
+
+
+<% @confirmation_events.each_with_index do |confirmation_event, index| %>
+
+    <%= form_for(confirmation_event, as: :confirmation_event, url: events_path(confirmation_event.id), html: {method: :put}) do |f| %>
+
+
+        <%= field_set_tag 'Event', class: 'fieldset' do %>
+
+            <div class="field">
+              <%= f.label :name %><br/>
+              <%= f.text_field :name, class: 'extra-wide-field' %>
+            </div>
+
+            <div class="field">
+              <%= f.label :due_date %><br/>
+              <%= f.date_field :due_date %>
+            </div>
+
+            <div class="actions">
+              <%= f.submit 'Update' %>
+            </div>
+
+        <% end %>
+    <% end %>
+<% end %>

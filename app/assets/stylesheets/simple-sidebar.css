@@ -138,7 +138,7 @@
     background-color: #4cae4c;
 }
 
-.event-awaiting-admin{
+.event-awaiting-verification{
     background-color: #ffffe0;
 }
 
@@ -161,4 +161,8 @@
 
 .clear{
     clear: both;
+}
+
+.extra-wide-field {
+    width: 400px;
 }

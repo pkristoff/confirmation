@@ -8,6 +8,11 @@ Rails.application.routes.draw do
 
   devise_for :admins,
              controllers: {:registrations => "registrations"}
+  devise_scope :admins do
+    get "/events" => "admins#events"
+    put "/events.:id" => "admins#events_update"
+  end
+
   resources :admins
 
   # Sign in CANDIDATE
