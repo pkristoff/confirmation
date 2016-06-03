@@ -17,11 +17,27 @@ class AppFactory
     candidate
   end
 
-  def self.generate_seed
+  def self.add_parent_information_meeting_migration
+    puts 'starting add_parent_information_meeting_migration'
+    new_candidate_event = nil
     parent_info_meeting_event = ConfirmationEvent.find_or_create_by!(name: 'Parent Information Meeting') do |confirmation_event|
       confirmation_event.name = 'Parent Information Meeting'
       confirmation_event.due_date = Date.today
+      new_candidate_event = confirmation_event
+      puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.due_date}"
     end
+    unless new_candidate_event.nil?
+      puts 'adding to candidates'
+      Candidate.all.each do |candidate|
+        candidate.add_candidate_event(parent_info_meeting_event)
+        puts "adding to candidate: #{candidate.account_name}"
+        candidate.save
+      end
+    end
+    puts 'ending add_parent_information_meeting_migration'
+  end
+
+  def self.generate_seed
     admin = Admin.find_or_create_by!(email: Rails.application.secrets.admin_email) do |admin|
       admin.name = Rails.application.secrets.admin_name
       admin.password = Rails.application.secrets.admin_password
@@ -45,6 +61,7 @@ class AppFactory
       candidate.parent_email_1 = 'paul@kristoffs.com'
       candidate.first_name = 'Vicki'
       candidate.last_name = 'Kristoff'
+      candidate.grade = 10
       candidate.password = Rails.application.secrets.admin_password
       candidate.password_confirmation = Rails.application.secrets.admin_password
       confirmation_events.each do |confirmation_event|
