@@ -1,0 +1,27 @@
+<% candidate.candidate_events.each_with_index do |candidate_event, index|
+
+  confirmation_event = candidate_event.confirmation_event
+%>
+    <div class="<%= controller.event_class(candidate_event) %>">
+
+      <header id="<%= "candidate_event_#{index}_header" %>"><h3><%= confirmation_event.name %></h3></header>
+
+      <section id="<%= "candidate_event_#{index}_section_left" %>" class="left-col">
+        <div id="<%= "candidate_event_#{index}_due_date" %>">
+          Due Date: <%= l confirmation_event.due_date, format: :default %>
+        </div>
+        <div id="<%= "candidate_event_#{index}_admin_confirmed" %>">
+          Admin Confirmed: <%= candidate_event.admin_confirmed %>
+        </div>
+        <div id="<%= "candidate_event_#{index}_completed_date" %>">
+          Completed Date: <%= (candidate_event.completed_date.nil?) ? '' : l(candidate_event.completed_date, format: :default) %>
+        </div>
+      </section>
+
+      <section id="<%= "candidate_event_#{index}_section_right" %>" class="right-col">
+        <h3>How to complete</h3>
+        <p>ccc</p>
+      </section>
+    </div>
+    <div class="clear"></div>
+<% end %>

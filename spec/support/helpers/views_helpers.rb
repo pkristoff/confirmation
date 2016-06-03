@@ -11,8 +11,8 @@ module ViewsHelpers
     first_name_autofocus = is_candidate_signed_in_and_not_new ? '[autofocus="autofocus"]' : ''
     candidate_autofocus = is_candidate_signed_in_and_not_new ? '' : '[autofocus="autofocus"]'
 
-    expect(rendered).to have_field('Candidate', type: 'text', readonly: is_candidate_signed_in_and_not_new)
-    expect(rendered).to have_selector("input[id=candidate_candidate_id]#{candidate_autofocus}")
+    expect(rendered).to have_field('Account name', type: 'text', readonly: is_candidate_signed_in_and_not_new)
+    expect(rendered).to have_selector("input[id=candidate_account_name]#{candidate_autofocus}")
 
     expect(rendered).to have_field('First name', with: (candidate ? candidate.first_name : ''), type: 'text')
     expect(rendered).to have_selector("input[id=candidate_first_name]#{first_name_autofocus}")

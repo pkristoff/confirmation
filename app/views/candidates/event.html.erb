@@ -1,0 +1,5 @@
+<h2>Status <%= "#{resource.account_name}" %></h2>
+
+<%= devise_error_messages! %>
+
+<%= render partial: 'candidates/shared/event.html.erb', :locals => {candidate: resource, by_candidate: false} %>

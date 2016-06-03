@@ -17,6 +17,8 @@
 #
 
 require 'capybara/rspec'
+# Since it does not subclass off of ActiveRecord?
+require_relative '../app/app_factories/app_factory'
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

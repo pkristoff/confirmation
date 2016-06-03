@@ -40,17 +40,19 @@ class CandidateImport
     if spreadsheet.sheets[0] == @worksheet_name
       sheet = spreadsheet.sheet(@worksheet_name)
       header_row = sheet.row(1)
-      candidate_id_index = header_row.find_index { |cell| cell == 'candidate_id' }
+      account_name_index = header_row.find_index { |cell| cell == 'account_name' }
       (2..spreadsheet.last_row).each do |i|
         row = sheet.row(i)
 
-        candidate = Candidate.find_by_candidate_id(row[candidate_id_index]) || Candidate.new_with_address
+        candidate = Candidate.find_by_account_name(row[account_name_index]) || AppFactory.create_candidate
         row.each_with_index do |cell, index|
           column_name_split = header_row[index].split('.')
-          if column_name_split.size == 1
-            candidate.send("#{column_name_split[0]}=", cell)
-          else
-            candidate.send(column_name_split[0]).send("#{column_name_split[1]}=", cell)
+          unless cell.nil?
+            if column_name_split.size == 1
+              candidate.send("#{column_name_split[0]}=", cell)
+            else
+              candidate.send(column_name_split[0]).send("#{column_name_split[1]}=", cell)
+            end
           end
         end
         candidate.password = '12345678'
@@ -89,12 +91,12 @@ class CandidateImport
               end
             end
 
-            candidate_id = String.new(row[:last_name] || '').concat(row[:first_name] || '').downcase
-            row[:candidate_id] = candidate_id
+            account_name = String.new(row[:last_name] || '').concat(row[:first_name] || '').downcase
+            row[:account_name] = account_name
             row[:password] = '12345678'
             row[:attending] = attending
 
-            candidate = Candidate.find_by_candidate_id(row[:candidate_id]) || Candidate.new_with_address
+            candidate = Candidate.find_by_account_name(row[:account_name]) || ::AppFactory.create_candidate
             candidate.attributes = row.to_hash.select { |k, v| Candidate.candidate_params.include? k }
             candidates.push(candidate)
             @candidate_to_row[candidate] = i
@@ -130,12 +132,11 @@ class CandidateImport
   def reset_database
 
     remove_all_candidates
-    CreateTestCandidateService.new.call
 
     Admin.all.each do |admin|
       admin.delete
     end
-    add_admin
+    AppFactory.generate_seed
   end
 
   def add_admin(email='confirmation@kristoffs.com', name='confirmation')
@@ -148,13 +149,12 @@ class CandidateImport
     admin.save
   end
 
-  def to_xlxs
-
+  def to_xlsx
     create_xlsx_package.to_stream
   end
 
   def xlsx_columns
-    ['candidate_id', 'first_name', 'last_name', 'candidate_email', 'parent_email_1',
+    ['account_name', 'first_name', 'last_name', 'candidate_email', 'parent_email_1',
      'parent_email_2', 'grade', 'attending',
      'address.street_1', 'address.street_2', 'address.city', 'address.state', 'address.zip_code']
   end
@@ -167,13 +167,13 @@ class CandidateImport
       sheet.add_row columns
       Candidate.all.each do |candidate|
         sheet.add_row (columns.map do |col|
-                        split = col.split('.')
-                        if split.size == 1
-                          candidate.send(col)
-                        else
-                          candidate.send(split[0]).send(split[1])
-                        end
-                      end)
+          split = col.split('.')
+          if split.size == 1
+            candidate.send(col)
+          else
+            candidate.send(split[0]).send(split[1])
+          end
+        end)
       end
     end
     p

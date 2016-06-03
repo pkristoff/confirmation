@@ -4,7 +4,7 @@ module DeviseHelpersAdmin
   end
 
   def resource
-    @resource ||= Admin.new
+    @resource ||= AppFactory.create_admin
   end
 
   def devise_mapping

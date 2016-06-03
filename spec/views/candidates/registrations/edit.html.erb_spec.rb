@@ -6,9 +6,6 @@ describe 'candidates/registrations/edit.html.erb' do
 
     @resource_class = Candidate
 
-    @resource = FactoryGirl.create(:candidate)
-    # assign(:candidate, FactoryGirl.create(:candidate))
-
   end
 
   #http://stackoverflow.com/questions/10503802/how-can-i-check-that-a-form-field-is-prefilled-correctly-using-capybara
@@ -16,8 +13,10 @@ describe 'candidates/registrations/edit.html.erb' do
 
   it 'Form layout' do
 
+    candidate = login_candidate
+
     render
 
-    expect_edit_and_new_view(rendered, @resource, "/update/#{@resource.id}", 'Update', true, false)
+    expect_edit_and_new_view(rendered, candidate, "/update/#{candidate.id}", 'Update', true, false)
   end
 end

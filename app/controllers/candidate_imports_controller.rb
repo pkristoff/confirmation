@@ -21,7 +21,7 @@ class CandidateImportsController < ApplicationController
   def export_to_excel
 
     respond_to do |format|
-      format.xlsx { send_data(CandidateImport.new.to_xlxs().read, disposition: 'attachment; filename=aaa_stream_2.xlsx') }
+      format.xlsx { send_data(CandidateImport.new.to_xlsx().read, disposition: 'attachment; filename=aaa_stream_2.xlsx') }
     end
 
   end

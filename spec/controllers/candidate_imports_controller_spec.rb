@@ -51,9 +51,9 @@ describe CandidateImportsController do
 
     it 'should remove all candidates' do
       expect(Candidate.all.size).to eq(0)
-      FactoryGirl.create(:candidate, candidate_id: 'a1')
-      FactoryGirl.create(:candidate, candidate_id: 'a2')
-      FactoryGirl.create(:candidate, candidate_id: 'a3')
+      FactoryGirl.create(:candidate, account_name: 'a1')
+      FactoryGirl.create(:candidate, account_name: 'a2')
+      FactoryGirl.create(:candidate, account_name: 'a3')
       expect(Candidate.all.size).to eq(3)
       login_admin
 
@@ -69,9 +69,9 @@ describe CandidateImportsController do
 
     it 'should reset database' do
       expect(Candidate.all.size).to eq(0)
-      FactoryGirl.create(:candidate, candidate_id: 'a1')
-      FactoryGirl.create(:candidate, candidate_id: 'a2')
-      FactoryGirl.create(:candidate, candidate_id: 'a3')
+      FactoryGirl.create(:candidate, account_name: 'a1')
+      FactoryGirl.create(:candidate, account_name: 'a2')
+      FactoryGirl.create(:candidate, account_name: 'a3')
       expect(Candidate.all.size).to eq(3)
       login_admin
 
@@ -94,9 +94,9 @@ describe CandidateImportsController do
     it 'should download an excel spreadsheet.' do
       login_admin
 
-      FactoryGirl.create(:candidate, candidate_id: 'a1')
-      FactoryGirl.create(:candidate, candidate_id: 'a2')
-      FactoryGirl.create(:candidate, candidate_id: 'a3')
+      FactoryGirl.create(:candidate, account_name: 'a1')
+      FactoryGirl.create(:candidate, account_name: 'a2')
+      FactoryGirl.create(:candidate, account_name: 'a3')
 
       post :export_to_excel, format: 'xlsx'
 
@@ -109,9 +109,9 @@ describe CandidateImportsController do
     it 'should not download an excel spreadsheet if format is wrong' do
       login_admin
 
-      FactoryGirl.create(:candidate, candidate_id: 'a1')
-      FactoryGirl.create(:candidate, candidate_id: 'a2')
-      FactoryGirl.create(:candidate, candidate_id: 'a3')
+      FactoryGirl.create(:candidate, account_name: 'a1')
+      FactoryGirl.create(:candidate, account_name: 'a2')
+      FactoryGirl.create(:candidate, account_name: 'a3')
 
       begin
         post :export_to_excel, format: 'xls'

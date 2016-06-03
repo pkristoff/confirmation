@@ -4,7 +4,7 @@ describe 'candidates/index.html.erb' do
 
     @candidate1 = FactoryGirl.create(:candidate)
     @candidate2 = FactoryGirl.create(:candidate, {
-        candidate_id: 'vickikristoff',
+        account_name: 'vickikristoff',
         first_name: 'Sophia',
         last_name: 'Agusta',
         parent_email_1: 'other@test.com',
@@ -55,10 +55,10 @@ describe 'candidates/index.html.erb' do
 
     expect(rendered).to have_css("table#candidates_table tbody tr:nth-of-type(#{row}) td", :count => 9)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(1)", text: 'Delete')
-    expect(rendered).to have_link('Delete', href: "/candidates/#{candidate.id}")
+    expect(rendered).to have_link('Delete', href: "/event/#{candidate.id}")
 
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(2)", text: candidate.candidate_id)
-    expect(rendered).to have_link(candidate.candidate_id, href: "/candidates/#{candidate.id}/edit")
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(2)", text: candidate.account_name)
+    expect(rendered).to have_link(candidate.account_name, href: "/candidates/#{candidate.id}/edit")
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(3)", text: candidate.first_name)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(4)", text: candidate.last_name)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(5)", text: candidate.attending)

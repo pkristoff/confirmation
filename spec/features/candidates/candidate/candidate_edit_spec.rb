@@ -36,7 +36,7 @@ feature 'Candidate edit', :devise do
   #   When I try to edit another candidate's profile
   #   Then I see my own 'edit profile' page
   scenario "candidate try to edit another candidate's profile will end up editing your own", :me do
-    other = FactoryGirl.create(:candidate, candidate_id: 'other', parent_email_1: 'other@test.com')
+    other = FactoryGirl.create(:candidate, account_name: 'other', parent_email_1: 'other@test.com')
     visit edit_candidate_registration_path(other.id)
     expect(page).to have_content 'Edit Candidate'
     expect(page).to have_field('Parent email 1', with: @candidate.parent_email_1)

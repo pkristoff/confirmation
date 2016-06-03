@@ -47,6 +47,14 @@ This application requires:
 - Rails 4.2.5.1
 
 Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
+Learn more about [Associatiions](http://guides.rubyonrails.org/association_basics.html).
+
+db:migrate runs (single) migrations that have not run yet.
+db:create creates the database
+db:drop deletes the database
+db:schema:load creates tables and columns within the (existing) database following schema.rb
+db:setup does db:create, db:schema:load, db:seed
+db:reset does db:drop, db:setup
 
 Getting Started
 ---------------

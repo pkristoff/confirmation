@@ -51,8 +51,8 @@
 /* Sidebar Styles */
 
 .sidebar-nav {
+    top: 30px;
     position: absolute;
-    top: 0;
     width: 250px;
     margin: 0;
     padding: 0;
@@ -122,4 +122,47 @@
         position: relative;
         margin-right: 0;
     }
+}
+
+.sidebar-text {
+    color: rgb(153,153,153);
+    margin: 0px;
+}
+
+.sidebar-header{
+    color: rgb(153,153,153);
+    padding-left: 40px;
+}
+
+.event-awaiting-candidate{
+    background-color: #4cae4c;
+}
+
+.event-awaiting-verification{
+    background-color: #ffffe0;
+}
+
+.event-completed{
+    background-color: #adff2f;
+}
+
+.event-late{
+    background-color: #ff0000;
+}
+
+.left-col{
+    float: left;
+    width: 50%;
+}
+.right-col{
+    float: right;
+    width: 50%;
+}
+
+.clear{
+    clear: both;
+}
+
+.extra-wide-field {
+    width: 400px;
 }

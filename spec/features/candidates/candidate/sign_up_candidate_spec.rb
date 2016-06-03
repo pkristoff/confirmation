@@ -4,7 +4,7 @@ feature 'Sign Up', :devise do
 
   # Scenario: Candidate cannot sign up another candidate
   #   Given I am not signed in
-  #   When I sign up with a valid candidate_id and password
+  #   When I sign up with a valid account_name and password
   #   Then I see a Please login as admin to create another candidate.
   scenario 'Candidate cannot sign up another candidate' do
     candidate = FactoryGirl.create(:candidate)
@@ -17,11 +17,11 @@ feature 'Sign Up', :devise do
 
   # Scenario: Candidate cannot sign up another candidate
   #   Given I am signed in
-  #   When I sign up with a valid candidate_id and password
+  #   When I sign up with a valid account_name and password
   #   Then I see a Please login as admin to create another candidate.
   scenario 'Candidate cannot sign up another candidate' do
     candidate = FactoryGirl.create(:candidate)
-    signin_candidate(candidate.candidate_id, candidate.password)
+    signin_candidate(candidate.account_name, candidate.password)
     referer = dev_candidate_path(candidate.id) # result of signing in.
     Capybara.current_session.driver.header 'Referer', referer
     visit new_candidate_registration_path
