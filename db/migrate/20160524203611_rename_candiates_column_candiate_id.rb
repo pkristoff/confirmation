@@ -8,14 +8,23 @@ class RenameCandiatesColumnCandiateId < ActiveRecord::Migration
       t.belongs_to :candidate, index: true
     end
 
-    change_column_null(:admins, :name, false)
-    change_column_default(:admins, :name, '')
+    Candidate.all.each do |candidate|
+      candidate.account_name='' if candidate.account_name.nil?
+      candidate.grade=10 if candidate.grade.nil?
+    end
 
     change_column_null(:candidates, :account_name, false)
     change_column_default(:candidates, :account_name, '')
     change_column_default(:candidates, :grade, 10)
     change_column_null(:candidates, :grade, false)
     change_column_null(:candidates, :address_id, false)
+
+    Admin.all.each do |admin|
+      admin.name='' if admin.name.nil?
+    end
+
+    change_column_null(:admins, :name, false)
+    change_column_default(:admins, :name, '')
 
   end
 end
