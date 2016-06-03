@@ -8,7 +8,9 @@ class RenameCandiatesColumnCandiateId < ActiveRecord::Migration
       t.belongs_to :candidate, index: true
     end
 
+    puts "Num of candudates: #{Candidate.all.size}"
     Candidate.all.each do |candidate|
+      puts "migrating: #{candidate.account_name}"
       candidate.account_name='' if candidate.account_name.nil?
       candidate.grade=10 if candidate.grade.nil?
     end
@@ -19,7 +21,9 @@ class RenameCandiatesColumnCandiateId < ActiveRecord::Migration
     change_column_null(:candidates, :grade, false)
     change_column_null(:candidates, :address_id, false)
 
+    puts "Num of Admin: #{Admin.all.size}"
     Admin.all.each do |admin|
+      puts "migrating: #{admin.name}"
       admin.name='' if admin.name.nil?
     end
 
