@@ -13,8 +13,8 @@ class RenameCandiatesColumnCandiateId < ActiveRecord::Migration
 
     change_column_null(:candidates, :account_name, false)
     change_column_default(:candidates, :account_name, '')
+    change_column_default(:candidates, :grade, 10)
     change_column_null(:candidates, :grade, false)
-    change_column_default(:candidates, :grade, 9)
     change_column_null(:candidates, :address_id, false)
 
   end
