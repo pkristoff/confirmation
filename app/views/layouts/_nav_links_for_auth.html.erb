@@ -1,11 +1,11 @@
 <% if candidate_signed_in? %>
-    <li><%= link_to 'Sign out', destroy_candidate_session_path, :method => 'delete' %></li>
+    <li><%= link_to I18n.t('views.common.sign_out'), destroy_candidate_session_path, :method => 'delete' %></li>
 <% end %>
 <% if admin_signed_in? %>
-    <li><%= link_to 'Sign out', destroy_admin_session_path, :method => 'delete' %></li>
+    <li><%= link_to I18n.t('views.common.sign_out'), destroy_admin_session_path, :method => 'delete' %></li>
 <% end %>
 
 <% if ! (admin_signed_in? or candidate_signed_in?) %>
-    <li><%= link_to 'Sign in', new_candidate_session_path %></li>
-    <li><%= link_to 'Sign in admin', new_admin_session_path %></li>
+    <li><%= link_to I18n.t('views.common.sign_in'), new_candidate_session_path %></li>
+    <li><%= link_to I18n.t('views.admins.sign_in'), new_admin_session_path %></li>
 <% end %>

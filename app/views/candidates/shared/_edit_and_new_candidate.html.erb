@@ -7,7 +7,7 @@
   <%= f.text_field :account_name, readonly: is_candidate_signed_in_and_not_new, autofocus: !is_candidate_signed_in_and_not_new %>
 </div>
 
-<%= field_set_tag 'Candidate Name', class: 'fieldset' do %>
+<%= field_set_tag t('views.candidates.candidate_name'), class: 'fieldset' do %>
     <div class="fieldset-div">
       <div class="field">
         <%= f.label :first_name %><br/>
@@ -21,7 +21,7 @@
     </div>
 <% end %>
 
-<%= field_set_tag 'Address', class: 'fieldset' do %>
+<%= field_set_tag t('views.candidates.address'), class: 'fieldset' do %>
     <div class="fieldset-div">
       <%= f.fields_for :address do |address_fields| %>
           <div class="field">
@@ -43,7 +43,7 @@
     </div>
 <% end %>
 
-<%= field_set_tag 'Email', class: 'fieldset' do %>
+<%= field_set_tag t('views.candidates.email'), class: 'fieldset' do %>
     <div class="fieldset-div">
       <div class="field">
         <%= f.label :candidate_email %><br/>
@@ -62,7 +62,7 @@
     </div>
 <% end %>
 
-<%= field_set_tag 'Other', class: 'fieldset' do %>
+<%= field_set_tag t('views.candidates.other'), class: 'fieldset' do %>
     <div class="fieldset-div">
       <div class="field">
         <%= f.label :grade %><br/>
@@ -83,7 +83,7 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
 <% end %>
 
-<%= field_set_tag 'Password', class: 'fieldset' do %>
+<%= field_set_tag t('views.candidates.password'), class: 'fieldset' do %>
     <div class="fieldset-div">
       <div class="field">
         <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br/>
@@ -105,5 +105,5 @@
 <% end %>
 
 <div class="actions">
-  <%= f.submit (is_new ? 'Sign update' : 'Update') %>
+  <%= f.submit (is_new ? t('views.common.sign_up') : t('views.common.update')) %>
 </div>

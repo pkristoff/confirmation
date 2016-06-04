@@ -24,9 +24,29 @@ en:
     parent_meeting: 'Parent Information Meeting'
     retreat_weekend: 'Attend Retreat'
   views:
+    admins:
+      sign_in: 'Sign in admin'
+    candidates:
+      address: 'Address'
+      candidate: 'Candidate'
+      candidate_name: 'Candidate Name'
+      edit_candidate: 'Edit Candidate'
+      email: 'Email'
+      other: 'Other'
+      password: 'Password'
     common:
+      about: 'About'
+      are_you_sure: 'Are you sure?'
+      delete: 'Delete'
+      reset_password: 'Reset Password'
+      sign_in: 'Sign in'
+      sign_out: 'Sign out'
+      sign_up: 'Sign up'
+      status: 'Status'
       update: 'Update'
     events:
       due_date: 'Due date'
       verified: 'Verified'
       completed_date: 'Completed date'
+    imports:
+      excel: 'Excel'
