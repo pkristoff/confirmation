@@ -20,4 +20,13 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  events:
+    parent_meeting: 'Parent Information Meeting'
+    retreat_weekend: 'Attend Retreat'
+  views:
+    common:
+      update: 'Update'
+    events:
+      due_date: 'Due date'
+      verified: 'Verified'
+      completed_date: 'Completed date'

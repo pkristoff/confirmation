@@ -30,9 +30,9 @@ feature 'Candidate event', :devise do
 
   def expect_candidate_event index, name, due_date, admin_confirmed, completed_date
     expect(page).to have_selector("header[id=candidate_event_#{index}_header]", text: name)
-    expect(page).to have_selector("div[id=candidate_event_#{index}_due_date]", text: "Due Date: #{due_date}")
-    expect(page).to have_selector("div[id=candidate_event_#{index}_admin_confirmed]", text: "Admin Confirmed: #{admin_confirmed}")
-    expect(page).to have_selector("div[id=candidate_event_#{index}_completed_date]", text: "Completed Date:#{completed_date}")
+    expect(page).to have_selector("div[id=candidate_event_#{index}_due_date]", text: "#{I18n.t('views.events.due_date')}: #{due_date}")
+    expect(page).to have_selector("div[id=candidate_event_#{index}_admin_confirmed]", text: "#{I18n.t('views.events.verified')}: #{admin_confirmed}")
+    expect(page).to have_selector("div[id=candidate_event_#{index}_completed_date]", text: "#{I18n.t('views.events.completed_date')}:#{completed_date}")
   end
 
 end
