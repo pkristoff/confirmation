@@ -50,8 +50,8 @@ feature 'Admin sign up', :devise do
     #   Then I am not blocked because i am logged in
     scenario 'admin can sign up another admin' do
       visit new_admin_registration_path # click Sign up admin
-      expect(page).to have_content('Name')
-      expect(page).to have_content(/Sign up/)
+      expect(page).to have_content(I18n.t('views.common.name'))
+      expect(page).to have_content(I18n.t('views.common.sign_up'))
     end
 
     # Scenario: Visitor can sign up with valid email address and password
@@ -117,11 +117,11 @@ feature 'Admin sign up', :devise do
     #   Then I see list of admins including me & new admin
     scenario "admin can create another admin", :me do
       visit new_admin_registration_path # click Sign up admin
-      fill_in 'Name', :with => 'otherName'
-      fill_in 'Email', :with => 'otheremail@example.com'
-      fill_in 'Password', :with => 'abcdefgh'
-      fill_in 'Password confirmation', :with => 'abcdefgh'
-      click_button 'Sign up'
+      fill_in I18n.t('views.common.name'), :with => 'otherName'
+      fill_in I18n.t('views.common.email'), :with => 'otheremail@example.com'
+      fill_in I18n.t('views.common.password'), :with => 'abcdefgh'
+      fill_in I18n.t('views.common.password_confirmation'), :with => 'abcdefgh'
+      click_button I18n.t('views.common.sign_up')
 
       expect(page).to have_selector('p', count: 3)
       expect(page).to have_selector('p', text: 'Admin: otherName')

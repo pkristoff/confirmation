@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20160603161241) do
     t.string   "account_name",                         default: "",        null: false
     t.string   "first_name",                           default: "",        null: false
     t.string   "last_name",                            default: "",        null: false
-    t.decimal  "grade",                  precision: 2, default: 10,        null: false
+    t.decimal  "grade",                  precision: 2, default: 9,         null: false
     t.string   "candidate_email",                      default: "",        null: false
     t.string   "parent_email_2",                       default: "",        null: false
     t.string   "attending",                            default: "The Way", null: false

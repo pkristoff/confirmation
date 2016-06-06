@@ -8,7 +8,7 @@
 
 <section id="import">
 
-  <h2>Candidate Import</h2>
+  <h2><%= t('views.imports.candidate_import') %></h2>
 
   <p>
     An Excel file can be used to import records.
@@ -45,16 +45,16 @@
       <div class="field">
         <%= f.file_field :file %>
       </div>
-      <div class="buttons"><%= f.submit "Import" %></div>
+      <div class="buttons"><%= f.submit t('views.imports.import') %></div>
   <% end %>
 </section>
 
 <section id="remove_all_candidates">
 
   <%= form_for @candidate_import, url: candidate_imports_remove_all_candidates_path do |f| %>
-      <h2>Remove All Candidates</h2>
+      <h2><%= t('views.imports.remove_all_candidates') %></h2>
 
-      <h3>You cannot recover from this.</h3>
+      <h3><%= t('views.imports.cannot_recover') %></h3>
       <p>
         This will
       </p>
@@ -63,16 +63,16 @@
         <li>Admins: not affected</li>
         <li>Remain logged in: yes</li>
       </ul>
-      <div class="buttons"><%= f.submit "Remove All Candidates", data: { confirm: 'Are you sure?' } %></div>
+      <div class="buttons"><%= f.submit t('views.imports.remove_all_candidates'), data: { confirm: 'Are you sure?' } %></div>
   <% end %>
 </section>
 
 <section id="reset_database">
-  <h2>Reset the Database</h2>
+  <h2><%= t('views.imports.reset_database') %></h2>
 
   <%= form_for @candidate_import, url: candidate_imports_reset_database_path do |f| %>
 
-      <h3>You cannot recover from this.</h3>
+      <h3><%= t('views.imports.cannot_recover') %></h3>
       <p>
         This will
       </p>
@@ -81,6 +81,6 @@
         <li>Admins: All will be removed from the database. The default Admin will be added.</li>
         <li>Remain logged in: no</li>
       </ul>
-      <div class="buttons"><%= f.submit "Reset the Database", data: { confirm: 'Are you sure?' } %></div>
+      <div class="buttons"><%= f.submit t('views.imports.reset_database'), data: { confirm: 'Are you sure?' } %></div>
   <% end %>
 </section>

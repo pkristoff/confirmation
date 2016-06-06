@@ -19,9 +19,9 @@ feature 'Admin edit', :devise do
     admin = FactoryGirl.create(:admin)
     login_as(admin, :scope => :admin)
     visit edit_admin_registration_path(admin)
-    fill_in 'Email', :with => 'newemail@example.com'
-    fill_in 'Current password', :with => admin.password
-    click_button 'Update'
+    fill_in I18n.t('views.admins.email'), :with => 'newemail@example.com'
+    fill_in I18n.t('views.admins.current_password'), :with => admin.password
+    click_button I18n.t('views.common.update')
     txts = [I18n.t( 'devise.registrations.updated'), I18n.t( 'devise.registrations.update_needs_confirmation')]
     expect(page).to have_selector('div[id=flash_notice]', text: /.*#{txts[0]}.*|.*#{txts[1]}.*/)
   end
@@ -36,7 +36,7 @@ feature 'Admin edit', :devise do
     login_as(me, :scope => :admin)
     visit edit_admin_registration_path(other)
     expect(page).to have_content 'Edit Admin'
-    expect(page).to have_field('Email', with: me.email)
+    expect(page).to have_field(I18n.t('views.admins.email'), with: me.email)
   end
 
 end

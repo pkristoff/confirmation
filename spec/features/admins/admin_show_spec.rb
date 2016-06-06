@@ -19,7 +19,7 @@ feature 'Admin profile page', :devise do
     admin = FactoryGirl.create(:admin)
     login_as(admin, :scope => :admin)
     visit admin_path(admin)
-    expect(page).to have_content 'Admin'
+    expect(page).to have_content I18n.t('views.admins.admin')
     expect(page).to have_content admin.email
   end
 

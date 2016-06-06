@@ -12,7 +12,7 @@ feature 'Sign out', :devise do
     admin = FactoryGirl.create(:admin)
     signin_admin(admin.email, admin.password)
     expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.sessions.signed_in'))
-    click_link 'Sign out'
+    click_link I18n.t('views.common.sign_out')
     expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.sessions.signed_out'))
   end
 

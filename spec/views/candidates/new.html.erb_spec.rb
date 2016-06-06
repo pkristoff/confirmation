@@ -7,7 +7,7 @@ describe 'candidates/new.html.erb' do
 
     render
 
-    expect_edit_and_new_view(rendered, nil, '/create', 'Sign up', false, true)
+    expect_edit_and_new_view(rendered, nil, '/create', I18n.t('views.common.sign_up'), false, true)
 
   end
 end

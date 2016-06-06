@@ -17,6 +17,6 @@ describe 'candidates/registrations/edit.html.erb' do
 
     render
 
-    expect_edit_and_new_view(rendered, candidate, "/update/#{candidate.id}", 'Update', true, false)
+    expect_edit_and_new_view(rendered, candidate, "/update/#{candidate.id}", I18n.t('views.common.update'), true, false)
   end
 end

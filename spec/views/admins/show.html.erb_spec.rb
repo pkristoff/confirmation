@@ -12,8 +12,8 @@ describe 'admins/show.html.erb' do
     render
 
     expect(rendered).to have_selector('p', count: 2)
-    expect(rendered).to have_selector('p', text: 'Name: Admin Candidate')
-    expect(rendered).to have_selector('p', text: 'Email: test@example.com')
+    expect(rendered).to have_selector('p', text: "#{I18n.t('views.common.name')}: Admin Candidate")
+    expect(rendered).to have_selector('p', text: "#{I18n.t('views.common.email')}: test@example.com")
 
   end
 end

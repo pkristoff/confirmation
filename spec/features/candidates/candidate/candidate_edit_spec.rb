@@ -24,8 +24,8 @@ feature 'Candidate edit', :devise do
     visit edit_candidate_registration_path(@candidate.id) # views/candidates/registrations/edit.html.erb
     # /dev/candidates - put registration_path(resource_name)
     fill_in 'Parent email 1', :with => 'newemail@example.com'
-    fill_in 'Current password', :with => @candidate.password
-    click_button 'Update'
+    fill_in I18n.t('views.admins.current_password'), :with => @candidate.password
+    click_button I18n.t('views.common.update')
     expect(page).not_to have_selector('div[id=error_explanation]')
     expect(page).not_to have_selector('div[id=flash_alert]')
     expect(page).to have_selector('div[id=flash_notice]', text: 'Your account has been updated successfully.')
@@ -38,7 +38,7 @@ feature 'Candidate edit', :devise do
   scenario "candidate try to edit another candidate's profile will end up editing your own", :me do
     other = FactoryGirl.create(:candidate, account_name: 'other', parent_email_1: 'other@test.com')
     visit edit_candidate_registration_path(other.id)
-    expect(page).to have_content 'Edit Candidate'
+    expect(page).to have_content I18n.t('views.candidates.edit_candidate')
     expect(page).to have_field('Parent email 1', with: @candidate.parent_email_1)
   end
 

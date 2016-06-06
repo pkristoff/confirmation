@@ -6,6 +6,6 @@
 <% end %>
 
 <% if ! (admin_signed_in? or candidate_signed_in?) %>
-    <li><%= link_to I18n.t('views.common.sign_in'), new_candidate_session_path %></li>
+    <li><%= link_to I18n.t('views.common.sign_in', name: ''), new_candidate_session_path %></li>
     <li><%= link_to I18n.t('views.admins.sign_in'), new_admin_session_path %></li>
 <% end %>
