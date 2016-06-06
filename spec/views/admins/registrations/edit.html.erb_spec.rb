@@ -17,7 +17,6 @@ describe 'admins/registrations/edit.html.erb' do
     expect(rendered).to have_field(I18n.t('views.common.password_confirmation'), type: 'password')
     expect(rendered).to have_field(I18n.t('views.admins.current_password'), type: 'password')
     expect(rendered).to have_button(I18n.t('views.common.update'))
-    expect(rendered).to have_button(I18n.t('views.admins.cancel_my_account'))
 
   end
 end

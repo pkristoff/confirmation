@@ -17,10 +17,14 @@ feature 'Admin delete', :devise do
   #   Then I should see an account deleted message
   scenario 'admin can delete own account' do
     admin = FactoryGirl.create(:admin)
+    other = FactoryGirl.create(:admin, email: 'other@test.com', name: 'other')
+    expect(Admin.all.size).to eq(2)
     login_as(admin, :scope => :admin)
-    visit edit_admin_registration_path(admin)
-    click_button I18n.t('views.admins.cancel_my_account')
+    visit admins_path()
+    click_link "delete_#{other.id}"
     expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.registrations.destroyed'))
+
+    expect(Admin.all.size).to eq(1)
   end
 
 end

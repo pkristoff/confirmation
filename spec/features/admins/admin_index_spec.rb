@@ -17,9 +17,19 @@ feature 'Admin index page', :devise do
   #   Then I see my own email address
   scenario 'admin sees own email address' do
     admin = FactoryGirl.create(:admin)
+    other = FactoryGirl.create(:admin, email: 'other@test.com', name: 'other')
     login_as(admin, scope: :admin)
     visit admins_path
-    expect(page).to have_content admin.email
+
+    expect(page).to have_selector('tr', count: 2)
+    expect_admin(other)
+    expect_admin(admin)
+  end
+
+  def expect_admin(admin)
+    expect(page).to have_link("delete_#{admin.id}", text: 'Delete')
+    expect(page).to have_link("edit_#{admin.id}", text: admin.name)
+    expect(page).to have_selector("td[id='email_#{admin.id}']", text: admin.email)
   end
 
 end

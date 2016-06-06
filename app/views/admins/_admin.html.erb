@@ -1,2 +1,7 @@
-<td><%= link_to admin.name, admin %></td>
-<td><%= link_to admin.email, admin %></td>
+<td><%= link_to t('views.common.delete'),
+                registration_path(:admin),
+                data: {confirm: t('views.common.are_you_sure')},
+                method: :delete,
+                id: "delete_#{admin.id}"  %></td>
+<td><%= link_to admin.name, admin, id: "edit_#{admin.id}" %></td>
+<td id="email_<%= admin.id %>"><%= admin.email %></td>

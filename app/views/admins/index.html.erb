@@ -5,7 +5,7 @@
       <table class="table" id="admins_table">
         <tbody>
         <% @admins.each do |admin| %>
-            <tr>
+            <tr id="admin<%= admin.id %>">
               <%= render admin %>
             </tr>
         <% end %>
