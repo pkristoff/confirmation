@@ -19,7 +19,7 @@ feature 'Candidate delete', :devise do
     candidate = FactoryGirl.create(:candidate)
     login_as(candidate, :scope => :candidate)
     visit edit_candidate_registration_path(candidate)
-    expect(page).not_to have_content "Cancel my account"
+    expect(page).not_to have_content I18n.t('views.admins.cancel_my_account')
   end
 
 end

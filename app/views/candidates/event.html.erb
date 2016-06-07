@@ -2,4 +2,28 @@
 
 <%= devise_error_messages! %>
 
-<%= render partial: 'candidates/shared/event.html.erb', :locals => {candidate: resource, by_candidate: false} %>
+<%= form_for(resource, as: :candidate, url: update_candidate_path(resource), html: {method: :put}) do |f| %>
+
+    <%= f.fields_for :candidate_events do |candidate_event_fields| %>
+        <%= candidate_event_fields.fields_for :confirmation_event do |confirmation_event_fields| %>
+            <%= field_set_tag confirmation_event_fields.object.name, class: 'fieldset', id: "candidate_candidate_events_attributes_#{candidate_event_fields.index}_confirmation_event_attributes_name" do %>
+                <div class="fieldset-div">
+                  <div class="field" id='<%= "candidate_candidate_events_attributes_#{candidate_event_fields.index}_confirmation_event_attributes_due_date" %>'>
+                    <%= t('views.events.due_date') %>: <%= l confirmation_event_fields.object.due_date, format: :default %>
+                  </div>
+                  <div class="field">
+                    <%= t('views.events.verified') %>: <%= candidate_event_fields.check_box :admin_confirmed %>
+                  </div>
+                  <div class="field" id='<%= "candidate_candidate_events_attributes_#{candidate_event_fields.index}_confirmation_event_attributes_completed_date" %>'>
+                    <%= t('views.events.completed_date') %>: <%= candidate_event_fields.date_field :completed_date %>
+                  </div>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit t('views.common.update') %>
+    </div>
+
+<% end %>

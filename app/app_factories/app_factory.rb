@@ -11,30 +11,54 @@ class AppFactory
   def self.create_candidate
     candidate = Candidate.new
     candidate.build_address
-    ConfirmationEvent.all.each do |confirmation_event|
-      candidate.add_candidate_event(confirmation_event)
-    end
+    add_candidate_events(candidate)
     candidate
   end
 
-  def self.add_parent_information_meeting_migration
-    puts 'starting add_parent_information_meeting_migration'
-    new_candidate_event = nil
-    parent_info_meeting_event = ConfirmationEvent.find_or_create_by!(name: 'Parent Information Meeting') do |confirmation_event|
-      confirmation_event.name = 'Parent Information Meeting'
-      confirmation_event.due_date = Date.today
-      new_candidate_event = confirmation_event
-      puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.due_date}"
+  def self.add_candidate_events(candidate)
+    ConfirmationEvent.all.each do |confirmation_event|
+      candidate.add_candidate_event(confirmation_event)
     end
-    unless new_candidate_event.nil?
-      puts 'adding to candidates'
+  end
+
+  def self.revert_confirmation_event event_name
+    # puts "reverting: #{event_name}"
+    Candidate.all.each do |candidate|
+      # puts "reverting candidate: #{candidate.account_name}"
+      founds = candidate.candidate_events.select { |candidate_event| candidate_event.confirmation_event.nil? or candidate_event.name == event_name }
+      founds.each do |found|
+        # puts "found candidate_event: #{found.name}" unless found.confirmation_event.nil?
+        # puts "found empty confirmation_event" if found.confirmation_event.nil?
+        candidate.candidate_events.delete(found)
+        found.destroy
+      end
+
+    end
+    # puts 'about to destroy ConfirmationEvent'
+    confirmation_event = ConfirmationEvent.find_by(name: event_name)
+    confirmation_event.destroy
+    # puts "done reverting: #{event_name}"
+  end
+
+  def self.add_confirmation_event event_name
+    # puts 'starting event_name'
+    new_confirmation_event = nil
+    event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
+      confirmation_event.name = event_name
+      confirmation_event.due_date = Date.today
+      new_confirmation_event = confirmation_event
+      # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.due_date}"
+    end
+    unless new_confirmation_event.nil?
+      # puts 'adding to candidates'
       Candidate.all.each do |candidate|
-        candidate.add_candidate_event(parent_info_meeting_event)
-        puts "adding to candidate: #{candidate.account_name}"
+        candidate.add_candidate_event(new_confirmation_event)
+        # puts "adding to candidate: #{candidate.account_name}"
         candidate.save
       end
     end
-    puts 'ending add_parent_information_meeting_migration'
+    # puts 'ending event_name'
+    event
   end
 
   def self.generate_seed
@@ -43,7 +67,7 @@ class AppFactory
       admin.password = Rails.application.secrets.admin_password
       admin.password_confirmation = Rails.application.secrets.admin_password
     end
-    candidate = create_seed_candidate([parent_info_meeting_event])
+    candidate = create_seed_candidate(ConfirmationEvent.all)
 
   end
 
@@ -64,9 +88,7 @@ class AppFactory
       candidate.grade = 10
       candidate.password = Rails.application.secrets.admin_password
       candidate.password_confirmation = Rails.application.secrets.admin_password
-      confirmation_events.each do |confirmation_event|
-        candidate.add_candidate_event(confirmation_event)
-      end
+      self.add_candidate_events(candidate)
     end
   end
 

@@ -17,13 +17,13 @@ describe 'candidate_imports/new.html.erb' do
 
 
     expect(rendered).to have_selector('section[id=import] form[id=new_candidate_import][action="/candidate_imports"]')
-    expect(rendered).to have_button('Import')
+    expect(rendered).to have_button(I18n.t('views.imports.import'))
 
     expect(rendered).to have_selector('section[id=remove_all_candidates] form[id=new_candidate_import][action="/candidate_imports/remove_all_candidates"]')
-    expect(rendered).to have_button('Reset the Database')
+    expect(rendered).to have_button(I18n.t('views.imports.reset_database'))
 
     expect(rendered).to have_selector('section[id=reset_database] form[id=new_candidate_import][action="/candidate_imports/reset_database"]')
-    expect(rendered).to have_button('Remove All Candidates')
+    expect(rendered).to have_button(I18n.t('views.imports.remove_all_candidates'))
 
 
   end

@@ -18,7 +18,7 @@ describe 'candidates/edit.html.erb' do
 
     render
 
-    expect_edit_and_new_view(rendered, @resource, "/event/#{@resource.id}", 'Update', false, false)
+    expect_edit_and_new_view(rendered, @resource, "/event/#{@resource.id}", I18n.t('views.common.update'), false, false)
 
   end
 end

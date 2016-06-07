@@ -18,7 +18,7 @@ feature 'Other', :devise do
       login_as(admin, :scope => :admin)
       visit new_candidate_import_path
       attach_file :candidate_import_file, 'spec/fixtures/Small.xlsx'
-      click_button 'Import'
+      click_button I18n.t('views.imports.import')
       expect(page).to have_selector('div[id=flash_notice]', text: 'Imported candidates successfully.')
     end
 
@@ -49,7 +49,7 @@ feature 'Other', :devise do
       admin = FactoryGirl.create(:admin)
       login_as(admin, :scope => :admin)
       visit new_candidate_import_path
-      click_button 'Remove All Candidates'
+      click_button I18n.t('views.imports.remove_all_candidates')
       expect(page).to have_selector('div[id=flash_notice]', text: 'All candidates successfully removed.')
       expect(Candidate.all.size).to eq(0)
     end
@@ -67,7 +67,7 @@ feature 'Other', :devise do
       login_as(admin, :scope => :admin)
       expect(Admin.all.size).to eq(2) #prove there are only 2
       visit new_candidate_import_path
-      click_button 'Reset the Database'
+      click_button I18n.t('views.imports.reset_database')
       expect(page).to have_selector('div[id=flash_notice]', text: 'Database successfully reset.')
       expect(Candidate.all.size).to eq(1)
       expect(Admin.all.size).to eq(1)
@@ -88,18 +88,18 @@ feature 'Other', :devise do
       login_as(admin, :scope => :admin)
       expect(Admin.all.size).to eq(2) #prove there are only 2
       visit new_candidate_import_path
-      click_button 'Excel'
+      click_button I18n.t('views.imports.excel')
 
       File.open(xlsx_filename, 'w') { |f| f.write(page.html) }
       begin
 
         visit new_candidate_import_path
-        click_button 'Remove All Candidates'
+        click_button I18n.t('views.imports.remove_all_candidates')
         expect(Candidate.all.size).to eq(0)
 
         visit new_candidate_import_path
         attach_file :candidate_import_file, xlsx_filename
-        click_button 'Import'
+        click_button I18n.t('views.imports.import')
         expect(Candidate.all.size).to eq(2)
       ensure
         if File.exist? xlsx_filename

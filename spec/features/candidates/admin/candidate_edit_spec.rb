@@ -24,7 +24,7 @@ feature 'Candidate edit', :devise do
     candidate = FactoryGirl.create(:candidate)
     visit edit_candidate_path(candidate.id)
     fill_in 'Parent email 1', :with => 'newemail@example.com'
-    click_button 'Update'
+    click_button I18n.t('views.common.update')
     expect(page).to have_selector('div[id=flash_notice]', text: 'Candidate sophiaagusta updated successfully')
   end
 

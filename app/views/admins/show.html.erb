@@ -1,3 +1,3 @@
-<h3>Admin</h3>
-<p>Name: <%= @admin.name if @admin.name %></p>
-<p>Email: <%= @admin.email if @admin.email %></p>
+<h3><%= t('views.admins.admin') %></h3>
+<p><%= t('views.common.name') %>: <%= @admin.name if @admin.name %></p>
+<p><%= t('views.common.email') %>: <%= @admin.email if @admin.email %></p>

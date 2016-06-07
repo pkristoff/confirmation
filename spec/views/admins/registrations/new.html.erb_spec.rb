@@ -11,11 +11,11 @@ describe 'admins/registrations/new.html.erb' do
 
     expect(rendered).to have_selector('form[id=new_admin][action="/admins"]')
 
-    expect(rendered).to have_field('Name', type: 'text')
-    expect(rendered).to have_field('Email', with: '', type: 'email')
-    expect(rendered).to have_field('Password', type: 'password')
-    expect(rendered).to have_field('Password confirmation', type: 'password')
-    expect(rendered).to have_button('Sign up')
+    expect(rendered).to have_field(I18n.t('views.common.name'), type: 'text')
+    expect(rendered).to have_field(I18n.t('views.common.email'), with: '', type: 'email')
+    expect(rendered).to have_field(I18n.t('views.common.password'), type: 'password')
+    expect(rendered).to have_field(I18n.t('views.common.password_confirmation'), type: 'password')
+    expect(rendered).to have_button(I18n.t('views.common.sign_up'))
 
   end
 end

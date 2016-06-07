@@ -16,7 +16,7 @@ feature 'Candidate delete', :devise do
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
     visit candidates_path
-    click_link('Delete')
+    click_link(I18n.t('views.common.delete'))
     expect(page).to have_selector('div[id=flash_notice]', text: "Candidate #{candidate.account_name} successfully removed")
   end
 

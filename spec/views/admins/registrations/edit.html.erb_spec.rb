@@ -12,12 +12,11 @@ describe 'admins/registrations/edit.html.erb' do
 
     expect(rendered).to have_selector('form[id=edit_admin][action="/admins"]')
 
-    expect(rendered).to have_field('Email', with: 'test@example.com', type: 'email')
-    expect(rendered).to have_field('Password', type: 'password')
-    expect(rendered).to have_field('Password confirmation', type: 'password')
-    expect(rendered).to have_field('Current password', type: 'password')
-    expect(rendered).to have_button('Update')
-    expect(rendered).to have_button('Cancel my account')
+    expect(rendered).to have_field(I18n.t('views.common.email'), with: 'test@example.com', type: 'email')
+    expect(rendered).to have_field(I18n.t('views.common.password'), type: 'password')
+    expect(rendered).to have_field(I18n.t('views.common.password_confirmation'), type: 'password')
+    expect(rendered).to have_field(I18n.t('views.admins.current_password'), type: 'password')
+    expect(rendered).to have_button(I18n.t('views.common.update'))
 
   end
 end

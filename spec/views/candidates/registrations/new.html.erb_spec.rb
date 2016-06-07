@@ -7,7 +7,7 @@ describe 'candidates/registrations/new.html.erb' do
 
     render
 
-    expect_edit_and_new_view(rendered, @resource, '/dev/candidates', 'Sign up', true, true)
+    expect_edit_and_new_view(rendered, @resource, '/dev/candidates.candidate', I18n.t('views.common.sign_up'), true, true)
 
   end
 end

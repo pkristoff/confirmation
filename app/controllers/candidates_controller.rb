@@ -47,11 +47,11 @@ class CandidatesController < ApplicationController
       params[:candidate].delete(:password)
       params[:candidate].delete(:password_confirmation)
     end
-    @candidate = Candidate.find(params[:id])
-    if @candidate.update_attributes(candidate_params)
-      flash[:notice] = "Candidate #{@candidate.account_name} updated successfully"
-      @candidates = Candidate.all
-      render :index
+    @resource = Candidate.find(params[:id])
+    # puts candidate_params
+    if @resource.update_attributes(candidate_params)
+      flash[:notice] = "Candidate #{@resource.account_name} updated successfully"
+      render :event, id: @resource.id
     else
       render edit
     end

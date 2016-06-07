@@ -1,4 +1,4 @@
-<h2>Edit Candidate</h2>
+<h2><%= t('views.candidates.edit_candidate') %></h2>
 
 <%= form_for(current_candidate, as: :candidate, url: update_candidate_registration_path(current_candidate), html: {method: :post}) do |f| %>
 

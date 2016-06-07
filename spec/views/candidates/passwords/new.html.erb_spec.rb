@@ -12,7 +12,7 @@ describe 'candidates/passwords/new.html.erb' do
     expect(rendered).to have_selector('form[id=new_candidate][action="/dev/candidates/password"]')
 
     expect(rendered).to have_field('Account name', type: 'text')
-    expect(rendered).to have_button('Reset Password')
+    expect(rendered).to have_button(I18n.t('views.common.reset_password'))
 
   end
 end

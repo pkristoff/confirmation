@@ -52,24 +52,59 @@ describe AppFactory do
 
   end
 
-  context 'generate_seed' do
+  context 'confirmation events' do
 
-    it 'shoul create a confirmation_event, an admin and a candidate' do
+    it 'should create a confirmation_event, an admin and a candidate' do
+      AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
+      AppFactory.add_confirmation_event(I18n.t('events.retreat_weekend'))
+
       AppFactory.generate_seed
-
-      expect(ConfirmationEvent.all.size).to eq(1)
-      confirmation_event = ConfirmationEvent.all[0]
-      expect(confirmation_event.name).to eq('Parent Information Meeting')
 
       expect(Admin.all.size).to eq(1)
       admin = Admin.all[0]
       expect(admin.name).to eq('Admin')
 
-      expect(Candidate.all.size).to eq(1)
-      candidate = Candidate.all[0]
+      candidate_events = Candidate.all
+      expect(candidate_events.size).to eq(1)
+      candidate = candidate_events[0]
+      expect(candidate.account_name).to eq('vickikristoff')
+      expect(candidate.candidate_events.size).to eq(2)
+      expect(candidate.candidate_events[0].name).to eq(I18n.t('events.parent_meeting'))
+      expect(candidate.candidate_events[1].name).to eq(I18n.t('events.retreat_weekend'))
+
+    end
+
+    it 'should create 2 confirmation_event, an admin and a candidate then remove retreat_weekend event' do
+      AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
+      AppFactory.add_confirmation_event(I18n.t('events.retreat_weekend'))
+
+      AppFactory.generate_seed
+
+      AppFactory.revert_confirmation_event(I18n.t('events.retreat_weekend'))
+
+      candidate_events = Candidate.all
+      expect(candidate_events.size).to eq(1)
+      candidate = candidate_events[0]
       expect(candidate.account_name).to eq('vickikristoff')
       expect(candidate.candidate_events.size).to eq(1)
-      expect(candidate.candidate_events[0].name).to eq('Parent Information Meeting')
+      expect(candidate.candidate_events[0].name).to eq(I18n.t('events.parent_meeting'))
+
+    end
+
+    it 'should create 2 confirmation_event, an admin and a candidate then remove parent_meeting event' do
+      AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
+      AppFactory.add_confirmation_event(I18n.t('events.retreat_weekend'))
+
+      AppFactory.generate_seed
+
+      AppFactory.revert_confirmation_event(I18n.t('events.parent_meeting'))
+
+      candidate_events = Candidate.all
+      expect(candidate_events.size).to eq(1)
+      candidate = candidate_events[0]
+      expect(candidate.account_name).to eq('vickikristoff')
+      expect(candidate.candidate_events.size).to eq(1)
+      expect(candidate.candidate_events[0].name).to eq(I18n.t('events.retreat_weekend'))
 
     end
 

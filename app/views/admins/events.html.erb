@@ -1,4 +1,4 @@
-<h2>Events</h2>
+<h2><%= t('views.admins.events') %></h2>
 
 
 <% @confirmation_events.each_with_index do |confirmation_event, index| %>
@@ -6,7 +6,7 @@
     <%= form_for(confirmation_event, as: :confirmation_event, url: events_path(confirmation_event.id), html: {method: :put}) do |f| %>
 
 
-        <%= field_set_tag 'Event', class: 'fieldset' do %>
+        <%= field_set_tag t('views.admins.event'), class: 'fieldset' do %>
 
             <div class="field">
               <%= f.label :name %><br/>
@@ -19,7 +19,7 @@
             </div>
 
             <div class="actions">
-              <%= f.submit 'Update' %>
+              <%= f.submit t('views.common.update') %>
             </div>
 
         <% end %>

@@ -1,6 +1,6 @@
 <h2>Sign up <%= resource_name.to_s.humanize %></h2>
 
-<div class="authform">
+<div>
   <%= form_for(resource, as: resource_name, url: create_candidate_path(), html: { role: 'form'}) do |f| %>
       <%= render partial: 'candidates/shared/edit_and_new_candidate', :locals => {f: f, by_candidate: false, is_new: true} %>
 

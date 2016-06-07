@@ -16,7 +16,7 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect(rendered).to have_css('table#admins_table tr', :count => 0)
+    expect(rendered).to have_selector('tr', count: 0)
   end
 
   it 'display @admins 1' do
@@ -25,9 +25,9 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect(rendered).to have_css('table#admins_table tr', :count => 1)
+    expect(rendered).to have_selector('tr', count: 1)
 
-    expect_admin(rendered, 1, @admin2)
+    expect_admin(rendered, @admin2)
   end
 
   it 'display @admins 2' do
@@ -36,18 +36,17 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect(rendered).to have_css('table#admins_table tr', :count => 2)
+    expect(rendered).to have_selector('tr', count: 2)
 
-    expect_admin(rendered, 1, @admin1)
-    expect_admin(rendered, 2, @admin2)
+    expect_admin(rendered, @admin1)
+    expect_admin(rendered, @admin2)
   end
 
   private
 
-  def expect_admin (rendered, row, admin)
-
-    expect(rendered).to have_css("table#admins_table tbody tr:nth-of-type(#{row}) td", :count => 2)
-    expect(rendered).to have_selector("table#admins_table tbody tr:nth-of-type(#{row}) td:nth-of-type(1)", text: admin.name)
-    expect(rendered).to have_selector("table#admins_table tbody tr:nth-of-type(#{row}) td:nth-of-type(2)", text: admin.email)
+  def expect_admin(rendered, admin)
+    expect(rendered).to have_link("delete_#{admin.id}", text: 'Delete')
+    expect(rendered).to have_link("edit_#{admin.id}", text: admin.name)
+    expect(rendered).to have_selector("td[id='email_#{admin.id}']", text: admin.email)
   end
 end
