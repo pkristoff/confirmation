@@ -17,13 +17,15 @@ FactoryGirl.define do
 end
 
 def create_candidate_events
+  confirmation_event_eat = ConfirmationEvent.find_by_name('Going out to eat') || FactoryGirl.create(:confirmation_event)
+  confirmation_event_home = ConfirmationEvent.find_by_name('Staying home') || FactoryGirl.create(:confirmation_event,
+                                                                                                 name: 'Staying home',
+                                                                                                 due_date: '2016-04-01')
   [FactoryGirl.create(:candidate_event,
-                      confirmation_event: FactoryGirl.create(:confirmation_event)),
+                      confirmation_event: confirmation_event_eat),
    FactoryGirl.create(:candidate_event,
                       completed_date: '2016-03-29',
                       admin_confirmed: false,
-                      confirmation_event: FactoryGirl.create(:confirmation_event,
-                                                             name: 'Staying home',
-                                                             due_date: '2016-04-01'))
+                      confirmation_event: confirmation_event_home)
   ]
 end

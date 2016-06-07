@@ -124,7 +124,7 @@ feature 'Admin sign up', :devise do
       click_button I18n.t('views.common.sign_up')
 
       expect(page).to have_selector('p', count: 3)
-      expect(page).to have_selector('p', text: 'Admin: otherName')
+      expect(page).to have_selector('p', text: 'Admin')
       expect(page).to have_selector('p', text: 'Name: otherName')
       expect(page).to have_selector('p', text: 'Email: otheremail@example.com')
     end

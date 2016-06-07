@@ -11,10 +11,14 @@ class AppFactory
   def self.create_candidate
     candidate = Candidate.new
     candidate.build_address
+    add_candidate_events(candidate)
+    candidate
+  end
+
+  def self.add_candidate_events(candidate)
     ConfirmationEvent.all.each do |confirmation_event|
       candidate.add_candidate_event(confirmation_event)
     end
-    candidate
   end
 
   def self.revert_confirmation_event event_name
@@ -54,6 +58,7 @@ class AppFactory
       end
     end
     # puts 'ending event_name'
+    event
   end
 
   def self.generate_seed
@@ -83,9 +88,7 @@ class AppFactory
       candidate.grade = 10
       candidate.password = Rails.application.secrets.admin_password
       candidate.password_confirmation = Rails.application.secrets.admin_password
-      confirmation_events.each do |confirmation_event|
-        candidate.add_candidate_event(confirmation_event)
-      end
+      self.add_candidate_events(candidate)
     end
   end
 

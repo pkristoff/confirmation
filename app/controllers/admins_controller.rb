@@ -10,9 +10,6 @@ class AdminsController < ApplicationController
 
   def show
     @admin = Admin.find(params[:id])
-    unless @admin == current_admin
-      redirect_to :back, :alert => 'Access denied.'
-    end
   end
 
   def events

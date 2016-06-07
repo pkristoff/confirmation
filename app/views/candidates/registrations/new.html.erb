@@ -1,7 +1,7 @@
 <h2> if you see me how did i get here <%= t('views.common.sign_up') %><%= resource_name.to_s.humanize %></h2>
 
 <div>
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { role: 'form'}) do |f| %>
+  <%= form_for(resource, as: resource_name, url: candidate_registration_path(resource_name), html: { role: 'form'}) do |f| %>
       <%= render partial: 'candidates/shared/edit_and_new_candidate', :locals => {f: f, by_candidate: true, is_new: true} %>
   <% end %>
 </div>

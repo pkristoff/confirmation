@@ -60,7 +60,11 @@ class ApplicationController < ActionController::Base
             candidate_url(resource.id)
           end
         else
-          super
+          if admin_signed_in?
+            admin_path(resource.id)
+          else
+            super
+          end
         end
   end
 
