@@ -8,4 +8,4 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( 1st_load_framework.css.scss application.css.scss candidate_imports_controller.scss registrations.scsssimple-sidebar.css )
+Rails.application.config.assets.precompile += %w( 1st_load_framework.css.scss application.css.scss candidate_imports_controller.scss registrations.scss simple-sidebar.css )
