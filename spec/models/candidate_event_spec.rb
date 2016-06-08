@@ -8,11 +8,11 @@ RSpec.describe CandidateEvent, type: :model do
       confirmation_event = FactoryGirl.create(:confirmation_event)
       candidate_event = FactoryGirl.create(:candidate_event,
                                            completed_date: '2016-05-23',
-                                           admin_confirmed: true,
+                                           verified: true,
                                            confirmation_event: confirmation_event)
 
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
-      expect(candidate_event.admin_confirmed).to eq(true)
+      expect(candidate_event.verified).to eq(true)
 
       expect(candidate_event.due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.name).to eq('Going out to eat')
@@ -25,21 +25,21 @@ RSpec.describe CandidateEvent, type: :model do
       confirmation_event = FactoryGirl.create(:confirmation_event)
       candidate_event = FactoryGirl.create(:candidate_event,
                                            completed_date: '2016-05-23',
-                                           admin_confirmed: true,
+                                           verified: true,
                                            confirmation_event: confirmation_event)
       candidate_event_2 = FactoryGirl.create(:candidate_event,
                                              completed_date: '2016-05-22',
-                                             admin_confirmed: false,
+                                             verified: false,
                                              confirmation_event: confirmation_event)
 
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
-      expect(candidate_event.admin_confirmed).to eq(true)
+      expect(candidate_event.verified).to eq(true)
 
       expect(candidate_event.due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.name).to eq('Going out to eat')
 
       expect(candidate_event_2.completed_date.to_s).to eq('2016-05-22')
-      expect(candidate_event_2.admin_confirmed).to eq(false)
+      expect(candidate_event_2.verified).to eq(false)
 
       expect(candidate_event_2.due_date.to_s).to eq('2016-05-24')
       expect(candidate_event_2.name).to eq('Going out to eat')
@@ -56,21 +56,21 @@ RSpec.describe CandidateEvent, type: :model do
                                                 due_date: '2016-04-01')
       candidate_event = FactoryGirl.create(:candidate_event,
                                            completed_date: '2016-05-23',
-                                           admin_confirmed: true,
+                                           verified: true,
                                            confirmation_event: confirmation_event)
       candidate_event_2 = FactoryGirl.create(:candidate_event,
                                              completed_date: '2016-05-22',
-                                             admin_confirmed: false,
+                                             verified: false,
                                              confirmation_event: confirmation_event_2)
 
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
-      expect(candidate_event.admin_confirmed).to eq(true)
+      expect(candidate_event.verified).to eq(true)
 
       expect(candidate_event.due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.name).to eq('Going out to eat')
 
       expect(candidate_event_2.completed_date.to_s).to eq('2016-05-22')
-      expect(candidate_event_2.admin_confirmed).to eq(false)
+      expect(candidate_event_2.verified).to eq(false)
 
       expect(candidate_event_2.due_date.to_s).to eq('2016-04-01')
       expect(candidate_event_2.name).to eq('Staying home')
@@ -81,10 +81,10 @@ RSpec.describe CandidateEvent, type: :model do
 
     end
 
-    def expect_confirmation_event(confirmation_event, candidate_events_size, due_date='2016-05-24', name='Going out to eat')
+    def expect_confirmation_event(confirmation_event, events_size, due_date='2016-05-24', name='Going out to eat')
       expect(confirmation_event.due_date.to_s).to eq(due_date)
       expect(confirmation_event.name).to eq(name)
-      expect(confirmation_event.candidate_events.size).to eq(candidate_events_size)
+      expect(confirmation_event.candidate_events.size).to eq(events_size)
     end
   end
 
@@ -94,7 +94,7 @@ RSpec.describe CandidateEvent, type: :model do
       let! (:confirmation_event_not_started) { FactoryGirl.create(:confirmation_event, due_date: '') }
       let! (:candidate_event) { FactoryGirl.create(:candidate_event,
                                                    completed_date: '',
-                                                   admin_confirmed: false,
+                                                   verified: false,
                                                    confirmation_event: confirmation_event_not_started) }
       it 'should not be started' do
         expect(candidate_event.started?).to eq(false)
@@ -111,7 +111,7 @@ RSpec.describe CandidateEvent, type: :model do
       context 'candidate has done nothing' do
         let! (:candidate_event) { FactoryGirl.create(:candidate_event,
                                                      completed_date: '',
-                                                     admin_confirmed: false,
+                                                     verified: false,
                                                      confirmation_event: confirmation_event_started) }
 
         it 'should be started' do
@@ -138,7 +138,7 @@ RSpec.describe CandidateEvent, type: :model do
       context 'candidate has done the event awaiting admin approval' do
         let! (:candidate_event) { FactoryGirl.create(:candidate_event,
                                                      completed_date: '2016-03-29',
-                                                     admin_confirmed: false,
+                                                     verified: false,
                                                      confirmation_event: confirmation_event_started) }
         it 'should be started' do
           expect(candidate_event.started?).to eq(true)
@@ -156,7 +156,7 @@ RSpec.describe CandidateEvent, type: :model do
       context 'candidate has done the event and admin has approved' do
         let! (:candidate_event) { FactoryGirl.create(:candidate_event,
                                                      completed_date: '2016-03-29',
-                                                     admin_confirmed: true,
+                                                     verified: true,
                                                      confirmation_event: confirmation_event_started) }
         it 'should be started' do
           expect(candidate_event.started?).to eq(true)

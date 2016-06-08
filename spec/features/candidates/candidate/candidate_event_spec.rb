@@ -23,15 +23,15 @@ feature 'Candidate event', :devise do
     visit event_candidate_registration_path(@candidate.id)
 
     # if this passes then going to wrong controller
-    expect(page).not_to have_selector("form[id=new_admin]")
+    expect(page).not_to have_selector('form[id=new_admin]')
     expect_candidate_event 0, 'Going out to eat', '2016-05-24', false, ''
     expect_candidate_event 1, 'Staying home', '2016-04-01', false, ' 2016-03-29'
   end
 
-  def expect_candidate_event index, name, due_date, admin_confirmed, completed_date
-    expect(page).to have_selector("header[id=candidate_event_#{index}_header]", text: name)
+  def expect_candidate_event(index, name, due_date, verified, completed_date)
+    expect(page).to have_selector("div[id=candidate_event_#{index}_header]", text: name)
     expect(page).to have_selector("div[id=candidate_event_#{index}_due_date]", text: "#{I18n.t('views.events.due_date')}: #{due_date}")
-    expect(page).to have_selector("div[id=candidate_event_#{index}_admin_confirmed]", text: "#{I18n.t('views.events.verified')}: #{admin_confirmed}")
+    expect(page).to have_selector("div[id=candidate_event_#{index}_verified]", text: "#{I18n.t('views.events.verified')}: #{verified}")
     expect(page).to have_selector("div[id=candidate_event_#{index}_completed_date]", text: "#{I18n.t('views.events.completed_date')}:#{completed_date}")
   end
 

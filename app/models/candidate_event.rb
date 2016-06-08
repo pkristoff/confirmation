@@ -17,7 +17,7 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   def started?
-    ! due_date.nil?
+    !due_date.nil?
   end
 
   def awaiting_candidate?
@@ -25,11 +25,11 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   def awaiting_admin?
-    started? and !completed_date.nil? and !admin_confirmed?
+    started? and !completed_date.nil? and !verified?
   end
 
   def completed?
-    started? and admin_confirmed
+    started? and verified
   end
 
   def late?

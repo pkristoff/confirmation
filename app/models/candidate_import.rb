@@ -18,7 +18,7 @@ class CandidateImport
   def create_xlsx_package
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
-    confirmation_event_columns = xlsx_confirmation_event_columns
+    confirmation_event_columns = xlsx_conf_event_columns
     wb.add_worksheet(name: @worksheet_confirmation_event_name) do |sheet|
       sheet.add_row confirmation_event_columns
       ConfirmationEvent.all.each do |confirmation_event|
@@ -117,14 +117,14 @@ class CandidateImport
                'address.street_1', 'address.street_2', 'address.city', 'address.state', 'address.zip_code']
     ConfirmationEvent.all.each_with_index do |confirmation_event, index|
       columns << "candidate_events.#{index}.completed_date"
-      columns << "candidate_events.#{index}.admin_confirmed"
+      columns << "candidate_events.#{index}.verified"
     end
     columns
   end
 
   # test only
-  def xlsx_confirmation_event_columns
-    ['name', 'due_date']
+  def xlsx_conf_event_columns
+    %w{name due_date}
   end
 
   private

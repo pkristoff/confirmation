@@ -10,11 +10,10 @@
                 <div class="fieldset-div">
                   <div class="left-col">
                     <div class="field" id='<%= "candidate_candidate_events_attributes_#{candidate_event_fields.index}_confirmation_event_attributes_due_date" %>'>
-                      <%= t('views.events.due_date') %>
-                      : <%= l confirmation_event_fields.object.due_date, format: :default %>
+                      <%= t('views.events.due_date') %>: <%= l confirmation_event_fields.object.due_date, format: :default %>
                     </div>
                     <div class="field">
-                      <%= t('views.events.verified') %>: <%= candidate_event_fields.check_box :admin_confirmed %>
+                      <%= t('views.events.verified') %>: <%= candidate_event_fields.check_box :verified %>
                     </div>
                     <div class="field" id='<%= "candidate_candidate_events_attributes_#{candidate_event_fields.index}_confirmation_event_attributes_completed_date" %>'>
                       <%= t('views.events.completed_date') %>: <%= candidate_event_fields.date_field :completed_date %>
