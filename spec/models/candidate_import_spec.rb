@@ -25,11 +25,11 @@ describe CandidateImport do
       candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
       expect(candidate_import.save).to eq(false)
       error_messages = [
-          "Row 2: Last name can't be blank",
-          "Row 3: First name can't be blank",
-          "Row 6: Parent email 1 is an invalid email",
-          "Row 6: Parent email 2 is an invalid email",
-          "Row 7: Parent email 1 can't be blank"
+          'Row 2: Last name can\'t be blank',
+          'Row 3: First name can\'t be blank',
+          'Row 6: Parent email 1 is an invalid email',
+          'Row 6: Parent email 2 is an invalid email',
+          'Row 7: Parent email 1 can\'t be blank'
       ]
       candidate_import.errors.each_with_index do |candidate, index|
         expect(candidate[1]).to eq(error_messages[index])
@@ -66,9 +66,9 @@ describe CandidateImport do
         },
         candidate_events: [
             {completed_date: '',
-             admin_confirmed: ''},
+             verified: ''},
             {completed_date: '',
-             admin_confirmed: ''}
+             verified: ''}
         ]
     }
   end
@@ -92,9 +92,9 @@ describe CandidateImport do
         },
         candidate_events: [
             {completed_date: '',
-             admin_confirmed: false},
+             verified: false},
             {completed_date: '2016-05-02',
-             admin_confirmed: true}
+             verified: true}
         ]
     }
   end
@@ -118,9 +118,9 @@ describe CandidateImport do
         },
         candidate_events: [
             {completed_date: '2016-06-06',
-             admin_confirmed: true},
+             verified: true},
             {completed_date: '',
-             admin_confirmed: false}
+             verified: false}
         ]
     }
   end
@@ -160,9 +160,9 @@ describe CandidateImport do
     expect_candidate(get_foo_bar)
   end
 
-  def save candidate_import
+  def save(candidate_import)
     import_result = candidate_import.save
-    candidate_import.errors.each_with_index do |candidate, index|
+    candidate_import.errors.each do |candidate|
       puts "Errors:  #{candidate[1]}"
     end
     import_result
@@ -197,12 +197,12 @@ describe CandidateImport do
 
     it 'reset after adding in some candidates' do
 
-      c1 = FactoryGirl.create(:candidate,
-                              account_name: 'c1',
-                              parent_email_1: 'test@example.com',
-                              candidate_email: 'candiate@example.com')
-      c2 = FactoryGirl.create(:candidate, account_name: 'c2')
-      c3 = FactoryGirl.create(:candidate, account_name: 'c3')
+      FactoryGirl.create(:candidate,
+                         account_name: 'c1',
+                         parent_email_1: 'test@example.com',
+                         candidate_email: 'candiate@example.com')
+      FactoryGirl.create(:candidate, account_name: 'c2')
+      FactoryGirl.create(:candidate, account_name: 'c3')
 
       candidate_import = CandidateImport.new
       package = candidate_import.create_xlsx_package
@@ -237,7 +237,7 @@ describe CandidateImport do
           elsif ws.name == 'Confirmation Events'
             header_row = ws.rows[0]
             expect(header_row.cells.size).to eq(2)
-            candidate_import.xlsx_confirmation_event_columns.each_with_index do |column_name, index|
+            candidate_import.xlsx_conf_event_columns.each_with_index do |column_name, index|
               expect(header_row.cells[index].value).to eq(column_name)
             end
             expect(ws.rows.size).to eq(3)

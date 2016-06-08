@@ -25,7 +25,7 @@ def create_candidate_events
                       confirmation_event: confirmation_event_eat),
    FactoryGirl.create(:candidate_event,
                       completed_date: '2016-03-29',
-                      admin_confirmed: false,
+                      verified: false,
                       confirmation_event: confirmation_event_home)
   ]
 end

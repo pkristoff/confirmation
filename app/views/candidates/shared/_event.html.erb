@@ -5,22 +5,20 @@
     <div class="<%= controller.event_class(candidate_event) %>">
 
       <div id="<%= "candidate_event_#{index}_header" %>"><h3><%= confirmation_event.name %></h3></div>
-        <div id="<%= "candidate_event_#{index}_section_left" %>" class="left-col">
-          <div id="<%= "candidate_event_#{index}_due_date" %>"><%= t('views.events.due_date') %>
-            : <%= l confirmation_event.due_date, format: :default %></div>
-          <div id="<%= "candidate_event_#{index}_admin_confirmed" %>">
-            <%= t('views.events.verified') %>: <%= candidate_event.admin_confirmed %>
-          </div>
-          <div id="<%= "candidate_event_#{index}_completed_date" %>">
-            <%= t('views.events.completed_date') %>
-            : <%= (candidate_event.completed_date.nil?) ? '' : l(candidate_event.completed_date, format: :default) %>
-          </div>
+      <div id="<%= "candidate_event_#{index}_section_left" %>" class="left-col">
+        <div id="<%= "candidate_event_#{index}_due_date" %>"><%= t('views.events.due_date') %>: <%= l confirmation_event.due_date, format: :default %></div>
+        <div id="<%= "candidate_event_#{index}_verified" %>">
+          <%= t('views.events.verified') %>: <%= candidate_event.verified %>
         </div>
+        <div id="<%= "candidate_event_#{index}_completed_date" %>">
+          <%= t('views.events.completed_date') %>: <%= (candidate_event.completed_date.nil?) ? '' : l(candidate_event.completed_date, format: :default) %>
+        </div>
+      </div>
 
-        <div id="<%= "candidate_event_#{index}_section_right" %>" class="right-col">
-          <h3>How to complete</h3>
-          <p>ccc</p>
-        </div>
+      <div id="<%= "candidate_event_#{index}_section_right" %>" class="right-col">
+        <h3>How to complete</h3>
+        <p>ccc</p>
+      </div>
     </div>
     <div class="clear"></div>
 <% end %>

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def event_class candidate_event
+  def event_class(candidate_event)
 
     if candidate_event.due_date.nil?
       'event-unitialized'
@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    if (devise_mapping.name == :admin)
+    if devise_mapping.name == :admin
       devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation, :remember_me) }
       devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:name, :email, :password, :remember_me) }
       devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :current_password) }
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     [:account_name, :first_name, :last_name, :candidate_email, :parent_email_1,
      :parent_email_2, :grade, :attending, :password, :password_confirmation,
      address_attributes: [:street_1, :street_2, :city, :state, :zip_code],
-     candidate_events_attributes: [ :id, :completed_date, :admin_confirmed ]
+     candidate_events_attributes: [:id, :completed_date, :verified]
     ]
   end
 
