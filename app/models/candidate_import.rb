@@ -7,7 +7,7 @@ class CandidateImport
 
   def initialize(attributes = {})
     attributes.each { |name, value| send("#{name}=", value) }
-    @worksheet_confirmation_event_name = 'Confirmation Events'
+    @worksheet_conf_event_name = 'Confirmation Events'
     @worksheet_name = 'Candidates with events'
   end
 
@@ -19,7 +19,7 @@ class CandidateImport
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
     confirmation_event_columns = xlsx_conf_event_columns
-    wb.add_worksheet(name: @worksheet_confirmation_event_name) do |sheet|
+    wb.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
       sheet.add_row confirmation_event_columns
       ConfirmationEvent.all.each do |confirmation_event|
         sheet.add_row (confirmation_event_columns.map do |col|
@@ -60,7 +60,7 @@ class CandidateImport
     candidates = []
     @candidate_to_row = {}
     spreadsheet = open_spreadsheet
-    if spreadsheet.sheets[0] == @worksheet_name or spreadsheet.sheets[0] == @worksheet_confirmation_event_name
+    if spreadsheet.sheets[0] == @worksheet_name or spreadsheet.sheets[0] == @worksheet_conf_event_name
       process_exported_xlsx(candidates, spreadsheet)
     else
       process_initial_xlsx(candidates, spreadsheet)
@@ -124,7 +124,7 @@ class CandidateImport
 
   # test only
   def xlsx_conf_event_columns
-    %w{name due_date}
+    %w{name due_date instructions}
   end
 
   private
@@ -163,7 +163,7 @@ class CandidateImport
   end
 
   def process_confirmation_events(spreadsheet)
-    sheet = spreadsheet.sheet(@worksheet_confirmation_event_name)
+    sheet = spreadsheet.sheet(@worksheet_conf_event_name)
     header_row = sheet.row(1)
     name_index = header_row.find_index { |cell| cell == 'name' }
     (2..spreadsheet.last_row).each do |i|

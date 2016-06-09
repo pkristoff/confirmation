@@ -61,6 +61,7 @@ en:
       update: 'Update'
     events:
       due_date: 'Due date'
+      instructions: 'Instructions'
       verified: 'Verified'
       completed_date: 'Completed date'
     imports:

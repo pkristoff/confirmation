@@ -12,6 +12,10 @@ class CandidateEvent < ActiveRecord::Base
     confirmation_event.due_date
   end
 
+  def instructions
+    confirmation_event.instructions
+  end
+
   def name
     confirmation_event.name
   end

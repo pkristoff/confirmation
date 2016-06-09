@@ -151,8 +151,13 @@ describe CandidateImport do
 
   def expect_import_with_events
     expect(ConfirmationEvent.all.size).to eq(2)
-    expect(ConfirmationEvent.find_by_name('Parent Information Meeting').due_date.to_s).to eq('2016-06-03')
-    expect(ConfirmationEvent.find_by_name('Attend Retreat').due_date.to_s).to eq('2016-05-03')
+    confirmation_event = ConfirmationEvent.find_by_name('Parent Information Meeting')
+    expect(confirmation_event.due_date.to_s).to eq('2016-06-03')
+    expect(confirmation_event.instructions).to eq("<p><em><strong>simple text</strong></em></p>")
+
+    confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
+    expect(confirmation_event_2.due_date.to_s).to eq('2016-05-03')
+    expect(confirmation_event_2.instructions).to eq("<h1>a heading</h1>\n<ul>\n<li>step 1</li>\n<li>step 2</li>\n</ul>\n<p> </p>\n<p> </p>")
 
     expect(Candidate.all.size).to eq(3)
     expect_candidate(get_vicki_kristoff)
@@ -236,21 +241,23 @@ describe CandidateImport do
             expect(c3_row.cells[0].value).to eq('c3')
           elsif ws.name == 'Confirmation Events'
             header_row = ws.rows[0]
-            expect(header_row.cells.size).to eq(2)
+            expect(header_row.cells.size).to eq(3)
             candidate_import.xlsx_conf_event_columns.each_with_index do |column_name, index|
               expect(header_row.cells[index].value).to eq(column_name)
             end
             expect(ws.rows.size).to eq(3)
 
             c1_row = ws.rows[1]
-            expect(c1_row.cells.size).to eq(2)
+            expect(c1_row.cells.size).to eq(3)
             expect(c1_row.cells[0].value).to eq('Going out to eat')
             expect(c1_row.cells[1].value.to_s).to eq('2016-05-24')
+            expect(c1_row.cells[2].value.to_s).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
             c2_row = ws.rows[2]
-            expect(c2_row.cells.size).to eq(2)
+            expect(c2_row.cells.size).to eq(3)
             expect(c2_row.cells[0].value).to eq('Staying home')
             expect(c2_row.cells[1].value.to_s).to eq('2016-04-01')
+            expect(c2_row.cells[2].value.to_s).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
           else
             expect(ws.name).to eq('Candidates with events  Confirmation Events')
           end

@@ -44,3 +44,5 @@ gem 'puma'
 gem 'roo', '~> 2.4.0'
 gem 'zip-zip'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
+gem 'tinymce-rails'
+

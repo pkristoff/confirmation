@@ -15,9 +15,9 @@
         </div>
       </div>
 
-      <div id="<%= "candidate_event_#{index}_section_right" %>" class="right-col">
-        <h3>How to complete</h3>
-        <p>ccc</p>
+      <div id="<%= "candidate_event_#{index}_instructions" %>" class="right-col">
+        <h2><%= t('views.events.instructions') %>: </h2>
+        <%= sanitize confirmation_event.instructions %>
       </div>
     </div>
     <div class="clear"></div>
