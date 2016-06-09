@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608151727) do
+ActiveRecord::Schema.define(version: 20160608183810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,8 +86,9 @@ ActiveRecord::Schema.define(version: 20160608151727) do
   create_table "confirmation_events", force: :cascade do |t|
     t.string   "name"
     t.date     "due_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.text     "instructions", default: "", null: false
   end
 
   add_index "confirmation_events", ["name"], name: "index_confirmation_events_on_name", using: :btree

@@ -14,10 +14,11 @@ RSpec.describe CandidateEvent, type: :model do
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
       expect(candidate_event.verified).to eq(true)
 
-      expect(candidate_event.due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.name).to eq('Going out to eat')
+      expect(candidate_event.due_date.to_s).to eq('2016-05-24')
+      expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
-      expect_confirmation_event(confirmation_event, 1)
+      expect_confirmation_event(confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
     end
     it 'two candidate_events same confirmation_event' do
@@ -35,16 +36,18 @@ RSpec.describe CandidateEvent, type: :model do
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
       expect(candidate_event.verified).to eq(true)
 
-      expect(candidate_event.due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.name).to eq('Going out to eat')
+      expect(candidate_event.due_date.to_s).to eq('2016-05-24')
+      expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
       expect(candidate_event_2.completed_date.to_s).to eq('2016-05-22')
       expect(candidate_event_2.verified).to eq(false)
 
-      expect(candidate_event_2.due_date.to_s).to eq('2016-05-24')
       expect(candidate_event_2.name).to eq('Going out to eat')
+      expect(candidate_event_2.due_date.to_s).to eq('2016-05-24')
+      expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
-      expect_confirmation_event(confirmation_event, 2)
+      expect_confirmation_event(confirmation_event, 2, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
       expect(candidate_event.confirmation_event).to eq(candidate_event_2.confirmation_event)
 
     end
@@ -66,8 +69,9 @@ RSpec.describe CandidateEvent, type: :model do
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
       expect(candidate_event.verified).to eq(true)
 
-      expect(candidate_event.due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.name).to eq('Going out to eat')
+      expect(candidate_event.due_date.to_s).to eq('2016-05-24')
+      expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
       expect(candidate_event_2.completed_date.to_s).to eq('2016-05-22')
       expect(candidate_event_2.verified).to eq(false)
@@ -75,15 +79,16 @@ RSpec.describe CandidateEvent, type: :model do
       expect(candidate_event_2.due_date.to_s).to eq('2016-04-01')
       expect(candidate_event_2.name).to eq('Staying home')
 
-      expect_confirmation_event(confirmation_event, 1)
-      expect_confirmation_event(confirmation_event_2, 1, '2016-04-01', 'Staying home')
+      expect_confirmation_event(confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+      expect_confirmation_event(confirmation_event_2, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>", '2016-04-01', 'Staying home')
       expect(candidate_event.confirmation_event).not_to eq(candidate_event_2.confirmation_event)
 
     end
 
-    def expect_confirmation_event(confirmation_event, events_size, due_date='2016-05-24', name='Going out to eat')
+    def expect_confirmation_event(confirmation_event, events_size, instructions, due_date='2016-05-24', name='Going out to eat')
       expect(confirmation_event.due_date.to_s).to eq(due_date)
       expect(confirmation_event.name).to eq(name)
+      expect(confirmation_event.instructions).to eq(instructions)
       expect(confirmation_event.candidate_events.size).to eq(events_size)
     end
   end
