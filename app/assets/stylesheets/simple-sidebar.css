@@ -124,6 +124,11 @@
     }
 }
 
+.delete_me{
+    background-color: black;
+    color: black;
+}
+
 .sidebar-text {
     color: rgb(153,153,153);
     margin: 0;
