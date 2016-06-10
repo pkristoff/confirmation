@@ -18,12 +18,10 @@ Features:
   * reset password
   * edit account
   * cancel account
-  * list of Candidates
+  
 ================
 
-
-
-[Confirmation](https://github.com/pkristoff/confirmation)
+[Confirmation github](https://github.com/pkristoff/confirmation)
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
@@ -50,21 +48,21 @@ This application requires:
 - [Ruby 2.3.0](http://ruby-doc.org/core-2.3.0/)
 - [Rails 4.2.5.1](http://guides.rubyonrails.org/) - actually v4.2.6
 
-Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
-Learn more about [Associatiions](http://guides.rubyonrails.org/association_basics.html).
-Learn more about [Heroku] (https://devcenter.heroku.com/articles/getting-started-with-rails4).
-Learn more about [Heroku Assets] (https://devcenter.heroku.com/articles/rails-asset-pipeline).
-Learn more about [Capybara] (http://www.rubydoc.info/github/jnicklas/capybara/Capybara/).
-Learn more about [ActiveRecord] (http://api.rubyonrails.org/classes/ActiveRecord/).
-Learn more about [Migration] (http://guides.rubyonrails.org/active_record_migrations.htm).
-Learn more about [MD-markdown] (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+* Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
+* Learn more about [Associatiions](http://guides.rubyonrails.org/association_basics.html).
+* Learn more about [Heroku] (https://devcenter.heroku.com/articles/getting-started-with-rails4).
+* Learn more about [Heroku Assets] (https://devcenter.heroku.com/articles/rails-asset-pipeline).
+* Learn more about [Capybara] (http://www.rubydoc.info/github/jnicklas/capybara/Capybara/).
+* Learn more about [ActiveRecord] (http://api.rubyonrails.org/classes/ActiveRecord/).
+* Learn more about [Migration] (http://guides.rubyonrails.org/active_record_migrations.htm).
+  * db:migrate runs (single) migrations that have not run yet.
+  * db:create creates the database
+  * db:drop deletes the database
+  * db:schema:load creates tables and columns within the (existing) database following schema.rb
+  * db:setup does db:create, db:schema:load, db:seed
+  * db:reset does db:drop, db:setup
+* Learn more about [MD-markdown] (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
-* db:migrate runs (single) migrations that have not run yet.
-* db:create creates the database
-* db:drop deletes the database
-* db:schema:load creates tables and columns within the (existing) database following schema.rb
-* db:setup does db:create, db:schema:load, db:seed
-* db:reset does db:drop, db:setup
 
 Getting Started
 ---------------
