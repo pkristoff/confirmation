@@ -7,14 +7,12 @@ describe 'candidate_imports/new.html.erb' do
 
     render
 
-    expect(rendered).to have_selector("li[id=column-0] strong", text: 'last_name')
-    expect(rendered).to have_selector("li[id=column-1] strong", text: 'first_name')
-    expect(rendered).to have_selector("li[id=column-2] strong", text: 'grade')
-    expect(rendered).to have_selector("li[id=column-3] strong", text: 'parent_email_1')
+    expect(rendered).to have_selector('li[id=column-0] strong', text: 'last_name')
+    expect(rendered).to have_selector('li[id=column-1] strong', text: 'first_name')
+    expect(rendered).to have_selector('li[id=column-2] strong', text: 'grade')
+    expect(rendered).to have_selector('li[id=column-3] strong', text: 'parent_email_1')
 
-
-    expect(rendered).to have_selector("div[id=error_explanation] li", count: 0)
-
+    expect_message(nil, nil, rendered)
 
     expect(rendered).to have_selector('section[id=import] form[id=new_candidate_import][action="/candidate_imports"]')
     expect(rendered).to have_button(I18n.t('views.imports.import'))
@@ -36,13 +34,12 @@ describe 'candidate_imports/new.html.erb' do
 
     render
 
-    expect(rendered).to have_selector("section[id=import] li[id=column-0] strong", text: 'last_name')
-    expect(rendered).to have_selector("section[id=import] li[id=column-1] strong", text: 'first_name')
-    expect(rendered).to have_selector("section[id=import] li[id=column-2] strong", text: 'grade')
-    expect(rendered).to have_selector("section[id=import] li[id=column-3] strong", text: 'parent_email_1')
+    expect(rendered).to have_selector('section[id=import] li[id=column-0] strong', text: 'last_name')
+    expect(rendered).to have_selector('section[id=import] li[id=column-1] strong', text: 'first_name')
+    expect(rendered).to have_selector('section[id=import] li[id=column-2] strong', text: 'grade')
+    expect(rendered).to have_selector('section[id=import] li[id=column-3] strong', text: 'parent_email_1')
 
-
-    expect(rendered).to have_selector("div[id=error_explanation] li", count: 5)
+    expect_message(:error_explanation, ['5 errors prohibited this import from completing:', 'Row 2: Last name can\'t be blank', 'Row 3: First name can\'t be blank', 'Row 6: Parent email 1 is an invalid email', 'Row 6: Parent email 2 is an invalid email', 'Row 7: Parent email 1 can\'t be blank'], rendered)
 
   end
 end

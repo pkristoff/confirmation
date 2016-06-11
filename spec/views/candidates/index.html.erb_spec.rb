@@ -9,7 +9,7 @@ describe 'candidates/index.html.erb' do
         last_name: 'Agusta',
         parent_email_1: 'other@test.com',
         grade: 11,
-        attending: 'Catholic High School'})
+        attending: I18n.t('views.candidates.attending_catholic_high_school')})
 
   end
 

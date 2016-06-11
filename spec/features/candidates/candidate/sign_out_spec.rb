@@ -11,9 +11,9 @@ feature 'Sign out', :devise do
   scenario 'candidate signs out successfully' do
     candidate = FactoryGirl.create(:candidate)
     signin_candidate(candidate.account_name, candidate.password)
-    expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.sessions.signed_in'))
+    expect_message(:flash_notice, I18n.t('devise.sessions.signed_in'))
     click_link I18n.t('views.common.sign_out')
-    expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.sessions.signed_out'))
+    expect_message(:flash_notice, I18n.t('devise.sessions.signed_out'))
   end
 
 end

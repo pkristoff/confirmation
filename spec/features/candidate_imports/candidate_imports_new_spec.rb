@@ -19,14 +19,14 @@ feature 'Other', :devise do
       visit new_candidate_import_path
       attach_file :candidate_import_file, 'spec/fixtures/Small.xlsx'
       click_button I18n.t('views.imports.import')
-      expect(page).to have_selector('div[id=flash_notice]', text: 'Imported candidates successfully.')
+      expect_message(:flash_notice, I18n.t('messages.import_successful'))
     end
 
     scenario 'candidate cannot import candidates' do
       candidate = FactoryGirl.create(:candidate)
       login_as(candidate, :scope => :candidate)
       visit new_candidate_import_path
-      expect(page).to have_selector('div[id=flash_alert]', text: 'You need to sign in or sign up before continuing.')
+      expect_message(:flash_alert, I18n.t('devise.failure.unauthenticated'))
     end
 
     scenario 'admin can import candidates via excel spreadsheet' do
@@ -35,7 +35,7 @@ feature 'Other', :devise do
       visit new_candidate_import_path
       attach_file :candidate_import_file, 'spec/fixtures/Invalid.xlsx'
       click_button 'Import'
-      expect(page).to have_selector('div[id=error_explanation]')
+      expect_message(:error_explanation, '5 errors prohibited this import from completing: Row 2: Last name can\'t be blank Row 3: First name can\'t be blank Row 6: Parent email 1 is an invalid email Row 6: Parent email 2 is an invalid email Row 7: Parent email 1 can\'t be blank')
     end
 
   end
@@ -50,7 +50,7 @@ feature 'Other', :devise do
       login_as(admin, :scope => :admin)
       visit new_candidate_import_path
       click_button I18n.t('views.imports.remove_all_candidates')
-      expect(page).to have_selector('div[id=flash_notice]', text: 'All candidates successfully removed.')
+      expect_message(:flash_notice, I18n.t('messages.candidates_removed'))
       expect(Candidate.all.size).to eq(0)
     end
 
@@ -68,7 +68,7 @@ feature 'Other', :devise do
       expect(Admin.all.size).to eq(2) #prove there are only 2
       visit new_candidate_import_path
       click_button I18n.t('views.imports.reset_database')
-      expect(page).to have_selector('div[id=flash_notice]', text: 'Database successfully reset.')
+      expect_message(:flash_notice, I18n.t('messages.database_reset'))
       expect(Candidate.all.size).to eq(1)
       expect(Admin.all.size).to eq(1)
     end

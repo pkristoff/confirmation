@@ -22,7 +22,7 @@ feature 'Admin delete', :devise do
     login_as(admin, :scope => :admin)
     visit admins_path()
     click_link "delete_#{other.id}"
-    expect(page).to have_selector('div[id=flash_notice]', text: I18n.t('devise.registrations.destroyed'))
+    expect_message(:flash_notice, I18n.t('devise.registrations.destroyed'))
 
     expect(Admin.all.size).to eq(1)
   end

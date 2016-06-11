@@ -12,7 +12,7 @@ feature 'Sign Up', :devise do
     Capybara.current_session.driver.header 'Referer', referer
     visit new_candidate_registration_path
     expect(page.current_path).to eq(referer)
-    expect(page).to have_selector('div[id=flash_alert]', text: 'Please login as admin to create another candidate.')
+    expect_message(:flash_alert, I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_candidate')))
   end
 
   # Scenario: Candidate cannot sign up another candidate
@@ -26,7 +26,7 @@ feature 'Sign Up', :devise do
     Capybara.current_session.driver.header 'Referer', referer
     visit new_candidate_registration_path
     expect(page.current_path).to eq(referer)
-    expect(page).to have_selector('div[id=flash_alert]', text: 'Please login as admin to create another candidate.')
+    expect_message(:flash_alert, I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_candidate')))
   end
 
 end

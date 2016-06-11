@@ -20,7 +20,7 @@ feature 'Admin sign up', :devise do
     Capybara.current_session.driver.header 'Referer', referer
     visit new_admin_registration_path # click Sign up admin
     expect(page.current_path).to eq(referer)
-    expect(page).to have_selector('div[id=flash_alert]', text: 'Please login as admin to create another admin.')
+    expect_message(:flash_alert, I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin')))
   end
 
   # Scenario: only an admin can sign up another admin 2
@@ -34,7 +34,7 @@ feature 'Admin sign up', :devise do
     Capybara.current_session.driver.header 'Referer', referer
     visit new_admin_registration_path # click Sign up admin
     expect(page.current_path).to eq(referer)
-    expect(page).to have_selector('div[id=flash_alert]', text: 'Please login as admin to create another admin.')
+    expect_message(:flash_alert, I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin')))
   end
 
   describe 'Sign in admin' do

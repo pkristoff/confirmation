@@ -10,7 +10,7 @@ feature 'Sign Up', :devise do
   #   Then I see a successful sign up message
   scenario 'Visitor cannot sign up without logging in' do
     visit new_candidate_path
-    expect(page).to have_selector('div[id=flash_alert]', text: 'You need to sign in or sign up before continuing.')
+    expect_message(:flash_alert, I18n.t('devise.failure.unauthenticated'))
   end
 
   describe 'Sign in admin' do

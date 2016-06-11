@@ -33,7 +33,7 @@ feature 'Candidate profile page', :devise do
     login_as(me, :scope => :candidate)
     Capybara.current_session.driver.header 'Referer', dev_candidate_path(me)
     visit dev_candidate_path(other)
-    expect(page).to have_selector('div[id=flash_alert]', text: 'Access denied.')
+    expect_message(:flash_alert, I18n.t('messages.accessed_denied'))
   end
 
 end

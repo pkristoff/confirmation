@@ -26,9 +26,19 @@ feature 'Candidate edit', :devise do
     fill_in 'Parent email 1', :with => 'newemail@example.com'
     fill_in I18n.t('views.admins.current_password'), :with => @candidate.password
     click_button I18n.t('views.common.update')
-    expect(page).not_to have_selector('div[id=error_explanation]')
-    expect(page).not_to have_selector('div[id=flash_alert]')
-    expect(page).to have_selector('div[id=flash_notice]', text: 'Your account has been updated successfully.')
+    expect_message(:flash_notice, I18n.t('devise.registrations.updated'))
+  end
+
+  # Scenario: Candidate must supply password to make changes
+  #   Given I am signed in
+  #   When I change my email address without password
+  #   Then I see missing password message
+  scenario 'candidate changes email address' do
+    visit edit_candidate_registration_path(@candidate.id) # views/candidates/registrations/edit.html.erb
+    # /dev/candidates - put registration_path(resource_name)
+    fill_in 'Parent email 1', :with => 'newemail@example.com'
+    click_button I18n.t('views.common.update')
+    expect_message(:error_explanation, "#{I18n.t('errors.messages.not_saved.one', resource: :candidate)} Current password can\'t be blank")
   end
 
   # Scenario: Candidate cannot edit another candidate's profile
@@ -40,6 +50,21 @@ feature 'Candidate edit', :devise do
     visit edit_candidate_registration_path(other.id)
     expect(page).to have_content I18n.t('views.candidates.edit_candidate')
     expect(page).to have_field('Parent email 1', with: @candidate.parent_email_1)
+  end
+
+  # Scenario: Candidate changes email address
+  #   Given I am signed in
+  #   When I change my confirmation name
+  #   Then I see an account updated message
+  scenario 'candidate changes confirmation name' do
+    visit edit_candidate_registration_path(@candidate.id)
+    fill_in 'Confirmation name', :with => 'smith'
+    fill_in I18n.t('views.admins.current_password'), :with => @candidate.password
+    click_button I18n.t('views.common.update')
+    expect_message(:flash_notice, I18n.t('devise.registrations.updated'))
+
+    visit edit_candidate_registration_path(@candidate.id)
+    expect(page).to have_field('Confirmation name', with: 'smith', type: 'text')
   end
 
 end

@@ -23,7 +23,7 @@ feature 'Admin edit', :devise do
     fill_in I18n.t('views.admins.current_password'), :with => admin.password
     click_button I18n.t('views.common.update')
     txts = [I18n.t( 'devise.registrations.updated'), I18n.t( 'devise.registrations.update_needs_confirmation')]
-    expect(page).to have_selector('div[id=flash_notice]', text: /.*#{txts[0]}.*|.*#{txts[1]}.*/)
+    expect_message(:flash_notice, /.*#{txts[0]}.*|.*#{txts[1]}.*/)
   end
 
   # Scenario: Admin cannot edit another admin's profile

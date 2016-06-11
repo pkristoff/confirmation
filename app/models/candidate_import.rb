@@ -112,9 +112,9 @@ class CandidateImport
 
   # test only
   def xlsx_columns
-    columns = ['account_name', 'first_name', 'last_name', 'candidate_email', 'parent_email_1',
-               'parent_email_2', 'grade', 'attending',
-               'address.street_1', 'address.street_2', 'address.city', 'address.state', 'address.zip_code']
+    columns = %w(account_name first_name last_name candidate_email parent_email_1
+               parent_email_2 grade attending
+               address.street_1 address.street_2 address.city address.state address.zip_code)
     ConfirmationEvent.all.each_with_index do |confirmation_event, index|
       columns << "candidate_events.#{index}.completed_date"
       columns << "candidate_events.#{index}.verified"
@@ -181,15 +181,15 @@ class CandidateImport
 
   def process_initial_xlsx(candidates, spreadsheet)
     header = [:last_name, :first_name, :grade, :parent_email_1]
-    attending = 'The Way'
+    attending = I18n.t('views.candidates.attending_the_way')
     (1..spreadsheet.last_row).each do |i|
       spreadsheet_row = spreadsheet.row(i)
       unless spreadsheet_row[0].nil? and spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil? # empty row
         if spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil?
-          if spreadsheet_row[0].include?('The Way')
-            attending = 'The Way'
+          if spreadsheet_row[0].include?(I18n.t('views.candidates.attending_the_way'))
+            attending = I18n.t('views.candidates.attending_the_way')
           else
-            attending = 'Catholic High School'
+            attending = I18n.t('model.candidate.attending_catholic_high_school')
           end
         else
           row = Hash.new

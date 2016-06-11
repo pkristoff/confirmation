@@ -14,7 +14,7 @@ describe CandidateImport do
       expect(candidate.first_name).to eq('Robert')
       expect(candidate.last_name).to eq('Annunziata')
       expect(candidate.grade).to eq(10)
-      expect(candidate.attending).to eq('Catholic High School')
+      expect(candidate.attending).to eq(I18n.t('model.candidate.attending_catholic_high_school'))
       expect(candidate.parent_email_1).to eq('lannunz@nc.rr.com')
       expect(candidate.parent_email_2).to eq('rannunz@nc.rr.com')
 
@@ -56,7 +56,7 @@ describe CandidateImport do
         parent_email_1: 'foo@bar.com',
         parent_email_2: '',
         grade: 10,
-        attending: 'The Way',
+        attending: I18n.t('model.candidate.attending_the_way'),
         address: {
             street_1: '',
             street_2: 'street 2',
@@ -82,7 +82,7 @@ describe CandidateImport do
         parent_email_1: 'vicki@kristoffs.com',
         parent_email_2: 'vicki@kristoffs.com',
         grade: 9,
-        attending: 'The Way',
+        attending: I18n.t('model.candidate.attending_the_way'),
         address: {
             street_1: '2116 Frissell Ave',
             street_2: '',
@@ -108,7 +108,7 @@ describe CandidateImport do
         parent_email_1: 'paul@kristoffs.com',
         parent_email_2: 'paul@kristoffs.com',
         grade: 12,
-        attending: 'Catholic High School',
+        attending: I18n.t('model.candidate.attending_catholic_high_school'),
         address: {
             street_1: '2120 Frissell Ave',
             street_2: '',
@@ -227,7 +227,7 @@ describe CandidateImport do
             expect(c1_row.cells[4].value).to eq('test@example.com')
             expect(c1_row.cells[5].value).to eq('')
             expect(c1_row.cells[6].value).to eq(10)
-            expect(c1_row.cells[7].value).to eq('The Way')
+            expect(c1_row.cells[7].value).to eq(I18n.t('model.candidate.attending_the_way'))
             expect(c1_row.cells[8].value).to eq('2120 Frissell Ave.')
             expect(c1_row.cells[9].value).to eq('Apt. 456')
             expect(c1_row.cells[10].value).to eq('Apex')

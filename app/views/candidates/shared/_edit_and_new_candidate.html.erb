@@ -62,6 +62,15 @@
     </div>
 <% end %>
 
+<%= field_set_tag t('views.candidates.event_related'), class: 'fieldset' do %>
+    <div class="fieldset-div">
+      <div class="field">
+        <%= f.label :confirmation_name %><br/>
+        <%= f.text_field :confirmation_name %>
+      </div>
+    </div>
+<% end %>
+
 <%= field_set_tag t('views.candidates.other'), class: 'fieldset' do %>
     <div class="fieldset-div">
       <div class="field">
@@ -71,9 +80,9 @@
 
       <%= field_set_tag 'Attending', class: 'fieldset' do %>
           <div class="fieldset-div">
-            <%= f.radio_button(:attending, 'Catholic High School') %> <%= f.label :attending, 'Catholic High School', value: 'Catholic High School' %>
+            <%= f.radio_button(:attending, I18n.t('views.candidates.attending_catholic_high_school')) %> <%= f.label :attending, I18n.t('views.candidates.attending_catholic_high_school'), value: I18n.t('views.candidates.attending_catholic_high_school') %>
             <br/>
-            <%= f.radio_button(:attending, 'The Way') %> <%= f.label :attending, 'The Way', value: 'The Way' %>
+            <%= f.radio_button(:attending, I18n.t('views.candidates.attending_the_way')) %> <%= f.label :attending, I18n.t('views.candidates.attending_the_way'), value: I18n.t('views.candidates.attending_the_way') %>
           </div>
       <% end %>
     </div>

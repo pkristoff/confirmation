@@ -17,7 +17,7 @@ feature 'Candidate delete', :devise do
     login_as(admin, scope: :admin)
     visit candidates_path
     click_link(I18n.t('views.common.delete'))
-    expect(page).to have_selector('div[id=flash_notice]', text: "Candidate #{candidate.account_name} successfully removed")
+    expect_message(:flash_notice, I18n.t('messages.candidate_removed', name: candidate.account_name))
   end
 
 end

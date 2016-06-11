@@ -30,17 +30,19 @@ module ViewsHelpers
       expect(rendered).to have_field('Grade', type: 'number')
     end
 
-    if candidate and candidate.attending == 'Catholic High School'
-      expect(rendered).to have_checked_field('Catholic High School', type: 'radio')
-      expect(rendered).to have_unchecked_field('The Way', type: 'radio')
+    if candidate and candidate.attending == I18n.t('views.candidates.attending_catholic_high_school')
+      expect(rendered).to have_checked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
+      expect(rendered).to have_unchecked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
     else
-      expect(rendered).to have_unchecked_field('Catholic High School', type: 'radio')
-      expect(rendered).to have_checked_field('The Way', type: 'radio')
+      expect(rendered).to have_unchecked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
+      expect(rendered).to have_checked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
     end
 
     expect(rendered).to have_field('Candidate email', with: (candidate ? candidate.candidate_email : ''), type: 'email')
     expect(rendered).to have_field('Parent email 1', with: (candidate ? candidate.parent_email_1 : ''), type: 'email')
     expect(rendered).to have_field('Parent email 2', with: (candidate ? candidate.parent_email_2 : ''), type: 'email')
+
+    expect(rendered).to have_field('Confirmation name', with: (candidate ? candidate.confirmation_name : ''), type: 'text')
 
     expect(rendered).to have_field('Password', type: 'password')
     expect(rendered).to have_field('Password confirmation', type: 'password')

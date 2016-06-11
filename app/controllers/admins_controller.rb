@@ -19,7 +19,7 @@ class AdminsController < ApplicationController
   def events_update
     @confirmation_event = ConfirmationEvent.find(params[:id])
     if @confirmation_event.update_attributes(confirmation_event_params)
-      flash[:notice] = "Candidate #{@confirmation_event.name} updated successfully"
+      flash[:notice] = I18n.t('messages.event_updated', name: @confirmation_event.name)
       set_confirmation_events
       render :events
     else

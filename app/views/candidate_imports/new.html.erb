@@ -13,7 +13,7 @@
   <p>
     An Excel file can be used to import records.
     If a row has a string in the first column and nothing else in the remaining column,
-    the first cell indicates whether the candidate is attending "The Way" or a "Catholic High School".
+    the first cell indicates whether the candidate is attending "<%= I18n.t('views.candidates.attending_the_way') %>" or a "<%= I18n.t('views.candidates.attending_catholic_high_school') %>".
     All rows under that will get the associated attending value until another row is encounterd that
     what they are attending.
 

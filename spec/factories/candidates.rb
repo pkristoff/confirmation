@@ -6,7 +6,7 @@ FactoryGirl.define do
     first_name 'Sophia'
     last_name 'Agusta'
     grade 10
-    attending 'The Way'
+    attending I18n.t('model.candidate.attending_the_way')
     after(:build) do |candidate|
       candidate.address ||= FactoryGirl.create(:address)
       unless candidate.candidate_events.size > 0

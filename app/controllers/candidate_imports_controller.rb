@@ -7,11 +7,11 @@ class CandidateImportsController < ApplicationController
   def create
     import_file_param = params[:candidate_import]
     if import_file_param.nil?
-      redirect_to new_candidate_import_url, alert: 'Please select a excel file to upload.'
+      redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')
     else
       @candidate_import = CandidateImport.new(uploaded_file: import_file_param.values.first)
       if @candidate_import.save
-        redirect_to root_url, notice: "Imported candidates successfully."
+        redirect_to root_url, notice: I18n.t('messages.import_successful')
       else
         render :new
       end
@@ -29,12 +29,12 @@ class CandidateImportsController < ApplicationController
   def reset_database
     sign_out current_admin
     CandidateImport.new.reset_database
-    redirect_to root_url, notice: "Database successfully reset."
+    redirect_to root_url, notice: I18n.t('messages.database_reset')
   end
 
   def remove_all_candidates
     CandidateImport.new.remove_all_candidates
-    redirect_to root_url, notice: "All candidates successfully removed."
+    redirect_to root_url, notice: I18n.t('messages.candidates_removed')
   end
 
   def new

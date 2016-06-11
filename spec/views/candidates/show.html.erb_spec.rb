@@ -15,7 +15,7 @@ describe 'candidates/show.html.erb' do
     expect(rendered).to have_selector('p', text: 'Id: sophiaagusta')
     expect(rendered).to have_selector('p', text: 'First name: Sophia')
     expect(rendered).to have_selector('p', text: 'Last name: Agusta')
-    expect(rendered).to have_selector('p', text: 'Attending: The Way')
+    expect(rendered).to have_selector('p', text: "Attending: #{I18n.t('views.candidates.attending_the_way')}")
     expect(rendered).to have_selector('p', text: 'Grade: 10')
     expect(rendered).to have_selector('p', text: 'Candidate email: ')
     expect(rendered).to have_selector('p', text: 'Parent email 1: test@example.com')

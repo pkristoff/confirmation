@@ -25,7 +25,23 @@ feature 'Candidate edit', :devise do
     visit edit_candidate_path(candidate.id)
     fill_in 'Parent email 1', :with => 'newemail@example.com'
     click_button I18n.t('views.common.update')
-    expect(page).to have_selector('div[id=flash_notice]', text: 'Candidate sophiaagusta updated successfully')
+    expect_message(:flash_notice, I18n.t('messages.candidate_updated', name: 'sophiaagusta'))
+
+  end
+
+  # Scenario: Candidate changes email address
+  #   Given I am signed in
+  #   When I change my confirmation name
+  #   Then I see an account updated message
+  scenario 'candidate changes confirmation name' do
+    candidate = FactoryGirl.create(:candidate)
+    visit edit_candidate_path(candidate.id)
+    fill_in 'Confirmation name', :with => 'smith'
+    click_button I18n.t('views.common.update')
+    expect_message(:flash_notice, I18n.t('messages.candidate_updated', name: 'sophiaagusta'))
+
+    visit edit_candidate_path(candidate.id)
+    expect(page).to have_field('Confirmation name', with: 'smith', type: 'text')
   end
 
 end
