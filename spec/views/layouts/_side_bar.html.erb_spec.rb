@@ -14,8 +14,9 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect(rendered).to have_selector('li', count: 2)
+      expect(rendered).to have_selector('li', count: 3)
 
+      expect(rendered).to have_link(I18n.t('views.nav.sign_agreement'), href: "/sign_agreement.#{candidate.id}")
       expect(rendered).to have_link('Edit Sophia Agusta', href: '/dev/candidates/edit')
       expect(rendered).to have_link('Events Sophia Agusta', href: "/dev/registrations/event/#{candidate.id}")
     end

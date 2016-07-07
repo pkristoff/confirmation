@@ -85,10 +85,7 @@ class CandidateImport
     Admin.all.each do |admin|
       admin.delete
     end
-    # matches 20160603111604_add_parent_information_meeting.rb
-    AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
-    # matches 20160603161241_add_attend_retreat.rb
-    AppFactory.add_confirmation_event(I18n.t('events.retreat_weekend'))
+    AppFactory.add_confirmation_events
     AppFactory.generate_seed
   end
 

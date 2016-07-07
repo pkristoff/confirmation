@@ -92,4 +92,13 @@ class AppFactory
     end
   end
 
+  def self.add_confirmation_events
+    # matches 20160603111604_add_parent_information_meeting.rb
+    self.add_confirmation_event(I18n.t('events.parent_meeting'))
+    # matches 20160603161241_add_attend_retreat.rb
+    self.add_confirmation_event(I18n.t('events.retreat_weekend'))
+    # matches 20160701175828_add_convenant_agreement.rb
+    self.add_confirmation_event(I18n.t('events.sign_agreement'))
+  end
+
 end

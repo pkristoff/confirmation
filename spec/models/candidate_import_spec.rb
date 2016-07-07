@@ -68,6 +68,8 @@ describe CandidateImport do
             {completed_date: '',
              admin_confirmed: ''},
             {completed_date: '',
+             admin_confirmed: ''},
+            {completed_date: '',
              admin_confirmed: ''}
         ]
     }
@@ -150,9 +152,10 @@ describe CandidateImport do
   end
 
   def expect_import_with_events
-    expect(ConfirmationEvent.all.size).to eq(2)
-    expect(ConfirmationEvent.find_by_name('Parent Information Meeting').due_date.to_s).to eq('2016-06-03')
-    expect(ConfirmationEvent.find_by_name('Attend Retreat').due_date.to_s).to eq('2016-05-03')
+    expect(ConfirmationEvent.all.size).to eq(3)
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).due_date.to_s).to eq('2016-06-03')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).due_date.to_s).to eq('2016-05-03')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).due_date.to_s).to eq('2016-07-13')
 
     expect(Candidate.all.size).to eq(3)
     expect_candidate(get_vicki_kristoff)

@@ -1,0 +1,18 @@
+<%= form_for(@candidate, as: :candidate, url: sign_agreement_update_path(@candidate.id), html: {method: :put}) do |f| %>
+
+
+    <code>
+        <%= t('views.candidates.convenant_agreement') %>
+    </code>
+
+
+    <div class="field">
+      <%= f.check_box :signed_agreement %>
+      <%= f.label :signed_agreement %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit t('views.common.update') %>
+    </div>
+
+<% end %>

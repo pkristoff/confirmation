@@ -23,6 +23,7 @@ en:
   events:
     parent_meeting: 'Parent Information Meeting'
     retreat_weekend: 'Attend Retreat'
+    sign_agreement: 'Sign Agreement'
   views:
     admins:
       admin: 'Admin'
@@ -37,6 +38,7 @@ en:
       address: 'Address'
       candidate: 'Candidate'
       candidate_name: 'Candidate Name'
+      convenant_agreement: 'Do you solomnly swear to do what is right always?'
       edit_candidate: 'Edit Candidate'
       email: 'Email'
       first_name: 'First name'
@@ -79,4 +81,5 @@ en:
       edit_account: 'Edit account'
       events: 'Events'
       other: 'Other'
+      sign_agreement: 'Sign Agreement'
       toggle_navigation: 'Toggle navigation'

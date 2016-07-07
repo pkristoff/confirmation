@@ -57,12 +57,6 @@ class CandidatesController < ApplicationController
     end
   end
 
-  private
-
-  def candidate_params
-    params.require(:candidate).permit(candidate_permitted_params)
-  end
-
   protected
   def resource_class
     devise_mapping.to
