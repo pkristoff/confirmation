@@ -21,7 +21,7 @@ class AppFactory
     end
   end
 
-  def self.revert_confirmation_event event_name
+  def self.revert_confirmation_event(event_name)
     # puts "reverting: #{event_name}"
     Candidate.all.each do |candidate|
       # puts "reverting candidate: #{candidate.account_name}"
@@ -36,11 +36,11 @@ class AppFactory
     end
     # puts 'about to destroy ConfirmationEvent'
     confirmation_event = ConfirmationEvent.find_by(name: event_name)
-    confirmation_event.destroy
+    confirmation_event.destroy unless confirmation_event.nil?
     # puts "done reverting: #{event_name}"
   end
 
-  def self.add_confirmation_event event_name
+  def self.add_confirmation_event(event_name)
     # puts 'starting event_name'
     new_confirmation_event = nil
     event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
@@ -62,12 +62,12 @@ class AppFactory
   end
 
   def self.generate_seed
-    admin = Admin.find_or_create_by!(email: Rails.application.secrets.admin_email) do |admin|
+    Admin.find_or_create_by!(email: Rails.application.secrets.admin_email) do |admin|
       admin.name = Rails.application.secrets.admin_name
       admin.password = Rails.application.secrets.admin_password
       admin.password_confirmation = Rails.application.secrets.admin_password
     end
-    candidate = create_seed_candidate(ConfirmationEvent.all)
+    create_seed_candidate(ConfirmationEvent.all)
 
   end
 
@@ -75,6 +75,7 @@ class AppFactory
 
   def self.create_candidate_event(confirmation_event)
     candidate_event = CandidateEvent.new
+    candidate_event.admin_confirmed = false
     candidate_event.confirmation_event = confirmation_event
     candidate_event
   end
