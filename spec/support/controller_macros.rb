@@ -2,7 +2,7 @@ module ControllerMacros
   def login_admin
     @request.env['devise.mapping'] = Devise.mappings[:admin]
     xxxadmin = FactoryGirl.create(:admin)
-    sign_in xxxadmin # Using factory girl as an example
+    sign_in xxxadmin
     xxxadmin
   end
 

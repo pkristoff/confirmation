@@ -26,6 +26,9 @@ Rails.application.routes.draw do
     post 'update/:id', to: "dev/registrations#update", as: "update_candidate_registration"
     get 'dev/registrations/event/:id', to: "dev/registrations#event", as: "event_candidate_registration"
     post 'create', to: "registrations#create", as: 'create_candidate'
+
+    get 'sign_agreement.:id', to: "dev/candidates#sign_agreement", as: 'sign_agreement'
+    put 'sign_agreement.:id', to: "dev/candidates#sign_agreement_update", as: 'sign_agreement_update'
   end
 
   # Sign in ADMIN

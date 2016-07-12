@@ -23,7 +23,7 @@ module Dev
 
     def index
       unless admin_signed_in?
-        return redirect_to :back, alert: 'Please login as admin to see list of candidates.'
+        redirect_to :back, alert: 'Please login as admin to see list of candidates.'
       end
     end
 
@@ -36,10 +36,34 @@ module Dev
 
     end
 
-    # Since going around devise mechanisms - add some helpers back in.
-    # def resource
-    #   @resource
-    # end
+    def sign_agreement
+      @candidate = Candidate.find(params[:id])
+    end
+
+    def sign_agreement_update
+      candidate = Candidate.find(params[:id])
+      candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sign_agreement') }
+      if params['candidate']
+        if params['candidate']['signed_agreement'] === '1'
+          candidate_event.completed_date = Date.today
+        else
+          if params['candidate']['signed_agreement'] === '0'
+            candidate_event.completed_date = nil
+            candidate_event.admin_confirmed = false
+          else
+            return redirect_to :back, alert: 'Unknown Parameter'
+          end
+        end
+      else
+        return redirect_to :back, alert: 'Unknown Parameter'
+      end
+
+      if candidate.update_attributes(candidate_params)
+        redirect_to event_candidate_registration_path(params[:id]), notice: 'Updated'
+      else
+        redirect_to :back, alert: 'Saving failed.'
+      end
+    end
 
   end
 end

@@ -43,9 +43,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def candidate_params
+    params.require(:candidate).permit(candidate_permitted_params)
+  end
+
   def candidate_permitted_params
     [:account_name, :first_name, :last_name, :confirmation_name, :candidate_email, :parent_email_1,
      :parent_email_2, :grade, :attending, :password, :password_confirmation,
+     :signed_agreement,
      address_attributes: [:street_1, :street_2, :city, :state, :zip_code],
      candidate_events_attributes: [:id, :completed_date, :verified]
     ]

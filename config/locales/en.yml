@@ -23,6 +23,7 @@ en:
   events:
     parent_meeting: 'Parent Information Meeting'
     retreat_weekend: 'Attend Retreat'
+    sign_agreement: 'Sign Agreement'
   messages:
     accessed_denied: 'Accessed denies.'
     admin_login_needed: 'Please login as admin to %{message}.'
@@ -56,6 +57,7 @@ en:
       attending_catholic_high_school: 'Catholic High School'
       candidate: 'Candidate'
       candidate_name: 'Candidate Name'
+      convenant_agreement: 'Do you solomnly swear to do what is right always?'
       edit_candidate: 'Edit Candidate'
       email: 'Email'
       event_related: 'Event Related'
@@ -100,4 +102,5 @@ en:
       edit_account: 'Edit account'
       events: 'Events'
       other: 'Other'
+      sign_agreement: 'Sign Agreement'
       toggle_navigation: 'Toggle navigation'

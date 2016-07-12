@@ -45,4 +45,34 @@ describe Dev::CandidatesController do
 
   end
 
+  describe 'sign_agreement' do
+
+    it 'show should show setup the candidate.' do
+
+      get :sign_agreement, id: @login_candidate.id
+      expect(response).to render_template('sign_agreement')
+      expect(controller.candidate).to eq(@login_candidate)
+      expect(@request.fullpath).to eq("/sign_agreement.#{@login_candidate.id}")
+    end
+
+    it 'show should update the candidate to signing the confirmation agreement and update Candidate event.' do
+
+      AppFactory.add_confirmation_event(I18n.t('events.sign_agreement'))
+
+      candidate = Candidate.find(@login_candidate.id)
+      candidate_event = candidate.candidate_events.find {|ce| ce.name == I18n.t('events.sign_agreement')}
+      expect(candidate_event.completed_date).to eq(nil)
+
+      put :sign_agreement_update, id: candidate.id, candidate: {signed_agreement: 1}
+
+      candidate = Candidate.find(@login_candidate.id)
+      candidate_event = candidate.candidate_events.find {|ce| ce.name == I18n.t('events.sign_agreement')}
+      expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
+      expect(@request.fullpath).to eq("/sign_agreement.#{candidate.id}?candidate%5Bsigned_agreement%5D=1")
+      expect(candidate.signed_agreement).to eq(true)
+      expect(candidate_event.completed_date).to eq(Date.today)
+    end
+
+  end
+
 end

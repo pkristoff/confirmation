@@ -57,6 +57,7 @@ describe AppFactory do
     it 'should create a confirmation_event, an admin and a candidate' do
       AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
       AppFactory.add_confirmation_event(I18n.t('events.retreat_weekend'))
+      AppFactory.add_confirmation_event(I18n.t('events.sign_convenant_agreement'))
 
       AppFactory.generate_seed
 
@@ -68,9 +69,10 @@ describe AppFactory do
       expect(candidate_events.size).to eq(1)
       candidate = candidate_events[0]
       expect(candidate.account_name).to eq('vickikristoff')
-      expect(candidate.candidate_events.size).to eq(2)
+      expect(candidate.candidate_events.size).to eq(3)
       expect(candidate.candidate_events[0].name).to eq(I18n.t('events.parent_meeting'))
       expect(candidate.candidate_events[1].name).to eq(I18n.t('events.retreat_weekend'))
+      expect(candidate.candidate_events[2].name).to eq(I18n.t('events.sign_convenant_agreement'))
 
     end
 
@@ -106,6 +108,19 @@ describe AppFactory do
       expect(candidate.candidate_events.size).to eq(1)
       expect(candidate.candidate_events[0].name).to eq(I18n.t('events.retreat_weekend'))
 
+    end
+
+    it 'should add all confirmation events' do
+      AppFactory.add_confirmation_events
+      all_events_names = [
+          'events.parent_meeting',
+          'events.retreat_weekend',
+          'events.sign_agreement']
+      all_events_names.each do |event_name|
+
+        expect(ConfirmationEvent.find_by_name(I18n.t(event_name))).not_to eq(nil)
+      end
+      expect(ConfirmationEvent.all.size).to eq(all_events_names.size)
     end
 
   end

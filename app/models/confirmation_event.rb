@@ -8,7 +8,10 @@ class ConfirmationEvent < ActiveRecord::Base
 
   def scrub_instructions()
     # the UI should do this but it always good make sure here.
-    self.instructions= Loofah.fragment(self.instructions).scrub!(:prune).scrub!(:whitewash)
+    # depending on migration this may not have instructions
+    if self.respond_to?(:instructions)
+      self.instructions= Loofah.fragment(self.instructions).scrub!(:prune).scrub!(:whitewash)
+    end
     true
   end
 end

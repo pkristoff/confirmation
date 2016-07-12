@@ -66,9 +66,11 @@ describe CandidateImport do
         },
         candidate_events: [
             {completed_date: '',
-             verified: ''},
+             verified: false},
             {completed_date: '',
-             verified: ''}
+             verified: false},
+            {completed_date: '',
+             verified: false}
         ]
     }
   end
@@ -150,10 +152,10 @@ describe CandidateImport do
   end
 
   def expect_import_with_events
-    expect(ConfirmationEvent.all.size).to eq(2)
-    confirmation_event = ConfirmationEvent.find_by_name('Parent Information Meeting')
-    expect(confirmation_event.due_date.to_s).to eq('2016-06-03')
-    expect(confirmation_event.instructions).to eq("<p><em><strong>simple text</strong></em></p>")
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).due_date.to_s).to eq('2016-06-03')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).due_date.to_s).to eq('2016-05-03')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).due_date.to_s).to eq('2016-07-13')
+    expect(ConfirmationEvent.all.size).to eq(3)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
     expect(confirmation_event_2.due_date.to_s).to eq('2016-05-03')
@@ -208,6 +210,7 @@ describe CandidateImport do
                          candidate_email: 'candiate@example.com')
       FactoryGirl.create(:candidate, account_name: 'c2')
       FactoryGirl.create(:candidate, account_name: 'c3')
+
 
       candidate_import = CandidateImport.new
       package = candidate_import.create_xlsx_package
