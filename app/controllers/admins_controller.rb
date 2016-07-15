@@ -1,6 +1,6 @@
 class AdminsController < ApplicationController
 
-  attr_accessor :admins # for testing
+  attr_accessor :admins, :confirmation_events # for testing
 
   before_action :authenticate_admin!
 
@@ -27,12 +27,6 @@ class AdminsController < ApplicationController
     end
   end
 
-  private
-
-  def confirmation_event_params
-    params.require(:confirmation_event).permit([:name, :due_date, :instructions])
-  end
-
   def set_confirmation_events
     @confirmation_events = ConfirmationEvent.all.sort do |ce1, ce2|
       # sort based on due_date and then by name
@@ -55,6 +49,12 @@ class AdminsController < ApplicationController
         end
       end
     end
+  end
+
+  private
+
+  def confirmation_event_params
+    params.require(:confirmation_event).permit([:name, :due_date, :instructions])
   end
 
 end

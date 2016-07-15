@@ -1,35 +1,155 @@
 include ActionDispatch::TestProcess
 describe Candidate do
 
-  it 'can retrieve a candiadate\'s address' do
-    @candidate = FactoryGirl.create(:candidate)
-    expect(@candidate.account_name).to match 'sophiaagusta'
-    expect(@candidate.parent_email_1).to match 'test@example.com'
-    expect(@candidate.confirmation_name).to match ''
+  describe 'address' do
 
-    expect(@candidate.address.street_1).to match '2120 Frissell Ave.'
-    expect(@candidate.address.street_2).to match 'Apt. 456'
-    expect(@candidate.address.city).to match 'Apex'
-    expect(@candidate.address.state).to match 'NC'
-    expect(@candidate.address.zip_code).to match '27502'
+    it 'can retrieve a candiadate\'s address' do
+      candidate = FactoryGirl.create(:candidate)
+      expect(candidate.account_name).to match 'sophiaagusta'
+      expect(candidate.parent_email_1).to match 'test@example.com'
+      expect(candidate.confirmation_name).to match ''
 
-    expect(@candidate.candidate_events.size).to eq 2
+      expect(candidate.address.street_1).to match '2120 Frissell Ave.'
+      expect(candidate.address.street_2).to match 'Apt. 456'
+      expect(candidate.address.city).to match 'Apex'
+      expect(candidate.address.state).to match 'NC'
+      expect(candidate.address.zip_code).to match '27502'
+
+      expect(candidate.candidate_events.size).to eq 2
+
+    end
+
+    it 'can retrieve a new candiadate\'s address' do
+      candidate = AppFactory.create_candidate
+      expect(candidate.account_name).to match ''
+      expect(candidate.parent_email_1).to match ''
+      expect(candidate.confirmation_name).to match ''
+
+      expect(candidate.address.street_1).to match ''
+      expect(candidate.address.street_2).to match ''
+      expect(candidate.address.city).to match 'Apex'
+      expect(candidate.address.state).to match 'NC'
+      expect(candidate.address.zip_code).to match '27502'
+
+      expect(candidate.candidate_events.size).to eq 0
+    end
 
   end
 
-  it 'can retrieve a new candiadate\'s address' do
-    @candidate = AppFactory.create_candidate
-    expect(@candidate.account_name).to match ''
-    expect(@candidate.parent_email_1).to match ''
-    expect(@candidate.confirmation_name).to match ''
+  describe 'candidate_events_sorted' do
+    before(:each) do
+      @candidates_with_data = [
+          {candidate: setup_candidate(
+              []),
+           result: []
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: nil, completed_date: nil}
+              ]),
+           result: %w(a)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: nil, completed_date: nil},
+                  {name: 'b', due_date: nil, completed_date: nil}
+              ]),
+           result: %w(a b)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-01', completed_date: nil},
+                  {name: 'b', due_date: nil, completed_date: nil}
+              ]),
+           result: %w(b a)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-01', completed_date: nil},
+                  {name: 'b', due_date: '2016-05-01', completed_date: nil}
+              ]),
+           result: %w(a b)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-01', completed_date: nil},
+                  {name: 'b', due_date: '2016-05-02', completed_date: nil}
+              ]),
+           result: %w(a b)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-02', completed_date: nil},
+                  {name: 'b', due_date: '2016-05-01', completed_date: nil}
+              ]),
+           result: %w(b a)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-01', completed_date: '2016-05-05'},
+                  {name: 'b', due_date: '2016-05-01', completed_date: nil}
+              ]),
+           result: %w(b a)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-01', completed_date: nil},
+                  {name: 'b', due_date: '2016-05-01', completed_date: '2016-05-05'}
+              ]),
+           result: %w(a b)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-01', completed_date: '2016-05-06'},
+                  {name: 'b', due_date: '2016-05-01', completed_date: '2016-05-05'}
+              ]),
+           result: %w(a b)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-01', completed_date: '2016-05-06'},
+                  {name: 'b', due_date: '2016-05-02', completed_date: '2016-05-05'}
+              ]),
+           result: %w(a b)
+          },
+          {candidate: setup_candidate(
+              [
+                  {name: 'a', due_date: '2016-05-02', completed_date: '2016-05-06'},
+                  {name: 'b', due_date: '2016-05-01', completed_date: '2016-05-05'}
+              ]),
+           result: %w(b a)
+          }
+      ]
+      end
 
-    expect(@candidate.address.street_1).to match ''
-    expect(@candidate.address.street_2).to match ''
-    expect(@candidate.address.city).to match 'Apex'
-    expect(@candidate.address.state).to match 'NC'
-    expect(@candidate.address.zip_code).to match '27502'
+      it 'two candidate_event with all nil' do
+        @candidates_with_data.each do | data |
+          candidate = data[:candidate]
+          result = data[:result]
+          expect(candidate.candidate_events.size).to eq(result.size)
 
-    expect(@candidate.candidate_events.size).to eq 0
+          candidate_events_sorted = candidate.candidate_events_sorted
+
+          expect(candidate_events_sorted.size).to eq(result.size)
+          result.each_with_index { |expected_name, index | expect(candidate_events_sorted[index].name).to eq(expected_name) }
+
+        end
+
+    end
+
+    def setup_candidate(data)
+      candidate = Candidate.new
+      data.each do | candidate_data |
+        confirmation_event = FactoryGirl.create(
+            :confirmation_event,
+            name: candidate_data[:name],
+            due_date: (candidate_data[:due_date].nil? ? nil : Date.parse(candidate_data[:due_date]))
+        )
+        candidate_event = candidate.add_candidate_event(confirmation_event)
+        candidate_event.completed_date = candidate_data[:completed_date]
+      end
+      candidate
+    end
   end
 
 end

@@ -24,6 +24,7 @@ en:
     parent_meeting: 'Parent Information Meeting'
     retreat_weekend: 'Attend Retreat'
     sign_agreement: 'Sign Agreement'
+    fill_out_candidate_sheet: 'Fill Out Candidate Information Sheet'
   messages:
     accessed_denied: 'Accessed denies.'
     admin_login_needed: 'Please login as admin to %{message}.'
@@ -103,4 +104,5 @@ en:
       events: 'Events'
       other: 'Other'
       sign_agreement: 'Sign Agreement'
+      candidate_sheet: 'Candidate Sheet'
       toggle_navigation: 'Toggle navigation'
