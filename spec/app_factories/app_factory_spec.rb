@@ -1,3 +1,5 @@
+require 'yaml'
+
 describe AppFactory do
 
   context 'creating an admin' do
@@ -57,7 +59,7 @@ describe AppFactory do
     it 'should create a confirmation_event, an admin and a candidate' do
       AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
       AppFactory.add_confirmation_event(I18n.t('events.retreat_weekend'))
-      AppFactory.add_confirmation_event(I18n.t('events.sign_convenant_agreement'))
+      AppFactory.add_confirmation_event(I18n.t('events.sign_agreement'))
 
       AppFactory.generate_seed
 
@@ -72,7 +74,7 @@ describe AppFactory do
       expect(candidate.candidate_events.size).to eq(3)
       expect(candidate.candidate_events[0].name).to eq(I18n.t('events.parent_meeting'))
       expect(candidate.candidate_events[1].name).to eq(I18n.t('events.retreat_weekend'))
-      expect(candidate.candidate_events[2].name).to eq(I18n.t('events.sign_convenant_agreement'))
+      expect(candidate.candidate_events[2].name).to eq(I18n.t('events.sign_agreement'))
 
     end
 
@@ -111,17 +113,23 @@ describe AppFactory do
     end
 
     it 'should add all confirmation events' do
+      all_events_names = get_all_event_names
       AppFactory.add_confirmation_events
-      all_events_names = [
-          'events.parent_meeting',
-          'events.retreat_weekend',
-          'events.sign_agreement']
       all_events_names.each do |event_name|
-
         expect(ConfirmationEvent.find_by_name(I18n.t(event_name))).not_to eq(nil)
       end
       expect(ConfirmationEvent.all.size).to eq(all_events_names.size)
     end
 
+  end
+
+
+  def get_all_event_names
+    config = YAML.load_file('config/locales/en.yml')
+    all_events_names = []
+    config['en']['events'].each do |event_name_entry|
+      all_events_names << "events.#{event_name_entry[0]}"
+    end
+    all_events_names
   end
 end
