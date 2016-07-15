@@ -20,6 +20,56 @@ class Candidate < ActiveRecord::Base
   validates_presence_of :first_name, :last_name, :parent_email_1
   validate :validate_emails
 
+  def candidate_events_sorted
+    candidate_events.sort do | ce1, ce2 |
+      # in order for this to work due_dates should not be nil.
+      # if they are move them to the top so admin can give them
+      # one.
+      if ce1.due_date.nil?
+        if ce2.due_date.nil?
+          ce1.name <=> ce2.name
+        else
+          -1
+        end
+      else
+        if ce2.due_date.nil?
+          1
+        else
+          # due_dates filled in.
+          if ce1.completed_date.nil?
+            if ce2.completed_date.nil?
+              # if neither completed then the first to come
+              # due is first
+              due_date = ce1.due_date <=> ce2.due_date
+              if due_date == 0
+                ce1.name <=> ce2.name
+              else
+                due_date
+              end
+            else
+              # non completed goes on top.
+              -1
+            end
+          else
+            # non completed goes on top.
+            if ce2.completed_date.nil?
+              1
+            else
+              # if both are completed then the first to come
+              # due is on top
+              due_date = ce1.due_date <=> ce2.due_date
+              if due_date == 0
+                ce1.name <=> ce2.name
+              else
+                due_date
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
   def self.find_first_by_auth_conditions(tainted_conditions, options = {})
     login = tainted_conditions.delete(:account_name)
     if login
@@ -68,13 +118,13 @@ class Candidate < ActiveRecord::Base
 
   def validate_emails
     unless candidate_email.nil? or candidate_email.empty?
-      errors.add(:candidate_email, "is an invalid email") unless validate_email(candidate_email)
+      errors.add(:candidate_email, 'is an invalid email') unless validate_email(candidate_email)
     end
     unless parent_email_1.nil? or parent_email_1.empty?
-      errors.add(:parent_email_1, "is an invalid email") unless validate_email(parent_email_1)
+      errors.add(:parent_email_1, 'is an invalid email') unless validate_email(parent_email_1)
     end
     unless parent_email_2.nil? or parent_email_2.empty?
-      errors.add(:parent_email_2, "is an invalid email") unless validate_email(parent_email_2)
+      errors.add(:parent_email_2, 'is an invalid email') unless validate_email(parent_email_2)
     end
 
   end

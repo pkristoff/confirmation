@@ -4,7 +4,10 @@ describe CandidateImport do
 
   describe 'import excel spreadsheet' do
 
-    it 'import spreadsheet will update database' do
+    it 'import initial spreadsheet from coordinator will update database' do
+
+      all_event_names = AppFactory.add_confirmation_events
+
       uploaded_file = fixture_file_upload('Small.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
       expect(candidate_import.save).to eq(true)
@@ -17,6 +20,8 @@ describe CandidateImport do
       expect(candidate.attending).to eq(I18n.t('model.candidate.attending_catholic_high_school'))
       expect(candidate.parent_email_1).to eq('lannunz@nc.rr.com')
       expect(candidate.parent_email_2).to eq('rannunz@nc.rr.com')
+
+      expect(candidate.candidate_events.size).to eq(all_event_names.size)
 
     end
 
@@ -143,6 +148,7 @@ describe CandidateImport do
         expect(candidate.send(key)).to eq(value)
       end
     end
+    expect(candidate.candidate_events.size).to eq(get_all_event_names.size)
   end
 
   def expect_keys(obj, attributes)
@@ -155,7 +161,8 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).due_date.to_s).to eq('2016-06-03')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).due_date.to_s).to eq('2016-05-03')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).due_date.to_s).to eq('2016-07-13')
-    expect(ConfirmationEvent.all.size).to eq(3)
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.fill_out_candidate_sheet')).due_date.to_s).to eq('2016-02-16')
+    expect(ConfirmationEvent.all.size).to eq(4)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
     expect(confirmation_event_2.due_date.to_s).to eq('2016-05-03')
@@ -283,6 +290,15 @@ describe CandidateImport do
 
       expect_import_with_events
     end
+  end
+
+  def get_all_event_names
+    config = YAML.load_file('config/locales/en.yml')
+    all_events_names = []
+    config['en']['events'].each do |event_name_entry|
+      all_events_names << "events.#{event_name_entry[0]}"
+    end
+    all_events_names
   end
 
 end

@@ -7,28 +7,31 @@ Rails.application.routes.draw do
   post 'candidate_imports/export_to_excel'
 
   devise_for :admins,
-             controllers: {:registrations => "registrations"}
+             controllers: {:registrations => 'registrations'}
   devise_scope :admins do
-    get "/events" => "admins#events"
-    put "/events.:id" => "admins#events_update"
+    get '/events' => 'admins#events'
+    put '/events.:id' => 'admins#events_update'
   end
 
   resources :admins
 
   # Sign in CANDIDATE
   devise_for :candidates, :path_prefix => 'dev',
-             controllers: {:registrations => "dev/registrations"}
+             controllers: {:registrations => 'dev/registrations'}
   devise_scope :candidates do
-    get 'show/:id', to: "dev/candidates#show", as: "dev_candidate"
-    get 'event/:id', to: "candidates#event", as: "event_candidate"
-    put 'event/:id', to: "candidates#update", as: "update_candidate"
-    delete 'event/:id', to: "candidates#destroy", as: "destroy_candidate"
-    post 'update/:id', to: "dev/registrations#update", as: "update_candidate_registration"
-    get 'dev/registrations/event/:id', to: "dev/registrations#event", as: "event_candidate_registration"
-    post 'create', to: "registrations#create", as: 'create_candidate'
+    get 'show/:id', to: 'dev/candidates#show', as: 'dev_candidate'
+    get 'event/:id', to: 'candidates#event', as: 'event_candidate'
+    put 'event/:id', to: 'candidates#update', as: 'update_candidate'
+    delete 'event/:id', to: 'candidates#destroy', as: 'destroy_candidate'
+    post 'update/:id', to: 'dev/registrations#update', as: 'update_candidate_registration'
+    get 'dev/registrations/event/:id', to: 'dev/registrations#event', as: 'event_candidate_registration'
+    post 'create', to: 'registrations#create', as: 'create_candidate'
 
-    get 'sign_agreement.:id', to: "dev/candidates#sign_agreement", as: 'sign_agreement'
-    put 'sign_agreement.:id', to: "dev/candidates#sign_agreement_update", as: 'sign_agreement_update'
+    get 'sign_agreement.:id', to: 'dev/candidates#sign_agreement', as: 'sign_agreement'
+    put 'sign_agreement.:id', to: 'dev/candidates#sign_agreement_update', as: 'sign_agreement_update'
+
+    get 'candidate_sheet.:id', to: 'dev/candidates#candidate_sheet', as: 'candidate_sheet'
+    put 'candidate_sheet.:id', to: 'dev/candidates#candidate_sheet_update', as: 'candidate_sheet_update'
   end
 
   # Sign in ADMIN

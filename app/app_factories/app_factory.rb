@@ -67,7 +67,7 @@ class AppFactory
       admin.password = Rails.application.secrets.admin_password
       admin.password_confirmation = Rails.application.secrets.admin_password
     end
-    create_seed_candidate(ConfirmationEvent.all)
+    create_seed_candidate()
 
   end
 
@@ -80,7 +80,7 @@ class AppFactory
     candidate_event
   end
 
-  def self.create_seed_candidate(confirmation_events = ConfirmationEvent.all)
+  def self.create_seed_candidate()
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.create_address
       candidate.parent_email_1 = 'paul@kristoffs.com'
@@ -94,12 +94,18 @@ class AppFactory
   end
 
   def self.add_confirmation_events
-    # matches 20160603111604_add_parent_information_meeting.rb
-    self.add_confirmation_event(I18n.t('events.parent_meeting'))
-    # matches 20160603161241_add_attend_retreat.rb
-    self.add_confirmation_event(I18n.t('events.retreat_weekend'))
-    # matches 20160701175828_add_convenant_agreement.rb
-    self.add_confirmation_event(I18n.t('events.sign_agreement'))
+    all_event_names = [
+        # matches 20160603111604_add_parent_information_meeting.rb
+        'events.parent_meeting',
+        # matches 20160603161241_add_attend_retreat.rb
+        'events.retreat_weekend',
+        # matches 20160701175828_add_convenant_agreement.rb
+        'events.sign_agreement',
+        # matches 20160712191417_add_candidate_information_sheet.rb
+        'events.fill_out_candidate_sheet'
+    ]
+    all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
+    all_event_names
   end
 
 end
