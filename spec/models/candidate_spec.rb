@@ -34,6 +34,11 @@ describe Candidate do
       expect(candidate.candidate_events.size).to eq 0
     end
 
+    it 'baptized_at_stmm' do
+      candidate = AppFactory.create_candidate
+      expect(candidate.baptized_at_stmm).to eq(true)
+    end
+
   end
 
   describe 'candidate_events_sorted' do

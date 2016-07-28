@@ -89,6 +89,10 @@ class AppFactory
       candidate.grade = 10
       candidate.password = Rails.application.secrets.admin_password
       candidate.password_confirmation = Rails.application.secrets.admin_password
+      candidate.address.street_1 = '2120 Frissell Ave.'
+      candidate.address.city = 'Apex'
+      candidate.address.state = 'NC'
+      candidate.address.zip_code = '27502'
       self.add_candidate_events(candidate)
     end
   end
@@ -102,7 +106,9 @@ class AppFactory
         # matches 20160701175828_add_convenant_agreement.rb
         'events.sign_agreement',
         # matches 20160712191417_add_candidate_information_sheet.rb
-        'events.fill_out_candidate_sheet'
+        'events.fill_out_candidate_sheet',
+        # matches 20160712191417_add_candidate_information_sheet.rb
+        'events.upload_baptismal_certificate'
     ]
     all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
     all_event_names

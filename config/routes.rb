@@ -32,6 +32,12 @@ Rails.application.routes.draw do
 
     get 'candidate_sheet.:id', to: 'dev/candidates#candidate_sheet', as: 'candidate_sheet'
     put 'candidate_sheet.:id', to: 'dev/candidates#candidate_sheet_update', as: 'candidate_sheet_update'
+
+    get 'upload_baptismal_certificate.:id', to: 'dev/candidates#upload_baptismal_certificate', as: 'upload_baptismal_certificate'
+    put 'upload_baptismal_certificate.:id', to: 'dev/candidates#baptismal_certificate_update', as: 'baptismal_certificate_update'
+
+    get 'show_baptism_certificate.:id', to: 'dev/candidates#show_baptism_certificate', as: 'show_baptism_certificate'
+    get 'upload_baptismal_certificate_image.:id', to: 'dev/candidates#upload_baptismal_certificate_image', as: 'upload_baptismal_certificate_image'
   end
 
   # Sign in ADMIN

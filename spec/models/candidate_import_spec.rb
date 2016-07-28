@@ -162,7 +162,8 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).due_date.to_s).to eq('2016-05-03')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).due_date.to_s).to eq('2016-07-13')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.fill_out_candidate_sheet')).due_date.to_s).to eq('2016-02-16')
-    expect(ConfirmationEvent.all.size).to eq(4)
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).due_date.to_s).to eq('2016-08-12')
+    expect(ConfirmationEvent.all.size).to eq(5)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
     expect(confirmation_event_2.due_date.to_s).to eq('2016-05-03')

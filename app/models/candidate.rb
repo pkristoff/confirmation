@@ -1,9 +1,11 @@
 class Candidate < ActiveRecord::Base
 
-  belongs_to(:address)
+  belongs_to(:address, validate: false)
   accepts_nested_attributes_for :address, allow_destroy: true
   has_many(:candidate_events)
   accepts_nested_attributes_for :candidate_events, allow_destroy: true
+  belongs_to(:baptismal_certificate, validate: false)
+  accepts_nested_attributes_for :baptismal_certificate, allow_destroy: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -19,6 +21,8 @@ class Candidate < ActiveRecord::Base
             }
   validates_presence_of :first_name, :last_name, :parent_email_1
   validate :validate_emails
+
+  validates_associated :baptismal_certificate
 
   def candidate_events_sorted
     candidate_events.sort do | ce1, ce2 |

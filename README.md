@@ -54,6 +54,8 @@ This application requires:
 * Learn more about [Heroku Assets] (https://devcenter.heroku.com/articles/rails-asset-pipeline).
 * Learn more about [Capybara] (http://www.rubydoc.info/github/jnicklas/capybara/Capybara/).
 * Learn more about [ActiveRecord] (http://api.rubyonrails.org/classes/ActiveRecord/).
+* Learn more about [file upload] (http://ryan.endacott.me/2014/06/10/rails-file-upload.html,
+                                    http://mattberther.com/2007/10/19/uploading-files-to-a-database-using-rails).
 * Learn more about [Migration] (http://guides.rubyonrails.org/active_record_migrations.htm).
   * db:migrate runs (single) migrations that have not run yet.
   * db:create creates the database

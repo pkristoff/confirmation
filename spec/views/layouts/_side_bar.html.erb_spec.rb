@@ -14,10 +14,11 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect(rendered).to have_selector('li', count: 4)
+      expect(rendered).to have_selector('li', count: 5)
 
       expect(rendered).to have_link(I18n.t('views.nav.sign_agreement'), href: "/sign_agreement.#{candidate.id}")
       expect(rendered).to have_link(I18n.t('views.nav.candidate_sheet'), href: "/candidate_sheet.#{candidate.id}")
+      expect(rendered).to have_link(I18n.t('views.nav.upload_baptismal_certificate'), href: "/upload_baptismal_certificate.#{candidate.id}")
       expect(rendered).to have_link('Edit Sophia Agusta', href: '/dev/candidates/edit')
       expect(rendered).to have_link('Events Sophia Agusta', href: "/dev/registrations/event/#{candidate.id}")
     end
