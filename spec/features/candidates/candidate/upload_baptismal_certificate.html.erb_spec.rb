@@ -28,24 +28,26 @@ feature 'Baptismal Certificate', :devise do
     Warden.test_reset!
   end
 
+  #dev
+
   scenario 'candidate logs in, checks baptized_at_stmm, nothing else showing' do
     @candidate.baptized_at_stmm = true
     update_baptismal_certificate(false)
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     expect_form_layout(@candidate)
   end
 
   scenario 'candidate logs in, unchecks baptized_at_stmm, rest showing' do
     @candidate.baptized_at_stmm = false
     update_baptismal_certificate(true)
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     expect_form_layout(@candidate)
   end
 
   scenario 'candidate logs in, unchecks baptized_at_stmm, fills in template' do
     @candidate.baptized_at_stmm = false
     update_baptismal_certificate(false)
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     fill_in_form
     click_button I18n.t('views.common.update')
 
@@ -71,11 +73,11 @@ feature 'Baptismal Certificate', :devise do
   scenario 'candidate logs in, unchecks baptized_at_stmm, fills in template then changes mind she was baptized at stmm' do
     @candidate.baptized_at_stmm = false
     update_baptismal_certificate(false)
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     fill_in_form
     click_button I18n.t('views.common.update')
 
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     # puts page.html
     # expect(has_button? I18n.t('views.common.update'))
     check('Baptized at stmm')
@@ -92,7 +94,7 @@ feature 'Baptismal Certificate', :devise do
   scenario 'candidate logs in, unchecks baptized_at_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.baptized_at_stmm = false
     update_baptismal_certificate(false)
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     attach_file('Certificate picture', 'spec/fixtures/actions.png')
     click_button I18n.t('views.common.update')
 
@@ -105,7 +107,7 @@ feature 'Baptismal Certificate', :devise do
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate.baptismal_certificate.certificate_filename).not_to eq(nil)
 
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate)
 
@@ -114,7 +116,7 @@ feature 'Baptismal Certificate', :devise do
   scenario 'candidate logs in, unchecks baptized_at_stmm, adds non-picture data, updates, adds picture, updates - everything is saved' do
     @candidate.baptized_at_stmm = false
     update_baptismal_certificate(false)
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
 
     fill_in_form(false) # no picture
     click_button I18n.t('views.common.update')
@@ -129,7 +131,7 @@ feature 'Baptismal Certificate', :devise do
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate.baptismal_certificate.certificate_filename).not_to eq(nil)
 
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate)
 
@@ -138,19 +140,19 @@ feature 'Baptismal Certificate', :devise do
   scenario 'candidate logs in, unchecks baptized_at_stmm, fills in template, except street_1' do
     @candidate.baptized_at_stmm = false
     update_baptismal_certificate(false)
-    visit upload_baptismal_certificate_path(@candidate.id)
+    visit dev_upload_baptismal_certificate_path(@candidate.id)
     fill_in_form
     fill_in('Street 1', with: nil)
     click_button I18n.t('views.common.update')
 
-    expect_message(:error_explanation, '1 error prohibited saving: Church address street 1 can\'t be blank')
+    expect_message(:error_explanation, '1 error prohibited saving: Church address is invalid')
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')
   end
 
   def expect_form_layout(candidate, street_1=STREET_1)
     visibility = candidate.baptized_at_stmm ? 'hide-div' : 'show-div'
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/upload_baptismal_certificate.#{@candidate.id}\"]")
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/dev/upload_baptismal_certificate.#{@candidate.id}\"]")
     expect(page).to have_selector("div[id=baptismal-certificate-top][class=\"#{visibility}\"]")
 
     if candidate.baptized_at_stmm

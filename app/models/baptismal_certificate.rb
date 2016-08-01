@@ -10,6 +10,11 @@ class BaptismalCertificateValidator < ActiveModel::Validator
       !value.nil?
     end
       @baptismal_certificate.validates_presence_of @options[:fields]
+      church_address = @baptismal_certificate.church_address
+      church_address.validates_presence_of @options[:address]
+      if church_address.errors.any?
+        @baptismal_certificate.errors.add(:church_address, :invalid)
+      end
     end
     if @options[:pictures_fields].any? do |field|
       value = @baptismal_certificate.send(field)
@@ -35,6 +40,7 @@ class BaptismalCertificate < ActiveRecord::Base
   def validate_self
     BaptismalCertificateValidator.new(self, fields: [:birth_date, :baptismal_date, :church_name, :father_first, :father_middle, :father_last,
                                                      :mother_first, :mother_middle, :mother_maiden, :mother_last],
+                                      address: [:street_1, :city, :state, :zip_code],
                                       pictures_fields: [:certificate_filename, :certificate_content_type, :certificate_file_contents])
         .validate
   end

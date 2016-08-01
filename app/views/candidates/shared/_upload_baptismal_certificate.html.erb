@@ -18,7 +18,7 @@
     </div>
 <% end %>
 
-<%= form_for(@candidate, as: :candidate, url: baptismal_certificate_update_path(@candidate.id), html: {method: :put}) do |f| %>
+<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_baptismal_certificate_update_path(@candidate.id) : baptismal_certificate_update_path(@candidate.id), html: {method: :put}) do |f| %>
     <div class="field">
       <%= f.check_box :baptized_at_stmm, onclick: 'update_baptismal_certificate();' %>
       <%= f.label :baptized_at_stmm %>
@@ -32,7 +32,7 @@
 
               <% unless @candidate.baptismal_certificate.certificate_filename.nil? %>
                   <div>
-                    <img src="<%= url_for(upload_baptismal_certificate_image_path(@candidate.id)) %>"/>
+                    <img src="<%= url_for(is_dev ? dev_upload_baptismal_certificate_image_path(@candidate.id) : upload_baptismal_certificate_image_path(@candidate.id)) %>"/>
                   </div>
               <% end %>
 

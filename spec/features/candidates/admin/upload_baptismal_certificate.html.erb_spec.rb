@@ -19,33 +19,40 @@ feature 'Baptismal Certificate', :devise do
   MOTHER_MAIDEN = 'Mary'
 
   before(:each) do
+    @admin = FactoryGirl.create(:admin)
     @candidate = FactoryGirl.create(:candidate)
     AppFactory.add_confirmation_event(I18n.t('events.upload_baptismal_certificate'))
-    login_as(@candidate, scope: :candidate)
+    login_as(@admin, scope: :admin)
   end
 
   after(:each) do
     Warden.test_reset!
   end
 
-  scenario 'candidate logs in, checks baptized_at_stmm, nothing else showing' do
+  # no dev
+
+  scenario 'admin logs in and selects a candidate, checks baptized_at_stmm, nothing else showing' do
     @candidate.baptized_at_stmm = true
+    @candidate.save
     update_baptismal_certificate(false)
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    visit upload_baptismal_certificate_path(@candidate.id)
     expect_form_layout(@candidate)
   end
 
-  scenario 'candidate logs in, unchecks baptized_at_stmm, rest showing' do
+  scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, rest showing' do
     @candidate.baptized_at_stmm = false
+    @candidate.save
     update_baptismal_certificate(true)
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    visit upload_baptismal_certificate_path(@candidate.id)
     expect_form_layout(@candidate)
   end
 
-  scenario 'candidate logs in, unchecks baptized_at_stmm, fills in template' do
+  scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template' do
     @candidate.baptized_at_stmm = false
+    @candidate.save
     update_baptismal_certificate(false)
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    expect(@candidate.baptized_at_stmm).to eq(false)
+    visit upload_baptismal_certificate_path(@candidate.id)
     fill_in_form
     click_button I18n.t('views.common.update')
 
@@ -68,15 +75,15 @@ feature 'Baptismal Certificate', :devise do
     expect(candidate.baptismal_certificate.mother_last).to eq(LAST_NAME)
   end
 
-  scenario 'candidate logs in, unchecks baptized_at_stmm, fills in template then changes mind she was baptized at stmm' do
+  scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template then changes mind she was baptized at stmm' do
     @candidate.baptized_at_stmm = false
+    @candidate.save
     update_baptismal_certificate(false)
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    visit upload_baptismal_certificate_path(@candidate.id)
     fill_in_form
     click_button I18n.t('views.common.update')
 
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
-    # puts page.html
+    visit upload_baptismal_certificate_path(@candidate.id)
     # expect(has_button? I18n.t('views.common.update'))
     check('Baptized at stmm')
     # puts page.html
@@ -89,10 +96,16 @@ feature 'Baptismal Certificate', :devise do
     expect(candidate.baptismal_certificate).to eq(nil)
   end
 
-  scenario 'candidate logs in, unchecks baptized_at_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
+  scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.baptized_at_stmm = false
+    @candidate.create_baptismal_certificate
+    @candidate.baptismal_certificate.create_church_address
+    @candidate.save
+    AppFactory.add_candidate_events(@candidate)
     update_baptismal_certificate(false)
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    # @candidate.save
+    visit upload_baptismal_certificate_path(@candidate.id)
+
     attach_file('Certificate picture', 'spec/fixtures/actions.png')
     click_button I18n.t('views.common.update')
 
@@ -105,16 +118,17 @@ feature 'Baptismal Certificate', :devise do
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate.baptismal_certificate.certificate_filename).not_to eq(nil)
 
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    visit upload_baptismal_certificate_path(@candidate.id)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate)
 
   end
 
-  scenario 'candidate logs in, unchecks baptized_at_stmm, adds non-picture data, updates, adds picture, updates - everything is saved' do
+  scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds non-picture data, updates, adds picture, updates - everything is saved' do
     @candidate.baptized_at_stmm = false
+    @candidate.save
     update_baptismal_certificate(false)
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    visit upload_baptismal_certificate_path(@candidate.id)
 
     fill_in_form(false) # no picture
     click_button I18n.t('views.common.update')
@@ -129,21 +143,22 @@ feature 'Baptismal Certificate', :devise do
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate.baptismal_certificate.certificate_filename).not_to eq(nil)
 
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    visit upload_baptismal_certificate_path(@candidate.id)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate)
 
   end
 
-  scenario 'candidate logs in, unchecks baptized_at_stmm, fills in template, except street_1' do
+  scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template, except street_1' do
     @candidate.baptized_at_stmm = false
+    @candidate.save
     update_baptismal_certificate(false)
-    visit dev_upload_baptismal_certificate_path(@candidate.id)
+    visit upload_baptismal_certificate_path(@candidate.id)
     fill_in_form
     fill_in('Street 1', with: nil)
     click_button I18n.t('views.common.update')
 
-    expect_message(:error_explanation, '1 error prohibited saving: Church address street 1 can\'t be blank')
+    expect_message(:error_explanation, '1 error prohibited saving: Church address is invalid')
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')
   end
@@ -233,6 +248,7 @@ feature 'Baptismal Certificate', :devise do
       baptismal_certificate.mother_middle=MOTHER_MIDDLE
       baptismal_certificate.mother_maiden=MOTHER_MAIDEN
       baptismal_certificate.mother_last=LAST_NAME
+      @candidate.save
     end
   end
 

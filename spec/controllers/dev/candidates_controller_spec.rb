@@ -116,7 +116,7 @@ describe Dev::CandidatesController do
 
       expect(response).to render_template('upload_baptismal_certificate')
       expect(controller.candidate).to eq(@login_candidate)
-      expect(@request.fullpath).to eq("/upload_baptismal_certificate.#{@login_candidate.id}")
+      expect(@request.fullpath).to eq("/dev/upload_baptismal_certificate.#{@login_candidate.id}")
 
       expect(controller.candidate.baptismal_certificate).not_to eq(nil)
     end
@@ -135,7 +135,7 @@ describe Dev::CandidatesController do
       candidate = Candidate.find(@login_candidate.id)
       candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
       expect(response.status).to eq(302)
-      expect(@request.fullpath).to eq("/upload_baptismal_certificate.#{candidate.id}?candidate%5Bbaptized_at_stmm%5D=1")
+      expect(@request.fullpath).to eq("/dev/upload_baptismal_certificate.#{candidate.id}?candidate%5Bbaptized_at_stmm%5D=1")
       expect(candidate.baptized_at_stmm).to eq(true)
       expect(candidate.baptismal_certificate).to eq(nil)
       expect(candidate_event.completed_date).to eq(Date.today)
@@ -156,7 +156,7 @@ describe Dev::CandidatesController do
       candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
       # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
       expect(response.status).to eq(200)
-      expect(@request.fullpath).to eq("/upload_baptismal_certificate.#{candidate.id}")
+      expect(@request.fullpath).to eq("/dev/upload_baptismal_certificate.#{candidate.id}")
       expect(candidate.baptized_at_stmm).to eq(true)
       expect(candidate.baptismal_certificate).to eq(nil)
       expect(candidate_event.completed_date).to eq(nil)
@@ -183,9 +183,9 @@ describe Dev::CandidatesController do
       candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
       # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
       expect(response.status).to eq(200)
-      expect(@request.fullpath).to eq("/upload_baptismal_certificate.#{candidate.id}?candidate%5Bbaptized_at_stmm%5D=0")
-      expect(candidate.baptized_at_stmm).to eq(true)
-      expect(candidate.baptismal_certificate).to eq(nil)
+      expect(@request.fullpath).to eq("/dev/upload_baptismal_certificate.#{candidate.id}?candidate%5Bbaptized_at_stmm%5D=0")
+      expect(candidate.baptized_at_stmm).to eq(false)
+      expect(candidate.baptismal_certificate).not_to eq(nil)
       expect(candidate_event.completed_date.to_s).to eq('')
 
       expect(response).to render_template('dev/candidates/baptismal_certificate_update')
