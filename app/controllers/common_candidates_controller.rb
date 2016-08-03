@@ -87,6 +87,39 @@ class CommonCandidatesController < ApplicationController
     send_image(@candidate)
   end
 
+  def sign_agreement
+    @candidate = Candidate.find(params[:id])
+  end
+
+  def sign_agreement_update
+    candidate = Candidate.find(params[:id])
+    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sign_agreement') }
+    if params['candidate']
+      if params['candidate']['signed_agreement'] === '1'
+        candidate_event.completed_date = Date.today
+      else
+        if params['candidate']['signed_agreement'] === '0'
+          candidate_event.completed_date = nil
+          candidate_event.verified = false
+        else
+          return redirect_to :back, alert: 'Unknown Parameter'
+        end
+      end
+    else
+      return redirect_to :back, alert: 'Unknown Parameter'
+    end
+
+    if candidate.update_attributes(candidate_params)
+      if is_admin?
+        redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
+      else
+        redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
+      end
+    else
+      redirect_to :back, alert: 'Saving failed.'
+    end
+  end
+
   def upload_baptismal_certificate
     @candidate = Candidate.find(params[:id])
     if @candidate.baptismal_certificate.nil?

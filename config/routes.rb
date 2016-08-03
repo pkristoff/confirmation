@@ -27,8 +27,15 @@ Rails.application.routes.draw do
     get 'dev/registrations/event/:id', to: 'dev/registrations#event', as: 'event_candidate_registration'
     post 'create', to: 'registrations#create', as: 'create_candidate'
 
-    get 'sign_agreement.:id', to: 'dev/candidates#sign_agreement', as: 'sign_agreement'
-    put 'sign_agreement.:id', to: 'dev/candidates#sign_agreement_update', as: 'sign_agreement_update'
+    # sign agreement
+
+    get 'sign_agreement.:id', to: 'candidates#sign_agreement', as: 'sign_agreement'
+    put 'sign_agreement.:id', to: 'candidates#sign_agreement_update', as: 'sign_agreement_update'
+
+    get 'dev/sign_agreement.:id', to: 'dev/candidates#sign_agreement', as: 'dev_sign_agreement'
+    put 'dev/sign_agreement.:id', to: 'dev/candidates#sign_agreement_update', as: 'dev_sign_agreement_update'
+
+    # candidate sheet
 
     get 'candidate_sheet.:id', to: 'dev/candidates#candidate_sheet', as: 'candidate_sheet'
     put 'candidate_sheet.:id', to: 'dev/candidates#candidate_sheet_update', as: 'candidate_sheet_update'
