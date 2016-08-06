@@ -32,14 +32,30 @@ describe CandidatesController do
 
   end
 
-  describe 'baptismal_certificate' do
+  describe 'behaves like' do
     before(:each) do
       @candidate = FactoryGirl.create(:candidate)
       @dev = ''
       @dev_registration = ''
     end
 
-    it_behaves_like 'upload_baptismal_certificate'
+    describe 'sign_agreement' do
+
+      it_behaves_like 'sign_agreement'
+
+    end
+
+    describe 'fill_out_candidate_sheet' do
+
+      it_behaves_like 'fill_out_candidate_sheet'
+
+    end
+
+    describe 'baptismal_certificate' do
+
+      it_behaves_like 'upload_baptismal_certificate'
+
+    end
 
   end
 

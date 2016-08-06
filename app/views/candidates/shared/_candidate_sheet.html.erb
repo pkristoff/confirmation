@@ -1,0 +1,73 @@
+<%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
+
+
+    <%= field_set_tag t('views.candidates.candidate_name'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= f.label :first_name %><br/>
+            <%= f.text_field :first_name, autofocus: true %>
+          </div>
+
+          <div class="field">
+            <%= f.label :last_name %><br/>
+            <%= f.text_field :last_name %>
+          </div>
+        </div>
+    <% end %>
+
+    <%= field_set_tag t('views.candidates.address'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <%= f.fields_for :address do |address_fields| %>
+              <div class="field">
+                Street 1 : <%= address_fields.text_field :street_1 %>
+              </div>
+              <div class="field">
+                Street 2 : <%= address_fields.text_field :street_2 %>
+              </div>
+              <div class="field">
+                City : <%= address_fields.text_field :city %>
+              </div>
+              <div class="field">
+                State : <%= address_fields.text_field :state %>
+              </div>
+              <div class="field">
+                Zip code: <%= address_fields.text_field :zip_code %>
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+
+    <%= field_set_tag t('views.candidates.email'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= f.label :candidate_email %><br/>
+            <%= f.email_field :candidate_email %>
+          </div>
+
+          <div class="field">
+            <%= f.label :parent_email_1 %><br/>
+            <%= f.email_field :parent_email_1 %>
+          </div>
+
+          <div class="field">
+            <%= f.label :parent_email_2 %><br/>
+            <%= f.email_field :parent_email_2 %>
+          </div>
+        </div>
+    <% end %>
+
+    <%= field_set_tag t('views.candidates.other'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= f.label :grade %><br/>
+            <%= f.number_field :grade, min: 8, max: 12 %>
+          </div>
+        </div>
+    <% end %>
+
+
+    <div class="actions">
+      <%= f.submit t('views.common.update') %>
+    </div>
+
+<% end %>

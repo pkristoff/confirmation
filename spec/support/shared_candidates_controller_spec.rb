@@ -128,8 +128,6 @@ shared_context 'upload_baptismal_certificate' do
 
 end
 
-
-
 shared_context 'sign_agreement' do
 
   it 'should show sign_agreement for the candidate.' do
@@ -153,9 +151,48 @@ shared_context 'sign_agreement' do
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sign_agreement') }
-    expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
+    unless @dev.empty?
+      expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
+    else
+      expect(response).to redirect_to(event_candidate_path(candidate.id))
+    end
     expect(@request.fullpath).to eq("/#{@dev}sign_agreement.#{candidate.id}?candidate%5Bsigned_agreement%5D=1")
     expect(candidate.signed_agreement).to eq(true)
+    expect(candidate_event.completed_date).to eq(Date.today)
+  end
+
+end
+
+shared_context 'fill_out_candidate_sheet' do
+
+  it 'should show fill_out_candidate_sheet for the candidate.' do
+
+    get :candidate_sheet, id: @candidate.id
+
+    expect(response).to render_template('candidate_sheet')
+    expect(controller.candidate).to eq(@candidate)
+    expect(@request.fullpath).to eq("/#{@dev}candidate_sheet.#{@candidate.id}")
+  end
+
+  it 'show should update the candidate to fill out candidate sheet and update Candidate event.' do
+
+    AppFactory.add_confirmation_event(I18n.t('events.fill_out_candidate_sheet'))
+
+    candidate = Candidate.find(@candidate.id)
+    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
+    expect(candidate_event.completed_date).to eq(nil)
+
+    put :candidate_sheet_update, id: candidate.id, candidate: {first_name: 'Paul'}
+
+    candidate = Candidate.find(@candidate.id)
+    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
+    if @dev.empty?
+      expect(response).to redirect_to(event_candidate_path(candidate.id))
+    else
+      expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
+    end
+    expect(@request.fullpath).to eq("/#{@dev}candidate_sheet.#{candidate.id}?candidate%5Bfirst_name%5D=Paul")
+    expect(candidate.first_name).to eq('Paul')
     expect(candidate_event.completed_date).to eq(Date.today)
   end
 

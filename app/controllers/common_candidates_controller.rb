@@ -82,6 +82,26 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
+  def candidate_sheet
+    @candidate = Candidate.find(params[:id])
+  end
+
+  def candidate_sheet_update
+    candidate = Candidate.find(params[:id])
+    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
+    candidate_event.completed_date = Date.today
+
+    if candidate.update_attributes(candidate_params)
+      if is_admin?
+        redirect_to event_candidate_registration_path(params[:id]), notice: 'Updated'
+      else
+        redirect_to event_candidate_path(params[:id]), notice: 'Updated'
+      end
+    else
+      redirect_to :back, alert: 'Saving failed.'
+    end
+  end
+
   def show_baptism_certificate
     @candidate = Candidate.find(params[:id])
     send_image(@candidate)

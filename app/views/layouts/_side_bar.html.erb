@@ -8,9 +8,10 @@
         <li><%= link_to I18n.t('views.nav.events'), events_path %></li>
         <li><%= link_to I18n.t('views.nav.other'), new_candidate_import_path %></li>
         <% if defined?(resource) && (!resource.nil?) && (!resource.new_record?) && (resource.is_a? Candidate) %>
-            <p class="sidebar-header">Candidate <%= "#{resource.first_name} #{resource.last_name}" %></p>
+            <p class="sidebar-header no-link">Candidate: <%= "#{resource.first_name} #{resource.last_name}" %></p>
 
             <li><%= link_to "#{I18n.t('views.nav.sign_agreement')} #{resource.first_name} #{resource.last_name}", sign_agreement_path(resource.id) %></li>
+            <li><%= link_to "#{I18n.t('views.nav.candidate_sheet')} #{resource.first_name} #{resource.last_name}", candidate_sheet_path(resource.id) %></li>
             <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')} #{resource.first_name} #{resource.last_name}", upload_baptismal_certificate_path(resource.id) %></li>
 
             <li><%= link_to "#{I18n.t('views.nav.edit')} #{resource.first_name} #{resource.last_name}", edit_candidate_path(resource.id) %></li>
@@ -22,7 +23,7 @@
 <% if candidate_signed_in? %>
 
     <li><%= link_to "#{I18n.t('views.nav.sign_agreement')}", dev_sign_agreement_path(current_candidate.id) %></li>
-    <li><%= link_to "#{I18n.t('views.nav.candidate_sheet')}", candidate_sheet_path(current_candidate.id) %></li>
+    <li><%= link_to "#{I18n.t('views.nav.candidate_sheet')}", dev_candidate_sheet_path(current_candidate.id) %></li>
     <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')}", dev_upload_baptismal_certificate_path(current_candidate.id) %></li>
 
     <li><%= link_to "#{I18n.t('views.nav.edit')} #{current_candidate.first_name} #{current_candidate.last_name}", edit_candidate_registration_path %></li>

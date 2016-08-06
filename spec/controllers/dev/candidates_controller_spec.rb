@@ -45,55 +45,30 @@ describe Dev::CandidatesController do
 
   end
 
-  describe 'fill_out_candidate_sheet' do
-
-    it 'should show fill_out_candidate_sheet for the candidate.' do
-
-      get :candidate_sheet, id: @login_candidate.id
-
-      expect(response).to render_template('candidate_sheet')
-      expect(controller.candidate).to eq(@login_candidate)
-      expect(@request.fullpath).to eq("/candidate_sheet.#{@login_candidate.id}")
-    end
-
-    it 'show should update the candidate to fill out candidate sheet and update Candidate event.' do
-
-      AppFactory.add_confirmation_event(I18n.t('events.fill_out_candidate_sheet'))
-
-      candidate = Candidate.find(@login_candidate.id)
-      candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
-      expect(candidate_event.completed_date).to eq(nil)
-
-      put :candidate_sheet_update, id: candidate.id, candidate: {first_name: 'Paul'}
-
-      candidate = Candidate.find(@login_candidate.id)
-      candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
-      expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
-      expect(@request.fullpath).to eq("/candidate_sheet.#{candidate.id}?candidate%5Bfirst_name%5D=Paul")
-      expect(candidate.first_name).to eq('Paul')
-      expect(candidate_event.completed_date).to eq(Date.today)
-    end
-
-  end
-
-  describe 'sign_agreement' do
-    before(:each) do
-      @candidate = @login_candidate
-      @dev = 'dev/'
-    end
-
-    it_behaves_like 'sign_agreement'
-
-  end
-
-  describe 'baptismal_certificate' do
+  describe 'behaves like' do
     before(:each) do
       @candidate = @login_candidate
       @dev = 'dev/'
       @dev_registration = 'dev/registrations/'
     end
 
-    it_behaves_like 'upload_baptismal_certificate'
+    describe 'sign_agreement' do
+
+      it_behaves_like 'sign_agreement'
+
+    end
+
+    describe 'fill_out_candidate_sheet' do
+
+      it_behaves_like 'fill_out_candidate_sheet'
+
+    end
+
+    describe 'baptismal_certificate' do
+
+      it_behaves_like 'upload_baptismal_certificate'
+
+    end
 
   end
 

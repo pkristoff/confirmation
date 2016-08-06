@@ -179,3 +179,7 @@
 .show-div {
     display: inline;
 }
+
+.no-link {
+    color: #1b6d85;
+}
