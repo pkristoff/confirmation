@@ -84,6 +84,7 @@ class CommonCandidatesController < ApplicationController
 
   def candidate_sheet
     @candidate = Candidate.find(params[:id])
+    @resource = @candidate
   end
 
   def candidate_sheet_update
@@ -109,6 +110,7 @@ class CommonCandidatesController < ApplicationController
 
   def sign_agreement
     @candidate = Candidate.find(params[:id])
+    @resource = @candidate
   end
 
   def sign_agreement_update
@@ -142,6 +144,7 @@ class CommonCandidatesController < ApplicationController
 
   def upload_baptismal_certificate
     @candidate = Candidate.find(params[:id])
+    @resource = @candidate
     if @candidate.baptismal_certificate.nil?
       @candidate.baptismal_certificate = create_baptismal_certificate
     end
