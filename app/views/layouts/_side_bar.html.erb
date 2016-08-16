@@ -26,6 +26,6 @@
     <li><%= link_to "#{I18n.t('views.nav.candidate_sheet')}", dev_candidate_sheet_path(current_candidate.id) %></li>
     <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')}", dev_upload_baptismal_certificate_path(current_candidate.id) %></li>
 
-    <li><%= link_to "#{I18n.t('views.nav.edit')} #{current_candidate.first_name} #{current_candidate.last_name}", edit_candidate_registration_path %></li>
-    <li><%= link_to "#{I18n.t('views.nav.events')} #{current_candidate.first_name} #{current_candidate.last_name}", event_candidate_registration_path(current_candidate.id) %></li>
+    <li><%= link_to "#{I18n.t('views.nav.edit')}", edit_candidate_registration_path %></li>
+    <li><%= link_to "#{I18n.t('views.nav.events')}", event_candidate_registration_path(current_candidate.id) %></li>
 <% end %>

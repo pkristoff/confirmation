@@ -27,7 +27,7 @@ en:
     fill_out_candidate_sheet: 'Fill Out Candidate Information Sheet'
     upload_baptismal_certificate: 'Upload Baptismal Certificate'
   messages:
-    accessed_denied: 'Accessed denies.'
+    accessed_denied: 'Accessed denied.'
     admin_login_needed: 'Please login as admin to %{message}.'
     another_admin: 'create another admin'
     another_candidate: 'create another candidate'

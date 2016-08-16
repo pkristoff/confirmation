@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
     stored_location_for(resource) ||
         if resource.is_a?(Candidate)
           if candidate_signed_in?
-            dev_candidate_url(resource.id)
+            event_candidate_registration_url(resource.id)
           else
             candidate_url(resource.id)
           end

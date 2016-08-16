@@ -33,7 +33,6 @@ module Dev
 
     def show
       @candidate = Candidate.find(params[:id])
-      # @resource = @candidate
       unless @candidate == current_candidate
         redirect_to :back, alert: I18n.t('messages.accessed_denied')
       end

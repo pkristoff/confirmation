@@ -19,8 +19,8 @@ describe 'layouts/_side_bar.html.erb' do
       expect(rendered).to have_link(I18n.t('views.nav.sign_agreement'), href: "/dev/sign_agreement.#{candidate.id}")
       expect(rendered).to have_link(I18n.t('views.nav.candidate_sheet'), href: "/dev/candidate_sheet.#{candidate.id}")
       expect(rendered).to have_link(I18n.t('views.nav.upload_baptismal_certificate'), href: "/dev/upload_baptismal_certificate.#{candidate.id}")
-      expect(rendered).to have_link('Edit Sophia Agusta', href: '/dev/candidates/edit')
-      expect(rendered).to have_link('Events Sophia Agusta', href: "/dev/registrations/event/#{candidate.id}")
+      expect(rendered).to have_link(I18n.t('views.nav.edit'), href: '/dev/candidates/edit')
+      expect(rendered).to have_link(I18n.t('views.nav.events'), href: "/dev/registrations/event/#{candidate.id}")
     end
   end
   context 'login as admin' do
