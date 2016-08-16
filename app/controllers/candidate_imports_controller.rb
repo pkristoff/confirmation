@@ -1,3 +1,5 @@
+include FileHelper
+
 class CandidateImportsController < ApplicationController
 
   before_action :authenticate_admin!
@@ -8,6 +10,13 @@ class CandidateImportsController < ApplicationController
     import_file_param = params[:candidate_import]
     if import_file_param.nil?
       redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')
+    elsif File.extname(import_file_param.values.first.original_filename) === '.zip'
+      @candidate_import = CandidateImport.new(uploaded_zip_file: import_file_param.values.first)
+      if @candidate_import.save
+        redirect_to root_url, notice: I18n.t('messages.import_successful')
+      else
+        render :new
+      end
     else
       @candidate_import = CandidateImport.new(uploaded_file: import_file_param.values.first)
       if @candidate_import.save
@@ -20,10 +29,34 @@ class CandidateImportsController < ApplicationController
 
   def export_to_excel
 
-    respond_to do |format|
-      format.xlsx { send_data(CandidateImport.new.to_xlsx().read, disposition: 'attachment; filename=aaa_stream_2.xlsx') }
-    end
+    dir = 'xlsx_export'
 
+    delete_dir(dir)
+
+    begin
+      Dir.mkdir(dir)
+
+      CandidateImport.new.to_xlsx(dir).serialize("#{dir}/export.xlsx")
+
+      zip_filename = 'xlsx_export.zip'
+      temp_file = Tempfile.new(zip_filename)
+      Zip::OutputStream.open(temp_file) { |zos| zos }
+      Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
+        # zip.add(dir, dir)
+        Dir.foreach(dir) do |filename|
+          zip.add(filename, File.join(dir, filename)) unless File.directory?("#{dir}/#{filename}") || filename === zip_filename
+          # File.delete("#{dir}/#{filename}") unless File.directory?("#{dir}/#{filename}")
+        end
+      end
+      zip_data = File.read(temp_file.path)
+      send_data(zip_data, type:'application/zip', filename: zip_filename)
+
+      # send_file(, type: 'application/zip', x_sendfile: true, disposition: 'attachment')
+    ensure
+      temp_file.close
+      temp_file.unlink
+      delete_dir(dir)
+    end
   end
 
   def reset_database

@@ -40,7 +40,7 @@ en:
     import_successful: 'Imported candidates successfully.'
     missing_baptismal_certificate_attributes: 'internal: baptismal_certificate_attributes not sent with call'
     remove_candidate: 'remove a candidate'
-    select_excel_file: 'Please select a excel file to upload.'
+    select_excel_file: 'Please select a zipped excel file to upload.'
     unknown_parameter: 'Unknown Parameter: candidate'
     updated: 'Updated'
   model:

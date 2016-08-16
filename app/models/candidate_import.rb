@@ -2,8 +2,11 @@ class CandidateImport
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Validations
+  include FileHelper
 
   attr_accessor :uploaded_file
+  attr_accessor :uploaded_zip_file
+  attr_accessor :imported_candidates
 
   def initialize(attributes = {})
     attributes.each { |name, value| send("#{name}=", value) }
@@ -15,9 +18,71 @@ class CandidateImport
     false
   end
 
-  def create_xlsx_package
+  def create_xlsx_package(dir)
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
+    create_confirmation_event(wb)
+
+    candidate_columns = xlsx_columns
+    wb.add_worksheet(name: @worksheet_name) do |sheet|
+      images = []
+      sheet.add_row candidate_columns
+      Candidate.all.each do |candidate|
+        events = candidate.candidate_events.to_a
+        sheet.add_row (candidate_columns.map do |col|
+          if ['baptismal_certificate.certificate_filename', 'baptismal_certificate.certificate_content_type', 'baptismal_certificate.certificate_file_contents'].include?(col)
+            certificate_image_column(candidate, col, dir, images)
+          else
+            # puts col
+            split = col.split('.')
+            case split.size
+              when 1
+                candidate.send(col)
+              when 2
+                candidate_send_0 = candidate.send(split[0])
+                if candidate_send_0.nil?
+                  nil
+                else
+                  candidate_send_0.send(split[1])
+                end
+              when 3
+                if split[0] != 'candidate_events'
+                  candidate_send_0 = candidate.send(split[0])
+                  if candidate_send_0.nil?
+                    nil
+                  else
+                    candidate_send_0.send(split[1]).send(split[2])
+                  end
+                else
+                  if events.size >= ConfirmationEvent.all.size
+                    events[split[1].to_i].send(split[2])
+                  else
+                    'something wrong with candidate_events'
+                  end
+                end
+              else
+                "Unexpected split size: #{split.size}"
+            end
+          end
+        end)
+      end
+      process_images(images)
+    end
+    p
+  end
+
+  def certificate_image_column(candidate, col, dir, images)
+    if candidate.baptismal_certificate
+      filename = CandidateImport.image_filename(candidate, dir)
+      images.append({filename: filename,
+                     info: candidate.baptismal_certificate}) if col === 'baptismal_certificate.certificate_filename'
+      filename
+    else
+      'no candidate.baptismal_certificate'
+    end
+  end
+
+  def create_confirmation_event(wb)
     confirmation_event_columns = xlsx_conf_event_columns
     wb.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
       sheet.add_row confirmation_event_columns
@@ -27,29 +92,10 @@ class CandidateImport
         end)
       end
     end
+  end
 
-    candidate_columns = xlsx_columns
-    wb.add_worksheet(name: @worksheet_name) do |sheet|
-      sheet.add_row candidate_columns
-      Candidate.all.each do |candidate|
-        events = candidate.candidate_events.to_a
-        sheet.add_row (candidate_columns.map do |col|
-          split = col.split('.')
-          if split.size == 1
-            candidate.send(col)
-          elsif split.size == 2
-            candidate.send(split[0]).send(split[1])
-          else
-            if events.size >= ConfirmationEvent.all.size
-              events[split[1].to_i].send(split[2])
-            else
-              'something wrong with candidate_events'
-            end
-          end
-        end)
-      end
-    end
-    p
+  def self.image_filename(candidate, dir)
+    "#{dir}/#{candidate.account_name}_#{candidate.baptismal_certificate.certificate_filename}"
   end
 
   def imported_candidates
@@ -57,15 +103,22 @@ class CandidateImport
   end
 
   def load_imported_candidates
-    candidates = []
-    @candidate_to_row = {}
-    spreadsheet = open_spreadsheet
-    if spreadsheet.sheets[0] == @worksheet_name or spreadsheet.sheets[0] == @worksheet_conf_event_name
-      process_exported_xlsx(candidates, spreadsheet)
-    else
-      process_initial_xlsx(candidates, spreadsheet)
+    # uploaded_file is an xlsx, either initial file or an exported file.
+    if uploaded_file
+      candidates = []
+      @candidate_to_row = {}
+      spreadsheet = open_spreadsheet
+      if spreadsheet.sheets[0] == @worksheet_name or spreadsheet.sheets[0] == @worksheet_conf_event_name
+        process_exported_xlsx(candidates, spreadsheet)
+      else
+        process_initial_xlsx(candidates, spreadsheet)
+      end
+      candidates
+    elsif uploaded_zip_file
+      # zipped dir with xlsx and images.  this was generated via an export.
+      # once expanded then set uploaded_file and recurse
+      process_xlsx_zip
     end
-    candidates
   end
 
   def remove_all_candidates
@@ -103,15 +156,23 @@ class CandidateImport
     end
   end
 
-  def to_xlsx
-    create_xlsx_package.to_stream
+  def to_xlsx(dir)
+    p = create_xlsx_package(dir)
+    p.use_shared_strings = true
+    p
   end
 
   # test only
   def xlsx_columns
     columns = %w(account_name first_name last_name candidate_email parent_email_1
                parent_email_2 grade attending
-               address.street_1 address.street_2 address.city address.state address.zip_code)
+               address.street_1 address.street_2 address.city address.state address.zip_code
+               baptized_at_stmm
+               baptismal_certificate.birth_date baptismal_certificate.baptismal_date baptismal_certificate.church_name
+               baptismal_certificate.church_address.street_1 baptismal_certificate.church_address.street_2 baptismal_certificate.church_address.city baptismal_certificate.church_address.state baptismal_certificate.church_address.zip_code
+               baptismal_certificate.father_first baptismal_certificate.father_middle baptismal_certificate.father_last
+               baptismal_certificate.mother_first baptismal_certificate.mother_middle baptismal_certificate.mother_maiden baptismal_certificate.mother_last
+               baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents )
     ConfirmationEvent.all.each_with_index do |confirmation_event, index|
       columns << "candidate_events.#{index}.completed_date"
       columns << "candidate_events.#{index}.verified"
@@ -125,6 +186,32 @@ class CandidateImport
   end
 
   private
+
+  # expand zip file and the process xlsx
+  def process_xlsx_zip
+    dir = 'xlsx_export'
+
+    delete_dir(dir)
+
+    begin
+      Dir.mkdir(dir)
+
+      Zip::File.open(uploaded_zip_file.tempfile) do |zip_file|
+        # Handle entries one by one
+        zip_file.each do |entry|
+          # Extract to file/directory/symlink
+          # puts "Extracting #{entry.name}"
+          entry.extract("#{dir}/#{entry.name}")
+          if File.extname(entry.name) == '.xlsx' && @uploaded_file.nil?
+            @uploaded_file = "#{dir}/#{entry.name}"
+          end
+        end
+      end
+      load_imported_candidates
+    ensure
+      delete_dir(dir)
+    end
+  end
 
   def process_exported_xlsx(candidates, spreadsheet)
 
@@ -144,17 +231,55 @@ class CandidateImport
       events = candidate.candidate_events.to_a
       row.each_with_index do |cell, index|
         column_name_split = header_row[index].split('.')
+        # puts header_row[index]
         unless cell.nil?
           if column_name_split.size == 1
             candidate.send("#{column_name_split[0]}=", cell)
+
           elsif column_name_split.size == 2
-            candidate.send(column_name_split[0]).send("#{column_name_split[1]}=", cell)
+            candidate.create_baptismal_certificate if candidate.baptismal_certificate.nil? && column_name_split[0] === 'baptismal_certificate'
+            case column_name_split[1]
+
+              when 'certificate_filename'
+                unless cell === 'no candidate.baptismal_certificate'
+                  filename = cell
+                  candidate.baptismal_certificate.certificate_filename = filename[filename.index('_')+1..filename.size]
+                end
+              when 'certificate_content_type'
+                unless cell === 'no candidate.baptismal_certificate'
+                  filename = cell
+                  file_extname = File.extname(filename)
+                  candidate.baptismal_certificate.certificate_content_type = "type/#{file_extname[1..file_extname.size]}"
+                end
+              when 'certificate_file_contents'
+                unless cell === 'no candidate.baptismal_certificate'
+                  filename = cell
+                  File.open(filename, 'rb') do |f|
+                    candidate.baptismal_certificate.certificate_file_contents = f.read
+                  end
+                end
+              else
+                candidate.baptismal_certificate.create_church_address if column_name_split[1] === 'church_address' && candidate.baptismal_certificate.church_address.nil?
+                candidate_send_0 = candidate.send(column_name_split[0])
+                candidate_send_0.send("#{column_name_split[1]}=", cell)
+            end
+
+          elsif column_name_split.size == 3 && column_name_split[0] != 'candidate_events'
+            candidate.create_baptismal_certificate if candidate.baptismal_certificate.nil? && column_name_split[0] === 'baptismal_certificate'
+            candidate.baptismal_certificate.create_church_address if column_name_split[1] === 'church_address' && candidate.baptismal_certificate.church_address.nil?
+            candidate_send_0 = candidate.send(column_name_split[0])
+            if candidate_send_0.nil?
+              nil
+            else
+              candidate_send__send = candidate_send_0.send(column_name_split[1])
+              candidate_send__send.send("#{column_name_split[2]}=", cell)
+            end
           else
-            events[column_name_split[1].to_i].send("#{column_name_split[2]}=", cell)
+            events[column_name_split[1].to_i].send("#{column_name_split[2]}=", cell) if column_name_split.size === 3
           end
         end
-        candidate.password = '12345678'
       end
+      candidate.password = '12345678'
       candidates.push(candidate)
     end
   end
@@ -172,6 +297,19 @@ class CandidateImport
           confirmation_event.send("#{column_name_split[0]}=", cell)
           confirmation_event.save
         end
+      end
+    end
+  end
+
+  def process_images(images)
+    images.each do |entry|
+      filename = entry[:filename]
+      baptismal_certificate = entry[:info]
+      begin
+        f = File.new filename, "wb"
+        f.write baptismal_certificate.certificate_file_contents
+      ensure
+        f.close
       end
     end
   end
@@ -225,13 +363,15 @@ class CandidateImport
   end
 
   def open_spreadsheet
-    case File.extname(uploaded_file.original_filename)
+    is_zip = !uploaded_file.respond_to?(:original_filename)
+    path = is_zip ? uploaded_file : uploaded_file.path
+    case File.extname(is_zip ? File.basename(uploaded_file) : uploaded_file.original_filename)
       when '.csv' then
-        Roo::Csv.new(uploaded_file.path)
+        Roo::Csv.new(path)
       when '.xls' then
-        Roo::Excel.new(uploaded_file.path)
+        Roo::Excel.new(path)
       when '.xlsx' then
-        Roo::Excelx.new(uploaded_file.path, file_warning: :ignore)
+        Roo::Excelx.new(path, file_warning: :ignore)
       else
         raise "Unknown file type: #{uploaded_file.original_filename}"
     end

@@ -78,6 +78,7 @@ feature 'Other', :devise do
   describe 'Export to excel' do
 
     xlsx_filename = 'exported_candidates.xlsx'
+    xlsx_filename_zip = 'exported_candidates.zip'
 
     scenario 'admin can export to excel and read it back in.' do
       FactoryGirl.create(:candidate)
@@ -90,7 +91,7 @@ feature 'Other', :devise do
       visit new_candidate_import_path
       click_button I18n.t('views.imports.excel')
 
-      File.open(xlsx_filename, 'w') { |f| f.write(page.html) }
+      File.open(xlsx_filename_zip, 'w') { |f| f.write(page.html) }
       begin
 
         visit new_candidate_import_path
@@ -98,13 +99,12 @@ feature 'Other', :devise do
         expect(Candidate.all.size).to eq(0)
 
         visit new_candidate_import_path
-        attach_file :candidate_import_file, xlsx_filename
+        attach_file :candidate_import_file, xlsx_filename_zip
         click_button I18n.t('views.imports.import')
         expect(Candidate.all.size).to eq(2)
       ensure
-        if File.exist? xlsx_filename
-          File.delete xlsx_filename
-        end
+        File.delete xlsx_filename if File.exist? xlsx_filename
+        File.delete xlsx_filename_zip if File.exist? xlsx_filename_zip
       end
 
     end

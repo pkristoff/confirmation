@@ -101,24 +101,8 @@ describe CandidateImportsController do
       post :export_to_excel, format: 'xlsx'
 
       expect(controller.headers["Content-Transfer-Encoding"]).to eq("binary")
-      expect(response.header['Content-Type']).to eq('application/octet-stream')
+      expect(response.header['Content-Type']).to eq('application/zip')
       expect(response.status).to eq(200)
-
-    end
-
-    it 'should not download an excel spreadsheet if format is wrong' do
-      login_admin
-
-      FactoryGirl.create(:candidate, account_name: 'a1')
-      FactoryGirl.create(:candidate, account_name: 'a2')
-      FactoryGirl.create(:candidate, account_name: 'a3')
-
-      begin
-        post :export_to_excel, format: 'xls'
-        expect(false).to eq(true) # should never be executed.
-      rescue ActionController::UnknownFormat => err
-        expect(err.message).to eq('ActionController::UnknownFormat')
-      end
 
     end
 
