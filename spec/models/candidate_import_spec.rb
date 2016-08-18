@@ -234,7 +234,9 @@ describe CandidateImport do
         expect_keys(candidate_sub, value)
       elsif value.is_a? Array
         candidate_subs = candidate.send(key)
+        expect(candidate_subs.size).to eq(value.size)
         value.each_with_index do |sub_values, index|
+          # puts "Name: #{candidate_subs[index].confirmation_event.name}"
           expect_keys(candidate_subs[index], sub_values)
         end
       else
@@ -294,35 +296,47 @@ describe CandidateImport do
 
   def expect_confirmation_events(ws, candidate_import)
     header_row = ws.rows[0]
-    expect(header_row.cells.size).to eq(3)
+    expect(header_row.cells.size).to eq(4)
     candidate_import.xlsx_conf_event_columns.each_with_index do |column_name, index|
       expect(header_row.cells[index].value).to eq(column_name)
     end
     expect(ws.rows.size).to eq(3)
 
     c1_row = ws.rows[1]
-    expect(c1_row.cells.size).to eq(3)
+    expect(c1_row.cells.size).to eq(4)
     expect(c1_row.cells[0].value).to eq('Going out to eat')
-    expect(c1_row.cells[1].value.to_s).to eq('2016-05-24')
-    expect(c1_row.cells[2].value.to_s).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+    expect(c1_row.cells[1].value.to_s).to eq('2016-05-31')
+    expect(c1_row.cells[2].value.to_s).to eq('2016-05-24')
+    expect(c1_row.cells[3].value.to_s).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
     c2_row = ws.rows[2]
-    expect(c2_row.cells.size).to eq(3)
+    expect(c2_row.cells.size).to eq(4)
     expect(c2_row.cells[0].value).to eq('Staying home')
-    expect(c2_row.cells[1].value.to_s).to eq('2016-04-01')
-    expect(c2_row.cells[2].value.to_s).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+    expect(c2_row.cells[1].value.to_s).to eq('2016-04-30')
+    expect(c2_row.cells[2].value.to_s).to eq('2016-04-01')
+    expect(c2_row.cells[3].value.to_s).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
   end
 
   def expect_import_with_events
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).due_date.to_s).to eq('2016-06-03')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).due_date.to_s).to eq('2016-05-03')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).due_date.to_s).to eq('2016-07-13')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.fill_out_candidate_sheet')).due_date.to_s).to eq('2016-02-16')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).due_date.to_s).to eq('2016-08-12')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).the_way_due_date.to_s).to eq('2016-06-30')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).chs_due_date.to_s).to eq('2016-06-03')
+
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).the_way_due_date.to_s).to eq('2016-05-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).chs_due_date.to_s).to eq('2016-05-03')
+
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).the_way_due_date.to_s).to eq('2016-07-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).chs_due_date.to_s).to eq('2016-07-13')
+
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.fill_out_candidate_sheet')).the_way_due_date.to_s).to eq('2016-02-29')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.fill_out_candidate_sheet')).chs_due_date.to_s).to eq('2016-02-16')
+
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).the_way_due_date.to_s).to eq('2016-08-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).chs_due_date.to_s).to eq('2016-08-12')
     expect(ConfirmationEvent.all.size).to eq(5)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
-    expect(confirmation_event_2.due_date.to_s).to eq('2016-05-03')
+    expect(confirmation_event_2.the_way_due_date.to_s).to eq('2016-05-31')
+    expect(confirmation_event_2.chs_due_date.to_s).to eq('2016-05-03')
     expect(confirmation_event_2.instructions).to eq("<h1>a heading</h1>\n<ul>\n<li>step 1</li>\n<li>step 2</li>\n</ul>\n<p> </p>\n<p> </p>")
 
     expect(Candidate.all.size).to eq(3)
@@ -372,12 +386,16 @@ describe CandidateImport do
             state: 'IN',
             zip_code: '47129'
         },
-        candidate_events: [
-            {completed_date: '',
+        candidate_events_sorted: [
+            {completed_date: '', # Fill Out Candidate Information Sheet
              verified: false},
-            {completed_date: '',
+            {completed_date: '', # Attend Retreat
              verified: false},
-            {completed_date: '',
+            {completed_date: '', # Parent Information Meeting
+             verified: false},
+            {completed_date: '', # Sign Agreement
+             verified: false},
+            {completed_date: '', # Upload Baptismal Certificate
              verified: false}
         ]
     }
@@ -400,11 +418,17 @@ describe CandidateImport do
             state: 'NC',
             zip_code: '27555'
         },
-        candidate_events: [
-            {completed_date: '',
+        candidate_events_sorted: [
+            {completed_date: '', # Fill Out Candidate Information Sheet
              verified: false},
-            {completed_date: '2016-05-02',
-             verified: true}
+            {completed_date: '', # Sign Agreement
+             verified: false},
+            {completed_date: '', # Upload Baptismal Certificate
+             verified: false},
+            {completed_date: '2016-05-02', # Attend Retreat
+             verified: true},
+            {completed_date: '2016-07-07', # Parent Information Meeting
+             verified: false}
         ]
     }
   end
@@ -426,11 +450,17 @@ describe CandidateImport do
             state: 'NC',
             zip_code: '27502'
         },
-        candidate_events: [
-            {completed_date: '2016-06-06',
+        candidate_events_sorted: [
+            {completed_date: '',  # Fill Out Candidate Information Sheet
+             verified: false},
+            {completed_date: '', # Attend Retreat
+             verified: false},
+            {completed_date: '', # Parent Information Meeting
+             verified: false},
+            {completed_date: '', # Upload Baptismal Certificate
+             verified: false},
+            {completed_date: '2016-06-06', # Sign Agreement
              verified: true},
-            {completed_date: '',
-             verified: false}
         ]
     }
   end

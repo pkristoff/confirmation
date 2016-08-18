@@ -9,8 +9,11 @@
             <%= field_set_tag confirmation_event_fields.object.name, class: "fieldset #{controller.event_class(candidate_event_fields.object)}", id: "candidate_event_#{candidate_event_fields.index}_name" do %>
                 <div class="fieldset-div">
                   <div class="left-col">
-                    <div class="field" id='<%= "candidate_event_#{candidate_event_fields.index}_due_date" %>'>
-                      <%= t('views.events.due_date') %>: <%= l confirmation_event_fields.object.due_date, format: :default %>
+                    <div class="field" id='<%= "candidate_event_#{candidate_event_fields.index}_the_way_due_date" %>'>
+                      <%= t('views.events.the_way_due_date') %>: <%= l confirmation_event_fields.object.the_way_due_date, format: :default %>
+                    </div>
+                    <div class="field" id='<%= "candidate_event_#{candidate_event_fields.index}_chs_due_date" %>'>
+                      <%= t('views.events.chs_due_date') %>: <%= l confirmation_event_fields.object.chs_due_date, format: :default %>
                     </div>
                     <div class="field" id='<%= "candidate_event_#{candidate_event_fields.index}_verified" %>'>
                       <%= t('views.events.verified') %>: <%= candidate_event_fields.check_box :verified %>

@@ -50,77 +50,77 @@ describe Candidate do
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: nil, completed_date: nil}
+                  {name: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil}
               ]),
            result: %w(a)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: nil, completed_date: nil},
-                  {name: 'b', due_date: nil, completed_date: nil}
+                  {name: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil},
+                  {name: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil}
               ]),
            result: %w(a b)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-01', completed_date: nil},
-                  {name: 'b', due_date: nil, completed_date: nil}
+                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil},
+                  {name: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil}
               ]),
            result: %w(b a)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-01', completed_date: nil},
-                  {name: 'b', due_date: '2016-05-01', completed_date: nil}
+                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil},
+                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil}
               ]),
            result: %w(a b)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-01', completed_date: nil},
-                  {name: 'b', due_date: '2016-05-02', completed_date: nil}
+                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil},
+                  {name: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil}
               ]),
            result: %w(a b)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-02', completed_date: nil},
-                  {name: 'b', due_date: '2016-05-01', completed_date: nil}
+                  {name: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil},
+                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil}
               ]),
            result: %w(b a)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-01', completed_date: '2016-05-05'},
-                  {name: 'b', due_date: '2016-05-01', completed_date: nil}
+                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05'},
+                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil}
               ]),
            result: %w(b a)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-01', completed_date: nil},
-                  {name: 'b', due_date: '2016-05-01', completed_date: '2016-05-05'}
+                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil},
+                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05'}
               ]),
            result: %w(a b)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-01', completed_date: '2016-05-06'},
-                  {name: 'b', due_date: '2016-05-01', completed_date: '2016-05-05'}
+                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_datechs_due_date: '2016-05-01', completed_date: '2016-05-06'},
+                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05'}
               ]),
            result: %w(a b)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-01', completed_date: '2016-05-06'},
-                  {name: 'b', due_date: '2016-05-02', completed_date: '2016-05-05'}
+                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-06'},
+                  {name: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-05'}
               ]),
            result: %w(a b)
           },
           {candidate: setup_candidate(
               [
-                  {name: 'a', due_date: '2016-05-02', completed_date: '2016-05-06'},
-                  {name: 'b', due_date: '2016-05-01', completed_date: '2016-05-05'}
+                  {name: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-06'},
+                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05'}
               ]),
            result: %w(b a)
           }
@@ -128,7 +128,8 @@ describe Candidate do
       end
 
       it 'two candidate_event with all nil' do
-        @candidates_with_data.each do | data |
+        @candidates_with_data.each_with_index do | data, index |
+          puts "index: #{index}"
           candidate = data[:candidate]
           result = data[:result]
           expect(candidate.candidate_events.size).to eq(result.size)
@@ -148,7 +149,8 @@ describe Candidate do
         confirmation_event = FactoryGirl.create(
             :confirmation_event,
             name: candidate_data[:name],
-            due_date: (candidate_data[:due_date].nil? ? nil : Date.parse(candidate_data[:due_date]))
+            the_way_due_date: (candidate_data[:the_way_due_date].nil? ? nil : Date.parse(candidate_data[:the_way_due_date])),
+            chs_due_date: (candidate_data[:chs_due_date].nil? ? nil : Date.parse(candidate_data[:chs_due_date]))
         )
         candidate_event = candidate.add_candidate_event(confirmation_event)
         candidate_event.completed_date = candidate_data[:completed_date]

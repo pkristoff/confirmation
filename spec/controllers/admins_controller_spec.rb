@@ -27,15 +27,15 @@ describe AdminsController do
       expect(controller.confirmation_events.size).to eq(0)
     end
     it 'is sorted one event' do
-      ce1 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-24')
+      ce1 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce1)
       expect(confirmation_events.size).to eq(1)
     end
     it 'is sorted two event' do
-      ce1 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-24')
-      ce2 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-23')
+      ce1 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
+      ce2 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce2)
@@ -43,9 +43,9 @@ describe AdminsController do
       expect(confirmation_events.size).to eq(2)
     end
     it 'is sorted three event' do
-      ce1 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-24')
-      ce2 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-23')
-      ce3 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-22')
+      ce1 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
+      ce2 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
+      ce3 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-29', chs_due_date: '2016-05-22')
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce3)
@@ -54,9 +54,9 @@ describe AdminsController do
       expect(confirmation_events.size).to eq(3)
     end
     it 'is sorted three event: one nil' do
-      ce1 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-24')
-      ce2 = FactoryGirl.create(:confirmation_event, due_date: nil)
-      ce3 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-22')
+      ce1 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
+      ce2 = FactoryGirl.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
+      ce3 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-29', chs_due_date: '2016-05-22')
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce2)
@@ -65,9 +65,9 @@ describe AdminsController do
       expect(confirmation_events.size).to eq(3)
     end
     it 'is sorted three event: two nil' do
-      ce1 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-24')
-      ce2 = FactoryGirl.create(:confirmation_event, due_date: nil)
-      ce3 = FactoryGirl.create(:confirmation_event, due_date: nil)
+      ce1 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
+      ce2 = FactoryGirl.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
+      ce3 = FactoryGirl.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce2)
@@ -76,9 +76,9 @@ describe AdminsController do
       expect(confirmation_events.size).to eq(3)
     end
     it 'is sorted three event: two nil 2' do
-      ce1 = FactoryGirl.create(:confirmation_event, due_date: nil)
-      ce2 = FactoryGirl.create(:confirmation_event, due_date: '2016-05-23')
-      ce3 = FactoryGirl.create(:confirmation_event, due_date: nil)
+      ce1 = FactoryGirl.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
+      ce2 = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
+      ce3 = FactoryGirl.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce1)

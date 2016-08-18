@@ -95,6 +95,7 @@ class Candidate < ActiveRecord::Base
   def add_candidate_event (confirmation_event)
     candidate_event = AppFactory.create_candidate_event(confirmation_event)
     candidate_events << candidate_event
+    candidate_event.candidate = self
     candidate_event
   end
 

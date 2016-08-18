@@ -18,15 +18,16 @@ describe 'candidates/event.html.erb' do
 
     render
 
-    expect_candidate_event(0, 'Going out to eat', '2016-05-24', "", false, '')
-    expect_candidate_event(1, 'Staying home', '2016-04-01', "", false, '2016-03-29')
+    expect_candidate_event(0, 'Going out to eat', '2016-05-31', '2016-05-24', "", false, '')
+    expect_candidate_event(1, 'Staying home', '2016-04-30', '2016-04-01', "", false, '2016-03-29')
 
   end
 
-  def expect_candidate_event(index, name, due_date, instructions, verified, completed_date)
+  def expect_candidate_event(index, name, the_way_due_date, chs_due_date, instructions, verified, completed_date)
 
     expect(rendered).to have_selector("fieldset[id=candidate_event_#{index}_name]", text: name)
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_due_date]", text: "#{I18n.t('views.events.due_date')}: #{due_date}")
+    expect(rendered).to have_selector("div[id=candidate_event_#{index}_the_way_due_date]", text: "#{I18n.t('views.events.the_way_due_date')}: #{the_way_due_date}")
+    expect(rendered).to have_selector("div[id=candidate_event_#{index}_chs_due_date]", text: "#{I18n.t('views.events.chs_due_date')}: #{chs_due_date}")
     expect(rendered).to have_selector("div[id=candidate_event_#{index}_instructions]", text: "#{I18n.t('views.events.instructions')}: #{instructions}")
     if verified
       expect(rendered).to have_field("candidate_candidate_events_attributes_#{index}_verified", checked: true)

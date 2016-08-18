@@ -72,9 +72,9 @@ describe AppFactory do
       candidate = candidate_events[0]
       expect(candidate.account_name).to eq('vickikristoff')
       expect(candidate.candidate_events.size).to eq(3)
-      expect(candidate.candidate_events[0].name).to eq(I18n.t('events.parent_meeting'))
+      expect(candidate.candidate_events[0].name).to eq(I18n.t('events.sign_agreement'))
       expect(candidate.candidate_events[1].name).to eq(I18n.t('events.retreat_weekend'))
-      expect(candidate.candidate_events[2].name).to eq(I18n.t('events.sign_agreement'))
+      expect(candidate.candidate_events[2].name).to eq(I18n.t('events.parent_meeting'))
 
     end
 

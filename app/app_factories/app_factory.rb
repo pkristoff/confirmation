@@ -45,9 +45,12 @@ class AppFactory
     new_confirmation_event = nil
     event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
       confirmation_event.name = event_name
-      confirmation_event.due_date = Date.today
+      confirmation_event.the_way_due_date = Date.today
+      confirmation_event.the_way_due_date = Date.today
+      confirmation_event.chs_due_date = Date.today
       new_confirmation_event = confirmation_event
-      # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.due_date}"
+      # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}"
+      # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.chs_due_date}"
     end
     unless new_confirmation_event.nil?
       # puts 'adding to candidates'

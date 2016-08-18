@@ -29,18 +29,18 @@ class AdminsController < ApplicationController
 
   def set_confirmation_events
     @confirmation_events = ConfirmationEvent.all.sort do |ce1, ce2|
-      # sort based on due_date and then by name
-      if ce1.due_date.nil?
-        if ce2.due_date.nil?
+      # sort based on the_way_due_date and then by name ignoring chs_due_date
+      if ce1.the_way_due_date.nil?
+        if ce2.the_way_due_date.nil?
           ce1.name <=> ce2.name
         else
           -1
         end
       else
-        if ce2.due_date.nil?
+        if ce2.the_way_due_date.nil?
           1
         else
-          due_date = ce1.due_date <=> ce2.due_date
+          due_date = ce1.the_way_due_date <=> ce2.the_way_due_date
           if due_date == 0
             ce1.name <=> ce2.name
           else

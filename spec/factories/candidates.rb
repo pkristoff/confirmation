@@ -20,7 +20,8 @@ def create_candidate_events
   confirmation_event_eat = ConfirmationEvent.find_by_name('Going out to eat') || FactoryGirl.create(:confirmation_event)
   confirmation_event_home = ConfirmationEvent.find_by_name('Staying home') || FactoryGirl.create(:confirmation_event,
                                                                                                  name: 'Staying home',
-                                                                                                 due_date: '2016-04-01',
+                                                                                                 the_way_due_date: '2016-04-30',
+                                                                                                 chs_due_date: '2016-04-01',
                                                                                                  instructions: '<h3>Do this</h3><ul><li>one</li><li>two</li><li>three</li></ul></h3>')
   [FactoryGirl.create(:candidate_event,
                       confirmation_event: confirmation_event_eat),

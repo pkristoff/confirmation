@@ -93,7 +93,8 @@ en:
       status: 'Status'
       update: 'Update'
     events:
-      due_date: 'Due date'
+      the_way_due_date: 'The Way Due date'
+      chs_due_date: 'Catholic High School Due date'
       instructions: 'Instructions'
       verified: 'Verified'
       completed_date: 'Completed date'

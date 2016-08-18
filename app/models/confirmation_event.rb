@@ -4,6 +4,8 @@ class ConfirmationEvent < ActiveRecord::Base
   has_many :candidate_events, through: :to_dos
   before_save :scrub_instructions
 
+  # TODO: valid presence of
+
   private
 
   def scrub_instructions()

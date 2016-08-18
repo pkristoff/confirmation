@@ -182,7 +182,7 @@ class CandidateImport
 
   # test only
   def xlsx_conf_event_columns
-    %w{name due_date instructions}
+    %w{name the_way_due_date chs_due_date instructions}
   end
 
   private

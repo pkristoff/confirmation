@@ -58,7 +58,7 @@ describe 'candidates/index.html.erb' do
     expect(rendered).to have_link(I18n.t('views.common.delete'), href: "/event/#{candidate.id}")
 
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(2)", text: candidate.account_name)
-    expect(rendered).to have_link(candidate.account_name, href: "/candidates/#{candidate.id}/edit")
+    expect(rendered).to have_link(candidate.account_name, href: "/event/#{candidate.id}")
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(3)", text: candidate.first_name)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(4)", text: candidate.last_name)
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(5)", text: candidate.attending)

@@ -53,8 +53,8 @@ class CandidateImportsController < ApplicationController
 
       # send_file(, type: 'application/zip', x_sendfile: true, disposition: 'attachment')
     ensure
-      temp_file.close
-      temp_file.unlink
+      temp_file.close unless temp_file.nil?
+      temp_file.unlink unless temp_file.nil?
       delete_dir(dir)
     end
   end

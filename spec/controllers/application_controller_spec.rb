@@ -1,68 +1,45 @@
-describe ApplicationController do
+def create_candidate_event(candidate, completed_date, verified, confirmation_event)
+  candidate.candidate_events.clear
+  candidate_event = candidate.add_candidate_event(confirmation_event)
+  candidate_event.completed_date= completed_date
+  candidate_event.verified= verified
+  candidate_event
+end
 
+describe ApplicationController do
+  index = 0
   describe 'event_class' do
     context 'confirmation due_date not set' do
-      let (:confirmation_event) { FactoryGirl.create(:confirmation_event, due_date: nil) }
+      let (:confirmation_event) { FactoryGirl.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
       it 'should always return event-unitialized' do
-        expect(controller.event_class(FactoryGirl.create(:candidate_event, confirmation_event: confirmation_event))).to eq('event-unitialized')
+        candidate = FactoryGirl.create(:candidate)
+        candidate_event = candidate.add_candidate_event(confirmation_event)
+        expect(controller.event_class(candidate_event)).to eq('event-unitialized')
       end
     end
+
     context 'confirmation due_date is set' do
-      let (:confirmation_event_no_due_date) { FactoryGirl.create(:confirmation_event, due_date: nil) }
-      let (:confirmation_event_today) { FactoryGirl.create(:confirmation_event, due_date: Date.today) }
-      let (:confirmation_event_today_plus_40) { FactoryGirl.create(:confirmation_event, due_date: Date.today+40) }
-      let (:confirmation_event_today_minus_40) { FactoryGirl.create(:confirmation_event, due_date: Date.today-40) }
+      index += 1
+      candidate = FactoryGirl.create(:candidate, account_name: "bar_#{index}")
+      let (:confirmation_event_no_due_date) { FactoryGirl.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
+      let (:confirmation_event_today) { FactoryGirl.create(:confirmation_event, the_way_due_date: Date.today, chs_due_date: Date.today) }
+      let (:confirmation_event_today_plus_40) { FactoryGirl.create(:confirmation_event, the_way_due_date: Date.today+40, chs_due_date: Date.today+40) }
+      let (:confirmation_event_today_minus_40) { FactoryGirl.create(:confirmation_event, the_way_due_date: Date.today-40, chs_due_date: Date.today-40) }
 
-      let (:candidate_event_not_completed_no_due_date) { FactoryGirl.create(:candidate_event,
-                                                                            completed_date: nil,
-                                                                            verified: false,
-                                                                            confirmation_event: confirmation_event_no_due_date) }
-      let (:candidate_event_not_completed_today) { FactoryGirl.create(:candidate_event,
-                                                                      completed_date: nil,
-                                                                      verified: false,
-                                                                      confirmation_event: confirmation_event_today) }
-      let (:candidate_event_not_completed_today_plus_40) { FactoryGirl.create(:candidate_event,
-                                                                              completed_date: nil,
-                                                                              verified: false,
-                                                                              confirmation_event: confirmation_event_today_plus_40) }
-      let (:candidate_event_not_completed_today_minus_40) { FactoryGirl.create(:candidate_event,
-                                                                               completed_date: nil,
-                                                                               verified: false,
-                                                                               confirmation_event: confirmation_event_today_minus_40) }
+      let (:candidate_event_not_completed_no_due_date) { create_candidate_event(candidate, nil, false, confirmation_event_no_due_date) }
+      let (:candidate_event_not_completed_today) { create_candidate_event(candidate, nil, false, confirmation_event_today) }
+      let (:candidate_event_not_completed_today_plus_40) { create_candidate_event(candidate, nil, false, confirmation_event_today_plus_40) }
+      let (:candidate_event_not_completed_today_minus_40) { create_candidate_event(candidate, nil, false, confirmation_event_today_minus_40) }
 
-      let (:candidate_event_not_verified_no_due_date) { FactoryGirl.create(:candidate_event,
-                                                                           completed_date: Date.today,
-                                                                           verified: false,
-                                                                           confirmation_event: confirmation_event_no_due_date) }
-      let (:candidate_event_not_verified_today) { FactoryGirl.create(:candidate_event,
-                                                                     completed_date: Date.today,
-                                                                     verified: false,
-                                                                     confirmation_event: confirmation_event_today) }
-      let (:candidate_event_not_verified_today_plus_40) { FactoryGirl.create(:candidate_event,
-                                                                             completed_date: Date.today,
-                                                                             verified: false,
-                                                                             confirmation_event: confirmation_event_today_plus_40) }
-      let (:candidate_event_not_verified_today_minus_40) { FactoryGirl.create(:candidate_event,
-                                                                              completed_date: Date.today,
-                                                                              verified: false,
-                                                                              confirmation_event: confirmation_event_today_minus_40) }
+      let (:candidate_event_not_verified_no_due_date) { create_candidate_event(candidate, Date.today, false, confirmation_event_no_due_date) }
+      let (:candidate_event_not_verified_today) { create_candidate_event(candidate, Date.today, false, confirmation_event_today) }
+      let (:candidate_event_not_verified_today_plus_40) { create_candidate_event(candidate, Date.today, false, confirmation_event_today_plus_40) }
+      let (:candidate_event_not_verified_today_minus_40) { create_candidate_event(candidate, Date.today, false, confirmation_event_today_minus_40) }
 
-      let (:candidate_event_completed_no_due_date) { FactoryGirl.create(:candidate_event,
-                                                                        completed_date: Date.today,
-                                                                        verified: true,
-                                                                        confirmation_event: confirmation_event_no_due_date) }
-      let (:candidate_event_completed_today) { FactoryGirl.create(:candidate_event,
-                                                                  completed_date: Date.today,
-                                                                  verified: true,
-                                                                  confirmation_event: confirmation_event_today) }
-      let (:candidate_event_completed_today_plus_40) { FactoryGirl.create(:candidate_event,
-                                                                          completed_date: Date.today,
-                                                                          verified: true,
-                                                                          confirmation_event: confirmation_event_today_plus_40) }
-      let (:candidate_event_completed_today_minus_40) { FactoryGirl.create(:candidate_event,
-                                                                           completed_date: Date.today,
-                                                                           verified: true,
-                                                                           confirmation_event: confirmation_event_today_minus_40) }
+      let (:candidate_event_completed_no_due_date) { create_candidate_event(candidate, Date.today, true, confirmation_event_no_due_date) }
+      let (:candidate_event_completed_today) { create_candidate_event(candidate, Date.today, true, confirmation_event_today) }
+      let (:candidate_event_completed_today_plus_40) { create_candidate_event(candidate, Date.today, true, confirmation_event_today_plus_40) }
+      let (:candidate_event_completed_today_minus_40) { create_candidate_event(candidate, Date.today, true, confirmation_event_today_minus_40) }
       it 'should always return event-awaiting-candidate' do
 
         expect(controller.event_class(candidate_event_not_completed_no_due_date)).to eq('event-unitialized')
