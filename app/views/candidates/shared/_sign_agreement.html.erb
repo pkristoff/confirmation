@@ -1,21 +1,35 @@
 <%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
 
-<duv>
-    I am committed to this year of preparation for Confirmation. I agree to attend all of the required sessions which include the Confirmation Retreat, Confirmation classes, Confirmation practice, and the Confirmation Mass. I will also attend at least one other Youth Group session per month.
-    I will choose to participate in all sessions with an open heart and give 100% of myself to my small group and my small group leaders. I agree to cultivate a relationship with my sponsor to learn from their spiritual guidance.
-    Most importantly, I promise to receive all that God has
-    in store for me this year and to let the gifts and fruits of
-    the Holy Spirit come alive in my life.
-</duv>
+    <div xmlns = "http://www.w3.org/1999/html" xmlns = "http://www.w3.org/1999/html" >
+      <p >I am committed to this year of preparation for Confirmation. I agree to attend all of the required sessions
+        which include
+      <ul >
+        <li >the Confirmation Retreat,</li >
+        <li >Confirmation classes,</li >
+        <li >Confirmation practice, and</li >
+        <li >the Confirmation Mass.</li >
+        <li >I will also attend at least one other Youth Group session per month.</li >
+      </ul >
+      </p>
+      <p >I will choose to participate in all sessions with an open heart and give 100% of myself to my small group and
+        my small group leaders. I agree to cultivate a relationship with my sponsor to learn from their spiritual
+        guidance.</p >
+      <p >Most importantly, I promise to receive all that God has in store for me this year and to let the gifts and
+        fruits of the Holy Spirit come alive in my life.</p>
+    </div >
 
 
-    <div class="field">
+    <div class = "field" >
       <%= f.check_box :signed_agreement %>
-      <%= f.label :signed_agreement %>
-    </div>
+      <%= f.label :signed_agreement %> -- <span class="convenant_agreement"><%= t('views.candidates.convenant_agreement') %></span>
+    </div >
 
-    <div class="actions">
+    <div class = "actions" >
       <%= f.submit t('views.common.update') %>
-    </div>
+    </div >
 
 <% end %>
+
+<div class = "actions" >
+  <%= button_to t('views.common.download'), dev_download_document_path(@candidate.id, 'Covenant'), {method: :put}  %>
+</div >

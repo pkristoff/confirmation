@@ -27,6 +27,10 @@ Rails.application.routes.draw do
     get 'dev/registrations/event/:id', to: 'dev/registrations#event', as: 'event_candidate_registration'
     post 'create', to: 'registrations#create', as: 'create_candidate'
 
+    # common
+
+    put 'dev/download_document/:id/.:name', to: 'dev/candidates#download_document', as: 'dev_download_document'
+
     # sign agreement
 
     get 'dev/sign_agreement.:id', to: 'dev/candidates#sign_agreement', as: 'dev_sign_agreement'

@@ -1,4 +1,3 @@
-
 class CommonCandidatesController < ApplicationController
 
   def baptismal_certificate_update
@@ -101,6 +100,17 @@ class CommonCandidatesController < ApplicationController
     else
       redirect_to :back, alert: 'Saving failed.'
     end
+  end
+
+  def download_document
+    pdf = File.new("public/documents/4. Candidate Covenant Form.pdf")
+    pdf_data = File.read(pdf.path)
+    begin
+      send_data(pdf_data, type: 'application/pdf', filename: 'Candidate Covenant Form.pdf')
+    ensure
+      pdf.close
+    end
+
   end
 
   def show_baptism_certificate
