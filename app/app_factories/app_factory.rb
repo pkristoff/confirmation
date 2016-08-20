@@ -46,7 +46,6 @@ class AppFactory
     event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
       confirmation_event.name = event_name
       confirmation_event.the_way_due_date = Date.today
-      confirmation_event.the_way_due_date = Date.today
       confirmation_event.chs_due_date = Date.today
       new_confirmation_event = confirmation_event
       # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}"
@@ -111,7 +110,9 @@ class AppFactory
         # matches 20160712191417_add_candidate_information_sheet.rb
         'events.fill_out_candidate_sheet',
         # matches 20160712191417_add_candidate_information_sheet.rb
-        'events.upload_baptismal_certificate'
+        'events.upload_baptismal_certificate',
+        # matches 20160820010320_add_confirmation_name.rb
+        'events.confirmation_name'
     ]
     all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
     all_event_names

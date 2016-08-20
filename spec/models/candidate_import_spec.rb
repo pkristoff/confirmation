@@ -332,7 +332,10 @@ describe CandidateImport do
 
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).the_way_due_date.to_s).to eq('2016-08-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).chs_due_date.to_s).to eq('2016-08-12')
-    expect(ConfirmationEvent.all.size).to eq(5)
+
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).the_way_due_date.to_s).to eq('2016-09-30')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).chs_due_date.to_s).to eq('2016-09-12')
+    expect(ConfirmationEvent.all.size).to eq(6)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
     expect(confirmation_event_2.the_way_due_date.to_s).to eq('2016-05-31')
@@ -347,6 +350,9 @@ describe CandidateImport do
 
   def expect_keys(obj, attributes)
     attributes.keys.each do |sub_key|
+      # puts obj.class
+      # puts "#{obj.candidate.account_name}" if obj.class.to_s === 'CandidateEvent'
+      # puts "#{obj.confirmation_event.name}:#{sub_key}" if obj.class.to_s === 'CandidateEvent'
       expect(obj.send(sub_key).to_s).to eq(attributes[sub_key].to_s)
     end
   end
@@ -396,7 +402,9 @@ describe CandidateImport do
             {completed_date: '', # Sign Agreement
              verified: false},
             {completed_date: '', # Upload Baptismal Certificate
-             verified: false}
+             verified: false},
+            {completed_date: '2016-12-25', # Confirmation Name
+             verified: true}
         ]
     }
   end
@@ -424,6 +432,8 @@ describe CandidateImport do
             {completed_date: '', # Sign Agreement
              verified: false},
             {completed_date: '', # Upload Baptismal Certificate
+             verified: false},
+            {completed_date: '', # Confirmation Name
              verified: false},
             {completed_date: '2016-05-02', # Attend Retreat
              verified: true},
@@ -459,8 +469,10 @@ describe CandidateImport do
              verified: false},
             {completed_date: '', # Upload Baptismal Certificate
              verified: false},
+            {completed_date: '', # Confirmation Name
+             verified: false},
             {completed_date: '2016-06-06', # Sign Agreement
-             verified: true},
+             verified: true}
         ]
     }
   end

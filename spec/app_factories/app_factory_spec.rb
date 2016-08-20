@@ -72,9 +72,9 @@ describe AppFactory do
       candidate = candidate_events[0]
       expect(candidate.account_name).to eq('vickikristoff')
       expect(candidate.candidate_events.size).to eq(3)
-      expect(candidate.candidate_events[0].name).to eq(I18n.t('events.sign_agreement'))
-      expect(candidate.candidate_events[1].name).to eq(I18n.t('events.retreat_weekend'))
-      expect(candidate.candidate_events[2].name).to eq(I18n.t('events.parent_meeting'))
+      expect(candidate.candidate_events_sorted[0].name).to eq(I18n.t('events.retreat_weekend'))
+      expect(candidate.candidate_events_sorted[1].name).to eq(I18n.t('events.parent_meeting'))
+      expect(candidate.candidate_events_sorted[2].name).to eq(I18n.t('events.sign_agreement'))
 
     end
 
@@ -116,6 +116,7 @@ describe AppFactory do
       all_events_names = get_all_event_names
       AppFactory.add_confirmation_events
       all_events_names.each do |event_name|
+        puts event_name
         expect(ConfirmationEvent.find_by_name(I18n.t(event_name))).not_to eq(nil)
       end
       expect(ConfirmationEvent.all.size).to eq(all_events_names.size)

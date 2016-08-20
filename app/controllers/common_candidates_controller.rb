@@ -2,7 +2,11 @@ class CommonCandidatesController < ApplicationController
 
   DOCUMENT_KEY_TO_NAME = {
       covenant: '4. Candidate Covenant Form.pdf',
-      baptismal_certificate: '6. Baptismal Certificate.pdf'
+      baptismal_certificate: '6. Baptismal Certificate.pdf',
+      sponsor_covenant: '7. Sponsor Covenant & Eligibility.pdf',
+      conversion_sponsor_candidate: '8. Conversation between Sponsor & Candidate.pdf',
+      ministry_awareness: '9. Christian Ministry Awareness.pdf',
+      confirmation_name: '10. Choosing a Confirmation Name.pdf'
   }
 
   def baptismal_certificate_update
@@ -95,6 +99,28 @@ class CommonCandidatesController < ApplicationController
     candidate = Candidate.find(params[:id])
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
     candidate_event.completed_date = Date.today
+
+    if candidate.update_attributes(candidate_params)
+      if is_admin?
+        redirect_to event_candidate_registration_path(params[:id]), notice: 'Updated'
+      else
+        redirect_to event_candidate_path(params[:id]), notice: 'Updated'
+      end
+    else
+      redirect_to :back, alert: 'Saving failed.'
+    end
+  end
+
+  def confirmation_name
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+  end
+
+  def confirmation_name_update
+    confirmation_name_filled_in = params[:candidate]['confirmation_name'].empty?
+    candidate = Candidate.find(params[:id])
+    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.confirmation_name') }
+    candidate_event.completed_date = confirmation_name_filled_in ? Date.today : nil
 
     if candidate.update_attributes(candidate_params)
       if is_admin?

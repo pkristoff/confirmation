@@ -1,0 +1,50 @@
+<%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
+
+    <div >
+      <b >St Mary Magdalene Confirmation</b >
+
+
+      <p >The custom of choosing a “new name” and being called by that name during the Confirmation liturgy stems from
+        the
+        biblical tradition of a change of name indicating a new or renewed commitment to God. Abraham and Sarah, our
+        parents in faith, were called Abram and Sarai before they made a covenant with God. Peter was called Simon, and
+        Paul was Saul before they became followers of Christ.
+      <ul >
+        <li >
+          The name you choose must be a saint’s name. You can verify that the name is a saint’s name by looking it upon
+          this <a href="http://www.catholic.org/saints/">website</a>.
+        </li >
+        <li >
+          You are now making a renewed commitment to your faith and your commitment is be symbolized with the taking of
+          a
+          new name to show that you are in some ways a new person.
+        </li >
+        <li >
+          The name you choose should represent the direction you feel your faith life is taking, or would represent a
+          strength or attribute you feel you need. It is important and necessary to know something about the saint
+          before
+          you decide on that name. This option of taking a new name is not to be used because you like the sound of the
+          name, how it fits with your other names, or because it is the name of a nice friend or relative!
+        </li >
+        <li >
+          This new name would be used after your present name middle name and before your family name.
+        </li >
+      </ul >
+      </p >
+    </div >
+
+
+    <div class = "field" >
+      <%= f.label :confirmation_name %>
+      <%= f.text_field :confirmation_name %>
+    </div >
+
+    <div class = "actions" >
+      <%= f.submit t('views.common.update') %>
+    </div >
+
+<% end %>
+
+<div class = "actions" >
+  <%= button_to t('views.common.download'), dev_download_document_path(@candidate.id, 'confirmation_name'), {method: :put} %>
+</div >
