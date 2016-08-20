@@ -180,6 +180,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     expect_field('Mother last', candidate.baptized_at_stmm ? nil : LAST_NAME)
 
     expect(page).to have_button(I18n.t('views.common.update'))
+    expect(page).to have_button(I18n.t('views.common.download'))
   end
 
   def expect_field (label, value)

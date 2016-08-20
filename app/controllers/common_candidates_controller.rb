@@ -1,5 +1,10 @@
 class CommonCandidatesController < ApplicationController
 
+  DOCUMENT_KEY_TO_NAME = {
+      covenant: '4. Candidate Covenant Form.pdf',
+      baptismal_certificate: '6. Baptismal Certificate.pdf'
+  }
+
   def baptismal_certificate_update
     @candidate = Candidate.find(params[:id])
     if params['candidate']
@@ -103,10 +108,11 @@ class CommonCandidatesController < ApplicationController
   end
 
   def download_document
-    pdf = File.new("public/documents/4. Candidate Covenant Form.pdf")
+    doc_name = DOCUMENT_KEY_TO_NAME[params[:name].to_sym]
+    pdf = File.new("public/documents/#{doc_name}")
     pdf_data = File.read(pdf.path)
     begin
-      send_data(pdf_data, type: 'application/pdf', filename: 'Candidate Covenant Form.pdf')
+      send_data(pdf_data, type: 'application/pdf', filename: doc_name)
     ensure
       pdf.close
     end

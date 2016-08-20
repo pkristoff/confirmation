@@ -129,3 +129,7 @@
     </div>
 
 <% end %>
+
+<div class = "actions" >
+  <%= button_to t('views.common.download'), dev_download_document_path(@candidate.id, 'baptismal_certificate'), {method: :put}  %>
+</div >
