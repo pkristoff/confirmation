@@ -7,7 +7,6 @@ shared_context 'candidate_sheet_html_erb' do
 
   scenario 'candidate logs in, selects candidate sheet, has filled out candidate sheet previsouly' do
     visit @path
-    puts page.html
     expect_form_layout
   end
 

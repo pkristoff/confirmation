@@ -55,8 +55,6 @@ shared_context 'Sign Agreement' do
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}sign_agreement.#{@candidate.id}\"]")
 
-    # expect(page).to have_selector('code', text: I18n.t('views.candidates.convenant_agreement'))
-
     if signed_agreement
       expect(page).to have_checked_field('Signed agreement')
     else

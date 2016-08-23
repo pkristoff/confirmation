@@ -129,7 +129,7 @@ describe Candidate do
 
       it 'two candidate_event with all nil' do
         @candidates_with_data.each_with_index do | data, index |
-          puts "index: #{index}"
+          # puts "index: #{index}"
           candidate = data[:candidate]
           result = data[:result]
           expect(candidate.candidate_events.size).to eq(result.size)
@@ -141,6 +141,12 @@ describe Candidate do
 
         end
 
+    end
+
+    it 'should create sponsor_covenant' do
+      candidate = FactoryGirl.create(:candidate)
+      candidate.create_sponsor_covenant
+      expect(candidate.sponsor_covenant).not_to eq(nil)
     end
 
     def setup_candidate(data)

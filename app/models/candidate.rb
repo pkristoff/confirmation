@@ -1,11 +1,16 @@
 class Candidate < ActiveRecord::Base
 
   belongs_to(:address, validate: false)
-  accepts_nested_attributes_for :address, allow_destroy: true
+  accepts_nested_attributes_for(:address, allow_destroy: true)
+
   has_many(:candidate_events)
-  accepts_nested_attributes_for :candidate_events, allow_destroy: true
+  accepts_nested_attributes_for(:candidate_events, allow_destroy: true)
+
   belongs_to(:baptismal_certificate, validate: false)
-  accepts_nested_attributes_for :baptismal_certificate, allow_destroy: true
+  accepts_nested_attributes_for(:baptismal_certificate, allow_destroy: true)
+
+  belongs_to(:sponsor_covenant, validate: false)
+  accepts_nested_attributes_for(:sponsor_covenant, allow_destroy: true)
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -23,6 +28,7 @@ class Candidate < ActiveRecord::Base
   validate :validate_emails
 
   validates_associated :baptismal_certificate
+  validates_associated :sponsor_covenant
 
   def candidate_events_sorted
     candidate_events.sort do | ce1, ce2 |
@@ -121,7 +127,12 @@ class Candidate < ActiveRecord::Base
     params
   end
 
-  def validate_emails
+  def initialize(arg=nil)
+    super(arg)
+    build_sponsor_covenant
+  end
+
+  def validate_emails()
     unless candidate_email.nil? or candidate_email.empty?
       errors.add(:candidate_email, 'is an invalid email') unless validate_email(candidate_email)
     end
@@ -131,7 +142,16 @@ class Candidate < ActiveRecord::Base
     unless parent_email_2.nil? or parent_email_2.empty?
       errors.add(:parent_email_2, 'is an invalid email') unless validate_email(parent_email_2)
     end
+  end
 
+  def validate (validate_sponsor_covenant=false)
+    super
+    if validate_sponsor_covenant
+      sponsor_covenant.validate_self
+      if sponsor_covenant.errors.any?
+        errors.add(:sponsor_covenant, ' is invalid.')
+      end
+    end
   end
 
   def validate_email(value)

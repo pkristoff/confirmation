@@ -335,7 +335,11 @@ describe CandidateImport do
 
     expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).the_way_due_date.to_s).to eq('2016-09-30')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).chs_due_date.to_s).to eq('2016-09-12')
-    expect(ConfirmationEvent.all.size).to eq(6)
+
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_sponsor_covenant')).the_way_due_date.to_s).to eq('2016-10-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_sponsor_covenant')).chs_due_date.to_s).to eq('2016-10-15')
+
+    expect(ConfirmationEvent.all.size).to eq(7)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
     expect(confirmation_event_2.the_way_due_date.to_s).to eq('2016-05-31')
@@ -404,7 +408,9 @@ describe CandidateImport do
             {completed_date: '', # Upload Baptismal Certificate
              verified: false},
             {completed_date: '2016-12-25', # Confirmation Name
-             verified: true}
+             verified: true},
+            {completed_date: '2017-01-01', # Sponsor Covenant
+             verified: false}
         ]
     }
   end
@@ -434,6 +440,8 @@ describe CandidateImport do
             {completed_date: '', # Upload Baptismal Certificate
              verified: false},
             {completed_date: '', # Confirmation Name
+             verified: false},
+            {completed_date: '', # Sponsor Covenant
              verified: false},
             {completed_date: '2016-05-02', # Attend Retreat
              verified: true},
@@ -470,6 +478,8 @@ describe CandidateImport do
             {completed_date: '', # Upload Baptismal Certificate
              verified: false},
             {completed_date: '', # Confirmation Name
+             verified: false},
+            {completed_date: '', # Sponsor Covenant
              verified: false},
             {completed_date: '2016-06-06', # Sign Agreement
              verified: true}

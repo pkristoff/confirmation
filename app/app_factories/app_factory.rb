@@ -45,8 +45,34 @@ class AppFactory
     new_confirmation_event = nil
     event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
       confirmation_event.name = event_name
+      puts 'attempting the_way_due_date'
       confirmation_event.the_way_due_date = Date.today
       confirmation_event.chs_due_date = Date.today
+      puts 'done attempting the_way_due_date'
+      new_confirmation_event = confirmation_event
+      # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}"
+      # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.chs_due_date}"
+    end
+    unless new_confirmation_event.nil?
+      # puts 'adding to candidates'
+      Candidate.all.each do |candidate|
+        candidate.add_candidate_event(new_confirmation_event)
+        # puts "adding to candidate: #{candidate.account_name}"
+        candidate.save
+      end
+    end
+    # puts 'ending event_name'
+    event
+  end
+
+  def self.add_confirmation_event_due_date(event_name)
+    # puts 'starting event_name'
+    new_confirmation_event = nil
+    event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
+      confirmation_event.name = event_name
+      puts 'attempting due_date'
+      confirmation_event.due_date = Date.today
+      puts 'done attempting due_date'
       new_confirmation_event = confirmation_event
       # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}"
       # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.chs_due_date}"
@@ -105,14 +131,16 @@ class AppFactory
         'events.parent_meeting',
         # matches 20160603161241_add_attend_retreat.rb
         'events.retreat_weekend',
-        # matches 20160701175828_add_convenant_agreement.rb
+        # matches 20160701175828_add_covenant_agreement.rb
         'events.sign_agreement',
         # matches 20160712191417_add_candidate_information_sheet.rb
         'events.fill_out_candidate_sheet',
         # matches 20160712191417_add_candidate_information_sheet.rb
         'events.upload_baptismal_certificate',
         # matches 20160820010320_add_confirmation_name.rb
-        'events.confirmation_name'
+        'events.confirmation_name',
+        # matches 20160821215148_add_sponsor_covenant.rb
+        'events.upload_sponsor_covenant'
     ]
     all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
     all_event_names

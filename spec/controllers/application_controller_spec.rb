@@ -1,11 +1,3 @@
-def create_candidate_event(candidate, completed_date, verified, confirmation_event)
-  candidate.candidate_events.clear
-  candidate_event = candidate.add_candidate_event(confirmation_event)
-  candidate_event.completed_date= completed_date
-  candidate_event.verified= verified
-  candidate_event
-end
-
 describe ApplicationController do
   index = 0
   describe 'event_class' do
@@ -60,4 +52,11 @@ describe ApplicationController do
     end
   end
 
+  def create_candidate_event(candidate, completed_date, verified, confirmation_event)
+    candidate.candidate_events.clear
+    candidate_event = candidate.add_candidate_event(confirmation_event)
+    candidate_event.completed_date= completed_date
+    candidate_event.verified= verified
+    candidate_event
+  end
 end

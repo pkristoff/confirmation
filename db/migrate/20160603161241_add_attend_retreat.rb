@@ -1,6 +1,6 @@
 class AddAttendRetreat < ActiveRecord::Migration
   def up
-    AppFactory.add_confirmation_event(I18n.t('events.retreat_weekend'))
+    AppFactory.add_confirmation_event_due_date(I18n.t('events.retreat_weekend'))
   end
 
   def down

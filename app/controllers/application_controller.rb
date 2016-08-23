@@ -51,6 +51,10 @@ class ApplicationController < ActionController::Base
     params.require(:candidate).permit(baptismal_certificate_attributes: [:certificate_filename, :certificate_content_type, :certificate_file_contents])
   end
 
+  def sponsor_elegibility_file_params
+    params.require(:candidate).permit(sponsor_covenant_attributes: [:sponsor_elegibility_filename, :sponsor_elegibility_content_type, :sponsor_elegibility_file_contents])
+  end
+
   def candidate_permitted_params
     [:account_name, :first_name, :last_name, :confirmation_name, :candidate_email, :parent_email_1,
      :parent_email_2, :grade, :attending, :password, :password_confirmation,
@@ -61,6 +65,8 @@ class ApplicationController < ActionController::Base
                                         :certificate_picture, # temp var  --> :certificate_filename ...
                                         :certificate_filename, :certificate_content_type, :certificate_file_contents,
                                         church_address_attributes: [:street_1, :street_2, :city, :state, :zip_code]],
+     sponsor_covenant_attributes: [:sponsor_name, :sponsor_church, :sponsor_attends_stmm, :sponsor_elegibility_picture, # temp var  --> :sponsor_elegibility_filename ...
+                                   :sponsor_elegibility_filename, :sponsor_elegibility_content_type, :sponsor_elegibility_file_contents],
      candidate_events_attributes: [:id, :completed_date, :verified]
     ]
   end

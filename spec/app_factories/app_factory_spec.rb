@@ -116,7 +116,6 @@ describe AppFactory do
       all_events_names = get_all_event_names
       AppFactory.add_confirmation_events
       all_events_names.each do |event_name|
-        puts event_name
         expect(ConfirmationEvent.find_by_name(I18n.t(event_name))).not_to eq(nil)
       end
       expect(ConfirmationEvent.all.size).to eq(all_events_names.size)
