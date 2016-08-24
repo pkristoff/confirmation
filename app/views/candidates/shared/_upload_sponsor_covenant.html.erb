@@ -27,6 +27,16 @@
             </div >
         <% end %>
         <div class = "field" >
+          <%= sc_fields.label :sponsor_covenant_picture %><br />
+          <%= sc_fields.file_field :sponsor_covenant_picture %>
+        </div >
+
+        <% unless @candidate.sponsor_covenant.sponsor_covenant_filename.nil? %>
+            <div >
+              <img src = "<%= url_for(is_dev ? dev_upload_sponsor_covenant_image_path(@candidate.id) : upload_sponsor_covenant_image_path(@candidate.id)) %>" />
+            </div >
+        <% end %>
+        <div class = "field" >
           <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'sponsor_covenant();' %>
           <%= sc_fields.label :sponsor_attends_stmm %>
         </div >
@@ -38,8 +48,8 @@
                 <%= sc_fields.text_field :sponsor_church %>
               </div >
               <div class = "field" >
-                <%= sc_fields.label :sponsor_covenant_picture %><br />
-                <%= sc_fields.file_field :sponsor_covenant_picture %>
+                <%= sc_fields.label :sponsor_elegibility_picture %><br />
+                <%= sc_fields.file_field :sponsor_elegibility_picture %>
               </div >
 
               <% unless @candidate.sponsor_covenant.sponsor_elegibility_filename.nil? %>

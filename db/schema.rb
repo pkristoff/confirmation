@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160821215148) do
+ActiveRecord::Schema.define(version: 20160823210754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,9 @@ ActiveRecord::Schema.define(version: 20160821215148) do
     t.binary   "sponsor_elegibility_file_contents"
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
+    t.string   "sponsor_covenant_filename"
+    t.string   "sponsor_covenant_content_type"
+    t.binary   "sponsor_covenant_file_contents"
   end
 
   create_table "to_dos", force: :cascade do |t|

@@ -74,11 +74,17 @@ Rails.application.routes.draw do
     get 'dev/upload_sponsor_covenant.:id', to: 'dev/candidates#upload_sponsor_covenant', as: 'dev_upload_sponsor_covenant'
     put 'dev/upload_sponsor_covenant.:id', to: 'dev/candidates#sponsor_covenant_update', as: 'dev_sponsor_covenant_update'
 
+    get 'dev/show_sponsor_covenant.:id', to: 'dev/candidates#show_sponsor_covenant', as: 'dev_show_sponsor_covenant'
+    get 'dev/upload_sponsor_covenant_image.:id', to: 'dev/candidates#upload_sponsor_covenant_image', as: 'dev_upload_sponsor_covenant_image'
+
     get 'dev/show_sponsor_elegibility.:id', to: 'dev/candidates#show_sponsor_elegibility', as: 'dev_show_sponsor_elegibility'
     get 'dev/upload_sponsor_elegibility_image.:id', to: 'dev/candidates#upload_sponsor_elegibility_image', as: 'dev_upload_sponsor_elegibility_image'
 
     get 'upload_sponsor_covenant.:id', to: 'candidates#upload_sponsor_covenant', as: 'upload_sponsor_covenant'
     put 'upload_sponsor_covenant.:id', to: 'candidates#sponsor_covenant_update', as: 'sponsor_covenant_update'
+
+    get 'show_sponsor_covenant.:id', to: 'candidates#show_sponsor_covenant', as: 'show_sponsor_covenant'
+    get 'upload_sponsor_covenant_image.:id', to: 'candidates#upload_sponsor_covenant_image', as: 'upload_sponsor_covenant_image'
 
     get 'show_sponsor_elegibility.:id', to: 'candidates#show_sponsor_elegibility', as: 'show_sponsor_elegibility'
     get 'upload_sponsor_elegibility_image.:id', to: 'candidates#upload_sponsor_elegibility_image', as: 'upload_sponsor_elegibility_image'

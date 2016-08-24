@@ -145,13 +145,15 @@ class Candidate < ActiveRecord::Base
   end
 
   def validate (validate_sponsor_covenant=false)
-    super
+    val = super
     if validate_sponsor_covenant
       sponsor_covenant.validate_self
       if sponsor_covenant.errors.any?
         errors.add(:sponsor_covenant, ' is invalid.')
+        return false
       end
     end
+    val
   end
 
   def validate_email(value)

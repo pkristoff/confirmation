@@ -66,6 +66,7 @@ class ApplicationController < ActionController::Base
                                         :certificate_filename, :certificate_content_type, :certificate_file_contents,
                                         church_address_attributes: [:street_1, :street_2, :city, :state, :zip_code]],
      sponsor_covenant_attributes: [:sponsor_name, :sponsor_church, :sponsor_attends_stmm, :sponsor_elegibility_picture, # temp var  --> :sponsor_elegibility_filename ...
+                                   :sponsor_covenant_filename, :sponsor_covenant_content_type, :sponsor_covenant_file_contents,
                                    :sponsor_elegibility_filename, :sponsor_elegibility_content_type, :sponsor_elegibility_file_contents],
      candidate_events_attributes: [:id, :completed_date, :verified]
     ]

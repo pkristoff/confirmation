@@ -93,101 +93,61 @@ class CommonCandidatesController < ApplicationController
   def sponsor_covenant_update
     @candidate = Candidate.find(params[:id])
     if params['candidate']
-      sponsor_attends_stmm = params[:candidate][:sponsor_covenant_attributes]['sponsor_attends_stmm'] == '1'
-      if sponsor_attends_stmm
-        # @candidate.sponsor_covenant.sponsor_attends_stmm = nil
-        # params[:candidate].delete(:sponsor_covenant_attributes)
-        # Update candidate_event
-        candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_sponsor_covenant') }
-        candidate_event.completed_date = Date.today
+      sponsor_covenant = @candidate.sponsor_covenant
+      sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
+      setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, 'sponsor_covenant', sponsor_covenant_params)
+      setup_file_params(sponsor_covenant_params[:sponsor_elegibility_picture], sponsor_covenant, 'sponsor_elegibility', sponsor_covenant_params)
 
-        @candidate.assign_attributes(candidate_params)
-        # @candidate.sponsor_covenant.validate_self
-        @candidate.validate(true)
-        unless @candidate.errors.any?
-          if @candidate.save
-            if is_admin?
-              redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-            else
-              redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
-            end
-          end
-        else
-          # let it fall through
-        end
-      else
-        # this is tricky here.  trying to allow the user to see the scanned picture
-        # and not have to re-upload it, if they get a validation error
-        sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
-        if sponsor_covenant_params
-          file_error = false
-          @candidate.sponsor_covenant = create_sponsor_covenant if @candidate.sponsor_covenant.nil?
-          sponsor_covenant = @candidate.sponsor_covenant
-          # update file params for the save
-          file = sponsor_covenant_params[:sponsor_covenant_picture]
-          if file.nil?
-            if sponsor_covenant && sponsor_covenant.sponsor_elegibility_filename
-              # already saved the BC picture
-              sponsor_covenant_params[:sponsor_elegibility_filename] = sponsor_covenant.sponsor_elegibility_filename
-              sponsor_covenant_params[:sponsor_elegibility_content_type] = sponsor_covenant.sponsor_elegibility_content_type
-              sponsor_covenant_params[:sponsor_elegibility_file_contents] = sponsor_covenant.sponsor_elegibility_file_contents
-            else
-              # scanned BC required
-              file_error = true
-              @candidate.sponsor_covenant.errors.add(:sponsor_covenant_picture, I18n.t('messages.sponsor_elegibility_not_blank'))
-              # flash['error_explanation'] = I18n.t('messages.sponsor_elegibility_not_blank')
-            end
-          else
-            # setup scanned BC for saving
-            sponsor_covenant_params[:sponsor_elegibility_filename] = File.basename(file.original_filename)
-            sponsor_covenant_params[:sponsor_elegibility_content_type] = file.content_type
-            sponsor_covenant_params[:sponsor_elegibility_file_contents] = file.read
-            # save BC picture.
-            # @candidate.assign_attributes(sponsor_elegibility_file_params)
-            # # @candidate.sponsor_covenant.validate_self
-            # @candidate.validate(true)
-            # unless @candidate.errors.any?
-            #   # redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-            # else
-            #   # let it fall through
-            # end
-          end
-
-          @candidate.assign_attributes(candidate_params)
-          # @candidate.sponsor_covenant.validate_self
-          @candidate.validate(true)
+      if @candidate.update_attributes(candidate_params)
+        # sponsor_attends_stmm = params[:candidate][:sponsor_covenant_attributes]['sponsor_attends_stmm'] == '1'
+        if @candidate.validate(true)
           unless @candidate.errors.any?
-            unless file_error
-              if @candidate.save
-                # Update candidate_event
-                candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_sponsor_covenant') }
-                candidate_event.completed_date = Date.today
-                if candidate_event.save
-                  if is_admin?
-                    redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-                  else
-                    redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
-                  end
-                else
-                  flash['alert'] = 'Save failed'
-                end
+            candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_sponsor_covenant') }
+            candidate_event.completed_date = Date.today
+            if @candidate.save
+              if is_admin?
+                redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
               else
-                flash['alert'] = 'Save failed'
+                redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
               end
-
+            else
+              flash['alert'] = "Save of #{I18n.t('events.upload_sponsor_covenant')} failed"
             end
-
-          else
-            'remove me'
-
           end
-        else
-          flash['alert'] = I18n.t('messages.missing_sponsor_covenant_attributes')
-          return
         end
       end
     else
       flash[:alert] = I18n.t('messages.unknown_parameter')
+    end
+  end
+
+  def setup_file_params(file, sponsor_covenant, prefix, sponsor_covenant_params)
+    filename_param = "#{prefix}_filename".to_sym
+    content_type_param = "#{prefix}_content_type".to_sym
+    file_contents_param = "#{prefix}_file_contents".to_sym
+    if prefix === 'sponsor_elegibility'
+      filename = sponsor_covenant.sponsor_elegibility_filename
+      content_type = sponsor_covenant.sponsor_elegibility_content_type
+      file_contents = sponsor_covenant.sponsor_elegibility_file_contents
+    else
+      filename = sponsor_covenant.sponsor_covenant_filename
+      content_type = sponsor_covenant.sponsor_covenant_content_type
+      file_contents = sponsor_covenant.sponsor_covenant_file_contents
+    end
+    if file
+      if File.basename(file.original_filename) === filename
+        sponsor_covenant_params[filename_param] = filename
+        sponsor_covenant_params[content_type_param] = content_type
+        sponsor_covenant_params[file_contents_param] = file_contents
+      else
+        sponsor_covenant_params[filename_param] = File.basename(file.original_filename)
+        sponsor_covenant_params[content_type_param] = file.content_type
+        sponsor_covenant_params[file_contents_param] = file.read
+      end
+    else
+      sponsor_covenant_params[filename_param] = filename
+      sponsor_covenant_params[content_type_param] = content_type
+      sponsor_covenant_params[file_contents_param] = file_contents
     end
   end
 
@@ -256,6 +216,11 @@ class CommonCandidatesController < ApplicationController
     send_image_sponsor_elegibility(@candidate)
   end
 
+  def show_sponsor_covenant
+    @candidate = Candidate.find(params[:id])
+    send_image_sponsor_covenant(@candidate)
+  end
+
   def sign_agreement
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
@@ -304,7 +269,6 @@ class CommonCandidatesController < ApplicationController
     if @candidate.sponsor_covenant.nil?
       @candidate.sponsor_covenant = create_sponsor_covenant
     end
-    puts @candidate.sponsor_covenant.sponsor_attends_stmm
   end
 
   def upload_baptismal_certificate_image
@@ -315,6 +279,11 @@ class CommonCandidatesController < ApplicationController
   def upload_sponsor_elegibility_image
     @candidate = Candidate.find(params[:id])
     send_image_sponsor_elegibility(@candidate)
+  end
+
+  def upload_sponsor_covenant_image
+    @candidate = Candidate.find(params[:id])
+    send_image_sponsor_covenant(@candidate)
   end
 
   private
@@ -333,6 +302,13 @@ class CommonCandidatesController < ApplicationController
               disposition: 'inline'
   end
 
+  def send_image_sponsor_covenant(candidate)
+    sponsor_covenant = candidate.sponsor_covenant
+    send_data sponsor_covenant.sponsor_covenant_file_contents,
+              type: sponsor_covenant.sponsor_covenant_content_type,
+              disposition: 'inline'
+  end
+
   def create_baptismal_certificate
     baptismal_certificate = BaptismalCertificate.new
     baptismal_certificate.church_address = Address.new
@@ -343,4 +319,5 @@ class CommonCandidatesController < ApplicationController
     sponsor_covenant = SponsorCovenant.new
     sponsor_covenant
   end
+
 end

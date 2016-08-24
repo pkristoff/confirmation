@@ -25,7 +25,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     update_sponsor_covenant(false)
     expect(@candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
     visit @path
-    fill_in_form(true)
+    fill_in_form(true, true)
     click_button I18n.t('views.common.update')
 
     expect_message(:flash_notice, 'Updated')
@@ -46,7 +46,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     check('Sponsor attends stmm')
     click_button I18n.t('views.common.update')
 
-    expect_message(:flash_notice, 'Updated')
+    expect_message(:flash_notice, I18n.t('messages.updated'))
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(true)
     expect(candidate.sponsor_covenant).not_to eq(nil)
@@ -59,24 +59,35 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     @candidate.save
     AppFactory.add_candidate_events(@candidate)
     update_sponsor_covenant(false)
-    # @candidate.save
     visit @path
 
+
     attach_file('Sponsor covenant picture', 'spec/fixtures/actions.png')
+    attach_file('Sponsor elegibility picture', 'spec/fixtures/actions.png')
     click_button I18n.t('views.common.update')
 
+    candidate = Candidate.find(@candidate.id)
     expect_message(:error_explanation, ['2 errors prohibited saving', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank'])
+    expect(candidate.sponsor_covenant).not_to eq(nil)
+    expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
+    expect(candidate.sponsor_covenant.sponsor_elegibility_filename).to eq('actions.png')
+    expect(candidate.sponsor_covenant.sponsor_covenant_filename).to eq('actions.png')
+    expect(candidate.sponsor_covenant.sponsor_name).to eq('')
+    expect(candidate.sponsor_covenant.sponsor_church).to eq('')
 
     fill_in_form(false) # no picture
     click_button I18n.t('views.common.update')
 
-    # expect_message(:flash_alert, 'Sponsor Elegibility picture cannot be blank')
-    expect_message(:error_explanation, ['3 errors prohibited saving','Sponsor elegibility filename can\'t be blank', 'Sponsor elegibility content type can\'t be blank', 'Sponsor elegibility file contents can\'t be blank'])
+    expect_message(:flash_notice, I18n.t('messages.updated'))
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant).not_to eq(nil)
     expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
-    expect(candidate.sponsor_covenant.sponsor_elegibility_filename).to eq(nil)
+    expect(candidate.sponsor_covenant.sponsor_elegibility_filename).to eq('Baptismal Certificate.png')
+    expect(candidate.sponsor_covenant.sponsor_covenant_filename).to eq('actions.png')
+    expect(candidate.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
+    expect(candidate.sponsor_covenant.sponsor_church).to eq(SPONSOR_CHURCH)
 
+    visit @path
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate)
 
@@ -148,11 +159,14 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     end
   end
 
-  def fill_in_form(attach_file=true)
+  def fill_in_form(covenant_attach_file=true, elegibility_attach_file=true)
     fill_in('Sponsor name', with: SPONSOR_NAME)
     fill_in('Sponsor church', with: SPONSOR_CHURCH)
-    if attach_file
+    if covenant_attach_file
       attach_file('Sponsor covenant picture', 'spec/fixtures/actions.png')
+    end
+    if elegibility_attach_file
+      attach_file('Sponsor elegibility picture', 'spec/fixtures/Baptismal Certificate.png')
     end
   end
 
