@@ -27,6 +27,7 @@ en:
     fill_out_candidate_sheet: 'Fill Out Candidate Information Sheet'
     upload_baptismal_certificate: 'Upload Baptismal Certificate'
     upload_sponsor_covenant: 'Upload Sponsor Covenant'
+    pick_confirmation_name: 'Pick Confirmation Name'
   messages:
     accessed_denied: 'Accessed denied.'
     admin_login_needed: 'Please login as admin to %{message}.'
@@ -41,6 +42,7 @@ en:
     import_successful: 'Imported candidates successfully.'
     missing_baptismal_certificate_attributes: 'internal: baptismal_certificate_attributes not sent with call'
     missing_sponsor_covenant_attributes: 'internal: sponsor_covenant_attributes not sent with call'
+    missing_pick_confirmation_name_attributes: 'internal: pick_confirmation_name_attributes not sent with call'
     remove_candidate: 'remove a candidate'
     select_excel_file: 'Please select a zipped excel file to upload.'
     sponsor_elegibility_not_blank: 'Sponsor Elegibility picture cannot be blank'
@@ -81,7 +83,9 @@ en:
       password: 'Password'
       scan_baptismal_certificate: 'Scan baptismal certificate'
       scan_sponsor_covenant: 'Scan sponsor covenant'
+      scan_pick_confirmation_name: 'Scan confirmation name'
       sponsor_name: 'Sponsor covenant'
+      pick_confirmation_name: 'Pick confirmation name'
     common:
       about: 'About'
       are_you_sure: 'Are you sure?'
@@ -118,6 +122,7 @@ en:
       candidates: 'Candidates'
       candidate_sheet: 'Candidate Sheet'
       sponsor_covenant: 'Sponsor covenant'
+      pick_confirmation_name: 'Pick confirmation name'
       edit: 'Edit'
       edit_account: 'Edit account'
       events: 'Events'

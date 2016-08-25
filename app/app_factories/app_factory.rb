@@ -137,7 +137,9 @@ class AppFactory
         # matches 20160712191417_add_candidate_information_sheet.rb
         'events.upload_baptismal_certificate',
         # matches 20160821215148_add_sponsor_covenant.rb
-        'events.upload_sponsor_covenant'
+        'events.upload_sponsor_covenant',
+        # matches 20160825130031_add_pick_confirmation_name_event.rb
+        'events.pick_confirmation_name'
     ]
     all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
     all_event_names

@@ -55,6 +55,10 @@ class ApplicationController < ActionController::Base
     params.require(:candidate).permit(sponsor_covenant_attributes: [:sponsor_elegibility_filename, :sponsor_elegibility_content_type, :sponsor_elegibility_file_contents])
   end
 
+  def pick_confirmation_name_file_params
+    params.require(:candidate).permit(pick_confirmation_name_attributes: [:pick_confirmation_name_filename, :pick_confirmation_name_content_type, :pick_confirmation_name_file_contents])
+  end
+
   def candidate_permitted_params
     [:account_name, :first_name, :last_name, :candidate_email, :parent_email_1,
      :parent_email_2, :grade, :attending, :password, :password_confirmation,
@@ -68,6 +72,8 @@ class ApplicationController < ActionController::Base
      sponsor_covenant_attributes: [:sponsor_name, :sponsor_church, :sponsor_attends_stmm, :sponsor_elegibility_picture, # temp var  --> :sponsor_elegibility_filename ...
                                    :sponsor_covenant_filename, :sponsor_covenant_content_type, :sponsor_covenant_file_contents,
                                    :sponsor_elegibility_filename, :sponsor_elegibility_content_type, :sponsor_elegibility_file_contents],
+     pick_confirmation_name_attributes: [:saint_name, :about_saint, :why_saint, :pick_confirmation_name_picture, # temp var  --> :pick_confirmation_name_filename ...
+                                   :pick_confirmation_name_filename, :pick_confirmation_name_content_type, :pick_confirmation_name_file_contents],
      candidate_events_attributes: [:id, :completed_date, :verified]
     ]
   end

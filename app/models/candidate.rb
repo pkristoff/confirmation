@@ -12,6 +12,9 @@ class Candidate < ActiveRecord::Base
   belongs_to(:sponsor_covenant, validate: false)
   accepts_nested_attributes_for(:sponsor_covenant, allow_destroy: true)
 
+  belongs_to(:pick_confirmation_name, validate: false)
+  accepts_nested_attributes_for(:pick_confirmation_name, allow_destroy: true)
+
   after_initialize :build_associations, :if => :new_record?
 
   # Include default devise modules. Others available are:
@@ -122,6 +125,7 @@ class Candidate < ActiveRecord::Base
     address || create_address
     baptismal_certificate || create_baptismal_certificate
     sponsor_covenant || create_sponsor_covenant
+    pick_confirmation_name || create_pick_confirmation_name
     true
   end
 
@@ -139,8 +143,16 @@ class Candidate < ActiveRecord::Base
 
   def validate (options={})
     options={validate_sponsor_covenant: false, validate_baptismal_certificate: false,
+             validate_pick_confirmation_name: false,
              baptized_at_stmm: false}.merge(options)
     val = super
+    if options[:validate_pick_confirmation_name]
+      pick_confirmation_name.validate_self
+      pick_confirmation_name.errors.full_messages.each do |msg|
+        errors[:base] << msg
+        val = false
+      end
+    end
     if options[:validate_sponsor_covenant]
       sponsor_covenant.validate_self
       sponsor_covenant.errors.full_messages.each do |msg|

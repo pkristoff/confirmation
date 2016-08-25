@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825114406) do
+ActiveRecord::Schema.define(version: 20160825130031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,35 +78,37 @@ ActiveRecord::Schema.define(version: 20160825114406) do
   add_index "candidate_events", ["candidate_id"], name: "index_candidate_events_on_candidate_id", using: :btree
 
   create_table "candidates", force: :cascade do |t|
-    t.string   "parent_email_1",                         default: "",        null: false
-    t.string   "encrypted_password",                     default: "",        null: false
+    t.string   "parent_email_1",                          default: "",        null: false
+    t.string   "encrypted_password",                      default: "",        null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                          default: 0,         null: false
+    t.integer  "sign_in_count",                           default: 0,         null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
-    t.string   "account_name",                           default: "",        null: false
-    t.string   "first_name",                             default: "",        null: false
-    t.string   "last_name",                              default: "",        null: false
-    t.decimal  "grade",                    precision: 2, default: 10,        null: false
-    t.string   "candidate_email",                        default: "",        null: false
-    t.string   "parent_email_2",                         default: "",        null: false
-    t.string   "attending",                              default: "The Way", null: false
-    t.integer  "address_id",                                                 null: false
-    t.boolean  "signed_agreement",                       default: false,     null: false
-    t.boolean  "baptized_at_stmm",                       default: true,      null: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.string   "account_name",                            default: "",        null: false
+    t.string   "first_name",                              default: "",        null: false
+    t.string   "last_name",                               default: "",        null: false
+    t.decimal  "grade",                     precision: 2, default: 10,        null: false
+    t.string   "candidate_email",                         default: "",        null: false
+    t.string   "parent_email_2",                          default: "",        null: false
+    t.string   "attending",                               default: "The Way", null: false
+    t.integer  "address_id",                                                  null: false
+    t.boolean  "signed_agreement",                        default: false,     null: false
+    t.boolean  "baptized_at_stmm",                        default: true,      null: false
     t.integer  "baptismal_certificate_id"
     t.integer  "sponsor_covenant_id"
+    t.integer  "pick_confirmation_name_id"
   end
 
   add_index "candidates", ["account_name"], name: "index_candidates_on_account_name", unique: true, using: :btree
   add_index "candidates", ["address_id"], name: "index_candidates_on_address_id", using: :btree
   add_index "candidates", ["baptismal_certificate_id"], name: "index_candidates_on_baptismal_certificate_id", using: :btree
+  add_index "candidates", ["pick_confirmation_name_id"], name: "index_candidates_on_pick_confirmation_name_id", using: :btree
   add_index "candidates", ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true, using: :btree
   add_index "candidates", ["sponsor_covenant_id"], name: "index_candidates_on_sponsor_covenant_id", using: :btree
 
@@ -120,6 +122,17 @@ ActiveRecord::Schema.define(version: 20160825114406) do
   end
 
   add_index "confirmation_events", ["name"], name: "index_confirmation_events_on_name", using: :btree
+
+  create_table "pick_confirmation_names", force: :cascade do |t|
+    t.string   "saint_name"
+    t.text     "about_saint"
+    t.text     "why_saint"
+    t.string   "pick_confirmation_name_filename"
+    t.string   "pick_confirmation_name_content_type"
+    t.binary   "pick_confirmation_name_file_contents"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
 
   create_table "sponsor_covenants", force: :cascade do |t|
     t.string   "sponsor_name"
@@ -147,5 +160,6 @@ ActiveRecord::Schema.define(version: 20160825114406) do
 
   add_foreign_key "candidates", "addresses"
   add_foreign_key "candidates", "baptismal_certificates"
+  add_foreign_key "candidates", "pick_confirmation_names"
   add_foreign_key "candidates", "sponsor_covenants"
 end

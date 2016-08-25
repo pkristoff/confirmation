@@ -81,6 +81,20 @@ Rails.application.routes.draw do
     get 'show_sponsor_elegibility.:id', to: 'candidates#show_sponsor_elegibility', as: 'show_sponsor_elegibility'
     get 'upload_sponsor_elegibility_image.:id', to: 'candidates#upload_sponsor_elegibility_image', as: 'upload_sponsor_elegibility_image'
 
+    # Pick confirmation name
+
+    get 'dev/pick_confirmation_name.:id', to: 'dev/candidates#pick_confirmation_name', as: 'dev_pick_confirmation_name'
+    put 'dev/pick_confirmation_name.:id', to: 'dev/candidates#pick_confirmation_name_update', as: 'dev_pick_confirmation_name_update'
+
+    get 'dev/show_pick_confirmation_name.:id', to: 'dev/candidates#show_pick_confirmation_name', as: 'dev_show_pick_confirmation_name'
+    get 'dev/pick_confirmation_name_image.:id', to: 'dev/candidates#pick_confirmation_name_image', as: 'dev_pick_confirmation_name_image'
+
+    get 'pick_confirmation_name.:id', to: 'candidates#pick_confirmation_name', as: 'pick_confirmation_name'
+    put 'pick_confirmation_name.:id', to: 'candidates#pick_confirmation_name_update', as: 'pick_confirmation_name_update'
+
+    get 'show_pick_confirmation_name.:id', to: 'candidates#show_pick_confirmation_name', as: 'show_pick_confirmation_name'
+    get 'pick_confirmation_name_image.:id', to: 'candidates#pick_confirmation_name_image', as: 'pick_confirmation_name_image'
+
   end
 
   # Sign in ADMIN

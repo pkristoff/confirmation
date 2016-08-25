@@ -141,10 +141,10 @@ describe Candidate do
 
     end
 
-    it 'should create sponsor_covenant' do
-      candidate = FactoryGirl.create(:candidate)
-      candidate.create_sponsor_covenant
+    it 'should create sponsor_covenant and pick_confirmation_name' do
+      candidate = Candidate.new
       expect(candidate.sponsor_covenant).not_to eq(nil)
+      expect(candidate.pick_confirmation_name).not_to eq(nil)
     end
 
     def setup_candidate(data)
