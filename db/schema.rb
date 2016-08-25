@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160823210754) do
+ActiveRecord::Schema.define(version: 20160825114406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,7 +98,6 @@ ActiveRecord::Schema.define(version: 20160823210754) do
     t.string   "parent_email_2",                         default: "",        null: false
     t.string   "attending",                              default: "The Way", null: false
     t.integer  "address_id",                                                 null: false
-    t.string   "confirmation_name",                      default: "",        null: false
     t.boolean  "signed_agreement",                       default: false,     null: false
     t.boolean  "baptized_at_stmm",                       default: true,      null: false
     t.integer  "baptismal_certificate_id"

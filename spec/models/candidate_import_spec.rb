@@ -341,13 +341,10 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).the_way_due_date.to_s).to eq('2016-08-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).chs_due_date.to_s).to eq('2016-08-12')
 
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).the_way_due_date.to_s).to eq('2016-09-30')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).chs_due_date.to_s).to eq('2016-09-12')
-
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_sponsor_covenant')).the_way_due_date.to_s).to eq('2016-10-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_sponsor_covenant')).chs_due_date.to_s).to eq('2016-10-15')
 
-    expect(ConfirmationEvent.all.size).to eq(7)
+    expect(ConfirmationEvent.all.size).to eq(6)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
     expect(confirmation_event_2.the_way_due_date.to_s).to eq('2016-05-31')
@@ -420,9 +417,6 @@ describe CandidateImport do
             {completed_date: '', # Upload Baptismal Certificate 8/31/16
              name: I18n.t('events.upload_baptismal_certificate'),
              verified: false},
-            {completed_date: '2016-12-25', # Confirmation Name 9/30/16
-             name: I18n.t('events.confirmation_name'),
-             verified: true},
             {completed_date: '2017-01-01', # Sponsor Covenant 10/31/16
              name: I18n.t('events.upload_sponsor_covenant'),
              verified: false}
@@ -456,9 +450,6 @@ describe CandidateImport do
              verified: false},
             {completed_date: '', # Upload Baptismal Certificate 8/31/16
              name: I18n.t('events.upload_baptismal_certificate'),
-             verified: false},
-            {completed_date: '', # Confirmation Name 9/30/16
-             name: I18n.t('events.confirmation_name'),
              verified: false},
             {completed_date: '', # Sponsor Covenant 10/31/16
              name: I18n.t('events.upload_sponsor_covenant'),
@@ -506,10 +497,6 @@ describe CandidateImport do
             {completed_date: '', # Upload Baptismal Certificate
              name: I18n.t('events.upload_baptismal_certificate'),
              due_date: '2016-08-12',
-             verified: false},
-            {completed_date: '', # Confirmation Name
-             name: I18n.t('events.confirmation_name'),
-             due_date: '2016-09-12',
              verified: false},
             {completed_date: '', # Sponsor Covenant
              name: I18n.t('events.upload_sponsor_covenant'),

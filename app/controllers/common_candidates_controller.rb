@@ -132,28 +132,6 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  def confirmation_name
-    @candidate = Candidate.find(params[:id])
-    @resource = @candidate
-  end
-
-  def confirmation_name_update
-    confirmation_name_filled_in = params[:candidate]['confirmation_name'].empty?
-    candidate = Candidate.find(params[:id])
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.confirmation_name') }
-    candidate_event.completed_date = confirmation_name_filled_in ? Date.today : nil
-
-    if candidate.update_attributes(candidate_params)
-      if is_admin?
-        redirect_to event_candidate_registration_path(params[:id]), notice: 'Updated'
-      else
-        redirect_to event_candidate_path(params[:id]), notice: 'Updated'
-      end
-    else
-      redirect_to :back, alert: 'Saving failed.'
-    end
-  end
-
   def download_document
     doc_name = DOCUMENT_KEY_TO_NAME[params[:name].to_sym]
     pdf = File.new("public/documents/#{doc_name}")

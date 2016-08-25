@@ -52,19 +52,4 @@ feature 'Candidate edit', :devise do
     expect(page).to have_field('Parent email 1', with: @candidate.parent_email_1)
   end
 
-  # Scenario: Candidate changes email address
-  #   Given I am signed in
-  #   When I change my confirmation name
-  #   Then I see an account updated message
-  scenario 'candidate changes confirmation name' do
-    visit edit_candidate_registration_path(@candidate.id)
-    fill_in 'Confirmation name', :with => 'smith'
-    fill_in I18n.t('views.admins.current_password'), :with => @candidate.password
-    click_button I18n.t('views.common.update')
-    expect_message(:flash_notice, I18n.t('devise.registrations.updated'))
-
-    visit edit_candidate_registration_path(@candidate.id)
-    expect(page).to have_field('Confirmation name', with: 'smith', type: 'text')
-  end
-
 end

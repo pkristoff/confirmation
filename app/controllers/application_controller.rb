@@ -56,9 +56,9 @@ class ApplicationController < ActionController::Base
   end
 
   def candidate_permitted_params
-    [:account_name, :first_name, :last_name, :confirmation_name, :candidate_email, :parent_email_1,
+    [:account_name, :first_name, :last_name, :candidate_email, :parent_email_1,
      :parent_email_2, :grade, :attending, :password, :password_confirmation,
-     :signed_agreement, :baptized_at_stmm, :confirmation_name,
+     :signed_agreement, :baptized_at_stmm,
      address_attributes: [:street_1, :street_2, :city, :state, :zip_code],
      baptismal_certificate_attributes: [:birth_date, :baptismal_date, :church_name, :father_first, :father_middle, :father_last,
                                         :mother_first, :mother_middle, :mother_maiden, :mother_last,

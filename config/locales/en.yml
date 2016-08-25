@@ -26,7 +26,6 @@ en:
     sign_agreement: 'Sign Agreement'
     fill_out_candidate_sheet: 'Fill Out Candidate Information Sheet'
     upload_baptismal_certificate: 'Upload Baptismal Certificate'
-    confirmation_name: 'Confirmation Name'
     upload_sponsor_covenant: 'Upload Sponsor Covenant'
   messages:
     accessed_denied: 'Accessed denied.'
@@ -118,7 +117,6 @@ en:
       admins: 'Admins'
       candidates: 'Candidates'
       candidate_sheet: 'Candidate Sheet'
-      confirmation_name: 'Confirmation Name'
       sponsor_covenant: 'Sponsor covenant'
       edit: 'Edit'
       edit_account: 'Edit account'

@@ -61,14 +61,6 @@ Rails.application.routes.draw do
     get 'show_baptism_certificate.:id', to: 'candidates#show_baptism_certificate', as: 'show_baptism_certificate'
     get 'upload_baptismal_certificate_image.:id', to: 'candidates#upload_baptismal_certificate_image', as: 'upload_baptismal_certificate_image'
 
-    # Confirmation name
-
-    get 'dev/confirmation_name.:id', to: 'dev/candidates#confirmation_name', as: 'dev_confirmation_name'
-    put 'dev/confirmation_name.:id', to: 'dev/candidates#confirmation_name_update', as: 'dev_confirmation_name_update'
-
-    get 'confirmation_name.:id', to: 'candidates#confirmation_name', as: 'confirmation_name'
-    put 'confirmation_name.:id', to: 'candidates#confirmation_name_update', as: 'confirmation_name_update'
-
     # Sponsor covenant
 
     get 'dev/upload_sponsor_covenant.:id', to: 'dev/candidates#upload_sponsor_covenant', as: 'dev_upload_sponsor_covenant'

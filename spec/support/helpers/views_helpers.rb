@@ -42,8 +42,6 @@ module ViewsHelpers
     expect(rendered).to have_field('Parent email 1', with: (candidate ? candidate.parent_email_1 : ''), type: 'email')
     expect(rendered).to have_field('Parent email 2', with: (candidate ? candidate.parent_email_2 : ''), type: 'email')
 
-    expect(rendered).to have_field('Confirmation name', with: (candidate ? candidate.confirmation_name : ''), type: 'text')
-
     expect(rendered).to have_field('Password', type: 'password')
     expect(rendered).to have_field('Password confirmation', type: 'password')
     if is_candidate_signed_in_and_not_new
