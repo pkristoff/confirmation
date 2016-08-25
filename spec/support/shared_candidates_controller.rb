@@ -4,7 +4,7 @@ shared_context 'upload_baptismal_certificate' do
 
   it 'should show upload_baptismal_certificate for the candidate.' do
 
-    expect(@candidate.baptismal_certificate).to eq(nil)
+    expect(@candidate.baptismal_certificate).not_to eq(nil)
 
     get :upload_baptismal_certificate, id: @candidate.id
 
@@ -31,7 +31,6 @@ shared_context 'upload_baptismal_certificate' do
     expect(response.status).to eq(302)
     expect(@request.fullpath).to eq("/#{@dev}upload_baptismal_certificate.#{candidate.id}?candidate%5Bbaptized_at_stmm%5D=1")
     expect(candidate.baptized_at_stmm).to eq(true)
-    expect(candidate.baptismal_certificate).to eq(nil)
     expect(candidate_event.completed_date).to eq(Date.today)
   end
 
@@ -52,7 +51,6 @@ shared_context 'upload_baptismal_certificate' do
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}upload_baptismal_certificate.#{candidate.id}")
     expect(candidate.baptized_at_stmm).to eq(true)
-    expect(candidate.baptismal_certificate).to eq(nil)
     expect(candidate_event.completed_date).to eq(nil)
 
     expect(response).to render_template('candidates/baptismal_certificate_update')
@@ -64,7 +62,8 @@ shared_context 'upload_baptismal_certificate' do
     AppFactory.add_confirmation_event(I18n.t('events.upload_baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
-    candidate.baptismal_certificate = BaptismalCertificate.new
+    # candidate.baptismal_certificate = BaptismalCertificate.new
+    # candidate.save
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
     expect(candidate_event.completed_date).to eq(nil)
 
@@ -83,7 +82,7 @@ shared_context 'upload_baptismal_certificate' do
     expect(candidate_event.completed_date.to_s).to eq('')
 
     expect(response).to render_template('candidates/baptismal_certificate_update')
-    expect(flash[:alert]).to eq(I18n.t('messages.certificate_not_blank'))
+    expect(assigns(:candidate).errors.empty?).not_to be true
   end
 
   it 'User fills in all info and updates' do

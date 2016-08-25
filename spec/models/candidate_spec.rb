@@ -20,7 +20,7 @@ describe Candidate do
     end
 
     it 'can retrieve a new candiadate\'s address' do
-      candidate = AppFactory.create_candidate
+      candidate = Candidate.new
       expect(candidate.account_name).to match ''
       expect(candidate.parent_email_1).to match ''
       expect(candidate.confirmation_name).to match ''

@@ -220,6 +220,16 @@ class CandidateImport
     process_candidates(candidates, spreadsheet)
   end
 
+  def candidate_events_in_order (candidate)
+    events = []
+    @events_in_order.each do |confirmation_event|
+      events << (candidate.candidate_events.find do |candidate_event|
+        candidate_event.name === confirmation_event.name
+      end)
+    end
+    events
+  end
+
   def process_candidates(candidates, spreadsheet)
     sheet = spreadsheet.sheet(@worksheet_name)
     header_row = sheet.row(1)
@@ -228,7 +238,7 @@ class CandidateImport
       row = sheet.row(i)
 
       candidate = Candidate.find_by_account_name(row[account_name_index]) || AppFactory.create_candidate
-      events = candidate.candidate_events.to_a
+      events = candidate_events_in_order(candidate)
       row.each_with_index do |cell, index|
         column_name_split = header_row[index].split('.')
         # puts header_row[index]
@@ -237,7 +247,6 @@ class CandidateImport
             candidate.send("#{column_name_split[0]}=", cell)
 
           elsif column_name_split.size == 2
-            candidate.create_baptismal_certificate if candidate.baptismal_certificate.nil? && column_name_split[0] === 'baptismal_certificate'
             case column_name_split[1]
 
               when 'certificate_filename'
@@ -265,7 +274,6 @@ class CandidateImport
             end
 
           elsif column_name_split.size == 3 && column_name_split[0] != 'candidate_events'
-            candidate.create_baptismal_certificate if candidate.baptismal_certificate.nil? && column_name_split[0] === 'baptismal_certificate'
             candidate.baptismal_certificate.create_church_address if column_name_split[1] === 'church_address' && candidate.baptismal_certificate.church_address.nil?
             candidate_send_0 = candidate.send(column_name_split[0])
             if candidate_send_0.nil?
@@ -285,19 +293,22 @@ class CandidateImport
   end
 
   def process_confirmation_events(spreadsheet)
+    @events_in_order = []
     sheet = spreadsheet.sheet(@worksheet_conf_event_name)
     header_row = sheet.row(1)
     name_index = header_row.find_index { |cell| cell == 'name' }
     (2..spreadsheet.last_row).each do |i|
       row = sheet.row(i)
+      confirmation_event = ConfirmationEvent.find_by_name(row[name_index]) || AppFactory.add_confirmation_event(row[name_index])
       row.each_with_index do |cell, index|
-        confirmation_event = ConfirmationEvent.find_by_name(row[name_index]) || AppFactory.add_confirmation_event(row[name_index])
         column_name_split = header_row[index].split('.')
         unless cell.nil?
           confirmation_event.send("#{column_name_split[0]}=", cell)
-          confirmation_event.save
         end
       end
+      confirmation_event.save
+      @events_in_order << confirmation_event
+      # puts "#{i-2}: #{confirmation_event.name}:#{confirmation_event.the_way_due_date.to_s}:#{confirmation_event.chs_due_date.to_s}"
     end
   end
 

@@ -253,6 +253,16 @@ describe CandidateImport do
       expect(header_row.cells[index].value).to eq(column_name)
     end
     c1_row = ws.rows[1]
+    c2_row = ws.rows[2]
+    c3_row = ws.rows[3]
+    (1..ws.rows.size-1).each do |i|
+      account_name = ws.rows[i].cells[find_cell_offset(header_row, 'account_name')].value
+      # puts account_name
+      c1_row = ws.rows[i] if account_name === 'c1'
+      c2_row = ws.rows[i] if account_name === 'c2'
+      c3_row = ws.rows[i] if account_name === 'c3'
+    end
+
     expect(c1_row.cells[find_cell_offset(header_row, 'account_name')].value).to eq('c1')
     expect(c1_row.cells[find_cell_offset(header_row, 'first_name')].value).to eq('Sophia')
     expect(c1_row.cells[find_cell_offset(header_row, 'last_name')].value).to eq('Agusta')
@@ -287,10 +297,8 @@ describe CandidateImport do
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq('temp/c1_actions.png')
     expect(c1_row.size).to eq(36)
 
-    c2_row = ws.rows[2]
     expect(c2_row.cells[0].value).to eq('c2')
 
-    c3_row = ws.rows[3]
     expect(c3_row.cells[0].value).to eq('c3')
   end
 
@@ -397,19 +405,26 @@ describe CandidateImport do
             zip_code: '47129'
         },
         candidate_events_sorted: [
-            {completed_date: '', # Fill Out Candidate Information Sheet
+            {completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
+             name: I18n.t('events.fill_out_candidate_sheet'),
              verified: false},
-            {completed_date: '', # Attend Retreat
+            {completed_date: '', # Attend Retreat 5/31/16
+             name: I18n.t('events.retreat_weekend'),
              verified: false},
-            {completed_date: '', # Parent Information Meeting
+            {completed_date: '', # Parent Information Meeting 6/30/16
+             name: I18n.t('events.parent_meeting'),
              verified: false},
-            {completed_date: '', # Sign Agreement
+            {completed_date: '', # Sign Agreement 7/31/2016
+             name: I18n.t('events.sign_agreement'),
              verified: false},
-            {completed_date: '', # Upload Baptismal Certificate
+            {completed_date: '', # Upload Baptismal Certificate 8/31/16
+             name: I18n.t('events.upload_baptismal_certificate'),
              verified: false},
-            {completed_date: '2016-12-25', # Confirmation Name
+            {completed_date: '2016-12-25', # Confirmation Name 9/30/16
+             name: I18n.t('events.confirmation_name'),
              verified: true},
-            {completed_date: '2017-01-01', # Sponsor Covenant
+            {completed_date: '2017-01-01', # Sponsor Covenant 10/31/16
+             name: I18n.t('events.upload_sponsor_covenant'),
              verified: false}
         ]
     }
@@ -433,19 +448,26 @@ describe CandidateImport do
             zip_code: '27555'
         },
         candidate_events_sorted: [
-            {completed_date: '', # Fill Out Candidate Information Sheet
+            {completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
+             name: I18n.t('events.fill_out_candidate_sheet'),
              verified: false},
-            {completed_date: '', # Sign Agreement
+            {completed_date: '', # Sign Agreement 7/31/16
+             name: I18n.t('events.sign_agreement'),
              verified: false},
-            {completed_date: '', # Upload Baptismal Certificate
+            {completed_date: '', # Upload Baptismal Certificate 8/31/16
+             name: I18n.t('events.upload_baptismal_certificate'),
              verified: false},
-            {completed_date: '', # Confirmation Name
+            {completed_date: '', # Confirmation Name 9/30/16
+             name: I18n.t('events.confirmation_name'),
              verified: false},
-            {completed_date: '', # Sponsor Covenant
+            {completed_date: '', # Sponsor Covenant 10/31/16
+             name: I18n.t('events.upload_sponsor_covenant'),
              verified: false},
-            {completed_date: '2016-05-02', # Attend Retreat
+            {name: I18n.t('events.retreat_weekend'),
+             completed_date: '2016-05-02', # Attend Retreat 5/31/16
              verified: true},
-            {completed_date: '2016-07-07', # Parent Information Meeting
+            {name: I18n.t('events.parent_meeting'),
+             completed_date: '2016-07-07', # Parent Information Meeting 6/30/16
              verified: false}
         ]
     }
@@ -470,18 +492,32 @@ describe CandidateImport do
         },
         candidate_events_sorted: [
             {completed_date: '',  # Fill Out Candidate Information Sheet
+             name: I18n.t('events.fill_out_candidate_sheet'),
+             due_date: '2016-02-16',
              verified: false},
             {completed_date: '', # Attend Retreat
+             name: I18n.t('events.retreat_weekend'),
+             due_date: '2016-05-03',
              verified: false},
             {completed_date: '', # Parent Information Meeting
+             name: I18n.t('events.parent_meeting'),
+             due_date: '2016-06-03',
              verified: false},
             {completed_date: '', # Upload Baptismal Certificate
+             name: I18n.t('events.upload_baptismal_certificate'),
+             due_date: '2016-08-12',
              verified: false},
             {completed_date: '', # Confirmation Name
+             name: I18n.t('events.confirmation_name'),
+             due_date: '2016-09-12',
              verified: false},
             {completed_date: '', # Sponsor Covenant
+             name: I18n.t('events.upload_sponsor_covenant'),
+             due_date: '2016-10-15',
              verified: false},
             {completed_date: '2016-06-06', # Sign Agreement
+             name: I18n.t('events.sign_agreement'),
+             due_date: '2016-07-13',
              verified: true}
         ]
     }

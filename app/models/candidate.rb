@@ -12,6 +12,8 @@ class Candidate < ActiveRecord::Base
   belongs_to(:sponsor_covenant, validate: false)
   accepts_nested_attributes_for(:sponsor_covenant, allow_destroy: true)
 
+  after_initialize :build_associations, :if => :new_record?
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -27,11 +29,8 @@ class Candidate < ActiveRecord::Base
   validates_presence_of :first_name, :last_name, :parent_email_1
   validate :validate_emails
 
-  validates_associated :baptismal_certificate
-  validates_associated :sponsor_covenant
-
   def candidate_events_sorted
-    candidate_events.sort do | ce1, ce2 |
+    candidate_events.sort do |ce1, ce2|
       # in order for this to work due_dates should not be nil.
       # if they are move them to the top so admin can give them
       # one.
@@ -90,14 +89,6 @@ class Candidate < ActiveRecord::Base
     end
   end
 
-  # Could not figure out the "Ruby Way" for creating an associated object.
-  # so decided to use this.
-  def self.new_with_address
-    candidate = Candidate.new
-    candidate.build_address
-    candidate
-  end
-
   def add_candidate_event (confirmation_event)
     candidate_event = AppFactory.create_candidate_event(confirmation_event)
     candidate_events << candidate_event
@@ -122,14 +113,16 @@ class Candidate < ActiveRecord::Base
   end
 
   def self.candidate_params
-    params = attribute_names.collect{|e| e.to_sym} & [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2, :account_name, :password, :attending]
+    params = attribute_names.collect { |e| e.to_sym } & [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2, :account_name, :password, :attending]
     params = params << :password
     params
   end
 
-  def initialize(arg=nil)
-    super(arg)
-    build_sponsor_covenant
+  def build_associations
+    address || create_address
+    baptismal_certificate || create_baptismal_certificate
+    sponsor_covenant || create_sponsor_covenant
+    true
   end
 
   def validate_emails()
@@ -144,13 +137,23 @@ class Candidate < ActiveRecord::Base
     end
   end
 
-  def validate (validate_sponsor_covenant=false)
+  def validate (options={})
+    options={validate_sponsor_covenant: false, validate_baptismal_certificate: false,
+             baptized_at_stmm: false}.merge(options)
     val = super
-    if validate_sponsor_covenant
+    if options[:validate_sponsor_covenant]
       sponsor_covenant.validate_self
-      if sponsor_covenant.errors.any?
-        errors.add(:sponsor_covenant, ' is invalid.')
-        return false
+      sponsor_covenant.errors.full_messages.each do |msg|
+        errors[:base] << msg
+        val = false
+      end
+    end
+    if options[:validate_baptismal_certificate]
+      return val if options[:baptized_at_stmm]
+      baptismal_certificate.validate_self(options[:baptized_at_stmm])
+      baptismal_certificate.errors.full_messages.each do |msg|
+        errors[:base] << msg
+        val = false
       end
     end
     val

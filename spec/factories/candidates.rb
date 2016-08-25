@@ -8,7 +8,8 @@ FactoryGirl.define do
     grade 10
     attending I18n.t('model.candidate.attending_the_way')
     after(:build) do |candidate|
-      candidate.address ||= FactoryGirl.create(:address)
+      # overwrite the already created address
+      candidate.address = FactoryGirl.create(:address)
       unless candidate.candidate_events.size > 0
         candidate.candidate_events = create_candidate_events
       end

@@ -13,77 +13,33 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     if params['candidate']
       baptized_at_stmm = params[:candidate]['baptized_at_stmm'] == '1'
-      if baptized_at_stmm
-        @candidate.baptismal_certificate = nil
-        params[:candidate].delete(:baptismal_certificate_attributes)
-        # Update candidate_event
-        candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
-        candidate_event.completed_date = Date.today
+      unless baptized_at_stmm
+        # @candidate.baptismal_certificate = nil
+        # params[:candidate].delete(:baptismal_certificate_attributes)
+      # else
+        baptismal_certificate = @candidate.baptismal_certificate
+        baptismal_certificate_params = params[:candidate][:baptismal_certificate_attributes]
+        setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, 'certificate', baptismal_certificate_params)
+      end
 
-        if @candidate.update_attributes(candidate_params)
-          if is_admin?
-            redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-          else
-            redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
-          end
-        else
-          # let it fall through
-        end
-      else
-        # this is tricky here.  trying to allow the user to see the scanned picture
-        # and not have to re-upload it, if they get a validation error
-        baptismal_cert_params = params[:candidate][:baptismal_certificate_attributes]
-        if baptismal_cert_params
-          file_error = false
-          @candidate.baptismal_certificate = create_baptismal_certificate if @candidate.baptismal_certificate.nil?
-          baptismal_certificate = @candidate.baptismal_certificate
-          # update file params for the save
-          file = baptismal_cert_params[:certificate_picture]
-          if file.nil?
-            if baptismal_certificate && baptismal_certificate.certificate_filename
-              # already saved the BC picture
-              baptismal_cert_params[:certificate_filename] = baptismal_certificate.certificate_filename
-              baptismal_cert_params[:certificate_content_type] = baptismal_certificate.certificate_content_type
-              baptismal_cert_params[:certificate_file_contents] = baptismal_certificate.certificate_file_contents
-            else
-              # scanned BC required
-              file_error = true
-              flash['alert'] = I18n.t('messages.certificate_not_blank')
-            end
-          else
-            # setup scanned BC for saving
-            baptismal_cert_params[:certificate_filename] = File.basename(file.original_filename)
-            baptismal_cert_params[:certificate_content_type] = file.content_type
-            baptismal_cert_params[:certificate_file_contents] = file.read
-            # save BC picture.
-            if @candidate.update_attributes(certificate_file_params)
-              # redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-            else
-              # let it fall through
-            end
-          end
-
-          if @candidate.update_attributes(candidate_params)
-            unless file_error
-              # Update candidate_event
-              candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
-              candidate_event.completed_date = Date.today
-              candidate_event.save
+      if @candidate.update_attributes(candidate_params)
+        if @candidate.validate(validate_baptismal_certificate: true, baptized_at_stmm: baptized_at_stmm)
+          unless @candidate.errors.any?
+            candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
+            candidate_event.completed_date = Date.today
+            if @candidate.save
               if is_admin?
                 redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
               else
                 redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
               end
+            else
+              flash['alert'] = "Save of #{I18n.t('events.upload_baptismal_certificate')} failed"
             end
-
-          else
-            'remove me'
-
           end
-        else
-          flash['alert'] = I18n.t('messages.missing_baptismal_certificate_attributes')
-          return
         end
+      else
+        # let it fall through
       end
     else
       flash[:alert] = I18n.t('messages.unknown_parameter')
@@ -100,7 +56,7 @@ class CommonCandidatesController < ApplicationController
 
       if @candidate.update_attributes(candidate_params)
         # sponsor_attends_stmm = params[:candidate][:sponsor_covenant_attributes]['sponsor_attends_stmm'] == '1'
-        if @candidate.validate(true)
+        if @candidate.validate(validate_sponsor_covenant: true)
           unless @candidate.errors.any?
             candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_sponsor_covenant') }
             candidate_event.completed_date = Date.today
@@ -121,18 +77,22 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  def setup_file_params(file, sponsor_covenant, prefix, sponsor_covenant_params)
+  def setup_file_params(file, association, prefix, sponsor_covenant_params)
     filename_param = "#{prefix}_filename".to_sym
     content_type_param = "#{prefix}_content_type".to_sym
     file_contents_param = "#{prefix}_file_contents".to_sym
     if prefix === 'sponsor_elegibility'
-      filename = sponsor_covenant.sponsor_elegibility_filename
-      content_type = sponsor_covenant.sponsor_elegibility_content_type
-      file_contents = sponsor_covenant.sponsor_elegibility_file_contents
+      filename = association.sponsor_elegibility_filename
+      content_type = association.sponsor_elegibility_content_type
+      file_contents = association.sponsor_elegibility_file_contents
+    elsif prefix === 'sponsor_covenant'
+      filename = association.sponsor_covenant_filename
+      content_type = association.sponsor_covenant_content_type
+      file_contents = association.sponsor_covenant_file_contents
     else
-      filename = sponsor_covenant.sponsor_covenant_filename
-      content_type = sponsor_covenant.sponsor_covenant_content_type
-      file_contents = sponsor_covenant.sponsor_covenant_file_contents
+      filename = association.certificate_filename
+      content_type = association.certificate_content_type
+      file_contents = association.certificate_file_contents
     end
     if file
       if File.basename(file.original_filename) === filename
@@ -258,9 +218,6 @@ class CommonCandidatesController < ApplicationController
   def upload_baptismal_certificate
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
-    if @candidate.baptismal_certificate.nil?
-      @candidate.baptismal_certificate = create_baptismal_certificate
-    end
   end
 
   def upload_sponsor_covenant

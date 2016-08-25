@@ -1,7 +1,7 @@
-shared_context 'upload_sponsor_covenant_html_erb' do
+SPONSOR_NAME = 'George Sponsor'
+SPONSOR_CHURCH = 'St. George'
 
-  SPONSOR_NAME = 'George Sponsor'
-  SPONSOR_CHURCH = 'St. George'
+shared_context 'upload_sponsor_covenant_html_erb' do
 
   scenario 'admin logs in and selects a candidate, checks sponsor_attends_stmm, nothing else showing' do
     @candidate.sponsor_covenant.sponsor_attends_stmm = true
@@ -54,8 +54,8 @@ shared_context 'upload_sponsor_covenant_html_erb' do
 
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.sponsor_covenant.sponsor_attends_stmm = false
-    @candidate.create_baptismal_certificate
-    @candidate.baptismal_certificate.create_church_address
+    # @candidate.create_baptismal_certificate
+    # @candidate.baptismal_certificate.create_church_address
     @candidate.save
     AppFactory.add_candidate_events(@candidate)
     update_sponsor_covenant(false)

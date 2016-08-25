@@ -10,7 +10,6 @@ class AppFactory
 
   def self.create_candidate
     candidate = Candidate.new
-    candidate.build_address
     add_candidate_events(candidate)
     candidate
   end

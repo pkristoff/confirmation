@@ -14,13 +14,14 @@ FactoryGirl.define do
     certificate_content_type 'type/png'
     certificate_file_contents 'vvv'
     after(:build) do |baptismal_certificate|
-      baptismal_certificate.church_address ||= FactoryGirl.create(
+      # replace baptismal_certificate
+      baptismal_certificate.church_address = FactoryGirl.create(
           :address,
-      street_1: '1313 Magdalene Way',
-      street_2: 'Apt. 456',
-      city: 'Apex',
-      state: 'NC',
-      zip_code: '27502',
+          street_1: '1313 Magdalene Way',
+          street_2: 'Apt. 456',
+          city: 'Apex',
+          state: 'NC',
+          zip_code: '27502',
       )
     end
   end

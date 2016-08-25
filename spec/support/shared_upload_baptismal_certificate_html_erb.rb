@@ -1,19 +1,19 @@
-shared_context 'upload_baptismal_certificate_html_erb' do
+BIRTH_DATE = '1998-04-09'
+BAPTISMAL_DATE = '1998-05-05'
+CHURCH_NAME = 'St. Paul'
+STREET_1 = 'St. Paul Way'
+STREET_2 = 'Suite 1313'
+CITY = 'Clarksville'
+STATE = 'IN'
+ZIP_CODE = '47129'
+FATHER_FIRST = 'Paul'
+FATHER_MIDDLE = 'The'
+LAST_NAME = 'Apostle'
+MOTHER_FIRST = 'Paulette'
+MOTHER_MIDDLE = 'Thette'
+MOTHER_MAIDEN = 'Mary'
 
-  BIRTH_DATE = '1998-04-09'
-  BAPTISMAL_DATE = '1998-05-05'
-  CHURCH_NAME = 'St. Paul'
-  STREET_1 = 'St. Paul Way'
-  STREET_2 = 'Suite 1313'
-  CITY = 'Clarksville'
-  STATE = 'IN'
-  ZIP_CODE = '47129'
-  FATHER_FIRST = 'Paul'
-  FATHER_MIDDLE = 'The'
-  LAST_NAME = 'Apostle'
-  MOTHER_FIRST = 'Paulette'
-  MOTHER_MIDDLE = 'Thette'
-  MOTHER_MAIDEN = 'Mary'
+shared_context 'upload_baptismal_certificate_html_erb' do
 
   scenario 'admin logs in and selects a candidate, checks baptized_at_stmm, nothing else showing' do
     @candidate.baptized_at_stmm = true
@@ -77,13 +77,13 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     expect_message(:flash_notice, 'Updated')
     candidate = Candidate.find(@candidate.id)
     expect(candidate.baptized_at_stmm).to eq(true)
-    expect(candidate.baptismal_certificate).to eq(nil)
+    expect(candidate.baptismal_certificate).not_to eq(nil) #always created now
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.baptized_at_stmm = false
-    @candidate.create_baptismal_certificate
-    @candidate.baptismal_certificate.create_church_address
+    # @candidate.create_baptismal_certificate
+    # @candidate.baptismal_certificate.create_church_address
     @candidate.save
     AppFactory.add_candidate_events(@candidate)
     update_baptismal_certificate(false)
@@ -116,7 +116,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
 
     fill_in_form(false) # no picture
     click_button I18n.t('views.common.update')
-    expect_message(:flash_alert, I18n.t('messages.certificate_not_blank'))
+    expect_message(:error_explanation, ['3 errors prohibited saving:', 'Certificate filename can\'t be blank', 'Certificate content type can\'t be blank', 'Certificate file contents can\'t be blank'])
 
     attach_file('Certificate picture', 'spec/fixtures/actions.png')
     click_button I18n.t('views.common.update')
@@ -142,7 +142,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     fill_in('Street 1', with: nil)
     click_button I18n.t('views.common.update')
 
-    expect_message(:error_explanation, '1 error prohibited saving: Church address is invalid')
+    expect_message(:error_explanation, '1 error prohibited saving: Street 1 can\'t be blank')
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')
   end
@@ -211,9 +211,9 @@ shared_context 'upload_baptismal_certificate_html_erb' do
   end
 
   def update_baptismal_certificate(with_values)
-    baptismal_certificate = BaptismalCertificate.new
-    baptismal_certificate.church_address = Address.new
-    @candidate.baptismal_certificate = baptismal_certificate
+    baptismal_certificate = @candidate.baptismal_certificate
+    # baptismal_certificate.church_address = Address.new
+    # @candidate.baptismal_certificate = baptismal_certificate
     if with_values
       baptismal_certificate.birth_date=Date.parse(BIRTH_DATE)
       baptismal_certificate.baptismal_date=Date.parse(BAPTISMAL_DATE)
