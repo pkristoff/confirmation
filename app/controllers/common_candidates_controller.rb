@@ -1,46 +1,26 @@
 class CommonCandidatesController < ApplicationController
 
   DOCUMENT_KEY_TO_NAME = {
-      covenant: '4. Candidate Covenant Form.pdf',
-      baptismal_certificate: '6. Baptismal Certificate.pdf',
-      sponsor_covenant: '7. Sponsor Covenant & Eligibility.pdf',
+      covenant: '4. Candidate Covenant Form.pdf', # complete
+      baptismal_certificate: '6. Baptismal Certificate.pdf', # complete
+      sponsor_covenant: '7. Sponsor Covenant & Eligibility.pdf', # complete
       conversation_sponsor_candidate: '8. Conversation between Sponsor & Candidate.pdf',
       ministry_awareness: '9. Christian Ministry Awareness.pdf',
-      confirmation_name: '10. Choosing a Confirmation Name.pdf'
+      confirmation_name: '10. Choosing a Confirmation Name.pdf' # complete
   }
 
   def baptismal_certificate_update
     @candidate = Candidate.find(params[:id])
     if params['candidate']
       baptized_at_stmm = params[:candidate]['baptized_at_stmm'] == '1'
+      baptismal_certificate = @candidate.baptismal_certificate
       unless baptized_at_stmm
-        # @candidate.baptismal_certificate = nil
-        # params[:candidate].delete(:baptismal_certificate_attributes)
-      # else
-        baptismal_certificate = @candidate.baptismal_certificate
         baptismal_certificate_params = params[:candidate][:baptismal_certificate_attributes]
         setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, 'certificate', baptismal_certificate_params)
       end
 
-      if @candidate.update_attributes(candidate_params)
-        if @candidate.validate(validate_baptismal_certificate: true, baptized_at_stmm: baptized_at_stmm)
-          unless @candidate.errors.any?
-            candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
-            candidate_event.completed_date = Date.today
-            if @candidate.save
-              if is_admin?
-                redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-              else
-                redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
-              end
-            else
-              flash['alert'] = "Save of #{I18n.t('events.upload_baptismal_certificate')} failed"
-            end
-          end
-        end
-      else
-        # let it fall through
-      end
+      association_update(BaptismalCertificate,)
+
     else
       flash[:alert] = I18n.t('messages.unknown_parameter')
     end
@@ -53,23 +33,7 @@ class CommonCandidatesController < ApplicationController
       pick_confirmation_name_params = params[:candidate][:pick_confirmation_name_attributes]
       setup_file_params(pick_confirmation_name_params[:pick_confirmation_name_picture], pick_confirmation_name, 'pick_confirmation_name', pick_confirmation_name_params)
 
-      if @candidate.update_attributes(candidate_params)
-        if @candidate.validate(validate_pick_confirmation_name: true)
-          unless @candidate.errors.any?
-            candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.pick_confirmation_name') }
-            candidate_event.completed_date = Date.today
-            if @candidate.save
-              if is_admin?
-                redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-              else
-                redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
-              end
-            else
-              flash['alert'] = "Save of #{I18n.t('events.pick_confirmation_name')} failed"
-            end
-          end
-        end
-      end
+      association_update(PickConfirmationName)
     else
       flash[:alert] = I18n.t('messages.unknown_parameter')
     end
@@ -83,64 +47,9 @@ class CommonCandidatesController < ApplicationController
       setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, 'sponsor_covenant', sponsor_covenant_params)
       setup_file_params(sponsor_covenant_params[:sponsor_elegibility_picture], sponsor_covenant, 'sponsor_elegibility', sponsor_covenant_params)
 
-      if @candidate.update_attributes(candidate_params)
-        # sponsor_attends_stmm = params[:candidate][:sponsor_covenant_attributes]['sponsor_attends_stmm'] == '1'
-        if @candidate.validate(validate_sponsor_covenant: true)
-          unless @candidate.errors.any?
-            candidate_event = @candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_sponsor_covenant') }
-            candidate_event.completed_date = Date.today
-            if @candidate.save
-              if is_admin?
-                redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-              else
-                redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
-              end
-            else
-              flash['alert'] = "Save of #{I18n.t('events.upload_sponsor_covenant')} failed"
-            end
-          end
-        end
-      end
+      association_update(SponsorCovenant)
     else
       flash[:alert] = I18n.t('messages.unknown_parameter')
-    end
-  end
-
-  def setup_file_params(file, association, prefix, association_params)
-    filename_param = "#{prefix}_filename".to_sym
-    content_type_param = "#{prefix}_content_type".to_sym
-    file_contents_param = "#{prefix}_file_contents".to_sym
-    if prefix === 'sponsor_elegibility'
-      filename = association.sponsor_elegibility_filename
-      content_type = association.sponsor_elegibility_content_type
-      file_contents = association.sponsor_elegibility_file_contents
-    elsif prefix === 'pick_confirmation_name'
-      filename = association.pick_confirmation_name_filename
-      content_type = association.pick_confirmation_name_content_type
-      file_contents = association.pick_confirmation_name_file_contents
-    elsif prefix === 'sponsor_covenant'
-      filename = association.sponsor_covenant_filename
-      content_type = association.sponsor_covenant_content_type
-      file_contents = association.sponsor_covenant_file_contents
-    else
-      filename = association.certificate_filename
-      content_type = association.certificate_content_type
-      file_contents = association.certificate_file_contents
-    end
-    if file
-      if File.basename(file.original_filename) === filename
-        association_params[filename_param] = filename
-        association_params[content_type_param] = content_type
-        association_params[file_contents_param] = file_contents
-      else
-        association_params[filename_param] = File.basename(file.original_filename)
-        association_params[content_type_param] = file.content_type
-        association_params[file_contents_param] = file.read
-      end
-    else
-      association_params[filename_param] = filename
-      association_params[content_type_param] = content_type
-      association_params[file_contents_param] = file_contents
     end
   end
 
@@ -179,22 +88,25 @@ class CommonCandidatesController < ApplicationController
 
   def show_baptism_certificate
     @candidate = Candidate.find(params[:id])
-    send_image_baptismal_certificate(@candidate)
+    send_image(@candidate.baptismal_certificate)
   end
 
   def show_sponsor_elegibility
     @candidate = Candidate.find(params[:id])
-    send_image_sponsor_elegibility(@candidate)
+    sponsor_covenant = @candidate.sponsor_covenant
+    send_data sponsor_covenant.sponsor_elegibility_file_contents,
+              type: sponsor_covenant.sponsor_elegibility_content_type,
+              disposition: 'inline'
   end
 
   def show_sponsor_covenant
     @candidate = Candidate.find(params[:id])
-    send_image_sponsor_covenant(@candidate)
+    send_image(@candidate.sponsor_covenant)
   end
 
   def show_pick_confirmation_name
     @candidate = Candidate.find(params[:id])
-    send_image_pick_confirmation_name(@candidate)
+    send_image(@candidate.pick_confirmation_name)
   end
 
   def sign_agreement
@@ -248,52 +160,86 @@ class CommonCandidatesController < ApplicationController
 
   def upload_baptismal_certificate_image
     @candidate = Candidate.find(params[:id])
-    send_image_baptismal_certificate(@candidate)
+    send_image(@candidate.baptismal_certificate)
   end
 
   def upload_sponsor_elegibility_image
     @candidate = Candidate.find(params[:id])
-    send_image_sponsor_elegibility(@candidate)
-  end
-
-  def upload_sponsor_covenant_image
-    @candidate = Candidate.find(params[:id])
-    send_image_sponsor_covenant(@candidate)
-  end
-
-  def pick_confirmation_name_image
-    @candidate = Candidate.find(params[:id])
-    send_image_pick_confirmation_name(@candidate)
-  end
-
-  private
-
-  def send_image_baptismal_certificate(candidate)
-    baptismal_certificate = candidate.baptismal_certificate
-    send_data baptismal_certificate.certificate_file_contents,
-              type: baptismal_certificate.certificate_content_type,
-              disposition: 'inline'
-  end
-
-  def send_image_sponsor_elegibility(candidate)
-    sponsor_covenant = candidate.sponsor_covenant
+    sponsor_covenant = @candidate.sponsor_covenant
     send_data sponsor_covenant.sponsor_elegibility_file_contents,
               type: sponsor_covenant.sponsor_elegibility_content_type,
               disposition: 'inline'
   end
 
-  def send_image_sponsor_covenant(candidate)
-    sponsor_covenant = candidate.sponsor_covenant
-    send_data sponsor_covenant.sponsor_covenant_file_contents,
-              type: sponsor_covenant.sponsor_covenant_content_type,
+  def upload_sponsor_covenant_image
+    @candidate = Candidate.find(params[:id])
+    send_image(@candidate.sponsor_covenant)
+  end
+
+  def pick_confirmation_name_image
+    @candidate = Candidate.find(params[:id])
+    send_image(@candidate.pick_confirmation_name)
+  end
+
+  private
+
+  def association_update(clazz)
+    event_name = clazz.event_name
+    if @candidate.update_attributes(candidate_params)
+      if @candidate.validate_event_complete(clazz)
+        unless @candidate.errors.any?
+          candidate_event = @candidate.candidate_events.find { |ce| ce.name == event_name }
+          candidate_event.completed_date = Date.today
+          if @candidate.save
+            if is_admin?
+              redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
+            else
+              redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
+            end
+          else
+            flash['alert'] = "Save of #{event_name} failed"
+          end
+        end
+      end
+    end
+  end
+
+  def send_image(association)
+    send_data association.file_contents,
+              type: association.content_type,
               disposition: 'inline'
   end
 
-  def send_image_pick_confirmation_name(candidate)
-    pick_confirmation_name = candidate.pick_confirmation_name
-    send_data pick_confirmation_name.pick_confirmation_name_file_contents,
-              type: pick_confirmation_name.pick_confirmation_name_content_type,
-              disposition: 'inline'
+  def setup_file_params(file, association, prefix, association_params)
+    is_sponsor_elegibillity = prefix === 'sponsor_elegibility'
+    filename_param = is_sponsor_elegibillity ? "#{prefix}_filename".to_sym : association.filename_param
+    content_type_param = is_sponsor_elegibillity ? "#{prefix}_content_type".to_sym : association.content_type_param
+    file_contents_param = is_sponsor_elegibillity ? "#{prefix}_file_contents".to_sym : association.file_contents_param
+    if is_sponsor_elegibillity
+      filename = association.sponsor_elegibility_filename
+      content_type = association.sponsor_elegibility_content_type
+      file_contents = association.sponsor_elegibility_file_contents
+    else
+      filename = association.filename
+      content_type = association.content_type
+      file_contents = association.file_contents
+    end
+    if file
+      if File.basename(file.original_filename) === filename
+        association_params[filename_param] = filename
+        association_params[content_type_param] = content_type
+        association_params[file_contents_param] = file_contents
+      else
+        association_params[filename_param] = File.basename(file.original_filename)
+        association_params[content_type_param] = file.content_type
+        association_params[file_contents_param] = file.read
+      end
+    else
+      association_params[filename_param] = filename
+      association_params[content_type_param] = content_type
+      association_params[file_contents_param] = file_contents
+    end
   end
+
 
 end

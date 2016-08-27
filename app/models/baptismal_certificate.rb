@@ -1,29 +1,3 @@
-class BaptismalCertificateValidator < ActiveModel::Validator
-# TODO: duplicate - get from somewhere else
-  FIELDS = [:birth_date, :baptismal_date, :church_name, :father_first, :father_middle, :father_last,
-            :mother_first, :mother_middle, :mother_maiden, :mother_last]
-  ADDRESS = [:street_1, :city, :state, :zip_code]
-  PICTURES = [:certificate_filename, :certificate_content_type, :certificate_file_contents]
-
-  def initialize(baptismal_cert, baptized_at_stmm)
-    @baptismal_certificate = baptismal_cert
-    @baptized_at_stmm = baptized_at_stmm
-  end
-
-  def validate
-    return true if @baptized_at_stmm
-
-    @baptismal_certificate.validates_presence_of FIELDS
-    church_address = @baptismal_certificate.church_address
-    church_address.validates_presence_of ADDRESS
-    church_address.errors.full_messages.each do |msg|
-      @baptismal_certificate.errors[:base] << msg
-    end
-    @baptismal_certificate.validates_presence_of PICTURES
-    !@baptismal_certificate.errors.any?
-  end
-end
-
 class BaptismalCertificate < ActiveRecord::Base
   belongs_to(:church_address, class_name: 'Address', validate: true)
   accepts_nested_attributes_for :church_address, allow_destroy: true
@@ -31,16 +5,102 @@ class BaptismalCertificate < ActiveRecord::Base
   # before_create :build_associations
   after_initialize :build_associations, :if => :new_record?
 
-  # validate :validate_self
-
   attr_accessor :certificate_picture
+
+  # event_complete
+
+  def validate_event_complete(baptized_at_stmm)
+    event_commplete = true
+    event_complete_validator = EventCompleteValidator.new(self, !baptized_at_stmm)
+    event_complete_validator.validate([], BaptismalCertificate.get_basic_validation_params)
+    unless baptized_at_stmm
+      church_address.validate_event_complete
+      church_address.errors.full_messages.each do |msg|
+        errors[:base] << msg
+        event_commplete = false
+      end
+    end
+    event_commplete
+  end
+
+  def self.get_permitted_params
+    BaptismalCertificate.get_basic_permitted_params.concat([church_address_attributes: BaptismalCertificate.get_church_address_permitted_params])
+  end
+
+  def self.get_church_address_permitted_params
+    Address.get_basic_permitted_params
+  end
+
+  def self.get_church_address_validation_params
+    Address.get_basic_validatiion_params
+  end
+
+  def self.get_basic_permitted_params
+    [:birth_date, :baptismal_date, :church_name, :father_first, :father_middle, :father_last,
+     :mother_first, :mother_middle, :mother_maiden, :mother_last, :certificate_picture,
+     :certificate_filename, :certificate_content_type, :certificate_file_contents]
+  end
+
+  def self.get_basic_validation_params
+    params = BaptismalCertificate.get_basic_permitted_params
+    params.delete(:certificate_picture)
+    params
+  end
+
+  def self.event_name
+    I18n.t('events.upload_baptismal_certificate')
+  end
+
+  def self.validate_event_complete(candidate)
+    baptismal_certificate = candidate.baptismal_certificate
+    baptismal_certificate.validate_event_complete(candidate.baptized_at_stmm)
+    baptismal_certificate
+  end
+
+  # event_complete - end
 
   def build_associations
     church_address || create_church_address
   end
 
-  def validate_self(baptized_at_stmm)
-    BaptismalCertificateValidator.new(self, baptized_at_stmm).validate
+  # image interface
+
+  def filename_param
+    :certificate_filename
   end
+
+  def content_type_param
+    :certificate_content_type
+  end
+
+  def file_contents_param
+    :certificate_file_contents
+  end
+
+  def filename
+    certificate_filename
+  end
+
+  def filename=(name)
+    certificate_filename=name
+  end
+
+  def content_type
+    certificate_content_type
+  end
+
+  def content_type=(type)
+    certificate_content_type=type
+  end
+
+  def file_contents
+    certificate_file_contents
+  end
+
+  def file_contents=(contents)
+    certificate_file_contents=contents
+  end
+
+  # image interface - end
 
 end

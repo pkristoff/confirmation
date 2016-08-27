@@ -141,38 +141,34 @@ class Candidate < ActiveRecord::Base
     end
   end
 
-  def validate (options={})
-    options={validate_sponsor_covenant: false, validate_baptismal_certificate: false,
-             validate_pick_confirmation_name: false,
-             baptized_at_stmm: false}.merge(options)
-    val = super
-    if options[:validate_pick_confirmation_name]
-      pick_confirmation_name.validate_self
-      pick_confirmation_name.errors.full_messages.each do |msg|
-        errors[:base] << msg
-        val = false
-      end
-    end
-    if options[:validate_sponsor_covenant]
-      sponsor_covenant.validate_self
-      sponsor_covenant.errors.full_messages.each do |msg|
-        errors[:base] << msg
-        val = false
-      end
-    end
-    if options[:validate_baptismal_certificate]
-      return val if options[:baptized_at_stmm]
-      baptismal_certificate.validate_self(options[:baptized_at_stmm])
-      baptismal_certificate.errors.full_messages.each do |msg|
-        errors[:base] << msg
-        val = false
-      end
-    end
-    val
-  end
-
   def validate_email(value)
     value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   end
+
+  # event_complete
+
+  def self.get_permitted_params
+    [:account_name, :first_name, :last_name, :candidate_email, :parent_email_1,
+     :parent_email_2, :grade, :attending, :password, :password_confirmation,
+     :signed_agreement, :baptized_at_stmm,
+     address_attributes: [:street_1, :street_2, :city, :state, :zip_code],
+     baptismal_certificate_attributes: BaptismalCertificate.get_permitted_params,
+     sponsor_covenant_attributes: SponsorCovenant.get_permitted_params ,
+     pick_confirmation_name_attributes: PickConfirmationName.get_permitted_params,
+     candidate_events_attributes: [:id, :completed_date, :verified]
+    ]
+  end
+
+  def validate_event_complete (association_class)
+    complete = true
+    association = association_class.validate_event_complete(self)
+    association.errors.full_messages.each do |msg|
+      errors[:base] << msg
+      complete = false
+    end
+    complete
+  end
+
+  # event_complete - end
 
 end

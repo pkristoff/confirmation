@@ -82,12 +82,9 @@ shared_context 'upload_baptismal_certificate_html_erb' do
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.baptized_at_stmm = false
-    # @candidate.create_baptismal_certificate
-    # @candidate.baptismal_certificate.create_church_address
     @candidate.save
     AppFactory.add_candidate_events(@candidate)
     update_baptismal_certificate(false)
-    # @candidate.save
     visit @path
 
     attach_file('Certificate picture', 'spec/fixtures/actions.png')
