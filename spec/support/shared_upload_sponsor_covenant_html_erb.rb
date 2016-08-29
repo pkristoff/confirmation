@@ -103,6 +103,9 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     click_button I18n.t('views.common.update')
     expect_message(:error_explanation, ['3 errors prohibited saving', 'Sponsor elegibility filename can\'t be blank', 'Sponsor elegibility content type can\'t be blank', 'Sponsor elegibility file contents can\'t be blank'])
 
+    expect(page).not_to have_selector(get_img_src_selector)
+    expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_elegibility_image.#{@candidate.id}\"]")
+
     attach_file('Sponsor covenant picture', 'spec/fixtures/actions.png')
     click_button I18n.t('views.common.update')
 
@@ -128,6 +131,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     click_button I18n.t('views.common.update')
 
     expect_message(:error_explanation, '1 error prohibited saving: Sponsor name can\'t be blank')
+    expect(page).to have_selector(get_img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')
   end
@@ -168,6 +172,10 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     if elegibility_attach_file
       attach_file('Sponsor elegibility picture', 'spec/fixtures/Baptismal Certificate.png')
     end
+  end
+
+  def get_img_src_selector
+    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/upload_sponsor_covenant\"]"
   end
 
   def update_sponsor_covenant(with_values)

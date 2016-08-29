@@ -1,3 +1,5 @@
+<%= require 'constants' %>
+
 <% if admin_signed_in? %>
     <% if admin_signed_in? %>
         <li><%= link_to I18n.t('views.nav.add_new_admin'), new_admin_registration_path %></li>

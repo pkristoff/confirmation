@@ -33,7 +33,7 @@
 
         <% unless @candidate.sponsor_covenant.sponsor_covenant_filename.nil? %>
             <div >
-              <img src = "<%= url_for(is_dev ? dev_upload_sponsor_covenant_image_path(@candidate.id) : upload_sponsor_covenant_image_path(@candidate.id)) %>" />
+              <img src = "<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>" />
             </div >
         <% end %>
         <div class = "field" >

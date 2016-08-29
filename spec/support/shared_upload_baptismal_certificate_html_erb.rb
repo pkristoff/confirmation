@@ -90,6 +90,8 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     attach_file('Certificate picture', 'spec/fixtures/actions.png')
     click_button I18n.t('views.common.update')
 
+    expect(page).to have_selector(get_img_src_selector)
+
     fill_in_form(false) # no picture
     click_button I18n.t('views.common.update')
 
@@ -114,6 +116,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     fill_in_form(false) # no picture
     click_button I18n.t('views.common.update')
     expect_message(:error_explanation, ['3 errors prohibited saving:', 'Certificate filename can\'t be blank', 'Certificate content type can\'t be blank', 'Certificate file contents can\'t be blank'])
+    expect(page).not_to have_selector(get_img_src_selector)
 
     attach_file('Certificate picture', 'spec/fixtures/actions.png')
     click_button I18n.t('views.common.update')
@@ -140,6 +143,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     click_button I18n.t('views.common.update')
 
     expect_message(:error_explanation, '1 error prohibited saving: Street 1 can\'t be blank')
+    expect(page).to have_selector(get_img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')
   end
@@ -205,6 +209,10 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     fill_in('Mother maiden', with: MOTHER_MAIDEN)
     fill_in('Mother last', with: LAST_NAME)
     attach_file('Certificate picture', 'spec/fixtures/actions.png') if attach_file
+  end
+
+  def get_img_src_selector
+    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/upload_baptismal_certificate\"]"
   end
 
   def update_baptismal_certificate(with_values)

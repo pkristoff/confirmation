@@ -2,6 +2,7 @@ SAINT_NAME = 'George Sponsor'
 ABOUT_SAINT = 'She was very holy'
 WHY_SAINT = 'She looks good'
 
+
 shared_context 'pick_confirmation_name_html_erb' do
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -33,6 +34,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     click_button I18n.t('views.common.update')
 
     candidate = Candidate.find(@candidate.id)
+    expect(page).to have_selector(get_img_src_selector)
     expect_message(:error_explanation, ['3 errors prohibited saving', 'Saint name can\'t be blank', 'About saint can\'t be blank', 'Why saint can\'t be blank'])
 
     expect(candidate.pick_confirmation_name.pick_confirmation_name_filename).to eq('actions.png')
@@ -64,6 +66,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     fill_in_form(false) # no picture
     click_button I18n.t('views.common.update')
     expect_message(:error_explanation, ['3 errors prohibited saving', 'Pick confirmation name filename can\'t be blank', 'Pick confirmation name content type can\'t be blank', 'Pick confirmation name file contents can\'t be blank'])
+    expect(page).not_to have_selector(get_img_src_selector)
 
     attach_file('Pick confirmation name picture', 'spec/fixtures/actions.png')
     click_button I18n.t('views.common.update')
@@ -120,6 +123,10 @@ shared_context 'pick_confirmation_name_html_erb' do
     if pick_confirmation_name_attach_file
       attach_file('Pick confirmation name picture', 'spec/fixtures/actions.png')
     end
+  end
+
+  def get_img_src_selector
+    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/pick_confirmation_name\"]"
   end
 
   def update_pick_confirmation_name(with_values)

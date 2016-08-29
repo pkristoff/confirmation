@@ -74,27 +74,36 @@ class CommonCandidatesController < ApplicationController
 
   end
 
-  def show_baptism_certificate
+  def show_event_with_picture
     @candidate = Candidate.find(params[:id])
-    send_image(@candidate.baptismal_certificate)
+    association = nil
+    case params[:event_name].to_sym
+      when Event::Route::PICK_CONFIRMATION_NAME
+        association = @candidate.pick_confirmation_name
+      when Event::Route::BAPTISMAL_CERTIFICATE_UPDATE
+        association = @candidate.baptismal_certificate
+      when Event::Route::SPONSOR_COVENANT_UPDATE
+        association = @candidate.sponsor_covenant
+      else
+        flash['alert'] = "Unknown event_name #{params[:event_name]}"
+    end
+    send_image(association)
   end
 
-  def show_sponsor_elegibility
+  def event_with_picture_image
     @candidate = Candidate.find(params[:id])
-    sponsor_covenant = @candidate.sponsor_covenant
-    send_data sponsor_covenant.sponsor_elegibility_file_contents,
-              type: sponsor_covenant.sponsor_elegibility_content_type,
-              disposition: 'inline'
-  end
-
-  def show_sponsor_covenant
-    @candidate = Candidate.find(params[:id])
-    send_image(@candidate.sponsor_covenant)
-  end
-
-  def show_pick_confirmation_name
-    @candidate = Candidate.find(params[:id])
-    send_image(@candidate.pick_confirmation_name)
+    association = nil
+    case params[:event_name].to_sym
+      when Event::Route::PICK_CONFIRMATION_NAME
+        association = @candidate.pick_confirmation_name
+      when Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
+        association = @candidate.baptismal_certificate
+      when Event::Route::UPLOAD_SPONSOR_COVENANT
+        association = @candidate.sponsor_covenant
+      else
+        flash['alert'] = "Unknown event_name #{params[:event_name]}"
+    end
+    send_image(association) unless association.nil?
   end
 
   def sign_agreement
@@ -137,27 +146,12 @@ class CommonCandidatesController < ApplicationController
     render_event_with_picture(false, params[:event_name])
   end
 
-  def upload_baptismal_certificate_image
-    @candidate = Candidate.find(params[:id])
-    send_image(@candidate.baptismal_certificate)
-  end
-
   def upload_sponsor_elegibility_image
     @candidate = Candidate.find(params[:id])
     sponsor_covenant = @candidate.sponsor_covenant
     send_data sponsor_covenant.sponsor_elegibility_file_contents,
               type: sponsor_covenant.sponsor_elegibility_content_type,
               disposition: 'inline'
-  end
-
-  def upload_sponsor_covenant_image
-    @candidate = Candidate.find(params[:id])
-    send_image(@candidate.sponsor_covenant)
-  end
-
-  def pick_confirmation_name_image
-    @candidate = Candidate.find(params[:id])
-    send_image(@candidate.pick_confirmation_name)
   end
 
   private

@@ -34,7 +34,7 @@
 
         <% unless @candidate.pick_confirmation_name.pick_confirmation_name_filename.nil? %>
             <div >
-              <img src = "<%= url_for(is_dev ? dev_pick_confirmation_name_image_path(@candidate.id) : pick_confirmation_name_image_path(@candidate.id)) %>" />
+              <img src = "<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>" />
             </div >
         <% end %>
     <% end %>
