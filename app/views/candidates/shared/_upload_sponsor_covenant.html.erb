@@ -18,7 +18,7 @@
     </div >
 <% end %>
 
-<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_sponsor_covenant_update_path(@candidate.id) : sponsor_covenant_update_path(@candidate.id), html: {method: :put}) do |f| %>
+<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
     <%= f.fields_for :sponsor_covenant do |sc_fields| %>
         <%= field_set_tag t('views.candidates.sponsor_name'), class: 'fieldset' do %>
             <div class = "field" >

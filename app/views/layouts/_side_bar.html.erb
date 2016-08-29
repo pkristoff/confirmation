@@ -12,9 +12,9 @@
 
             <li><%= link_to "#{I18n.t('views.nav.sign_agreement')} #{resource.first_name} #{resource.last_name}", sign_agreement_path(resource.id) %></li>
             <li><%= link_to "#{I18n.t('views.nav.candidate_sheet')} #{resource.first_name} #{resource.last_name}", candidate_sheet_path(resource.id) %></li>
-            <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')} #{resource.first_name} #{resource.last_name}", upload_baptismal_certificate_path(resource.id) %></li>
-            <li><%= link_to "#{I18n.t('views.nav.sponsor_covenant')} #{resource.first_name} #{resource.last_name}", upload_sponsor_covenant_path(resource.id) %></li>
-            <li><%= link_to "#{I18n.t('views.nav.pick_confirmation_name')} #{resource.first_name} #{resource.last_name}", pick_confirmation_name_path(resource.id) %></li>
+            <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')} #{resource.first_name} #{resource.last_name}", event_with_picture_path(resource.id, Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE) %></li>
+            <li><%= link_to "#{I18n.t('views.nav.sponsor_covenant')} #{resource.first_name} #{resource.last_name}", event_with_picture_path(resource.id, Event::Route::UPLOAD_SPONSOR_COVENANT) %></li>
+            <li><%= link_to "#{I18n.t('views.nav.pick_confirmation_name')} #{resource.first_name} #{resource.last_name}", event_with_picture_path(resource.id, Event::Route::PICK_CONFIRMATION_NAME) %></li>
 
             <li><%= link_to "#{I18n.t('views.nav.edit')} #{resource.first_name} #{resource.last_name}", edit_candidate_path(resource.id) %></li>
             <li><%= link_to "#{I18n.t('views.nav.events')} #{resource.first_name} #{resource.last_name}", event_candidate_path(resource.id) %></li>
@@ -26,9 +26,9 @@
 
     <li><%= link_to "#{I18n.t('views.nav.sign_agreement')}", dev_sign_agreement_path(current_candidate.id) %></li>
     <li><%= link_to "#{I18n.t('views.nav.candidate_sheet')}", dev_candidate_sheet_path(current_candidate.id) %></li>
-    <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')}", dev_upload_baptismal_certificate_path(current_candidate.id) %></li>
-    <li><%= link_to "#{I18n.t('views.nav.sponsor_covenant')}", dev_upload_sponsor_covenant_path(current_candidate.id) %></li>
-    <li><%= link_to "#{I18n.t('views.nav.pick_confirmation_name')}", dev_pick_confirmation_name_path(current_candidate.id) %></li>
+    <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')}", dev_event_with_picture_path(current_candidate.id, Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE) %></li>
+    <li><%= link_to "#{I18n.t('views.nav.sponsor_covenant')}", dev_event_with_picture_path(current_candidate.id, Event::Route::UPLOAD_SPONSOR_COVENANT) %></li>
+    <li><%= link_to "#{I18n.t('views.nav.pick_confirmation_name')}", dev_event_with_picture_path(current_candidate.id, Event::Route::PICK_CONFIRMATION_NAME) %></li>
 
     <li><%= link_to "#{I18n.t('views.nav.edit')}", edit_candidate_registration_path %></li>
     <li><%= link_to "#{I18n.t('views.nav.events')}", event_candidate_registration_path(current_candidate.id) %></li>

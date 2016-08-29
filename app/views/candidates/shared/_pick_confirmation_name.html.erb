@@ -10,9 +10,9 @@
     </div >
 <% end %>
 
-<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_pick_confirmation_name_update_path(@candidate.id) : pick_confirmation_name_update_path(@candidate.id), html: {method: :put}) do |f| %>
+  <%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
     <%= f.fields_for :pick_confirmation_name do |pcn_fields| %>
-        inside
+
         <%= field_set_tag t('views.candidates.pick_confirmation_name'), class: 'fieldset' do %>
             <div class = "field" >
               <%= pcn_fields.label :saint_name %><br />

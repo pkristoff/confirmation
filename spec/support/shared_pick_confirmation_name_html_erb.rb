@@ -92,7 +92,8 @@ shared_context 'pick_confirmation_name_html_erb' do
   end
 
   def expect_form_layout(candidate, with_values, saint_name=SAINT_NAME)
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}pick_confirmation_name.#{@candidate.id}\"]")
+
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/pick_confirmation_name\"]")
 
     expect_field('Pick confirmation name picture', nil)
 

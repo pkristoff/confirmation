@@ -1,6 +1,8 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
+require 'constants'
+
 feature 'Pick confirmation name admin', :devise do
 
   before(:each) do
@@ -9,7 +11,7 @@ feature 'Pick confirmation name admin', :devise do
     AppFactory.add_confirmation_event(I18n.t('events.pick_confirmation_name'))
     login_as(@admin, scope: :admin)
 
-    @path = pick_confirmation_name_path(@candidate.id)
+    @path = event_with_picture_path(@candidate.id, Event::Route::PICK_CONFIRMATION_NAME)
     @dev = ''
   end
 

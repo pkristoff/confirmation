@@ -49,31 +49,19 @@ Rails.application.routes.draw do
 
     # Baptismal Certificate
 
-    get 'dev/upload_baptismal_certificate.:id', to: 'dev/candidates#upload_baptismal_certificate', as: 'dev_upload_baptismal_certificate'
-    put 'dev/upload_baptismal_certificate.:id', to: 'dev/candidates#baptismal_certificate_update', as: 'dev_baptismal_certificate_update'
-
     get 'dev/show_baptism_certificate.:id', to: 'dev/candidates#show_baptism_certificate', as: 'dev_show_baptism_certificate'
     get 'dev/upload_baptismal_certificate_image.:id', to: 'dev/candidates#upload_baptismal_certificate_image', as: 'dev_upload_baptismal_certificate_image'
-
-    get 'upload_baptismal_certificate.:id', to: 'candidates#upload_baptismal_certificate', as: 'upload_baptismal_certificate'
-    put 'upload_baptismal_certificate.:id', to: 'candidates#baptismal_certificate_update', as: 'baptismal_certificate_update'
 
     get 'show_baptism_certificate.:id', to: 'candidates#show_baptism_certificate', as: 'show_baptism_certificate'
     get 'upload_baptismal_certificate_image.:id', to: 'candidates#upload_baptismal_certificate_image', as: 'upload_baptismal_certificate_image'
 
     # Sponsor covenant
 
-    get 'dev/upload_sponsor_covenant.:id', to: 'dev/candidates#upload_sponsor_covenant', as: 'dev_upload_sponsor_covenant'
-    put 'dev/upload_sponsor_covenant.:id', to: 'dev/candidates#sponsor_covenant_update', as: 'dev_sponsor_covenant_update'
-
     get 'dev/show_sponsor_covenant.:id', to: 'dev/candidates#show_sponsor_covenant', as: 'dev_show_sponsor_covenant'
     get 'dev/upload_sponsor_covenant_image.:id', to: 'dev/candidates#upload_sponsor_covenant_image', as: 'dev_upload_sponsor_covenant_image'
 
     get 'dev/show_sponsor_elegibility.:id', to: 'dev/candidates#show_sponsor_elegibility', as: 'dev_show_sponsor_elegibility'
     get 'dev/upload_sponsor_elegibility_image.:id', to: 'dev/candidates#upload_sponsor_elegibility_image', as: 'dev_upload_sponsor_elegibility_image'
-
-    get 'upload_sponsor_covenant.:id', to: 'candidates#upload_sponsor_covenant', as: 'upload_sponsor_covenant'
-    put 'upload_sponsor_covenant.:id', to: 'candidates#sponsor_covenant_update', as: 'sponsor_covenant_update'
 
     get 'show_sponsor_covenant.:id', to: 'candidates#show_sponsor_covenant', as: 'show_sponsor_covenant'
     get 'upload_sponsor_covenant_image.:id', to: 'candidates#upload_sponsor_covenant_image', as: 'upload_sponsor_covenant_image'
@@ -83,17 +71,19 @@ Rails.application.routes.draw do
 
     # Pick confirmation name
 
-    get 'dev/pick_confirmation_name.:id', to: 'dev/candidates#pick_confirmation_name', as: 'dev_pick_confirmation_name'
-    put 'dev/pick_confirmation_name.:id', to: 'dev/candidates#pick_confirmation_name_update', as: 'dev_pick_confirmation_name_update'
-
     get 'dev/show_pick_confirmation_name.:id', to: 'dev/candidates#show_pick_confirmation_name', as: 'dev_show_pick_confirmation_name'
     get 'dev/pick_confirmation_name_image.:id', to: 'dev/candidates#pick_confirmation_name_image', as: 'dev_pick_confirmation_name_image'
 
-    get 'pick_confirmation_name.:id', to: 'candidates#pick_confirmation_name', as: 'pick_confirmation_name'
-    put 'pick_confirmation_name.:id', to: 'candidates#pick_confirmation_name_update', as: 'pick_confirmation_name_update'
-
     get 'show_pick_confirmation_name.:id', to: 'candidates#show_pick_confirmation_name', as: 'show_pick_confirmation_name'
     get 'pick_confirmation_name_image.:id', to: 'candidates#pick_confirmation_name_image', as: 'pick_confirmation_name_image'
+
+    # event_with_picture
+
+    get 'dev/event_with_picture/:id/:event_name', to: 'dev/candidates#event_with_picture', as: 'dev_event_with_picture'
+    put 'dev/event_with_picture/:id/:event_name', to: 'dev/candidates#event_with_picture_update', as: 'dev_event_with_picture_update'
+
+    get 'event_with_picture/:id/:event_name', to: 'candidates#event_with_picture', as: 'event_with_picture'
+    put 'event_with_picture/:id/:event_name', to: 'candidates#event_with_picture_update', as: 'event_with_picture_update'
 
   end
 

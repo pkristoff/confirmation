@@ -1,6 +1,8 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
+require 'constants'
+
 feature 'Sponsor Covenant candidate', :devise do
 
   before(:each) do
@@ -8,7 +10,7 @@ feature 'Sponsor Covenant candidate', :devise do
     AppFactory.add_confirmation_event(I18n.t('events.pick_confirmation_name'))
     login_as(@candidate, scope: :candidate)
 
-    @path = dev_pick_confirmation_name_path(@candidate.id)
+    @path = dev_event_with_picture_path(@candidate.id, Event::Route::PICK_CONFIRMATION_NAME)
     @dev = 'dev/'
   end
 

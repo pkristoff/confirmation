@@ -134,7 +134,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
 
   def expect_form_layout(candidate, sponsor_name=SPONSOR_NAME)
     visibility = candidate.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div'
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}upload_sponsor_covenant.#{@candidate.id}\"]")
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/upload_sponsor_covenant\"]")
     expect(page).to have_selector("div[id=sponsor-covenant-top][class=\"#{visibility}\"]")
 
     if candidate.sponsor_covenant.sponsor_attends_stmm

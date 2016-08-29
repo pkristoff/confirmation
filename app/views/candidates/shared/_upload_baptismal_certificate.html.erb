@@ -18,7 +18,7 @@
     </div>
 <% end %>
 
-<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_baptismal_certificate_update_path(@candidate.id) : baptismal_certificate_update_path(@candidate.id), html: {method: :put}) do |f| %>
+<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
     <div class="field">
       <%= f.check_box :baptized_at_stmm, onclick: 'update_baptismal_certificate();' %>
       <%= f.label :baptized_at_stmm %>

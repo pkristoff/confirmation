@@ -146,7 +146,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
 
   def expect_form_layout(candidate, street_1=STREET_1)
     visibility = candidate.baptized_at_stmm ? 'hide-div' : 'show-div'
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}upload_baptismal_certificate.#{@candidate.id}\"]")
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/upload_baptismal_certificate\"]")
     expect(page).to have_selector("div[id=baptismal-certificate-top][class=\"#{visibility}\"]")
 
     if candidate.baptized_at_stmm

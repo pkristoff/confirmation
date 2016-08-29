@@ -1,56 +1,44 @@
 class CommonCandidatesController < ApplicationController
 
-  DOCUMENT_KEY_TO_NAME = {
-      covenant: '4. Candidate Covenant Form.pdf', # complete
-      baptismal_certificate: '6. Baptismal Certificate.pdf', # complete
-      sponsor_covenant: '7. Sponsor Covenant & Eligibility.pdf', # complete
-      conversation_sponsor_candidate: '8. Conversation between Sponsor & Candidate.pdf',
-      ministry_awareness: '9. Christian Ministry Awareness.pdf',
-      confirmation_name: '10. Choosing a Confirmation Name.pdf' # complete
-  }
-
-  def baptismal_certificate_update
-    @candidate = Candidate.find(params[:id])
+  def event_with_picture_update
+    render_called = false
+    candidate_id = params[:id]
+    event_name = params[:event_name]
+    @candidate = Candidate.find(candidate_id)
     if params['candidate']
-      baptized_at_stmm = params[:candidate]['baptized_at_stmm'] == '1'
-      baptismal_certificate = @candidate.baptismal_certificate
-      unless baptized_at_stmm
-        baptismal_certificate_params = params[:candidate][:baptismal_certificate_attributes]
-        setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, 'certificate', baptismal_certificate_params)
+      case event_name.to_sym
+        when Event::Route::UPLOAD_SPONSOR_COVENANT
+          sponsor_covenant = @candidate.sponsor_covenant
+          sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
+          setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, 'sponsor_covenant', sponsor_covenant_params)
+          setup_file_params(sponsor_covenant_params[:sponsor_elegibility_picture], sponsor_covenant, 'sponsor_elegibility', sponsor_covenant_params)
+
+           render_called = event_with_picture_update_private(SponsorCovenant)
+
+        when Event::Route::PICK_CONFIRMATION_NAME
+          pick_confirmation_name = @candidate.pick_confirmation_name
+          pick_confirmation_name_params = params[:candidate][:pick_confirmation_name_attributes]
+          setup_file_params(pick_confirmation_name_params[:pick_confirmation_name_picture], pick_confirmation_name, 'pick_confirmation_name', pick_confirmation_name_params)
+
+          render_called = event_with_picture_update_private(PickConfirmationName)
+
+        when Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
+          baptized_at_stmm = params[:candidate]['baptized_at_stmm'] == '1'
+          baptismal_certificate = @candidate.baptismal_certificate
+          unless baptized_at_stmm
+            baptismal_certificate_params = params[:candidate][:baptismal_certificate_attributes]
+            setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, 'certificate', baptismal_certificate_params)
+          end
+
+          render_called = event_with_picture_update_private(BaptismalCertificate,)
+        else
+          flash[:alert] = "Unknowwn event_name: #{event_name}"
       end
-
-      association_update(BaptismalCertificate,)
-
     else
       flash[:alert] = I18n.t('messages.unknown_parameter')
     end
-  end
+    render_event_with_picture(render_called, event_name)
 
-  def pick_confirmation_name_update
-    @candidate = Candidate.find(params[:id])
-    if params['candidate']
-      pick_confirmation_name = @candidate.pick_confirmation_name
-      pick_confirmation_name_params = params[:candidate][:pick_confirmation_name_attributes]
-      setup_file_params(pick_confirmation_name_params[:pick_confirmation_name_picture], pick_confirmation_name, 'pick_confirmation_name', pick_confirmation_name_params)
-
-      association_update(PickConfirmationName)
-    else
-      flash[:alert] = I18n.t('messages.unknown_parameter')
-    end
-  end
-
-  def sponsor_covenant_update
-    @candidate = Candidate.find(params[:id])
-    if params['candidate']
-      sponsor_covenant = @candidate.sponsor_covenant
-      sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
-      setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, 'sponsor_covenant', sponsor_covenant_params)
-      setup_file_params(sponsor_covenant_params[:sponsor_elegibility_picture], sponsor_covenant, 'sponsor_elegibility', sponsor_covenant_params)
-
-      association_update(SponsorCovenant)
-    else
-      flash[:alert] = I18n.t('messages.unknown_parameter')
-    end
   end
 
   def candidate_sheet
@@ -75,7 +63,7 @@ class CommonCandidatesController < ApplicationController
   end
 
   def download_document
-    doc_name = DOCUMENT_KEY_TO_NAME[params[:name].to_sym]
+    doc_name = Event::Document::MAPPING[params[:name].to_sym]
     pdf = File.new("public/documents/#{doc_name}")
     pdf_data = File.read(pdf.path)
     begin
@@ -143,19 +131,10 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  def upload_baptismal_certificate
+  def event_with_picture
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
-  end
-
-  def upload_sponsor_covenant
-    @candidate = Candidate.find(params[:id])
-    @resource = @candidate
-  end
-
-  def pick_confirmation_name
-    @candidate = Candidate.find(params[:id])
-    @resource = @candidate
+    render_event_with_picture(false, params[:event_name])
   end
 
   def upload_baptismal_certificate_image
@@ -183,7 +162,8 @@ class CommonCandidatesController < ApplicationController
 
   private
 
-  def association_update(clazz)
+  def event_with_picture_update_private(clazz)
+    render_called = false
     event_name = clazz.event_name
     if @candidate.update_attributes(candidate_params)
       if @candidate.validate_event_complete(clazz)
@@ -191,6 +171,7 @@ class CommonCandidatesController < ApplicationController
           candidate_event = @candidate.candidate_events.find { |ce| ce.name == event_name }
           candidate_event.completed_date = Date.today
           if @candidate.save
+            render_called = true
             if is_admin?
               redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
             else
@@ -201,6 +182,15 @@ class CommonCandidatesController < ApplicationController
           end
         end
       end
+    end
+    render_called
+  end
+
+  def render_event_with_picture(render_called, event_name)
+    unless render_called
+      @event_with_picture_name = event_name
+      @is_dev = is_admin?
+      render :event_with_picture
     end
   end
 

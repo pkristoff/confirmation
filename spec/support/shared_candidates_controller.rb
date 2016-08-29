@@ -6,11 +6,11 @@ shared_context 'upload_baptismal_certificate' do
 
     expect(@candidate.baptismal_certificate).not_to eq(nil)
 
-    get :upload_baptismal_certificate, id: @candidate.id
+    put :event_with_picture, id: @candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
 
-    expect(response).to render_template('upload_baptismal_certificate')
+    expect(response).to render_template('event_with_picture')
     expect(controller.candidate).to eq(@candidate)
-    expect(@request.fullpath).to eq("/#{@dev}upload_baptismal_certificate.#{@candidate.id}")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{@candidate.id}/upload_baptismal_certificate")
 
     expect(controller.candidate.baptismal_certificate).not_to eq(nil)
   end
@@ -24,12 +24,12 @@ shared_context 'upload_baptismal_certificate' do
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :baptismal_certificate_update, id: candidate.id, candidate: {baptized_at_stmm: '1'}
+    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE, candidate: {baptized_at_stmm: '1'}
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
     expect(response.status).to eq(302)
-    expect(@request.fullpath).to eq("/#{@dev}upload_baptismal_certificate.#{candidate.id}?candidate%5Bbaptized_at_stmm%5D=1")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=1")
     expect(candidate.baptized_at_stmm).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
   end
@@ -43,17 +43,17 @@ shared_context 'upload_baptismal_certificate' do
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :baptismal_certificate_update, id: candidate.id
+    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
     # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
     expect(response.status).to eq(200)
-    expect(@request.fullpath).to eq("/#{@dev}upload_baptismal_certificate.#{candidate.id}")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate")
     expect(candidate.baptized_at_stmm).to eq(true)
     expect(candidate_event.completed_date).to eq(nil)
 
-    expect(response).to render_template('candidates/baptismal_certificate_update')
+    expect(response).to render_template('candidates/event_with_picture')
     expect(flash[:alert]).to eq('Unknown Parameter: candidate')
   end
 
@@ -67,8 +67,7 @@ shared_context 'upload_baptismal_certificate' do
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :baptismal_certificate_update,
-        id: candidate.id,
+    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE,
         candidate: {baptized_at_stmm: '0',
                     baptismal_certificate_attributes: {},}
 
@@ -76,12 +75,12 @@ shared_context 'upload_baptismal_certificate' do
     candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
     # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
     expect(response.status).to eq(200)
-    expect(@request.fullpath).to eq("/#{@dev}upload_baptismal_certificate.#{candidate.id}?candidate%5Bbaptized_at_stmm%5D=0")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=0")
     expect(candidate.baptized_at_stmm).to eq(false)
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate_event.completed_date.to_s).to eq('')
 
-    expect(response).to render_template('candidates/baptismal_certificate_update')
+    expect(response).to render_template('candidates/event_with_picture')
     expect(assigns(:candidate).errors.empty?).not_to be true
   end
 
@@ -93,8 +92,7 @@ shared_context 'upload_baptismal_certificate' do
 
     valid_parameters = get_valid_parameters
     valid_parameters[:certificate_picture] = fixture_file_upload('Baptismal Certificate.png', 'image/png')
-    put :baptismal_certificate_update,
-        id: candidate.id,
+    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE,
         candidate: {baptized_at_stmm: '0',
                     baptismal_certificate_attributes: valid_parameters
         }
