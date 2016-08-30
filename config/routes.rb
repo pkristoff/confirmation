@@ -39,6 +39,14 @@ Rails.application.routes.draw do
     get 'sign_agreement.:id', to: 'candidates#sign_agreement', as: 'sign_agreement'
     put 'sign_agreement.:id', to: 'candidates#sign_agreement_update', as: 'sign_agreement_update'
 
+    # sponsor agreement
+
+    get 'dev/sponsor_agreement.:id', to: 'dev/candidates#sponsor_agreement', as: 'dev_sponsor_agreement'
+    put 'dev/sponsor_agreement.:id', to: 'dev/candidates#sponsor_agreement_update', as: 'dev_sponsor_agreement_update'
+
+    get 'sponsor_agreement.:id', to: 'candidates#sponsor_agreement', as: 'sponsor_agreement'
+    put 'sponsor_agreement.:id', to: 'candidates#sponsor_agreement_update', as: 'sponsor_agreement_update'
+
     # candidate sheet
 
     get 'dev/candidate_sheet.:id', to: 'dev/candidates#candidate_sheet', as: 'dev_candidate_sheet'

@@ -58,6 +58,12 @@ describe Dev::CandidatesController do
 
     end
 
+    describe 'sponsor_agreement' do
+
+      it_behaves_like 'sponsor_agreement'
+
+    end
+
     describe 'fill_out_candidate_sheet' do
 
       it_behaves_like 'fill_out_candidate_sheet'

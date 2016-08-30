@@ -40,6 +40,7 @@ class AppFactory
   end
 
   def self.add_confirmation_event(event_name)
+    raise('add_confirmation_event: event_name cannot be nil') if event_name.nil? || event_name.empty?
     # puts 'starting event_name'
     new_confirmation_event = nil
     event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
@@ -139,7 +140,9 @@ class AppFactory
         # matches 20160821215148_add_sponsor_covenant.rb
         'events.upload_sponsor_covenant',
         # matches 20160825130031_add_pick_confirmation_name_event.rb
-        'events.pick_confirmation_name'
+        'events.pick_confirmation_name',
+        # 20160829163035_add_sponsor_candidate_confirmation_event.rb
+        'events.sponsor_agreement'
     ]
     all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
     all_event_names

@@ -60,6 +60,7 @@ describe AppFactory do
       AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
       AppFactory.add_confirmation_event(I18n.t('events.retreat_weekend'))
       AppFactory.add_confirmation_event(I18n.t('events.sign_agreement'))
+      AppFactory.add_confirmation_event(I18n.t('events.sponsor_agreement'))
 
       AppFactory.generate_seed
 
@@ -71,10 +72,11 @@ describe AppFactory do
       expect(candidate_events.size).to eq(1)
       candidate = candidate_events[0]
       expect(candidate.account_name).to eq('vickikristoff')
-      expect(candidate.candidate_events.size).to eq(3)
+      expect(candidate.candidate_events.size).to eq(4)
       expect(candidate.candidate_events_sorted[0].name).to eq(I18n.t('events.retreat_weekend'))
       expect(candidate.candidate_events_sorted[1].name).to eq(I18n.t('events.parent_meeting'))
       expect(candidate.candidate_events_sorted[2].name).to eq(I18n.t('events.sign_agreement'))
+      expect(candidate.candidate_events_sorted[3].name).to eq(I18n.t('events.sponsor_agreement'))
 
     end
 

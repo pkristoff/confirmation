@@ -347,7 +347,10 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.pick_confirmation_name')).the_way_due_date.to_s).to eq('2016-11-30')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.pick_confirmation_name')).chs_due_date.to_s).to eq('2016-11-20')
 
-    expect(ConfirmationEvent.all.size).to eq(7)
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_agreement')).the_way_due_date.to_s).to eq('2016-12-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_agreement')).chs_due_date.to_s).to eq('2016-12-15')
+
+    expect(ConfirmationEvent.all.size).to eq(8)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
     expect(confirmation_event_2.the_way_due_date.to_s).to eq('2016-05-31')
@@ -432,7 +435,11 @@ describe CandidateImport do
             {completed_date: '2016-12-25', # Pick Confirmation Name
              name: I18n.t('events.pick_confirmation_name'),
              due_date: '2016-11-30',
-             verified: true}
+             verified: true},
+            {completed_date: '2017-01-25', # Sponsor Agreement 12/31/2016
+             name: I18n.t('events.sponsor_agreement'),
+             due_date: '2016-12-31',
+             verified: false}
         ]
     }
   end
@@ -474,6 +481,10 @@ describe CandidateImport do
             {completed_date: '', # Pick Confirmation Name
              name: I18n.t('events.pick_confirmation_name'),
              due_date: '2016-11-30',
+             verified: false},
+            {completed_date: '', # Sponsor Agreement 12/31/2016
+             name: I18n.t('events.sponsor_agreement'),
+             due_date: '2016-12-31',
              verified: false},
             {name: I18n.t('events.retreat_weekend'),
              completed_date: '2016-05-02', # Attend Retreat 5/31/16
@@ -528,6 +539,10 @@ describe CandidateImport do
             {completed_date: '', # Pick Confirmation Name
              name: I18n.t('events.pick_confirmation_name'),
              due_date: '2016-11-20',
+             verified: false},
+            {completed_date: '', # Sponsor Agreement 12/15/2016
+             name: I18n.t('events.sponsor_agreement'),
+             due_date: '2016-12-15',
              verified: false},
             {completed_date: '2016-06-06', # Sign Agreement
              name: I18n.t('events.sign_agreement'),

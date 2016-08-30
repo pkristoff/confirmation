@@ -28,6 +28,7 @@ en:
     upload_baptismal_certificate: 'Upload Baptismal Certificate'
     upload_sponsor_covenant: 'Upload Sponsor Covenant'
     pick_confirmation_name: 'Pick Confirmation Name'
+    sponsor_agreement: 'Sponsor and Candidate Conversation'
   messages:
     accessed_denied: 'Accessed denied.'
     admin_login_needed: 'Please login as admin to %{message}.'
@@ -128,5 +129,6 @@ en:
       events: 'Events'
       other: 'Other'
       sign_agreement: 'Sign Agreement'
+      sponsor_agreement: 'Sponsor and Candidate Conversation'
       toggle_navigation: 'Toggle navigation'
       upload_baptismal_certificate: 'Upload Baptismal Certificate'

@@ -140,6 +140,41 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
+  # TODO: merge with sign_agreement
+  def sponsor_agreement
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+  end
+
+  def sponsor_agreement_update
+    candidate = Candidate.find(params[:id])
+    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sponsor_agreement') }
+    if params['candidate']
+      if params['candidate']['sponsor_agreement'] === '1'
+        candidate_event.completed_date = Date.today
+      else
+        if params['candidate']['sponsor_agreement'] === '0'
+          candidate_event.completed_date = nil
+          candidate_event.verified = false
+        else
+          return redirect_to :back, alert: 'Unknown Parameter'
+        end
+      end
+    else
+      return redirect_to :back, alert: 'Unknown Parameter'
+    end
+
+    if candidate.update_attributes(candidate_params)
+      if is_admin?
+        redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
+      else
+        redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
+      end
+    else
+      redirect_to :back, alert: 'Saving failed.'
+    end
+  end
+
   def event_with_picture
     @candidate = Candidate.find(params[:id])
     @resource = @candidate

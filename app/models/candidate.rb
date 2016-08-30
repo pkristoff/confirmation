@@ -150,7 +150,7 @@ class Candidate < ActiveRecord::Base
   def self.get_permitted_params
     [:account_name, :first_name, :last_name, :candidate_email, :parent_email_1,
      :parent_email_2, :grade, :attending, :password, :password_confirmation,
-     :signed_agreement, :baptized_at_stmm,
+     :signed_agreement, :baptized_at_stmm, :sponsor_agreement,
      address_attributes: [:street_1, :street_2, :city, :state, :zip_code],
      baptismal_certificate_attributes: BaptismalCertificate.get_permitted_params,
      sponsor_covenant_attributes: SponsorCovenant.get_permitted_params ,

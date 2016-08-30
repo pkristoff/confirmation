@@ -1,7 +1,7 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
-feature 'Sign Agreement', :devise do
+feature 'Sign Agreement candidate login in', :devise do
 
   before(:each) do
     @candidate = FactoryGirl.create(:candidate)
@@ -9,12 +9,18 @@ feature 'Sign Agreement', :devise do
 
     @path = dev_sign_agreement_path(@candidate.id)
     @dev = 'dev/'
+    @event_name = I18n.t('events.sign_agreement')
+    @sign_agreement_setter = :signed_agreement=
+    @sign_agreement_getter = :signed_agreement
+    @form_action = "form[id=edit_candidate][action=\"/#{@dev}sign_agreement.#{@candidate.id}\"]"
+    @field_name = 'Signed agreement'
+    @event_offset = 2
   end
 
   after(:each) do
     Warden.test_reset!
   end
 
-  it_behaves_like 'Sign Agreement'
+  it_behaves_like 'sign_an_agreement_html_erb'
 
 end
