@@ -21,13 +21,13 @@ shared_context 'upload_baptismal_certificate' do
 
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 
     put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE, candidate: {baptized_at_stmm: '1'}
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
     expect(response.status).to eq(302)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=1")
     expect(candidate.baptized_at_stmm).to eq(true)
@@ -40,13 +40,13 @@ shared_context 'upload_baptismal_certificate' do
 
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 
     put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
     # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate")
@@ -64,7 +64,7 @@ shared_context 'upload_baptismal_certificate' do
     candidate = Candidate.find(@candidate.id)
     # candidate.baptismal_certificate = BaptismalCertificate.new
     # candidate.save
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 
     put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE,
@@ -72,7 +72,7 @@ shared_context 'upload_baptismal_certificate' do
                     baptismal_certificate_attributes: {},}
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.upload_baptismal_certificate') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
     # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=0")
@@ -141,13 +141,13 @@ shared_context 'sign_agreement' do
     AppFactory.add_confirmation_event(I18n.t('events.sign_agreement'))
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sign_agreement') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.sign_agreement'))
     expect(candidate_event.completed_date).to eq(nil)
 
     put :sign_agreement_update, id: candidate.id, candidate: {signed_agreement: 1}
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sign_agreement') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.sign_agreement'))
     unless @dev.empty?
       expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
     else
@@ -176,13 +176,13 @@ shared_context 'sponsor_agreement' do
     AppFactory.add_confirmation_event(I18n.t('events.sponsor_agreement'))
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sponsor_agreement') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
     expect(candidate_event.completed_date).to eq(nil)
 
     put :sponsor_agreement_update, id: candidate.id, candidate: {sponsor_agreement: 1}
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sponsor_agreement') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
     unless @dev.empty?
       expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
     else
@@ -211,13 +211,13 @@ shared_context 'fill_out_candidate_sheet' do
     AppFactory.add_confirmation_event(I18n.t('events.fill_out_candidate_sheet'))
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
     expect(candidate_event.completed_date).to eq(nil)
 
     put :candidate_sheet_update, id: candidate.id, candidate: {first_name: 'Paul'}
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
     if @dev.empty?
       expect(response).to redirect_to(event_candidate_path(candidate.id))
     else

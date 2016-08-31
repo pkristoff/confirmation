@@ -29,6 +29,7 @@ en:
     upload_sponsor_covenant: 'Upload Sponsor Covenant'
     pick_confirmation_name: 'Pick Confirmation Name'
     sponsor_agreement: 'Sponsor and Candidate Conversation'
+    christian_ministry: 'Christian Ministry Awareness'
   messages:
     accessed_denied: 'Accessed denied.'
     admin_login_needed: 'Please login as admin to %{message}.'
@@ -87,6 +88,7 @@ en:
       scan_pick_confirmation_name: 'Scan confirmation name'
       sponsor_name: 'Sponsor covenant'
       pick_confirmation_name: 'Pick confirmation name'
+      christian_ministry: 'Answer questions'
     common:
       about: 'About'
       are_you_sure: 'Are you sure?'
@@ -124,6 +126,7 @@ en:
       candidate_sheet: 'Candidate Sheet'
       sponsor_covenant: 'Sponsor covenant'
       pick_confirmation_name: 'Pick confirmation name'
+      ministry_awareness: 'Christian Ministry Awareness'
       edit: 'Edit'
       edit_account: 'Edit account'
       events: 'Events'
@@ -132,3 +135,4 @@ en:
       sponsor_agreement: 'Sponsor and Candidate Conversation'
       toggle_navigation: 'Toggle navigation'
       upload_baptismal_certificate: 'Upload Baptismal Certificate'
+      christian_ministry: 'Christian Ministry Awareness'

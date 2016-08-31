@@ -15,6 +15,9 @@ class Candidate < ActiveRecord::Base
   belongs_to(:pick_confirmation_name, validate: false)
   accepts_nested_attributes_for(:pick_confirmation_name, allow_destroy: true)
 
+  belongs_to(:christian_ministry, validate: false)
+  accepts_nested_attributes_for(:christian_ministry, allow_destroy: true)
+
   after_initialize :build_associations, :if => :new_record?
 
   # Include default devise modules. Others available are:
@@ -126,6 +129,7 @@ class Candidate < ActiveRecord::Base
     baptismal_certificate || create_baptismal_certificate
     sponsor_covenant || create_sponsor_covenant
     pick_confirmation_name || create_pick_confirmation_name
+    christian_ministry || create_christian_ministry
     true
   end
 
@@ -155,6 +159,7 @@ class Candidate < ActiveRecord::Base
      baptismal_certificate_attributes: BaptismalCertificate.get_permitted_params,
      sponsor_covenant_attributes: SponsorCovenant.get_permitted_params ,
      pick_confirmation_name_attributes: PickConfirmationName.get_permitted_params,
+     christian_ministry_attributes: ChristianMinistry.get_permitted_params,
      candidate_events_attributes: [:id, :completed_date, :verified]
     ]
   end
@@ -170,5 +175,9 @@ class Candidate < ActiveRecord::Base
   end
 
   # event_complete - end
+
+  def get_candidate_event (event_name)
+    candidate_events.find{|candidate_event| candidate_event.name === event_name}
+  end
 
 end

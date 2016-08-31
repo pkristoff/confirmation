@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829163035) do
+ActiveRecord::Schema.define(version: 20160830211438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,14 +104,29 @@ ActiveRecord::Schema.define(version: 20160829163035) do
     t.integer  "sponsor_covenant_id"
     t.integer  "pick_confirmation_name_id"
     t.boolean  "sponsor_agreement",                       default: false,     null: false
+    t.integer  "christian_ministry_id"
   end
 
   add_index "candidates", ["account_name"], name: "index_candidates_on_account_name", unique: true, using: :btree
   add_index "candidates", ["address_id"], name: "index_candidates_on_address_id", using: :btree
   add_index "candidates", ["baptismal_certificate_id"], name: "index_candidates_on_baptismal_certificate_id", using: :btree
+  add_index "candidates", ["christian_ministry_id"], name: "index_candidates_on_christian_ministry_id", using: :btree
   add_index "candidates", ["pick_confirmation_name_id"], name: "index_candidates_on_pick_confirmation_name_id", using: :btree
   add_index "candidates", ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true, using: :btree
   add_index "candidates", ["sponsor_covenant_id"], name: "index_candidates_on_sponsor_covenant_id", using: :btree
+
+  create_table "christian_ministries", force: :cascade do |t|
+    t.boolean  "signed",                           default: true, null: false
+    t.text     "what_service"
+    t.text     "where_service"
+    t.text     "when_service"
+    t.text     "helped_me"
+    t.string   "christian_ministry_filename"
+    t.string   "christian_ministry_content_type"
+    t.binary   "christian_ministry_file_contents"
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
 
   create_table "confirmation_events", force: :cascade do |t|
     t.string   "name"
@@ -161,6 +176,7 @@ ActiveRecord::Schema.define(version: 20160829163035) do
 
   add_foreign_key "candidates", "addresses"
   add_foreign_key "candidates", "baptismal_certificates"
+  add_foreign_key "candidates", "christian_ministries"
   add_foreign_key "candidates", "pick_confirmation_names"
   add_foreign_key "candidates", "sponsor_covenants"
 end

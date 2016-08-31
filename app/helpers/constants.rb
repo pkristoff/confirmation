@@ -2,15 +2,18 @@ module Event
   module Route
     UPLOAD_SPONSOR_COVENANT = :upload_sponsor_covenant
     PICK_CONFIRMATION_NAME = :pick_confirmation_name
+    CHRISTIAN_MINISTRY = :christian_ministry
     UPLOAD_BAPTISMAL_CERTIFICATE = :upload_baptismal_certificate
     BAPTISMAL_CERTIFICATE_UPDATE = :baptismal_certificate_update
     SPONSOR_COVENANT_UPDATE = :sponsor_covenant_update
     PICK_CONFIRMATION_NAME_UPDATE = :pick_confirmation_name_update
+    CHRISTIAN_MINISTRY_UPDATE = :christian_ministry_update
 
     UPDATE_MAPPING = {
         pick_confirmation_name: PICK_CONFIRMATION_NAME_UPDATE,
         baptismal_certificate_update: BAPTISMAL_CERTIFICATE_UPDATE,
         upload_sponsor_covenant: SPONSOR_COVENANT_UPDATE,
+        christian_ministry: CHRISTIAN_MINISTRY_UPDATE
     }
   end
   module Document

@@ -223,9 +223,7 @@ class CandidateImport
   def candidate_events_in_order (candidate)
     events = []
     @events_in_order.each do |confirmation_event|
-      events << (candidate.candidate_events.find do |candidate_event|
-        candidate_event.name === confirmation_event.name
-      end)
+      events << (candidate.get_candidate_event(confirmation_event.name))
     end
     events
   end

@@ -350,7 +350,10 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_agreement')).the_way_due_date.to_s).to eq('2016-12-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_agreement')).chs_due_date.to_s).to eq('2016-12-15')
 
-    expect(ConfirmationEvent.all.size).to eq(8)
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.christian_ministry')).the_way_due_date.to_s).to eq('2017-01-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.christian_ministry')).chs_due_date.to_s).to eq('2017-01-22')
+
+    expect(ConfirmationEvent.all.size).to eq(9)
 
     confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
     expect(confirmation_event_2.the_way_due_date.to_s).to eq('2016-05-31')
@@ -428,6 +431,10 @@ describe CandidateImport do
              name: I18n.t('events.upload_baptismal_certificate'),
              due_date: '2016-08-31',
              verified: false},
+            {completed_date: '', # Christian Ministry Awareness 1/31/17
+             name: I18n.t('events.christian_ministry'),
+             due_date: '2017-01-31',
+             verified: false},
             {completed_date: '2017-01-01', # Sponsor Covenant 10/31/16
              name: I18n.t('events.upload_sponsor_covenant'),
              due_date: '2016-10-31',
@@ -486,6 +493,10 @@ describe CandidateImport do
              name: I18n.t('events.sponsor_agreement'),
              due_date: '2016-12-31',
              verified: false},
+            {completed_date: '', # Christian Ministry Awareness 1/31/17
+             name: I18n.t('events.christian_ministry'),
+             due_date: '2017-01-31',
+             verified: false},
             {name: I18n.t('events.retreat_weekend'),
              completed_date: '2016-05-02', # Attend Retreat 5/31/16
              due_date: '2016-05-31',
@@ -543,6 +554,10 @@ describe CandidateImport do
             {completed_date: '', # Sponsor Agreement 12/15/2016
              name: I18n.t('events.sponsor_agreement'),
              due_date: '2016-12-15',
+             verified: false},
+            {completed_date: '', # Christian Ministry Awareness 1/31/17
+             name: I18n.t('events.christian_ministry'),
+             due_date: '2017-01-22',
              verified: false},
             {completed_date: '2016-06-06', # Sign Agreement
              name: I18n.t('events.sign_agreement'),

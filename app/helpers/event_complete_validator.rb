@@ -9,6 +9,20 @@ class EventCompleteValidator
     @association.validates_presence_of other_attributes if @validate_others
   end
 
+  # if either set passes for having all its attributes present then everything is OK
+  def validate_either(attributes, other_attributes)
+    @association.validates_presence_of attributes
+    if @association.errors.any?
+      # if we find errors the try the other_attributes
+      @association.errors.clear
+      @association.validates_presence_of other_attributes
+      if @association.errors.any?
+        # if find errors in other_attributes then add the attribute errors back in.
+        @association.validates_presence_of attributes
+      end
+    end
+  end
+
   def sub_validate(sub_association, attributes)
     if @validate_others
       sub_association.validates_presence_of attributes

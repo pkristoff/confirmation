@@ -30,7 +30,14 @@ class CommonCandidatesController < ApplicationController
             setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, 'certificate', baptismal_certificate_params)
           end
 
-          render_called = event_with_picture_update_private(BaptismalCertificate,)
+          render_called = event_with_picture_update_private(BaptismalCertificate)
+
+        when Event::Route::CHRISTIAN_MINISTRY
+          christian_ministry = @candidate.christian_ministry
+          christian_ministry_params = params[:candidate][:christian_ministry_attributes]
+          setup_file_params(christian_ministry_params[:christian_ministry_picture], christian_ministry, 'christian_ministry', christian_ministry_params)
+
+          render_called = event_with_picture_update_private(ChristianMinistry)
         else
           flash[:alert] = "Unknowwn event_name: #{event_name}"
       end
@@ -48,7 +55,7 @@ class CommonCandidatesController < ApplicationController
 
   def candidate_sheet_update
     candidate = Candidate.find(params[:id])
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.fill_out_candidate_sheet') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
     candidate_event.completed_date = Date.today
 
     if candidate.update_attributes(candidate_params)
@@ -74,22 +81,6 @@ class CommonCandidatesController < ApplicationController
 
   end
 
-  def show_event_with_picture
-    @candidate = Candidate.find(params[:id])
-    association = nil
-    case params[:event_name].to_sym
-      when Event::Route::PICK_CONFIRMATION_NAME
-        association = @candidate.pick_confirmation_name
-      when Event::Route::BAPTISMAL_CERTIFICATE_UPDATE
-        association = @candidate.baptismal_certificate
-      when Event::Route::SPONSOR_COVENANT_UPDATE
-        association = @candidate.sponsor_covenant
-      else
-        flash['alert'] = "Unknown event_name #{params[:event_name]}"
-    end
-    send_image(association)
-  end
-
   def event_with_picture_image
     @candidate = Candidate.find(params[:id])
     association = nil
@@ -100,6 +91,8 @@ class CommonCandidatesController < ApplicationController
         association = @candidate.baptismal_certificate
       when Event::Route::UPLOAD_SPONSOR_COVENANT
         association = @candidate.sponsor_covenant
+      when Event::Route::CHRISTIAN_MINISTRY
+        association = @candidate.christian_ministry
       else
         flash['alert'] = "Unknown event_name #{params[:event_name]}"
     end
@@ -113,7 +106,7 @@ class CommonCandidatesController < ApplicationController
 
   def sign_agreement_update
     candidate = Candidate.find(params[:id])
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sign_agreement') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.sign_agreement'))
     if params['candidate']
       if params['candidate']['signed_agreement'] === '1'
         candidate_event.completed_date = Date.today
@@ -148,7 +141,7 @@ class CommonCandidatesController < ApplicationController
 
   def sponsor_agreement_update
     candidate = Candidate.find(params[:id])
-    candidate_event = candidate.candidate_events.find { |ce| ce.name == I18n.t('events.sponsor_agreement') }
+    candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
     if params['candidate']
       if params['candidate']['sponsor_agreement'] === '1'
         candidate_event.completed_date = Date.today
@@ -197,7 +190,7 @@ class CommonCandidatesController < ApplicationController
     if @candidate.update_attributes(candidate_params)
       if @candidate.validate_event_complete(clazz)
         unless @candidate.errors.any?
-          candidate_event = @candidate.candidate_events.find { |ce| ce.name == event_name }
+          candidate_event = @candidate.get_candidate_event(event_name)
           candidate_event.completed_date = Date.today
           if @candidate.save
             render_called = true
