@@ -5,6 +5,11 @@ WHY_SAINT = 'She looks good'
 
 shared_context 'pick_confirmation_name_html_erb' do
 
+  before(:each) do
+    event_with_picture_setup(I18n.t('events.pick_confirmation_name'), Event::Route::PICK_CONFIRMATION_NAME)
+
+  end
+
   scenario 'admin logs in and selects a candidate, nothing else showing' do
     update_pick_confirmation_name(false)
     visit @path

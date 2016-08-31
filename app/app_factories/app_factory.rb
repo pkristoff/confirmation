@@ -41,6 +41,7 @@ class AppFactory
 
   def self.add_confirmation_event(event_name)
     raise('add_confirmation_event: event_name cannot be nil') if event_name.nil? || event_name.empty?
+    raise("add_confirmation_event: event_name already defined: #{event_name}") if ConfirmationEvent.find_by_name(event_name)
     # puts 'starting event_name'
     new_confirmation_event = nil
     event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|

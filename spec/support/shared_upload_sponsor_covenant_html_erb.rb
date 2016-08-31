@@ -3,6 +3,10 @@ SPONSOR_CHURCH = 'St. George'
 
 shared_context 'upload_sponsor_covenant_html_erb' do
 
+  before(:each) do
+    event_with_picture_setup(I18n.t('events.upload_sponsor_covenant'), Event::Route::UPLOAD_SPONSOR_COVENANT)
+  end
+
   scenario 'admin logs in and selects a candidate, checks sponsor_attends_stmm, nothing else showing' do
     @candidate.sponsor_covenant.sponsor_attends_stmm = true
     @candidate.save

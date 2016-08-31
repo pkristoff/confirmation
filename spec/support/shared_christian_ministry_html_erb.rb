@@ -7,18 +7,7 @@ HELPED_ME = 'look better'
 shared_context 'christian_ministry_html_erb' do
 
   before(:each) do
-    @candidate = FactoryGirl.create(:candidate)
-    if @is_dev
-      login_as(FactoryGirl.create(:admin), scope: :admin)
-
-      @path = event_with_picture_path(@candidate.id, Event::Route::CHRISTIAN_MINISTRY)
-      @dev = ''
-    else
-      login_as(@candidate, scope: :candidate)
-
-      @path = dev_event_with_picture_path(@candidate.id, Event::Route::CHRISTIAN_MINISTRY)
-      @dev = 'dev/'
-    end
+    event_with_picture_setup(nil, Event::Route::CHRISTIAN_MINISTRY)
 
   end
 

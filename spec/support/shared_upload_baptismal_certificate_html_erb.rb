@@ -15,6 +15,10 @@ MOTHER_MAIDEN = 'Mary'
 
 shared_context 'upload_baptismal_certificate_html_erb' do
 
+  before(:each) do
+    event_with_picture_setup(I18n.t('events.upload_baptismal_certificate'), Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE)
+  end
+
   scenario 'admin logs in and selects a candidate, checks baptized_at_stmm, nothing else showing' do
     @candidate.baptized_at_stmm = true
     @candidate.save
