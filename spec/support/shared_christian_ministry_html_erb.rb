@@ -117,7 +117,7 @@ shared_context 'christian_ministry_html_erb' do
     expect_field('Helped me', with_values ? HELPED_ME : '')
 
     expect(page).to have_button(I18n.t('views.common.update'))
-    expect(page).to have_button(I18n.t('views.common.download'))
+    expect_download_button(Event::Document::CHRISTIAN_MINISTRY)
   end
 
   def expect_field (label, value)

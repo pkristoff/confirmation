@@ -1,3 +1,5 @@
+<%= require 'constants' %>
+
 <script>
     update_baptismal_certificate = function () {
         var div = document.getElementById('baptismal-certificate-top');
@@ -131,5 +133,5 @@
 <% end %>
 
 <div class = "actions" >
-  <%= button_to t('views.common.download'), dev_download_document_path(@candidate.id, 'baptismal_certificate'), {method: :put}  %>
+  <%= button_to t('views.common.download'), download_doc, {method: :put}  %>
 </div >

@@ -1,6 +1,8 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
+require 'constants'
+
 feature 'Sponsor Agreement admin', :devise do
 
   before(:each) do
@@ -16,6 +18,7 @@ feature 'Sponsor Agreement admin', :devise do
     @sign_agreement_getter = :sponsor_agreement
     @form_action = "form[id=edit_candidate][action=\"/#{@dev}sponsor_agreement.#{@candidate.id}\"]"
     @field_name = 'Sponsor agreement'
+    @documant_key = Event::Document::CONVERSATION_SPONSOR_CANDIDATE
     @event_offset = 3
   end
 

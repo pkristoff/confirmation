@@ -156,7 +156,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     expect_field('Sponsor name', candidate.sponsor_covenant.sponsor_attends_stmm ? nil : sponsor_name)
 
     expect(page).to have_button(I18n.t('views.common.update'))
-    expect(page).to have_button(I18n.t('views.common.download'))
+    expect_download_button(Event::Route::UPLOAD_SPONSOR_COVENANT)
   end
 
   def expect_field (label, value)

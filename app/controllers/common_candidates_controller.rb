@@ -1,3 +1,5 @@
+require 'constants'
+
 class CommonCandidatesController < ApplicationController
 
   def event_with_picture_update

@@ -1,2 +1,6 @@
+<%= require 'constants' %>
+
 <%= render partial: 'candidates/shared/sign_agreement',
-           :locals => {path: sign_agreement_update_path(@candidate.id)} %>
+           :locals => {path: sign_agreement_update_path(@candidate.id),
+                       download_doc: download_document_path(@candidate.id, Event::Document::CANDIDATE_COVENANT)
+           } %>

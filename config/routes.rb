@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     # common
 
     put 'dev/download_document/:id/.:name', to: 'dev/candidates#download_document', as: 'dev_download_document'
+    put 'download_document/:id/.:name', to: 'candidates#download_document', as: 'download_document'
 
     # sign agreement
 

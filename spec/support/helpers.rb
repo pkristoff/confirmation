@@ -25,14 +25,19 @@ def event_with_picture_setup(event_name, route)
   @candidate = FactoryGirl.create(:candidate)
   AppFactory.add_confirmation_event(event_name) unless event_name.nil?
   if @is_dev
-    login_as(FactoryGirl.create(:admin), scope: :admin)
-
-    @path = event_with_picture_path(@candidate.id, route)
-    @dev = ''
-  else
     login_as(@candidate, scope: :candidate)
 
     @path = dev_event_with_picture_path(@candidate.id, route)
     @dev = 'dev/'
+  else
+    login_as(FactoryGirl.create(:admin), scope: :admin)
+
+    @path = event_with_picture_path(@candidate.id, route)
+    @dev = ''
   end
+end
+
+def expect_download_button(name)
+  expect(page).to have_selector("form[action=\"/#{@dev}download_document/#{@candidate.id}/.#{name}\"]")
+  expect(page).to have_button(I18n.t('views.common.download'))
 end

@@ -63,7 +63,7 @@ shared_context 'sign_an_agreement_html_erb' do
     end
 
     expect(page).to have_button(I18n.t('views.common.update'))
-    expect(page).to have_button(I18n.t('views.common.download'))
+    expect_download_button(@documant_key)
   end
 
 end

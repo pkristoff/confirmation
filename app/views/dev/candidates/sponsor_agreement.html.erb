@@ -1,2 +1,4 @@
 <%= render partial: 'candidates/shared/sponsor_agreement',
-           :locals => {path: dev_sponsor_agreement_update_path(@candidate.id)} %>
+           :locals => {path: dev_sponsor_agreement_update_path(@candidate.id),
+                       download_doc: dev_download_document_path(@candidate.id, Event::Document::CONVERSATION_SPONSOR_CANDIDATE)
+           } %>

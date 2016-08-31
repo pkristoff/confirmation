@@ -1,6 +1,8 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
+require('constants')
+
 feature 'Sign Agreement candidate login in', :devise do
 
   before(:each) do
@@ -14,6 +16,7 @@ feature 'Sign Agreement candidate login in', :devise do
     @sign_agreement_getter = :signed_agreement
     @form_action = "form[id=edit_candidate][action=\"/#{@dev}sign_agreement.#{@candidate.id}\"]"
     @field_name = 'Signed agreement'
+    @documant_key = Event::Document::CANDIDATE_COVENANT
     @event_offset = 2
   end
 

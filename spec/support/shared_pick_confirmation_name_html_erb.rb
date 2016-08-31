@@ -110,7 +110,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     expect_field('Why saint', with_values ? WHY_SAINT : '')
 
     expect(page).to have_button(I18n.t('views.common.update'))
-    expect(page).to have_button(I18n.t('views.common.download'))
+    expect_download_button(Event::Document::PICK_CONFIRMATION_NAME)
   end
 
   def expect_field (label, value)

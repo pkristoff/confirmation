@@ -72,10 +72,9 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     click_button I18n.t('views.common.update')
 
     visit @path
-    # expect(has_button? I18n.t('views.common.update'))
+
     check('Baptized at stmm')
-    # puts page.html
-    # expect(has_button? I18n.t('views.common.update'))
+
     click_button I18n.t('views.common.update')
 
     expect_message(:flash_notice, 'Updated')
@@ -185,7 +184,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     expect_field('Mother last', candidate.baptized_at_stmm ? nil : LAST_NAME)
 
     expect(page).to have_button(I18n.t('views.common.update'))
-    expect(page).to have_button(I18n.t('views.common.download'))
+    expect_download_button(Event::Document::BAPTISMAL_CERTIFICATE)
   end
 
   def expect_field (label, value)
