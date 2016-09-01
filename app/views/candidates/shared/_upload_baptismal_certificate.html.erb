@@ -20,7 +20,7 @@
     <%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
 
         <div class="actions">
-          <%= f.submit t('views.common.update') %>
+          <%= f.submit t('views.common.update'), id: 'top-update' %>
         </div>
         <div class="field">
           <%= f.check_box :baptized_at_stmm, onclick: 'confirmation_toggle().update_baptismal_certificate()' %>
@@ -143,7 +143,7 @@
         </div>
 
         <div class="actions">
-          <%= f.submit t('views.common.update') %>
+          <%= f.submit t('views.common.update'), id: 'bottom-update' %>
         </div>
 
     <% end %>

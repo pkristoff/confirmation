@@ -42,7 +42,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     expect(@candidate.baptized_at_stmm).to eq(false)
     visit @path
     fill_in_form
-    click_button I18n.t('views.common.update')
+    click_button 'bottom-update'
 
     expect_message(:flash_notice, 'Updated')
     candidate = Candidate.find(@candidate.id)
@@ -69,13 +69,13 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     update_baptismal_certificate(false)
     visit @path
     fill_in_form
-    click_button I18n.t('views.common.update')
+    click_button 'bottom-update'
 
     visit @path
 
-    check('Baptized at stmm')
+    check(I18n.t('label.upload_baptismal_certificate.baptized_at_stmm'))
 
-    click_button I18n.t('views.common.update')
+    click_button 'bottom-update'
 
     expect_message(:flash_notice, 'Updated')
     candidate = Candidate.find(@candidate.id)
@@ -90,13 +90,13 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     update_baptismal_certificate(false)
     visit @path
 
-    attach_file('Certificate picture', 'spec/fixtures/actions.png')
-    click_button I18n.t('views.common.update')
+    attach_file(I18n.t('label.upload_baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+    click_button 'bottom-update'
 
     expect(page).to have_selector(get_img_src_selector)
 
     fill_in_form(false) # no picture
-    click_button I18n.t('views.common.update')
+    click_button 'bottom-update'
 
     expect_message(:flash_notice, 'Updated')
     candidate = Candidate.find(@candidate.id)
@@ -117,12 +117,12 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     visit @path
 
     fill_in_form(false) # no picture
-    click_button I18n.t('views.common.update')
-    expect_message(:error_explanation, ['3 errors prohibited saving:', 'Certificate filename can\'t be blank', 'Certificate content type can\'t be blank', 'Certificate file contents can\'t be blank'])
+    click_button 'bottom-update'
+    expect_message(:error_explanation, ['3 empty fields need to be filled in:', 'Certificate filename can\'t be blank', 'Certificate content type can\'t be blank', 'Certificate file contents can\'t be blank'])
     expect(page).not_to have_selector(get_img_src_selector)
 
-    attach_file('Certificate picture', 'spec/fixtures/actions.png')
-    click_button I18n.t('views.common.update')
+    attach_file(I18n.t('label.upload_baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+    click_button 'bottom-update'
 
     expect_message(:flash_notice, 'Updated')
     candidate = Candidate.find(@candidate.id)
@@ -143,9 +143,9 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     visit @path
     fill_in_form
     fill_in('Street 1', with: nil)
-    click_button I18n.t('views.common.update')
+    click_button 'bottom-update'
 
-    expect_message(:error_explanation, '1 error prohibited saving: Street 1 can\'t be blank')
+    expect_message(:error_explanation, '1 empty field need to be filled in: Street 1 can\'t be blank')
     expect(page).to have_selector(get_img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')
@@ -157,12 +157,12 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     expect(page).to have_selector("div[id=baptismal-certificate-top][class=\"#{visibility}\"]")
 
     if candidate.baptized_at_stmm
-      expect(page).to have_checked_field('Baptized at stmm')
+      expect(page).to have_checked_field(I18n.t('label.upload_baptismal_certificate.baptized_at_stmm'))
     else
-      expect(page).not_to have_checked_field('Baptized at stmm')
+      expect(page).not_to have_checked_field(I18n.t('label.upload_baptismal_certificate.baptized_at_stmm'))
     end
 
-    expect_field('Certificate picture', nil)
+    expect_field(I18n.t('label.upload_baptismal_certificate.baptismal_certificate.certificate_picture'), nil)
 
     expect_field('Birth date', candidate.baptized_at_stmm ? nil : BIRTH_DATE)
     expect_field('Baptismal date', candidate.baptized_at_stmm ? nil : BAPTISMAL_DATE)
@@ -211,7 +211,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
     fill_in('Mother middle', with: MOTHER_MIDDLE)
     fill_in('Mother maiden', with: MOTHER_MAIDEN)
     fill_in('Mother last', with: LAST_NAME)
-    attach_file('Certificate picture', 'spec/fixtures/actions.png') if attach_file
+    attach_file(I18n.t('label.upload_baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png') if attach_file
   end
 
   def get_img_src_selector
