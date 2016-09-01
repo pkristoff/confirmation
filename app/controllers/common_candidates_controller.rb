@@ -7,6 +7,7 @@ class CommonCandidatesController < ApplicationController
     candidate_id = params[:id]
     event_name = params[:event_name]
     @candidate = Candidate.find(candidate_id)
+    @candidate_event = @candidate.get_candidate_event(event_name)
     if params['candidate']
       case event_name.to_sym
         when Event::Route::UPLOAD_SPONSOR_COVENANT
@@ -135,7 +136,6 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  # TODO: merge with sign_agreement
   def sponsor_agreement
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
@@ -173,7 +173,8 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
-    render_event_with_picture(false, params[:event_name])
+    event_name = params[:event_name]
+    render_event_with_picture(false, event_name)
   end
 
   def upload_sponsor_elegibility_image
@@ -214,6 +215,7 @@ class CommonCandidatesController < ApplicationController
     unless render_called
       @event_with_picture_name = event_name
       @is_dev = is_admin?
+      @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
       render :event_with_picture
     end
   end

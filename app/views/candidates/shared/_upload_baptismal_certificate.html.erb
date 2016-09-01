@@ -1,16 +1,8 @@
-<%= require 'constants' %>
-
-<script>
-    update_baptismal_certificate = function () {
-        var div = document.getElementById('baptismal-certificate-top');
-        div.className = div.className == 'hide-div' ? 'show-div' : 'hide-div';
-    }
-
-</script>
+<% require 'constants' %>
 
 <% if @candidate.baptismal_certificate && @candidate.baptismal_certificate.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@candidate.baptismal_certificate.errors.count, "error") %> prohibited saving:</h2>
+      <h2><%= pluralize(@candidate.baptismal_certificate.errors.count, "empty field") %> need to be filled in:</h2>
 
       <ul>
         <% @candidate.baptismal_certificate.errors.full_messages.each do |msg| %>
@@ -19,119 +11,152 @@
       </ul>
     </div>
 <% end %>
+<div class="actions">
+  <%= button_to t('views.common.download'), download_doc, {method: :put} %>
+</div>
 
-<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
-    <div class="field">
-      <%= f.check_box :baptized_at_stmm, onclick: 'update_baptismal_certificate();' %>
-      <%= f.label :baptized_at_stmm %>
-    </div>
+<div id="two_column">
+  <div id="left-col" class="left_col">
+    <%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
 
-    <div id="baptismal-certificate-top" class="<%= @candidate.baptized_at_stmm ? 'hide-div' : 'show-div' %>">
-      <%= f.fields_for :baptismal_certificate do |bc_fields| %>
-          <%= field_set_tag t('views.candidates.scan_baptismal_certificate'), class: 'fieldset' do %>
-              <%= bc_fields.label :certificate_picture %><br/>
-              <%= bc_fields.file_field :certificate_picture %>
+        <div class="actions">
+          <%= f.submit t('views.common.update') %>
+        </div>
+        <div class="field">
+          <%= f.check_box :baptized_at_stmm, onclick: 'confirmation_toggle().update_baptismal_certificate()' %>
+          <%= f.label :baptized_at_stmm, t('label.upload_baptismal_certificate.baptized_at_stmm') %>
+        </div>
 
-              <% unless @candidate.baptismal_certificate.certificate_filename.nil? %>
-                  <div>
-                    <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"/>
+        <div id="baptismal-certificate-top" class="<%= @candidate.baptized_at_stmm ? 'hide-div' : 'show-div' %>">
+          <%= f.fields_for :baptismal_certificate do |bc_fields| %>
+              <%= field_set_tag t('field_set.upload_baptismal_certificate.dates'), class: 'fieldset' do %>
+                  <div class="field">
+                    <%= bc_fields.label :birth_date, t('label.upload_baptismal_certificate.baptismal_certificate.birth_date') %>
+                    <br/>
+                    <%= bc_fields.date_field :birth_date %>
+                  </div>
+                  <div class="field">
+                    <%= bc_fields.label :baptismal_date, t('label.upload_baptismal_certificate.baptismal_certificate.baptismal_date') %>
+                    <br/>
+                    <%= bc_fields.date_field :baptismal_date %>
                   </div>
               <% end %>
 
-          <% end %>
-          <%= field_set_tag t('views.candidates.dates'), class: 'fieldset' do %>
-              <div class="field">
-                <%= bc_fields.label :birth_date %><br/>
-                <%= bc_fields.date_field :birth_date %>
-              </div>
-              <div class="field">
-                <%= bc_fields.label :baptismal_date %><br/>
-                <%= bc_fields.date_field :baptismal_date %>
-              </div>
-          <% end %>
-
-          <%= field_set_tag t('views.candidates.church'), class: 'fieldset' do %>
-              <div class="fieldset-div">
-                <div class="field">
-                  <%= bc_fields.label :church_name %><br/>
-                  <%= bc_fields.text_field :church_name %>
-                </div>
-                <%= bc_fields.fields_for :church_address do |address_fields| %>
+              <%= field_set_tag t('field_set.upload_baptismal_certificate.church'), class: 'fieldset' do %>
+                  <div class="fieldset-div">
                     <div class="field">
-                      <%= address_fields.label :street_1 %><br/>
-                      <%= address_fields.text_field :street_1 %>
+                      <%= bc_fields.label :church_name, t('label.upload_baptismal_certificate.baptismal_certificate.church_name') %>
+                      <br/>
+                      <%= bc_fields.text_field :church_name %>
                     </div>
+                    <%= bc_fields.fields_for :church_address do |address_fields| %>
+                        <div class="field">
+                          <%= address_fields.label :street_1, t('label.upload_baptismal_certificate.baptismal_certificate.church_address.street_1') %>
+                          <br/>
+                          <%= address_fields.text_field :street_1 %>
+                        </div>
+                        <div class="field">
+                          <%= address_fields.label :street_2, t('label.upload_baptismal_certificate.baptismal_certificate.church_address.street_2') %>
+                          <br/>
+                          <%= address_fields.text_field :street_2 %>
+                        </div>
+                        <div class="field">
+                          <%= address_fields.label :city, t('label.upload_baptismal_certificate.baptismal_certificate.church_address.city') %>
+                          <br/>
+                          <%= address_fields.text_field :city %>
+                        </div>
+                        <div class="field">
+                          <%= address_fields.label :state, t('label.upload_baptismal_certificate.baptismal_certificate.church_address.state') %>
+                          <br/>
+                          <%= address_fields.text_field :state %>
+                        </div>
+                        <div class="field">
+                          <%= address_fields.label :zip_code, t('label.upload_baptismal_certificate.baptismal_certificate.church_address.zip_code') %>
+                          <br/>
+                          <%= address_fields.text_field :zip_code %>
+                        </div>
+                    <% end %>
+                  </div>
+              <% end %>
+
+              <%= field_set_tag t('field_set.upload_baptismal_certificate.father'), class: 'fieldset' do %>
+                  <div class="fieldset-div">
                     <div class="field">
-                      <%= address_fields.label :street_2 %><br/>
-                      <%= address_fields.text_field :street_2 %>
+                      <%= bc_fields.label :father_first, t('label.upload_baptismal_certificate.baptismal_certificate.father_first') %>
+                      <br/>
+                      <%= bc_fields.text_field :father_first %>
                     </div>
+
                     <div class="field">
-                      <%= address_fields.label :city %><br/>
-                      <%= address_fields.text_field :city %>
+                      <%= bc_fields.label :father_middle, t('label.upload_baptismal_certificate.baptismal_certificate.father_middle') %>
+                      <br/>
+                      <%= bc_fields.text_field :father_middle %>
                     </div>
+
                     <div class="field">
-                      <%= address_fields.label :state %><br/>
-                      <%= address_fields.text_field :state %>
+                      <%= bc_fields.label :father_last, t('label.upload_baptismal_certificate.baptismal_certificate.father_last') %>
+                      <br/>
+                      <%= bc_fields.text_field :father_last %>
                     </div>
+                  </div>
+              <% end %>
+
+              <%= field_set_tag t('field_set.upload_baptismal_certificate.mother'), class: 'fieldset' do %>
+                  <div class="fieldset-div">
                     <div class="field">
-                      <%= address_fields.label :zip_code %><br/>
-                      <%= address_fields.text_field :zip_code %>
+                      <%= bc_fields.label :mother_first, t('label.upload_baptismal_certificate.baptismal_certificate.mother_first') %>
+                      <br/>
+                      <%= bc_fields.text_field :mother_first %>
                     </div>
-                <% end %>
-              </div>
+
+                    <div class="field">
+                      <%= bc_fields.label :mother_middle, t('label.upload_baptismal_certificate.baptismal_certificate.mother_middle') %>
+                      <br/>
+                      <%= bc_fields.text_field :mother_middle %>
+                    </div>
+
+                    <div class="field">
+                      <%= bc_fields.label :mother_maiden, t('label.upload_baptismal_certificate.baptismal_certificate.mother_maiden') %>
+                      <br/>
+                      <%= bc_fields.text_field :mother_maiden %>
+                    </div>
+
+                    <div class="field">
+                      <%= bc_fields.label :mother_last, t('label.upload_baptismal_certificate.baptismal_certificate.mother_last') %>
+                      <br/>
+                      <%= bc_fields.text_field :mother_last %>
+                    </div>
+                  </div>
+              <% end %>
+              <%= field_set_tag t('field_set.upload_baptismal_certificate.scan'), class: 'fieldset' do %>
+                  <%= bc_fields.file_field :certificate_picture %>
+                  <%= bc_fields.label :certificate_picture, t('label.upload_baptismal_certificate.baptismal_certificate.certificate_picture') %>
+
+                  <% unless @candidate.baptismal_certificate.certificate_filename.nil? %>
+                      <div>
+                        <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"/>
+                      </div>
+                  <% end %>
+
+              <% end %>
           <% end %>
+        </div>
 
-          <%= field_set_tag t('views.candidates.father_name'), class: 'fieldset' do %>
-              <div class="fieldset-div">
-                <div class="field">
-                  <%= bc_fields.label :father_first %><br/>
-                  <%= bc_fields.text_field :father_first %>
-                </div>
+        <div class="actions">
+          <%= f.submit t('views.common.update') %>
+        </div>
 
-                <div class="field">
-                  <%= bc_fields.label :father_middle %><br/>
-                  <%= bc_fields.text_field :father_middle %>
-                </div>
-
-                <div class="field">
-                  <%= bc_fields.label :father_last %><br/>
-                  <%= bc_fields.text_field :father_last %>
-                </div>
-              </div>
-          <% end %>
-
-          <%= field_set_tag t('views.candidates.mother_name'), class: 'fieldset' do %>
-              <div class="fieldset-div">
-                <div class="field">
-                  <%= bc_fields.label :mother_first %><br/>
-                  <%= bc_fields.text_field :mother_first %>
-                </div>
-
-                <div class="field">
-                  <%= bc_fields.label :mother_middle %><br/>
-                  <%= bc_fields.text_field :mother_middle %>
-                </div>
-
-                <div class="field">
-                  <%= bc_fields.label :mother_maiden %><br/>
-                  <%= bc_fields.text_field :mother_maiden %>
-                </div>
-
-                <div class="field">
-                  <%= bc_fields.label :mother_last %><br/>
-                  <%= bc_fields.text_field :mother_last %>
-                </div>
-              </div>
-          <% end %>
-      <% end %>
+    <% end %>
+  </div>
+  <div id="right-col" class="right_col">
+    <%= link_to '#', class: 'btn btn-default',
+                id: "insturction-toggle",
+                onclick: 'confirmation_toggle().instructions(event)',
+                title: t('views.title.instruction_link') do %>
+        <span id="insturction-toggle-span" class="glyphicon glyphicon-minus"></span>
+    <% end %>
+    <div id="instructions" class="show-div" %>
+      <%= sanitize candidate_event.confirmation_event.instructions %>
     </div>
-
-    <div class="actions">
-      <%= f.submit t('views.common.update') %>
-    </div>
-
-<% end %>
-
-<div class = "actions" >
-  <%= button_to t('views.common.download'), download_doc, {method: :put}  %>
-</div >
+  </div>
+</div>

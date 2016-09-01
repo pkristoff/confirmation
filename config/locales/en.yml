@@ -30,6 +30,34 @@ en:
     pick_confirmation_name: 'Pick Confirmation Name'
     sponsor_agreement: 'Sponsor and Candidate Conversation'
     christian_ministry: 'Christian Ministry Awareness'
+  field_set:
+    upload_baptismal_certificate:
+      scan: 'Scan baptismal certificate'
+      church: 'Church'
+      dates: 'Dates'
+      father: 'Father name'
+      mother: 'Mother name'
+  label:
+    upload_baptismal_certificate:
+      baptized_at_stmm: 'I was baptized at Saint Mary Magdalene'
+      baptismal_certificate:
+        baptismal_date: 'Baptismal date'
+        birth_date: 'Birth date'
+        certificate_picture: 'Scanned baptismal certificate'
+        church_name: 'Church name'
+        church_address:
+          street_1: 'Street 1'
+          street_2: 'Street 2'
+          city: 'City'
+          state: 'State'
+          zip_code: 'Zip code'
+        father_first: 'Father first'
+        father_middle: 'Father middle'
+        father_last: 'Father last'
+        mother_first: 'Mother first'
+        mother_middle: 'Mother middle'
+        mother_maiden: 'Mother maiden'
+        mother_last: 'Mother last'
   messages:
     accessed_denied: 'Accessed denied.'
     admin_login_needed: 'Please login as admin to %{message}.'
@@ -83,7 +111,6 @@ en:
       other: 'Other'
       parent_email_1: 'Parent email 1'
       password: 'Password'
-      scan_baptismal_certificate: 'Scan baptismal certificate'
       scan_sponsor_covenant: 'Scan sponsor covenant'
       scan_pick_confirmation_name: 'Scan confirmation name'
       sponsor_name: 'Sponsor covenant'
@@ -136,3 +163,5 @@ en:
       toggle_navigation: 'Toggle navigation'
       upload_baptismal_certificate: 'Upload Baptismal Certificate'
       christian_ministry: 'Christian Ministry Awareness'
+    title:
+      instruction_link: 'Show/hide instructions'

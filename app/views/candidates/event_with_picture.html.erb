@@ -1,4 +1,5 @@
 
 <%= render partial: "candidates/shared/#{@event_with_picture_name}",
            :locals => {is_dev: @is_dev,
+                       candidate_event: @candidate_event,
                        download_doc: download_document_path(@candidate.id, @event_with_picture_name)} %>

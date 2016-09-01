@@ -35,7 +35,11 @@ label {
 }
 
 input[type=email] {
-  width: 300px;
+  width: 95%;
+}
+
+input[type=text] {
+  width: 95%;
 }
 
 .actions {
@@ -44,4 +48,25 @@ input[type=email] {
 
 .covenant_agreement {
   font-style: italic;
+}
+
+#left-col {
+  float:left;
+  width:50%;
+}
+#right-col {
+  float:right;
+  width:50%;
+}
+#insturction-toggle{
+  float: right;
+}
+
+.menu-toggle {
+  margin-left: -40px;
+  margin-top: -10px;
+}
+
+.field_with_errors input {
+  border-color: #ff0000;
 }
