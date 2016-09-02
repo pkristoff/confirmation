@@ -1,50 +1,38 @@
-<% if @candidate.pick_confirmation_name && @candidate.pick_confirmation_name.errors.any? %>
-    <div id = "error_explanation" >
-      <h2 ><%= pluralize(@candidate.pick_confirmation_name.errors.count, "error") %> prohibited saving:</h2 >
+<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
 
-      <ul >
-        <% @candidate.pick_confirmation_name.errors.full_messages.each do |msg| %>
-            <li ><%= msg %></li >
-        <% end %>
-      </ul >
-    </div >
-<% end %>
-
-  <%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'top-update' %>
+    </div>
     <%= f.fields_for :pick_confirmation_name do |pcn_fields| %>
 
-        <%= field_set_tag t('views.candidates.pick_confirmation_name'), class: 'fieldset' do %>
-            <div class = "field" >
-              <%= pcn_fields.label :saint_name %><br />
+        <%= field_set_tag t('field_set.pick_confirmation_name.saint'), class: 'fieldset' do %>
+            <div class="field">
+              <%= pcn_fields.label :saint_name, t('label.pick_confirmation_name.saint_name') %><br/>
               <%= pcn_fields.text_field :saint_name %>
-            </div >
-            <div class = "field" >
-              <%= pcn_fields.label :about_saint %><br />
+            </div>
+            <div class="field">
+              <%= pcn_fields.label :about_saint, t('label.pick_confirmation_name.about_saint') %><br/>
               <%= pcn_fields.text_area :about_saint %>
-            </div >
-            <div class = "field" >
-              <%= pcn_fields.label :why_saint %><br />
+            </div>
+            <div class="field">
+              <%= pcn_fields.label :why_saint, t('label.pick_confirmation_name.why_saint')%><br/>
               <%= pcn_fields.text_area :why_saint %>
-            </div >
+            </div>
         <% end %>
-        <div class = "field" >
-          <%= pcn_fields.label :pick_confirmation_name_picture %><br />
+        <div class="field">
+          <%= pcn_fields.label :pick_confirmation_name_picture, t('label.pick_confirmation_name.pick_confirmation_name_picture') %><br/>
           <%= pcn_fields.file_field :pick_confirmation_name_picture %>
-        </div >
+        </div>
 
         <% unless @candidate.pick_confirmation_name.pick_confirmation_name_filename.nil? %>
-            <div >
-              <img src = "<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>" />
-            </div >
+            <div>
+              <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"/>
+            </div>
         <% end %>
     <% end %>
 
-    <div class = "actions" >
-      <%= f.submit t('views.common.update') %>
-    </div >
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+    </div>
 
 <% end %>
-
-<div class = "actions" >
-  <%= button_to t('views.common.download'), download_doc, {method: :put} %>
-</div >

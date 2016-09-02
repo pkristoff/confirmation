@@ -1,0 +1,30 @@
+<%= render partial: "candidates/shared/show_error_message",
+           :locals => {event_association: event_association,
+                       download_doc: download_doc} %>
+
+
+<div id="two_column">
+  <div id="left-col" class="left_col">
+
+    <%= render partial: "candidates/shared/#{event_with_picture_name}",
+               :locals => {is_dev: is_dev,
+                           candidate: candidate,
+                           event_association: event_association,
+                           candidate_event: candidate_event,
+                           download_doc: download_doc
+               } %>
+
+
+  </div>
+  <div id="right-col" class="right_col">
+    <%= link_to '#', class: 'btn btn-default',
+                id: "insturction-toggle",
+                onclick: 'confirmation_toggle().instructions(event)',
+                title: t('views.title.instruction_link') do %>
+        <span id="insturction-toggle-span" class="glyphicon glyphicon-minus"></span>
+    <% end %>
+    <div id="instructions" class="show-div" %>
+      <%= sanitize candidate_event.confirmation_event.instructions %>
+    </div>
+  </div>
+</div>

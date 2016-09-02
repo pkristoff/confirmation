@@ -1,84 +1,55 @@
-
-<% if @candidate.sponsor_covenant && @candidate.sponsor_covenant.errors.any? %>
-    <div id = "error_explanation" >
-      <h2 ><%= pluralize(@candidate.sponsor_covenant.errors.count, "error") %> prohibited saving:</h2 >
-
-      <ul >
-        <% @candidate.sponsor_covenant.errors.full_messages.each do |msg| %>
-            <li ><%= msg %></li >
+<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'top-update' %>
+    </div>
+    <%= f.fields_for :sponsor_covenant do |sc_fields| %>
+        <%= field_set_tag t('field_set.upload_sponsor_covenant.sponsor_name'), class: 'fieldset' do %>
+            <div class="field">
+              <%= sc_fields.label :sponsor_name, t('label.upload_sponsor_covenant.sponsor_name') %><br/>
+              <%= sc_fields.text_field :sponsor_name %>
+            </div>
         <% end %>
-      </ul >
-    </div >
-<% end %>
+        <div class="field">
+          <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\');' %>
+          <%= sc_fields.label :sponsor_attends_stmm, t('label.upload_sponsor_covenant.sponsor_attends_stmm') %>
+        </div>
 
-<div class = "actions" >
-  <%= button_to t('views.common.download'), download_doc, {method: :put} %>
-</div >
+        <div id="sponsor-covenant-top" class="<%= @candidate.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div' %>">
+          <%= field_set_tag t('field_set.upload_sponsor_covenant.sponsor_church'), class: 'fieldset' do %>
+              <div class="field">
+                <%= sc_fields.label :sponsor_church, t('label.upload_sponsor_covenant.sponsor_church') %><br/>
+                <%= sc_fields.text_field :sponsor_church %>
+              </div>
+              <div class="field">
+                <%= sc_fields.label :sponsor_elegibility_picture, t('label.upload_sponsor_covenant.sponsor_elegibility_picture') %>
+                <br/>
+                <%= sc_fields.file_field :sponsor_elegibility_picture %>
+              </div>
 
-<div id = "two_column" >
-  <div id = "left-col" class = "left_col" >
-    <%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
-        <div class = "actions" >
-          <%= f.submit t('views.common.update'), id: 'top-update' %>
-        </div >
-        <%= f.fields_for :sponsor_covenant do |sc_fields| %>
-            <%= field_set_tag t('field_set.upload_sponsor_covenant.sponsor_name'), class: 'fieldset' do %>
-                <div class = "field" >
-                  <%= sc_fields.label  :sponsor_name, t('label.upload_sponsor_covenant.sponsor_name') %><br />
-                  <%= sc_fields.text_field :sponsor_name %>
-                </div >
-            <% end %>
-            <div class = "field" >
-              <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\');' %>
-              <%= sc_fields.label :sponsor_attends_stmm, t('label.upload_sponsor_covenant.sponsor_attends_stmm') %>
-            </div >
-
-            <div id = "sponsor-covenant-top" class = "<%= @candidate.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div' %>" >
-              <%= field_set_tag t('field_set.upload_sponsor_covenant.sponsor_church'), class: 'fieldset' do %>
-                  <div class = "field" >
-                    <%= sc_fields.label :sponsor_church, t('label.upload_sponsor_covenant.sponsor_church') %><br />
-                    <%= sc_fields.text_field :sponsor_church %>
-                  </div >
-                  <div class = "field" >
-                    <%= sc_fields.label :sponsor_elegibility_picture, t('label.upload_sponsor_covenant.sponsor_elegibility_picture') %><br />
-                    <%= sc_fields.file_field :sponsor_elegibility_picture %>
-                  </div >
-
-                  <% unless @candidate.sponsor_covenant.sponsor_elegibility_filename.nil? %>
-                      <div >
-                        <img src = "<%= url_for(is_dev ? dev_upload_sponsor_elegibility_image_path(@candidate.id) : upload_sponsor_elegibility_image_path(@candidate.id)) %>" />
-                      </div >
-                  <% end %>
-
+              <% unless @candidate.sponsor_covenant.sponsor_elegibility_filename.nil? %>
+                  <div>
+                    <img src="<%= url_for(is_dev ? dev_upload_sponsor_elegibility_image_path(@candidate.id) : upload_sponsor_elegibility_image_path(@candidate.id)) %>"/>
+                  </div>
               <% end %>
-            </div >
-            <div class = "field" >
-              <%= sc_fields.label :sponsor_covenant_picture, t('label.upload_sponsor_covenant.sponsor_covenant_picture') %><br />
-              <%= sc_fields.file_field :sponsor_covenant_picture %>
-            </div >
 
-            <% unless @candidate.sponsor_covenant.sponsor_covenant_filename.nil? %>
-                <div >
-                  <img src = "<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>" />
-                </div >
-            <% end %>
+          <% end %>
+        </div>
+        <div class="field">
+          <%= sc_fields.label :sponsor_covenant_picture, t('label.upload_sponsor_covenant.sponsor_covenant_picture') %>
+          <br/>
+          <%= sc_fields.file_field :sponsor_covenant_picture %>
+        </div>
+
+        <% unless @candidate.sponsor_covenant.sponsor_covenant_filename.nil? %>
+            <div>
+              <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"/>
+            </div>
         <% end %>
-
-        <div class = "actions" >
-          <%= f.submit t('views.common.update'), id: 'bottom-update' %>
-        </div >
-
     <% end %>
-  </div >
-  <div id = "right-col" class = "right_col" >
-    <%= link_to '#', class: 'btn btn-default',
-                id: "insturction-toggle",
-                onclick: 'confirmation_toggle().instructions(event)',
-                title: t('views.title.instruction_link') do %>
-        <span id = "insturction-toggle-span" class = "glyphicon glyphicon-minus" ></span >
-    <% end %>
-    <div id = "instructions" class = "show-div" % >
-      <%= sanitize candidate_event.confirmation_event.instructions %>
-    </div >
-  </div >
+
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+    </div>
+
+<% end %>
 </div >

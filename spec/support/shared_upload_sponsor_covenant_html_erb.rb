@@ -75,13 +75,12 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     update_sponsor_covenant(false)
     visit @path
 
-
     attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
     attach_file(ELEGIBILITY_PICTURE_LABEL, 'spec/fixtures/actions.png')
     click_button 'top-update'
 
     candidate = Candidate.find(@candidate.id)
-    expect_message(:error_explanation, ['2 errors prohibited saving', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank'])
+    expect_message(:error_explanation, ['2 empty fields need to be filled in', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank'])
     expect(candidate.sponsor_covenant).not_to eq(nil)
     expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
     expect(candidate.sponsor_covenant.sponsor_elegibility_filename).to eq('actions.png')
@@ -115,7 +114,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
 
     fill_in_form(false) # no picture
     click_button 'top-update'
-    expect_message(:error_explanation, ['3 errors prohibited saving', 'Sponsor elegibility filename can\'t be blank', 'Sponsor elegibility content type can\'t be blank', 'Sponsor elegibility file contents can\'t be blank'])
+    expect_message(:error_explanation, ['3 empty fields need to be filled in', 'Sponsor elegibility filename can\'t be blank', 'Sponsor elegibility content type can\'t be blank', 'Sponsor elegibility file contents can\'t be blank'])
 
     expect(page).not_to have_selector(get_img_src_selector)
     expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_elegibility_image.#{@candidate.id}\"]")
@@ -144,7 +143,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     fill_in('Sponsor name', with: nil)
     click_button 'top-update'
 
-    expect_message(:error_explanation, '1 error prohibited saving: Sponsor name can\'t be blank')
+    expect_message(:error_explanation, '1 empty field need to be filled in: Sponsor name can\'t be blank')
     expect(page).to have_selector(get_img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')

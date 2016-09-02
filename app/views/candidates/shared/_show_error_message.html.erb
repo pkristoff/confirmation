@@ -1,0 +1,16 @@
+
+
+<% if event_association && event_association.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event_association.errors.count, "empty field") %> need to be filled in:</h2>
+
+      <ul>
+        <% event_association.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+<div class="actions">
+  <%= button_to t('views.common.download'), download_doc, {method: :put} %>
+</div>

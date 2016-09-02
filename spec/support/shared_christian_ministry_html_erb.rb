@@ -12,6 +12,7 @@ shared_context 'christian_ministry_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
+    AppFactory.add_confirmation_event(I18n.t('events.christian_ministry'))
     update_christian_ministry(false)
     visit @path
     expect_form_layout(@candidate, false)
@@ -23,7 +24,7 @@ shared_context 'christian_ministry_html_erb' do
     visit @path
 
     fill_in_form(false)
-    click_button I18n.t('views.common.update')
+    click_button 'top-update'
 
     expect_message(:flash_notice, I18n.t('messages.updated'))
     candidate = Candidate.find(@candidate.id)
@@ -46,7 +47,7 @@ shared_context 'christian_ministry_html_erb' do
     update_christian_ministry(false)
     visit @path
     fill_in_form(true)
-    click_button I18n.t('views.common.update')
+    click_button 'top-update'
 
     expect_message(:flash_notice, I18n.t('messages.updated'))
     candidate = Candidate.find(@candidate.id)
@@ -72,8 +73,8 @@ shared_context 'christian_ministry_html_erb' do
     update_christian_ministry(false)
     visit @path
 
-    attach_file('Christian ministry picture', 'spec/fixtures/actions.png')
-    click_button I18n.t('views.common.update')
+    attach_file(I18n.t('label.christian_ministry.christian_ministry_picture'), 'spec/fixtures/actions.png')
+    click_button 'top-update'
 
     expect_message(:flash_notice, I18n.t('messages.updated'))
     candidate = Candidate.find(@candidate.id)
@@ -94,13 +95,14 @@ shared_context 'christian_ministry_html_erb' do
 
   scenario 'admin logs in and selects a candidate, fills in template, except saint_name' do
 
+    AppFactory.add_confirmation_event(I18n.t('events.christian_ministry'))
     update_christian_ministry(false)
     visit @path
     fill_in_form(false)
     fill_in('What service', with: nil)
-    click_button I18n.t('views.common.update')
+    click_button 'top-update'
 
-    expect_message(:error_explanation, '4 errors prohibited saving: Christian ministry filename can\'t be blank Christian ministry content type can\'t be blank Christian ministry file contents can\'t be blank What service can\'t be blank')
+    expect_message(:error_explanation, '4 empty fields need to be filled in: Christian ministry filename can\'t be blank Christian ministry content type can\'t be blank Christian ministry file contents can\'t be blank What service can\'t be blank')
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true, '')
   end
@@ -109,14 +111,14 @@ shared_context 'christian_ministry_html_erb' do
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/christian_ministry\"]")
 
-    expect_field('Christian ministry picture', nil)
+    expect_field(I18n.t('label.christian_ministry.christian_ministry_picture'), nil)
 
-    expect_field('What service', with_values ? what_service : '')
-    expect_field('Where service', with_values ? WHERE_SERVICE : '')
-    expect_field('When service', with_values ? WHEN_SERVICE : '')
-    expect_field('Helped me', with_values ? HELPED_ME : '')
+    expect_field(I18n.t('label.christian_ministry.what_service'), with_values ? what_service : '')
+    expect_field(I18n.t('label.christian_ministry.where_service'), with_values ? WHERE_SERVICE : '')
+    expect_field(I18n.t('label.christian_ministry.when_service'), with_values ? WHEN_SERVICE : '')
+    expect_field(I18n.t('label.christian_ministry.helped_me'), with_values ? HELPED_ME : '')
 
-    expect(page).to have_button(I18n.t('views.common.update'))
+    expect(page).to have_button('top-update')
     expect_download_button(Event::Document::CHRISTIAN_MINISTRY)
   end
 
@@ -135,7 +137,7 @@ shared_context 'christian_ministry_html_erb' do
     fill_in('Helped me', with: HELPED_ME)
     check('Signed')
     if christian_ministry_attach_file
-      attach_file('Christian ministry picture', 'spec/fixtures/actions.png')
+      attach_file(I18n.t('label.christian_ministry.christian_ministry_picture'), 'spec/fixtures/actions.png')
     end
   end
 

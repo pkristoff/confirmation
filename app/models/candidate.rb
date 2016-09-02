@@ -180,4 +180,19 @@ class Candidate < ActiveRecord::Base
     candidate_events.find{|candidate_event| candidate_event.name === event_name}
   end
 
+  def get_event_association (event_name)
+    case event_name.to_sym
+      when Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
+        baptismal_certificate
+      when Event::Route::UPLOAD_SPONSOR_COVENANT
+        sponsor_covenant
+      when Event::Route::PICK_CONFIRMATION_NAME
+        pick_confirmation_name
+      when Event::Route::CHRISTIAN_MINISTRY
+        christian_ministry
+      else
+        raise
+    end
+  end
+
 end
