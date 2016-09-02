@@ -1,5 +1,9 @@
 shared_context 'sign_an_agreement_html_erb' do
 
+  before(:each) do
+    AppFactory.add_confirmation_event(@event_name)
+  end
+
   scenario 'user(candidate or admin) logs in, selects signing an agreement, has not signed agreement previsouly' do
     @candidate.sponsor_agreement=false
     visit @path
@@ -16,13 +20,12 @@ shared_context 'sign_an_agreement_html_erb' do
 
   scenario 'user(candidate or admin) logs in, signs agreement' do
 
-    AppFactory.add_confirmation_event(@event_name)
     @candidate.send(@sign_agreement_setter, false)
     @candidate.save
 
     visit @path
     check(@field_name)
-    click_button(I18n.t('views.common.update'))
+    click_button('bottom-update')
 
     expect_message(:flash_notice, I18n.t('messages.updated'))
     expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_verified]", text: false)
@@ -35,13 +38,12 @@ shared_context 'sign_an_agreement_html_erb' do
 
   scenario 'candidate unsigns agreement' do
 
-    AppFactory.add_confirmation_event(@event_name)
     @candidate.send(@sign_agreement_setter, true)
     @candidate.save
 
     visit @path
     uncheck(@field_name)
-    click_button(I18n.t('views.common.update'))
+    click_button('bottom-update')
 
     expect_message(:flash_notice, I18n.t('messages.updated'))
     expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_verified]", text: false)
@@ -62,7 +64,7 @@ shared_context 'sign_an_agreement_html_erb' do
       expect(page).not_to have_checked_field(@field_name)
     end
 
-    expect(page).to have_button(I18n.t('views.common.update'))
+    expect(page).to have_button('bottom-update')
     expect_download_button(@documant_key)
   end
 

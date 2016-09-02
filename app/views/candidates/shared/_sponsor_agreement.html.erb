@@ -1,5 +1,9 @@
 <%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
 
+    <div class = "actions" >
+      <%= f.submit t('views.common.update'), id: 'top-update' %>
+    </div >
+
     <h2>Conversation between Confirmation Sponsor & Candidate</h2>
 
     <div xmlns = "http://www.w3.org/1999/html" xmlns = "http://www.w3.org/1999/html" >
@@ -24,15 +28,11 @@
 
     <div class = "field" >
       <%= f.check_box :sponsor_agreement %>
-      <%= f.label :sponsor_agreement %> -- <span class="covenant_agreement"><%= t('views.candidates.covenant_agreement') %></span>
+      <%= f.label :sponsor_agreement, t('label.sign_agreement.signed_agreement') %>
     </div >
 
     <div class = "actions" >
-      <%= f.submit t('views.common.update') %>
+      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
     </div >
 
 <% end %>
-
-<div class = "actions" >
-  <%= button_to t('views.common.download'), download_doc, {method: :put}  %>
-</div >

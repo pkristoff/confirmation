@@ -46,12 +46,12 @@ en:
       sponsor_church: 'Sponsor church'
   label:
     christian_ministry:
-      what_service: 'What servicex'
-      where_service: 'Where servicex'
-      when_service: 'When servicex'
-      helped_me: 'Helped mex'
-      signed: 'Signedx'
-      christian_ministry_picture: 'Scanned worksheetx'
+      what_service: 'What service'
+      where_service: 'Where service'
+      when_service: 'When service'
+      helped_me: 'Helped me'
+      signed: 'Signed'
+      christian_ministry_picture: 'Scanned worksheet'
     pick_confirmation_name:
       birth_date: 'Birth date'
       baptismal_date: 'Baptismal date'
@@ -59,6 +59,10 @@ en:
       about_saint: 'Write a paragraph about the saint whose name you’re choosing describing how the saint lived, why this person became a saint, etc.'
       why_saint: 'Write a paragraph about why you are choosing this name; what significance or meaning does this saint hold for you and what do you hope to gain by modeling yourself after this saint?'
       pick_confirmation_name_picture: 'Scanned pick confirmation name document'
+    sign_agreement:
+      signed_agreement: 'By checking you agree to the above.'
+    sponsor_agreement:
+      sponsor_agreement: 'By checking you agree to the above.'
     upload_baptismal_certificate:
       baptized_at_stmm: 'I was baptized at Saint Mary Magdalene'
       baptismal_certificate:
@@ -126,7 +130,6 @@ en:
       candidate: 'Candidate'
       candidate_name: 'Candidate Name'
       church: 'Church'
-      covenant_agreement: 'By checking you agree to the above.'
       dates: 'Dates'
       edit_candidate: 'Edit Candidate'
       email: 'Email'

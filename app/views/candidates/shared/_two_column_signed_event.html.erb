@@ -1,6 +1,5 @@
 <%= render partial: "candidates/shared/show_error_message",
-           :locals => {event_association: event_association,
-                       download_doc: download_doc} %>
+           :locals => {event_association: event_association} %>
 
 <div class="actions">
   <%= button_to t('views.common.download'), download_doc, {method: :put} %>
@@ -10,12 +9,8 @@
 <div id="two_column">
   <div id="left-col" class="left_col">
 
-    <%= render partial: "candidates/shared/#{event_with_picture_name}",
-               :locals => {is_dev: is_dev,
-                           candidate: candidate,
-                           event_association: event_association,
-                           candidate_event: candidate_event,
-                           download_doc: download_doc
+    <%= render partial: "candidates/shared/#{shared_html_file}",
+               :locals => {path: path
                } %>
 
 

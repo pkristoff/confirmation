@@ -1,4 +1,7 @@
-<%= render partial: 'candidates/shared/sponsor_agreement',
+<%= render partial: 'candidates/shared/two_column_signed_event',
            :locals => {path: dev_sponsor_agreement_update_path(@candidate.id),
+                       event_association: @candidate,
+                       shared_html_file: 'sponsor_agreement',
+                       candidate_event: @candidate.get_candidate_event(I18n.t('events.sponsor_agreement')),
                        download_doc: dev_download_document_path(@candidate.id, Event::Document::CONVERSATION_SPONSOR_CANDIDATE)
            } %>

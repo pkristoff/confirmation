@@ -16,7 +16,7 @@ feature 'Sponsor Agreement candidate', :devise do
     @sign_agreement_setter = :sponsor_agreement=
     @sign_agreement_getter = :sponsor_agreement
     @form_action = "form[id=edit_candidate][action=\"/#{@dev}sponsor_agreement.#{@candidate.id}\"]"
-    @field_name = 'Sponsor agreement'
+    @field_name = I18n.t('label.sponsor_agreement.sponsor_agreement')
     @documant_key = Event::Document::CONVERSATION_SPONSOR_CANDIDATE
     @event_offset = 3
   end

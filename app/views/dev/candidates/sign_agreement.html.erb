@@ -1,6 +1,9 @@
-<%= require 'constants' %>
+<% require 'constants' %>
 
-<%= render partial: 'candidates/shared/sign_agreement',
+<%= render partial: 'candidates/shared/two_column_signed_event',
            :locals => {path: dev_sign_agreement_update_path(@candidate.id),
+                       event_association: @candidate,
+                       shared_html_file: 'sign_agreement',
+                       candidate_event: @candidate.get_candidate_event(I18n.t('events.sign_agreement')),
                        download_doc: dev_download_document_path(@candidate.id, Event::Document::CANDIDATE_COVENANT)
            } %>
