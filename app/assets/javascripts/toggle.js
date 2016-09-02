@@ -42,8 +42,8 @@ confirmation_toggle = function () {
         }
     }
 
-    function update_baptismal_certificate() {
-        var div = $( '#baptismal-certificate-top' );
+    function toggle_top(id) {
+        var div = $( id );
         div.is( ':hidden' ) ? div.show() : div.hide();
     }
 
@@ -57,6 +57,6 @@ confirmation_toggle = function () {
     return {
         instructions:                 instructions,
         sidebar:                      sidebar,
-        update_baptismal_certificate: update_baptismal_certificate
+        toggle_top: toggle_top
     }
 };

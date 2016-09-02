@@ -1,10 +1,3 @@
-<script >
-  sponsor_covenant = function () {
-    var div = document.getElementById('sponsor-covenant-top');
-    div.className = div.className == 'hide-div' ? 'show-div' : 'hide-div';
-  }
-
-</script >
 
 <% if @candidate.sponsor_covenant && @candidate.sponsor_covenant.errors.any? %>
     <div id = "error_explanation" >
@@ -36,7 +29,7 @@
                 </div >
             <% end %>
             <div class = "field" >
-              <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'sponsor_covenant();' %>
+              <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\');' %>
               <%= sc_fields.label :sponsor_attends_stmm, t('label.upload_sponsor_covenant.sponsor_attends_stmm') %>
             </div >
 

@@ -23,7 +23,7 @@
           <%= f.submit t('views.common.update'), id: 'top-update' %>
         </div>
         <div class="field">
-          <%= f.check_box :baptized_at_stmm, onclick: 'confirmation_toggle().update_baptismal_certificate()' %>
+          <%= f.check_box :baptized_at_stmm, onclick: 'confirmation_toggle().toggle_top(\'#baptismal-certificate-top\')' %>
           <%= f.label :baptized_at_stmm, t('label.upload_baptismal_certificate.baptized_at_stmm') %>
         </div>
 
