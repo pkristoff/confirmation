@@ -37,6 +37,9 @@ en:
       dates: 'Dates'
       father: 'Father name'
       mother: 'Mother name'
+    upload_sponsor_covenant:
+      sponsor_name: 'Sponsor name'
+      sponsor_church: 'Sponsor church'
   label:
     upload_baptismal_certificate:
       baptized_at_stmm: 'I was baptized at Saint Mary Magdalene'
@@ -58,6 +61,12 @@ en:
         mother_middle: 'Mother middle'
         mother_maiden: 'Mother maiden'
         mother_last: 'Mother last'
+    upload_sponsor_covenant:
+      sponsor_attends_stmm: 'Sponsor registered at Saint Mary Magdalene'
+      sponsor_church: 'Sponsor church'
+      sponsor_name: 'Sponsor name'
+      sponsor_covenant_picture: 'Scanned covenant'
+      sponsor_elegibility_picture: 'Scanned sponsor elegibiliy form'
   messages:
     accessed_denied: 'Accessed denied.'
     admin_login_needed: 'Please login as admin to %{message}.'

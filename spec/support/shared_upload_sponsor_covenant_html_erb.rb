@@ -1,10 +1,20 @@
 SPONSOR_NAME = 'George Sponsor'
 SPONSOR_CHURCH = 'St. George'
 
+SPONSOR_COVENANT_EVENT = I18n.t('events.upload_sponsor_covenant')
+
+UPDATED_MESSAGE = I18n.t('messages.updated')
+
+ATTENDS_STMM_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_attends_stmm')
+COVENANT_PICTURE_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_covenant_picture')
+ELEGIBILITY_PICTURE_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_elegibility_picture')
+SPONSOR_CHURCH_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_church')
+SPONSOR_NAME_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_name')
+
 shared_context 'upload_sponsor_covenant_html_erb' do
 
   before(:each) do
-    event_with_picture_setup(I18n.t('events.upload_sponsor_covenant'), Event::Route::UPLOAD_SPONSOR_COVENANT)
+    event_with_picture_setup(SPONSOR_COVENANT_EVENT, Event::Route::UPLOAD_SPONSOR_COVENANT)
   end
 
   scenario 'admin logs in and selects a candidate, checks sponsor_attends_stmm, nothing else showing' do
@@ -30,7 +40,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     expect(@candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
     visit @path
     fill_in_form(true, true)
-    click_button I18n.t('views.common.update')
+    click_button 'top-update'
 
     expect_message(:flash_notice, 'Updated')
     candidate = Candidate.find(@candidate.id)
@@ -44,13 +54,13 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     update_sponsor_covenant(false)
     visit @path
     fill_in_form
-    click_button I18n.t('views.common.update')
+    click_button 'top-update'
 
     visit @path
-    check('Sponsor attends stmm')
-    click_button I18n.t('views.common.update')
+    check(ATTENDS_STMM_LABEL)
+    click_button 'top-update'
 
-    expect_message(:flash_notice, I18n.t('messages.updated'))
+    expect_message(:flash_notice, UPDATED_MESSAGE)
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(true)
     expect(candidate.sponsor_covenant).not_to eq(nil)
@@ -66,9 +76,9 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     visit @path
 
 
-    attach_file('Sponsor covenant picture', 'spec/fixtures/actions.png')
-    attach_file('Sponsor elegibility picture', 'spec/fixtures/actions.png')
-    click_button I18n.t('views.common.update')
+    attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
+    attach_file(ELEGIBILITY_PICTURE_LABEL, 'spec/fixtures/actions.png')
+    click_button 'top-update'
 
     candidate = Candidate.find(@candidate.id)
     expect_message(:error_explanation, ['2 errors prohibited saving', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank'])
@@ -80,9 +90,9 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     expect(candidate.sponsor_covenant.sponsor_church).to eq('')
 
     fill_in_form(false) # no picture
-    click_button I18n.t('views.common.update')
+    click_button 'top-update'
 
-    expect_message(:flash_notice, I18n.t('messages.updated'))
+    expect_message(:flash_notice, UPDATED_MESSAGE)
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant).not_to eq(nil)
     expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
@@ -104,14 +114,14 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     visit @path
 
     fill_in_form(false) # no picture
-    click_button I18n.t('views.common.update')
+    click_button 'top-update'
     expect_message(:error_explanation, ['3 errors prohibited saving', 'Sponsor elegibility filename can\'t be blank', 'Sponsor elegibility content type can\'t be blank', 'Sponsor elegibility file contents can\'t be blank'])
 
     expect(page).not_to have_selector(get_img_src_selector)
     expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_elegibility_image.#{@candidate.id}\"]")
 
-    attach_file('Sponsor covenant picture', 'spec/fixtures/actions.png')
-    click_button I18n.t('views.common.update')
+    attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
+    click_button 'top-update'
 
     expect_message(:flash_notice, 'Updated')
     candidate = Candidate.find(@candidate.id)
@@ -132,7 +142,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     visit @path
     fill_in_form
     fill_in('Sponsor name', with: nil)
-    click_button I18n.t('views.common.update')
+    click_button 'top-update'
 
     expect_message(:error_explanation, '1 error prohibited saving: Sponsor name can\'t be blank')
     expect(page).to have_selector(get_img_src_selector)
@@ -146,16 +156,16 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     expect(page).to have_selector("div[id=sponsor-covenant-top][class=\"#{visibility}\"]")
 
     if candidate.sponsor_covenant.sponsor_attends_stmm
-      expect(page).to have_checked_field('Sponsor attends stmm')
+      expect(page).to have_checked_field(ATTENDS_STMM_LABEL)
     else
-      expect(page).not_to have_checked_field('Sponsor attends stmm')
+      expect(page).not_to have_checked_field(ATTENDS_STMM_LABEL)
     end
 
-    expect_field('Sponsor covenant picture', nil)
+    expect_field(COVENANT_PICTURE_LABEL, nil)
 
-    expect_field('Sponsor name', candidate.sponsor_covenant.sponsor_attends_stmm ? nil : sponsor_name)
+    expect_field(SPONSOR_NAME_LABEL, candidate.sponsor_covenant.sponsor_attends_stmm ? nil : sponsor_name)
 
-    expect(page).to have_button(I18n.t('views.common.update'))
+    expect(page).to have_button('top-update')
     expect_download_button(Event::Route::UPLOAD_SPONSOR_COVENANT)
   end
 
@@ -168,13 +178,13 @@ shared_context 'upload_sponsor_covenant_html_erb' do
   end
 
   def fill_in_form(covenant_attach_file=true, elegibility_attach_file=true)
-    fill_in('Sponsor name', with: SPONSOR_NAME)
-    fill_in('Sponsor church', with: SPONSOR_CHURCH)
+    fill_in(SPONSOR_NAME_LABEL, with: SPONSOR_NAME)
+    fill_in(SPONSOR_CHURCH_LABEL, with: SPONSOR_CHURCH)
     if covenant_attach_file
-      attach_file('Sponsor covenant picture', 'spec/fixtures/actions.png')
+      attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
     end
     if elegibility_attach_file
-      attach_file('Sponsor elegibility picture', 'spec/fixtures/Baptismal Certificate.png')
+      attach_file(ELEGIBILITY_PICTURE_LABEL, 'spec/fixtures/Baptismal Certificate.png')
     end
   end
 
