@@ -162,17 +162,30 @@ class CandidateImport
     p
   end
 
+  def get_columns (params, columns, prefix='')
+    return columns if params.empty?
+    params.each do |param|
+      if param.is_a?(Hash)
+        param.keys.each do |key|
+          unless key === :candidate_events_attributes
+            key_str = key.to_s
+            xxx = key_str[0, key_str.size-('_attributes'.size)]
+            get_columns(param[key], columns, (prefix.empty? ? xxx : "#{prefix}.#{xxx}"))
+          end
+        end
+      else
+        columns << (prefix.empty? ? param.to_s : "#{prefix}.#{param.to_s}")
+      end
+    end
+  end
+
   # test only
   def xlsx_columns
-    columns = %w(account_name first_name last_name candidate_email parent_email_1
-               parent_email_2 grade attending
-               address.street_1 address.street_2 address.city address.state address.zip_code
-               baptized_at_stmm
-               baptismal_certificate.birth_date baptismal_certificate.baptismal_date baptismal_certificate.church_name
-               baptismal_certificate.church_address.street_1 baptismal_certificate.church_address.street_2 baptismal_certificate.church_address.city baptismal_certificate.church_address.state baptismal_certificate.church_address.zip_code
-               baptismal_certificate.father_first baptismal_certificate.father_middle baptismal_certificate.father_last
-               baptismal_certificate.mother_first baptismal_certificate.mother_middle baptismal_certificate.mother_maiden baptismal_certificate.mother_last
-               baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents )
+    params = Candidate.get_permitted_params
+    columns = []
+    get_columns(params, columns)
+    columns.delete(:password)
+    columns.delete(:password_confirmation)
     ConfirmationEvent.all.each_with_index do |confirmation_event, index|
       columns << "candidate_events.#{index}.completed_date"
       columns << "candidate_events.#{index}.verified"
@@ -337,33 +350,36 @@ class CandidateImport
           end
         else
           row = Hash.new
+          candidate_sheet_params = ActionController::Parameters.new()
+          params = ActionController::Parameters.new(candidate: ActionController::Parameters.new(candidate_sheet_attributes: candidate_sheet_params))
+          row[:candidate_sheet_attributes] = {}
           spreadsheet_row.each_with_index do |item, index|
             item.strip! unless item.nil? or !(item.is_a? String)
             case header[index]
               when :grade
                 if item.nil?
-                  row[:grade] = 10
+                  candidate_sheet_params[:grade] = 10
                 else
-                  row[:grade] = item.slice(/^\D*[\d]*/)
+                  candidate_sheet_params[:grade] = item.slice(/^\D*[\d]*/)
                 end
               when :parent_email_1
                 unless item.nil?
                   item_split = item.split(';')
-                  row[:parent_email_1] = item_split[0].strip
-                  row[:parent_email_2] = item_split[1].strip if item_split.size > 1
+                  candidate_sheet_params[:parent_email_1] = item_split[0].strip
+                  candidate_sheet_params[:parent_email_2] = item_split[1].strip if item_split.size > 1
                 end
               else
-                row[header[index]] = item
+                candidate_sheet_params[header[index]] = item
             end
           end
 
-          account_name = String.new(row[:last_name] || '').concat(row[:first_name] || '').downcase
-          row[:account_name] = account_name
-          row[:password] = '12345678'
-          row[:attending] = attending
+          account_name = String.new(candidate_sheet_params[:last_name] || '').concat(candidate_sheet_params[:first_name] || '').downcase
+          params[:candidate][:account_name] = account_name
+          params[:candidate][:password] = '12345678'
+          candidate_sheet_params[:attending] = attending
 
           candidate = Candidate.find_by_account_name(row[:account_name]) || ::AppFactory.create_candidate
-          candidate.attributes = row.to_hash.select { |k, v| Candidate.candidate_params.include? k }
+          candidate.update_attributes(params.require(:candidate).permit(Candidate.get_permitted_params))
           candidates.push(candidate)
           @candidate_to_row[candidate] = i
         end

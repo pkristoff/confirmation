@@ -6,6 +6,9 @@ class Candidate < ActiveRecord::Base
   has_many(:candidate_events)
   accepts_nested_attributes_for(:candidate_events, allow_destroy: true)
 
+  belongs_to(:candidate_sheet, validate: true)
+  accepts_nested_attributes_for(:candidate_sheet, allow_destroy: true)
+
   belongs_to(:baptismal_certificate, validate: false)
   accepts_nested_attributes_for(:baptismal_certificate, allow_destroy: true)
 
@@ -32,8 +35,6 @@ class Candidate < ActiveRecord::Base
             :uniqueness => {
                 :case_sensitive => false
             }
-  validates_presence_of :first_name, :last_name, :parent_email_1
-  validate :validate_emails
 
   def candidate_events_sorted
     candidate_events.sort do |ce1, ce2|
@@ -89,7 +90,7 @@ class Candidate < ActiveRecord::Base
     login = tainted_conditions.delete(:account_name)
     if login
       conditions = devise_parameter_filter.filter(value: login.downcase)
-      where(['lower(account_name) = :value OR lower(parent_email_1) = :value', conditions]).first
+      where(['lower(account_name) = :value', conditions]).first
     else
       super
     end
@@ -102,30 +103,14 @@ class Candidate < ActiveRecord::Base
     candidate_event
   end
 
-  def email
-    self.parent_email_1
-  end
-
-  def email=(value)
-    self.parent_email_1= value
-  end
-
-  def email_required?
-    false
-  end
-
-  def email_changed?
-    false
-  end
-
   def self.candidate_params
-    params = attribute_names.collect { |e| e.to_sym } & [:last_name, :first_name, :grade, :parent_email_1, :parent_email_2, :account_name, :password, :attending]
+    params = attribute_names.collect { |e| e.to_sym } & [:account_name, :password]
     params = params << :password
     params
   end
 
   def build_associations
-    address || create_address
+    candidate_sheet || create_candidate_sheet
     baptismal_certificate || create_baptismal_certificate
     sponsor_covenant || create_sponsor_covenant
     pick_confirmation_name || create_pick_confirmation_name
@@ -133,29 +118,12 @@ class Candidate < ActiveRecord::Base
     true
   end
 
-  def validate_emails()
-    unless candidate_email.nil? or candidate_email.empty?
-      errors.add(:candidate_email, 'is an invalid email') unless validate_email(candidate_email)
-    end
-    unless parent_email_1.nil? or parent_email_1.empty?
-      errors.add(:parent_email_1, 'is an invalid email') unless validate_email(parent_email_1)
-    end
-    unless parent_email_2.nil? or parent_email_2.empty?
-      errors.add(:parent_email_2, 'is an invalid email') unless validate_email(parent_email_2)
-    end
-  end
-
-  def validate_email(value)
-    value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  end
-
   # event_complete
 
   def self.get_permitted_params
-    [:account_name, :first_name, :last_name, :candidate_email, :parent_email_1,
-     :parent_email_2, :grade, :attending, :password, :password_confirmation,
+    [:account_name, :password, :password_confirmation,
      :signed_agreement, :baptized_at_stmm, :sponsor_agreement,
-     address_attributes: [:street_1, :street_2, :city, :state, :zip_code],
+     candidate_sheet_attributes: CandidateSheet.get_permitted_params,
      baptismal_certificate_attributes: BaptismalCertificate.get_permitted_params,
      sponsor_covenant_attributes: SponsorCovenant.get_permitted_params ,
      pick_confirmation_name_attributes: PickConfirmationName.get_permitted_params,
@@ -172,6 +140,22 @@ class Candidate < ActiveRecord::Base
       complete = false
     end
     complete
+  end
+
+  def email
+    candidate_sheet.parent_email_1
+  end
+
+  def email=(value)
+    candidate_sheet.parent_email_1= value
+  end
+
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
   end
 
   # event_complete - end

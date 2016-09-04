@@ -20,7 +20,7 @@ feature 'Candidate profile page', :devise do
     login_as(candidate, :scope => :candidate)
     visit dev_candidate_path(candidate)
     expect(page).to have_content 'Candidate'
-    expect(page).to have_content candidate.parent_email_1
+    expect(page).to have_content candidate.candidate_sheet.parent_email_1
   end
 
   # Scenario: Candidate cannot see another candidate's profile
@@ -29,7 +29,8 @@ feature 'Candidate profile page', :devise do
   #   Then I see an 'access denied' message
   scenario "candidate cannot see another candidate's profile" do
     me = FactoryGirl.create(:candidate)
-    other = FactoryGirl.create(:candidate, parent_email_1: 'other@example.com', account_name: 'other')
+    other = FactoryGirl.create(:candidate, account_name: 'other')
+    other.candidate_sheet.parent_email_1 = 'other@example.com'
     login_as(me, :scope => :candidate)
     Capybara.current_session.driver.header 'Referer', dev_candidate_path(me)
     visit dev_candidate_path(other)

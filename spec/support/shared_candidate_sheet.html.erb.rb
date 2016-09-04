@@ -31,21 +31,20 @@ shared_context 'candidate_sheet_html_erb' do
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}candidate_sheet.#{@candidate.id}\"]")
 
+    expect(page).to have_field('First name', with: @candidate.candidate_sheet.first_name, type: 'text')
+    expect(page).to have_field('Last name', with: @candidate.candidate_sheet.last_name, type: 'text')
 
-    expect(page).to have_field('First name', with: @candidate.first_name, type: 'text')
-    expect(page).to have_field('Last name', with: @candidate.last_name, type: 'text')
+    expect(page).to have_field('Street 1', with: @candidate.candidate_sheet.address.street_1, type: 'text')
+    expect(page).to have_field('Street 2', with: @candidate.candidate_sheet.address.street_2, type: 'text')
+    expect(page).to have_field('City', with: @candidate.candidate_sheet.address.city, type: 'text')
+    expect(page).to have_field('State', with: @candidate.candidate_sheet.address.state, type: 'text')
+    expect(page).to have_field('Zip code', with: @candidate.candidate_sheet.address.zip_code, type: 'text')
 
-    expect(page).to have_field('candidate_address_attributes_street_1', with: @candidate.address.street_1, type: 'text')
-    expect(page).to have_field('candidate_address_attributes_street_2', with: @candidate.address.street_2, type: 'text')
-    expect(page).to have_field('candidate_address_attributes_city', with: @candidate.address.city, type: 'text')
-    expect(page).to have_field('candidate_address_attributes_state', with: @candidate.address.state, type: 'text')
-    expect(page).to have_field('candidate_address_attributes_zip_code', with: @candidate.address.zip_code, type: 'text')
+    expect(page).to have_field('Grade', with: @candidate.candidate_sheet.grade, type: 'number')
 
-    expect(page).to have_field('Grade', with: @candidate.grade, type: 'number')
-
-    expect(page).to have_field('Candidate email', with: @candidate.candidate_email, type: 'email')
-    expect(page).to have_field('Parent email 1', with: @candidate.parent_email_1, type: 'email')
-    expect(page).to have_field('Parent email 2', with: @candidate.parent_email_2, type: 'email')
+    expect(page).to have_field('Candidate email', with: @candidate.candidate_sheet.candidate_email, type: 'email')
+    expect(page).to have_field('Parent email 1', with: @candidate.candidate_sheet.parent_email_1, type: 'email')
+    expect(page).to have_field('Parent email 2', with: @candidate.candidate_sheet.parent_email_2, type: 'email')
 
     expect(page).to have_button(I18n.t('views.common.update'))
   end

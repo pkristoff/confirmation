@@ -9,7 +9,7 @@ class CandidateEvent < ActiveRecord::Base
   belongs_to(:candidate)
 
   def due_date
-    if self.candidate.attending === 'The Way'
+    if self.candidate.candidate_sheet.attending === 'The Way'
       confirmation_event.the_way_due_date
     else
       confirmation_event.chs_due_date

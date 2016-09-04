@@ -15,12 +15,12 @@ describe CandidateImport do
 
       expect(Candidate.all.size).to eq(4)
       candidate = Candidate.find_by_account_name('annunziatarobert')
-      expect(candidate.first_name).to eq('Robert')
-      expect(candidate.last_name).to eq('Annunziata')
-      expect(candidate.grade).to eq(10)
-      expect(candidate.attending).to eq(I18n.t('model.candidate.attending_catholic_high_school'))
-      expect(candidate.parent_email_1).to eq('lannunz@nc.rr.com')
-      expect(candidate.parent_email_2).to eq('rannunz@nc.rr.com')
+      expect(candidate.candidate_sheet.first_name).to eq('Robert')
+      expect(candidate.candidate_sheet.last_name).to eq('Annunziata')
+      expect(candidate.candidate_sheet.grade).to eq(10)
+      expect(candidate.candidate_sheet.attending).to eq(I18n.t('model.candidate.attending_catholic_high_school'))
+      expect(candidate.candidate_sheet.parent_email_1).to eq('lannunz@nc.rr.com')
+      expect(candidate.candidate_sheet.parent_email_2).to eq('rannunz@nc.rr.com')
 
       expect(candidate.candidate_events.size).to eq(all_event_names.size)
 
@@ -31,16 +31,15 @@ describe CandidateImport do
       candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
       expect(candidate_import.save).to eq(false)
       error_messages = [
-          'Row 2: Last name can\'t be blank',
-          'Row 3: First name can\'t be blank',
-          'Row 6: Parent email 1 is an invalid email',
-          'Row 6: Parent email 2 is an invalid email',
-          'Row 7: Parent email 1 can\'t be blank'
+          'Row 2: Candidate sheet last name can\'t be blank',
+          'Row 3: Candidate sheet first name can\'t be blank',
+          'Row 6: Candidate sheet parent email 1 is an invalid email',
+          'Row 6: Candidate sheet parent email 2 is an invalid email'
       ]
       candidate_import.errors.each_with_index do |candidate, index|
         expect(candidate[1]).to eq(error_messages[index])
       end
-      expect(candidate_import.errors.size).to eq(5)
+      expect(candidate_import.errors.size).to eq(4)
     end
 
     it 'import spreadsheet from export will update database' do
@@ -165,11 +164,11 @@ describe CandidateImport do
 
     it 'reset after adding in some candidates' do
 
-      FactoryGirl.create(:candidate,
-                         account_name: 'c1',
-                         parent_email_1: 'test@example.com',
-                         candidate_email: 'candiate@example.com',
-                         baptismal_certificate: FactoryGirl.create(:baptismal_certificate))
+      c1 = FactoryGirl.create(:candidate, account_name: 'c1')
+      c1.candidate_sheet.parent_email_1 = 'test@example.com'
+      c1.candidate_sheet.candidate_email = 'candiate@example.com'
+      c1.baptismal_certificate = FactoryGirl.create(:baptismal_certificate)
+      c1.save
       FactoryGirl.create(:candidate, account_name: 'c2')
       FactoryGirl.create(:candidate, account_name: 'c3')
 
@@ -264,19 +263,19 @@ describe CandidateImport do
     end
 
     expect(c1_row.cells[find_cell_offset(header_row, 'account_name')].value).to eq('c1')
-    expect(c1_row.cells[find_cell_offset(header_row, 'first_name')].value).to eq('Sophia')
-    expect(c1_row.cells[find_cell_offset(header_row, 'last_name')].value).to eq('Agusta')
-    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_email')].value).to eq('candiate@example.com')
-    expect(c1_row.cells[find_cell_offset(header_row, 'parent_email_1')].value).to eq('test@example.com')
-    expect(c1_row.cells[find_cell_offset(header_row, 'parent_email_2')].value).to eq('')
-    expect(c1_row.cells[find_cell_offset(header_row, 'grade')].value).to eq(10)
-    expect(c1_row.cells[find_cell_offset(header_row, 'attending')].value).to eq(I18n.t('model.candidate.attending_the_way'))
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.first_name')].value).to eq('Sophia')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.last_name')].value).to eq('Agusta')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.candidate_email')].value).to eq('candiate@example.com')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.parent_email_1')].value).to eq('test@example.com')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.parent_email_2')].value).to eq('')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.grade')].value).to eq(10)
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.attending')].value).to eq(I18n.t('model.candidate.attending_the_way'))
     expect(c1_row.cells[find_cell_offset(header_row, 'baptized_at_stmm')].value).to eq(1)
-    expect(c1_row.cells[find_cell_offset(header_row, 'address.street_1')].value).to eq('2120 Frissell Ave.')
-    expect(c1_row.cells[find_cell_offset(header_row, 'address.street_2')].value).to eq('Apt. 456')
-    expect(c1_row.cells[find_cell_offset(header_row, 'address.city')].value).to eq('Apex')
-    expect(c1_row.cells[find_cell_offset(header_row, 'address.state')].value).to eq('NC')
-    expect(c1_row.cells[find_cell_offset(header_row, 'address.zip_code')].value).to eq(27502)
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_1')].value).to eq('2120 Frissell Ave.')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_2')].value).to eq('Apt. 456')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.city')].value).to eq('Apex')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.state')].value).to eq('NC')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.zip_code')].value).to eq(27502)
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.birth_date')].value.to_s).to eq('1983-08-20')
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.baptismal_date')].value.to_s).to eq('1983-10-20')
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_name')].value).to eq('St. Francis')
@@ -295,7 +294,8 @@ describe CandidateImport do
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_filename')].value).to eq('temp/c1_actions.png')
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_content_type')].value).to eq('temp/c1_actions.png')
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq('temp/c1_actions.png')
-    expect(c1_row.size).to eq(36)
+    # TODO: add other 31 tests
+    expect(c1_row.size).to eq(65)
 
     expect(c2_row.cells[0].value).to eq('c2')
 
@@ -369,9 +369,13 @@ describe CandidateImport do
   def expect_keys(obj, attributes)
     attributes.keys.each do |sub_key|
       # puts obj.class
-      # puts "#{obj.candidate.account_name}" if obj.class.to_s === 'CandidateEvent'
-      # puts "#{obj.confirmation_event.name}:#{sub_key}" if obj.class.to_s === 'CandidateEvent'
-      expect(obj.send(sub_key).to_s).to eq(attributes[sub_key].to_s)
+      # puts "#{obj.first_name}" if obj.class.to_s === 'CandidateSheet'
+      # puts "#{obj.confirmation_event.name}:#{sub_key}" if obj.class.to_s === 'CandidateSheet'
+      if attributes[sub_key].is_a?(Hash)
+        expect_keys(obj.send(sub_key), attributes[sub_key])
+      else
+        expect(obj.send(sub_key).to_s).to eq(attributes[sub_key].to_s)
+      end
     end
   end
 
@@ -396,19 +400,21 @@ describe CandidateImport do
   def get_foo_bar
     {
         account_name: 'foobar',
-        first_name: 'foo',
-        last_name: 'bar',
-        candidate_email: '',
-        parent_email_1: 'foo@bar.com',
-        parent_email_2: '',
-        grade: 10,
-        attending: I18n.t('model.candidate.attending_the_way'),
-        address: {
-            street_1: '',
-            street_2: 'street 2',
-            city: 'Clarksville',
-            state: 'IN',
-            zip_code: '47129'
+        candidate_sheet: {
+            first_name: 'foo',
+            last_name: 'bar',
+            candidate_email: '',
+            parent_email_1: 'foo@bar.com',
+            parent_email_2: '',
+            grade: 10,
+            attending: I18n.t('model.candidate.attending_the_way'),
+            address: {
+                street_1: '',
+                street_2: 'street 2',
+                city: 'Clarksville',
+                state: 'IN',
+                zip_code: '47129'
+            },
         },
         candidate_events_sorted: [
             {completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
@@ -454,19 +460,21 @@ describe CandidateImport do
   def get_paul_kristoff
     {
         account_name: 'paulkristoff',
-        first_name: 'Paul',
-        last_name: 'Kristoff',
-        candidate_email: 'paul@kristoffs.com',
-        parent_email_1: 'vicki@kristoffs.com',
-        parent_email_2: 'vicki@kristoffs.com',
-        grade: 9,
-        attending: I18n.t('model.candidate.attending_the_way'),
-        address: {
-            street_1: '2116 Frissell Ave',
-            street_2: '',
-            city: 'Cary',
-            state: 'NC',
-            zip_code: '27555'
+        candidate_sheet: {
+            first_name: 'Paul',
+            last_name: 'Kristoff',
+            candidate_email: 'paul@kristoffs.com',
+            parent_email_1: 'vicki@kristoffs.com',
+            parent_email_2: 'vicki@kristoffs.com',
+            grade: 9,
+            attending: I18n.t('model.candidate.attending_the_way'),
+            address: {
+                street_1: '2116 Frissell Ave',
+                street_2: '',
+                city: 'Cary',
+                state: 'NC',
+                zip_code: '27555'
+            },
         },
         candidate_events_sorted: [
             {completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
@@ -512,22 +520,24 @@ describe CandidateImport do
   def get_vicki_kristoff
     {
         account_name: 'vickikristoff',
-        first_name: 'Vicki',
-        last_name: 'Kristoff',
-        candidate_email: 'vicki@kristoffs.com',
-        parent_email_1: 'paul@kristoffs.com',
-        parent_email_2: 'paul@kristoffs.com',
-        grade: 12,
-        attending: I18n.t('model.candidate.attending_catholic_high_school'),
-        address: {
-            street_1: '2120 Frissell Ave',
-            street_2: '',
-            city: 'Apex',
-            state: 'NC',
-            zip_code: '27502'
+        candidate_sheet: {
+            first_name: 'Vicki',
+            last_name: 'Kristoff',
+            candidate_email: 'vicki@kristoffs.com',
+            parent_email_1: 'paul@kristoffs.com',
+            parent_email_2: 'paul@kristoffs.com',
+            grade: 12,
+            attending: I18n.t('model.candidate.attending_catholic_high_school'),
+            address: {
+                street_1: '2120 Frissell Ave',
+                street_2: '',
+                city: 'Apex',
+                state: 'NC',
+                zip_code: '27502'
+            },
         },
         candidate_events_sorted: [
-            {completed_date: '',  # Fill Out Candidate Information Sheet
+            {completed_date: '', # Fill Out Candidate Information Sheet
              name: I18n.t('events.fill_out_candidate_sheet'),
              due_date: '2016-02-16',
              verified: false},

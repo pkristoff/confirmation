@@ -43,7 +43,7 @@ describe CandidateImportsController do
       get :create, ActionController::Parameters.new(candidate_import: ActionController::Parameters.new(file: uploaded_file))
       expect(response).to render_template('new')
       expect(controller.candidate_import).not_to eq(nil)
-      expect(controller.candidate_import.errors.size).to eq(5)
+      expect(controller.candidate_import.errors.size).to eq(4)
     end
   end
 

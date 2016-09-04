@@ -42,7 +42,7 @@ feature 'Sign in', :devise do
   #   Then I see an invalid password message
   scenario 'candidate cannot sign in with wrong password' do
     candidate = FactoryGirl.create(:candidate)
-    signin_candidate(candidate.parent_email_1, 'invalidpass')
+    signin_candidate(candidate.candidate_sheet.parent_email_1, 'invalidpass')
     expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Account name'))
   end
 

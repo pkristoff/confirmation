@@ -10,17 +10,17 @@ class BaptismalCertificate < ActiveRecord::Base
   # event_complete
 
   def validate_event_complete(baptized_at_stmm)
-    event_commplete = true
+    event_complete = true
     event_complete_validator = EventCompleteValidator.new(self, !baptized_at_stmm)
     event_complete_validator.validate([], BaptismalCertificate.get_basic_validation_params)
     unless baptized_at_stmm
       church_address.validate_event_complete
       church_address.errors.full_messages.each do |msg|
         errors[:base] << msg
-        event_commplete = false
+        event_complete = false
       end
     end
-    event_commplete
+    event_complete
   end
 
   def self.get_permitted_params

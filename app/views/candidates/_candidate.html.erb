@@ -1,9 +1,9 @@
 <td><%= link_to t('views.common.delete'), event_candidate_path(candidate.id), data: {confirm: t('views.common.are_you_sure')}, method: :delete  %></td>
 <td><%= link_to candidate.account_name, event_candidate_path(candidate.id) %></td>
-<td><%= candidate.first_name %></td>
-<td><%= candidate.last_name %></td>
-<td><%= candidate.attending %></td>
-<td><%= candidate.grade %></td>
-<td><%= candidate.candidate_email %></td>
-<td><%= candidate.parent_email_1 %></td>
-<td><%= candidate.parent_email_2 %></td>
+<td><%= candidate.candidate_sheet.first_name %></td>
+<td><%= candidate.candidate_sheet.last_name %></td>
+<td><%= candidate.candidate_sheet.attending %></td>
+<td><%= candidate.candidate_sheet.grade %></td>
+<td><%= candidate.candidate_sheet.candidate_email %></td>
+<td><%= candidate.candidate_sheet.parent_email_1 %></td>
+<td><%= candidate.candidate_sheet.parent_email_2 %></td>

@@ -16,7 +16,7 @@ feature 'Candidate index page', :devise do
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
     visit candidates_path
-    expect(page).to have_content candidate.parent_email_1
+    expect(page).to have_content candidate.candidate_sheet.parent_email_1
   end
 
 end

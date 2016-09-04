@@ -4,12 +4,12 @@ describe 'candidates/index.html.erb' do
 
     @candidate1 = FactoryGirl.create(:candidate)
     @candidate2 = FactoryGirl.create(:candidate, {
-        account_name: 'vickikristoff',
-        first_name: 'Sophia',
-        last_name: 'Agusta',
-        parent_email_1: 'other@test.com',
-        grade: 11,
-        attending: I18n.t('views.candidates.attending_catholic_high_school')})
+        account_name: 'vickikristoff'})
+    @candidate2.candidate_sheet.first_name = 'Sophia'
+    @candidate2.candidate_sheet.last_name = 'Agusta'
+    @candidate2.candidate_sheet.parent_email_1 = 'other@test.com'
+    @candidate2.candidate_sheet.grade =  11
+    @candidate2.candidate_sheet.attending = I18n.t('views.candidates.attending_catholic_high_school')
 
   end
 
@@ -59,13 +59,13 @@ describe 'candidates/index.html.erb' do
 
     expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(2)", text: candidate.account_name)
     expect(rendered).to have_link(candidate.account_name, href: "/event/#{candidate.id}")
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(3)", text: candidate.first_name)
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(4)", text: candidate.last_name)
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(5)", text: candidate.attending)
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(6)", text: candidate.grade)
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(7)", text: candidate.candidate_email)
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(8)", text: candidate.parent_email_1)
-    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(9)", text: candidate.parent_email_2)
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(3)", text: candidate.candidate_sheet.first_name)
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(4)", text: candidate.candidate_sheet.last_name)
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(5)", text: candidate.candidate_sheet.attending)
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(6)", text: candidate.candidate_sheet.grade)
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(7)", text: candidate.candidate_sheet.candidate_email)
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(8)", text: candidate.candidate_sheet.parent_email_1)
+    expect(rendered).to have_selector("table#candidates_table tbody tr:nth-of-type(#{row}) td:nth-of-type(9)", text: candidate.candidate_sheet.parent_email_2)
   end
 
 end

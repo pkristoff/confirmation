@@ -21,7 +21,7 @@
   </p>
 
   <ul>
-    <% ['last_name', 'first_name', 'grade', 'parent_email_1'].each_with_index do |column_name, index| %>
+    <% ['account_name'].each_with_index do |column_name, index| %>
         <% valid_column = Candidate.columns.select { |column| column.name == column_name }.first %>
         <li id="column-<%= index %>">
           <strong><%= valid_column.name %></strong> -

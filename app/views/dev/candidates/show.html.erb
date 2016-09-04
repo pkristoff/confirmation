@@ -1,9 +1,9 @@
 <h3><%= t('views.candidates.candidate') %></h3>
 <p><%= @candidate.account_name %></p>
-<p><%= @candidate.first_name %></p>
-<p><%= @candidate.last_name %></p>
-<p><%= @candidate.attending %></p>
-<p><%= @candidate.grade %></p>
-<p><%= @candidate.candidate_email %></p>
-<p><%= @candidate.parent_email_1 %></p>
-<p><%= @candidate.parent_email_2 %></p>
+<p><%= @candidate.candidate_sheet.first_name %></p>
+<p><%= @candidate.candidate_sheet.last_name %></p>
+<p><%= @candidate.candidate_sheet.attending %></p>
+<p><%= @candidate.candidate_sheet.grade %></p>
+<p><%= @candidate.candidate_sheet.candidate_email %></p>
+<p><%= @candidate.candidate_sheet.parent_email_1 %></p>
+<p><%= @candidate.candidate_sheet.parent_email_2 %></p>
