@@ -1,80 +1,104 @@
-<%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
+<%= render partial: "candidates/shared/show_error_message",
+           :locals => {event_association: event_association
+                       } %>
 
 
-    <%= f.fields_for :candidate_sheet do |cs_fields| %>
-        <%= field_set_tag t('views.candidates.candidate_name'), class: 'fieldset' do %>
-            <div class="fieldset-div">
-              <div class="field">
-                <%= cs_fields.label :first_name %><br/>
-                <%= cs_fields.text_field :first_name, autofocus: true %>
-              </div>
+<div id="two_column">
+  <div id="left-col" class="left_col">
 
-              <div class="field">
-                <%= cs_fields.label :last_name %><br/>
-                <%= cs_fields.text_field :last_name %>
-              </div>
-            </div>
+    <%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
+
+        <div class="actions">
+          <%= f.submit t('views.common.update'), id: 'top-update' %>
+        </div>
+
+        <%= f.fields_for :candidate_sheet do |cs_fields| %>
+            <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
+                <div class="fieldset-div">
+                  <div class="field">
+                    <%= cs_fields.label :first_name, I18n.t('label.candidate_sheet.first_name') %><br/>
+                    <%= cs_fields.text_field :first_name, autofocus: true %>
+                  </div>
+
+                  <div class="field">
+                    <%= cs_fields.label :last_name, I18n.t('label.candidate_sheet.last_name') %><br/>
+                    <%= cs_fields.text_field :last_name %>
+                  </div>
+                </div>
+            <% end %>
+
+            <%= field_set_tag t('field_set.candidate_sheet.address'), class: 'fieldset' do %>
+                <div class="fieldset-div">
+                  <%= cs_fields.fields_for :address do |address_fields| %>
+                      <div class="field">
+                        <%= address_fields.label :street_1, I18n.t('label.candidate_sheet.address.street_1') %><br/>
+                        <%= address_fields.text_field :street_1 %>
+                      </div>
+                      <div class="field">
+                        <%= address_fields.label :street_2, I18n.t('label.candidate_sheet.address.street_2') %><br/>
+                        <%= address_fields.text_field :street_2 %>
+                      </div>
+                      <div class="field">
+                        <%= address_fields.label :city, I18n.t('label.candidate_sheet.address.city') %><br/>
+                        <%= address_fields.text_field :city %>
+                      </div>
+                      <div class="field">
+                        <%= address_fields.label :state, I18n.t('label.candidate_sheet.address.state') %><br/>
+                        <%= address_fields.text_field :state %>
+                      </div>
+                      <div class="field">
+                        <%= address_fields.label :zip_code, I18n.t('label.candidate_sheet.address.zip_code') %><br/>
+                        <%= address_fields.text_field :zip_code %>
+                      </div>
+                  <% end %>
+                </div>
+            <% end %>
+
+            <%= field_set_tag t('field_set.candidate_sheet.email'), class: 'fieldset' do %>
+                <div class="fieldset-div">
+                  <div class="field">
+                    <%= cs_fields.label :candidate_email, I18n.t('label.candidate_sheet.candidate_email') %><br/>
+                    <%= cs_fields.email_field :candidate_email %>
+                  </div>
+
+                  <div class="field">
+                    <%= cs_fields.label :parent_email_1, I18n.t('label.candidate_sheet.parent_email_1') %><br/>
+                    <%= cs_fields.email_field :parent_email_1 %>
+                  </div>
+
+                  <div class="field">
+                    <%= cs_fields.label :parent_email_2, I18n.t('label.candidate_sheet.parent_email_2') %><br/>
+                    <%= cs_fields.email_field :parent_email_2 %>
+                  </div>
+                </div>
+            <% end %>
+
+            <%= field_set_tag t('field_set.candidate_sheet.other'), class: 'fieldset' do %>
+                <div class="fieldset-div">
+                  <div class="field">
+                    <%= cs_fields.label :grade, I18n.t('label.candidate_sheet.grade') %><br/>
+                    <%= cs_fields.number_field :grade, min: 8, max: 12 %>
+                  </div>
+                </div>
+            <% end %>
         <% end %>
 
-        <%= field_set_tag t('views.candidates.address'), class: 'fieldset' do %>
-            <div class="fieldset-div">
-              <%= cs_fields.fields_for :address do |address_fields| %>
-                  <div class="field">
-                    <%= address_fields.label :street_1 %><br/>
-                    <%= address_fields.text_field :street_1 %>
-                  </div>
-                  <div class="field">
-                    <%= address_fields.label :street_2 %><br/>
-                    <%= address_fields.text_field :street_2 %>
-                  </div>
-                  <div class="field">
-                    <%= address_fields.label :city %><br/>
-                    <%= address_fields.text_field :city %>
-                  </div>
-                  <div class="field">
-                    <%= address_fields.label :state %><br/>
-                    <%= address_fields.text_field :state %>
-                  </div>
-                  <div class="field">
-                    <%= address_fields.label :zip_code %><br/>
-                    <%= address_fields.text_field :zip_code %>
-                  </div>
-              <% end %>
-            </div>
-        <% end %>
+        <div class="actions">
+          <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+        </div>
 
-        <%= field_set_tag t('views.candidates.email'), class: 'fieldset' do %>
-            <div class="fieldset-div">
-              <div class="field">
-                <%= cs_fields.label :candidate_email %><br/>
-                <%= cs_fields.email_field :candidate_email %>
-              </div>
-
-              <div class="field">
-                <%= cs_fields.label :parent_email_1 %><br/>
-                <%= cs_fields.email_field :parent_email_1 %>
-              </div>
-
-              <div class="field">
-                <%= cs_fields.label :parent_email_2 %><br/>
-                <%= cs_fields.email_field :parent_email_2 %>
-              </div>
-            </div>
-        <% end %>
-
-        <%= field_set_tag t('views.candidates.other'), class: 'fieldset' do %>
-            <div class="fieldset-div">
-              <div class="field">
-                <%= cs_fields.label :grade %><br/>
-                <%= cs_fields.number_field :grade, min: 8, max: 12 %>
-              </div>
-            </div>
-        <% end %>
     <% end %>
 
-
-    <div class="actions">
-      <%= f.submit t('views.common.update') %>
+  </div>
+  <div id="right-col" class="right_col">
+    <%= link_to '#', class: 'btn btn-default',
+                id: "insturction-toggle",
+                onclick: 'confirmation_toggle().instructions(event)',
+                title: t('views.title.instruction_link') do %>
+        <span id="insturction-toggle-span" class="glyphicon glyphicon-minus"></span>
+    <% end %>
+    <div id="instructions" class="show-div" %>
+      <%= sanitize candidate_event.confirmation_event.instructions %>
     </div>
-
-<% end %>
+  </div>
+</div>

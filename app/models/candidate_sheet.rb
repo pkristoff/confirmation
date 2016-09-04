@@ -10,9 +10,9 @@ class CandidateSheet < ActiveRecord::Base
   # event_complete
 
   def validate_event_complete
-    event_complete = true
     event_complete_validator = EventCompleteValidator.new(self)
     event_complete_validator.validate(CandidateSheet.get_basic_validation_params)
+    event_complete = ! errors.any?
     address.validate_event_complete
     address.errors.full_messages.each do |msg|
       errors[:base] << msg
@@ -39,6 +39,10 @@ class CandidateSheet < ActiveRecord::Base
     candidate_sheet = candidate.candidate_sheet
     candidate_sheet.validate_event_complete()
     candidate_sheet
+  end
+
+  def self.event_name
+    I18n.t('events.fill_out_candidate_sheet')
   end
 
   # event_complete - end

@@ -42,12 +42,12 @@ input[type=text] {
   width: 95%;
 }
 
-.actions {
-  padding-top: 10px;
+textarea {
+  width: 95%;
 }
 
-.covenant_agreement {
-  font-style: italic;
+.actions {
+  padding-top: 10px;
 }
 
 #left-col {
@@ -69,4 +69,13 @@ input[type=text] {
 
 .field_with_errors input {
   border-color: #ff0000;
+  padding-bottom: 20px;
+}
+
+.field_with_errors {
+  padding-bottom: 20px;
+}
+
+.field {
+  padding-bottom: 20px;
 }

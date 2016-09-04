@@ -214,7 +214,23 @@ shared_context 'fill_out_candidate_sheet' do
     candidate_event = candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :candidate_sheet_update, id: candidate.id, candidate: {candidate_sheet_attributes: {first_name: 'Paul', last_name: 'Foo'}}
+    put :candidate_sheet_update, id: candidate.id,
+        candidate: {
+            candidate_sheet_attributes:
+                {first_name: 'Paul',
+                 last_name: 'Foo',
+                grade: 10,
+                candidate_email: 'foo@bar.com',
+                parent_email_1: 'baz@bar.com',
+                attending: 'The Way',
+                 address_attributes:{
+                     street_1: 'the way way',
+                     city: 'wayville',
+                     state: 'WA',
+                     zip_code: '27502'
+                 }
+                }
+        }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
@@ -223,8 +239,8 @@ shared_context 'fill_out_candidate_sheet' do
     else
       expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
     end
-    expect(@request.fullpath).to eq("/#{@dev}candidate_sheet.#{candidate.id}?candidate%5Bcandidate_sheet_attributes%5D%5Bfirst_name%5D=Paul&candidate%5Bcandidate_sheet_attributes%5D%5Blast_name%5D=Foo")
     expect(candidate.candidate_sheet.first_name).to eq('Paul')
+    expect(candidate.candidate_sheet.address.city).to eq('wayville')
     expect(candidate_event.completed_date).to eq(Date.today)
   end
 

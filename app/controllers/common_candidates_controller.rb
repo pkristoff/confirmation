@@ -57,19 +57,13 @@ class CommonCandidatesController < ApplicationController
   end
 
   def candidate_sheet_update
-    candidate = Candidate.find(params[:id])
-    candidate_event = candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
-    candidate_event.completed_date = Date.today
+    @candidate = Candidate.find(params[:id])
 
-    if candidate.update_attributes(candidate_params)
-      if is_admin?
-        redirect_to event_candidate_registration_path(params[:id]), notice: 'Updated'
-      else
-        redirect_to event_candidate_path(params[:id]), notice: 'Updated'
-      end
-    else
-      redirect_to :back, alert: 'Saving failed.'
-    end
+    render_called = event_with_picture_update_private(CandidateSheet)
+
+    @resource = @candidate
+    render :candidate_sheet unless render_called
+
   end
 
   def download_document

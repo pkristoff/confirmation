@@ -8,7 +8,7 @@
 </div>
 
 <%= f.fields_for :candidate_sheet do |cs_fields| %>
-    <%= field_set_tag t('views.candidates.candidate_name'), class: 'fieldset' do %>
+    <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <div class="field">
             <%= cs_fields.label :first_name %><br/>
@@ -22,7 +22,7 @@
         </div>
     <% end %>
 
-    <%= field_set_tag t('views.candidates.address'), class: 'fieldset' do %>
+    <%= field_set_tag t('field_set.candidate_sheet.address'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <%= cs_fields.fields_for :address do |address_fields| %>
               <div class="field">
@@ -49,7 +49,7 @@
         </div>
     <% end %>
 
-    <%= field_set_tag t('views.candidates.email'), class: 'fieldset' do %>
+    <%= field_set_tag t('field_set.candidate_sheet.email'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <div class="field">
             <%= cs_fields.label :candidate_email %><br/>
@@ -68,7 +68,7 @@
         </div>
     <% end %>
 
-    <%= field_set_tag t('views.candidates.other'), class: 'fieldset' do %>
+    <%= field_set_tag t('field_set.candidate_sheet.other'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <div class="field">
             <%= cs_fields.label :grade %><br/>

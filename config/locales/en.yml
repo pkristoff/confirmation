@@ -31,6 +31,11 @@ en:
     sponsor_agreement: 'Sponsor and Candidate Conversation'
     christian_ministry: 'Christian Ministry Awareness'
   field_set:
+    candidate_sheet:
+      address: 'Address'
+      email: 'Email'
+      name: 'Name'
+      other: 'Other'
     christian_ministry:
       questions: 'Answer questions'
     pick_confirmation_name:
@@ -45,11 +50,24 @@ en:
       sponsor_name: 'Sponsor name'
       sponsor_church: 'Sponsor church'
   label:
+    candidate_sheet:
+      first_name: 'First name'
+      last_name: 'Last name'
+      address:
+        street_1: 'Street 1'
+        street_2: 'Street 2'
+        city: 'City'
+        state: 'State'
+        zip_code: 'Zip code'
+      candidate_email: 'Candidate email'
+      parent_email_1: 'Parent email 1'
+      parent_email_2: 'Parent email 2'
+      grade: 'Grade'
     christian_ministry:
-      what_service: 'What service'
-      where_service: 'Where service'
-      when_service: 'When service'
-      helped_me: 'Helped me'
+      what_service: 'What was the service?'
+      where_service: 'Where did the service take place?'
+      when_service: 'When did you do the service?'
+      helped_me: 'This experience helped me by'
       signed: 'Signed'
       christian_ministry_picture: 'Scanned worksheet'
     pick_confirmation_name:
@@ -124,21 +142,17 @@ en:
       sign_in: 'Sign in admin'
     candidates:
       account_name: 'Account name'
-      address: 'Address'
       attending_the_way: 'The Way'
       attending_catholic_high_school: 'Catholic High School'
       candidate: 'Candidate'
-      candidate_name: 'Candidate Name'
       church: 'Church'
       dates: 'Dates'
       edit_candidate: 'Edit Candidate'
-      email: 'Email'
       event_related: 'Event Related'
       father_name: 'Father name'
       first_name: 'First name'
       last_name: 'Last name'
       mother_name: 'Mother name'
-      other: 'Other'
       parent_email_1: 'Parent email 1'
       password: 'Password'
       scan_sponsor_covenant: 'Scan sponsor covenant'
