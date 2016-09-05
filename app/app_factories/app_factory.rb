@@ -54,14 +54,14 @@ class AppFactory
       # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}"
       # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.chs_due_date}"
     end
-    unless new_confirmation_event.nil?
-      # puts 'adding to candidates'
-      Candidate.all.each do |candidate|
-        candidate.add_candidate_event(new_confirmation_event)
-        # puts "adding to candidate: #{candidate.account_name}"
-        candidate.save
-      end
-    end
+    # unless new_confirmation_event.nil?
+    #   # puts 'adding to candidates'
+    #   Candidate.all.each do |candidate|
+    #     candidate.add_candidate_event(new_confirmation_event)
+    #     # puts "adding to candidate: #{candidate.account_name}"
+    #     candidate.save
+    #   end
+    # end
     # puts 'ending event_name'
     event
   end
