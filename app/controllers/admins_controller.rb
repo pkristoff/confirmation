@@ -54,7 +54,7 @@ class AdminsController < ApplicationController
   private
 
   def confirmation_event_params
-    params.require(:confirmation_event).permit([:name, :due_date, :instructions])
+    params.require(:confirmation_event).permit([:name, :the_way_due_date, :chs_due_date, :instructions])
   end
 
 end

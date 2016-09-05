@@ -6,8 +6,11 @@
 
       <div id="<%= "candidate_event_#{index}_header" %>"><h3><%= confirmation_event.name %></h3></div>
       <div id="<%= "candidate_event_#{index}_section_left" %>" class="left-col">
-        <div id="<%= "candidate_event_#{index}_the_way_due_date" %>"><%= t('views.events.the_way_due_date') %>: <%= l confirmation_event.the_way_due_date, format: :default %></div>
-        <div id="<%= "candidate_event_#{index}_chs_due_date" %>"><%= t('views.events.chs_due_date') %>: <%= l confirmation_event.chs_due_date, format: :default %></div>
+        <% if candidate.candidate_sheet.attending === t('model.candidate.attending_the_way') %>
+            <div id="<%= "candidate_event_#{index}_the_way_due_date" %>"><%= t('views.events.the_way_due_date') %>: <%= l confirmation_event.the_way_due_date, format: :default %></div>
+        <% else %>
+            <div id="<%= "candidate_event_#{index}_chs_due_date" %>"><%= t('views.events.chs_due_date') %>: <%= l confirmation_event.chs_due_date, format: :default %></div>
+        <% end %>
         <div id="<%= "candidate_event_#{index}_verified" %>">
           <%= t('views.events.verified') %>: <%= candidate_event.verified %>
         </div>
