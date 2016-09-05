@@ -3,26 +3,34 @@ include ViewsHelpers
 
 describe 'candidates/registrations/event.html.erb' do
 
-  it 'Form layout' do
+  describe 'Form layout' do
 
-    login_candidate
-    allow(controller).to receive(:event_class) { '' }
+    it 'attending == The Way ' do
 
-    render
+      login_candidate
+      allow(controller).to receive(:event_class) { '' }
 
-    expect_candidate_event(0, 'Going out to eat', '2016-05-31', '2016-05-24', "Do this\none\ntwo\nthree\n\n", false, '')
-    expect_candidate_event(1, 'Staying home', '2016-04-30', '2016-04-01', "Do this\none\ntwo\nthree\n\n", false, '2016-03-29')
+      render
 
-  end
+      expect_candidate_event(0, 'Going out to eat', '2016-05-31', nil, "Do this\none\ntwo\nthree\n\n", false, '', 'div')
+      expect_candidate_event(1, 'Staying home', '2016-04-30', nil, "Do this\none\ntwo\nthree\n\n", false, '2016-03-29', 'div')
 
-  def expect_candidate_event(index, name, the_way_due_date, chs_due_date, instructions, verified, completed_date)
+    end
 
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_header]", text: name)
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_the_way_due_date]", text: "#{I18n.t('views.events.the_way_due_date')}: #{the_way_due_date}")
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_chs_due_date]", text: "#{I18n.t('views.events.chs_due_date')}: #{chs_due_date}")
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_instructions]", text: "#{I18n.t('views.events.instructions')}:")
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_instructions]", text: "#{instructions}")
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_verified]", text: "#{I18n.t('views.events.verified')}: #{verified}")
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_completed_date]", text: "#{I18n.t('views.events.completed_date')}: #{completed_date}")
+    it 'attending == Catholic High School' do
+
+      login_candidate
+      candidate = Candidate.find_by_account_name 'sophiaagusta'
+      candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_catholic_high_school')
+      candidate.save
+      allow(controller).to receive(:event_class) { '' }
+
+      render
+
+      expect_candidate_event(0, 'Going out to eat', nil, '2016-05-24', "Do this\none\ntwo\nthree\n\n", false, '', 'div')
+      expect_candidate_event(1, 'Staying home', nil, '2016-04-01', "Do this\none\ntwo\nthree\n\n", false, '2016-03-29', 'div')
+
+    end
+
   end
 end

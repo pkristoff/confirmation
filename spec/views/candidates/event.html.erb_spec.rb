@@ -11,34 +11,35 @@ describe 'candidates/event.html.erb' do
 
   end
 
-  it 'Form layout' do
+  describe 'Form layout' do
+
+    it 'attending The Way' do
+
+      login_admin
+      allow(controller).to receive(:event_class) { '' }
+
+      render
+
+      expect_candidate_event(0, 'Going out to eat', '2016-05-31', nil, '', false, '')
+      expect_candidate_event(1, 'Staying home', '2016-04-30', nil, '', false, '2016-03-29')
+
+    end
+
+  end
+
+  it 'attending Catholic High School' do
+
+    @resource.candidate_sheet.attending = I18n.t('model.candidate.attending_catholic_high_school')
+    @resource.save
 
     login_admin
     allow(controller).to receive(:event_class) { '' }
 
     render
 
-    expect_candidate_event(0, 'Going out to eat', '2016-05-31', '2016-05-24', "", false, '')
-    expect_candidate_event(1, 'Staying home', '2016-04-30', '2016-04-01', "", false, '2016-03-29')
+    expect_candidate_event(0, 'Going out to eat', nil, '2016-05-24', '', false, '')
+    expect_candidate_event(1, 'Staying home', nil, '2016-04-01', '', false, '2016-03-29')
 
   end
 
-  def expect_candidate_event(index, name, the_way_due_date, chs_due_date, instructions, verified, completed_date)
-
-    expect(rendered).to have_selector("fieldset[id=candidate_event_#{index}_name]", text: name)
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_the_way_due_date]", text: "#{I18n.t('views.events.the_way_due_date')}: #{the_way_due_date}")
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_chs_due_date]", text: "#{I18n.t('views.events.chs_due_date')}: #{chs_due_date}")
-    expect(rendered).to have_selector("div[id=candidate_event_#{index}_instructions]", text: "#{I18n.t('views.events.instructions')}: #{instructions}")
-    if verified
-      expect(rendered).to have_field("candidate_candidate_events_attributes_#{index}_verified", checked: true)
-    else
-      expect(rendered).to have_field("candidate_candidate_events_attributes_#{index}_verified", unchecked: true)
-    end
-
-    if completed_date.empty?
-      expect(rendered).to have_field("candidate_candidate_events_attributes_#{index}_completed_date")
-    else
-      expect(rendered).to have_field("candidate_candidate_events_attributes_#{index}_completed_date", with: completed_date.strip)
-    end
-  end
 end

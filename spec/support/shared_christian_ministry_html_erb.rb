@@ -99,7 +99,7 @@ shared_context 'christian_ministry_html_erb' do
     update_christian_ministry(false)
     visit @path
     fill_in_form(false)
-    fill_in('What service', with: nil)
+    fill_in(I18n.t('label.christian_ministry.what_service'), with: nil)
     click_button 'top-update'
 
     expect_message(:error_explanation, '4 empty fields need to be filled in: Christian ministry filename can\'t be blank Christian ministry content type can\'t be blank Christian ministry file contents can\'t be blank What service can\'t be blank')
@@ -131,10 +131,10 @@ shared_context 'christian_ministry_html_erb' do
   end
 
   def fill_in_form(christian_ministry_attach_file=true)
-    fill_in('What service', with: WHAT_SERVICE)
-    fill_in('Where service', with: WHERE_SERVICE)
-    fill_in('When service', with: WHEN_SERVICE)
-    fill_in('Helped me', with: HELPED_ME)
+    fill_in(I18n.t('label.christian_ministry.what_service'), with: WHAT_SERVICE)
+    fill_in(I18n.t('label.christian_ministry.where_service'), with: WHERE_SERVICE)
+    fill_in(I18n.t('label.christian_ministry.when_service'), with: WHEN_SERVICE)
+    fill_in(I18n.t('label.christian_ministry.helped_me'), with: HELPED_ME)
     check('Signed')
     if christian_ministry_attach_file
       attach_file(I18n.t('label.christian_ministry.christian_ministry_picture'), 'spec/fixtures/actions.png')
