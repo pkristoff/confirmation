@@ -338,8 +338,8 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_information_sheet')).the_way_due_date.to_s).to eq('2016-02-29')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_information_sheet')).chs_due_date.to_s).to eq('2016-02-16')
 
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).the_way_due_date.to_s).to eq('2016-08-31')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).chs_due_date.to_s).to eq('2016-08-12')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.baptismal_certificate')).the_way_due_date.to_s).to eq('2016-08-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.baptismal_certificate')).chs_due_date.to_s).to eq('2016-08-12')
 
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_sponsor_covenant')).the_way_due_date.to_s).to eq('2016-10-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_sponsor_covenant')).chs_due_date.to_s).to eq('2016-10-15')
@@ -437,8 +437,8 @@ describe CandidateImport do
              name: I18n.t('events.candidate_covenant_agreement'),
              due_date: '2016-07-31',
              verified: false},
-            {completed_date: '', # Upload Baptismal Certificate 8/31/16
-             name: I18n.t('events.upload_baptismal_certificate'),
+            {completed_date: '', # Baptismal Certificate 8/31/16
+             name: I18n.t('events.baptismal_certificate'),
              due_date: '2016-08-31',
              verified: false},
             {completed_date: '', # Christian Ministry Awareness 1/31/17
@@ -489,8 +489,8 @@ describe CandidateImport do
              name: I18n.t('events.candidate_covenant_agreement'),
              due_date: '2016-07-31',
              verified: false},
-            {completed_date: '', # Upload Baptismal Certificate 8/31/16
-             name: I18n.t('events.upload_baptismal_certificate'),
+            {completed_date: '', #  Baptismal Certificate 8/31/16
+             name: I18n.t('events.baptismal_certificate'),
              due_date: '2016-08-31',
              verified: false},
             {completed_date: '', # Sponsor Covenant 10/31/16
@@ -553,8 +553,8 @@ describe CandidateImport do
              name: I18n.t('events.parent_meeting'),
              due_date: '2016-06-03',
              verified: false},
-            {completed_date: '', # Upload Baptismal Certificate
-             name: I18n.t('events.upload_baptismal_certificate'),
+            {completed_date: '', # Baptismal Certificate
+             name: I18n.t('events.baptismal_certificate'),
              due_date: '2016-08-12',
              verified: false},
             {completed_date: '', # Sponsor Covenant

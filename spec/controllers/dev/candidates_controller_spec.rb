@@ -72,7 +72,7 @@ describe Dev::CandidatesController do
 
     describe 'baptismal_certificate' do
 
-      it_behaves_like 'upload_baptismal_certificate'
+      it_behaves_like 'baptismal_certificate'
 
     end
 

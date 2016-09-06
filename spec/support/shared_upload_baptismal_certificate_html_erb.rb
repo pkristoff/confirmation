@@ -16,7 +16,7 @@ MOTHER_MAIDEN = 'Mary'
 shared_context 'upload_baptismal_certificate_html_erb' do
 
   before(:each) do
-    event_with_picture_setup(I18n.t('events.upload_baptismal_certificate'), Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE)
+    event_with_picture_setup(I18n.t('events.baptismal_certificate'), Event::Route::BAPTISMAL_CERTIFICATE)
   end
 
   scenario 'admin logs in and selects a candidate, checks baptized_at_stmm, nothing else showing' do
@@ -153,7 +153,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
 
   def expect_form_layout(candidate, street_1=STREET_1)
     visibility = candidate.baptized_at_stmm ? 'hide-div' : 'show-div'
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/upload_baptismal_certificate\"]")
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/baptismal_certificate\"]")
     expect(page).to have_selector("div[id=baptismal-certificate-top][class=\"#{visibility}\"]")
 
     if candidate.baptized_at_stmm
@@ -215,7 +215,7 @@ shared_context 'upload_baptismal_certificate_html_erb' do
   end
 
   def get_img_src_selector
-    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/upload_baptismal_certificate\"]"
+    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/baptismal_certificate\"]"
   end
 
   def update_baptismal_certificate(with_values)

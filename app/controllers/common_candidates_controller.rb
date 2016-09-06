@@ -18,14 +18,14 @@ class CommonCandidatesController < ApplicationController
 
            render_called = event_with_picture_update_private(SponsorCovenant)
 
-        when Event::Route::PICK_CONFIRMATION_NAME
+        when Event::Route::CONFIRMATION_NAME
           pick_confirmation_name = @candidate.pick_confirmation_name
           pick_confirmation_name_params = params[:candidate][:pick_confirmation_name_attributes]
           setup_file_params(pick_confirmation_name_params[:pick_confirmation_name_picture], pick_confirmation_name, 'pick_confirmation_name', pick_confirmation_name_params)
 
           render_called = event_with_picture_update_private(PickConfirmationName)
 
-        when Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
+        when Event::Route::BAPTISMAL_CERTIFICATE
           baptized_at_stmm = params[:candidate]['baptized_at_stmm'] == '1'
           baptismal_certificate = @candidate.baptismal_certificate
           unless baptized_at_stmm
@@ -82,9 +82,9 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     association = nil
     case params[:event_name].to_sym
-      when Event::Route::PICK_CONFIRMATION_NAME
+      when Event::Route::CONFIRMATION_NAME
         association = @candidate.pick_confirmation_name
-      when Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
+      when Event::Route::BAPTISMAL_CERTIFICATE
         association = @candidate.baptismal_certificate
       when Event::Route::UPLOAD_SPONSOR_COVENANT
         association = @candidate.sponsor_covenant

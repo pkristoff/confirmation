@@ -18,7 +18,7 @@ describe 'layouts/_side_bar.html.erb' do
 
       expect(rendered).to have_link(I18n.t('events.candidate_covenant_agreement'), href: "/dev/sign_agreement.#{candidate.id}")
       expect(rendered).to have_link(I18n.t('events.candidate_information_sheet'), href: "/dev/candidate_sheet.#{candidate.id}")
-      expect(rendered).to have_link(I18n.t('views.nav.upload_baptismal_certificate'), href: "/dev/event_with_picture/#{candidate.id}/upload_baptismal_certificate")
+      expect(rendered).to have_link(I18n.t('events.baptismal_certificate'), href: "/dev/event_with_picture/#{candidate.id}/baptismal_certificate")
       expect(rendered).to have_link(I18n.t('views.nav.sponsor_covenant'), href: "/dev/event_with_picture/#{candidate.id}/upload_sponsor_covenant")
       expect(rendered).to have_link(I18n.t('events.confirmation_name'), href: "/dev/event_with_picture/#{candidate.id}/confirmation_name")
       expect(rendered).to have_link(I18n.t('views.nav.sponsor_agreement'), href: "/dev/sponsor_agreement.#{candidate.id}")
@@ -65,7 +65,7 @@ describe 'layouts/_side_bar.html.erb' do
       expect(rendered).to have_link("#{I18n.t('views.nav.events')} Sophia Agusta", href: "/event/#{@resource.id}")
       expect(rendered).to have_link("#{I18n.t('events.candidate_covenant_agreement')} Sophia Agusta", href: "/sign_agreement.#{@resource.id}")
       expect(rendered).to have_link("#{I18n.t('events.candidate_information_sheet')} Sophia Agusta", href: "/candidate_sheet.#{@resource.id}")
-      expect(rendered).to have_link("#{I18n.t('views.nav.upload_baptismal_certificate')} Sophia Agusta", href: "/event_with_picture/#{@resource.id}/upload_baptismal_certificate")
+      expect(rendered).to have_link("#{I18n.t('events.baptismal_certificate')} Sophia Agusta", href: "/event_with_picture/#{@resource.id}/baptismal_certificate")
       expect(rendered).to have_link("#{I18n.t('views.nav.sponsor_covenant')} Sophia Agusta", href: "/event_with_picture/#{@resource.id}/upload_sponsor_covenant")
       expect(rendered).to have_link("#{I18n.t('events.confirmation_name')} Sophia Agusta", href: "/event_with_picture/#{@resource.id}/confirmation_name")
       expect(rendered).to have_link("#{I18n.t('views.nav.sponsor_agreement')} Sophia Agusta", href: "/sponsor_agreement.#{@resource.id}")

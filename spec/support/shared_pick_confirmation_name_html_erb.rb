@@ -6,7 +6,7 @@ WHY_SAINT = 'She looks good'
 shared_context 'pick_confirmation_name_html_erb' do
 
   before(:each) do
-    event_with_picture_setup(I18n.t('events.confirmation_name'), Event::Route::PICK_CONFIRMATION_NAME)
+    event_with_picture_setup(I18n.t('events.confirmation_name'), Event::Route::CONFIRMATION_NAME)
 
   end
 
@@ -110,7 +110,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     expect_field(I18n.t('label.pick_confirmation_name.why_saint'), with_values ? WHY_SAINT : '')
 
     expect(page).to have_button('top-update')
-    expect_download_button(Event::Document::PICK_CONFIRMATION_NAME)
+    expect_download_button(Event::Document::CONFIRMATION_NAME)
   end
 
   def expect_field (label, value)

@@ -48,7 +48,7 @@ class BaptismalCertificate < ActiveRecord::Base
   end
 
   def self.event_name
-    I18n.t('events.upload_baptismal_certificate')
+    I18n.t('events.baptismal_certificate')
   end
 
   def self.validate_event_complete(candidate)

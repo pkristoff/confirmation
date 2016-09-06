@@ -1,55 +1,55 @@
 
 
-shared_context 'upload_baptismal_certificate' do
+shared_context 'baptismal_certificate' do
 
-  it 'should show upload_baptismal_certificate for the candidate.' do
+  it 'should show baptismal_certificate for the candidate.' do
 
     expect(@candidate.baptismal_certificate).not_to eq(nil)
 
-    put :event_with_picture, id: @candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
+    put :event_with_picture, id: @candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE
 
     expect(response).to render_template('event_with_picture')
     expect(controller.candidate).to eq(@candidate)
-    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{@candidate.id}/upload_baptismal_certificate")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{@candidate.id}/baptismal_certificate")
 
     expect(controller.candidate.baptismal_certificate).not_to eq(nil)
   end
 
-  it 'show should update the candidate upload_baptismal_certificate info and update Candidate event.' do
+  it 'show should update the candidate baptismal_certificate info and update Candidate event.' do
 
-    AppFactory.add_confirmation_event(I18n.t('events.upload_baptismal_certificate'))
+    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
-    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE, candidate: {baptized_at_stmm: '1'}
+    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE, candidate: {baptized_at_stmm: '1'}
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(response.status).to eq(302)
-    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=1")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=1")
     expect(candidate.baptized_at_stmm).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
   end
 
   it 'show should illegal parameter.' do
 
-    AppFactory.add_confirmation_event(I18n.t('events.upload_baptismal_certificate'))
+    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
-    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE
+    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
     expect(response.status).to eq(200)
-    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
     expect(candidate.baptized_at_stmm).to eq(true)
     expect(candidate_event.completed_date).to eq(nil)
 
@@ -59,23 +59,23 @@ shared_context 'upload_baptismal_certificate' do
 
   it 'should show illegal parameter.' do
 
-    AppFactory.add_confirmation_event(I18n.t('events.upload_baptismal_certificate'))
+    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
     # candidate.baptismal_certificate = BaptismalCertificate.new
     # candidate.save
-    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE,
+    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE,
         candidate: {baptized_at_stmm: '0',
                     baptismal_certificate_attributes: {},}
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.upload_baptismal_certificate'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
     expect(response.status).to eq(200)
-    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/upload_baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=0")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=0")
     expect(candidate.baptized_at_stmm).to eq(false)
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate_event.completed_date.to_s).to eq('')
@@ -86,13 +86,13 @@ shared_context 'upload_baptismal_certificate' do
 
   it 'User fills in all info and updates' do
 
-    AppFactory.add_confirmation_event(I18n.t('events.upload_baptismal_certificate'))
+    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
 
     valid_parameters = get_valid_parameters
     valid_parameters[:certificate_picture] = fixture_file_upload('Baptismal Certificate.png', 'image/png')
-    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE,
+    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE,
         candidate: {baptized_at_stmm: '0',
                     baptismal_certificate_attributes: valid_parameters
         }
