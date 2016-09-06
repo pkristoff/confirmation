@@ -42,7 +42,7 @@ class CandidateSheet < ActiveRecord::Base
   end
 
   def self.event_name
-    I18n.t('events.fill_out_candidate_sheet')
+    I18n.t('events.candidate_information_sheet')
   end
 
   # event_complete - end

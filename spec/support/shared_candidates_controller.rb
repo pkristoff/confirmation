@@ -195,9 +195,9 @@ shared_context 'sponsor_agreement' do
 
 end
 
-shared_context 'fill_out_candidate_sheet' do
+shared_context 'candidate_information_sheet' do
 
-  it 'should show fill_out_candidate_sheet for the candidate.' do
+  it 'should show candidate_information_sheet for the candidate.' do
 
     get :candidate_sheet, id: @candidate.id
 
@@ -208,10 +208,10 @@ shared_context 'fill_out_candidate_sheet' do
 
   it 'show should update the candidate to fill out candidate sheet and update Candidate event.' do
 
-    AppFactory.add_confirmation_event(I18n.t('events.fill_out_candidate_sheet'))
+    AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
     expect(candidate_event.completed_date).to eq(nil)
 
     put :candidate_sheet_update, id: candidate.id,
@@ -233,7 +233,7 @@ shared_context 'fill_out_candidate_sheet' do
         }
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
     if @dev.empty?
       expect(response).to redirect_to(event_candidate_path(candidate.id))
     else

@@ -1,5 +1,5 @@
 <%= render partial: 'candidates/shared/candidate_sheet',
            :locals => {path: dev_candidate_sheet_update_path(@candidate.id),
                        event_association: @candidate.candidate_sheet,
-                       candidate_event: @candidate.get_candidate_event(I18n.t('events.fill_out_candidate_sheet'))
+                       candidate_event: @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
            } %>

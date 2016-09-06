@@ -64,9 +64,9 @@ describe Dev::CandidatesController do
 
     end
 
-    describe 'fill_out_candidate_sheet' do
+    describe 'candidate_information_sheet' do
 
-      it_behaves_like 'fill_out_candidate_sheet'
+      it_behaves_like 'candidate_information_sheet'
 
     end
 

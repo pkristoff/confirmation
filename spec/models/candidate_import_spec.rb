@@ -335,8 +335,8 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).the_way_due_date.to_s).to eq('2016-07-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).chs_due_date.to_s).to eq('2016-07-13')
 
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.fill_out_candidate_sheet')).the_way_due_date.to_s).to eq('2016-02-29')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.fill_out_candidate_sheet')).chs_due_date.to_s).to eq('2016-02-16')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_information_sheet')).the_way_due_date.to_s).to eq('2016-02-29')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_information_sheet')).chs_due_date.to_s).to eq('2016-02-16')
 
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).the_way_due_date.to_s).to eq('2016-08-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_baptismal_certificate')).chs_due_date.to_s).to eq('2016-08-12')
@@ -418,7 +418,7 @@ describe CandidateImport do
         },
         candidate_events_sorted: [
             {completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
-             name: I18n.t('events.fill_out_candidate_sheet'),
+             name: I18n.t('events.candidate_information_sheet'),
              due_date: '2016-02-29',
              verified: false},
             {completed_date: '', # Attend Retreat 5/31/16
@@ -478,7 +478,7 @@ describe CandidateImport do
         },
         candidate_events_sorted: [
             {completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
-             name: I18n.t('events.fill_out_candidate_sheet'),
+             name: I18n.t('events.candidate_information_sheet'),
              due_date: '2016-02-29',
              verified: false},
             {completed_date: '', # Sign Agreement 7/31/16
@@ -538,7 +538,7 @@ describe CandidateImport do
         },
         candidate_events_sorted: [
             {completed_date: '', # Fill Out Candidate Information Sheet
-             name: I18n.t('events.fill_out_candidate_sheet'),
+             name: I18n.t('events.candidate_information_sheet'),
              due_date: '2016-02-16',
              verified: false},
             {completed_date: '', # Attend Retreat

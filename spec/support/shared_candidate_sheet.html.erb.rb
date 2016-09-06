@@ -2,7 +2,7 @@ shared_context 'candidate_sheet_html_erb' do
 
   before(:each) do
 
-    AppFactory.add_confirmation_event(I18n.t('events.fill_out_candidate_sheet'))
+    AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
 
   end
 

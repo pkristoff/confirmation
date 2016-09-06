@@ -135,7 +135,7 @@ class AppFactory
         # matches 20160701175828_add_covenant_agreement.rb
         'events.sign_agreement',
         # matches 20160712191417_add_candidate_information_sheet.rb
-        'events.fill_out_candidate_sheet',
+        'events.candidate_information_sheet',
         # matches 20160712191417_add_candidate_information_sheet.rb
         'events.upload_baptismal_certificate',
         # matches 20160821215148_add_sponsor_covenant.rb
