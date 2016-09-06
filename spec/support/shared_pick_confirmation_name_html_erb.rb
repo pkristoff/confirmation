@@ -6,7 +6,7 @@ WHY_SAINT = 'She looks good'
 shared_context 'pick_confirmation_name_html_erb' do
 
   before(:each) do
-    event_with_picture_setup(I18n.t('events.pick_confirmation_name'), Event::Route::PICK_CONFIRMATION_NAME)
+    event_with_picture_setup(I18n.t('events.confirmation_name'), Event::Route::PICK_CONFIRMATION_NAME)
 
   end
 
@@ -101,7 +101,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
   def expect_form_layout(candidate, with_values, saint_name=SAINT_NAME)
 
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/pick_confirmation_name\"]")
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/confirmation_name\"]")
 
     expect_field(I18n.t('label.pick_confirmation_name.pick_confirmation_name_picture'), nil)
 
@@ -131,7 +131,7 @@ shared_context 'pick_confirmation_name_html_erb' do
   end
 
   def get_img_src_selector
-    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/pick_confirmation_name\"]"
+    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/confirmation_name\"]"
   end
 
   def update_pick_confirmation_name(with_values)

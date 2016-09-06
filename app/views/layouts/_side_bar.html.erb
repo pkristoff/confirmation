@@ -19,7 +19,7 @@
             <li><%= link_to "#{I18n.t('events.candidate_information_sheet')} #{first_name} #{last_name}", candidate_sheet_path(resource.id) %></li>
             <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')} #{first_name} #{last_name}", event_with_picture_path(resource.id, Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE) %></li>
             <li><%= link_to "#{I18n.t('views.nav.sponsor_covenant')} #{first_name} #{last_name}", event_with_picture_path(resource.id, Event::Route::UPLOAD_SPONSOR_COVENANT) %></li>
-            <li><%= link_to "#{I18n.t('views.nav.pick_confirmation_name')} #{first_name} #{last_name}", event_with_picture_path(resource.id, Event::Route::PICK_CONFIRMATION_NAME) %></li>
+            <li><%= link_to "#{I18n.t('events.confirmation_name')} #{first_name} #{last_name}", event_with_picture_path(resource.id, Event::Route::PICK_CONFIRMATION_NAME) %></li>
             <li><%= link_to "#{I18n.t('views.nav.sponsor_agreement')} #{first_name} #{last_name}", sponsor_agreement_path(resource.id) %></li>
             <li><%= link_to "#{I18n.t('views.nav.christian_ministry')} #{first_name} #{last_name}", event_with_picture_path(resource.id, Event::Route::CHRISTIAN_MINISTRY) %></li>
 
@@ -35,7 +35,7 @@
     <li><%= link_to "#{I18n.t('events.candidate_information_sheet')}", dev_candidate_sheet_path(current_candidate.id) %></li>
     <li><%= link_to "#{I18n.t('views.nav.upload_baptismal_certificate')}", dev_event_with_picture_path(current_candidate.id, Event::Route::UPLOAD_BAPTISMAL_CERTIFICATE) %></li>
     <li><%= link_to "#{I18n.t('views.nav.sponsor_covenant')}", dev_event_with_picture_path(current_candidate.id, Event::Route::UPLOAD_SPONSOR_COVENANT) %></li>
-    <li><%= link_to "#{I18n.t('views.nav.pick_confirmation_name')}", dev_event_with_picture_path(current_candidate.id, Event::Route::PICK_CONFIRMATION_NAME) %></li>
+    <li><%= link_to "#{I18n.t('events.confirmation_name')}", dev_event_with_picture_path(current_candidate.id, Event::Route::PICK_CONFIRMATION_NAME) %></li>
     <li><%= link_to "#{I18n.t('views.nav.sponsor_agreement')}", dev_sponsor_agreement_path(current_candidate.id) %></li>
     <li><%= link_to "#{I18n.t('views.nav.christian_ministry')}", dev_event_with_picture_path(current_candidate.id, Event::Route::CHRISTIAN_MINISTRY) %></li>
 

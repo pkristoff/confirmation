@@ -13,7 +13,7 @@ class PickConfirmationName < ActiveRecord::Base
   end
 
   def self.event_name
-    I18n.t('events.pick_confirmation_name')
+    I18n.t('events.confirmation_name')
   end
 
   def self.validate_event_complete(candidate)

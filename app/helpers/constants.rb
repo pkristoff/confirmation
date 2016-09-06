@@ -3,8 +3,8 @@ module Event
     BAPTISMAL_CERTIFICATE_UPDATE = :baptismal_certificate_update
     CHRISTIAN_MINISTRY = :christian_ministry
     CHRISTIAN_MINISTRY_UPDATE = :christian_ministry_update
-    PICK_CONFIRMATION_NAME = :pick_confirmation_name
-    PICK_CONFIRMATION_NAME_UPDATE = :pick_confirmation_name_update
+    PICK_CONFIRMATION_NAME = :confirmation_name
+    PICK_CONFIRMATION_NAME_UPDATE = :confirmation_name_update
     SPONSOR_COVENANT_UPDATE = :sponsor_covenant_update
     UPLOAD_BAPTISMAL_CERTIFICATE = :upload_baptismal_certificate
     UPLOAD_SPONSOR_COVENANT = :upload_sponsor_covenant
