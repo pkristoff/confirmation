@@ -127,12 +127,11 @@ class CandidateImport
       candidate.delete
     end
 
-    CandidateSheet.all.each do | assoc |
-      assoc.delete
-    end
-
-    BaptismalCertificate.all.each do | assoc |
-      assoc.delete
+    [CandidateSheet, BaptismalCertificate, SponsorCovenant,
+     PickConfirmationName, ChristianMinistry, SponsorCovenant].each do |clazz|
+      clazz.all.each do |assoc|
+        assoc.delete
+      end
     end
 
   end

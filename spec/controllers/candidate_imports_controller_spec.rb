@@ -92,6 +92,10 @@ describe CandidateImportsController do
       expect(candidate.candidate_sheet).to eq(candidate_sheets.first)
       expect_event_association(candidate.baptismal_certificate)
       expect_event_association(candidate.candidate_sheet)
+      expect_event_association(candidate.sponsor_covenant)
+      expect_event_association(candidate.pick_confirmation_name)
+      expect_event_association(candidate.christian_ministry)
+      expect_event_association(candidate.sponsor_covenant)
 
       expect(Admin.all.size).to eq(1)
 
