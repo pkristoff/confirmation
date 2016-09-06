@@ -11,7 +11,7 @@ feature 'Sign Agreement candidate login in', :devise do
 
     @path = dev_sign_agreement_path(@candidate.id)
     @dev = 'dev/'
-    @event_name = I18n.t('events.sign_agreement')
+    @event_name = I18n.t('events.candidate_covenant_agreement')
     @sign_agreement_setter = :signed_agreement=
     @sign_agreement_getter = :signed_agreement
     @form_action = "form[id=edit_candidate][action=\"/#{@dev}sign_agreement.#{@candidate.id}\"]"

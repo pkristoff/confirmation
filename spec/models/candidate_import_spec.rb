@@ -332,8 +332,8 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).the_way_due_date.to_s).to eq('2016-05-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).chs_due_date.to_s).to eq('2016-05-03')
 
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).the_way_due_date.to_s).to eq('2016-07-31')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.sign_agreement')).chs_due_date.to_s).to eq('2016-07-13')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement')).the_way_due_date.to_s).to eq('2016-07-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement')).chs_due_date.to_s).to eq('2016-07-13')
 
     expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_information_sheet')).the_way_due_date.to_s).to eq('2016-02-29')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_information_sheet')).chs_due_date.to_s).to eq('2016-02-16')
@@ -352,6 +352,10 @@ describe CandidateImport do
 
     expect(ConfirmationEvent.find_by_name(I18n.t('events.christian_ministry')).the_way_due_date.to_s).to eq('2017-01-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.christian_ministry')).chs_due_date.to_s).to eq('2017-01-22')
+
+    if ConfirmationEvent.all.size != 9
+      ConfirmationEvent.all.each {|x| puts x.name}
+    end
 
     expect(ConfirmationEvent.all.size).to eq(9)
 
@@ -430,7 +434,7 @@ describe CandidateImport do
              due_date: '2016-06-30',
              verified: false},
             {completed_date: '', # Sign Agreement 7/31/2016
-             name: I18n.t('events.sign_agreement'),
+             name: I18n.t('events.candidate_covenant_agreement'),
              due_date: '2016-07-31',
              verified: false},
             {completed_date: '', # Upload Baptismal Certificate 8/31/16
@@ -482,7 +486,7 @@ describe CandidateImport do
              due_date: '2016-02-29',
              verified: false},
             {completed_date: '', # Sign Agreement 7/31/16
-             name: I18n.t('events.sign_agreement'),
+             name: I18n.t('events.candidate_covenant_agreement'),
              due_date: '2016-07-31',
              verified: false},
             {completed_date: '', # Upload Baptismal Certificate 8/31/16
@@ -570,7 +574,7 @@ describe CandidateImport do
              due_date: '2017-01-22',
              verified: false},
             {completed_date: '2016-06-06', # Sign Agreement
-             name: I18n.t('events.sign_agreement'),
+             name: I18n.t('events.candidate_covenant_agreement'),
              due_date: '2016-07-13',
              verified: true}
         ]

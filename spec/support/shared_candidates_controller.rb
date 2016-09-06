@@ -138,16 +138,16 @@ shared_context 'sign_agreement' do
 
   it 'show should update the candidate to signing the confirmation agreement and update Candidate event.' do
 
-    AppFactory.add_confirmation_event(I18n.t('events.sign_agreement'))
+    AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.sign_agreement'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
     expect(candidate_event.completed_date).to eq(nil)
 
     put :sign_agreement_update, id: candidate.id, candidate: {signed_agreement: 1}
 
     candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.sign_agreement'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
     unless @dev.empty?
       expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
     else

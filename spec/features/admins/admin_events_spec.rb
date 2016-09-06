@@ -20,7 +20,7 @@ feature 'Admin events page', :devise do
   end
 
   scenario 'admin list of 1 events' do
-    AppFactory.add_confirmation_event(I18n.t('events.sign_agreement'))
+    AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
     visit events_path
@@ -29,7 +29,7 @@ feature 'Admin events page', :devise do
   end
 
   scenario 'admin list of 2 events' do
-    AppFactory.add_confirmation_event(I18n.t('events.sign_agreement'))
+    AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
     AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)

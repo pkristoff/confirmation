@@ -23,7 +23,7 @@ en:
   events:
     parent_meeting: 'Parent Information Meeting'
     retreat_weekend: 'Attend Retreat'
-    sign_agreement: 'Sign Agreement'
+    candidate_covenant_agreement: 'Candidate Covenant Agreement'
     candidate_information_sheet: 'Candidate Information Sheet'
     upload_baptismal_certificate: 'Upload Baptismal Certificate'
     upload_sponsor_covenant: 'Upload Sponsor Covenant'
@@ -199,7 +199,6 @@ en:
       edit_account: 'Edit account'
       events: 'Events'
       other: 'Other'
-      sign_agreement: 'Sign Agreement'
       sponsor_agreement: 'Sponsor and Candidate Conversation'
       toggle_navigation: 'Toggle navigation'
       upload_baptismal_certificate: 'Upload Baptismal Certificate'

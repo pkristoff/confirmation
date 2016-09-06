@@ -3,7 +3,7 @@
 <%= render partial: 'candidates/shared/two_column_signed_event',
            :locals => {path: sign_agreement_update_path(@candidate.id),
                        event_association: @candidate,
-                       shared_html_file: 'sign_agreement',
-                       candidate_event: @candidate.get_candidate_event(I18n.t('events.sign_agreement')),
+                       shared_html_file: 'candidate_covenant_agreement',
+                       candidate_event: @candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement')),
                        download_doc: download_document_path(@candidate.id, Event::Document::CANDIDATE_COVENANT)
            } %>

@@ -103,7 +103,7 @@ class CommonCandidatesController < ApplicationController
 
   def sign_agreement_update
     candidate = Candidate.find(params[:id])
-    candidate_event = candidate.get_candidate_event(I18n.t('events.sign_agreement'))
+    candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
     if params['candidate']
       if params['candidate']['signed_agreement'] === '1'
         candidate_event.completed_date = Date.today
