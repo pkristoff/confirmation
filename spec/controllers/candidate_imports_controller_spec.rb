@@ -82,7 +82,17 @@ describe CandidateImportsController do
       post :reset_database
 
       expect(response).to redirect_to(root_url)
-      expect(Candidate.all.size).to eq(1)
+      candidates = Candidate.all
+      expect(candidates.size).to eq(1)
+
+      candidate = candidates.first
+      expect(candidate.account_name).to eq('vickikristoff')
+      candidate_sheets = CandidateSheet.all
+      expect(candidate_sheets.size).to eq(1)
+      expect(candidate.candidate_sheet).to eq(candidate_sheets.first)
+      expect_event_association(candidate.baptismal_certificate)
+      expect_event_association(candidate.candidate_sheet)
+
       expect(Admin.all.size).to eq(1)
 
     end
@@ -106,6 +116,13 @@ describe CandidateImportsController do
 
     end
 
+
+  end
+
+  def expect_event_association(assoc_from_candidate)
+    event_assoc = assoc_from_candidate.class.all
+    expect(event_assoc.size).to eq(1)
+    expect(assoc_from_candidate).to eq(event_assoc.first)
   end
 
 end

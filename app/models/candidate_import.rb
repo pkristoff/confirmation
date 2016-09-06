@@ -127,6 +127,14 @@ class CandidateImport
       candidate.delete
     end
 
+    CandidateSheet.all.each do | assoc |
+      assoc.delete
+    end
+
+    BaptismalCertificate.all.each do | assoc |
+      assoc.delete
+    end
+
   end
 
   def reset_database
