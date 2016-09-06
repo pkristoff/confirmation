@@ -28,7 +28,7 @@ class SponsorCovenant < ActiveRecord::Base
   end
 
   def self.event_name
-    I18n.t('events.upload_sponsor_covenant')
+    I18n.t('events.sponsor_covenant')
   end
 
   def self.validate_event_complete(candidate)

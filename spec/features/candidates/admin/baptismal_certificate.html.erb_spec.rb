@@ -3,18 +3,16 @@ Warden.test_mode!
 
 require 'constants'
 
-feature 'Sponsor Covenant candidate', :devise do
+feature 'Baptismal Certificate', :devise do
 
   before(:each) do
-    @is_dev = true
+    @is_dev = false
   end
 
   after(:each) do
     Warden.test_reset!
   end
 
-  #dev
-
-  it_behaves_like 'upload_sponsor_covenant_html_erb'
+  it_behaves_like 'baptismal_certificate_html_erb'
 
 end

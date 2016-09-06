@@ -30,7 +30,7 @@
         <span id = "insturction-toggle-span" class = "glyphicon glyphicon-minus" ></span >
     <% end %>
     <div id = "instructions" class = "show-div" % >
-      <%= sanitize candidate_event.confirmation_event.instructions %>
+      <%= sanitize(candidate_event.confirmation_event.instructions) unless candidate_event.nil? %>
     </div >
   </div >
 </div >

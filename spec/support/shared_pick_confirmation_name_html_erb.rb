@@ -7,7 +7,6 @@ shared_context 'pick_confirmation_name_html_erb' do
 
   before(:each) do
     event_with_picture_setup(I18n.t('events.confirmation_name'), Event::Route::CONFIRMATION_NAME)
-
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -35,7 +34,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     visit @path
 
 
-    attach_file(I18n.t('label.pick_confirmation_name.pick_confirmation_name_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('label.confirmation_name.pick_confirmation_name_picture'), 'spec/fixtures/actions.png')
     click_button 'top-update'
 
     candidate = Candidate.find(@candidate.id)
@@ -73,7 +72,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     expect_message(:error_explanation, ['3 empty fields need to be filled in', 'Pick confirmation name filename can\'t be blank', 'Pick confirmation name content type can\'t be blank', 'Pick confirmation name file contents can\'t be blank'])
     expect(page).not_to have_selector(get_img_src_selector)
 
-    attach_file(I18n.t('label.pick_confirmation_name.pick_confirmation_name_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('label.confirmation_name.pick_confirmation_name_picture'), 'spec/fixtures/actions.png')
     click_button 'top-update'
 
     expect_message(:flash_notice, 'Updated')
@@ -103,11 +102,11 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/confirmation_name\"]")
 
-    expect_field(I18n.t('label.pick_confirmation_name.pick_confirmation_name_picture'), nil)
+    expect_field(I18n.t('label.confirmation_name.pick_confirmation_name_picture'), nil)
 
-    expect_field(I18n.t('label.pick_confirmation_name.saint_name'), with_values ? saint_name : '')
-    expect_field(I18n.t('label.pick_confirmation_name.about_saint'), with_values ? ABOUT_SAINT : '')
-    expect_field(I18n.t('label.pick_confirmation_name.why_saint'), with_values ? WHY_SAINT : '')
+    expect_field(I18n.t('label.confirmation_name.saint_name'), with_values ? saint_name : '')
+    expect_field(I18n.t('label.confirmation_name.about_saint'), with_values ? ABOUT_SAINT : '')
+    expect_field(I18n.t('label.confirmation_name.why_saint'), with_values ? WHY_SAINT : '')
 
     expect(page).to have_button('top-update')
     expect_download_button(Event::Document::CONFIRMATION_NAME)
@@ -122,11 +121,11 @@ shared_context 'pick_confirmation_name_html_erb' do
   end
 
   def fill_in_form(pick_confirmation_name_attach_file=true)
-    fill_in(I18n.t('label.pick_confirmation_name.saint_name'), with: SAINT_NAME)
-    fill_in(I18n.t('label.pick_confirmation_name.about_saint'), with: ABOUT_SAINT)
-    fill_in(I18n.t('label.pick_confirmation_name.why_saint'), with: WHY_SAINT)
+    fill_in(I18n.t('label.confirmation_name.saint_name'), with: SAINT_NAME)
+    fill_in(I18n.t('label.confirmation_name.about_saint'), with: ABOUT_SAINT)
+    fill_in(I18n.t('label.confirmation_name.why_saint'), with: WHY_SAINT)
     if pick_confirmation_name_attach_file
-      attach_file(I18n.t('label.pick_confirmation_name.pick_confirmation_name_picture'), 'spec/fixtures/actions.png')
+      attach_file(I18n.t('label.confirmation_name.pick_confirmation_name_picture'), 'spec/fixtures/actions.png')
     end
   end
 

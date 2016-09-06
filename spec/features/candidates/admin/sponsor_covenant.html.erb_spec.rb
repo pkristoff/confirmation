@@ -13,6 +13,6 @@ feature 'Sponsor Covenant admin', :devise do
     Warden.test_reset!
   end
 
-  it_behaves_like 'upload_sponsor_covenant_html_erb'
+  it_behaves_like 'sponsor_covenant_html_erb'
 
 end

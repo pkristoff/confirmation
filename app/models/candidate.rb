@@ -161,14 +161,19 @@ class Candidate < ActiveRecord::Base
   # event_complete - end
 
   def get_candidate_event (event_name)
-    candidate_events.find{|candidate_event| candidate_event.name === event_name}
+    event = candidate_events.find{|candidate_event| candidate_event.name === event_name}
+    if event.nil?
+      puts "Could not find event: #{event_name}"
+      candidate_events.find{|candidate_event| puts candidate_event.name}
+    end
+    event
   end
 
   def get_event_association (event_name)
     case event_name.to_sym
       when Event::Route::BAPTISMAL_CERTIFICATE
         baptismal_certificate
-      when Event::Route::UPLOAD_SPONSOR_COVENANT
+      when Event::Route::SPONSOR_COVENANT
         sponsor_covenant
       when Event::Route::CONFIRMATION_NAME
         pick_confirmation_name

@@ -5,22 +5,22 @@
     </div>
     <%= f.fields_for :pick_confirmation_name do |pcn_fields| %>
 
-        <%= field_set_tag t('field_set.pick_confirmation_name.saint'), class: 'fieldset' do %>
+        <%= field_set_tag t('field_set.confirmation_name.saint'), class: 'fieldset' do %>
             <div class="field">
-              <%= pcn_fields.label :saint_name, t('label.pick_confirmation_name.saint_name') %><br/>
+              <%= pcn_fields.label :saint_name, t('label.confirmation_name.saint_name') %><br/>
               <%= pcn_fields.text_field :saint_name %>
             </div>
             <div class="field">
-              <%= pcn_fields.label :about_saint, t('label.pick_confirmation_name.about_saint') %><br/>
+              <%= pcn_fields.label :about_saint, t('label.confirmation_name.about_saint') %><br/>
               <%= pcn_fields.text_area :about_saint %>
             </div>
             <div class="field">
-              <%= pcn_fields.label :why_saint, t('label.pick_confirmation_name.why_saint')%><br/>
+              <%= pcn_fields.label :why_saint, t('label.confirmation_name.why_saint')%><br/>
               <%= pcn_fields.text_area :why_saint %>
             </div>
         <% end %>
         <div class="field">
-          <%= pcn_fields.label :pick_confirmation_name_picture, t('label.pick_confirmation_name.pick_confirmation_name_picture') %><br/>
+          <%= pcn_fields.label :pick_confirmation_name_picture, t('label.confirmation_name.pick_confirmation_name_picture') %><br/>
           <%= pcn_fields.file_field :pick_confirmation_name_picture %>
         </div>
 

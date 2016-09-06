@@ -7,10 +7,10 @@ class CommonCandidatesController < ApplicationController
     candidate_id = params[:id]
     event_name = params[:event_name]
     @candidate = Candidate.find(candidate_id)
-    @candidate_event = @candidate.get_candidate_event(event_name)
+    @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
     if params['candidate']
       case event_name.to_sym
-        when Event::Route::UPLOAD_SPONSOR_COVENANT
+        when Event::Route::SPONSOR_COVENANT
           sponsor_covenant = @candidate.sponsor_covenant
           sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
           setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, 'sponsor_covenant', sponsor_covenant_params)
@@ -86,7 +86,7 @@ class CommonCandidatesController < ApplicationController
         association = @candidate.pick_confirmation_name
       when Event::Route::BAPTISMAL_CERTIFICATE
         association = @candidate.baptismal_certificate
-      when Event::Route::UPLOAD_SPONSOR_COVENANT
+      when Event::Route::SPONSOR_COVENANT
         association = @candidate.sponsor_covenant
       when Event::Route::CHRISTIAN_MINISTRY
         association = @candidate.christian_ministry
@@ -209,7 +209,9 @@ class CommonCandidatesController < ApplicationController
     unless render_called
       @event_with_picture_name = event_name
       @is_dev = is_admin?
+
       @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
+      flash[:alert] = "Internal Error: unknown event: #{event_name}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?
       render :event_with_picture
     end
   end

@@ -7,7 +7,7 @@ feature 'Sponsor Agreement candidate', :devise do
 
   before(:each) do
     @candidate = FactoryGirl.create(:candidate)
-    AppFactory.add_confirmation_event(I18n.t('events.upload_sponsor_covenant'))
+    AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
     login_as(@candidate, scope: :candidate)
 
     @path = dev_sponsor_agreement_path(@candidate.id)

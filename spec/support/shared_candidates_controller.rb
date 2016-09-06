@@ -2,6 +2,10 @@
 
 shared_context 'baptismal_certificate' do
 
+  before(:each) do
+    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
+  end
+
   it 'should show baptismal_certificate for the candidate.' do
 
     expect(@candidate.baptismal_certificate).not_to eq(nil)
@@ -16,8 +20,6 @@ shared_context 'baptismal_certificate' do
   end
 
   it 'show should update the candidate baptismal_certificate info and update Candidate event.' do
-
-    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
@@ -35,8 +37,6 @@ shared_context 'baptismal_certificate' do
   end
 
   it 'show should illegal parameter.' do
-
-    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
@@ -58,8 +58,6 @@ shared_context 'baptismal_certificate' do
   end
 
   it 'should show illegal parameter.' do
-
-    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
     # candidate.baptismal_certificate = BaptismalCertificate.new
@@ -85,8 +83,6 @@ shared_context 'baptismal_certificate' do
   end
 
   it 'User fills in all info and updates' do
-
-    AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
 
     candidate = Candidate.find(@candidate.id)
 

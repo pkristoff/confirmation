@@ -341,8 +341,8 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.baptismal_certificate')).the_way_due_date.to_s).to eq('2016-08-31')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.baptismal_certificate')).chs_due_date.to_s).to eq('2016-08-12')
 
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_sponsor_covenant')).the_way_due_date.to_s).to eq('2016-10-31')
-    expect(ConfirmationEvent.find_by_name(I18n.t('events.upload_sponsor_covenant')).chs_due_date.to_s).to eq('2016-10-15')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_covenant')).the_way_due_date.to_s).to eq('2016-10-31')
+    expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_covenant')).chs_due_date.to_s).to eq('2016-10-15')
 
     expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).the_way_due_date.to_s).to eq('2016-11-30')
     expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).chs_due_date.to_s).to eq('2016-11-20')
@@ -446,7 +446,7 @@ describe CandidateImport do
              due_date: '2017-01-31',
              verified: false},
             {completed_date: '2017-01-01', # Sponsor Covenant 10/31/16
-             name: I18n.t('events.upload_sponsor_covenant'),
+             name: I18n.t('events.sponsor_covenant'),
              due_date: '2016-10-31',
              verified: false},
             {completed_date: '2016-12-25', # Confirmation Name
@@ -494,7 +494,7 @@ describe CandidateImport do
              due_date: '2016-08-31',
              verified: false},
             {completed_date: '', # Sponsor Covenant 10/31/16
-             name: I18n.t('events.upload_sponsor_covenant'),
+             name: I18n.t('events.sponsor_covenant'),
              due_date: '2016-10-31',
              verified: false},
             {completed_date: '', # Confirmation Name
@@ -558,7 +558,7 @@ describe CandidateImport do
              due_date: '2016-08-12',
              verified: false},
             {completed_date: '', # Sponsor Covenant
-             name: I18n.t('events.upload_sponsor_covenant'),
+             name: I18n.t('events.sponsor_covenant'),
              due_date: '2016-10-15',
              verified: false},
             {completed_date: '', # Confirmation Name

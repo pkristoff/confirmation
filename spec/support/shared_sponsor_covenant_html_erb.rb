@@ -1,20 +1,20 @@
 SPONSOR_NAME = 'George Sponsor'
 SPONSOR_CHURCH = 'St. George'
 
-SPONSOR_COVENANT_EVENT = I18n.t('events.upload_sponsor_covenant')
+SPONSOR_COVENANT_EVENT = I18n.t('events.sponsor_covenant')
 
 UPDATED_MESSAGE = I18n.t('messages.updated')
 
-ATTENDS_STMM_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_attends_stmm')
-COVENANT_PICTURE_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_covenant_picture')
-ELEGIBILITY_PICTURE_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_elegibility_picture')
-SPONSOR_CHURCH_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_church')
-SPONSOR_NAME_LABEL = I18n.t('label.upload_sponsor_covenant.sponsor_name')
+ATTENDS_STMM_LABEL = I18n.t('label.sponsor_covenant.sponsor_attends_stmm')
+COVENANT_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_covenant_picture')
+ELEGIBILITY_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_elegibility_picture')
+SPONSOR_CHURCH_LABEL = I18n.t('label.sponsor_covenant.sponsor_church')
+SPONSOR_NAME_LABEL = I18n.t('label.sponsor_covenant.sponsor_name')
 
-shared_context 'upload_sponsor_covenant_html_erb' do
+shared_context 'sponsor_covenant_html_erb' do
 
   before(:each) do
-    event_with_picture_setup(SPONSOR_COVENANT_EVENT, Event::Route::UPLOAD_SPONSOR_COVENANT)
+    event_with_picture_setup(SPONSOR_COVENANT_EVENT, Event::Route::SPONSOR_COVENANT)
   end
 
   scenario 'admin logs in and selects a candidate, checks sponsor_attends_stmm, nothing else showing' do
@@ -151,7 +151,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
 
   def expect_form_layout(candidate, sponsor_name=SPONSOR_NAME)
     visibility = candidate.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div'
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/upload_sponsor_covenant\"]")
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{@dev}event_with_picture/#{@candidate.id}/sponsor_covenant\"]")
     expect(page).to have_selector("div[id=sponsor-covenant-top][class=\"#{visibility}\"]")
 
     if candidate.sponsor_covenant.sponsor_attends_stmm
@@ -165,7 +165,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
     expect_field(SPONSOR_NAME_LABEL, candidate.sponsor_covenant.sponsor_attends_stmm ? nil : sponsor_name)
 
     expect(page).to have_button('top-update')
-    expect_download_button(Event::Route::UPLOAD_SPONSOR_COVENANT)
+    expect_download_button(Event::Route::SPONSOR_COVENANT)
   end
 
   def expect_field (label, value)
@@ -188,7 +188,7 @@ shared_context 'upload_sponsor_covenant_html_erb' do
   end
 
   def get_img_src_selector
-    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/upload_sponsor_covenant\"]"
+    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/sponsor_covenant\"]"
   end
 
   def update_sponsor_covenant(with_values)
