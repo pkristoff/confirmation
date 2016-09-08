@@ -16,15 +16,15 @@ describe 'layouts/_side_bar.html.erb' do
     ]
 
     @candidate_link_names_in_order = [
-        [I18n.t('events.candidate_covenant_agreement'), "<dev>/sign_agreement.<id>"],
-        [I18n.t('events.candidate_information_sheet'), "<dev>/candidate_sheet.<id>"],
-        [I18n.t('events.baptismal_certificate'), "<dev>/event_with_picture/<id>/baptismal_certificate"],
-        [I18n.t('events.sponsor_covenant'), "<dev>/event_with_picture/<id>/sponsor_covenant"],
-        [I18n.t('events.confirmation_name'), "<dev>/event_with_picture/<id>/confirmation_name"],
-        [I18n.t('events.sponsor_agreement'), "<dev>/sponsor_agreement.<id>"],
-        [I18n.t('events.christian_ministry'), "<dev>/event_with_picture/<id>/christian_ministry"],
-        [I18n.t('views.nav.edit'), "/candidates/<id>/edit", "<dev>/candidates/edit"],
-        [I18n.t('views.nav.events'), "/event/<id>", "/dev/registrations/event/<id>"]
+        [I18n.t('events.candidate_covenant_agreement'), '<dev>/sign_agreement.<id>'],
+        [I18n.t('events.candidate_information_sheet'), '<dev>/candidate_sheet.<id>'],
+        [I18n.t('events.baptismal_certificate'), '<dev>/event_with_picture/<id>/baptismal_certificate'],
+        [I18n.t('events.sponsor_covenant'), '<dev>/event_with_picture/<id>/sponsor_covenant'],
+        [I18n.t('events.confirmation_name'), '<dev>/event_with_picture/<id>/confirmation_name'],
+        [I18n.t('events.sponsor_agreement'), '<dev>/sponsor_agreement.<id>'],
+        [I18n.t('events.christian_ministry'), '<dev>/event_with_picture/<id>/christian_ministry'],
+        [I18n.t('views.nav.edit'), '/candidates/<id>/edit', '<dev>/candidates/edit'],
+        [I18n.t('views.nav.events'), '/event/<id>', '/dev/registrations/event/<id>']
     ]
 
   end
@@ -43,7 +43,7 @@ describe 'layouts/_side_bar.html.erb' do
       candidate = login_candidate
 
       render
-      puts rendered
+
       expect(rendered).to have_selector('li', count: 9)
 
       expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '/dev', candidate.id.to_s)
@@ -89,7 +89,7 @@ describe 'layouts/_side_bar.html.erb' do
       expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '')
 
       expect(rendered).to have_selector("p[class='sidebar-header no-link']", text: 'Candidate: Sophia Agusta')
-      puts rendered
+
       expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '', @resource.id.to_s)
     end
   end
@@ -97,7 +97,7 @@ describe 'layouts/_side_bar.html.erb' do
   def expect_links_in_order(link_names_in_order, sidebar_id, dev, candidate_id='')
     link_names_in_order.each_with_index do |info, index|
       event_name = info[0]
-      if (info.size === 3)
+      if (info.size === 3) && !dev.empty?
         href = info[2].gsub('<dev>', dev)
       else
         href = info[1].gsub('<dev>', dev)

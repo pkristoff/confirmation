@@ -108,10 +108,10 @@ ActiveRecord::Schema.define(version: 20160906123845) do
     t.boolean  "signed_agreement",          default: false, null: false
     t.boolean  "baptized_at_stmm",          default: true,  null: false
     t.integer  "baptismal_certificate_id"
+    t.integer  "sponsor_covenant_id"
     t.integer  "pick_confirmation_name_id"
     t.boolean  "sponsor_agreement",         default: false, null: false
     t.integer  "christian_ministry_id"
-    t.integer  "sponsor_covenant_id"
     t.integer  "candidate_sheet_id"
   end
 
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20160906123845) do
   add_index "candidates", ["christian_ministry_id"], name: "index_candidates_on_christian_ministry_id", using: :btree
   add_index "candidates", ["pick_confirmation_name_id"], name: "index_candidates_on_pick_confirmation_name_id", using: :btree
   add_index "candidates", ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true, using: :btree
+  add_index "candidates", ["sponsor_covenant_id"], name: "index_candidates_on_sponsor_covenant_id", using: :btree
 
   create_table "christian_ministries", force: :cascade do |t|
     t.boolean  "signed",                           default: true, null: false
@@ -185,4 +186,5 @@ ActiveRecord::Schema.define(version: 20160906123845) do
   add_foreign_key "candidates", "candidate_sheets"
   add_foreign_key "candidates", "christian_ministries"
   add_foreign_key "candidates", "pick_confirmation_names"
+  add_foreign_key "candidates", "sponsor_covenants"
 end
