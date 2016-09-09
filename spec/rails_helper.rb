@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# note: require 'devise' after require 'rspec/rails'
 require 'devise'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -58,9 +59,9 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
 
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerMacros, type: :controller
 
-  config.include Devise::TestHelpers, type: :view
+  config.include Devise::Test::ControllerHelpers, type: :view
   config.include ControllerMacros, type: :view
 end

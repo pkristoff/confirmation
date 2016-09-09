@@ -20,6 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  candidates:
+      index:
+        title: 'Candidates'
+        total_entries: 'Total:'
   events:
     parent_meeting: 'Parent Information Meeting'
     retreat_weekend: 'Attend Retreat'

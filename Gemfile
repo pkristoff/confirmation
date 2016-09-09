@@ -32,7 +32,7 @@ group :production do
   gem 'unicorn'
 end
 group :test do
-  gem 'capybara'
+  gem 'capybara', '=2.7.1'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'selenium-webdriver'
@@ -45,4 +45,5 @@ gem 'roo', '~> 2.4.0'
 gem 'zip-zip'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'tinymce-rails'
+gem 'sorting_table_for', '~> 0.3.0'
 
