@@ -31,7 +31,7 @@ class CandidatesController < CommonCandidatesController
   end
 
   def index
-    @candidates = Candidate.all
+    @candidates = Candidate.sorting_table(params, :account_name).all
   end
   def is_admin?
     false

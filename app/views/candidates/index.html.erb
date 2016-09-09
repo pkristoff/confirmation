@@ -1,22 +1,23 @@
-<div class="container">
-  <%= sorting_table_for @candidates do |table| %>
+<div class = "container" >
+  <%= sorting_table_for @candidates, :sort_remote => true do |table| %>
       <%= table.caption t('candidates.index.title') %>
-      <%= table.headers t('views.candidates.account_name'),
-                        t('label.candidate_sheet.first_name'),
-                        t('label.candidate_sheet.last_name'),
-                        t('label.candidate_sheet.grade'),
-                        t('label.candidate_sheet.candidate_email'),
-                        t('label.candidate_sheet.parent_email_1'),
-                        t('candidates.index.status')
-      %>
+      <%= table.headers do %>
+          <%= table.header t('views.candidates.account_name') %>
+          <%= table.header t('label.candidate_sheet.first_name'), sort: true %>
+          <%= table.header t('label.candidate_sheet.last_name') %>
+          <%= table.header t('label.candidate_sheet.grade') %>
+          <%= table.header t('label.candidate_sheet.candidate_email') %>
+          <%= table.header t('label.candidate_sheet.parent_email_1') %>
+          <%= table.header t('candidates.index.status') %>
+      <% end %>
+
       <%= table.columns do |candidate| %>
           <%= table.column candidate.account_name %>
-          <%= table.column  candidate.candidate_sheet.first_name %>
-          <%= table.column  candidate.candidate_sheet.last_name %>
-          <%= table.column  candidate.candidate_sheet.grade %>
-          <%= table.column  candidate.candidate_sheet.candidate_email %>
-          <%= table.column  candidate.candidate_sheet.parent_email_1 %>
-          <%= table.column  candidate.candidate_sheet.parent_email_1 %>
+          <%= table.column candidate.candidate_sheet.first_name %>
+          <%= table.column candidate.candidate_sheet.last_name %>
+          <%= table.column candidate.candidate_sheet.grade %>
+          <%= table.column candidate.candidate_sheet.candidate_email %>
+          <%= table.column candidate.candidate_sheet.parent_email_1 %>
       <% end %>
   <% end %>
-</div>
+</div >

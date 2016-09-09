@@ -184,4 +184,8 @@ class Candidate < ActiveRecord::Base
     end
   end
 
+  def self.scoped (options)
+    Candidate.order(options[:order])
+  end
+
 end

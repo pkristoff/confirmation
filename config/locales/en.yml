@@ -22,8 +22,9 @@
 en:
   candidates:
       index:
+        status: 'green'
         title: 'Candidates'
-        total_entries: 'Total:'
+        total_entries: 'Total: %{value} '
   events:
     parent_meeting: 'Parent Information Meeting'
     retreat_weekend: 'Attend Retreat'
