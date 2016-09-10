@@ -56,15 +56,16 @@ en:
       sponsor_church: 'Sponsor church'
   label:
     candidate_sheet:
-      first_name: 'First name'
-      last_name: 'Last name'
       address:
         street_1: 'Street 1'
         street_2: 'Street 2'
         city: 'City'
         state: 'State'
         zip_code: 'Zip code'
+      attending: 'Attending'
       candidate_email: 'Candidate email'
+      first_name: 'First name'
+      last_name: 'Last name'
       parent_email_1: 'Parent email 1'
       parent_email_2: 'Parent email 2'
       grade: 'Grade'

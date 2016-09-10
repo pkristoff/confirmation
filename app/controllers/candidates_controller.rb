@@ -1,4 +1,5 @@
 class CandidatesController < CommonCandidatesController
+  helper_method :sort_column, :sort_direction
 
   # ADMIN ONLY
 
@@ -31,8 +32,20 @@ class CandidatesController < CommonCandidatesController
   end
 
   def index
-    @candidates = Candidate.sorting_table(params, :account_name).all
+    sc = sort_column(params[:sort])
+    sc_split = sc.split('.')
+    if sc_split.size === 2
+      if sc_split[0] === 'candidate_sheet'
+        @candidates = Candidate.joins(:candidate_sheet).order("candidate_sheets.#{sc_split[1]} #{sort_direction(params[:direction])}").all
+      else
+        flash[:alert] = "Unknown sort_column: #{sc}"
+      end
+    else
+      @candidates = Candidate.order("#{sc} #{sort_direction(params[:direction])}").all
+    end
+    'removeme'
   end
+
   def is_admin?
     false
   end
@@ -58,6 +71,17 @@ class CandidatesController < CommonCandidatesController
     else
       render edit
     end
+  end
+
+  # private - test only
+  def sort_column(sort_column)
+    columns = CandidateSheet.get_permitted_params.map {|attr| "candidate_sheet.#{attr}"}
+    columns << :account_name
+    columns.include?(sort_column) ? sort_column : 'account_name'
+  end
+
+  def sort_direction(direction)
+    %w[asc desc].include?(direction) ? direction : 'asc'
   end
 
   protected

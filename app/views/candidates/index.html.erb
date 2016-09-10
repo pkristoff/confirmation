@@ -1,23 +1,24 @@
-<div class = "container" >
-  <%= sorting_table_for @candidates, :sort_remote => true do |table| %>
-      <%= table.caption t('candidates.index.title') %>
-      <%= table.headers do %>
-          <%= table.header t('views.candidates.account_name') %>
-          <%= table.header t('label.candidate_sheet.first_name'), sort: true %>
-          <%= table.header t('label.candidate_sheet.last_name') %>
-          <%= table.header t('label.candidate_sheet.grade') %>
-          <%= table.header t('label.candidate_sheet.candidate_email') %>
-          <%= table.header t('label.candidate_sheet.parent_email_1') %>
-          <%= table.header t('candidates.index.status') %>
-      <% end %>
-
-      <%= table.columns do |candidate| %>
-          <%= table.column candidate.account_name %>
-          <%= table.column candidate.candidate_sheet.first_name %>
-          <%= table.column candidate.candidate_sheet.last_name %>
-          <%= table.column candidate.candidate_sheet.grade %>
-          <%= table.column candidate.candidate_sheet.candidate_email %>
-          <%= table.column candidate.candidate_sheet.parent_email_1 %>
-      <% end %>
-  <% end %>
-</div >
+<div class="container">
+  <table class="table table-hover sorting-table">
+    <tr id="header">
+      <th><%= t('views.common.delete') %></th>
+      <th><%= t('views.nav.edit') %></th>
+      <th><%= sortable "account_name", t('views.candidates.account_name') %></th>
+      <th><%= sortable "candidate_sheet.last_name", t('label.candidate_sheet.last_name') %></th>
+      <th><%= sortable "candidate_sheet.first_name", t('label.candidate_sheet.first_name') %></th>
+      <th><%= sortable "candidate_sheet.grade", t('label.candidate_sheet.grade') %></th>
+      <th><%= sortable "candidate_sheet.attending", t('label.candidate_sheet.attending') %></th>
+    </tr>
+    <% @candidates.each_with_index do |candidate, index| %>
+        <tr id="tr<%= index %>">
+          <td><%= link_to t('views.common.delete'), event_candidate_path(candidate.id), data: {confirm: t('views.common.are_you_sure')}, method: :delete  %></td>
+          <td><%= link_to t('views.nav.edit'), event_candidate_path(candidate.id) %></td>
+          <td><%= candidate.account_name %></td>
+          <td><%= candidate.candidate_sheet.last_name %></td>
+          <td><%= candidate.candidate_sheet.first_name %></td>
+          <td><%= candidate.candidate_sheet.grade %></td>
+          <td><%= candidate.candidate_sheet.attending %></td>
+        </tr>
+    <% end %>
+  </table>
+</div>

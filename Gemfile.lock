@@ -205,8 +205,6 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    sorting_table_for (0.3.0)
-      rails (>= 3.0.0)
     spring (1.7.2)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
@@ -271,7 +269,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   selenium-webdriver
-  sorting_table_for (~> 0.3.0)
   spring
   spring-commands-rspec
   tinymce-rails
