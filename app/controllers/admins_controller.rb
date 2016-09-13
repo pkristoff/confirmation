@@ -10,21 +10,21 @@ class AdminsController < ApplicationController
 
   def show
     @admin = Admin.find(params[:id])
-  end
+    end
 
-  def events
+  def edit_multiple_confirmation_events
     set_confirmation_events
   end
 
-  def events_update
-    @confirmation_event = ConfirmationEvent.find(params[:id])
-    if @confirmation_event.update_attributes(confirmation_event_params)
-      flash[:notice] = I18n.t('messages.event_updated', name: @confirmation_event.name)
-      set_confirmation_events
-      render :events
+  def update_multiple_confirmation_events
+    confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject { |p| p.errors.empty? }
+    if confirmation_events.empty?
+      flash[:notice] = "Updated ConfirmationEvents!"
     else
-      render edit
+      flash[:alert] = "Not all ConfirmationEvents updated"
     end
+    set_confirmation_events
+    render :edit_multiple_confirmation_events
   end
 
   def set_confirmation_events
@@ -49,12 +49,6 @@ class AdminsController < ApplicationController
         end
       end
     end
-  end
-
-  private
-
-  def confirmation_event_params
-    params.require(:confirmation_event).permit([:name, :the_way_due_date, :chs_due_date, :instructions])
   end
 
 end

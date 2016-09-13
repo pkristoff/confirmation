@@ -43,7 +43,6 @@ class CandidatesController < CommonCandidatesController
     else
       @candidates = Candidate.order("#{sc} #{sort_direction(params[:direction])}").all
     end
-    'removeme'
   end
 
   def is_admin?

@@ -1,0 +1,43 @@
+<h2 ><%= t('views.admins.events') %></h2 >
+
+<%= form_tag update_multiple_confirmation_events_path :method => :put do %>
+    <% @confirmation_events.each do |confirmation_event| %>
+        <%= fields_for "confirmation_events[]", confirmation_event do |f| %>
+
+            <%= field_set_tag confirmation_event.name, class: 'fieldset' do %>
+
+                <div class = "field" >
+                  <%= f.label :the_way_due_date, t('label.events.the_way_due_date') %><br />
+                  <%= f.date_field :the_way_due_date %>
+                </div >
+
+                <div class = "field" >
+                  <%= f.label :chs_due_date, t('label.events.chs_due_date') %><br />
+                  <%= f.date_field :chs_due_date %>
+                </div >
+
+                <div class = "field" >
+                  <%= f.label :instructions, t('label.events.instructions') %><br />
+                  <%= f.text_area :instructions, :class => "tinymce_#{confirmation_event.id}", :rows => 20, :cols => 120 %>
+                </div >
+
+                <div class = "actions" >
+                  <%= f.submit t('views.common.update') %>
+                </div >
+
+            <% end %>
+        <% end %>
+
+    <% end %>
+<% end %>
+
+<script type = "text/javascript" >
+  <% @confirmation_events.each do |confirmation_event| %>
+  tinyMCE.init({
+    selector: "textarea.tinymce_<%= confirmation_event.id %>",
+    toolbar: ["insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"],
+    plugins: "advlist,autolink,lists,link,image,charmap,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,contextmenu,paste,code"
+
+  });
+  <% end %>
+</script >

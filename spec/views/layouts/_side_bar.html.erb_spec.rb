@@ -11,7 +11,7 @@ describe 'layouts/_side_bar.html.erb' do
         [I18n.t('views.nav.candidates'), '/candidates'],
         [I18n.t('views.nav.add_new_candidate'), '/candidates/new'],
         [I18n.t('views.nav.admins'), '/admins'],
-        [I18n.t('views.nav.events'), '/events'],
+        [I18n.t('views.nav.events'), '/edit_multiple_confirmation_events'],
         [I18n.t('views.nav.other'), '/candidate_imports/new']
     ]
 
@@ -74,7 +74,7 @@ describe 'layouts/_side_bar.html.erb' do
       expect(rendered).to have_link(I18n.t('views.nav.candidates'), href: '/candidates')
       expect(rendered).to have_link(I18n.t('views.nav.add_new_candidate'), href: '/candidates/new')
       expect(rendered).to have_link(I18n.t('views.nav.admins'), href: '/admins')
-      expect(rendered).to have_link(I18n.t('views.nav.events'), href: '/events')
+      expect(rendered).to have_link(I18n.t('views.nav.events'), href: '/edit_multiple_confirmation_events')
       expect(rendered).to have_link(I18n.t('views.nav.other'), href: '/candidate_imports/new')
     end
   end

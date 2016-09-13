@@ -8,10 +8,6 @@ Rails.application.routes.draw do
 
   devise_for :admins,
              controllers: {:registrations => 'registrations'}
-  devise_scope :admins do
-    get '/events' => 'admins#events'
-    put '/events.:id' => 'admins#events_update'
-  end
 
   resources :admins
 
@@ -77,6 +73,11 @@ Rails.application.routes.draw do
 
     get 'show_event_with_picture.:id', to: 'candidates#show_event_with_picture', as: 'show_event_with_picture'
     get 'event_with_picture_image/:id/:event_name', to: 'candidates#event_with_picture_image', as: 'event_with_picture_image'
+
+    # admin confirmation_events
+
+    get 'edit_multiple_confirmation_events/', to: 'admins#edit_multiple_confirmation_events', as: 'edit_multiple_confirmation_events'
+    post 'update_multiple_confirmation_events/', to: 'admins#update_multiple_confirmation_events', as: 'update_multiple_confirmation_events'
 
   end
 
