@@ -44,4 +44,8 @@ class CandidateEvent < ActiveRecord::Base
     started? and awaiting_candidate? and (due_date < Date.today)
   end
 
+  def self.get_permitted_params
+    [:completed_date, :verified]
+  end
+
 end

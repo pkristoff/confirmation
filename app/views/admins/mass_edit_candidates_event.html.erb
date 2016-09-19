@@ -1,0 +1,43 @@
+<%= form_tag mass_edit_candidates_event_update_path(@confirmation_event.id), method: :put do %>
+
+    <h2 ><%= @confirmation_event.name %></h2 >
+
+    <%= label_tag(:verified, t('views.events.verified')) %>:
+    <%= check_box_tag(:verified) %><br />
+
+    <%= label_tag(:completed_date, t('views.events.completed_date')) %>:
+    <%= date_field_tag(:completed_date) %>
+
+    <div class = "actions" >
+      <%= submit_tag t('views.common.update') %>
+    </div >
+
+    <div class = "container" >
+      <table class = "table table-hover sorting-table" >
+        <tr id = "header" >
+          <th ><%= sortable 'completed_date', t('label.candidate_event.select') %></th >
+          <th ><%= sortable 'completed_date', t('views.events.completed_date') %></th >
+          <th ><%= sortable 'account_name', t('label.candidate.account_name') %></th >
+          <th ><%= sortable 'candidate_sheet.last_name', t('label.candidate_sheet.last_name') %></th >
+          <th ><%= sortable 'candidate_sheet.first_name', t('label.candidate_sheet.first_name') %></th >
+          <th ><%= sortable 'candidate_sheet.grade', t('label.candidate_sheet.grade') %></th >
+          <th ><%= sortable 'candidate_sheet.attending', t('label.candidate_sheet.attending') %></th >
+        </tr >
+        <%= collection_check_boxes(:candidate, :candidate_ids, @candidates, :id, :account_name) do |b| %>
+            <tr >
+              <td ><%= b.check_box %></td >
+              <td ><%= b.object.get_candidate_event(@confirmation_event.name).completed_date %></td >
+              <td ><%= b.object.account_name %></td >
+              <td ><%= b.object.candidate_sheet.last_name %></td >
+              <td ><%= b.object.candidate_sheet.first_name %></td >
+              <td ><%= b.object.candidate_sheet.grade %></td >
+              <td ><%= b.object.candidate_sheet.attending %></td >
+            </tr >
+        <% end %>
+      </table >
+    </div >
+
+    <div class = "actions" >
+      <%= submit_tag t('views.common.update') %>
+    </div >
+<% end %>

@@ -1,19 +1,47 @@
 class AdminsController < ApplicationController
+  helper_method :sort_column, :sort_direction
 
-  attr_accessor :admins, :confirmation_events # for testing
+  attr_accessor :admins, :confirmation_events, :candidates # for testing
 
   before_action :authenticate_admin!
+
+  def edit_multiple_confirmation_events
+    set_confirmation_events
+  end
 
   def index
     @admins = Admin.all
   end
 
-  def show
-    @admin = Admin.find(params[:id])
+  def mass_edit_candidates_event
+    @confirmation_event = ConfirmationEvent.find(params[:id])
+
+    set_candidates
+
+  end
+
+  def mass_edit_candidates_event_update
+    @confirmation_event = ConfirmationEvent.find(params[:id])
+
+    candidate_ids = params[:candidate][:candidate_ids]
+    candidates = []
+    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+    candidates.each do |candidate|
+      candidate_event = candidate.get_candidate_event(@confirmation_event.name)
+
+      if candidate_event.update_attributes(params.permit(CandidateEvent.get_permitted_params))
+        flash[:notice] = "Updated CandidateEvent! #{candidate.account_name}"
+      else
+        flash[:notice] = "NOT Updated CandidateEvent! #{candidate.account_name}"
+      end
     end
 
-  def edit_multiple_confirmation_events
-    set_confirmation_events
+    set_candidates
+    render :mass_edit_candidates_event
+  end
+
+  def show
+    @admin = Admin.find(params[:id])
   end
 
   def update_multiple_confirmation_events
@@ -25,6 +53,26 @@ class AdminsController < ApplicationController
     end
     set_confirmation_events
     render :edit_multiple_confirmation_events
+  end
+
+  def set_candidates
+    sc = sort_column(params[:sort])
+    sc_split = sc.split('.')
+    if sc_split.size === 2
+      if sc_split[0] === 'candidate_sheet'
+        @candidates = Candidate.joins(:candidate_sheet).order("candidate_sheets.#{sc_split[1]} #{sort_direction(params[:direction])}").all
+      else
+        flash[:alert] = "Unknown sort_column: #{sc}"
+      end
+    else
+      if sc_split[0] === 'completed_date'
+        @candidates = Candidate.joins(candidate_events: :confirmation_event)
+                          .where(confirmation_events: {name: @confirmation_event.name})
+                          .order("candidate_events.completed_date #{sort_direction(params[:direction])}")
+      else
+        @candidates = Candidate.order("#{sc} #{sort_direction(params[:direction])}").all
+      end
+    end
   end
 
   def set_confirmation_events

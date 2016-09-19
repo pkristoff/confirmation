@@ -56,6 +56,10 @@ en:
       sponsor_name: 'Sponsor name'
       sponsor_church: 'Sponsor church'
   label:
+    candidate:
+      account_name: 'Account name'
+    candidate_event:
+      select: 'Select'
     candidate_sheet:
       address:
         street_1: 'Street 1'
@@ -186,6 +190,7 @@ en:
       sign_up: 'Sign up'
       status: 'Status'
       update: 'Update'
+      update_candidates_event: 'Update event for candidates'
     events:
       the_way_due_date: 'The Way Due date'
       chs_due_date: 'Catholic High School Due date'

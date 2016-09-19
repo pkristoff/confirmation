@@ -88,4 +88,165 @@ describe AdminsController do
     end
   end
 
+  describe 'mass_edit_candidates_event_update' do
+
+    before(:each) do
+      @admdin = login_admin
+      @confirmation_event = AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
+      @c1 = create_candidate('c1')
+      @c2 = create_candidate('c2')
+      @c3 = create_candidate('c3')
+    end
+    it 'should NOT update any candidate\'s candidate_event' do
+      put :mass_edit_candidates_event_update,
+          id: @confirmation_event.id,
+          completed_date: '2016-09-04',
+          verified: true,
+          candidate: {candidate_ids: []}
+
+      expect_candidate_event(@c1, '2016-06-09', false)
+      expect_candidate_event(@c2, '', false)
+      expect_candidate_event(@c3, '2016-07-23', false)
+    end
+    it 'should update only c2\'s candidate_event' do
+      put :mass_edit_candidates_event_update,
+          id: @confirmation_event.id,
+          completed_date: '2016-09-04',
+          verified: true,
+          candidate: {candidate_ids: [@c2.id]}
+
+      expect_candidate_event(@c1, '2016-06-09', false)
+      expect_candidate_event(@c2, '2016-09-04', true)
+      expect_candidate_event(@c3, '2016-07-23', false)
+    end
+    it 'should update only c1\'s & c3\'s candidate_event' do
+      put :mass_edit_candidates_event_update,
+          id: @confirmation_event.id,
+          completed_date: '2016-09-04',
+          verified: false,
+          candidate: {candidate_ids: [@c1.id, @c3.id]}
+
+      expect_candidate_event(@c1, '2016-09-04', false)
+      expect_candidate_event(@c2, '', false)
+      expect_candidate_event(@c3, '2016-09-04', false)
+    end
+    def expect_candidate_event(candidate, completed_date, verified)
+      c2 = Candidate.find_by_account_name(candidate.account_name)
+      candidate_event = c2.get_candidate_event(@confirmation_event.name)
+      expect(candidate_event.completed_date.to_s).to eq(completed_date)
+      expect(candidate_event.verified).to eq(verified)
+    end
+
+  end
+
+  describe 'set_candidates' do
+    before(:each) do
+      @admdin = login_admin
+      @confirmation_event = AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
+    end
+    it 'is sorted zero candidates' do
+      put :mass_edit_candidates_event_update,
+          id: @confirmation_event.id,
+          sort: 'account_name',
+          direction: 'desc',
+          candidate: {candidate_ids: []}
+      expect(controller.candidates.size).to eq(0)
+    end
+    it 'is sorted one candidate' do
+      c1 = create_candidate('c1')
+
+      put :mass_edit_candidates_event_update,
+          id: @confirmation_event.id,
+          sort: 'account_name',
+          direction: 'desc',
+          candidate: {candidate_ids: []}
+
+      expect(controller.candidates.size).to eq(1)
+      expect(controller.candidates.first).to eq(c1)
+    end
+    it 'is sorted two candidates' do
+      c1 = create_candidate('c1')
+      c2 = create_candidate('c2')
+
+      put :mass_edit_candidates_event_update,
+          id: @confirmation_event.id,
+          sort: 'account_name',
+          direction: 'desc',
+          candidate: {candidate_ids: []}
+
+      expect(controller.candidates.size).to eq(2)
+      expect(controller.candidates.first).to eq(c2)
+      expect(controller.candidates.second).to eq(c1)
+    end
+    describe 'three candidates' do
+
+      before(:each) do
+        @c1 = create_candidate('c1')
+        @c2 = create_candidate('c2')
+        @c3 = create_candidate('c3')
+      end
+
+      it 'is sorted by account name' do
+        expect_column_sorting('account_name', @c1, @c2, @c3)
+      end
+      it 'is sorted by first name' do
+        expect_column_sorting('candidate_sheet.first_name', @c3, @c1, @c2)
+      end
+      it 'is sorted by last name' do
+        expect_column_sorting('candidate_sheet.last_name', @c2, @c3, @c1)
+      end
+      it 'is sorted by completed date' do
+        expect_column_sorting('completed_date', @c1, @c3, @c2)
+      end
+    end
+  end
+
+  def expect_column_sorting(column, *candidates)
+
+    put :mass_edit_candidates_event_update,
+        id: @confirmation_event.id,
+        sort: column,
+        direction: 'asc',
+        candidate: {candidate_ids: []}
+
+    expect(controller.candidates.size).to eq(candidates.size)
+    expect(controller.candidates.first).to eq(candidates.first)
+    expect(controller.candidates.second).to eq(candidates.second)
+    expect(controller.candidates.third).to eq(candidates.third)
+
+    put :mass_edit_candidates_event_update,
+        id: @confirmation_event.id,
+        sort: column,
+        direction: 'desc',
+        candidate: {candidate_ids: []}
+
+    expect(controller.candidates.size).to eq(candidates.size)
+    expect(controller.candidates.first).to eq(candidates.third)
+    expect(controller.candidates.second).to eq(candidates.second)
+    expect(controller.candidates.third).to eq(candidates.first)
+  end
+
+  def create_candidate(prefix)
+    candidate = FactoryGirl.create(:candidate, account_name: prefix)
+    candidate_event = candidate.add_candidate_event(@confirmation_event)
+    case prefix
+      when 'c1'
+        candidate.candidate_sheet.first_name = 'c2first_name'
+        candidate.candidate_sheet.last_name = 'c3last_name'
+        candidate_event.completed_date='2016-06-09'
+      when 'c2'
+        candidate.candidate_sheet.first_name = 'c3first_name'
+        candidate.candidate_sheet.last_name = 'c1last_name'
+        candidate_event.completed_date=''
+      when 'c3'
+        candidate.candidate_sheet.first_name = 'c1first_name'
+        candidate.candidate_sheet.last_name = 'c2last_name'
+        candidate_event.completed_date='2016-07-23'
+      else
+        throw RuntimeError.new('Unknown prefix')
+    end
+    candidate.save
+    candidate
+  end
+
 end

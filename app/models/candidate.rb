@@ -128,7 +128,7 @@ class Candidate < ActiveRecord::Base
      sponsor_covenant_attributes: SponsorCovenant.get_permitted_params ,
      pick_confirmation_name_attributes: PickConfirmationName.get_permitted_params,
      christian_ministry_attributes: ChristianMinistry.get_permitted_params,
-     candidate_events_attributes: [:id, :completed_date, :verified]
+     candidate_events_attributes: CandidateEvent.get_permitted_params
     ]
   end
 

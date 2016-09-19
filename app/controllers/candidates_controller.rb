@@ -72,17 +72,6 @@ class CandidatesController < CommonCandidatesController
     end
   end
 
-  # private - test only
-  def sort_column(sort_column)
-    columns = CandidateSheet.get_permitted_params.map {|attr| "candidate_sheet.#{attr}"}
-    columns << :account_name
-    columns.include?(sort_column) ? sort_column : 'account_name'
-  end
-
-  def sort_direction(direction)
-    %w[asc desc].include?(direction) ? direction : 'asc'
-  end
-
   protected
 
   def resource_class
