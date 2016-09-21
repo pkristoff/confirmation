@@ -36,6 +36,10 @@ class CandidateEvent < ActiveRecord::Base
     started? and !completed_date.nil? and !verified?
   end
 
+  def coming_due?
+    started? and completed_date.nil? and (due_date >= Date.today)
+  end
+
   def completed?
     started? and verified
   end
@@ -46,6 +50,12 @@ class CandidateEvent < ActiveRecord::Base
 
   def self.get_permitted_params
     [:completed_date, :verified]
+  end
+
+  def verifiable_info
+    {a: 'a',
+    e: 'e',
+    b: 'b'}
   end
 
 end

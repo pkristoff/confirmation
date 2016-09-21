@@ -9,6 +9,13 @@ class AdminsController < ApplicationController
     set_confirmation_events
   end
 
+  def email_candidate
+    @candidate = Candidate.find(params[:id])
+    @late_events = @candidate.get_late_events
+    @verify_events = @candidate.get_verify_events
+    @coming_due_events = @candidate.get_coming_due_events
+  end
+
   def index
     @admins = Admin.all
   end
@@ -45,14 +52,22 @@ class AdminsController < ApplicationController
   end
 
   def update_multiple_confirmation_events
-    confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject { |p| p.errors.empty? }
-    if confirmation_events.empty?
-      flash[:notice] = "Updated ConfirmationEvents!"
+    if params[:commit] === t('views.common.update')
+      confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject { |p| p.errors.empty? }
+      if confirmation_events.empty?
+        flash[:notice] = "Updated ConfirmationEvents!"
+      else
+        flash[:alert] = "Not all ConfirmationEvents updated"
+      end
+      set_confirmation_events
+      render :edit_multiple_confirmation_events
     else
-      flash[:alert] = "Not all ConfirmationEvents updated"
+      @confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
+
+      set_candidates
+      render :mass_edit_candidates_event
     end
-    set_confirmation_events
-    render :edit_multiple_confirmation_events
+
   end
 
   def set_candidates

@@ -15,13 +15,13 @@
     <div class = "container" >
       <table class = "table table-hover sorting-table" >
         <tr id = "header" >
-          <th ><%= sortable 'completed_date', t('label.candidate_event.select') %></th >
-          <th ><%= sortable 'completed_date', t('views.events.completed_date') %></th >
-          <th ><%= sortable 'account_name', t('label.candidate.account_name') %></th >
-          <th ><%= sortable 'candidate_sheet.last_name', t('label.candidate_sheet.last_name') %></th >
-          <th ><%= sortable 'candidate_sheet.first_name', t('label.candidate_sheet.first_name') %></th >
-          <th ><%= sortable 'candidate_sheet.grade', t('label.candidate_sheet.grade') %></th >
-          <th ><%= sortable 'candidate_sheet.attending', t('label.candidate_sheet.attending') %></th >
+          <th ><%= sortable 'completed_date', t('label.candidate_event.select'), @confirmation_event.id %></th >
+          <th ><%= sortable 'completed_date', t('views.events.completed_date'), @confirmation_event.id %></th >
+          <th ><%= sortable 'account_name', t('label.candidate.account_name'), @confirmation_event.id %></th >
+          <th ><%= sortable 'candidate_sheet.last_name', t('label.candidate_sheet.last_name'), @confirmation_event.id %></th >
+          <th ><%= sortable 'candidate_sheet.first_name', t('label.candidate_sheet.first_name'), @confirmation_event.id %></th >
+          <th ><%= sortable 'candidate_sheet.grade', t('label.candidate_sheet.grade'), @confirmation_event.id %></th >
+          <th ><%= sortable 'candidate_sheet.attending', t('label.candidate_sheet.attending'), @confirmation_event.id %></th >
         </tr >
         <%= collection_check_boxes(:candidate, :candidate_ids, @candidates, :id, :account_name) do |b| %>
             <tr >

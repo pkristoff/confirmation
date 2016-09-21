@@ -184,6 +184,24 @@ class Candidate < ActiveRecord::Base
     end
   end
 
+  def get_coming_due_events
+    candidate_events.select do |candidate_event|
+      candidate_event.coming_due?
+    end
+  end
+
+  def get_late_events
+    candidate_events.select do |candidate_event|
+      candidate_event.late?
+    end
+  end
+
+  def get_verify_events
+    candidate_events.select do |candidate_event|
+      candidate_event.awaiting_admin?
+    end
+  end
+
   def self.scoped (options)
     Candidate.order(options[:order])
   end

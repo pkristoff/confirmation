@@ -1,0 +1,73 @@
+<h2 >Email Candidate</h2 >
+
+<%= form_tag(email_candidate_update_path(@candidate), {method: :put}) do %>
+    <div class = "actions" >
+      <%= submit_tag t('views.common.email'), id: 'top-update' %>
+    </div >
+
+    To: <%= @candidate.candidate_sheet.candidate_email %>, <%= @candidate.candidate_sheet.parent_email_1 %>, <%= @candidate.candidate_sheet.parent_email_2 %>
+    <br />
+    From: confirmation@kristoffs.com <br />
+    Subject: Confirmation <br />
+
+    <%= @candidate.candidate_sheet.first_name %>, <br />
+
+    <%= label_tag(t('email.pre_late_label')) %>:
+    <%= text_area_tag(:pre_late_input, t('email.late_initial_text')) %> <br />
+    <div class = "container" >
+      <table class = "table table-hover" >
+        <tr id = "late_header" >
+          <th ><%= t('email.late_events') %></th >
+          <th ><%= t('email.due_date') %></th >
+        </tr >
+        <% @late_events.each do |candidate_event| %>
+            <tr id = "late_tr<%= candidate_event.id %>" >
+              <td ><%= candidate_event.name %></td >
+              <td ><%= t('email.past_due') %></td >
+            </tr >
+        <% end %>
+      </table >
+    </div >
+
+    <%= label_tag(t('email.pre_verify_label')) %>:
+    <%= text_area_tag(:pre_verify_input, t('email.verify_initial_text')) %> <br />
+    <div class = "container" >
+      <table class = "table table-hover" >
+        <tr id = "@verify_header" >
+          <th ><%= t('email.verified_events') %></th >
+          <th ><%= t('email.due_date') %></th >
+        </tr >
+        <% @verify_events.each do |candidate_event| %>
+            <tr id = @verify_"tr<%= candidate_event.id %>" >
+              <td ><%= candidate_event.name %></td >
+              <td ><ul><% candidate_event.verifiable_info.each do |key, value| %>
+                <li><%= "#{key.to_s}: #{value}" %></li>
+                <% end %>
+              </ul>
+              </td >
+            </tr >
+        <% end %>
+      </table >
+    </div >
+
+    <%= label_tag(t('email.coming_due_label')) %>:
+    <%= text_area_tag(:pre_coming_due_input, t('email.coming_due_initial_text')) %> <br />
+    <div class = "container" >
+      <table class = "table table-hover" >
+        <tr id = "coming_due_header" >
+          <th ><%= t('email.coming_due_events') %></th >
+          <th ><%= t('email.due_date') %></th >
+        </tr >
+        <% @coming_due_events.each do |candidate_event| %>
+            <tr id = "tr_coming_due<%= candidate_event.id %>" >
+              <td ><%= candidate_event.name %></td >
+              <td ><%= candidate_event.due_date %></td >
+            </tr >
+        <% end %>
+      </table >
+    </div >
+
+    <div class = "actions" >
+      <%= submit_tag t('views.common.email'), id: 'bottom-update' %>
+    </div >
+<% end %>

@@ -83,6 +83,11 @@ Rails.application.routes.draw do
     get 'edit_multiple_confirmation_events/', to: 'admins#edit_multiple_confirmation_events', as: 'edit_multiple_confirmation_events'
     post 'update_multiple_confirmation_events/', to: 'admins#update_multiple_confirmation_events', as: 'update_multiple_confirmation_events'
 
+    # email candidate
+
+    get 'email_candidate/:id/', to: 'admins#email_candidate', as: 'email_candidate'
+    post 'email_candidate_update/:id/', to: 'admins#email_candidate_update', as: 'email_candidate_update'
+
   end
 
   # Sign in ADMIN

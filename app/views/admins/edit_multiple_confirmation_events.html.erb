@@ -1,6 +1,6 @@
 <h2 ><%= t('views.admins.events') %></h2 >
 
-<%= form_tag update_multiple_confirmation_events_path :method => :put do %>
+<%= form_tag update_multiple_confirmation_events_path method: :put do %>
     <% @confirmation_events.each do |confirmation_event| %>
         <%= fields_for "confirmation_events[]", confirmation_event do |f| %>
 
@@ -22,15 +22,12 @@
                 </div >
 
                 <div class = "actions" >
-                  <%= f.submit t('views.common.update') %>
+                  <%= f.submit t('views.common.update'), {id: "update-#{confirmation_event.id}"} %>
+                  <%= f.button t('views.common.update_candidates_event'), {name: "update[#{confirmation_event.id}]", id: "candidates-#{confirmation_event.id}"} %>
                 </div >
 
             <% end %>
         <% end %>
-
-        <div class = "XXX" >
-          <%= button_to t('views.common.update_candidates_event'), mass_edit_candidates_event_path(confirmation_event.id), {method: :get} %>
-        </div >
 
     <% end %>
 <% end %>
