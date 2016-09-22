@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html >
+<head >
+  <meta content = 'text/html; charset=UTF-8' http-equiv = 'Content-Type' />
+</head >
+<body >
+<p ><%= @candidate.candidate_sheet.first_name %></p >
+<p ><%= @pre_late_text %></p >
+<table class = "table table-hover" >
+  <tr id = "late_header" >
+    <th ><%= t('email.late_events') %></th >
+    <th ><%= t('email.due_date') %></th >
+  </tr >
+  <% @late_events.each do |candidate_event| %>
+      <tr id = "late_tr<%= candidate_event.id %>" >
+        <td ><%= candidate_event.name %></td >
+        <td ><%= t('email.past_due') %></td >
+      </tr >
+  <% end %>
+</table >
+</body >
+</html >

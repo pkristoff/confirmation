@@ -1,6 +1,6 @@
 <h2 >Email Candidate</h2 >
 
-<%= form_tag(email_candidate_update_path(@candidate), {method: :put}) do %>
+<%= form_tag(email_candidate_update_path(@candidate), {method: :post}) do %>
     <div class = "actions" >
       <%= submit_tag t('views.common.email'), id: 'top-update' %>
     </div >
@@ -66,6 +66,26 @@
         <% end %>
       </table >
     </div >
+
+    <%= label_tag(t('email.completed_label')) %>:
+    <%= text_area_tag(:completed_input, t('email.completed_initial_text')) %> <br />
+    <div class = "container" >
+      <table class = "table table-hover" >
+        <tr id = "completed_header" >
+          <th ><%= t('email.completed_events') %></th >
+          <th ><%= t('email.due_date') %></th >
+        </tr >
+        <% @completed_events.each do |candidate_event| %>
+            <tr id = "tr_completed<%= candidate_event.id %>" >
+              <td ><%= candidate_event.name %></td >
+              <td ><%= candidate_event.due_date %></td >
+            </tr >
+        <% end %>
+      </table >
+    </div >
+
+    <%= label_tag(t('email.completed_label')) %>:
+    <%= text_area_tag(:completed_input, t('email.completed_initial_text')) %> <br />
 
     <div class = "actions" >
       <%= submit_tag t('views.common.email'), id: 'bottom-update' %>

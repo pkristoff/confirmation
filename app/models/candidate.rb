@@ -125,7 +125,7 @@ class Candidate < ActiveRecord::Base
      :signed_agreement, :baptized_at_stmm, :sponsor_agreement,
      candidate_sheet_attributes: CandidateSheet.get_permitted_params,
      baptismal_certificate_attributes: BaptismalCertificate.get_permitted_params,
-     sponsor_covenant_attributes: SponsorCovenant.get_permitted_params ,
+     sponsor_covenant_attributes: SponsorCovenant.get_permitted_params,
      pick_confirmation_name_attributes: PickConfirmationName.get_permitted_params,
      christian_ministry_attributes: ChristianMinistry.get_permitted_params,
      candidate_events_attributes: CandidateEvent.get_permitted_params
@@ -161,10 +161,10 @@ class Candidate < ActiveRecord::Base
   # event_complete - end
 
   def get_candidate_event (event_name)
-    event = candidate_events.find{|candidate_event| candidate_event.name === event_name}
+    event = candidate_events.find { |candidate_event| candidate_event.name === event_name }
     if event.nil?
       puts "Could not find event: #{event_name}"
-      candidate_events.find{|candidate_event| puts candidate_event.name}
+      candidate_events.find { |candidate_event| puts candidate_event.name }
     end
     event
   end
@@ -181,6 +181,12 @@ class Candidate < ActiveRecord::Base
         christian_ministry
       else
         raise
+    end
+  end
+
+  def get_completed
+    candidate_events.select do |candidate_event|
+      candidate_event.completed?
     end
   end
 
