@@ -11,6 +11,10 @@ class AdminsController < ApplicationController
 
   def email_candidate
     @candidate = Candidate.find(params[:id])
+    setup_email_candidate
+  end
+
+  def setup_email_candidate
     @late_events = @candidate.get_late_events
     @verify_events = @candidate.get_verify_events
     @coming_due_events = @candidate.get_coming_due_events
@@ -18,13 +22,13 @@ class AdminsController < ApplicationController
   end
 
   def email_candidate_update
-    @candidate = Candidate.find(params[:id], params[:pre_late_input], params[:pre_late_input])
-    CandidatesMailer.send_candidate(@candidate)
-    @late_events = @candidate.get_late_events
-    @verify_events = @candidate.get_verify_events
-    @coming_due_events = @candidate.get_coming_due_events
-    @completed_events = @candidate.get_completed
-    @pre_late_text = params[:pre_late_input]
+    @candidate = Candidate.find(params[:id])
+    mailer = CandidatesMailer.monthly_reminder(@candidate, params[:pre_late_input], params[:pre_verify_input], params[:pre_coming_due_input], params[:completed_input])
+    mailer.deliver_now
+
+    setup_email_candidate
+    flash[:notify] = "Delivered to #{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
+    render :email_candidate
   end
 
   def index
