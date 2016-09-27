@@ -25,5 +25,10 @@ module Dev
       Devise.mappings[:candidate]
     end
 
+    def build_resource (hash=nil)
+      candidate = super(hash)
+      AppFactory.add_candidate_events(candidate)
+    end
+
   end
 end

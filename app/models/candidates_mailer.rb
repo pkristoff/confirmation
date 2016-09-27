@@ -4,6 +4,10 @@ class CandidatesMailer < ActionMailer::Base
 
   def monthly_reminder(candidate, pre_late_text, pre_verify_text, pre_coming_due_text, completed_text)
     @candidate = candidate
+    @pre_late_text = pre_late_text
+    @pre_verify_text = pre_verify_text
+    @pre_coming_due_text = pre_coming_due_text
+    @completed_text = completed_text
     @late_events = candidate.get_late_events
     @verify_events = candidate.get_verify_events
     @coming_due_events = candidate.get_coming_due_events

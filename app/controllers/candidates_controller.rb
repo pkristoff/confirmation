@@ -63,9 +63,13 @@ class CandidatesController < CommonCandidatesController
       params[:candidate].delete(:password_confirmation)
     end
     @resource = Candidate.find(params[:id])
-    # puts candidate_params
+    puts candidate_params
+    puts "@resource.candidate_events-size: #{@resource.candidate_events.size}"
+    @resource.candidate_events.each {|ce| puts "CE id: #{ce.confirmation_event.id} name: #{ce.confirmation_event.name}"}
     if @resource.update_attributes(candidate_params)
       flash[:notice] = I18n.t('messages.candidate_updated', name: @resource.account_name)
+      puts "@resource.candidate_events-size: #{@resource.candidate_events.size}"
+      @resource.candidate_events.each {|ce| puts "CE name: #{ce.confirmation_event.name}"}
       render :event, id: @resource.id
     else
       render edit

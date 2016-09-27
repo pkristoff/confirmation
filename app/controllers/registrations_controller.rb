@@ -45,9 +45,4 @@ class RegistrationsController < Devise::RegistrationsController
     true # don't sign_in new candidate after signup.
   end
 
-  def build_resource (hash=nil)
-    candidadate = super(hash)
-    AppFactory.add_candidate_events(candidadate)
-  end
-
 end

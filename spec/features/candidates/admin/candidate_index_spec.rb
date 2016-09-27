@@ -22,7 +22,7 @@ feature 'Candidate index page', :devise do
     within 'table' do
       expect(page).to have_css 'tr', count: 4
       expect(page).to have_css 'tr[id="header"]'
-      headers = [I18n.t('views.common.delete'), I18n.t('views.nav.edit'), I18n.t('views.candidates.account_name'), I18n.t('label.candidate_sheet.last_name') ,
+      headers = [I18n.t('views.common.delete'), I18n.t('views.nav.edit'), I18n.t('views.common.email'), I18n.t('views.candidates.account_name'), I18n.t('label.candidate_sheet.last_name') ,
                  I18n.t('label.candidate_sheet.first_name'), I18n.t('label.candidate_sheet.grade'), I18n.t('label.candidate_sheet.attending')]
       within 'tr[id="header"]' do
 

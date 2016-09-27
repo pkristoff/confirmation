@@ -127,7 +127,13 @@ class AppFactory
   end
 
   def self.add_confirmation_events
-    all_event_names = [
+    all_event_names = all_i18n_confirmation_event_names
+    all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
+    all_event_names
+  end
+
+  def self.all_i18n_confirmation_event_names
+    [
         # matches 20160603111604_add_parent_information_meeting.rb
         'events.parent_meeting',
         # matches 20160603161241_add_attend_retreat.rb
@@ -147,8 +153,6 @@ class AppFactory
         # 20160830211438_add_christian_ministry_event.rb
         'events.christian_ministry'
     ]
-    all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
-    all_event_names
   end
 
 end

@@ -4,17 +4,54 @@
   <meta content = 'text/html; charset=UTF-8' http-equiv = 'Content-Type' />
 </head >
 <body >
-<p ><%= @candidate.candidate_sheet.first_name %></p >
-<p ><%= @pre_late_text %></p >
-<table class = "table table-hover" >
-  <tr id = "late_header" >
-    <th ><%= t('email.late_events') %></th >
+<p ><%= @candidate.candidate_sheet.first_name %>,</p >
+<p id="late_events_text"><%= @pre_late_text %></p >
+
+<%= render partial: 'shared/reminder_table',
+           :locals => {event_key: 'late_events',
+                       headers: [t('email.late_events'), t('email.past_due')],
+                       events: @late_events,
+                       past_due:  Proc.new { |candidate_event| t('email.past_due')}
+           } %>
+<p id="verify_events_text"><%= @pre_verify_text %></p >
+<table id="verify_events_table" class = "table table-hover" >
+  <tr id = "verify_events_header" >
+    <th ><%= t('email.events') %></th >
+    <th ><%= t('email.verify') %></th >
+  </tr >
+  <% @verify_events.each do |candidate_event| %>
+      <tr id = "verify_events_tr<%= candidate_event.id %>" >
+        <td ><%= candidate_event.name %></td >
+        <td ><ul><% candidate_event.verifiable_info.each do |key, value| %>
+              <li><%= "#{key.to_s}: #{value}" %></li>
+          <% end %>
+        </ul>
+      </tr >
+  <% end %>
+</table >
+<p id="coming_due_events_text"><%= @pre_coming_due_text %></p >
+<table id="coming_due_events_table" class = "table table-hover" >
+  <tr id = "coming_due_events_header" >
+    <th ><%= t('email.events') %></th >
     <th ><%= t('email.due_date') %></th >
   </tr >
-  <% @late_events.each do |candidate_event| %>
-      <tr id = "late_tr<%= candidate_event.id %>" >
+  <% @coming_due_events.each do |candidate_event| %>
+      <tr id = "coming_due_events_tr<%= candidate_event.id %>" >
         <td ><%= candidate_event.name %></td >
-        <td ><%= t('email.past_due') %></td >
+        <td ><%= candidate_event.due_date %></td >
+      </tr >
+  <% end %>
+</table >
+<p id="completed_events_text"><%= @completed_text %></p >
+<table id="completed_events_table" class = "table table-hover" >
+  <tr id = "completed_events_header" >
+    <th ><%= t('email.completed_events') %></th >
+    <th ><%= t('email.due_date') %></th >
+  </tr >
+  <% @completed_events.each do |candidate_event| %>
+      <tr id = "completed_events_tr<%= candidate_event.id %>" >
+        <td ><%= candidate_event.name %></td >
+        <td ><%= t('email.completed_events') %></td >
       </tr >
   <% end %>
 </table >
