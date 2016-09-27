@@ -6,6 +6,10 @@ class ConfirmationEvent < ActiveRecord::Base
 
   # TODO: valid presence of
 
+  def self.get_permitted_params
+    [:id, :name, :the_way_due_date, :instructions, :chs_due_date]
+  end
+
   private
 
   def scrub_instructions()

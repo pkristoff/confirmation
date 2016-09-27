@@ -49,7 +49,8 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   def self.get_permitted_params
-    [:completed_date, :verified]
+    [:id, :completed_date, :verified,
+    confirmation_event_attributes: ConfirmationEvent.get_permitted_params]
   end
 
   def verifiable_info
