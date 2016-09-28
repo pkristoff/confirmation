@@ -44,10 +44,12 @@ class AdminsController < ApplicationController
 
   def mass_edit_candidates_event_update
     @confirmation_event = ConfirmationEvent.find(params[:id])
+    params.delete(:id)
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+    params[:confirmation_event_attributes] = {id: @confirmation_event.id}
     candidates.each do |candidate|
       candidate_event = candidate.get_candidate_event(@confirmation_event.name)
 

@@ -16,31 +16,6 @@
            } %>
 
 <% if render_mail_text %>
-    <p id="verify_events_text"><%= @pre_verify_text %></p>
-<% else %>
-    <%= label_tag(:pre_verify_input, t('email.pre_verify_label')) %>:
-    <%= text_area_tag(:pre_verify_input, t('email.verify_initial_text')) %> <br />
-<% end %>
-
-<table id="verify_events_table" class="table table-hover">
-  <tr id="verify_events_header">
-    <th><%= t('email.events') %></th>
-    <th><%= t('email.verify') %></th>
-  </tr>
-  <% @verify_events.each do |candidate_event| %>
-      <tr id="verify_events_tr<%= candidate_event.id %>">
-        <td><%= candidate_event.name %></td>
-        <td>
-          <ul>
-            <% candidate_event.verifiable_info.each do |key, value| %>
-                <li><%= "#{key.to_s}: #{value}" %></li>
-            <% end %>
-          </ul>
-      </tr>
-  <% end %>
-</table>
-
-<% if render_mail_text %>
     <p id="coming_due_events_text"><%= @pre_coming_due_text %></p>
 <% else %>
     <%= label_tag(:pre_coming_due_input, t('email.coming_due_label')) %>:
@@ -61,9 +36,20 @@
     <%= text_area_tag(:completed_input, t('email.completed_initial_text')) %> <br />
 <% end %>
 
-<%= render partial: 'shared/reminder_table',
-           :locals => {event_key: 'completed_events',
-                       headers: [t('email.completed_events'), t('email.due_date')],
-                       events: @completed_events,
-                       past_due: Proc.new { |candidate_event| I18n.t('email.completed_events') }
-           } %>
+<table id="completed_events_table" class="table table-hover">
+  <tr id="completed_events_header">
+    <th><%= t('email.completed_events') %></th>
+    <th><%= t('email.verify') %></th>
+  </tr>
+  <% @completed_events.each do |candidate_event| %>
+      <tr id="completed_events_tr<%= candidate_event.id %>">
+        <td><%= candidate_event.name %></td>
+        <td>
+          <ul>
+            <% candidate_event.verifiable_info.each do |key, value| %>
+                <li><%= "#{key.to_s}: #{value}" %></li>
+            <% end %>
+          </ul>
+      </tr>
+  <% end %>
+</table>

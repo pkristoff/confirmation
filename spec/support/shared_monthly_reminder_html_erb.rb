@@ -31,20 +31,6 @@ shared_context 'shared_monthly_reminder_html_erb' do
     expect_view(late_values, [], [], [])
   end
 
-  it 'display with all verify' do
-
-    set_completed_date(Date.today)
-
-    render_setup
-
-    verify_values = @candidate.candidate_events.map do |ce|
-      [ce.name, ce.id, 'a: a']
-    end
-    render
-
-    expect_view([], verify_values,[],  [])
-  end
-
   it 'display with all coming due' do
 
     set_due_date(Date.today+1)
@@ -64,17 +50,17 @@ shared_context 'shared_monthly_reminder_html_erb' do
 
   it 'display with all completed' do
 
-    tr_values = @candidate.candidate_events.map do |ce|
+    completed_values = @candidate.candidate_events.map do |ce|
       ce.verified = true
       ce.completed_date = today
-      [ce.name, ce.id, I18n.t('email.completed_events')]
+      [ce.name, ce.id, 'a: a']
     end
 
     render_setup
 
     render
 
-    expect_view([], [], [], tr_values)
+    expect_view([], [], [], completed_values)
   end
 
   it 'display with mixture of events' do
@@ -110,23 +96,19 @@ shared_context 'shared_monthly_reminder_html_erb' do
                  [I18n.t('email.late_events'), I18n.t('email.past_due')],
                  late_values)
 
-    expect_table(I18n.t('email.pre_verify_label'), t('email.verify_initial_text'), 'verify_events',
-                 [I18n.t('email.events'), I18n.t('email.verify')],
-                 verify_values)
-
     expect_table(I18n.t('email.coming_due_label'), t('email.coming_due_initial_text'), 'coming_due_events',
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
     expect_table(I18n.t('email.completed_label'), t('email.completed_initial_text'), 'completed_events',
-                 [I18n.t('email.completed_events'), I18n.t('email.due_date')],
+                 [I18n.t('email.completed_events'), I18n.t('email.verify')],
                  completed_values)
   end
 
 
   def expect_table(field_id, field_text, event_prefix, column_headers, cell_values)
-    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) if @render_mail_text
-    expect(rendered).to have_field(field_id, text: field_text) unless @render_mail_text
+    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) if
+    expect(rendered).to have_field(field_id, text: field_text) unless
 
     table_id = "table[id='#{event_prefix}_table']"
     tr_header_id = "tr[id='#{event_prefix}_header']"
