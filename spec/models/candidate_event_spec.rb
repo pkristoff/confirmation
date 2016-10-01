@@ -202,4 +202,21 @@ describe CandidateEvent, type: :model do
       end
     end
   end
+
+  describe 'route and candidate associations' do
+
+    before(:each) do
+      candidate = FactoryGirl.create(:candidate)
+      AppFactory.add_confirmation_events
+      @candidate = Candidate.find(candidate.id)
+      @candidate.save
+    end
+    context 'routes' do
+      it 'mapping candidate_event.name to route' do
+        AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
+          expect(@candidate.get_candidate_event(I18n.t(i18n_name)).route).to eq(i18n_name.split('.')[1].to_sym)
+        end
+      end
+    end
+  end
 end

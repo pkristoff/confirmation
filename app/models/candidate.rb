@@ -1,3 +1,5 @@
+require 'constants'
+
 class Candidate < ActiveRecord::Base
 
   belongs_to(:address, validate: false)
@@ -165,23 +167,32 @@ class Candidate < ActiveRecord::Base
     if event.nil?
       puts "Could not find event: #{event_name}"
       candidate_events.find { |candidate_event| puts candidate_event.name }
+      raise "Unknown candidate_event named: #{event_name}"
     end
     event
   end
 
-  def get_event_association (event_name)
-    case event_name.to_sym
+  def get_event_association (event_route_name)
+    case event_route_name.to_sym
       when Event::Route::BAPTISMAL_CERTIFICATE
         baptismal_certificate
-      when Event::Route::SPONSOR_COVENANT
-        sponsor_covenant
-      when Event::Route::CONFIRMATION_NAME
-        pick_confirmation_name
       when Event::Route::CHRISTIAN_MINISTRY
         christian_ministry
+      when Event::Route::CONFIRMATION_NAME
+        pick_confirmation_name
+      when Event::Route::SPONSOR_COVENANT
+        sponsor_covenant
+      when Event::Other::CANDIDATE_INFORMATION_SHEET
+        candidate_sheet
+      when Event::Other::PARENT_INFORMATION_MEETING, Event::Other::ATTEND_RETREAT, Event::Other::CANDIDATE_COVENANT_AGREEMENT, Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
+        self
       else
-        raise
+        raise "Unknown event association: #{event_route_name}"
     end
+  end
+
+  def verifiable_info
+    {}
   end
 
   def get_completed
@@ -199,12 +210,6 @@ class Candidate < ActiveRecord::Base
   def get_late_events
     candidate_events.select do |candidate_event|
       candidate_event.late?
-    end
-  end
-
-  def get_verify_events
-    candidate_events.select do |candidate_event|
-      candidate_event.awaiting_admin?
     end
   end
 

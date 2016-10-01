@@ -45,7 +45,7 @@
       <tr id="completed_events_tr<%= candidate_event.id %>">
         <td><%= candidate_event.name %></td>
         <td>
-          <ul>
+          <ul id="completed_events_ul<%= candidate_event.id %>">
             <% candidate_event.verifiable_info.each do |key, value| %>
                 <li><%= "#{key.to_s}: #{value}" %></li>
             <% end %>

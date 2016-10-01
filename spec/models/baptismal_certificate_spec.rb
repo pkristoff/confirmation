@@ -26,4 +26,23 @@ describe BaptismalCertificate, type: :model do
     end
 
   end
+
+  describe 'event completion attributes' do
+    it 'should return a hash of :attribute => value' do
+      verifiables = FactoryGirl.create(:baptismal_certificate).verifiable_info
+      expected_verifiables = {
+          Birthday: Date.parse('1983-08-20'),
+          'Baptismal date': Date.parse('1983-10-20'),
+          'Father\'s name': 'George Paul Smith',
+          'Mother\'s name': 'Georgette Paula Kirk Smith',
+          Church: 'St. Francis',
+          Street: '1313 Magdalene Way',
+          'Street 2': 'Apt. 456',
+          City: 'Apex',
+          State: 'NC',
+          'Zip Code': '27502'
+      }
+      expect(verifiables).to eq(expected_verifiables)
+    end
+  end
 end

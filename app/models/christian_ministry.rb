@@ -72,4 +72,8 @@ class ChristianMinistry < ActiveRecord::Base
 
   # image interface - end
 
+  def verifiable_info
+    {}
+  end
+
 end

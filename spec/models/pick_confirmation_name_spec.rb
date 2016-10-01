@@ -19,4 +19,12 @@ describe PickConfirmationName, type: :model do
     end
 
   end
+
+  describe 'event completion attributes' do
+    it 'should return a hash of :attribute => value' do
+      verifiables = FactoryGirl.create(:pick_confirmation_name).verifiable_info
+      expected_verifiables = {'Confirmation name': 'George'}
+      expect(verifiables).to eq(expected_verifiables)
+    end
+  end
 end

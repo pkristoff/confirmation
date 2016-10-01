@@ -103,4 +103,19 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # image interface - end
 
+  def verifiable_info
+    {
+        Birthday: birth_date,
+        'Baptismal date': baptismal_date,
+        'Father\'s name': "#{father_first} #{father_middle} #{father_last}",
+        'Mother\'s name': "#{mother_first} #{mother_middle} #{mother_maiden} #{mother_last}",
+        Church: church_name,
+        Street: church_address.street_1,
+        'Street 2': church_address.street_2,
+        City: church_address.city,
+        State: church_address.state,
+        'Zip Code': church_address.zip_code
+    }
+  end
+
 end

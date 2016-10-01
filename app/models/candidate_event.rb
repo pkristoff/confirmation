@@ -54,9 +54,33 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   def verifiable_info
-    {a: 'a',
-    e: 'e',
-    b: 'b'}
+    candidate.get_event_association(route).verifiable_info
+  end
+
+  def route
+    # TODO: maybe move to constants
+    case name
+      when I18n.t('events.baptismal_certificate')
+        :baptismal_certificate
+      when I18n.t('events.candidate_covenant_agreement')
+        :candidate_covenant_agreement
+      when I18n.t('events.candidate_information_sheet')
+        :candidate_information_sheet
+      when I18n.t('events.christian_ministry')
+        :christian_ministry
+      when I18n.t('events.confirmation_name')
+        :confirmation_name
+      when I18n.t('events.parent_meeting')
+        :parent_meeting
+      when I18n.t('events.retreat_weekend')
+        :retreat_weekend
+      when I18n.t('events.sponsor_agreement')
+        :sponsor_agreement
+      when I18n.t('events.sponsor_covenant')
+        :sponsor_covenant
+      else
+        raise "Unknown event to route: #{name}"
+    end
   end
 
 end

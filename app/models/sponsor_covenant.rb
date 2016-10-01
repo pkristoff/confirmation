@@ -5,7 +5,7 @@ class SponsorCovenant < ActiveRecord::Base
   # event_complete
 
   def validate_event_complete(options={})
-    EventCompleteValidator.new(self, ! sponsor_attends_stmm)
+    EventCompleteValidator.new(self, !sponsor_attends_stmm)
         .validate(SponsorCovenant.get_attends_stmm_validation_params, SponsorCovenant.get_not_attends_stmm_params)
   end
 
@@ -78,5 +78,11 @@ class SponsorCovenant < ActiveRecord::Base
   end
 
   # image interface - end
+
+  def verifiable_info
+    info = {'Sponsor name': sponsor_name,
+            'Sponsor attends': (sponsor_attends_stmm ? 'St. Mary Magdalene' : sponsor_church)
+    }
+  end
 
 end

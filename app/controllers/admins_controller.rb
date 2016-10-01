@@ -14,9 +14,9 @@ class AdminsController < ApplicationController
     setup_email_candidate
   end
 
+  # matches Candidate_mailer#monthly_reminder
   def setup_email_candidate
     @late_events = @candidate.get_late_events
-    @verify_events = @candidate.get_verify_events
     @coming_due_events = @candidate.get_coming_due_events
     @completed_events = @candidate.get_completed
   end

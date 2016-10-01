@@ -10,6 +10,28 @@ shared_context 'shared_monthly_reminder_html_erb' do
     AppFactory.add_confirmation_events
     @candidate = Candidate.find(candidate.id)
     @candidate.candidate_sheet.candidate_email = 'xxx@yyy.com'
+
+    @candidate.baptismal_certificate.birth_date = '1999-03-05'
+    @candidate.baptismal_certificate.baptismal_date = '1999-05-05'
+    @candidate.baptismal_certificate.father_first = 'A'
+    @candidate.baptismal_certificate.father_middle = 'B'
+    @candidate.baptismal_certificate.father_last = 'C'
+    @candidate.baptismal_certificate.mother_first = 'Z'
+    @candidate.baptismal_certificate.mother_middle = 'Y'
+    @candidate.baptismal_certificate.mother_maiden = 'X'
+    @candidate.baptismal_certificate.mother_last = 'W'
+    @candidate.baptismal_certificate.church_name = 'St Pete'
+    @candidate.baptismal_certificate.church_address.street_1 = 'The Holy Way'
+    @candidate.baptismal_certificate.church_address.street_2 = ''
+    @candidate.baptismal_certificate.church_address.city = 'Very Wet City'
+    @candidate.baptismal_certificate.church_address.state = 'HA'
+    @candidate.baptismal_certificate.church_address.zip_code = '12345'
+
+    @candidate.sponsor_covenant.sponsor_name = 'The Boss'
+    @candidate.sponsor_covenant.sponsor_attends_stmm = true
+
+    @candidate.pick_confirmation_name.saint_name = 'Bolt'
+
     @candidate.save
 
   end
@@ -28,7 +50,7 @@ shared_context 'shared_monthly_reminder_html_erb' do
 
     render
 
-    expect_view(late_values, [], [], [])
+    expect_view(late_values, [], [])
   end
 
   it 'display with all coming due' do
@@ -45,7 +67,7 @@ shared_context 'shared_monthly_reminder_html_erb' do
 
     render
 
-    expect_view([], [], coming_due_values, [])
+    expect_view([], coming_due_values, [])
   end
 
   it 'display with all completed' do
@@ -53,37 +75,73 @@ shared_context 'shared_monthly_reminder_html_erb' do
     completed_values = @candidate.candidate_events.map do |ce|
       ce.verified = true
       ce.completed_date = today
-      [ce.name, ce.id, 'a: a']
+      info = []
+      case ce.name
+        when I18n.t('events.confirmation_name')
+          info << ['Confirmation name', 'Bolt']
+        when I18n.t('events.sponsor_covenant')
+          info << ['Sponsor name', 'The Boss']
+          info << ['Sponsor attends', 'St. Mary Magdalene']
+        when I18n.t('events.baptismal_certificate')
+          info << ['Birthday', '1999-03-05']
+          info << ['Baptismal date', '1999-05-05']
+          info << ['Father\'s name', 'A B C']
+          info << ['Mother\'s name', 'Z Y X W']
+          info << ['Church', 'St Pete']
+          info << ['Street', 'The Holy Way']
+          info << ['Street 2', '']
+          info << ['City', 'Very Wet City']
+          info << ['State', 'HA']
+          info << ['Zip Code', '12345']
+        when I18n.t('events.candidate_information_sheet')
+          info << [:name, 'Sophia Agusta']
+          info << [:grade, '10']
+          info << [:street_1, '2120 Frissell Ave.']
+          info << [:street_2, 'Apt. 456']
+          info << [:city, 'Apex']
+          info << [:state, 'NC']
+          info << [:zipcode, '27502']
+      end
+      [ce.name, ce.id, info]
     end
 
     render_setup
 
     render
 
-    expect_view([], [], [], completed_values)
+    expect_view([], [], completed_values)
   end
 
   it 'display with mixture of events' do
+
+    late_events_event = @candidate.get_candidate_event(I18n.t('events.parent_meeting'))
+    late_events_event.confirmation_event.chs_due_date = Date.today-2
+    late_events_event.confirmation_event.the_way_due_date = Date.today-2
+    late_events_event.save
+    late_events_values = [[late_events_event.name, late_events_event.id, 'Past due']]
+
+    completed_events_event = @candidate.get_candidate_event(I18n.t('events.retreat_weekend'))
+    completed_events_event.completed_date = Date.today-2
+    completed_events_event.verified = true
+    completed_events_event.save
+    completed_events_values = [[completed_events_event.name, completed_events_event.id, []]]
 
     render_setup
 
     render
 
-    late_events_event = @candidate.get_candidate_event('Going out to eat')
-    verify_candidate_event = @candidate.get_candidate_event('Staying home')
-    coming_due_values = AppFactory.all_i18n_confirmation_event_names.map do |i18n_name|
+    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select{|i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_weekend'}.map do |i18n_name|
       name = I18n.t(i18n_name)
       id = @candidate.get_candidate_event(name).id
       [name, id, today]
     end
 
-    expect_view([[late_events_event.name, late_events_event.id, I18n.t('email.past_due')]],
-                [[verify_candidate_event.name, verify_candidate_event.id, 'a: a']],
+    expect_view(late_events_values,
                 coming_due_values,
-                [])
+                completed_events_values)
   end
 
-  def expect_view(late_values, verify_values, coming_due_values, completed_values)
+  def expect_view(late_values, coming_due_values, completed_values)
     unless @render_mail_text
       expect(rendered).to have_selector('p', text: "To: xxx@yyy.com, test@example.com, ")
       expect(rendered).to have_selector('p', text: "From: confirmation@kristoffs.com")
@@ -123,8 +181,17 @@ shared_context 'shared_monthly_reminder_html_erb' do
     expect(rendered).to have_css("#{table_id} tr", count: cell_values.size+1)
     cell_values.each do |values|
       tr_td_id = "tr[id='#{event_prefix}_tr#{values[1]}']"
+      tr_td_ul_id = "ul[id='#{event_prefix}_ul#{values[1]}']"
       expect(rendered).to have_css("#{table_id} #{tr_td_id} td", text: values[0])
-      expect(rendered).to have_css("#{table_id} #{tr_td_id} td", text: values[2])
+      verifiable_info = values[2]
+      if verifiable_info.is_a? Array
+        expect(rendered).to have_css("#{tr_td_ul_id} li", count: verifiable_info.size)
+        verifiable_info.each do | info |
+          expect(rendered).to have_css("#{tr_td_ul_id} li", text: "#{info[0]}: #{info[1]}")
+        end
+      else
+        expect(rendered).to have_css("#{table_id} #{tr_td_id} td", text: verifiable_info)
+      end
     end
   end
 
@@ -135,7 +202,6 @@ shared_context 'shared_monthly_reminder_html_erb' do
     @completed_text = I18n.t('email.completed_initial_text')
 
     @late_events = @candidate.get_late_events
-    @verify_events = @candidate.get_verify_events
     @coming_due_events = @candidate.get_coming_due_events
     @completed_events = @candidate.get_completed
   end

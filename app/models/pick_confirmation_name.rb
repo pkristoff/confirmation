@@ -64,4 +64,9 @@ class PickConfirmationName < ActiveRecord::Base
 
   # image interface - end
 
+  def verifiable_info
+    {'Confirmation name': saint_name
+    }
+  end
+
 end

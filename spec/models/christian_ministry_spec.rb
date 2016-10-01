@@ -19,4 +19,12 @@ describe ChristianMinistry, type: :model do
     end
 
   end
+
+  describe 'event completion attributes' do
+    it 'should return a hash of :attribute => value' do
+      verifiables = FactoryGirl.create(:christian_ministry).verifiable_info
+      expected_verifiables = {}
+      expect(verifiables).to eq(expected_verifiables)
+    end
+  end
 end

@@ -1,4 +1,11 @@
 module Event
+  module Other
+    PARENT_INFORMATION_MEETING = :parent_meeting
+    ATTEND_RETREAT = :retreat_weekend
+    CANDIDATE_COVENANT_AGREEMENT = :candidate_covenant_agreement
+    CANDIDATE_INFORMATION_SHEET = :candidate_information_sheet
+    SPONSOR_AND_CANDIDATE_CONVERSATION = :sponsor_agreement
+  end
   module Route
     BAPTISMAL_CERTIFICATE = :baptismal_certificate
     BAPTISMAL_CERTIFICATE_UPDATE = :baptismal_certificate_update

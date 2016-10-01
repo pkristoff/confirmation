@@ -127,6 +127,10 @@ class AppFactory
   end
 
   def self.add_confirmation_events
+    all_confirmation_event_names = ConfirmationEvent.all.map {|ce| ce.name}
+    all_confirmation_event_names.each do |ce_name|
+      AppFactory.revert_confirmation_event(ce_name)
+    end
     all_event_names = all_i18n_confirmation_event_names
     all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
     all_event_names
