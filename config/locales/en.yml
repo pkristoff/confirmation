@@ -36,7 +36,6 @@ en:
     events: 'Events'
     late_events: 'Late events'
     late_initial_text: 'These are past due.  Please complete.'
-    past_due: 'Past due'
     please_verify: 'Please verify'
     pre_late_label: 'The pre-late text'
     pre_verify_label: 'The pre-verify text'

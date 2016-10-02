@@ -1,5 +1,3 @@
-
-
 shared_context 'shared_monthly_reminder_html_erb' do
 
   today = Date.today.to_s
@@ -43,7 +41,7 @@ shared_context 'shared_monthly_reminder_html_erb' do
     set_completed_date('')
 
     late_values = @candidate.candidate_events.map do |ce|
-      [ce.name, ce.id, I18n.t('email.past_due')]
+      [ce.name, ce.id, nil]
     end
 
     render_setup
@@ -118,7 +116,7 @@ shared_context 'shared_monthly_reminder_html_erb' do
     late_events_event.confirmation_event.chs_due_date = Date.today-2
     late_events_event.confirmation_event.the_way_due_date = Date.today-2
     late_events_event.save
-    late_events_values = [[late_events_event.name, late_events_event.id, 'Past due']]
+    late_events_values = [[late_events_event.name, late_events_event.id]]
 
     completed_events_event = @candidate.get_candidate_event(I18n.t('events.retreat_weekend'))
     completed_events_event.completed_date = Date.today-2
@@ -130,7 +128,7 @@ shared_context 'shared_monthly_reminder_html_erb' do
 
     render
 
-    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select{|i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_weekend'}.map do |i18n_name|
+    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_weekend' }.map do |i18n_name|
       name = I18n.t(i18n_name)
       id = @candidate.get_candidate_event(name).id
       [name, id, today]
@@ -151,7 +149,7 @@ shared_context 'shared_monthly_reminder_html_erb' do
     expect(rendered).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
     expect_table(I18n.t('email.pre_late_label'), t('email.late_initial_text'), 'late_events',
-                 [I18n.t('email.late_events'), I18n.t('email.past_due')],
+                 [I18n.t('email.late_events')],
                  late_values)
 
     expect_table(I18n.t('email.coming_due_label'), t('email.coming_due_initial_text'), 'coming_due_events',
@@ -165,10 +163,7 @@ shared_context 'shared_monthly_reminder_html_erb' do
 
 
   def expect_table(field_id, field_text, event_prefix, column_headers, cell_values)
-    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) if
-    expect(rendered).to have_field(field_id, text: field_text) unless
-
-    table_id = "table[id='#{event_prefix}_table']"
+    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) if expect(rendered).to have_field(field_id, text: field_text) unless table_id = "table[id='#{event_prefix}_table']"
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
     expect(rendered).to have_css("#{table_id}")
@@ -181,23 +176,29 @@ shared_context 'shared_monthly_reminder_html_erb' do
     expect(rendered).to have_css("#{table_id} tr", count: cell_values.size+1)
     cell_values.each do |values|
       tr_td_id = "tr[id='#{event_prefix}_tr#{values[1]}']"
-      tr_td_ul_id = "ul[id='#{event_prefix}_ul#{values[1]}']"
-      expect(rendered).to have_css("#{table_id} #{tr_td_id} td", text: values[0])
+      tr_td_0_id = "td[id='#{event_prefix}_td0#{values[1]}']"
+      tr_td_1_id = "td[id='#{event_prefix}_td1#{values[1]}']"
+      tr_li_ul_id = "ul[id='#{event_prefix}_ul#{values[1]}']"
+
+      expect(rendered).to have_css("#{table_id} #{tr_td_id} #{tr_td_0_id}", text: values[0])
       verifiable_info = values[2]
       if verifiable_info.is_a? Array
-        expect(rendered).to have_css("#{tr_td_ul_id} li", count: verifiable_info.size)
-        verifiable_info.each do | info |
-          expect(rendered).to have_css("#{tr_td_ul_id} li", text: "#{info[0]}: #{info[1]}")
+        expect(rendered).to have_css("#{tr_li_ul_id} li", count: verifiable_info.size)
+        verifiable_info.each do |info|
+          expect(rendered).to have_css("#{tr_li_ul_id} li", text: "#{info[0]}: #{info[1]}")
         end
       else
-        expect(rendered).to have_css("#{table_id} #{tr_td_id} td", text: verifiable_info)
+        if verifiable_info.nil?
+          expect(rendered).not_to have_css("#{table_id} #{tr_td_id} #{tr_td_1_id}", text: verifiable_info)
+        else
+          expect(rendered).to have_css("#{table_id} #{tr_td_id} #{tr_td_1_id}", text: verifiable_info)
+        end
       end
     end
   end
 
   def render_setup
     @pre_late_text = I18n.t('email.late_initial_text')
-    @pre_verify_text = I18n.t('email.verify_initial_text')
     @pre_coming_due_text = I18n.t('email.coming_due_initial_text')
     @completed_text = I18n.t('email.completed_initial_text')
 

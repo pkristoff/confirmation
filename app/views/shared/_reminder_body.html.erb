@@ -10,9 +10,9 @@
 
 <%= render partial: 'shared/reminder_table',
            :locals => {event_key: 'late_events',
-                       headers: [t('email.late_events'), t('email.past_due')],
+                       headers: [t('email.late_events')],
                        events: @late_events,
-                       past_due: Proc.new { |candidate_event| t('email.past_due') }
+                       past_due: Proc.new { |candidate_event| nil }
            } %>
 
 <% if render_mail_text %>
@@ -43,8 +43,8 @@
   </tr>
   <% @completed_events.each do |candidate_event| %>
       <tr id="completed_events_tr<%= candidate_event.id %>">
-        <td><%= candidate_event.name %></td>
-        <td>
+        <td id="<%= "completed_events_td0#{candidate_event.id}" %>"><%= candidate_event.name %></td>
+        <td id="<%= "completed_events_td1#{candidate_event.id}" %>">
           <ul id="completed_events_ul<%= candidate_event.id %>">
             <% candidate_event.verifiable_info.each do |key, value| %>
                 <li><%= "#{key.to_s}: #{value}" %></li>
