@@ -19,8 +19,8 @@ describe CandidateImport do
       expect(candidate.candidate_sheet.last_name).to eq('Annunziata')
       expect(candidate.candidate_sheet.grade).to eq(10)
       expect(candidate.candidate_sheet.attending).to eq(I18n.t('model.candidate.attending_catholic_high_school'))
-      expect(candidate.candidate_sheet.parent_email_1).to eq('lannunz@nc.rr.com')
-      expect(candidate.candidate_sheet.parent_email_2).to eq('rannunz@nc.rr.com')
+      expect(candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
+      expect(candidate.candidate_sheet.parent_email_2).to eq('')
 
       expect(candidate.candidate_events.size).to eq(all_event_names.size)
 
@@ -33,8 +33,8 @@ describe CandidateImport do
       error_messages = [
           'Row 2: Candidate sheet last name can\'t be blank',
           'Row 3: Candidate sheet first name can\'t be blank',
-          'Row 6: Candidate sheet parent email 1 is an invalid email',
-          'Row 6: Candidate sheet parent email 2 is an invalid email'
+          'Row 6: Candidate sheet parent email 1 is an invalid email: @nc.rr.com',
+          'Row 6: Candidate sheet parent email 2 is an invalid email: rannunz'
       ]
       candidate_import.errors.each_with_index do |candidate, index|
         expect(candidate[1]).to eq(error_messages[index])

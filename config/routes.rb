@@ -32,6 +32,10 @@ Rails.application.routes.draw do
     get 'mass_edit_candidates_event/:id', to: 'admins#mass_edit_candidates_event', as: 'mass_edit_candidates_event'
     put 'mass_edit_candidates_event_update/:id', to: 'admins#mass_edit_candidates_event_update', as: 'mass_edit_candidates_event_update'
 
+    # email list of candidates
+    get 'monthly_mass_mailing', to: 'admins#monthly_mass_mailing', as: 'monthly_mass_mailing'
+    put 'monthly_mass_mailing_update', to: 'admins#monthly_mass_mailing_update', as: 'monthly_mass_mailing_update'
+
     # sign agreement
 
     get 'dev/sign_agreement.:id', to: 'dev/candidates#sign_agreement', as: 'dev_sign_agreement'

@@ -23,12 +23,16 @@ class AdminsController < ApplicationController
 
   def email_candidate_update
     @candidate = Candidate.find(params[:id])
-    mailer = CandidatesMailer.monthly_reminder(@candidate, params[:pre_late_input], params[:pre_verify_input], params[:pre_coming_due_input], params[:completed_input])
-    mailer.deliver_now
+    deliver_mail_to_candidate(@candidate)
 
     setup_email_candidate
     flash[:notify] = "Delivered to #{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
     render :email_candidate
+  end
+
+  def deliver_mail_to_candidate(candidate)
+    mailer = CandidatesMailer.monthly_reminder(candidate, params[:pre_late_input], params[:pre_coming_due_input], params[:completed_input])
+    mailer.deliver_now
   end
 
   def index
@@ -62,6 +66,29 @@ class AdminsController < ApplicationController
 
     set_candidates
     render :mass_edit_candidates_event
+  end
+
+  def monthly_mass_mailing
+    set_candidates
+  end
+
+  def monthly_mass_mailing_update
+
+    candidate_ids = params[:candidate][:candidate_ids]
+    candidates = []
+    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+
+    candidates.each do |candidate|
+      @candidate = candidate
+      deliver_mail_to_candidate(candidate)
+      end
+
+    flash[:notice] = 'Monthly mailing in progress'
+    # set_candidates
+    # render :monthly_mass_mailing
+    set_confirmation_events
+    render :edit_multiple_confirmation_events
+
   end
 
   def show

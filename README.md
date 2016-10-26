@@ -64,6 +64,7 @@ This application requires:
   * db:setup does db:create, db:schema:load, db:seed
   * db:reset does db:drop, db:setup
 * Learn more about [MD-markdown] (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+* Gmail mailing do https://accounts.google.com/DisplayUnlockCaptcha if gmail is not authenticating.
 
 
 Getting Started

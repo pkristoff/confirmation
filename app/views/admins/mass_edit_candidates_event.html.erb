@@ -12,10 +12,11 @@
       <%= submit_tag t('views.common.update') %>
     </div >
 
+    <!--TODO: merge with monthly_mass_mailing.html.erb-->
     <div class = "container" >
       <table class = "table table-hover sorting-table" >
         <tr id = "header" >
-          <th ><%= sortable 'completed_date', t('label.candidate_event.select'), @confirmation_event.id %></th >
+          <th ><%= t('label.candidate_event.select') %></th >
           <th ><%= sortable 'completed_date', t('views.events.completed_date'), @confirmation_event.id %></th >
           <th ><%= sortable 'account_name', t('label.candidate.account_name'), @confirmation_event.id %></th >
           <th ><%= sortable 'candidate_sheet.last_name', t('label.candidate_sheet.last_name'), @confirmation_event.id %></th >

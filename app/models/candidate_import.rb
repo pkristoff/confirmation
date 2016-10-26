@@ -371,7 +371,9 @@ class CandidateImport
                 end
               when :parent_email_1
                 unless item.nil?
-                  item_split = item.split(';')
+                  #for some reason item started aving html around it - so just remove it
+                  clean_item = ActionView::Base.full_sanitizer.sanitize(item)
+                  item_split = clean_item.split(';')
                   candidate_sheet_params[:parent_email_1] = item_split[0].strip
                   candidate_sheet_params[:parent_email_2] = item_split[1].strip if item_split.size > 1
                 end

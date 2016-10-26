@@ -201,6 +201,49 @@ describe AdminsController do
     end
   end
 
+  describe 'mass monthly mailing' do
+
+    before(:each) do
+      @c1 = create_candidate('c1')
+      @c2 = create_candidate('c2')
+      @c3 = create_candidate('c3')
+    end
+    it 'should set @candidates' do
+
+      controller.monthly_mass_mailing
+
+      expect(controller.candidates.size).to eq(3)
+      expect(controller.candidates[0]).to eq(@c1)
+      expect(controller.candidates[1]).to eq(@c2)
+      expect(controller.candidates[2]).to eq(@c3)
+    end
+  end
+
+  describe 'mass monthly mailing update' do
+
+    before(:each) do
+      login_admin
+      @c1 = create_candidate('c1')
+      @c2 = create_candidate('c2')
+      @c3 = create_candidate('c3')
+    end
+    it 'should set @candidates' do
+
+      expect_any_instance_of(AdminsController).to receive(:deliver_mail_to_candidate).with(@c1).exactly(:once)
+      expect_any_instance_of(AdminsController).to receive(:deliver_mail_to_candidate).with(@c2).exactly(:once)
+
+      put :monthly_mass_mailing_update,
+          pre_late_input: 'xxx',
+          pre_coming_due_input: 'yyy',
+          completed_input: 'zzz',
+          candidate: {candidate_ids: [@c1.id, @c2.id]}
+
+      expect(render_template('edit_multiple_confirmation_events'))
+      expect(response.status).to eq(200)
+
+    end
+  end
+
   def expect_column_sorting(column, *candidates)
 
     put :mass_edit_candidates_event_update,

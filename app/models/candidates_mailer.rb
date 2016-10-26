@@ -2,10 +2,9 @@ class CandidatesMailer < ActionMailer::Base
 
   default from: 'confirmation@kristoffs.com'
 
-  def monthly_reminder(candidate, pre_late_text, pre_verify_text, pre_coming_due_text, completed_text)
+  def monthly_reminder(candidate, pre_late_text, pre_coming_due_text, completed_text)
     @candidate = candidate
     @pre_late_text = pre_late_text
-    @pre_verify_text = pre_verify_text
     @pre_coming_due_text = pre_coming_due_text
     @completed_text = completed_text
     #matches AdminsController#setup_email_candidate

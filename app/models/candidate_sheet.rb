@@ -69,13 +69,13 @@ class CandidateSheet < ActiveRecord::Base
 
   def validate_emails()
     unless candidate_email.nil? or candidate_email.empty?
-      errors.add(:candidate_email, 'is an invalid email') unless validate_email(candidate_email)
+      errors.add(:candidate_email, "is an invalid email: #{candidate_email}") unless validate_email(candidate_email)
     end
     unless parent_email_1.nil? or parent_email_1.empty?
-      errors.add(:parent_email_1, 'is an invalid email') unless validate_email(parent_email_1)
+      errors.add(:parent_email_1, "is an invalid email: #{parent_email_1}") unless validate_email(parent_email_1)
     end
     unless parent_email_2.nil? or parent_email_2.empty?
-      errors.add(:parent_email_2, 'is an invalid email') unless validate_email(parent_email_2)
+      errors.add(:parent_email_2, "is an invalid email: #{parent_email_2}") unless validate_email(parent_email_2)
     end
   end
 

@@ -1,3 +1,5 @@
+include ApplicationHelper
+
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
@@ -20,18 +22,6 @@ class ApplicationController < ActionController::Base
     else
       ''
     end
-  end
-
-  # private - test only
-  def sort_column(sort_column)
-    columns = CandidateSheet.get_permitted_params.map { |attr| "candidate_sheet.#{attr}" }
-    columns << 'account_name'
-    columns << 'completed_date'
-    columns.include?(sort_column) ? sort_column : 'account_name'
-  end
-
-  def sort_direction(direction)
-    %w[asc desc].include?(direction) ? direction : 'asc'
   end
 
   protected

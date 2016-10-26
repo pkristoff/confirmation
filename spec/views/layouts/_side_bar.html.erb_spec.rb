@@ -9,6 +9,7 @@ describe 'layouts/_side_bar.html.erb' do
         [I18n.t('views.nav.add_new_admin'), '/admins/sign_up'],
         [I18n.t('views.nav.edit_account'), '/admins/edit'],
         [I18n.t('views.nav.candidates'), '/candidates'],
+        [I18n.t('views.nav.monthly_mass_mailing'), '/monthly_mass_mailing'],
         [I18n.t('views.nav.add_new_candidate'), '/candidates/new'],
         [I18n.t('views.nav.admins'), '/admins'],
         [I18n.t('views.nav.events'), '/edit_multiple_confirmation_events'],
@@ -38,25 +39,14 @@ describe 'layouts/_side_bar.html.erb' do
       expect(rendered).to have_selector('li', count: 0)
     end
   end
+
   context 'login as candidate' do
     it 'nav links layout for candidate' do
       candidate = login_candidate
 
       render
 
-      expect(rendered).to have_selector('li', count: 9)
-
       expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '/dev', candidate.id.to_s)
-
-      expect(rendered).to have_link(I18n.t('events.candidate_covenant_agreement'), href: "/dev/sign_agreement.#{candidate.id}")
-      expect(rendered).to have_link(I18n.t('events.candidate_information_sheet'), href: "/dev/candidate_sheet.#{candidate.id}")
-      expect(rendered).to have_link(I18n.t('events.baptismal_certificate'), href: "/dev/event_with_picture/#{candidate.id}/#{Event::Route::BAPTISMAL_CERTIFICATE}")
-      expect(rendered).to have_link(I18n.t('events.sponsor_covenant'), href: "/dev/event_with_picture/#{candidate.id}/#{Event::Route::SPONSOR_COVENANT}")
-      expect(rendered).to have_link(I18n.t('events.confirmation_name'), href: "/dev/event_with_picture/#{candidate.id}/#{Event::Route::CONFIRMATION_NAME}")
-      expect(rendered).to have_link(I18n.t('events.sponsor_agreement'), href: "/dev/sponsor_agreement.#{candidate.id}")
-      expect(rendered).to have_link(I18n.t('events.christian_ministry'), href: "/dev/event_with_picture/#{candidate.id}/#{Event::Route::CHRISTIAN_MINISTRY}")
-      expect(rendered).to have_link(I18n.t('views.nav.edit'), href: '/dev/candidates/edit')
-      expect(rendered).to have_link(I18n.t('views.nav.events'), href: "/dev/registrations/event/#{candidate.id}")
     end
   end
 
@@ -68,14 +58,6 @@ describe 'layouts/_side_bar.html.erb' do
 
       expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '')
 
-      expect(rendered).to have_selector('li', count: 7)
-      expect(rendered).to have_link(I18n.t('views.nav.add_new_admin'), href: '/admins/sign_up')
-      expect(rendered).to have_link(I18n.t('views.nav.edit_account'), href: '/admins/edit')
-      expect(rendered).to have_link(I18n.t('views.nav.candidates'), href: '/candidates')
-      expect(rendered).to have_link(I18n.t('views.nav.add_new_candidate'), href: '/candidates/new')
-      expect(rendered).to have_link(I18n.t('views.nav.admins'), href: '/admins')
-      expect(rendered).to have_link(I18n.t('views.nav.events'), href: '/edit_multiple_confirmation_events')
-      expect(rendered).to have_link(I18n.t('views.nav.other'), href: '/candidate_imports/new')
     end
   end
   context 'login as admin and editing a candidate' do
