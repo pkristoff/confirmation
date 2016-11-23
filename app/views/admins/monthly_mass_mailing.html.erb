@@ -6,33 +6,18 @@
     <%= text_area_tag(:pre_late_input, t('email.late_initial_text')) %> <br/>
 
     <%= label_tag(:pre_coming_due_input, t('email.coming_due_label')) %>:
-    <%= text_area_tag(:pre_coming_due_input, t('email.coming_due_initial_text')) %> <br />
+    <%= text_area_tag(:pre_coming_due_input, t('email.coming_due_initial_text')) %> <br/>
 
     <%= label_tag(:completed_input, t('email.completed_label')) %>:
-    <%= text_area_tag(:completed_input, t('email.completed_initial_text')) %> <br />
+    <%= text_area_tag(:completed_input, t('email.completed_initial_text')) %> <br/>
 
-     <!--TODO: merge with mass_edit_candidates_event.html.erb-->
-    <div id="" class="container">
-      <table id="candidate_list_table" class="table table-hover sorting-table">
-        <tr id="candidate_list_header">
-          <th id="candidate_list_header_th_1"><%= t('label.candidate_event.select') %></th >
-          <th id="candidate_list_header_th_2"><%= sortable 'account_name', t('label.candidate.account_name') %></th>
-          <th id="candidate_list_header_th_3"><%= sortable 'candidate_sheet.last_name', t('label.candidate_sheet.last_name') %></th>
-          <th id="candidate_list_header_th_4"><%= sortable 'candidate_sheet.first_name', t('label.candidate_sheet.first_name') %></th>
-          <th id="candidate_list_header_th_5"><%= sortable 'candidate_sheet.grade', t('label.candidate_sheet.grade') %></th>
-          <th id="candidate_list_header_th_6"><%= sortable 'candidate_sheet.attending', t('label.candidate_sheet.attending') %></th>
-        </tr>
-        <%= collection_check_boxes(:candidate, :candidate_ids, @candidates, :id, :account_name) do |b| %>
-            <tr id="candidate_list_tr_<%= b.object.id %>">
-              <td><%= b.check_box %></td>
-              <td><%= b.object.account_name %></td>
-              <td><%= b.object.candidate_sheet.last_name %></td>
-              <td><%= b.object.candidate_sheet.first_name %></td>
-              <td><%= b.object.candidate_sheet.grade %></td>
-              <td><%= b.object.candidate_sheet.attending %></td>
-            </tr>
-        <% end %>
-      </table>
-    </div>
-    <%= submit_tag t('views.common.update'), id: 'bottom-update' %>
+    <%= render partial: 'shared/sorting_candidate_selection',
+               :locals => {
+                   confirmation_event: nil,
+                   candidates: @candidates,
+                   route: :monthly_mass_mailing
+               } %>
+
+      <%= submit_tag t('views.common.update'), id: 'bottom-update' %>
+
 <% end %>

@@ -1,12 +1,14 @@
 include ViewsHelpers
-describe 'admins/monthly_mass_mailing.html.erb' do
+describe 'admins/mass_edit_candidates_event.html.erb' do
 
   before(:each) do
+
+    @candidate_1 = Candidate.find_by_account_name(create_candidate('Vicki', 'Kristoff').account_name)
+    @candidate_2 = Candidate.find_by_account_name(create_candidate('Paul', 'Kristoff').account_name)
+    @candidates = [@candidate_1, @candidate_2]
     AppFactory.add_confirmation_events
 
-    @candidate_1 = create_candidate('Vicki', 'Kristoff')
-    @candidate_2 = create_candidate('Paul', 'Kristoff')
-    @candidates = [@candidate_1, @candidate_2]
+    @confirmation_event = ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement'))
 
   end
 
@@ -15,18 +17,19 @@ describe 'admins/monthly_mass_mailing.html.erb' do
 
     render
 
-    expect(rendered).to have_css "form[action='/monthly_mass_mailing_update']"
+    expect(rendered).to have_css "form[action='/mass_edit_candidates_event_update/#{@confirmation_event.id}']"
 
     expect(rendered).to have_css("input[type='submit'][value='#{t('views.common.update')}']", count: 2)
 
     expect(rendered).to have_css("input[id='top-update'][type='submit'][value='#{t('views.common.update')}']")
 
-    expect(rendered).to have_field(t('email.pre_late_label'), text: t('email.late_initial_text'))
-    expect(rendered).to have_field(t('email.coming_due_label'), text: t('email.coming_due_initial_text'))
-    expect(rendered).to have_field(t('email.completed_label'), text: t('email.completed_initial_text'))
+    expect(rendered).to have_css 'input[type=checkbox][id=verified][value="1"]'
+    expect(rendered).to have_field(t('views.events.verified'))
+    expect(rendered).to have_field(t('views.events.completed_date'))
 
     expect_sorting_candidate_list([
                                       [t('label.candidate_event.select'), ''],
+                                      [t('views.events.completed_date'), [:completed_date]],
                                       [t('label.candidate.account_name'), [:account_name], :up],
                                       [t('label.candidate_sheet.last_name'), [:candidate_sheet, :last_name]],
                                       [t('label.candidate_sheet.first_name'), [:candidate_sheet, :first_name]],
@@ -34,7 +37,8 @@ describe 'admins/monthly_mass_mailing.html.erb' do
                                       [t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
                                   ],
                                   @candidates,
-                                  :monthly_mass_mailing)
+                                  :mass_edit_candidates_event,
+                                  @confirmation_event)
 
     expect(rendered).to have_css("input[id='bottom-update'][type='submit'][value='#{t('views.common.update')}']")
 

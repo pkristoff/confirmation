@@ -1,5 +1,7 @@
 <%= form_tag mass_edit_candidates_event_update_path(@confirmation_event.id), method: :put do %>
 
+    <%= submit_tag t('views.common.update'), id: 'top-update' %>
+
     <h2 ><%= @confirmation_event.name %></h2 >
 
     <%= label_tag(:verified, t('views.events.verified')) %>:
@@ -8,37 +10,13 @@
     <%= label_tag(:completed_date, t('views.events.completed_date')) %>:
     <%= date_field_tag(:completed_date) %>
 
-    <div class = "actions" >
-      <%= submit_tag t('views.common.update') %>
-    </div >
+    <%= render partial: 'shared/sorting_candidate_selection',
+               :locals => {
+                   confirmation_event: @confirmation_event,
+                   candidates: @candidates,
+                   route: :mass_edit_candidates_event
+               } %>
 
-    <!--TODO: merge with monthly_mass_mailing.html.erb-->
-    <div class = "container" >
-      <table class = "table table-hover sorting-table" >
-        <tr id = "header" >
-          <th ><%= t('label.candidate_event.select') %></th >
-          <th ><%= sortable 'completed_date', t('views.events.completed_date'), @confirmation_event.id %></th >
-          <th ><%= sortable 'account_name', t('label.candidate.account_name'), @confirmation_event.id %></th >
-          <th ><%= sortable 'candidate_sheet.last_name', t('label.candidate_sheet.last_name'), @confirmation_event.id %></th >
-          <th ><%= sortable 'candidate_sheet.first_name', t('label.candidate_sheet.first_name'), @confirmation_event.id %></th >
-          <th ><%= sortable 'candidate_sheet.grade', t('label.candidate_sheet.grade'), @confirmation_event.id %></th >
-          <th ><%= sortable 'candidate_sheet.attending', t('label.candidate_sheet.attending'), @confirmation_event.id %></th >
-        </tr >
-        <%= collection_check_boxes(:candidate, :candidate_ids, @candidates, :id, :account_name) do |b| %>
-            <tr >
-              <td ><%= b.check_box %></td >
-              <td ><%= b.object.get_candidate_event(@confirmation_event.name).completed_date %></td >
-              <td ><%= b.object.account_name %></td >
-              <td ><%= b.object.candidate_sheet.last_name %></td >
-              <td ><%= b.object.candidate_sheet.first_name %></td >
-              <td ><%= b.object.candidate_sheet.grade %></td >
-              <td ><%= b.object.candidate_sheet.attending %></td >
-            </tr >
-        <% end %>
-      </table >
-    </div >
+    <%= submit_tag t('views.common.update'), id: 'bottom-update' %>
 
-    <div class = "actions" >
-      <%= submit_tag t('views.common.update') %>
-    </div >
 <% end %>

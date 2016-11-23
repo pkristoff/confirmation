@@ -1,6 +1,6 @@
 class AddPickConfirmationNameEvent < ActiveRecord::Migration
   def up
-    AppFactory.add_confirmation_event(I18n.t('events.pick_confirmation_name'))
+    AppFactory.add_confirmation_event(I18n.t('events.confirmation_name'))
 
     create_table :pick_confirmation_names do |t|
       t.string :saint_name
@@ -18,7 +18,7 @@ class AddPickConfirmationNameEvent < ActiveRecord::Migration
   end
 
   def down
-    AppFactory.revert_confirmation_event(I18n.t('events.pick_confirmation_name'))
+    AppFactory.revert_confirmation_event(I18n.t('events.confirmation_name'))
     remove_foreign_key(:candidates, :pick_confirmation_names)
     remove_reference(:candidates, :pick_confirmation_name)
     drop_table(:pick_confirmation_names)

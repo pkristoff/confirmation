@@ -114,26 +114,6 @@ class AdminsController < ApplicationController
 
   end
 
-  def set_candidates
-    sc = sort_column(params[:sort])
-    sc_split = sc.split('.')
-    if sc_split.size === 2
-      if sc_split[0] === 'candidate_sheet'
-        @candidates = Candidate.joins(:candidate_sheet).order("candidate_sheets.#{sc_split[1]} #{sort_direction(params[:direction])}").all
-      else
-        flash[:alert] = "Unknown sort_column: #{sc}"
-      end
-    else
-      if sc_split[0] === 'completed_date'
-        @candidates = Candidate.joins(candidate_events: :confirmation_event)
-                          .where(confirmation_events: {name: @confirmation_event.name})
-                          .order("candidate_events.completed_date #{sort_direction(params[:direction])}")
-      else
-        @candidates = Candidate.order("#{sc} #{sort_direction(params[:direction])}").all
-      end
-    end
-  end
-
   def set_confirmation_events
     @confirmation_events = ConfirmationEvent.all.sort do |ce1, ce2|
       # sort based on the_way_due_date and then by name ignoring chs_due_date

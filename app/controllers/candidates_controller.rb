@@ -32,17 +32,7 @@ class CandidatesController < CommonCandidatesController
   end
 
   def index
-    sc = sort_column(params[:sort])
-    sc_split = sc.split('.')
-    if sc_split.size === 2
-      if sc_split[0] === 'candidate_sheet'
-        @candidates = Candidate.joins(:candidate_sheet).order("candidate_sheets.#{sc_split[1]} #{sort_direction(params[:direction])}").all
-      else
-        flash[:alert] = "Unknown sort_column: #{sc}"
-      end
-    else
-      @candidates = Candidate.order("#{sc} #{sort_direction(params[:direction])}").all
-    end
+    set_candidates
   end
 
   def is_admin?
