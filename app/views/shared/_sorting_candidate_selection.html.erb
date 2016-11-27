@@ -37,19 +37,19 @@
           <% td_index += 1 %>
           <% if other_columns %>
               <% other_columns[:rows].each do |cell_gen| %>
-                  <td id="tr<%= b.object.id %>_td<%= td_index%>"> ><%= cell_gen.call(b.object) %></td>
+                  <td id="tr<%= b.object.id %>_td<%= td_index%>"><%= cell_gen.call(b.object) %></td>
                   <% td_index += 1 %>
               <% end %>
           <% end %>
           <% if confirmation_event %>
-              <td id="tr<%= b.object.id %>_td<%= td_index%>"> ><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
+              <td id="tr<%= b.object.id %>_td<%= td_index%>"><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
               <% td_index += 1 %>
           <% end %>
-          <td id="tr<%= b.object.id %>_td<%= td_index%>"> ><%= b.object.account_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+1%>"> ><%= b.object.candidate_sheet.last_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+2%>"> ><%= b.object.candidate_sheet.first_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+3%>"> ><%= b.object.candidate_sheet.grade %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+4%>"> ><%= b.object.candidate_sheet.attending %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index%>"><%= b.object.account_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+1%>"><%= b.object.candidate_sheet.last_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+2%>"><%= b.object.candidate_sheet.first_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+3%>"><%= b.object.candidate_sheet.grade %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+4%>"><%= b.object.candidate_sheet.attending %></td>
         </tr>
     <% end %>
   </table>
