@@ -22,12 +22,12 @@ class AdminsController < ApplicationController
   end
 
   def email_candidate_update
-    @candidate = Candidate.find(params[:id])
-    deliver_mail_to_candidate(@candidate)
+    candidate = Candidate.find(params[:id])
+    deliver_mail_to_candidate(candidate)
 
-    setup_email_candidate
-    flash[:notify] = "Delivered to #{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
-    render :email_candidate
+    flash[:notify] = "Delivered to #{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"
+    set_candidates
+    render 'candidates/index'
   end
 
   def deliver_mail_to_candidate(candidate)

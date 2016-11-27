@@ -28,7 +28,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
     expect(rendered).to have_field(t('views.events.completed_date'))
 
     expect_sorting_candidate_list([
-                                      [t('label.candidate_event.select'), ''],
+                                      [t('label.candidate_event.select'), '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
                                       [t('views.events.completed_date'), [:completed_date]],
                                       [t('label.candidate.account_name'), [:account_name], :up],
                                       [t('label.candidate_sheet.last_name'), [:candidate_sheet, :last_name]],
@@ -38,6 +38,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
                                   ],
                                   @candidates,
                                   :mass_edit_candidates_event,
+                                  rendered,
                                   @confirmation_event)
 
     expect(rendered).to have_css("input[id='bottom-update'][type='submit'][value='#{t('views.common.update')}']")

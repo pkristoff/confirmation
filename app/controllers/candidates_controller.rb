@@ -15,10 +15,10 @@ class CandidatesController < CommonCandidatesController
   before_action :authenticate_admin!
 
   def destroy
-    @candidate = Candidate.find(params[:id])
-    @candidate.destroy
+    candidate = Candidate.find(params[:id])
+    candidate.destroy
     flash[:notice] = I18n.t('messages.candidate_removed', name: candidate.account_name)
-    @candidates = Candidate.all
+    set_candidates
     render :index
   end
 

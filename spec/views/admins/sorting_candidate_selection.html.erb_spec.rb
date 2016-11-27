@@ -19,10 +19,12 @@ describe 'shared/sorting_candidate_selection' do
 
       render 'shared/sorting_candidate_selection', {confirmation_event: @confirmation_event,
                                                     candidates: @candidates,
-                                                    route: :mass_edit_candidates_event}
+                                                    route: :mass_edit_candidates_event,
+                                                    other_columns: nil
+                                                    }
 
       expect_sorting_candidate_list([
-                                        [t('label.candidate_event.select'), ''],
+                                        [t('label.candidate_event.select'), '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
                                         [t('views.events.completed_date'), [:completed_date]],
                                         [t('label.candidate.account_name'), [:account_name], :up],
                                         [t('label.candidate_sheet.last_name'), [:candidate_sheet, :last_name]],
@@ -32,6 +34,7 @@ describe 'shared/sorting_candidate_selection' do
                                     ],
                                     @candidates,
                                     :mass_edit_candidates_event,
+                                    rendered,
                                     @confirmation_event)
     end
   end

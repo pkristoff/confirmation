@@ -53,51 +53,53 @@ module ViewsHelpers
     expect(rendered).to have_button(submit_button)
   end
 
-  def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, route, confirmation_event=nil)
+  def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, route, rendered_or_page, confirmation_event=nil)
 
     table_id = "table[id='candidate_list_table']"
     tr_header_id = "tr[id='candidate_list_header']"
 
-    expect(rendered).to have_css("#{table_id}")
-    expect(rendered).to have_css("#{table_id} #{tr_header_id}")
-    expect(rendered).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size
+    expect(rendered_or_page).to have_css("#{table_id}")
+    expect(rendered_or_page).to have_css("#{table_id} #{tr_header_id}")
+    expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size
 
-    update = confirmation_event ? "update%5B#{confirmation_event.id}%5D=" : 'update%5B%5D='
+    update = confirmation_event ? "&update%5B#{confirmation_event.id}%5D=" : '&update%5B%5D='
+    update = '' if route === :candidates
     column_headers_in_order.each_with_index do |info, index|
       route_id = confirmation_event ? "/#{confirmation_event.id}" : ''
       i18n_name = info[0]
       sort_path = info[1]
       active_sort_column = info.size === 3 ? info[2] : nil
-      expect(rendered).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}']", text: i18n_name
+      expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}']", text: i18n_name
       unless sort_path.empty?
         sort = sort_path[0] if sort_path.size === 1
         sort = "#{sort_path[0]}.#{sort_path[1]}" if sort_path.size === 2
         if active_sort_column
           arrow = active_sort_column === :up ? 'glyphicon-arrow-up' : 'glyphicon-arrow-down'
           direction = active_sort_column === :up ? 'desc' : 'asc'
-          expect(rendered).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] a[href='/#{route}#{route_id}?class=current+glyphicon+#{arrow}&direction=#{direction}&sort=#{sort}&#{update}']"
+          expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] a[href='/#{route}#{route_id}?class=current+glyphicon+#{arrow}&direction=#{direction}&sort=#{sort}#{update}']"
         else
-          expect(rendered).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] a[href='/#{route}#{route_id}?direction=asc&sort=#{sort}&#{update}']"
+          expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] a[href='/#{route}#{route_id}?direction=asc&sort=#{sort}#{update}']"
         end
       end
     end
-    candidates_in_order.each_with_index do |candidate, index|
+    candidates_in_order.each_with_index do |candidate, tr_index|
       tr_id = "tr[id='candidate_list_tr_#{candidate.id}']"
-      column_headers_in_order.each_with_index do |info, index|
+      column_headers_in_order.each_with_index do |info, td_index|
         text = nil
         if info[1].empty?
-          expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]"
+          info[2].call(candidate, rendered_or_page, td_index)
+          # expect(rendered_or_page).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]"
         elsif confirmation_event && info[1][0] === :completed_date
           text = candidate.get_candidate_event(confirmation_event.name).method(info[1][0]).call
-          expect(rendered).to have_css "#{table_id} #{tr_id} td", text: text
+          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", text: text
         else
           text = candidate.method(info[1][0]).call if info[1].size === 1
           text = candidate.method(info[1][0]).call.method(info[1][1]).call if info[1].size === 2
-          expect(rendered).to have_css "#{table_id} #{tr_id} td", text: text
+          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", text: text
         end
       end
     end
-    expect(rendered).to have_css "#{table_id} tr", count: candidates_in_order.size + 1
+    expect(rendered_or_page).to have_css "#{table_id} tr", count: candidates_in_order.size + 1
   end
 
   def create_candidate(first_name, last_name)

@@ -1,3 +1,4 @@
+include ViewsHelpers
 include Warden::Test::Helpers
 Warden.test_mode!
 
@@ -18,37 +19,21 @@ feature 'Candidate index page', :devise do
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
     visit candidates_path
-    expect(page).to have_css 'table'
-    within 'table' do
-      expect(page).to have_css 'tr', count: 4
-      expect(page).to have_css 'tr[id="header"]'
-      headers = [I18n.t('views.common.delete'), I18n.t('views.nav.edit'), I18n.t('views.common.email'), I18n.t('views.candidates.account_name'), I18n.t('label.candidate_sheet.last_name') ,
-                 I18n.t('label.candidate_sheet.first_name'), I18n.t('label.candidate_sheet.grade'), I18n.t('label.candidate_sheet.attending')]
-      within 'tr[id="header"]' do
 
-        expect(page).to have_css 'th', count: headers.size
-        headers.each do |header|
-          expect(page).to have_css 'th', text: header
-        end
-      end
-      expect_data_row(0, 'c1', headers.size)
-      expect_data_row(1, 'c2', headers.size)
-      expect_data_row(2, 'c3', headers.size)
-    end
+    expect_sorting_candidate_list([
+                                      [I18n.t('label.candidate_event.select'), '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
+                                      [I18n.t('views.common.delete'), '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
+                                      [I18n.t('views.nav.edit'), '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
+                                      [I18n.t('views.nav.email'), '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
+                                      [I18n.t('label.candidate.account_name'), [:account_name], :up],
+                                      [I18n.t('label.candidate_sheet.last_name'), [:candidate_sheet, :last_name]],
+                                      [I18n.t('label.candidate_sheet.first_name'), [:candidate_sheet, :first_name]],
+                                      [I18n.t('label.candidate_sheet.grade'), [:candidate_sheet, :grade]],
+                                      [I18n.t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
+                                  ],
+                                  [c1, c2, c3],
+                                  :candidates,
+                                  page)
+
   end
-
-  def expect_data_row(row_num, account_name, num_of_td)
-    expect(page).to have_css "tr[id='tr#{row_num}']"
-    within "tr[id='tr#{row_num}']" do
-      expect(page).to have_css 'td', count: num_of_td
-      expect(page).to have_css 'td a', text: I18n.t('views.common.delete')
-      expect(page).to have_css 'td a', text: I18n.t('views.nav.edit')
-      expect(page).to have_css 'td', text: account_name
-      expect(page).to have_css 'td', text: 'Agusta'
-      expect(page).to have_css 'td', text: 'Sophia'
-      expect(page).to have_css 'td', text: 10
-      expect(page).to have_css 'td', text: 'The Way'
-    end
-  end
-
 end

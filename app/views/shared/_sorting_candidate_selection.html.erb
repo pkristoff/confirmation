@@ -1,40 +1,55 @@
 <% #Parameter confirmation_event %>
 <% #Parameter candidates %>
 <% #Parameter route %>
+<% #Parameter other_columns %>
 <% if confirmation_event %>
     <% confirmation_event_id = confirmation_event.id %>
 <% else %>
     <% confirmation_event_id = '' %>
 <% end %>
-<% sorting_headers_in_order = [] %>
-<% if confirmation_event %>
-    <% sorting_headers_in_order.push(sortable('completed_date', t('views.events.completed_date'), route, confirmation_event_id)) %>
+<% column_headers_in_order = [] %>
+<% if other_columns %>
+    <% other_columns[:headers].each do |i18n_header| %>
+        <% column_headers_in_order.push(i18n_header) %>
+    <% end %>
 <% end %>
-<% sorting_headers_in_order.push(sortable('account_name', t('label.candidate.account_name'), route, confirmation_event_id)) %>
-<% sorting_headers_in_order.push(sortable('candidate_sheet.last_name', t('label.candidate_sheet.last_name'), route, confirmation_event_id)) %>
-<% sorting_headers_in_order.push(sortable('candidate_sheet.first_name', t('label.candidate_sheet.first_name'), route, confirmation_event_id)) %>
-<% sorting_headers_in_order.push(sortable('candidate_sheet.grade', t('label.candidate_sheet.grade'), route, confirmation_event_id)) %>
-<% sorting_headers_in_order.push(sortable('candidate_sheet.attending', t('label.candidate_sheet.attending'), route, confirmation_event_id)) %>
+<% if confirmation_event %>
+    <% column_headers_in_order.push(sortable('completed_date', t('views.events.completed_date'), route, confirmation_event_id)) %>
+<% end %>
+<% column_headers_in_order.push(sortable('account_name', t('label.candidate.account_name'), route, confirmation_event_id)) %>
+<% column_headers_in_order.push(sortable('candidate_sheet.last_name', t('label.candidate_sheet.last_name'), route, confirmation_event_id)) %>
+<% column_headers_in_order.push(sortable('candidate_sheet.first_name', t('label.candidate_sheet.first_name'), route, confirmation_event_id)) %>
+<% column_headers_in_order.push(sortable('candidate_sheet.grade', t('label.candidate_sheet.grade'), route, confirmation_event_id)) %>
+<% column_headers_in_order.push(sortable('candidate_sheet.attending', t('label.candidate_sheet.attending'), route, confirmation_event_id)) %>
 
 <div class="container">
   <table id="candidate_list_table" class="table table-hover sorting-table">
     <tr id="candidate_list_header">
       <th id="candidate_list_header_th_1"><%= t('label.candidate_event.select') %></th>
-      <% sorting_headers_in_order.each_with_index do |sort_header, index| %>
-          <th id="candidate_list_header_th_<%= index+2 %>"><%= sorting_headers_in_order[index] %></th>
+      <% column_headers_in_order.each_with_index do |sort_header, index| %>
+          <th id="candidate_list_header_th_<%= index+2 %>"><%= column_headers_in_order[index] %></th>
       <% end %>
     </tr>
     <%= collection_check_boxes(:candidate, :candidate_ids, candidates, :id, :account_name) do |b| %>
         <tr id="candidate_list_tr_<%= b.object.id %>">
-          <td><%= b.check_box %></td>
-          <% if confirmation_event %>
-              <td><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
+          <% td_index = 0 %>
+          <td id="tr<%= b.object.id %>_td<%= td_index%>"><%= b.check_box %></td>
+          <% td_index += 1 %>
+          <% if other_columns %>
+              <% other_columns[:rows].each do |cell_gen| %>
+                  <td id="tr<%= b.object.id %>_td<%= td_index%>"> ><%= cell_gen.call(b.object) %></td>
+                  <% td_index += 1 %>
+              <% end %>
           <% end %>
-          <td><%= b.object.account_name %></td>
-          <td><%= b.object.candidate_sheet.last_name %></td>
-          <td><%= b.object.candidate_sheet.first_name %></td>
-          <td><%= b.object.candidate_sheet.grade %></td>
-          <td><%= b.object.candidate_sheet.attending %></td>
+          <% if confirmation_event %>
+              <td id="tr<%= b.object.id %>_td<%= td_index%>"> ><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
+              <% td_index += 1 %>
+          <% end %>
+          <td id="tr<%= b.object.id %>_td<%= td_index%>"> ><%= b.object.account_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+1%>"> ><%= b.object.candidate_sheet.last_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+2%>"> ><%= b.object.candidate_sheet.first_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+3%>"> ><%= b.object.candidate_sheet.grade %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+4%>"> ><%= b.object.candidate_sheet.attending %></td>
         </tr>
     <% end %>
   </table>

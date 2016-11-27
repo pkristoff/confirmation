@@ -1,26 +1,19 @@
-<div class = "container" >
-  <table class = "table table-hover sorting-table" >
-    <tr id = "header" >
-      <th ><%= t('views.common.delete') %></th >
-      <th ><%= t('views.nav.edit') %></th >
-      <th ><%= t('views.nav.email') %></th >
-      <th ><%= sortable_candidates "account_name", t('views.candidates.account_name') %></th >
-      <th ><%= sortable_candidates "candidate_sheet.last_name", t('label.candidate_sheet.last_name') %></th >
-      <th ><%= sortable_candidates "candidate_sheet.first_name", t('label.candidate_sheet.first_name') %></th >
-      <th ><%= sortable_candidates "candidate_sheet.grade", t('label.candidate_sheet.grade') %></th >
-      <th ><%= sortable_candidates "candidate_sheet.attending", t('label.candidate_sheet.attending') %></th >
-    </tr >
-    <% @candidates.each_with_index do |candidate, index| %>
-        <tr id = "tr<%= index %>" >
-          <td ><%= link_to t('views.common.delete'), event_candidate_path(candidate.id), data: {confirm: t('views.common.are_you_sure')}, method: :delete %></td >
-          <td ><%= link_to t('views.nav.edit'), event_candidate_path(candidate.id) %></td >
-          <td ><%= link_to t('views.nav.email'), email_candidate_path(candidate.id) %></td >
-          <td ><%= candidate.account_name %></td >
-          <td ><%= candidate.candidate_sheet.last_name %></td >
-          <td ><%= candidate.candidate_sheet.first_name %></td >
-          <td ><%= candidate.candidate_sheet.grade %></td >
-          <td ><%= candidate.candidate_sheet.attending %></td >
-        </tr >
-    <% end %>
-  </table >
-</div >
+
+<%= render partial: 'shared/sorting_candidate_selection',
+           :locals => {
+               confirmation_event: nil,
+               candidates: @candidates,
+               route: :candidates,
+               other_columns: {
+                   headers: [
+                       t('views.common.delete'),
+                       t('views.nav.edit'),
+                       t('views.nav.email')
+                   ],
+                   rows: [
+                       lambda {|candidate| link_to t('views.common.delete'), destroy_candidate_path(candidate.id), data: {confirm: t('views.common.are_you_sure')}, method: :delete },
+                       lambda {|candidate| link_to t('views.nav.edit'), event_candidate_path(candidate.id) },
+                       lambda {|candidate| link_to t('views.nav.email'), email_candidate_path(candidate.id) }
+                   ]
+               }
+           } %>

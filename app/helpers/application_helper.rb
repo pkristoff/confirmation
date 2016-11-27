@@ -1,5 +1,4 @@
 module ApplicationHelper
-  # TODO: merge with sortable_candidates
   def sortable(column, title, route, confirmation_event_id='')
     title ||= column.titleize
     css_class = column == sort_column(params[:sort]) ? "current #{sort_direction(params[:direction]) == 'asc' ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down'}" : nil
@@ -7,14 +6,8 @@ module ApplicationHelper
     path = 'unknown path'
     path = monthly_mass_mailing_path(sort: column, direction: direction, class: css_class, update: {confirmation_event_id => ''}) if route === :monthly_mass_mailing
     path = mass_edit_candidates_event_path(id: confirmation_event_id, sort: column, direction: direction, class: css_class, update: {confirmation_event_id => ''}) if route === :mass_edit_candidates_event
+    path = candidates_path(sort: column, direction: direction, class: css_class) if route === :candidates
     link_to title, path, method: :get
-  end
-  # TODO: merge with sortable
-  def sortable_candidates(column, title )
-    title ||= column.titleize
-    css_class = column == sort_column(params[:sort]) ? "current #{sort_direction(params[:direction]) == 'asc' ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down'}" : nil
-    direction = column == sort_column(params[:sort]) && sort_direction(params[:direction]) == 'asc' ? 'desc' : 'asc'
-    link_to title, candidates_path(sort: column, direction: direction, class: css_class), method: :get
   end
 
   # private - test only

@@ -2,10 +2,10 @@
 
     <%= submit_tag t('views.common.update'), id: 'top-update' %>
 
-    <h2 ><%= @confirmation_event.name %></h2 >
+    <h2><%= @confirmation_event.name %></h2>
 
     <%= label_tag(:verified, t('views.events.verified')) %>:
-    <%= check_box_tag(:verified) %><br />
+    <%= check_box_tag(:verified) %><br/>
 
     <%= label_tag(:completed_date, t('views.events.completed_date')) %>:
     <%= date_field_tag(:completed_date) %>
@@ -14,7 +14,8 @@
                :locals => {
                    confirmation_event: @confirmation_event,
                    candidates: @candidates,
-                   route: :mass_edit_candidates_event
+                   route: :mass_edit_candidates_event,
+                   other_columns: nil
                } %>
 
     <%= submit_tag t('views.common.update'), id: 'bottom-update' %>

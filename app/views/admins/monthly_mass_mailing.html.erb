@@ -15,7 +15,8 @@
                :locals => {
                    confirmation_event: nil,
                    candidates: @candidates,
-                   route: :monthly_mass_mailing
+                   route: :monthly_mass_mailing,
+                   other_columns: nil
                } %>
 
       <%= submit_tag t('views.common.update'), id: 'bottom-update' %>
