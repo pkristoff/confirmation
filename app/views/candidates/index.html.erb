@@ -1,19 +1,27 @@
+<%= form_tag mass_edit_candidates_update_path(), method: :post do %>
+    <div class="btn-group" role="group" aria-label="...">
+      <%= submit_tag t('views.common.delete'), id: 'top-update-delete', value: :delete %>
+      <%= submit_tag t('views.nav.email'), id: 'top-update-email', value: :email %>
+    </div>
 
-<%= render partial: 'shared/sorting_candidate_selection',
-           :locals => {
-               confirmation_event: nil,
-               candidates: @candidates,
-               route: :candidates,
-               other_columns: {
-                   headers: [
-                       t('views.common.delete'),
-                       t('views.nav.edit'),
-                       t('views.nav.email')
-                   ],
-                   rows: [
-                       lambda {|candidate| link_to t('views.common.delete'), destroy_candidate_path(candidate.id), data: {confirm: t('views.common.are_you_sure')}, method: :delete },
-                       lambda {|candidate| link_to t('views.nav.edit'), event_candidate_path(candidate.id) },
-                       lambda {|candidate| link_to t('views.nav.email'), email_candidate_path(candidate.id) }
-                   ]
-               }
-           } %>
+    <%= render partial: 'shared/sorting_candidate_selection',
+               :locals => {
+                   confirmation_event: nil,
+                   candidates: @candidates,
+                   route: :candidates,
+                   other_columns: {
+                       headers: [
+                           t('views.nav.edit')
+                       ],
+                       rows: [
+                           lambda { |candidate| link_to t('views.nav.edit'), event_candidate_path(candidate.id) }
+                       ]
+                   },
+                   selected_candidate_ids: @selected_candidate_ids
+               } %>
+    <div class="btn-group" role="group" aria-label="...">
+      <%= submit_tag t('views.common.delete'), id: 'bottom-update-delete', value: :delete %>
+      <%= submit_tag t('views.nav.email'), id: 'bottom-update-email', value: :email %>
+    </div>
+
+<% end %>

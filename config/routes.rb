@@ -18,7 +18,6 @@ Rails.application.routes.draw do
     get 'show/:id', to: 'dev/candidates#show', as: 'dev_candidate'
     get 'event/:id', to: 'candidates#event', as: 'event_candidate'
     put 'event/:id', to: 'candidates#update', as: 'update_candidate'
-    delete 'event/:id', to: 'candidates#destroy', as: 'destroy_candidate'
     post 'update/:id', to: 'dev/registrations#update', as: 'update_candidate_registration'
     get 'dev/registrations/event/:id', to: 'dev/registrations#event', as: 'event_candidate_registration'
     post 'create', to: 'registrations#create', as: 'create_candidate'
@@ -31,6 +30,8 @@ Rails.application.routes.draw do
     # put 'mass_edit_candidates_event_sort/:id/:sort/:direction', to: 'admins#mass_edit_candidates_event_sort', as: 'mass_edit_candidates_event_sort'
     get 'mass_edit_candidates_event/:id', to: 'admins#mass_edit_candidates_event', as: 'mass_edit_candidates_event'
     put 'mass_edit_candidates_event_update/:id', to: 'admins#mass_edit_candidates_event_update', as: 'mass_edit_candidates_event_update'
+
+    post 'mass_edit_candidates_update', to: 'admins#mass_edit_candidates_update', as: 'mass_edit_candidates_update'
 
     # email list of candidates
     get 'monthly_mass_mailing', to: 'admins#monthly_mass_mailing', as: 'monthly_mass_mailing'
@@ -86,11 +87,6 @@ Rails.application.routes.draw do
 
     get 'edit_multiple_confirmation_events/', to: 'admins#edit_multiple_confirmation_events', as: 'edit_multiple_confirmation_events'
     post 'update_multiple_confirmation_events/', to: 'admins#update_multiple_confirmation_events', as: 'update_multiple_confirmation_events'
-
-    # email candidate
-
-    get 'email_candidate/:id/', to: 'admins#email_candidate', as: 'email_candidate'
-    post 'email_candidate_update/:id/', to: 'admins#email_candidate_update', as: 'email_candidate_update'
 
   end
 

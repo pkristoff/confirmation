@@ -69,7 +69,8 @@ module ViewsHelpers
       i18n_name = info[0]
       sort_path = info[1]
       active_sort_column = info.size === 3 ? info[2] : nil
-      expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}']", text: i18n_name
+      expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}']", text: i18n_name unless i18n_name === I18n.t('label.candidate_event.select')
+      expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
       unless sort_path.empty?
         sort = sort_path[0] if sort_path.size === 1
         sort = "#{sort_path[0]}.#{sort_path[1]}" if sort_path.size === 2
@@ -131,5 +132,31 @@ module ViewsHelpers
 
     candidate.save
     candidate
+  end
+
+  def expect_mass_mailing_html(candidates, rendered_or_page)
+    expect(rendered_or_page).to have_css "form[action='/monthly_mass_mailing_update']"
+
+    expect(rendered_or_page).to have_css("input[type='submit'][value='#{I18n.t('views.common.update')}']", count: 2)
+
+    expect(rendered_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('views.common.update')}']")
+
+    expect(rendered_or_page).to have_field(I18n.t('email.pre_late_label'), text: I18n.t('email.late_initial_text'))
+    expect(rendered_or_page).to have_field(I18n.t('email.coming_due_label'), text: I18n.t('email.coming_due_initial_text'))
+    expect(rendered_or_page).to have_field(I18n.t('email.completed_label'), text: I18n.t('email.completed_initial_text'))
+
+    expect_sorting_candidate_list([
+                                      [I18n.t('label.candidate_event.select'), '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
+                                      [I18n.t('label.candidate.account_name'), [:account_name], :up],
+                                      [I18n.t('label.candidate_sheet.last_name'), [:candidate_sheet, :last_name]],
+                                      [I18n.t('label.candidate_sheet.first_name'), [:candidate_sheet, :first_name]],
+                                      [I18n.t('label.candidate_sheet.grade'), [:candidate_sheet, :grade]],
+                                      [I18n.t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
+                                  ],
+                                  candidates,
+                                  :monthly_mass_mailing,
+                                  rendered_or_page)
+
+    expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('views.common.update')}']")
   end
 end

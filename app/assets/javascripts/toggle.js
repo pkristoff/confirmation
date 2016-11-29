@@ -2,6 +2,14 @@
  * Created by paulkristoff on 9/1/16.
  */
 
+select_all_none = function (id) {
+    var check_all = document.getElementById(id).checked,
+        checkboxes = document.getElementsByName('candidate[candidate_ids][]');
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = check_all;
+    }
+};
+
 confirmation_toggle = function () {
 
     function instructions( e ) {

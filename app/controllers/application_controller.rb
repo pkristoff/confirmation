@@ -82,9 +82,10 @@ class ApplicationController < ActionController::Base
         end
   end
 
-  def set_candidates
+  def set_candidates(selected_candidate_ids = [])
     sc = sort_column(params[:sort])
     sc_split = sc.split('.')
+    @selected_candidate_ids = selected_candidate_ids
     if sc_split.size === 2
       if sc_split[0] === 'candidate_sheet'
         @candidates = Candidate.joins(:candidate_sheet).order("candidate_sheets.#{sc_split[1]} #{sort_direction(params[:direction])}").all

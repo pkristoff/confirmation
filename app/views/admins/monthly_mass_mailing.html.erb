@@ -16,7 +16,8 @@
                    confirmation_event: nil,
                    candidates: @candidates,
                    route: :monthly_mass_mailing,
-                   other_columns: nil
+                   other_columns: nil,
+                   selected_candidate_ids: @selected_candidate_ids
                } %>
 
       <%= submit_tag t('views.common.update'), id: 'bottom-update' %>

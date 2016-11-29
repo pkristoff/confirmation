@@ -2,6 +2,7 @@
 <% #Parameter candidates %>
 <% #Parameter route %>
 <% #Parameter other_columns %>
+<% #Parameter selected_candidate_ids %>
 <% if confirmation_event %>
     <% confirmation_event_id = confirmation_event.id %>
 <% else %>
@@ -25,31 +26,33 @@
 <div class="container">
   <table id="candidate_list_table" class="table table-hover sorting-table">
     <tr id="candidate_list_header">
-      <th id="candidate_list_header_th_1"><%= t('label.candidate_event.select') %></th>
+      <th id="candidate_list_header_th_1">
+        <a onclick="select_all_none('select_all_none_input');" href="#"><input type="checkbox" id="select_all_none_input"></a>
+      </th>
       <% column_headers_in_order.each_with_index do |sort_header, index| %>
           <th id="candidate_list_header_th_<%= index+2 %>"><%= column_headers_in_order[index] %></th>
       <% end %>
     </tr>
-    <%= collection_check_boxes(:candidate, :candidate_ids, candidates, :id, :account_name) do |b| %>
+    <%= collection_check_boxes(:candidate, :candidate_ids, candidates, :id, :account_name, checked: selected_candidate_ids) do |b| %>
         <tr id="candidate_list_tr_<%= b.object.id %>">
           <% td_index = 0 %>
-          <td id="tr<%= b.object.id %>_td<%= td_index%>"><%= b.check_box %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.check_box %></td>
           <% td_index += 1 %>
           <% if other_columns %>
               <% other_columns[:rows].each do |cell_gen| %>
-                  <td id="tr<%= b.object.id %>_td<%= td_index%>"><%= cell_gen.call(b.object) %></td>
+                  <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= cell_gen.call(b.object) %></td>
                   <% td_index += 1 %>
               <% end %>
           <% end %>
           <% if confirmation_event %>
-              <td id="tr<%= b.object.id %>_td<%= td_index%>"><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
+              <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
               <% td_index += 1 %>
           <% end %>
-          <td id="tr<%= b.object.id %>_td<%= td_index%>"><%= b.object.account_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+1%>"><%= b.object.candidate_sheet.last_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+2%>"><%= b.object.candidate_sheet.first_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+3%>"><%= b.object.candidate_sheet.grade %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+4%>"><%= b.object.candidate_sheet.attending %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.object.account_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+1 %>"><%= b.object.candidate_sheet.last_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+2 %>"><%= b.object.candidate_sheet.first_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+3 %>"><%= b.object.candidate_sheet.grade %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+4 %>"><%= b.object.candidate_sheet.attending %></td>
         </tr>
     <% end %>
   </table>
