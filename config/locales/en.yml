@@ -36,6 +36,7 @@ en:
     events: 'Events'
     late_events: 'Late events'
     late_initial_text: 'These are past due. Please complete.'
+    mail: 'Mail'
     pre_late_label: 'The pre-late text'
     verify: 'Verify'
   events:
@@ -159,12 +160,13 @@ en:
     not_all_confirmation_events_updated: 'Not all ConfirmationEvents updated'
     not_update_candidate_event: 'NOT Updated CandidateEvent! %{account_name}'
     remove_candidate: 'remove a candidate'
+    save_failed: 'Save sailed'
     select_excel_file: 'Please select a zipped excel file to upload.'
     sponsor_elegibility_not_blank: 'Sponsor Elegibility picture cannot be blank'
-    unknown_parameter: 'Unknown Parameter: candidate'
+    unknown_parameter: 'Unknown Parameter: %{name}'
     unknown_parameter_commit: 'Unknown Parameter value: %{commit} params: %{params}'
     updated: 'Updated'
-    update_candidate_event: 'Updated CandidateEvent! %{account_name}'
+    update_candidate_event: 'Updated CandidateEvent! for candidates.'
   model:
     candidate:
       attending_the_way: 'The Way'

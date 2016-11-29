@@ -1,8 +1,14 @@
 <% #Parameter confirmation_event %>
+<% confirmation_event = nil if local_assigns[:confirmation_event].nil? %>
 <% #Parameter candidates %>
+<% candidates = [] if local_assigns[:candidates].nil? %>
 <% #Parameter route %>
+<% routes = nil if local_assigns[:routes].nil? %>
 <% #Parameter other_columns %>
+<% other_columns = nil if local_assigns[:other_columns].nil? %>
 <% #Parameter selected_candidate_ids %>
+<% selected_candidate_ids = [] if local_assigns[:selected_candidate_ids].nil? %>
+
 <% if confirmation_event %>
     <% confirmation_event_id = confirmation_event.id %>
 <% else %>

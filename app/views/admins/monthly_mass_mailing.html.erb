@@ -1,6 +1,6 @@
 <%= form_tag monthly_mass_mailing_update_path, method: :put do %>
 
-    <%= submit_tag t('views.common.update'), id: 'top-update' %>
+    <%= submit_tag t('email.mail'), id: 'top-update' %>
 
     <%= label_tag(:pre_late_input, t('email.pre_late_label')) %>:
     <%= text_area_tag(:pre_late_input, t('email.late_initial_text')) %> <br/>
@@ -13,13 +13,11 @@
 
     <%= render partial: 'shared/sorting_candidate_selection',
                :locals => {
-                   confirmation_event: nil,
                    candidates: @candidates,
                    route: :monthly_mass_mailing,
-                   other_columns: nil,
                    selected_candidate_ids: @selected_candidate_ids
                } %>
 
-      <%= submit_tag t('views.common.update'), id: 'bottom-update' %>
+      <%= submit_tag t('email.mail'), id: 'bottom-update' %>
 
 <% end %>

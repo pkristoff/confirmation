@@ -47,7 +47,6 @@ shared_context 'baptismal_certificate' do
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
-    # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
     expect(candidate.baptized_at_stmm).to eq(true)
@@ -60,8 +59,6 @@ shared_context 'baptismal_certificate' do
   it 'should show illegal parameter.' do
 
     candidate = Candidate.find(@candidate.id)
-    # candidate.baptismal_certificate = BaptismalCertificate.new
-    # candidate.save
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 

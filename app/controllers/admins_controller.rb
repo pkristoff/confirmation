@@ -5,34 +5,10 @@ class AdminsController < ApplicationController
 
   before_action :authenticate_admin!
 
+  # ROUTES
+
   def edit_multiple_confirmation_events
     set_confirmation_events
-  end
-
-  # def email_candidate
-  #   @candidate = Candidate.find(params[:id])
-  #   setup_email_candidate
-  # end
-  #
-  # # matches Candidate_mailer#monthly_reminder
-  # def setup_email_candidate
-  #   @late_events = @candidate.get_late_events
-  #   @coming_due_events = @candidate.get_coming_due_events
-  #   @completed_events = @candidate.get_completed
-  # end
-  #
-  # def email_candidate_update
-  #   candidate = Candidate.find(params[:id])
-  #   deliver_mail_to_candidate(candidate)
-  #
-  #   flash[:notify] = t('messages.email_delivered', first_name: candidate.candidate_sheet.first_name, last_name: candidate.candidate_sheet.last_name)
-  #   set_candidates
-  #   render 'candidates/index'
-  # end
-
-  def deliver_mail_to_candidate(candidate)
-    mailer = CandidatesMailer.monthly_reminder(candidate, params[:pre_late_input], params[:pre_coming_due_input], params[:completed_input])
-    mailer.deliver_now
   end
 
   def index
@@ -40,22 +16,27 @@ class AdminsController < ApplicationController
   end
 
   def mass_edit_candidates_event
-    @confirmation_event = ConfirmationEvent.find(params[:id])
-
-    set_candidates
+    params[:verified] = "0" unless params[:verified]
+    params[:completed_date] = "" unless params[:completed_date]
+    set_candidates(params[:sort], confirmation_event: ConfirmationEvent.find(params[:id]))
 
   end
 
   def mass_edit_candidates_event_update
-    @confirmation_event = ConfirmationEvent.find(params[:id])
+    confirmation_event = ConfirmationEvent.find(params[:id])
     params.delete(:id)
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
-    params[:confirmation_event_attributes] = {id: @confirmation_event.id}
+    if candidates.empty?
+      set_candidates(params[:sort], confirmation_event: confirmation_event)
+      flash[:notice] = t('messages.no_candidate_selected')
+      return render :mass_edit_candidates_event
+    end
+    params[:confirmation_event_attributes] = {id: confirmation_event.id}
     candidates.each do |candidate|
-      candidate_event = candidate.get_candidate_event(@confirmation_event.name)
+      candidate_event = candidate.get_candidate_event(confirmation_event.name)
 
       if candidate_event.update_attributes(params.permit(CandidateEvent.get_permitted_params))
         flash[:notice] = t('messages.update_candidate_event', account_name: candidate.account_name)
@@ -64,12 +45,10 @@ class AdminsController < ApplicationController
       end
     end
 
-    set_candidates
+    set_candidates(params[:sort], confirmation_event: confirmation_event)
+    params.delete(:verified)
+    params.delete(:completed_date)
     render :mass_edit_candidates_event
-  end
-
-  def monthly_mass_mailing
-    set_candidates
   end
 
   def mass_edit_candidates_update
@@ -88,19 +67,23 @@ class AdminsController < ApplicationController
       else
         flash[:notice] = t('messages.candidates_deleted')
       end
-      set_candidates
+      set_candidates(params[:sort])
       render 'candidates/index'
     elsif params[:commit] === 'email'
       if candidate_ids.empty?
         redirect_to :back, alert: t('messages.no_candidate_selected')
       else
-        set_candidates(candidate_ids)
+        set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
         render :monthly_mass_mailing
       end
     else
       redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
     end
 
+  end
+
+  def monthly_mass_mailing
+    set_candidates(params[:sort])
   end
 
   def monthly_mass_mailing_update
@@ -111,12 +94,10 @@ class AdminsController < ApplicationController
 
     candidates.each do |candidate|
       @candidate = candidate
-      deliver_mail_to_candidate(candidate)
+      deliver_mail_to_candidate(candidate, params[:pre_late_input], params[:pre_coming_due_input], params[:completed_input])
     end
 
     flash[:notice] = t('messages.monthly_mailing_progress')
-    # set_candidates
-    # render :monthly_mass_mailing
     set_confirmation_events
     render :edit_multiple_confirmation_events
 
@@ -137,12 +118,19 @@ class AdminsController < ApplicationController
       set_confirmation_events
       render :edit_multiple_confirmation_events
     else
-      @confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
+      confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
 
-      set_candidates
+      set_candidates(params[:sort], confirmation_event: confirmation_event)
       render :mass_edit_candidates_event
     end
 
+  end
+
+  # helper methods
+
+  def deliver_mail_to_candidate(candidate, pre_late_input, pre_coming_due_input, completed_input)
+    mailer = CandidatesMailer.monthly_reminder(candidate, pre_late_input, pre_coming_due_input, completed_input)
+    mailer.deliver_now
   end
 
   def set_confirmation_events

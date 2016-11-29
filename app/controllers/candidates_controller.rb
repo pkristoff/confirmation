@@ -24,7 +24,7 @@ class CandidatesController < CommonCandidatesController
   end
 
   def index
-    set_candidates
+    set_candidates(params[:sort])
   end
 
   def is_admin?

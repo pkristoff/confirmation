@@ -82,15 +82,20 @@ class ApplicationController < ActionController::Base
         end
   end
 
-  def set_candidates(selected_candidate_ids = [])
-    sc = sort_column(params[:sort])
-    sc_split = sc.split('.')
-    @selected_candidate_ids = selected_candidate_ids
+  # args
+  #   - selected_candidate_ids:  Array of initially selected candidates
+  #   - confirmation_event:  Confirmation event used for mass update of candidate event for candidates.
+  def set_candidates(sort_column, args = {})
+    args = {confirmation_event: nil, selected_candidate_ids: []}.merge(args)
+    @confirmation_event = args[:confirmation_event]
+    @selected_candidate_ids = args[:selected_candidate_ids]
+    sort_column = sort_column(sort_column)
+    sc_split = sort_column.split('.')
     if sc_split.size === 2
       if sc_split[0] === 'candidate_sheet'
         @candidates = Candidate.joins(:candidate_sheet).order("candidate_sheets.#{sc_split[1]} #{sort_direction(params[:direction])}").all
       else
-        flash[:alert] = "Unknown sort_column: #{sc}"
+        flash[:alert] = "Unknown sort_column: #{sort_column}"
       end
     else
       if sc_split[0] === 'completed_date'
@@ -98,7 +103,7 @@ class ApplicationController < ActionController::Base
                           .where(confirmation_events: {name: @confirmation_event.name})
                           .order("candidate_events.completed_date #{sort_direction(params[:direction])}")
       else
-        @candidates = Candidate.order("#{sc} #{sort_direction(params[:direction])}").all
+        @candidates = Candidate.order("#{sort_column} #{sort_direction(params[:direction])}").all
       end
     end
   end

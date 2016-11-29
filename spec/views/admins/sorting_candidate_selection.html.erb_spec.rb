@@ -19,9 +19,7 @@ describe 'shared/sorting_candidate_selection' do
 
       render 'shared/sorting_candidate_selection', {confirmation_event: @confirmation_event,
                                                     candidates: @candidates,
-                                                    route: :mass_edit_candidates_event,
-                                                    other_columns: nil,
-                                                    selected_candidate_ids: []
+                                                    route: :mass_edit_candidates_event
                                                     }
 
       expect_sorting_candidate_list([

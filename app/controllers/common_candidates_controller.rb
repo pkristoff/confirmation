@@ -45,7 +45,7 @@ class CommonCandidatesController < ApplicationController
           flash[:alert] = "Unknowwn event_name: #{event_name}"
       end
     else
-      flash[:alert] = I18n.t('messages.unknown_parameter')
+      flash[:alert] = I18n.t('messages.unknown_parameter', name: 'candidate')
     end
     render_event_with_picture(render_called, event_name)
 
@@ -112,11 +112,11 @@ class CommonCandidatesController < ApplicationController
           candidate_event.completed_date = nil
           candidate_event.verified = false
         else
-          return redirect_to :back, alert: 'Unknown Parameter'
+          return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate']['signed_agreement']: %{params['candidate']['signed_agreement']")
         end
       end
     else
-      return redirect_to :back, alert: 'Unknown Parameter'
+      return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: 'candidate')
     end
 
     if candidate.update_attributes(candidate_params)
@@ -126,7 +126,7 @@ class CommonCandidatesController < ApplicationController
         redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
       end
     else
-      redirect_to :back, alert: 'Saving failed.'
+      redirect_to :back, alert: I18n.t('messages.save_failed')
     end
   end
 
@@ -146,11 +146,11 @@ class CommonCandidatesController < ApplicationController
           candidate_event.completed_date = nil
           candidate_event.verified = false
         else
-          return redirect_to :back, alert: 'Unknown Parameter'
+          return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate']['signed_agreement']: %{params['candidate']['signed_agreement']")
         end
       end
     else
-      return redirect_to :back, alert: 'Unknown Parameter'
+      return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: 'candidate')
     end
 
     if candidate.update_attributes(candidate_params)
@@ -160,7 +160,7 @@ class CommonCandidatesController < ApplicationController
         redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
       end
     else
-      redirect_to :back, alert: 'Saving failed.'
+      redirect_to :back, alert: I18n.t('messages.save_failed')
     end
   end
 

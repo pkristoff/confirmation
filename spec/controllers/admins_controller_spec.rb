@@ -229,8 +229,8 @@ describe AdminsController do
     end
     it 'should set @candidates' do
 
-      expect_any_instance_of(AdminsController).to receive(:deliver_mail_to_candidate).with(@c1).exactly(:once)
-      expect_any_instance_of(AdminsController).to receive(:deliver_mail_to_candidate).with(@c2).exactly(:once)
+      expect_any_instance_of(AdminsController).to receive(:deliver_mail_to_candidate).with(@c1, 'xxx', 'yyy', 'zzz').exactly(:once)
+      expect_any_instance_of(AdminsController).to receive(:deliver_mail_to_candidate).with(@c2, 'xxx', 'yyy', 'zzz').exactly(:once)
 
       put :monthly_mass_mailing_update,
           pre_late_input: 'xxx',
