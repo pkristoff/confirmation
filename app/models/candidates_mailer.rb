@@ -1,6 +1,7 @@
 class CandidatesMailer < ActionMailer::Base
 
   default from: 'confirmation@kristoffs.com'
+  default reply_to: 'confirmation@kristoffs.com'
 
   def monthly_reminder(candidate, pre_late_text, pre_coming_due_text, completed_text)
     @candidate = candidate

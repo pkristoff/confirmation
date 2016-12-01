@@ -92,9 +92,8 @@ class AdminsController < ApplicationController
     candidates = []
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
-    candidates.each do |candidate|
-      @candidate = candidate
-      deliver_mail_to_candidate(candidate, params[:pre_late_input], params[:pre_coming_due_input], params[:completed_input])
+    candidates.each_with_index do |candidate,index|
+      SendEmailJob.perform_in(index*2, candidate, params[:pre_late_input], params[:pre_coming_due_input], params[:completed_input])
     end
 
     flash[:notice] = t('messages.monthly_mailing_progress')
@@ -126,12 +125,6 @@ class AdminsController < ApplicationController
 
   end
 
-  # helper methods
-
-  def deliver_mail_to_candidate(candidate, pre_late_input, pre_coming_due_input, completed_input)
-    mailer = CandidatesMailer.monthly_reminder(candidate, pre_late_input, pre_coming_due_input, completed_input)
-    mailer.deliver_now
-  end
 
   def set_confirmation_events
     @confirmation_events = ConfirmationEvent.all.sort do |ce1, ce2|

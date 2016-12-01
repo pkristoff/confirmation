@@ -9,20 +9,39 @@ describe CandidateImport do
 
       all_event_names = AppFactory.add_confirmation_events
 
-      uploaded_file = fixture_file_upload('Small.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      uploaded_file = fixture_file_upload('Confirmation 2017 Database for all teens.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
-      expect(candidate_import.save).to eq(true)
+      success = candidate_import.save
+      unless success
+        candidate_import.errors.messages.each do | error |
+          puts error
+        end
+      end
+      expect(success).to eq(true)
 
-      expect(Candidate.all.size).to eq(4)
-      candidate = Candidate.find_by_account_name('annunziatarobert')
-      expect(candidate.candidate_sheet.first_name).to eq('Robert')
-      expect(candidate.candidate_sheet.last_name).to eq('Annunziata')
-      expect(candidate.candidate_sheet.grade).to eq(10)
-      expect(candidate.candidate_sheet.attending).to eq(I18n.t('model.candidate.attending_catholic_high_school'))
-      expect(candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
-      expect(candidate.candidate_sheet.parent_email_2).to eq('')
+      expect(Candidate.all.size).to eq(115)
+      the_way_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way')}
+      expect(the_way_candidates.size).to eq(91)
+      chs_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school')}
+      expect(chs_candidates.size).to eq(24)
 
-      expect(candidate.candidate_events.size).to eq(all_event_names.size)
+      the_way_candidate = Candidate.find_by_account_name('laiquongnicholas')
+      expect(the_way_candidate.candidate_sheet.first_name).to eq('Nicholas')
+      expect(the_way_candidate.candidate_sheet.last_name).to eq('Lai Quong')
+      expect(the_way_candidate.candidate_sheet.grade).to eq(10)
+      expect(the_way_candidate.candidate_sheet.parent_email_1).to eq('mardavnich@yahoo.com')
+      expect(the_way_candidate.candidate_sheet.parent_email_2).to eq('dlqtrini@hotmail.com')
+      expect(the_way_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_the_way'))
+
+      chs_candidate = Candidate.find_by_account_name('woomerkevin')
+      expect(chs_candidate.candidate_sheet.first_name).to eq('Kevin')
+      expect(chs_candidate.candidate_sheet.last_name).to eq('Woomer')
+      expect(chs_candidate.candidate_sheet.grade).to eq(12)
+      expect(chs_candidate.candidate_sheet.parent_email_1).to eq('karenwoomer@gmail.com')
+      expect(chs_candidate.candidate_sheet.parent_email_2).to eq('')
+      expect(chs_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_catholic_high_school'))
+
+      expect(the_way_candidates[0].candidate_events.size).to eq(all_event_names.size)
 
     end
 
@@ -33,8 +52,8 @@ describe CandidateImport do
       error_messages = [
           'Row 2: Candidate sheet last name can\'t be blank',
           'Row 3: Candidate sheet first name can\'t be blank',
-          'Row 6: Candidate sheet parent email 1 is an invalid email: @nc.rr.com',
-          'Row 6: Candidate sheet parent email 2 is an invalid email: rannunz'
+          'Row 5: Candidate sheet parent email 1 is an invalid email: @nc.rr.com',
+          'Row 5: Candidate sheet parent email 2 is an invalid email: rannunz'
       ]
       candidate_import.errors.each_with_index do |candidate, index|
         expect(candidate[1]).to eq(error_messages[index])

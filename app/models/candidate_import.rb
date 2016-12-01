@@ -344,55 +344,51 @@ class CandidateImport
   end
 
   def process_initial_xlsx(candidates, spreadsheet)
-    header = [:last_name, :first_name, :grade, :parent_email_1]
-    attending = I18n.t('views.candidates.attending_the_way')
-    (1..spreadsheet.last_row).each do |i|
-      spreadsheet_row = spreadsheet.row(i)
-      unless spreadsheet_row[0].nil? and spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil? # empty row
-        if spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil?
-          if spreadsheet_row[0].include?(I18n.t('views.candidates.attending_the_way'))
-            attending = I18n.t('views.candidates.attending_the_way')
-          else
-            attending = I18n.t('model.candidate.attending_catholic_high_school')
-          end
-        else
-          row = Hash.new
+    header_row = spreadsheet.first
+    if header_row[0].strip === 'Last Name' &&
+        header_row[1].strip === '1st name' &&
+        header_row[2].strip === 'grade' &&
+        header_row[3].strip === 'parents preferred email' &&
+        header_row[4].strip === 'Cardinal Gibbons HS Group'
+
+      (2..spreadsheet.last_row).each do |i|
+        spreadsheet_row = spreadsheet.row(i)
+
+        unless spreadsheet_row[0].nil? and spreadsheet_row[1].nil? and spreadsheet_row[2].nil? and spreadsheet_row[3].nil? # skip empty row
+
+          last_name = spreadsheet_row[0].nil? ? '' : spreadsheet_row[0].strip
+          first_name = spreadsheet_row[1].nil? ? '' : spreadsheet_row[1].strip
+          grade = spreadsheet_row[2].nil? ? '10th' : spreadsheet_row[2].strip
+          parent_email = spreadsheet_row[3].nil? ? '' : spreadsheet_row[3].strip
+          cardinal_gibbons = spreadsheet_row[4].nil? ? '' : spreadsheet_row[4].strip
+
           candidate_sheet_params = ActionController::Parameters.new()
           params = ActionController::Parameters.new(candidate: ActionController::Parameters.new(candidate_sheet_attributes: candidate_sheet_params))
-          row[:candidate_sheet_attributes] = {}
-          spreadsheet_row.each_with_index do |item, index|
-            item.strip! unless item.nil? or !(item.is_a? String)
-            case header[index]
-              when :grade
-                if item.nil?
-                  candidate_sheet_params[:grade] = 10
-                else
-                  candidate_sheet_params[:grade] = item.slice(/^\D*[\d]*/)
-                end
-              when :parent_email_1
-                unless item.nil?
-                  #for some reason item started aving html around it - so just remove it
-                  clean_item = ActionView::Base.full_sanitizer.sanitize(item)
-                  item_split = clean_item.split(';')
-                  candidate_sheet_params[:parent_email_1] = item_split[0].strip
-                  candidate_sheet_params[:parent_email_2] = item_split[1].strip if item_split.size > 1
-                end
-              else
-                candidate_sheet_params[header[index]] = item
-            end
-          end
 
-          account_name = String.new(candidate_sheet_params[:last_name] || '').concat(candidate_sheet_params[:first_name] || '').downcase
+          candidate_sheet_params[:last_name] = last_name
+          candidate_sheet_params[:first_name] = first_name
+          candidate_sheet_params[:grade] = grade.empty? ? 10 : grade.slice(/^\D*[\d]*/)
+          clean_item = ActionView::Base.full_sanitizer.sanitize(parent_email)
+          unless (clean_item.empty?)
+            item_split = clean_item.split(',')
+            candidate_sheet_params[:parent_email_1] = item_split[0].strip
+            candidate_sheet_params[:parent_email_2] = item_split[1].strip if item_split.size > 1
+          end
+          candidate_sheet_params[:attending] = cardinal_gibbons.empty? ? I18n.t('views.candidates.attending_the_way') : I18n.t('model.candidate.attending_catholic_high_school')
+
+          account_name = String.new(candidate_sheet_params[:last_name].gsub(/\s+/, "") || '').concat(candidate_sheet_params[:first_name].gsub(/\s+/, "") || '').downcase
           params[:candidate][:account_name] = account_name
           params[:candidate][:password] = '12345678'
-          candidate_sheet_params[:attending] = attending
 
-          candidate = Candidate.find_by_account_name(row[:account_name]) || ::AppFactory.create_candidate
+          candidate = Candidate.find_by_account_name(account_name) || ::AppFactory.create_candidate
           candidate.update_attributes(params.require(:candidate).permit(Candidate.get_permitted_params))
           candidates.push(candidate)
           @candidate_to_row[candidate] = i
         end
       end
+
+    else
+      raise "Unknown spread sheet columns: #{header_row.to_s}"
     end
   end
 
