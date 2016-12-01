@@ -229,8 +229,8 @@ describe AdminsController do
     end
     it 'should set @candidates' do
 
-      expect_any_instance_of(AdminsController).to receive(SendEmailJob.perform_in(nil*2, nil, nil, nil, nil)).with(@c1, 0, 'xxx', 'yyy', 'zzz').exactly(:once)
-      expect_any_instance_of(AdminsController).to receive(SendEmailJob.perform_in(nil*2, nil, nil, nil, nil)).with(@c2, 1, 'xxx', 'yyy', 'zzz').exactly(:once)
+      allow(SendEmailJob).to receive(:perform_in).with(0, @c1, 'xxx', 'yyy', 'zzz').exactly(:once)
+      allow(SendEmailJob).to receive(:perform_in).with(2, @c2, 'xxx', 'yyy', 'zzz').exactly(:once)
 
       put :monthly_mass_mailing_update,
           pre_late_input: 'xxx',
