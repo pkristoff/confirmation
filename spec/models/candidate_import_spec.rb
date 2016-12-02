@@ -91,7 +91,7 @@ describe CandidateImport do
       expect(Candidate.all.size).to eq(1)
       expect(Candidate.find_by_account_name('vickikristoff')).not_to eq(nil)
       expect(Admin.all.size).to eq(1)
-      expect(Admin.find_by_email('confirmation@kristoffs.com')).not_to eq(nil)
+      expect(Admin.find_by_email('stmm.confirmation@kristoffs.com')).not_to eq(nil)
 
     end
   end
