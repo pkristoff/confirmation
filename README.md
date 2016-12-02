@@ -65,6 +65,8 @@ This application requires:
   * db:reset does db:drop, db:setup
 * Learn more about [MD-markdown] (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 * Gmail mailing do https://accounts.google.com/DisplayUnlockCaptcha if gmail is not authenticating.
+* hiding passwords http://railsapps.github.io/rails-environment-variables.html
+
 
 
 Getting Started

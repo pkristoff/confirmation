@@ -415,7 +415,7 @@ class CandidateImport
 
   end
 
-  def add_admin(email='confirmation@kristoffs.com', name='confirmation')
+  def add_admin(email='stmm.confirmation@kristoffs.com', name='confirmation')
 
     admin = Admin.find_or_create_by!(email: email) do |admin|
       admin.name = name
