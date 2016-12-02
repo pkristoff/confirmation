@@ -2,6 +2,9 @@
 
     <%= submit_tag t('email.mail'), id: 'top-update' %>
 
+    <%= label_tag(:subject, t('email.subject')) %>:
+    <%= text_area_tag(:subject, t('email.default_subject')) %> <br/>
+
     <%= label_tag(:pre_late_input, t('email.pre_late_label')) %>:
     <%= text_area_tag(:pre_late_input, t('email.late_initial_text')) %> <br/>
 

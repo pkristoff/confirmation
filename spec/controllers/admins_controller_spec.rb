@@ -233,6 +233,7 @@ describe AdminsController do
       allow(SendEmailJob).to receive(:perform_in).with(2, @c2, 'xxx', 'yyy', 'zzz').exactly(:once)
 
       put :monthly_mass_mailing_update,
+          subject: 'www',
           pre_late_input: 'xxx',
           pre_coming_due_input: 'yyy',
           completed_input: 'zzz',

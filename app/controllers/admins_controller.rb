@@ -88,9 +88,19 @@ class AdminsController < ApplicationController
 
   def monthly_mass_mailing_update
 
+    expected_params = [:candidate, :subject, :pre_late_input, :pre_coming_due_input, :completed_input]
+    missing_params = expected_params.select{|expected_param| params[expected_param].nil?}
+    unless missing_params.empty?
+      return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
+    end
+
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+
+    if candidates.empty?
+      return redirect_to :back, alert: t('messages.no_candidate_selected')
+    end
 
     candidates.each_with_index do |candidate,index|
       SendEmailJob.perform_in(index*2, candidate, params[:pre_late_input], params[:pre_coming_due_input], params[:completed_input])

@@ -141,6 +141,7 @@ module ViewsHelpers
 
     expect(rendered_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.mail')}']")
 
+    expect(rendered_or_page).to have_field(I18n.t('email.subject'), text: I18n.t('email.default_subject'))
     expect(rendered_or_page).to have_field(I18n.t('email.pre_late_label'), text: I18n.t('email.late_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.coming_due_label'), text: I18n.t('email.coming_due_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.completed_label'), text: I18n.t('email.completed_initial_text'))
