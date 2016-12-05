@@ -75,7 +75,7 @@ Rails.application.configure do
     address: Rails.application.secrets.email_provider_address,
     port: 587,
     domain: Rails.application.secrets.email_provider_domain,
-    authentication: "plain",
+    authentication: :login,
     enable_starttls_auto: true,
     user_name: Rails.application.secrets.email_provider_username,
     password: Rails.application.secrets.email_provider_password,
