@@ -1,6 +1,6 @@
 class CandidatesMailer < ActionMailer::Base
 
-  default from: 'paul@kristoffs.com'
+  default from: 'vicki@kristoffs.com'
   default reply_to: 'stmm.confirmation@kristoffs.com'
 
   def monthly_reminder(candidate, pre_late_text, pre_coming_due_text, completed_text)
