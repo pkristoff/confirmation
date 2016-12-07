@@ -1,4 +1,3 @@
-
 describe AdminsController do
 
   it 'should NOT have a current_candidate' do
@@ -130,6 +129,7 @@ describe AdminsController do
       expect_candidate_event(@c2, '', false)
       expect_candidate_event(@c3, '2016-09-04', false)
     end
+
     def expect_candidate_event(candidate, completed_date, verified)
       c2 = Candidate.find_by_account_name(candidate.account_name)
       candidate_event = c2.get_candidate_event(@confirmation_event.name)
@@ -229,41 +229,58 @@ describe AdminsController do
     end
     it 'should set @candidates' do
 
-      allow(SendEmailJob).to receive(:perform_in).with(0, @c1, 'xxx', 'yyy', 'zzz').exactly(:once)
-      allow(SendEmailJob).to receive(:perform_in).with(2, @c2, 'xxx', 'yyy', 'zzz').exactly(:once)
+      allow(SendEmailJob).to receive(:perform_in).with(0, @c1, 'www', 'xxx', 'yyy', 'zzz', 'ccc', 'aaa', 'bbb').exactly(:once)
+      allow(SendEmailJob).to receive(:perform_in).with(2, @c2, 'www', 'xxx', 'yyy', 'zzz', 'ccc', 'aaa', 'bbb').exactly(:once)
+      request.env["HTTP_REFERER"] = monthly_mass_mailing_path
 
       put :monthly_mass_mailing_update,
-          subject: 'www',
-          pre_late_input: 'xxx',
-          pre_coming_due_input: 'yyy',
-          completed_input: 'zzz',
+          mail: {subject: 'www',
+                 pre_late_input: 'xxx',
+                 pre_coming_due_input: 'yyy',
+                 completed_input: 'zzz',
+                 closing_text: 'ccc',
+                 salutation_text: 'aaa',
+                 from_text: 'bbb'},
           candidate: {candidate_ids: [@c1.id, @c2.id]}
 
+      expect_message(:notice, I18n.t('messages.monthly_mailing_progress'))
       expect(render_template('edit_multiple_confirmation_events'))
       expect(response.status).to eq(200)
 
     end
   end
 
+
+  def expect_message(id, message)
+    [:alert, :notice].each do |my_id|
+      unless my_id == id
+        expect(flash[my_id]).to eq(nil)
+      end
+    end
+    expect(flash[id]).to eq(message) unless id.nil?
+  end
+
   def expect_column_sorting(column, *candidates)
 
-    put :mass_edit_candidates_event_update,
+    put :mass_edit_candidates_event,
         id: @confirmation_event.id,
         sort: column,
         direction: 'asc',
         candidate: {candidate_ids: []}
 
+    expect_message(nil, nil)
     expect(controller.candidates.size).to eq(candidates.size)
     expect(controller.candidates.first).to eq(candidates.first)
     expect(controller.candidates.second).to eq(candidates.second)
     expect(controller.candidates.third).to eq(candidates.third)
 
-    put :mass_edit_candidates_event_update,
+    put :mass_edit_candidates_event,
         id: @confirmation_event.id,
         sort: column,
         direction: 'desc',
         candidate: {candidate_ids: []}
 
+    expect_message(nil, nil)
     expect(controller.candidates.size).to eq(candidates.size)
     expect(controller.candidates.first).to eq(candidates.third)
     expect(controller.candidates.second).to eq(candidates.second)

@@ -2,17 +2,10 @@
 
     <%= submit_tag t('email.mail'), id: 'top-update' %>
 
-    <%= label_tag(:subject, t('email.subject')) %>:
-    <%= text_area_tag(:subject, t('email.default_subject')) %> <br/>
-
-    <%= label_tag(:pre_late_input, t('email.pre_late_label')) %>:
-    <%= text_area_tag(:pre_late_input, t('email.late_initial_text')) %> <br/>
-
-    <%= label_tag(:pre_coming_due_input, t('email.coming_due_label')) %>:
-    <%= text_area_tag(:pre_coming_due_input, t('email.coming_due_initial_text')) %> <br/>
-
-    <%= label_tag(:completed_input, t('email.completed_label')) %>:
-    <%= text_area_tag(:completed_input, t('email.completed_initial_text')) %> <br/>
+    <%= render partial: 'shared/reminder_body',
+               :locals => {
+                   render_mail_text: false
+               } %>
 
     <%= render partial: 'shared/sorting_candidate_selection',
                :locals => {
@@ -21,6 +14,6 @@
                    selected_candidate_ids: @selected_candidate_ids
                } %>
 
-      <%= submit_tag t('email.mail'), id: 'bottom-update' %>
+    <%= submit_tag t('email.mail'), id: 'bottom-update' %>
 
 <% end %>

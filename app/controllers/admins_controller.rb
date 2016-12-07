@@ -16,8 +16,9 @@ class AdminsController < ApplicationController
   end
 
   def mass_edit_candidates_event
-    params[:verified] = "0" unless params[:verified]
-    params[:completed_date] = "" unless params[:completed_date]
+    # TODO: called via sorting - messed up
+    # params[:verified] = "0" unless params[:verified]
+    # params[:completed_date] = "" unless params[:completed_date]
     set_candidates(params[:sort], confirmation_event: ConfirmationEvent.find(params[:id]))
 
   end
@@ -88,8 +89,20 @@ class AdminsController < ApplicationController
 
   def monthly_mass_mailing_update
 
-    expected_params = [:candidate, :subject, :pre_late_input, :pre_coming_due_input, :completed_input]
-    missing_params = expected_params.select{|expected_param| params[expected_param].nil?}
+    expected_params = {mail: [:subject, :pre_late_input, :pre_coming_due_input, :completed_input, :salutation_text, :closing_text, :from_text],
+                       candidate: [:candidate_ids]
+    }
+    missing_params = expected_params.select { |expected_param, sub_params| params[expected_param].nil? }
+    unless missing_params.empty?
+      return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
+    end
+
+    missing_params = []
+    expected_params.each do |expected_param, sub_params|
+      xxx = params[expected_param]
+      missing = sub_params.select {|sub_param| xxx[sub_param].nil?}
+      missing_params.push("#{expected_param}: #{missing}") unless missing.empty?
+    end
     unless missing_params.empty?
       return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
     end
@@ -102,8 +115,16 @@ class AdminsController < ApplicationController
       return redirect_to :back, alert: t('messages.no_candidate_selected')
     end
 
-    candidates.each_with_index do |candidate,index|
-      SendEmailJob.perform_in(index*2, candidate, params[:pre_late_input], params[:pre_coming_due_input], params[:completed_input])
+    mail_param = params[:mail]
+
+    candidates.each_with_index do |candidate, index|
+      SendEmailJob.perform_in(index*2, candidate,
+                              mail_param[:subject], mail_param[:pre_late_input],
+                              mail_param[:pre_coming_due_input], mail_param[:completed_input],
+                              mail_param[:closing_text],
+                              mail_param[:salutation_text],
+                              mail_param[:from_text]
+      )
     end
 
     flash[:notice] = t('messages.monthly_mailing_progress')

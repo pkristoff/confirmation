@@ -141,10 +141,13 @@ module ViewsHelpers
 
     expect(rendered_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.mail')}']")
 
-    expect(rendered_or_page).to have_field(I18n.t('email.subject'), text: I18n.t('email.default_subject'))
+    expect(rendered_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.pre_late_label'), text: I18n.t('email.late_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.coming_due_label'), text: I18n.t('email.coming_due_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.completed_label'), text: I18n.t('email.completed_initial_text'))
+    expect(rendered_or_page).to have_field(I18n.t('email.closing_label'), text: I18n.t('email.closing_initial_text'))
+    expect(rendered_or_page).to have_field(I18n.t('email.salutation_label'), text: I18n.t('email.salutation_initial_text'))
+    expect(rendered_or_page).to have_field(I18n.t('email.from_label'), text: I18n.t('email.from_initial_text'))
 
     expect_sorting_candidate_list([
                                       [I18n.t('label.candidate_event.select'), '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],

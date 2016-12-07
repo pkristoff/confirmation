@@ -113,7 +113,7 @@ class AppFactory
     candidate_event
   end
 
-  def self.create_seed_candidate()
+  def self.create_seed_candidate
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.password = Rails.application.secrets.admin_password
       candidate.password_confirmation = Rails.application.secrets.admin_password
