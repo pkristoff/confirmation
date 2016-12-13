@@ -33,11 +33,15 @@
   <table id="candidate_list_table" class="tablesorter">
     <thead>
     <tr id="candidate_list_header">
-      <th id="candidate_list_header_th_1">
+      <th id="candidate_list_header_th_1" class="sorter-false filter-false">
         <a onclick="select_all_none('select_all_none_input');" href="#"><input type="checkbox" id="select_all_none_input"></a>
       </th>
       <% column_headers_in_order.each_with_index do |sort_header, index| %>
-          <th id="candidate_list_header_th_<%= index+2 %>"><%= column_headers_in_order[index] %></th>
+          <% if column_headers_in_order[index] === t('views.nav.edit')   %>
+              <th id="candidate_list_header_th_<%= index+2 %>" class="sorter-false filter-false"><%= column_headers_in_order[index] %></th>
+          <% else %>
+              <th id="candidate_list_header_th_<%= index+2 %>"><%= column_headers_in_order[index] %></th>
+          <% end %>
       <% end %>
     </tr>
     </thead>
@@ -48,6 +52,7 @@
           <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.check_box %></td>
           <% td_index += 1 %>
           <% if other_columns %>
+
               <% other_columns[:rows].each do |cell_gen| %>
                   <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= cell_gen.call(b.object) %></td>
                   <% td_index += 1 %>

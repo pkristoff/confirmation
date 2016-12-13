@@ -174,9 +174,10 @@ describe AdminsController do
           direction: 'desc',
           candidate: {candidate_ids: []}
 
+      # order not important js will do it
       expect(controller.candidates.size).to eq(2)
-      expect(controller.candidates.first).to eq(c2)
-      expect(controller.candidates.second).to eq(c1)
+      expect(controller.candidates.include? c2).to eq(true)
+      expect(controller.candidates.include? c1).to eq(true)
     end
     describe 'three candidates' do
 
@@ -269,10 +270,11 @@ describe AdminsController do
         candidate: {candidate_ids: []}
 
     expect_message(nil, nil)
+    # order not important js will do it
     expect(controller.candidates.size).to eq(candidates.size)
-    expect(controller.candidates.first).to eq(candidates.first)
-    expect(controller.candidates.second).to eq(candidates.second)
-    expect(controller.candidates.third).to eq(candidates.third)
+    candidates.each do |candidate|
+      expect(controller.candidates.include? candidate).to eq(true)
+    end
 
     put :mass_edit_candidates_event,
         id: @confirmation_event.id,
@@ -281,10 +283,11 @@ describe AdminsController do
         candidate: {candidate_ids: []}
 
     expect_message(nil, nil)
+    # order not important js will do it
     expect(controller.candidates.size).to eq(candidates.size)
-    expect(controller.candidates.first).to eq(candidates.third)
-    expect(controller.candidates.second).to eq(candidates.second)
-    expect(controller.candidates.third).to eq(candidates.first)
+    candidates.each do |candidate|
+      expect(controller.candidates.include? candidate).to eq(true)
+    end
   end
 
   def create_candidate(prefix)

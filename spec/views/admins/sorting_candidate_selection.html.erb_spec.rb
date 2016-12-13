@@ -23,13 +23,13 @@ describe 'shared/sorting_candidate_selection' do
                                                     }
 
       expect_sorting_candidate_list([
-                                        [t('label.candidate_event.select'), '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
-                                        [t('views.events.completed_date'), [:completed_date]],
-                                        [t('label.candidate.account_name'), [:account_name], :up],
-                                        [t('label.candidate_sheet.last_name'), [:candidate_sheet, :last_name]],
-                                        [t('label.candidate_sheet.first_name'), [:candidate_sheet, :first_name]],
-                                        [t('label.candidate_sheet.grade'), [:candidate_sheet, :grade]],
-                                        [t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
+                                        [t('label.candidate_event.select'), false, '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
+                                        [t('views.events.completed_date'), true, [:completed_date]],
+                                        [t('label.candidate.account_name'), true, [:account_name], :up],
+                                        [t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+                                        [t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+                                        [t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+                                        [t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
                                     ],
                                     @candidates,
                                     rendered,

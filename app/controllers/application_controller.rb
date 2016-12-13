@@ -89,23 +89,7 @@ class ApplicationController < ActionController::Base
     args = {confirmation_event: nil, selected_candidate_ids: []}.merge(args)
     @confirmation_event = args[:confirmation_event]
     @selected_candidate_ids = args[:selected_candidate_ids]
-    sort_column = sort_column(sort_column)
-    sc_split = sort_column.split('.')
-    if sc_split.size === 2
-      if sc_split[0] === 'candidate_sheet'
-        @candidates = Candidate.joins(:candidate_sheet).order("candidate_sheets.#{sc_split[1]} #{sort_direction(params[:direction])}").all
-      else
-        flash[:alert] = "Unknown sort_column: #{sort_column}"
-      end
-    else
-      if sc_split[0] === 'completed_date'
-        @candidates = Candidate.joins(candidate_events: :confirmation_event)
-                          .where(confirmation_events: {name: @confirmation_event.name})
-                          .order("candidate_events.completed_date #{sort_direction(params[:direction])}")
-      else
-        @candidates = Candidate.order("#{sort_column} #{sort_direction(params[:direction])}").all
-      end
-    end
+    @candidates = Candidate.all
   end
 
 end

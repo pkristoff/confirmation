@@ -27,10 +27,11 @@ describe CandidatesController do
     get :index, direction: 'asc', sort: 'candidate_sheet.first_name'
     expect(response).to render_template('index')
     expect(response.status).to eq(200)
+    # order not important js will do it
     expect(controller.candidates.size).to eq(3)
-    expect(controller.candidates[0]).to eq(c3)
-    expect(controller.candidates[1]).to eq(c1)
-    expect(controller.candidates[2]).to eq(c2)
+    [c1,c2,c3].each do |candidate|
+      expect(controller.candidates.include? candidate).to eq(true)
+    end
   end
 
   it 'should show sorted list of candidates based on last_name' do
@@ -40,10 +41,11 @@ describe CandidatesController do
     get :index, direction: 'asc', sort: 'candidate_sheet.last_name'
     expect(response).to render_template('index')
     expect(response.status).to eq(200)
+    # order not important js will do it
     expect(controller.candidates.size).to eq(3)
-    expect(controller.candidates[0]).to eq(c2)
-    expect(controller.candidates[1]).to eq(c3)
-    expect(controller.candidates[2]).to eq(c1)
+    [c1,c2,c3].each do |candidate|
+      expect(controller.candidates.include? candidate).to eq(true)
+    end
   end
 
   def create_candidate(prefix)

@@ -64,21 +64,32 @@ module ViewsHelpers
 
     column_headers_in_order.each_with_index do |info, index|
       i18n_name = info[0]
-      expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}']", text: i18n_name unless i18n_name === I18n.t('label.candidate_event.select')
-      expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
+      sort_enabled = info[1]
+      th_header_id = "candidate_list_header_th_#{index+1}"
+      basic_th_css = "#{table_id} #{tr_header_id} [id='#{th_header_id}']"
+      # expect headers
+      if sort_enabled
+        expect(rendered_or_page).to have_css basic_th_css, text: i18n_name
+      else
+        expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false']" unless i18n_name === I18n.t('label.candidate_event.select')
+        expect(rendered_or_page).to have_css "#{}[class='sorter-false filter-false'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
+      end
     end
+    #expect table cells
     candidates_in_order.each_with_index do |candidate, tr_index|
       tr_id = "tr[id='candidate_list_tr_#{candidate.id}']"
       column_headers_in_order.each_with_index do |info, td_index|
         text = nil
-        if info[1].empty?
-          info[2].call(candidate, rendered_or_page, td_index)
-        elsif confirmation_event && info[1][0] === :completed_date
-          text = candidate.get_candidate_event(confirmation_event.name).method(info[1][0]).call
+        cell_access_path = info[2]
+        cell_expect_function = info[3]
+        if cell_access_path.empty?
+          cell_expect_function.call(candidate, rendered_or_page, td_index)
+        elsif confirmation_event && cell_access_path[0] === :completed_date
+          text = candidate.get_candidate_event(confirmation_event.name).method(cell_access_path[0]).call
           expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", text: text
         else
-          text = candidate.method(info[1][0]).call if info[1].size === 1
-          text = candidate.method(info[1][0]).call.method(info[1][1]).call if info[1].size === 2
+          text = candidate.method(cell_access_path[0]).call if cell_access_path.size === 1
+          text = candidate.method(cell_access_path[0]).call.method(cell_access_path[1]).call if cell_access_path.size === 2
           expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", text: text
         end
       end
@@ -133,12 +144,12 @@ module ViewsHelpers
     expect(rendered_or_page).to have_field(I18n.t('email.from_label'), text: I18n.t('email.from_initial_text'))
 
     expect_sorting_candidate_list([
-                                      [I18n.t('label.candidate_event.select'), '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
-                                      [I18n.t('label.candidate.account_name'), [:account_name], :up],
-                                      [I18n.t('label.candidate_sheet.last_name'), [:candidate_sheet, :last_name]],
-                                      [I18n.t('label.candidate_sheet.first_name'), [:candidate_sheet, :first_name]],
-                                      [I18n.t('label.candidate_sheet.grade'), [:candidate_sheet, :grade]],
-                                      [I18n.t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
+                                      [I18n.t('label.candidate_event.select'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
+                                      [I18n.t('label.candidate.account_name'), true, [:account_name], :up],
+                                      [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+                                      [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+                                      [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+                                      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
                                   ],
                                   candidates,
                                   rendered_or_page)

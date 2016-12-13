@@ -30,13 +30,13 @@ feature 'Candidate index page', :devise do
     expect(page).to have_css("input[id='top-update-email'][type='submit'][value='email']")
 
     expect_sorting_candidate_list([
-                                      [I18n.t('label.candidate_event.select'), '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
-                                      [I18n.t('views.nav.edit'), '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
-                                      [I18n.t('label.candidate.account_name'), [:account_name], :up],
-                                      [I18n.t('label.candidate_sheet.last_name'), [:candidate_sheet, :last_name]],
-                                      [I18n.t('label.candidate_sheet.first_name'), [:candidate_sheet, :first_name]],
-                                      [I18n.t('label.candidate_sheet.grade'), [:candidate_sheet, :grade]],
-                                      [I18n.t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
+                                      [I18n.t('label.candidate_event.select'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
+                                      [I18n.t('views.nav.edit'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
+                                      [I18n.t('label.candidate.account_name'), true, [:account_name], :up],
+                                      [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+                                      [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+                                      [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+                                      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
                                   ],
                                   [c1, c2, c3],
                                   page)
