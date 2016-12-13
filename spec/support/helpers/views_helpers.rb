@@ -71,8 +71,8 @@ module ViewsHelpers
       if sort_enabled
         expect(rendered_or_page).to have_css basic_th_css, text: i18n_name
       else
-        expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false']" unless i18n_name === I18n.t('label.candidate_event.select')
-        expect(rendered_or_page).to have_css "#{}[class='sorter-false filter-false'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
+        expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false#{i18n_name === I18n.t('views.nav.edit') ? ' edit_column_header' : ''}']" unless i18n_name === I18n.t('label.candidate_event.select')
+        expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false select_column_header'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
       end
     end
     #expect table cells

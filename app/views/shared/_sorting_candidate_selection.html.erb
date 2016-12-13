@@ -30,15 +30,16 @@
 <% column_headers_in_order.push(t('label.candidate_sheet.attending')) %>
 
 <div class="container">
+  <label for="total_selected">Total Selected:</label> <input type="text" readonly="true" id="total_selected" value="0"></input>
   <table id="candidate_list_table" class="tablesorter">
     <thead>
     <tr id="candidate_list_header">
-      <th id="candidate_list_header_th_1" class="sorter-false filter-false">
+      <th id="candidate_list_header_th_1" class="sorter-false filter-false select_column_header">
         <a onclick="select_all_none('select_all_none_input');" href="#"><input type="checkbox" id="select_all_none_input"></a>
       </th>
       <% column_headers_in_order.each_with_index do |sort_header, index| %>
           <% if column_headers_in_order[index] === t('views.nav.edit')   %>
-              <th id="candidate_list_header_th_<%= index+2 %>" class="sorter-false filter-false"><%= column_headers_in_order[index] %></th>
+              <th id="candidate_list_header_th_<%= index+2 %>" class="sorter-false filter-false edit_column_header"><%= column_headers_in_order[index] %></th>
           <% else %>
               <th id="candidate_list_header_th_<%= index+2 %>"><%= column_headers_in_order[index] %></th>
           <% end %>
@@ -49,7 +50,7 @@
     <%= collection_check_boxes(:candidate, :candidate_ids, candidates, :id, :account_name, checked: selected_candidate_ids) do |b| %>
         <tr id="candidate_list_tr_<%= b.object.id %>">
           <% td_index = 0 %>
-          <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.check_box %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index %>" onclick="update_total_selections()"><%= b.check_box %></td>
           <% td_index += 1 %>
           <% if other_columns %>
 

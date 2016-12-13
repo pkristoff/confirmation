@@ -52,16 +52,14 @@ textarea {
 }
 
 #left-col {
-  float: left;
-  width: 50%;
+  float:left;
+  width:50%;
 }
-
 #right-col {
-  float: right;
-  width: 50%;
+  float:right;
+  width:50%;
 }
-
-#insturction-toggle {
+#insturction-toggle{
   float: right;
 }
 
@@ -83,8 +81,22 @@ textarea {
   padding-bottom: 20px;
 }
 
-.sorting-table th .current {
-  padding-right: 12px;
-  background-repeat: no-repeat;
-  background-position: right center;
+label[for=total_selected] {
+  clear: both;
+  float:left;
+  margin-right: 15px;
+}
+
+input[id=total_selected] {
+  float:left;
+  background: transparent;
+  width: 10%;
+}
+
+.select_column_header {
+  width: 20px;
+}
+
+.edit_column_header {
+  width: 40px;
 }

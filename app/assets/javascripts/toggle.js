@@ -4,10 +4,26 @@
 
 select_all_none = function (id) {
     var check_all = document.getElementById(id).checked,
-        checkboxes = document.getElementsByName('candidate[candidate_ids][]');
-    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes = document.querySelectorAll('tr[class="odd"]>td>input[type=checkbox]');
+    for (var i = 0, len = checkboxes.length; i < len; i++){
         checkboxes[i].checked = check_all;
     }
+    checkboxes = document.querySelectorAll('tr[class="even"]>td>input[type=checkbox]');
+    for (i = 0, len = checkboxes.length; i < len; i++){
+        checkboxes[i].checked = check_all;
+    }
+    update_total_selections();
+};
+
+update_total_selections = function () {
+    var checkboxes = document.querySelectorAll('tbody>tr>td>input[type=checkbox]'),
+        count = 0;
+    for (i = 0, len = checkboxes.length; i < len; i++){
+        if (checkboxes[i].checked){
+            count++;
+        }
+    }
+    document.querySelector('input[id=total_selected]').value = count;
 };
 
 confirmation_toggle = function () {

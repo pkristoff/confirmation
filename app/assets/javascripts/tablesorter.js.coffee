@@ -10,9 +10,9 @@ $(document).ready ->
       ]
     $("#candidate_list_table").tablesorter({
       sortList: [[2, 0]],
-      theme: 'bootstrap',
-      headerTemplate: '{content}{icon}',
       theme: 'blue',
+      headerTemplate: '{content}{icon}',
+      widthFixed: false,
       widgetOptions: {
 
 # extra css class applied to the table row containing the filters & the inputs within that row
@@ -43,7 +43,9 @@ $(document).ready ->
 # Set this option to true to use the filter to find text from the start of the column
 # So typing in "a" will find "albert" but not "frank", both have a's; default is false
         filter_startsWith: false
+
       }
     })
+    update_total_selections()
 
     return
