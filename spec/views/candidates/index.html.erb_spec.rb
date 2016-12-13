@@ -25,7 +25,6 @@ describe 'candidates/index.html.erb' do
                                       [t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
                                   ],
                                   @candidates,
-                                  :candidates,
                                   rendered)
 
   end

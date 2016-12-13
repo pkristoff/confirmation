@@ -30,6 +30,11 @@ provided by the [RailsApps Project](http://railsapps.github.io/).
 
 Rails Composer is supported by developers who purchase our RailsApps tutorials.
 
+Create a file in config named local_env.yml
+* EMAIL_PROVIDER_ADDRESS: ''
+* EMAIL_PROVIDER_USERNAME: ''
+* EMAIL_PROVIDER_PASSWORD: ''
+
 Problems? Issues?
 -----------
 

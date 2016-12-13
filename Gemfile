@@ -46,4 +46,6 @@ gem 'zip-zip'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'tinymce-rails', '=4.3.12'
 gem 'sucker_punch'
-
+gem 'jquery-tablesorter', '~> 1.23', '>= 1.23.2'
+# Avoid issues with turbolinks and jquery
+gem 'jquery-turbolinks'

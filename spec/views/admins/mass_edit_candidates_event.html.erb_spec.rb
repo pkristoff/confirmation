@@ -37,7 +37,6 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
                                       [t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
                                   ],
                                   @candidates,
-                                  :mass_edit_candidates_event,
                                   rendered,
                                   @confirmation_event)
 

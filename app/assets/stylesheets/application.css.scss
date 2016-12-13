@@ -10,6 +10,7 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require jquery-tablesorter/theme.blue
  *= require_tree .
  *= require_self
  */
@@ -51,14 +52,16 @@ textarea {
 }
 
 #left-col {
-  float:left;
-  width:50%;
+  float: left;
+  width: 50%;
 }
+
 #right-col {
-  float:right;
-  width:50%;
+  float: right;
+  width: 50%;
 }
-#insturction-toggle{
+
+#insturction-toggle {
   float: right;
 }
 

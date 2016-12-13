@@ -53,7 +53,7 @@ module ViewsHelpers
     expect(rendered).to have_button(submit_button)
   end
 
-  def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, route, rendered_or_page, confirmation_event=nil)
+  def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, rendered_or_page, confirmation_event=nil)
 
     table_id = "table[id='candidate_list_table']"
     tr_header_id = "tr[id='candidate_list_header']"
@@ -62,26 +62,10 @@ module ViewsHelpers
     expect(rendered_or_page).to have_css("#{table_id} #{tr_header_id}")
     expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size
 
-    update = confirmation_event ? "&update%5B#{confirmation_event.id}%5D=" : '&update%5B%5D='
-    update = '' if route === :candidates
     column_headers_in_order.each_with_index do |info, index|
-      route_id = confirmation_event ? "/#{confirmation_event.id}" : ''
       i18n_name = info[0]
-      sort_path = info[1]
-      active_sort_column = info.size === 3 ? info[2] : nil
       expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}']", text: i18n_name unless i18n_name === I18n.t('label.candidate_event.select')
       expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
-      unless sort_path.empty?
-        sort = sort_path[0] if sort_path.size === 1
-        sort = "#{sort_path[0]}.#{sort_path[1]}" if sort_path.size === 2
-        if active_sort_column
-          arrow = active_sort_column === :up ? 'glyphicon-arrow-up' : 'glyphicon-arrow-down'
-          direction = active_sort_column === :up ? 'desc' : 'asc'
-          expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] a[href='/#{route}#{route_id}?class=current+glyphicon+#{arrow}&direction=#{direction}&sort=#{sort}#{update}']"
-        else
-          expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} [id='candidate_list_header_th_#{index+1}'] a[href='/#{route}#{route_id}?direction=asc&sort=#{sort}#{update}']"
-        end
-      end
     end
     candidates_in_order.each_with_index do |candidate, tr_index|
       tr_id = "tr[id='candidate_list_tr_#{candidate.id}']"
@@ -89,7 +73,6 @@ module ViewsHelpers
         text = nil
         if info[1].empty?
           info[2].call(candidate, rendered_or_page, td_index)
-          # expect(rendered_or_page).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]"
         elsif confirmation_event && info[1][0] === :completed_date
           text = candidate.get_candidate_event(confirmation_event.name).method(info[1][0]).call
           expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", text: text
@@ -158,7 +141,6 @@ module ViewsHelpers
                                       [I18n.t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
                                   ],
                                   candidates,
-                                  :monthly_mass_mailing,
                                   rendered_or_page)
 
     expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.mail')}']")

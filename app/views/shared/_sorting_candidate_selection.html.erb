@@ -21,16 +21,17 @@
     <% end %>
 <% end %>
 <% if confirmation_event %>
-    <% column_headers_in_order.push(sortable('completed_date', t('views.events.completed_date'), route, confirmation_event_id)) %>
+    <% column_headers_in_order.push(t('views.events.completed_date')) %>
 <% end %>
-<% column_headers_in_order.push(sortable('account_name', t('label.candidate.account_name'), route, confirmation_event_id)) %>
-<% column_headers_in_order.push(sortable('candidate_sheet.last_name', t('label.candidate_sheet.last_name'), route, confirmation_event_id)) %>
-<% column_headers_in_order.push(sortable('candidate_sheet.first_name', t('label.candidate_sheet.first_name'), route, confirmation_event_id)) %>
-<% column_headers_in_order.push(sortable('candidate_sheet.grade', t('label.candidate_sheet.grade'), route, confirmation_event_id)) %>
-<% column_headers_in_order.push(sortable('candidate_sheet.attending', t('label.candidate_sheet.attending'), route, confirmation_event_id)) %>
+<% column_headers_in_order.push(t('label.candidate.account_name')) %>
+<% column_headers_in_order.push(t('label.candidate_sheet.last_name')) %>
+<% column_headers_in_order.push(t('label.candidate_sheet.first_name')) %>
+<% column_headers_in_order.push(t('label.candidate_sheet.grade')) %>
+<% column_headers_in_order.push(t('label.candidate_sheet.attending')) %>
 
 <div class="container">
-  <table id="candidate_list_table" class="table table-hover sorting-table">
+  <table id="candidate_list_table" class="tablesorter">
+    <thead>
     <tr id="candidate_list_header">
       <th id="candidate_list_header_th_1">
         <a onclick="select_all_none('select_all_none_input');" href="#"><input type="checkbox" id="select_all_none_input"></a>
@@ -39,6 +40,8 @@
           <th id="candidate_list_header_th_<%= index+2 %>"><%= column_headers_in_order[index] %></th>
       <% end %>
     </tr>
+    </thead>
+    <tbody>
     <%= collection_check_boxes(:candidate, :candidate_ids, candidates, :id, :account_name, checked: selected_candidate_ids) do |b| %>
         <tr id="candidate_list_tr_<%= b.object.id %>">
           <% td_index = 0 %>
@@ -61,5 +64,6 @@
           <td id="tr<%= b.object.id %>_td<%= td_index+4 %>"><%= b.object.candidate_sheet.attending %></td>
         </tr>
     <% end %>
+    </tbody>
   </table>
 </div>

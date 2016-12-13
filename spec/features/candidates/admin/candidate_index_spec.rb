@@ -39,7 +39,6 @@ feature 'Candidate index page', :devise do
                                       [I18n.t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
                                   ],
                                   [c1, c2, c3],
-                                  :candidates,
                                   page)
     expect(page).to have_css("input[id='bottom-update-delete'][type='submit'][value='delete']")
     expect(page).to have_css("input[id='bottom-update-email'][type='submit'][value='email']")

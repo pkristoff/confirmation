@@ -50,7 +50,6 @@ feature 'Candidate delete', :devise do
                                       [I18n.t('label.candidate_sheet.attending'), [:candidate_sheet, :attending]]
                                   ],
                                   [@candidate_2],
-                                  :candidates,
                                   page)
   end
 
