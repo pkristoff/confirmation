@@ -27,12 +27,12 @@ class CandidateImport
   end
 
   def add_missing_events (missing_events)
-    missing_events.each do | event_name|
+    missing_events.each do |event_name|
       confirmation_event = ConfirmationEvent.find_by_name(event_name)
-      if  confirmation_event.nil?
-        raise "Attempting to candidate_event named: #{event_name} that already exists.s"
-      else
+      if confirmation_event.nil?
         AppFactory.add_confirmation_event(event_name)
+      else
+        raise "Attempting to candidate_event named: #{event_name} that already exists.s"
       end
     end
     check_events
@@ -40,8 +40,8 @@ class CandidateImport
 
   def check_events
     all_in_confirmation_event_names = AppFactory.all_i18n_confirmation_event_names
-    unknowns = ConfirmationEvent.all.map {|ce| ce.name}
-    all_in_confirmation_event_names.each do | i18n_key |
+    unknowns = ConfirmationEvent.all.map { |ce| ce.name }
+    all_in_confirmation_event_names.each do |i18n_key|
       confirmation_event_name = I18n.t(i18n_key)
       unknowns_index = unknowns.index(confirmation_event_name)
       unknowns.slice!(unknowns_index) unless unknowns_index.nil?
@@ -52,7 +52,7 @@ class CandidateImport
         found_confirmation_events.push(confirmation_event_name)
       end
     end
-    unknowns.each do | confirmation_event_name |
+    unknowns.each do |confirmation_event_name|
       unknown_confirmation_events.push(confirmation_event_name)
     end
     self
