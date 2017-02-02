@@ -252,6 +252,26 @@ describe CandidateImport do
       expect(candidate_import.unknown_confirmation_events.length).to be(1)
       expect(candidate_import.unknown_confirmation_events[0]).to eq('unknown event')
     end
+
+    it 'should add "Sponsor Covenant".' do
+      candidate_import = CandidateImport.new
+      candidate_import.remove_all_candidates
+      AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
+        i18n_confirmation_name = I18n.t(i18n_name)
+        AppFactory.add_confirmation_event(i18n_confirmation_name) unless i18n_name == 'events.sponsor_covenant'
+      end
+      AppFactory.add_confirmation_event('unknown event')
+      sponsor_covenant_event_name = I18n.t('events.sponsor_covenant')
+
+      candidate_import.add_missing_events([sponsor_covenant_event_name])
+
+      expect(ConfirmationEvent.find_by_name(sponsor_covenant_event_name).name).to eq(sponsor_covenant_event_name)
+
+      expect(candidate_import.missing_confirmation_events.length).to be(0)
+      expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_names.length)
+      expect(candidate_import.unknown_confirmation_events.length).to be(1)
+      expect(candidate_import.unknown_confirmation_events[0]).to eq('unknown event')
+    end
   end
 
   def add_baptismal_certificate_image(candidate)

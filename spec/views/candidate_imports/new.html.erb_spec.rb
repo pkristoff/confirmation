@@ -24,6 +24,8 @@ describe 'candidate_imports/new.html.erb' do
 
     expect(rendered).to have_selector('section', count: section_info.length)
 
+    expect(rendered).to have_button(I18n.t('views.imports.add_missing_events'))
+
     expect(rendered).to have_selector('div[id=div_missing_confirmation_events] h3', text: I18n.t('views.imports.missing'))
     expect(rendered).to have_selector('div[id=div_missing_confirmation_events] ul[id=missing_confirmation_events]')
 
