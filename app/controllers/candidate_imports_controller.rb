@@ -6,6 +6,10 @@ class CandidateImportsController < ApplicationController
 
   attr_accessor :candidate_import
 
+  def check_events
+    @candidate_import = CandidateImport.new.check_events
+  end
+
   def create
     import_file_param = params[:candidate_import]
     if import_file_param.nil?
@@ -71,6 +75,6 @@ class CandidateImportsController < ApplicationController
   end
 
   def new
-    @candidate_import = CandidateImport.new
+    @candidate_import = @candidate_import ? @candidate_import : CandidateImport.new
   end
 end

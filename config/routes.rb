@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   resources :candidate_imports
 
+  post 'candidate_imports/check_events'
   post 'candidate_imports/reset_database'
   post 'candidate_imports/remove_all_candidates'
   post 'candidate_imports/export_to_excel'

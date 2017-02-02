@@ -13,16 +13,16 @@ describe CandidateImport do
       candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
       success = candidate_import.save
       unless success
-        candidate_import.errors.messages.each do | error |
+        candidate_import.errors.messages.each do |error|
           puts error
         end
       end
       expect(success).to eq(true)
 
       expect(Candidate.all.size).to eq(115)
-      the_way_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way')}
+      the_way_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way') }
       expect(the_way_candidates.size).to eq(91)
-      chs_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school')}
+      chs_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school') }
       expect(chs_candidates.size).to eq(24)
 
       the_way_candidate = Candidate.find_by_account_name('laiquongnicholas')
@@ -233,6 +233,27 @@ describe CandidateImport do
     end
   end
 
+  describe 'check_events' do
+
+    it 'should show "Sponsor Covenant" is missing.' do
+      candidate_import = CandidateImport.new
+      candidate_import.remove_all_candidates
+      AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
+        i18n_confirmation_name = I18n.t(i18n_name)
+        AppFactory.add_confirmation_event(i18n_confirmation_name) unless i18n_name == 'events.sponsor_covenant'
+      end
+      AppFactory.add_confirmation_event('unknown event')
+
+      candidate_import.check_events
+
+      expect(candidate_import.missing_confirmation_events.length).to be(1)
+      expect(candidate_import.missing_confirmation_events[0]).to eq(I18n.t('events.sponsor_covenant'))
+      expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_names.length - 1)
+      expect(candidate_import.unknown_confirmation_events.length).to be(1)
+      expect(candidate_import.unknown_confirmation_events[0]).to eq('unknown event')
+    end
+  end
+
   def add_baptismal_certificate_image(candidate)
     filename = 'actions.png'
     baptismal_certificate = candidate.baptismal_certificate
@@ -373,7 +394,7 @@ describe CandidateImport do
     expect(ConfirmationEvent.find_by_name(I18n.t('events.christian_ministry')).chs_due_date.to_s).to eq('2017-01-22')
 
     if ConfirmationEvent.all.size != 9
-      ConfirmationEvent.all.each {|x| puts x.name}
+      ConfirmationEvent.all.each { |x| puts x.name }
     end
 
     expect(ConfirmationEvent.all.size).to eq(9)

@@ -1,0 +1,114 @@
+<section id="export">
+  <h2><%= t('views.imports.candidates_export') %></h2>
+  <p>
+    Export current data to a zipped excel spreadsheet.
+  </p>
+  <%= form_for @candidate_import, url: candidate_imports_export_to_excel_path(format: 'xlsx') do |f| %>
+
+      <div class="buttons"><%= f.submit t('views.imports.excel') %></div>
+
+  <% end %>
+</section>
+
+<section id="import">
+
+  <h2><%= t('views.imports.candidates_import') %></h2>
+
+  <p>
+    You can import an
+  <ul>
+    <li>xlxs file which represents the initial candidates which will come from the church</li>
+    <li>zip xlxs file created from the <%= t('views.imports.candidates_export') %> above</li>
+  </ul>
+  </p>
+
+
+  <%= form_for @candidate_import do |f| %>
+      <% if @candidate_import.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@candidate_import.errors.count, "error") %> prohibited this import from completing:</h2>
+            <ul>
+              <% @candidate_import.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+
+      <div class="field">
+        <%= f.file_field :file %>
+      </div>
+      <div class="buttons"><%= f.submit t('views.imports.import') %></div>
+  <% end %>
+</section>
+
+<section id="remove_all_candidates">
+
+  <%= form_for @candidate_import, url: candidate_imports_remove_all_candidates_path do |f| %>
+      <h2><%= t('views.imports.remove_all_candidates') %></h2>
+
+      <h3><%= t('views.imports.cannot_recover') %></h3>
+      <p>
+        This will
+      </p>
+      <ul>
+        <li>Candidates: All will be removed from the database</li>
+        <li>Admins: not affected</li>
+        <li>Remain logged in: yes</li>
+      </ul>
+      <div class="buttons"><%= f.submit t('views.imports.remove_all_candidates'), data: {confirm: 'Are you sure?'} %></div>
+  <% end %>
+</section>
+
+<section id="reset_database">
+  <h2><%= t('views.imports.reset_database') %></h2>
+
+  <%= form_for @candidate_import, url: candidate_imports_reset_database_path do |f| %>
+
+      <h3><%= t('views.imports.cannot_recover') %></h3>
+      <p>
+        This will
+      </p>
+      <ul>
+        <li>Confirmation Events: All will be removed. The default confirmation events will be added back in.</li>
+        <li>Candidates: All will be removed from the database. A test Candidate will be added.</li>
+        <li>Admins: All will be removed from the database. The default Admin will be added.</li>
+        <li>Remain logged in: NO</li>
+      </ul>
+      <div class="buttons"><%= f.submit t('views.imports.reset_database'), data: {confirm: 'Are you sure?'} %></div>
+  <% end %>
+</section>
+
+<section id="check_events">
+  <h2><%= t('views.imports.check_events') %></h2>
+
+  <%= form_for(@candidate_import, url: candidate_imports_check_events_path, method: :post) do |f| %>
+      <div id="div_missing_confirmation_events">
+        <h3><%= t('views.imports.missing') %>:</h3>
+        <ul id="missing_confirmation_events">
+          <% @candidate_import.missing_confirmation_events.map do |confirmation_event_name| %>
+              <li><%= confirmation_event_name %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div id="div_unknown_confirmation_events">
+        <h3><%= t('views.imports.unknown') %>:</h3>
+        <ul id="unknown_confirmation_events">
+          <% @candidate_import.unknown_confirmation_events.map do |confirmation_event_name| %>
+              <li><%= confirmation_event_name %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div id="div_found_confirmation_events">
+        <h3><%= t('views.imports.found') %>:</h3>
+        <ul id="found_confirmation_events">
+          <% @candidate_import.found_confirmation_events.map do |confirmation_event_name| %>
+              <li><%= confirmation_event_name %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="buttons"><%= f.submit t('views.imports.check_events') %></div>
+  <% end %>
+</section>

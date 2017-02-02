@@ -7,15 +7,43 @@ class CandidateImport
   attr_accessor :uploaded_file
   attr_accessor :uploaded_zip_file
   attr_accessor :imported_candidates
+  # check_events
+  attr_accessor :missing_confirmation_events
+  attr_accessor :found_confirmation_events
+  attr_accessor :unknown_confirmation_events
 
   def initialize(attributes = {})
     attributes.each { |name, value| send("#{name}=", value) }
     @worksheet_conf_event_name = 'Confirmation Events'
     @worksheet_name = 'Candidates with events'
+    # check_events
+    @found_confirmation_events = []
+    @missing_confirmation_events = []
+    @unknown_confirmation_events = []
   end
 
   def persisted?
     false
+  end
+
+  def check_events
+    all_in_confirmation_event_names = AppFactory.all_i18n_confirmation_event_names
+    unknowns = ConfirmationEvent.all.map {|ce| ce.name}
+    all_in_confirmation_event_names.each do | i18n_key |
+      confirmation_event_name = I18n.t(i18n_key)
+      unknowns_index = unknowns.index(confirmation_event_name)
+      unknowns.slice!(unknowns_index) unless unknowns_index.nil?
+      confirmation_event = ConfirmationEvent.find_by_name(confirmation_event_name)
+      if confirmation_event.nil?
+        missing_confirmation_events.push(confirmation_event_name)
+      else
+        found_confirmation_events.push(confirmation_event_name)
+      end
+    end
+    unknowns.each do | confirmation_event_name |
+      unknown_confirmation_events.push(confirmation_event_name)
+    end
+    self
   end
 
   def create_xlsx_package(dir)

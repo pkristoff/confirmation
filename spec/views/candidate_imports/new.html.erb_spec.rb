@@ -7,23 +7,34 @@ describe 'candidate_imports/new.html.erb' do
 
     render
 
-    expect(rendered).to have_selector('section[id=import] li[id=column-0] strong', text: 'account_name')
-    # expect(rendered).to have_selector('li[id=column-0] strong', text: 'last_name')
-    # expect(rendered).to have_selector('li[id=column-1] strong', text: 'first_name')
-    # expect(rendered).to have_selector('li[id=column-2] strong', text: 'grade')
-    # expect(rendered).to have_selector('li[id=column-3] strong', text: 'parent_email_1')
-
     expect_message(nil, nil, rendered)
 
-    expect(rendered).to have_selector('section[id=import] form[id=new_candidate_import][action="/candidate_imports"]')
-    expect(rendered).to have_button(I18n.t('views.imports.import'))
+    section_info = [
+        ['section[id=export] form[id=new_candidate_import][action="/candidate_imports/export_to_excel.xlsx"]', I18n.t('views.imports.excel')],
+        ['section[id=import] form[id=new_candidate_import][action="/candidate_imports"]', I18n.t('views.imports.import')],
+        ['section[id=remove_all_candidates] form[id=new_candidate_import][action="/candidate_imports/remove_all_candidates"]', I18n.t('views.imports.reset_database')],
+        ['section[id=reset_database] form[id=new_candidate_import][action="/candidate_imports/reset_database"]', I18n.t('views.imports.remove_all_candidates')],
+        ['section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]', I18n.t('views.imports.check_events')]
+    ]
 
-    expect(rendered).to have_selector('section[id=remove_all_candidates] form[id=new_candidate_import][action="/candidate_imports/remove_all_candidates"]')
-    expect(rendered).to have_button(I18n.t('views.imports.reset_database'))
+    section_info.each do |info|
+      expect(rendered).to have_selector(info[0])
+      expect(rendered).to have_button(info[1])
+    end
 
-    expect(rendered).to have_selector('section[id=reset_database] form[id=new_candidate_import][action="/candidate_imports/reset_database"]')
-    expect(rendered).to have_button(I18n.t('views.imports.remove_all_candidates'))
+    expect(rendered).to have_selector('section', count: section_info.length)
 
+    expect(rendered).to have_selector('div[id=div_missing_confirmation_events] h3', text: I18n.t('views.imports.missing'))
+    expect(rendered).to have_selector('div[id=div_missing_confirmation_events] ul[id=missing_confirmation_events]')
+
+    expect(rendered).to have_selector('div[id=div_unknown_confirmation_events] h3', text: I18n.t('views.imports.unknown'))
+    expect(rendered).to have_selector('div[id=div_unknown_confirmation_events] ul[id=unknown_confirmation_events]')
+
+    expect(rendered).to have_selector('div[id=div_found_confirmation_events] h3', text: I18n.t('views.imports.found'))
+    expect(rendered).to have_selector('div[id=div_found_confirmation_events] ul[id=found_confirmation_events]')
+
+    expect(rendered).to have_selector('section[id=check_events] ul', count: 3)
+    expect(rendered).to have_selector('section[id=check_events] li', count: 0)
 
   end
 
@@ -34,11 +45,6 @@ describe 'candidate_imports/new.html.erb' do
     @candidate_import.save
 
     render
-
-    expect(rendered).to have_selector('section[id=import] li[id=column-0] strong', text: 'account_name')
-    # expect(rendered).to have_selector('section[id=import] li[id=column-1] strong', text: 'first_name')
-    # expect(rendered).to have_selector('section[id=import] li[id=column-2] strong', text: 'grade')
-    # expect(rendered).to have_selector('section[id=import] li[id=column-3] strong', text: 'parent_email_1')
 
     expect_message(:error_explanation, ['4 errors prohibited this import from completing:', 'Row 2: Last name can\'t be blank', 'Row 3: First name can\'t be blank', 'Row 6: Parent email 1 is an invalid email', 'Row 6: Parent email 2 is an invalid email', 'Row 7: Parent email 1 can\'t be blank'], rendered)
 
