@@ -31,6 +31,9 @@ class CandidateSheet < ActiveRecord::Base
 
   def self.get_basic_validation_params
     params = CandidateSheet.get_basic_permitted_params
+    params.delete(:middle_name)
+    params.delete(:candidate_email)
+    params.delete(:parent_email_1)
     params.delete(:parent_email_2)
     params
   end
