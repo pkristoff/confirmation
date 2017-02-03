@@ -28,7 +28,7 @@ module Dev
     end
 
     def is_admin?
-      true
+      false
     end
 
     def show

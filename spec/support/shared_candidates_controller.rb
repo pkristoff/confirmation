@@ -1,5 +1,3 @@
-
-
 shared_context 'baptismal_certificate' do
 
   before(:each) do
@@ -64,7 +62,7 @@ shared_context 'baptismal_certificate' do
 
     put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE,
         candidate: {baptized_at_stmm: '0',
-                    baptismal_certificate_attributes: {},}
+                    baptismal_certificate_attributes: {}, }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
@@ -90,7 +88,11 @@ shared_context 'baptismal_certificate' do
                     baptismal_certificate_attributes: valid_parameters
         }
 
-    expect(response).to redirect_to("/#{@dev_registration}event/#{candidate.id}")
+    if @dev.empty?
+      expect(response).to redirect_to(candidates_path)
+    else
+      expect(response).to redirect_to("/#{@dev_registration}event/#{candidate.id}")
+    end
     expect(flash[:notice]).to eq(I18n.t('messages.updated'))
   end
 
@@ -144,7 +146,7 @@ shared_context 'sign_agreement' do
     unless @dev.empty?
       expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
     else
-      expect(response).to redirect_to(event_candidate_path(candidate.id))
+      expect(response).to redirect_to(candidates_path)
     end
     expect(@request.fullpath).to eq("/#{@dev}sign_agreement.#{candidate.id}?candidate%5Bsigned_agreement%5D=1")
     expect(candidate.signed_agreement).to eq(true)
@@ -179,7 +181,7 @@ shared_context 'sponsor_agreement' do
     unless @dev.empty?
       expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
     else
-      expect(response).to redirect_to(event_candidate_path(candidate.id))
+      expect(response).to redirect_to(candidates_path)
     end
     expect(@request.fullpath).to eq("/#{@dev}sponsor_agreement.#{candidate.id}?candidate%5Bsponsor_agreement%5D=1")
     expect(candidate.sponsor_agreement).to eq(true)
@@ -213,11 +215,11 @@ shared_context 'candidate_information_sheet' do
                 {first_name: 'Paul',
                  middle_name: 'Richard',
                  last_name: 'Foo',
-                grade: 10,
-                candidate_email: 'foo@bar.com',
-                parent_email_1: 'baz@bar.com',
-                attending: 'The Way',
-                 address_attributes:{
+                 grade: 10,
+                 candidate_email: 'foo@bar.com',
+                 parent_email_1: 'baz@bar.com',
+                 attending: 'The Way',
+                 address_attributes: {
                      street_1: 'the way way',
                      city: 'wayville',
                      state: 'WA',
@@ -229,7 +231,7 @@ shared_context 'candidate_information_sheet' do
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
     if @dev.empty?
-      expect(response).to redirect_to(event_candidate_path(candidate.id))
+      expect(response).to redirect_to(candidates_path)
     else
       expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
     end

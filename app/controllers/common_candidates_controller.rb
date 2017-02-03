@@ -121,9 +121,9 @@ class CommonCandidatesController < ApplicationController
 
     if candidate.update_attributes(candidate_params)
       if is_admin?
-        redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
+        redirect_to candidates_path, notice: I18n.t('messages.updated')
       else
-        redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
+        redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
       end
     else
       redirect_to :back, alert: I18n.t('messages.save_failed')
@@ -155,9 +155,9 @@ class CommonCandidatesController < ApplicationController
 
     if candidate.update_attributes(candidate_params)
       if is_admin?
-        redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
+        redirect_to candidates_path, notice: I18n.t('messages.updated')
       else
-        redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
+        redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
       end
     else
       redirect_to :back, alert: I18n.t('messages.save_failed')
@@ -192,9 +192,9 @@ class CommonCandidatesController < ApplicationController
           if @candidate.save
             render_called = true
             if is_admin?
-              redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
+              redirect_to candidates_path, notice: I18n.t('messages.updated')
             else
-              redirect_to event_candidate_path(params[:id]), notice: I18n.t('messages.updated')
+              redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
             end
           else
             flash['alert'] = "Save of #{event_name} failed"
@@ -208,7 +208,7 @@ class CommonCandidatesController < ApplicationController
   def render_event_with_picture(render_called, event_name)
     unless render_called
       @event_with_picture_name = event_name
-      @is_dev = is_admin?
+      @is_dev = ! is_admin?
 
       @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
       flash[:alert] = "Internal Error: unknown event: #{event_name}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?

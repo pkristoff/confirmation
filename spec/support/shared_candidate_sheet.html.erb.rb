@@ -41,10 +41,11 @@ shared_context 'candidate_sheet_html_erb' do
     click_button('top-update')
 
     expect_message(:flash_notice, 'Updated')
-    expect(page).to have_selector('div[id=candidate_event_2_verified]', text: false)
     if @dev.empty?
-      expect(page).to have_field('candidate_candidate_events_attributes_2_completed_date', with: Date.today)
+      # make sure Candidate list is showing
+      expect(page).to have_selector("tr[id=candidate_list_tr_#{@candidate.id}]")
     else
+      expect(page).to have_selector('div[id=candidate_event_2_verified]', text: false)
       expect(page).to have_selector('div[id=candidate_event_2_completed_date]', text: Date.today)
     end
   end

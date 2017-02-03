@@ -28,7 +28,7 @@ class CandidatesController < CommonCandidatesController
   end
 
   def is_admin?
-    false
+    true
   end
 
   def new

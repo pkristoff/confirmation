@@ -28,10 +28,11 @@ shared_context 'sign_an_agreement_html_erb' do
     click_button('bottom-update')
 
     expect_message(:flash_notice, I18n.t('messages.updated'))
-    expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_verified]", text: false)
     if @dev.empty?
-      expect(page).to have_field("candidate_candidate_events_attributes_#{@event_offset}_completed_date", with: Date.today.to_s.strip)
+      # make sure Candidate list is showing
+      expect(page).to have_selector("tr[id=candidate_list_tr_#{@candidate.id}]")
     else
+      expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_verified]", text: false)
       expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_completed_date]", text: Date.today)
     end
   end
@@ -46,10 +47,11 @@ shared_context 'sign_an_agreement_html_erb' do
     click_button('bottom-update')
 
     expect_message(:flash_notice, I18n.t('messages.updated'))
-    expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_verified]", text: false)
     if @dev.empty?
-      expect(page).to have_field("candidate_candidate_events_attributes_#{@event_offset}_completed_date")
+      # make sure Candidate list is showing
+      expect(page).to have_selector("tr[id=candidate_list_tr_#{@candidate.id}]")
     else
+      expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_verified]", text: false)
       expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_completed_date]", text: nil)
     end
   end
