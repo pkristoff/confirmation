@@ -4,8 +4,8 @@ describe 'candidates/index.html.erb' do
   before(:each) do
     AppFactory.add_confirmation_events
 
-    @candidate_1 = create_candidate('Vicki', 'Kristoff')
-    @candidate_2 = create_candidate('Paul', 'Kristoff')
+    @candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    @candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
     @candidates = [@candidate_1, @candidate_2]
 
   end

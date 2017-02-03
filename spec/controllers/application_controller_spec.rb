@@ -66,6 +66,7 @@ describe ApplicationController do
       expect(controller.sort_column('xxx')).to eq('account_name')
       expect(controller.sort_column('candidate_sheet.xxx')).to eq('account_name')
       expect(controller.sort_column('candidate_sheet.first_name')).to eq('candidate_sheet.first_name')
+      expect(controller.sort_column('candidate_sheet.middle_name')).to eq('candidate_sheet.middle_name')
       expect(controller.sort_column('candidate_sheet.last_name')).to eq('candidate_sheet.last_name')
       expect(controller.sort_column('candidate_sheet.candidate_email')).to eq('candidate_sheet.candidate_email')
       expect(controller.sort_column('candidate_sheet.parent_email_1')).to eq('candidate_sheet.parent_email_1')

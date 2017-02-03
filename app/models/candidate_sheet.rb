@@ -26,7 +26,7 @@ class CandidateSheet < ActiveRecord::Base
   end
 
   def self.get_basic_permitted_params
-    [:first_name, :last_name, :candidate_email, :parent_email_1, :parent_email_2, :grade, :attending]
+    [:first_name, :middle_name, :last_name, :candidate_email, :parent_email_1, :parent_email_2, :grade, :attending]
   end
 
   def self.get_basic_validation_params

@@ -24,6 +24,7 @@ shared_context 'candidate_sheet_html_erb' do
     candidate_sheet.candidate_email = 'can.didate@email.com'
 
     fill_in(I18n.t('label.candidate_sheet.first_name'), with: candidate_sheet.first_name)
+    fill_in(I18n.t('label.candidate_sheet.middle_name'), with: candidate_sheet.middle_name)
     fill_in(I18n.t('label.candidate_sheet.last_name'), with: candidate_sheet.last_name)
 
     address = candidate_sheet.address
@@ -54,6 +55,7 @@ shared_context 'candidate_sheet_html_erb' do
 
     candidate_sheet = @candidate.candidate_sheet
     expect(page).to have_field(I18n.t('label.candidate_sheet.first_name'), with: candidate_sheet.first_name, type: 'text')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.middle_name'), with: candidate_sheet.middle_name, type: 'text')
     expect(page).to have_field(I18n.t('label.candidate_sheet.last_name'), with: candidate_sheet.last_name, type: 'text')
 
     expect(page).to have_field(I18n.t('label.candidate_sheet.address.street_1'), with: candidate_sheet.address.street_1, type: 'text')

@@ -3,8 +3,8 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
 
   before(:each) do
 
-    @candidate_1 = Candidate.find_by_account_name(create_candidate('Vicki', 'Kristoff').account_name)
-    @candidate_2 = Candidate.find_by_account_name(create_candidate('Paul', 'Kristoff').account_name)
+    @candidate_1 = Candidate.find_by_account_name(create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
+    @candidate_2 = Candidate.find_by_account_name(create_candidate('Paul', 'Richard', 'Kristoff').account_name)
     @candidates = [@candidate_1, @candidate_2]
     AppFactory.add_confirmation_events
 

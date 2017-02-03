@@ -211,6 +211,7 @@ shared_context 'candidate_information_sheet' do
         candidate: {
             candidate_sheet_attributes:
                 {first_name: 'Paul',
+                 middle_name: 'Richard',
                  last_name: 'Foo',
                 grade: 10,
                 candidate_email: 'foo@bar.com',
@@ -233,6 +234,7 @@ shared_context 'candidate_information_sheet' do
       expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
     end
     expect(candidate.candidate_sheet.first_name).to eq('Paul')
+    expect(candidate.candidate_sheet.middle_name).to eq('Richard')
     expect(candidate.candidate_sheet.address.city).to eq('wayville')
     expect(candidate_event.completed_date).to eq(Date.today)
   end

@@ -3,7 +3,7 @@ include ViewsHelpers
 describe CandidatesMailer, type: :model do
 
   before(:each) do
-    candidate = create_candidate('Paul', 'Kristoff')
+    candidate = create_candidate('Paul', 'Richard', 'Kristoff')
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by_account_name(candidate.account_name)
   end

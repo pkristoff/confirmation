@@ -16,6 +16,7 @@ module ViewsHelpers
 
     expect(rendered).to have_field('First name', with: (candidate ? candidate.candidate_sheet.first_name : ''), type: 'text')
     expect(rendered).to have_selector("input[id=candidate_candidate_sheet_attributes_first_name]#{first_name_autofocus}")
+    expect(rendered).to have_field('Middle name', with: (candidate ? candidate.candidate_sheet.middle_name : ''), type: 'text')
     expect(rendered).to have_field('Last name', with: (candidate ? candidate.candidate_sheet.last_name : ''), type: 'text')
 
     expect(rendered).to have_field('Street 1', with: (candidate ? candidate.candidate_sheet.address.street_1 : ''), type: 'text')
@@ -97,9 +98,10 @@ module ViewsHelpers
     expect(rendered_or_page).to have_css "#{table_id} tr", count: candidates_in_order.size + 1
   end
 
-  def create_candidate(first_name, last_name)
+  def create_candidate(first_name, middle_name, last_name)
     candidate = FactoryGirl.create(:candidate, account_name: "#{first_name.downcase}#{last_name.downcase}")
     candidate.candidate_sheet.first_name = first_name
+    candidate.candidate_sheet.middle_name = middle_name
     candidate.candidate_sheet.last_name = last_name
     candidate.candidate_sheet.candidate_email = "#{first_name.downcase}@yyy.com"
 

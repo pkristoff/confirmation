@@ -23,8 +23,8 @@ feature 'Admin monthly mass mailing', :devise do
 
   scenario 'admin can send email to multiple candidates' do
 
-    candidate_1 = create_candidate('Vicki', 'Kristoff')
-    candidate_2 = create_candidate('Paul', 'Kristoff')
+    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
     admin = FactoryGirl.create(:admin)
     AppFactory.add_confirmation_events

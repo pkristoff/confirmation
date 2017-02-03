@@ -120,6 +120,7 @@ class AppFactory
       candidate.create_candidate_sheet if candidate.candidate_sheet.nil?
       candidate.candidate_sheet.parent_email_1 = 'paul@kristoffs.com'
       candidate.candidate_sheet.first_name = 'Vicki'
+      candidate.candidate_sheet.middle_name = 'Anne'
       candidate.candidate_sheet.last_name = 'Kristoff'
       candidate.candidate_sheet.grade = 10
       candidate.candidate_sheet.address.street_1 = '2120 Frissell Ave.'

@@ -14,9 +14,9 @@ feature 'Candidate delete', :devise do
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
 
-    @candidate_1 = create_candidate('Vicki', 'Kristoff')
-    @candidate_2 = create_candidate('Paul', 'Kristoff')
-    @candidate_3 = create_candidate('Karen', 'Kristoff')
+    @candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    @candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
+    @candidate_3 = create_candidate('Karen', 'Louise', 'Kristoff')
     @candidates = [@candidate_1, @candidate_2, @candidate_3]
 
   end

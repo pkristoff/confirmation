@@ -25,7 +25,7 @@ feature 'Sign Up', :devise do
     #   When I sign up with a valid email address and password
     #   Then I see a successful sign up message
     scenario 'visitor can sign up with valid candidate id, email address and password' do
-      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', 'please123', 'please123')
+      sign_up_candidate_with('candidateId', 'Paul', 'R', 'K', 'test@example.com', 'please123', 'please123')
       expect_message :flash_notice, I18n.t('devise.registrations.signed_up')
     end
 
@@ -34,7 +34,7 @@ feature 'Sign Up', :devise do
     #   When I sign up with an invalid email address
     #   Then I see an invalid email message
     scenario 'visitor cannot sign up with invalid candidate id' do
-      sign_up_candidate_with('', 'Paul', 'K', 'test@example.com', 'please123', 'please123')
+      sign_up_candidate_with('', 'Paul', 'R', 'K', 'test@example.com', 'please123', 'please123')
       expect_message :error_explanation, 'Account name can\'t be blank'
     end
 
@@ -43,7 +43,7 @@ feature 'Sign Up', :devise do
     #   When I sign up without a password
     #   Then I see a missing password message
     scenario 'visitor cannot sign up without password' do
-      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', '', '')
+      sign_up_candidate_with('candidateId', 'Paul', 'R', 'K', 'test@example.com', '', '')
       expect_message :error_explanation, 'Password can\'t be blank'
     end
 
@@ -52,7 +52,7 @@ feature 'Sign Up', :devise do
     #   When I sign up with a short password
     #   Then I see a 'too short password' message
     scenario 'visitor cannot sign up with a short password' do
-      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', 'please', 'please')
+      sign_up_candidate_with('candidateId', 'Paul', 'R', 'K', 'test@example.com', 'please', 'please')
       expect_message :error_explanation, 'Password is too short'
     end
 
@@ -61,7 +61,7 @@ feature 'Sign Up', :devise do
     #   When I sign up without a password confirmation
     #   Then I see a missing password confirmation message
     scenario 'visitor cannot sign up without password confirmation' do
-      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', 'please123', '')
+      sign_up_candidate_with('candidateId', 'Paul', 'R', 'K', 'test@example.com', 'please123', '')
       expect_message :error_explanation, 'Password confirmation doesn\'t match'
     end
 
@@ -70,7 +70,7 @@ feature 'Sign Up', :devise do
     #   When I sign up with a mismatched password confirmation
     #   Then I should see a mismatched password message
     scenario 'visitor cannot sign up with mismatched password and confirmation' do
-      sign_up_candidate_with('candidateId', 'Paul', 'K', 'test@example.com', 'please123', 'mismatch')
+      sign_up_candidate_with('candidateId', 'Paul', 'R', 'K', 'test@example.com', 'please123', 'mismatch')
       expect_message :error_explanation, 'Password confirmation doesn\'t match'
     end
 

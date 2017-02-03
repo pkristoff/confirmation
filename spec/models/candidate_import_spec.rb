@@ -324,6 +324,7 @@ describe CandidateImport do
 
     expect(c1_row.cells[find_cell_offset(header_row, 'account_name')].value).to eq('c1')
     expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.first_name')].value).to eq('Sophia')
+    expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.middle_name')].value).to eq('Saraha')
     expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.last_name')].value).to eq('Agusta')
     expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.candidate_email')].value).to eq('candiate@example.com')
     expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.parent_email_1')].value).to eq('test@example.com')
@@ -355,7 +356,7 @@ describe CandidateImport do
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_content_type')].value).to eq('temp/c1_actions.png')
     expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq('temp/c1_actions.png')
     # TODO: add other 31 tests
-    expect(c1_row.size).to eq(65)
+    expect(c1_row.size).to eq(66)
 
     expect(c2_row.cells[0].value).to eq('c2')
 
@@ -466,6 +467,7 @@ describe CandidateImport do
         account_name: 'foobar',
         candidate_sheet: {
             first_name: 'foo',
+            middle_name: 'baz',
             last_name: 'bar',
             candidate_email: '',
             parent_email_1: 'foo@bar.com',
@@ -526,6 +528,7 @@ describe CandidateImport do
         account_name: 'paulkristoff',
         candidate_sheet: {
             first_name: 'Paul',
+            middle_name: 'Richard',
             last_name: 'Kristoff',
             candidate_email: 'paul@kristoffs.com',
             parent_email_1: 'vicki@kristoffs.com',
@@ -586,6 +589,7 @@ describe CandidateImport do
         account_name: 'vickikristoff',
         candidate_sheet: {
             first_name: 'Vicki',
+            middle_name: 'Anne',
             last_name: 'Kristoff',
             candidate_email: 'vicki@kristoffs.com',
             parent_email_1: 'paul@kristoffs.com',

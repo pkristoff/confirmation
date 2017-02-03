@@ -296,14 +296,17 @@ describe AdminsController do
     case prefix
       when 'c1'
         candidate.candidate_sheet.first_name = 'c2first_name'
+        candidate.candidate_sheet.middle_name = 'c1middle_name'
         candidate.candidate_sheet.last_name = 'c3last_name'
         candidate_event.completed_date='2016-06-09'
       when 'c2'
         candidate.candidate_sheet.first_name = 'c3first_name'
+        candidate.candidate_sheet.middle_name = 'c2middle_name'
         candidate.candidate_sheet.last_name = 'c1last_name'
         candidate_event.completed_date=''
       when 'c3'
         candidate.candidate_sheet.first_name = 'c1first_name'
+        candidate.candidate_sheet.middle_name = 'c3middle_name'
         candidate.candidate_sheet.last_name = 'c2last_name'
         candidate_event.completed_date='2016-07-23'
       else

@@ -11,9 +11,17 @@ describe CandidateSheet, type: :model do
 
     end
 
+    it 'new can retrieve a CandidateSheet\'s middle_name' do
+      candidate_sheet = CandidateSheet.new
+      candidate_sheet.middle_name = 'xxx'
+      expect(candidate_sheet.middle_name).to match 'xxx'
+
+    end
+
     it 'FactoryGirl can retrieve a ChristianMinistry\'s info' do
       candidate_sheet = FactoryGirl.create(:candidate_sheet)
       expect(candidate_sheet.first_name).to match 'Sophia'
+      expect(candidate_sheet.middle_name).to match 'Saraha'
       expect(candidate_sheet.last_name).to match 'Young'
       expect(candidate_sheet.address).not_to eq(nil)
 

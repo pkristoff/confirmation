@@ -1,9 +1,10 @@
 module Features
   module SessionHelpers
-    def sign_up_candidate_with(account_name, first_name, last_name, email, password, confirmation)
+    def sign_up_candidate_with(account_name, first_name, middle_name, last_name, email, password, confirmation)
       visit new_candidate_path
       fill_in I18n.t('views.candidates.account_name'), with: account_name
       fill_in I18n.t('views.candidates.first_name'), with: first_name
+      fill_in I18n.t('views.candidates.middle_name'), with: middle_name
       fill_in I18n.t('views.candidates.last_name'), with: last_name
       fill_in I18n.t('views.candidates.parent_email_1'), with: email
       fill_in I18n.t('views.common.password'), with: password
