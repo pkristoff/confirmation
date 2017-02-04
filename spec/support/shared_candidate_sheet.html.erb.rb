@@ -2,9 +2,8 @@ shared_context 'candidate_sheet_html_erb' do
 
   before(:each) do
 
-    AppFactory.all_i18n_confirmation_event_names.each do | i18n_name |
-      AppFactory.add_confirmation_event(I18n.t(i18n_name))
-    end
+    AppFactory.add_confirmation_events
+    @candidate = Candidate.find_by_account_name(@candidate.account_name)
 
   end
 
@@ -22,6 +21,7 @@ shared_context 'candidate_sheet_html_erb' do
 
     visit @path
 
+    candidate_event = @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
     candidate_sheet = @candidate.candidate_sheet
     candidate_sheet.candidate_email = 'can.didate@email.com'
 
@@ -47,8 +47,9 @@ shared_context 'candidate_sheet_html_erb' do
       # make sure Candidate list is showing
       expect(page).to have_selector("tr[id=candidate_list_tr_#{@candidate.id}]")
     else
-      expect(page).to have_selector('div[id=candidate_event_2_verified]', text: false)
-      expect(page).to have_selector('div[id=candidate_event_2_completed_date]', text: Date.today)
+      confirmation_event_id = candidate_event.confirmation_event.id
+      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event_id}_verified]", text: false)
+      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event_id}_completed_date]", text: Date.today.to_s)
     end
   end
 

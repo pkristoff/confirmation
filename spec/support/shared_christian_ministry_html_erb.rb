@@ -8,9 +8,7 @@ shared_context 'christian_ministry_html_erb' do
 
   before(:each) do
     event_with_picture_setup(Event::Route::CHRISTIAN_MINISTRY)
-    AppFactory.all_i18n_confirmation_event_names.each do | i18n_name |
-      AppFactory.add_confirmation_event(I18n.t(i18n_name))
-    end
+    AppFactory.add_confirmation_events
 
   end
 

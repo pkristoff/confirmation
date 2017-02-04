@@ -9,12 +9,18 @@ feature 'Candidate email', :devise do
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
 
-    @candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
-    @candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
-    @candidate_3 = create_candidate('Karen', 'Louise', 'Kristoff')
-    @candidates = [@candidate_1, @candidate_2, @candidate_3]
-
+    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
+    candidate_3 = create_candidate('Karen', 'Louise', 'Kristoff')
     AppFactory.add_confirmation_events
+    # re-lookup instances are diff
+    @candidate_1 = Candidate.find_by_account_name(candidate_1.account_name)
+    @candidate_2 = Candidate.find_by_account_name(candidate_2.account_name)
+    @candidate_3 = Candidate.find_by_account_name(candidate_3.account_name)
+    @candidates = [@candidate_1,
+                   @candidate_2,
+                   @candidate_3
+    ]
 
   end
 

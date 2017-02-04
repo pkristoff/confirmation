@@ -1,3 +1,4 @@
+include ViewsHelpers
 include ActionDispatch::TestProcess
 include FileHelper
 
@@ -238,11 +239,7 @@ describe CandidateImport do
     it 'should show "Sponsor Covenant" is missing.' do
       candidate_import = CandidateImport.new
       candidate_import.remove_all_candidates
-      AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
-        i18n_confirmation_name = I18n.t(i18n_name)
-        AppFactory.add_confirmation_event(i18n_confirmation_name) unless i18n_name == 'events.sponsor_covenant'
-      end
-      AppFactory.add_confirmation_event('unknown event')
+      setup_unknown_missing_events
 
       candidate_import.check_events
 
@@ -256,11 +253,7 @@ describe CandidateImport do
     it 'should add "Sponsor Covenant".' do
       candidate_import = CandidateImport.new
       candidate_import.remove_all_candidates
-      AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
-        i18n_confirmation_name = I18n.t(i18n_name)
-        AppFactory.add_confirmation_event(i18n_confirmation_name) unless i18n_name == 'events.sponsor_covenant'
-      end
-      AppFactory.add_confirmation_event('unknown event')
+      setup_unknown_missing_events
       sponsor_covenant_event_name = I18n.t('events.sponsor_covenant')
 
       candidate_import.add_missing_events([sponsor_covenant_event_name])

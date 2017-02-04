@@ -1,4 +1,5 @@
 include ViewsHelpers
+
 describe 'admins/mass_edit_candidates_event.html.erb' do
 
   before(:each) do
@@ -27,18 +28,25 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
     expect(rendered).to have_field(t('views.events.verified'))
     expect(rendered).to have_field(t('views.events.completed_date'))
 
-    expect_sorting_candidate_list([
-                                      [t('label.candidate_event.select'), false, '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
-                                      [t('views.events.completed_date'), true, [:completed_date]],
-                                      [t('label.candidate.account_name'), true, [:account_name], :up],
-                                      [t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-                                      [t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-                                      [t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-                                      [t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
-                                  ],
-                                  @candidates,
-                                  rendered,
-                                  @confirmation_event)
+    expect_sorting_candidate_list(
+        [
+            [t('label.candidate_event.select'), false, '', expect_select_checkbox],
+            [t('views.events.completed_date'), true, [:completed_date]],
+            [t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+            [t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+            [t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+            [t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
+            [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
+            [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
+            [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
+            [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
+            [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
+            [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
+            [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))]
+        ],
+        @candidates,
+        rendered,
+        @confirmation_event)
 
     expect(rendered).to have_css("input[id='bottom-update'][type='submit'][value='#{t('views.common.update')}']")
 

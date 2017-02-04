@@ -1,9 +1,7 @@
 shared_context 'sign_an_agreement_html_erb' do
 
   before(:each) do
-    AppFactory.all_i18n_confirmation_event_names.each do | i18n_name |
-      AppFactory.add_confirmation_event(I18n.t(i18n_name))
-    end
+    AppFactory.add_confirmation_events
   end
 
   scenario 'user(candidate or admin) logs in, selects signing an agreement, has not signed agreement previsouly' do
@@ -24,6 +22,7 @@ shared_context 'sign_an_agreement_html_erb' do
 
     @candidate.send(@sign_agreement_setter, false)
     @candidate.save
+    confirmation_event = ConfirmationEvent.find_by_name(@event_name)
 
     visit @path
     check(@field_name)
@@ -34,8 +33,8 @@ shared_context 'sign_an_agreement_html_erb' do
       # make sure Candidate list is showing
       expect(page).to have_selector("tr[id=candidate_list_tr_#{@candidate.id}]")
     else
-      expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_verified]", text: false)
-      expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_completed_date]", text: Date.today)
+      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event.id}_verified]", text: false)
+      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event.id}_completed_date]", text: Date.today)
     end
   end
 
@@ -43,6 +42,7 @@ shared_context 'sign_an_agreement_html_erb' do
 
     @candidate.send(@sign_agreement_setter, true)
     @candidate.save
+    confirmation_event = ConfirmationEvent.find_by_name(@event_name)
 
     visit @path
     uncheck(@field_name)
@@ -53,8 +53,8 @@ shared_context 'sign_an_agreement_html_erb' do
       # make sure Candidate list is showing
       expect(page).to have_selector("tr[id=candidate_list_tr_#{@candidate.id}]")
     else
-      expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_verified]", text: false)
-      expect(page).to have_selector("div[id=candidate_event_#{@event_offset}_completed_date]", text: nil)
+      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event.id}_verified]", text: false)
+      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event.id}_completed_date]", text: nil)
     end
   end
 

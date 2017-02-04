@@ -69,17 +69,17 @@
               <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
               <% td_index += 1 %>
           <% end %>
-          <td id="tr<%= b.object.id %>_td<%= td_index+1 %>"><%= b.object.candidate_sheet.last_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+2 %>"><%= b.object.candidate_sheet.first_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+3 %>"><%= b.object.candidate_sheet.grade %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+4 %>"><%= b.object.candidate_sheet.attending %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+5 %>"><%= link_to "#{b.object.get_candidate_event(t('events.candidate_covenant_agreement')).status}", sign_agreement_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+6 %>"><%= link_to "#{b.object.get_candidate_event(t('events.candidate_information_sheet')).status}", candidate_sheet_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+7 %>"><%= link_to "#{b.object.get_candidate_event(t('events.baptismal_certificate')).status}", event_with_picture_path(b.object.id, Event::Route::BAPTISMAL_CERTIFICATE) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+8 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_covenant')).status}", event_with_picture_path(b.object.id, Event::Route::SPONSOR_COVENANT) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+9 %>"><%= link_to "#{b.object.get_candidate_event(t('events.confirmation_name')).status}", event_with_picture_path(b.object.id, Event::Route::CONFIRMATION_NAME) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+10 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_agreement')).status}", sponsor_agreement_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+11 %>"><%= link_to "#{b.object.get_candidate_event(t('events.christian_ministry')).status}", event_with_picture_path(b.object.id, Event::Route::CHRISTIAN_MINISTRY) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+0 %>"><%= b.object.candidate_sheet.last_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+1 %>"><%= b.object.candidate_sheet.first_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+2 %>"><%= b.object.candidate_sheet.grade %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+3 %>"><%= b.object.candidate_sheet.attending %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+4 %>"><%= link_to "#{b.object.get_candidate_event(t('events.candidate_covenant_agreement')).status}", sign_agreement_path(b.object.id) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+5 %>"><%= link_to "#{b.object.get_candidate_event(t('events.candidate_information_sheet')).status}", candidate_sheet_path(b.object.id) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+6 %>"><%= link_to "#{b.object.get_candidate_event(t('events.baptismal_certificate')).status}", event_with_picture_path(b.object.id, Event::Route::BAPTISMAL_CERTIFICATE) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+7 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_covenant')).status}", event_with_picture_path(b.object.id, Event::Route::SPONSOR_COVENANT) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+8 %>"><%= link_to "#{b.object.get_candidate_event(t('events.confirmation_name')).status}", event_with_picture_path(b.object.id, Event::Route::CONFIRMATION_NAME) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+9 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_agreement')).status}", sponsor_agreement_path(b.object.id) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+10 %>"><%= link_to "#{b.object.get_candidate_event(t('events.christian_ministry')).status}", event_with_picture_path(b.object.id, Event::Route::CHRISTIAN_MINISTRY) %></td>
         </tr>
     <% end %>
     </tbody>

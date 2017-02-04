@@ -3,11 +3,15 @@ include ViewsHelpers
 describe 'admins/monthly_mass_mailing.html.erb' do
 
   before(:each) do
+
+    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
+
     AppFactory.add_confirmation_events
 
-    @candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
-    @candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
-    @candidates = [@candidate_1, @candidate_2]
+    # have re-lookup candidates because local a diff instance
+    @candidates = [Candidate.find_by_account_name(candidate_1.account_name),
+                   Candidate.find_by_account_name(candidate_2.account_name)]
 
   end
 

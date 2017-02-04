@@ -15,9 +15,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
   before(:each) do
     event_with_picture_setup(Event::Route::SPONSOR_COVENANT)
-    AppFactory.all_i18n_confirmation_event_names.each do | i18n_name |
-      AppFactory.add_confirmation_event(I18n.t(i18n_name))
-    end
+    AppFactory.add_confirmation_events
   end
 
   scenario 'admin logs in and selects a candidate, checks sponsor_attends_stmm, nothing else showing' do

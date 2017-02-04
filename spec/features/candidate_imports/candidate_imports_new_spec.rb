@@ -1,3 +1,4 @@
+include ViewsHelpers
 include Warden::Test::Helpers
 Warden.test_mode!
 
@@ -118,7 +119,7 @@ feature 'Other', :devise do
     #   and click the click 'Check Event' button
     #   Then I see confirmation events that are missing, unknown, & found
     scenario 'admin can see if confirmation event is missing' do
-      setup_missing_unknow_and_found_events
+      setup_unknown_missing_events
 
       admin = FactoryGirl.create(:admin)
       login_as(admin, scope: :admin)
@@ -147,7 +148,7 @@ feature 'Other', :devise do
     #   and click the click 'Add Missing Events' button
     #   Then I see message saying to 'Check Events' first
     scenario 'admin gets message saying no missing events' do
-      setup_missing_unknow_and_found_events
+      setup_unknown_missing_events
 
       admin = FactoryGirl.create(:admin)
       login_as(admin, scope: :admin)
@@ -164,7 +165,7 @@ feature 'Other', :devise do
     #   and click the click 'Add Missing Events' button
     #   Then I see missing event is now in the found events.
     scenario 'admin gets message saying no missing events' do
-      setup_missing_unknow_and_found_events
+      setup_unknown_missing_events
 
       admin = FactoryGirl.create(:admin)
       login_as(admin, scope: :admin)
@@ -177,16 +178,6 @@ feature 'Other', :devise do
       expect(page.html).to have_selector('section[id=check_events] ul[id=missing_confirmation_events] li', count: 0)
       expect(page.html).to have_selector('section[id=check_events] ul[id=found_confirmation_events] li', count: 9)
       expect(page.html).to have_selector('section[id=check_events] ul[id=unknown_confirmation_events] li', text: 'unknown event')
-    end
-
-    def setup_missing_unknow_and_found_events
-      candidate_import = CandidateImport.new
-      candidate_import.remove_all_candidates
-      AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
-        i18n_confirmation_name = I18n.t(i18n_name)
-        AppFactory.add_confirmation_event(i18n_confirmation_name) unless i18n_name == 'events.sponsor_covenant'
-      end
-      AppFactory.add_confirmation_event('unknown event')
     end
 
   end

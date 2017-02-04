@@ -8,7 +8,7 @@ feature 'Sponsor Agreement admin', :devise do
   before(:each) do
     @admin = FactoryGirl.create(:admin)
     @candidate = FactoryGirl.create(:candidate)
-    AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
+    @confirmation_event = AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
     login_as(@admin, scope: :admin)
 
     @path = sponsor_agreement_path(@candidate.id)
@@ -19,7 +19,6 @@ feature 'Sponsor Agreement admin', :devise do
     @form_action = "form[id=edit_candidate][action=\"/#{@dev}sponsor_agreement.#{@candidate.id}\"]"
     @field_name = I18n.t('label.sponsor_agreement.sponsor_agreement')
     @documant_key = Event::Document::CONVERSATION_SPONSOR_CANDIDATE
-    @event_offset = 3
   end
 
   after(:each) do

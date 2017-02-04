@@ -13,11 +13,18 @@ feature 'Candidate delete', :devise do
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
 
-    @candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
-    @candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
-    @candidate_3 = create_candidate('Karen', 'Louise', 'Kristoff')
-    @candidates = [@candidate_1, @candidate_2, @candidate_3]
+    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
+    candidate_3 = create_candidate('Karen', 'Louise', 'Kristoff')
     AppFactory.add_confirmation_events
+    # re-lookup instances are diff
+    @candidate_1 = Candidate.find_by_account_name(candidate_1.account_name)
+    @candidate_2 = Candidate.find_by_account_name(candidate_2.account_name)
+    @candidate_3 = Candidate.find_by_account_name(candidate_3.account_name)
+    @candidates = [@candidate_1,
+                   @candidate_2,
+                   @candidate_3
+    ]
 
   end
 
@@ -40,24 +47,24 @@ feature 'Candidate delete', :devise do
     click_button('top-update-delete')
 
     expect_message(:flash_notice, I18n.t('messages.candidates_deleted'))
-    expect_sorting_candidate_list([
-                                      [I18n.t('label.candidate_event.select'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
-                                      [I18n.t('views.nav.edit'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
-                                      [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-                                      [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-                                      [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-                                      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.candidate_covenant_agreement'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.candidate_covenant_agreement'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.candidate_information_sheet'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.baptismal_certificate'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.sponsor_covenant'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.confirmation_name'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.sponsor_agreement'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.christian_ministry'), true, [:candidate_sheet, :attending]],
-                                  ],
-                                  [@candidate_2],
-                                  page)
+    expect_sorting_candidate_list(
+        [
+            [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
+            [I18n.t('views.nav.edit'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
+            [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+            [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+            [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+            [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
+            [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
+            [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
+            [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
+            [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
+            [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
+            [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
+            [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))]
+        ],
+        [@candidate_2],
+        page)
   end
 
 end

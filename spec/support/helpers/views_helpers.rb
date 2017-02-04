@@ -61,7 +61,6 @@ module ViewsHelpers
 
     expect(rendered_or_page).to have_css("#{table_id}")
     expect(rendered_or_page).to have_css("#{table_id} #{tr_header_id}")
-    expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size
 
     column_headers_in_order.each_with_index do |info, index|
       i18n_name = info[0]
@@ -76,22 +75,25 @@ module ViewsHelpers
         expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false select_column_header'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
       end
     end
+    expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size
     #expect table cells
     candidates_in_order.each_with_index do |candidate, tr_index|
       tr_id = "tr[id='candidate_list_tr_#{candidate.id}']"
-      column_headers_in_order.each_with_index do |info, td_index|
+      column_headers_in_order.each_with_index do |info, td_index |
+        td_index_adj = td_index
+        td_id = "td[id=tr#{candidate.id}_td#{td_index_adj}]"
         text = nil
         cell_access_path = info[2]
         cell_expect_function = info[3]
         if cell_access_path.empty?
-          cell_expect_function.call(candidate, rendered_or_page, td_index)
+          cell_expect_function.call(candidate, rendered_or_page, td_index_adj)
         elsif confirmation_event && cell_access_path[0] === :completed_date
           text = candidate.get_candidate_event(confirmation_event.name).method(cell_access_path[0]).call
-          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", text: text
+          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: text
         else
           text = candidate.method(cell_access_path[0]).call if cell_access_path.size === 1
           text = candidate.method(cell_access_path[0]).call.method(cell_access_path[1]).call if cell_access_path.size === 2
-          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", text: text
+          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: text
         end
       end
     end
@@ -146,16 +148,41 @@ module ViewsHelpers
     expect(rendered_or_page).to have_field(I18n.t('email.from_label'), text: I18n.t('email.from_initial_text'))
 
     expect_sorting_candidate_list([
-                                      [I18n.t('label.candidate_event.select'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
-                                      [I18n.t('label.candidate.account_name'), true, [:account_name], :up],
+                                      [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
                                       [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
                                       [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
                                       [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-                                      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
+                                      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
+                                      [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
+                                      [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
+                                      [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
+                                      [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
+                                      [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
+                                      [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))]
                                   ],
                                   candidates,
                                   rendered_or_page)
 
     expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.mail')}']")
+  end
+
+  def expect_event(event_name)
+    lambda { |candidate, rendered, td_index|
+      expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{candidate.id}'] td[id=tr#{candidate.id}_td#{td_index}]",
+                                   text: candidate.get_candidate_event(event_name).status)
+    }
+  end
+
+  def expect_select_checkbox
+    lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}] input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }
+  end
+
+  def setup_unknown_missing_events
+    AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
+      i18n_confirmation_name = I18n.t(i18n_name)
+      AppFactory.add_confirmation_event(i18n_confirmation_name) unless i18n_name == 'events.sponsor_covenant'
+    end
+    AppFactory.add_confirmation_event('unknown event')
   end
 end

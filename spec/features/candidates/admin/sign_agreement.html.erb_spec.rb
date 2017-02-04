@@ -18,7 +18,6 @@ feature 'Sign Agreement admin sign in', :devise do
     @form_action = "form[id=edit_candidate][action=\"/#{@dev}sign_agreement.#{@candidate.id}\"]"
     @field_name = I18n.t('label.sign_agreement.signed_agreement')
     @documant_key = Event::Document::CANDIDATE_COVENANT
-    @event_offset = 2
   end
 
   after(:each) do

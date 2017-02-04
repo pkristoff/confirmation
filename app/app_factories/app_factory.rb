@@ -43,7 +43,7 @@ class AppFactory
     raise('add_confirmation_event: event_name cannot be nil') if event_name.nil? || event_name.empty?
     # no longer an error so can migrate from a new db.
     if ConfirmationEvent.find_by_name(event_name)
-      puts("add_confirmation_event: event_name already defined: #{event_name}")
+      # puts("add_confirmation_event: event_name already defined: #{event_name}")
       AppFactory.revert_confirmation_event(event_name)
     end
     # puts 'starting event_name'
@@ -62,7 +62,7 @@ class AppFactory
       # puts 'adding to candidates'
       Candidate.all.each do |candidate|
         candidate.add_candidate_event(new_confirmation_event)
-        # puts "adding to candidate: #{candidate.account_name}"
+        # puts "adding to candidate: #{candidate.account_name}  candidate=#{candidate}"
         candidate.save
       end
     end
