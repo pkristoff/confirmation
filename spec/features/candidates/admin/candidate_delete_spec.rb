@@ -9,7 +9,6 @@ Warden.test_mode!
 feature 'Candidate delete', :devise do
 
   before(:each) do
-    AppFactory.add_confirmation_events
 
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
@@ -18,6 +17,7 @@ feature 'Candidate delete', :devise do
     @candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
     @candidate_3 = create_candidate('Karen', 'Louise', 'Kristoff')
     @candidates = [@candidate_1, @candidate_2, @candidate_3]
+    AppFactory.add_confirmation_events
 
   end
 
@@ -43,11 +43,18 @@ feature 'Candidate delete', :devise do
     expect_sorting_candidate_list([
                                       [I18n.t('label.candidate_event.select'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }],
                                       [I18n.t('views.nav.edit'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
-                                      [I18n.t('label.candidate.account_name'), true, [:account_name], :up],
                                       [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
                                       [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
                                       [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-                                      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
+                                      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.candidate_covenant_agreement'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.candidate_covenant_agreement'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.candidate_information_sheet'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.baptismal_certificate'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.sponsor_covenant'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.confirmation_name'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.sponsor_agreement'), true, [:candidate_sheet, :attending]],
+                                      [I18n.t('events.christian_ministry'), true, [:candidate_sheet, :attending]],
                                   ],
                                   [@candidate_2],
                                   page)

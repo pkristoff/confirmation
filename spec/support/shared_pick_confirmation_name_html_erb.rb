@@ -6,7 +6,10 @@ WHY_SAINT = 'She looks good'
 shared_context 'pick_confirmation_name_html_erb' do
 
   before(:each) do
-    event_with_picture_setup(I18n.t('events.confirmation_name'), Event::Route::CONFIRMATION_NAME)
+    event_with_picture_setup(Event::Route::CONFIRMATION_NAME)
+    AppFactory.all_i18n_confirmation_event_names.each do | i18n_name |
+      AppFactory.add_confirmation_event(I18n.t(i18n_name))
+    end
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do

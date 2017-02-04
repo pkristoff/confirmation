@@ -16,7 +16,10 @@ MOTHER_MAIDEN = 'Mary'
 shared_context 'baptismal_certificate_html_erb' do
 
   before(:each) do
-    event_with_picture_setup(I18n.t('events.baptismal_certificate'), Event::Route::BAPTISMAL_CERTIFICATE)
+    event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE)
+    AppFactory.all_i18n_confirmation_event_names.each do | i18n_name |
+      AppFactory.add_confirmation_event(I18n.t(i18n_name))
+    end
   end
 
   scenario 'admin logs in and selects a candidate, checks baptized_at_stmm, nothing else showing' do

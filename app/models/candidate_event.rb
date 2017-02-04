@@ -57,6 +57,16 @@ class CandidateEvent < ActiveRecord::Base
     candidate.get_event_association(route).verifiable_info
   end
 
+  def status
+    return 'Not Started' unless started?
+    return 'Awaiting Candidate' if awaiting_candidate?
+    return 'Awaiting Admin' if awaiting_admin?
+    return 'Coming Due' if coming_due?
+    return 'Completed' if completed?
+    return 'Late' if late?
+    'Unknown Status'
+  end
+
   def route
     # TODO: maybe move to constants
     case name

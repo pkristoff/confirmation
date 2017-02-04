@@ -20,10 +20,10 @@ def expect_message(id, message, rendered_page=page)
   end
 end
 
-def event_with_picture_setup(event_name, route)
+def event_with_picture_setup(route)
 
   @candidate = FactoryGirl.create(:candidate)
-  AppFactory.add_confirmation_event(event_name) unless event_name.nil?
+  # AppFactory.add_confirmation_event(event_name) unless event_name.nil?
   if @is_dev
     login_as(@candidate, scope: :candidate)
 

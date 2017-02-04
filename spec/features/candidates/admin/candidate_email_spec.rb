@@ -5,7 +5,6 @@ Warden.test_mode!
 feature 'Candidate email', :devise do
 
   before(:each) do
-    AppFactory.add_confirmation_events
 
     admin = FactoryGirl.create(:admin)
     login_as(admin, scope: :admin)
@@ -14,6 +13,8 @@ feature 'Candidate email', :devise do
     @candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
     @candidate_3 = create_candidate('Karen', 'Louise', 'Kristoff')
     @candidates = [@candidate_1, @candidate_2, @candidate_3]
+
+    AppFactory.add_confirmation_events
 
   end
 

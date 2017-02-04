@@ -1,7 +1,9 @@
 shared_context 'sign_an_agreement_html_erb' do
 
   before(:each) do
-    AppFactory.add_confirmation_event(@event_name)
+    AppFactory.all_i18n_confirmation_event_names.each do | i18n_name |
+      AppFactory.add_confirmation_event(I18n.t(i18n_name))
+    end
   end
 
   scenario 'user(candidate or admin) logs in, selects signing an agreement, has not signed agreement previsouly' do
