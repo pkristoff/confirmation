@@ -278,7 +278,7 @@ describe CandidateEvent, type: :model do
       @candidate_event.confirmation_event.the_way_due_date = Date.today
       @candidate_event.completed_date = Date.today
       @candidate_event.verified = true
-      expect(@candidate_event.status).to eq('Completed')
+      expect(@candidate_event.status).to eq('Verified')
 
     end
 

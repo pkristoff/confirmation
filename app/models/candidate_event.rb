@@ -64,7 +64,7 @@ class CandidateEvent < ActiveRecord::Base
     return 'Late' if late?
     return 'Awaiting Candidate' if awaiting_candidate?
     return 'Awaiting Admin' if awaiting_admin?
-    return 'Completed' if completed?
+    return 'Verified' if completed?
     'Unknown Status'
   end
 
