@@ -37,7 +37,8 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   def coming_due?
-    started? and completed_date.nil? and (due_date >= Date.today)
+    today = Date.today
+    started? and completed_date.nil? and (due_date >= today) and (due_date < today+30)
   end
 
   def completed?
@@ -59,11 +60,11 @@ class CandidateEvent < ActiveRecord::Base
 
   def status
     return 'Not Started' unless started?
+    return 'Coming Due' if coming_due?
+    return 'Late' if late?
     return 'Awaiting Candidate' if awaiting_candidate?
     return 'Awaiting Admin' if awaiting_admin?
-    return 'Coming Due' if coming_due?
     return 'Completed' if completed?
-    return 'Late' if late?
     'Unknown Status'
   end
 

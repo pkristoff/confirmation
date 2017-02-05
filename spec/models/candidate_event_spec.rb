@@ -219,4 +219,68 @@ describe CandidateEvent, type: :model do
       end
     end
   end
+
+  describe 'status' do
+    before(:each) do
+      candidate = FactoryGirl.create(:candidate)
+      event_key = I18n.t('events.sponsor_agreement')
+      AppFactory.add_confirmation_event(event_key)
+      @candidate = Candidate.find_by_account_name(candidate.account_name)
+      @candidate_event = @candidate.get_candidate_event(event_key)
+    end
+
+    it 'if nothing started then return "Not Started"' do
+      @candidate_event.confirmation_event.chs_due_date = nil
+      @candidate_event.confirmation_event.the_way_due_date = nil
+      expect(@candidate_event.status).to eq('Not Started')
+
+    end
+
+    it 'if confirmation event due date set for today and < 30 days in future but candidate has done nothing "Coming Due"' do
+      @candidate_event.confirmation_event.chs_due_date = Date.today
+      @candidate_event.confirmation_event.the_way_due_date = Date.today
+      expect(@candidate_event.status).to eq('Coming Due')
+
+    end
+
+    it 'if confirmation event due date set < 30 days in the future but candidate has done nothing "Coming Due"' do
+      @candidate_event.confirmation_event.chs_due_date = Date.today+29
+      @candidate_event.confirmation_event.the_way_due_date = Date.today+29
+      expect(@candidate_event.status).to eq('Coming Due')
+
+    end
+
+    it 'if confirmation event due date set >= to 30 days in future but candidate has done nothing "Awaiting Candidate"' do
+      @candidate_event.confirmation_event.chs_due_date = Date.today+30
+      @candidate_event.confirmation_event.the_way_due_date = Date.today+30
+      expect(@candidate_event.status).to eq('Awaiting Candidate')
+
+    end
+
+    it 'if confirmation event due date set before today but candidate has done nothing "Late"' do
+      @candidate_event.confirmation_event.chs_due_date = Date.today-1
+      @candidate_event.confirmation_event.the_way_due_date = Date.today-1
+      expect(@candidate_event.status).to eq('Late')
+
+    end
+
+    it 'if confirmation event due date set, candidate completes event and admin has not verified "Awaiting Admin"' do
+      @candidate_event.confirmation_event.chs_due_date = Date.today
+      @candidate_event.confirmation_event.the_way_due_date = Date.today
+      @candidate_event.completed_date = Date.today
+      @candidate_event.verified = false
+      expect(@candidate_event.status).to eq('Awaiting Admin')
+
+    end
+
+    it 'if confirmation event due date set, candidate completes event and admin verified "Completed"' do
+      @candidate_event.confirmation_event.chs_due_date = Date.today
+      @candidate_event.confirmation_event.the_way_due_date = Date.today
+      @candidate_event.completed_date = Date.today
+      @candidate_event.verified = true
+      expect(@candidate_event.status).to eq('Completed')
+
+    end
+
+  end
 end
