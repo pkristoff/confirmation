@@ -87,7 +87,7 @@ module ViewsHelpers
         cell_expect_function = info[3]
         if cell_access_path.empty?
           cell_expect_function.call(candidate, rendered_or_page, td_index_adj)
-        elsif confirmation_event && cell_access_path[0] === :completed_date
+        elsif confirmation_event && (cell_access_path[0] === :completed_date or cell_access_path[0] === :verified)
           text = candidate.get_candidate_event(confirmation_event.name).method(cell_access_path[0]).call
           expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: text
         else

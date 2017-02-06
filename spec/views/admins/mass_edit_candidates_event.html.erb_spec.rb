@@ -44,6 +44,7 @@ def get_columns_mass
   [
       [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
       [I18n.t('views.events.completed_date'), true, [:completed_date]],
+      [I18n.t('views.events.verified'), true, [:verified]],
       [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
       [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
       [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],

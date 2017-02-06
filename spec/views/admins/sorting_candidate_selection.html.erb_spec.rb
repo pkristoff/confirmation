@@ -35,7 +35,7 @@ def get_columns_select
   [
       [t('label.candidate_event.select'), false, '', expect_select_checkbox],
       [t('views.events.completed_date'), true, [:completed_date]],
-      # TODO: Add verified
+      [t('views.events.verified'), true, [:verified]],
       [t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
       [t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
       [t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],

@@ -22,6 +22,7 @@
 <% end %>
 <% if confirmation_event %>
     <% column_headers_in_order.push(t('views.events.completed_date')) %>
+    <% column_headers_in_order.push(t('views.events.verified')) %>
 <% end %>
 <% column_headers_in_order.push(t('label.candidate_sheet.last_name')) %>
 <% column_headers_in_order.push(t('label.candidate_sheet.first_name')) %>
@@ -69,6 +70,8 @@
           <% end %>
           <% if confirmation_event %>
               <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
+              <% td_index += 1 %>
+              <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.object.get_candidate_event(confirmation_event.name).verified %></td>
               <% td_index += 1 %>
           <% end %>
           <td id="tr<%= b.object.id %>_td<%= td_index+0 %>"><%= b.object.candidate_sheet.last_name %></td>
