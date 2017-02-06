@@ -17,8 +17,8 @@ describe 'candidates/registrations/event.html.erb' do
 
       render
 
-      expect_candidate_event(@going_out_to_eat_id, 'Going out to eat', '2016-05-31', nil, "Do this\none\ntwo\nthree\n\n", false, '', 'div')
-      expect_candidate_event(@staying_home_id, 'Staying home', '2016-04-30', nil, "Do this\none\ntwo\nthree\n\n", false, '2016-03-29', 'div')
+      expect_candidate_event(0, @going_out_to_eat_id, 'Going out to eat', '2016-05-31', nil, "Do this\none\ntwo\nthree\n\n", false, '', 'div')
+      expect_candidate_event(1, @staying_home_id, 'Staying home', '2016-04-30', nil, "Do this\none\ntwo\nthree\n\n", false, '2016-03-29', 'div')
 
     end
 
@@ -31,8 +31,8 @@ describe 'candidates/registrations/event.html.erb' do
 
       render
 
-      expect_candidate_event(@going_out_to_eat_id, 'Going out to eat', nil, '2016-05-24', "Do this\none\ntwo\nthree\n\n", false, '', 'div')
-      expect_candidate_event(@staying_home_id, 'Staying home', nil, '2016-04-01', "Do this\none\ntwo\nthree\n\n", false, '2016-03-29', 'div')
+      expect_candidate_event(0, @going_out_to_eat_id, 'Going out to eat', nil, '2016-05-24', "Do this\none\ntwo\nthree\n\n", false, '', 'div')
+      expect_candidate_event(1, @staying_home_id, 'Staying home', nil, '2016-04-01', "Do this\none\ntwo\nthree\n\n", false, '2016-03-29', 'div')
 
     end
 

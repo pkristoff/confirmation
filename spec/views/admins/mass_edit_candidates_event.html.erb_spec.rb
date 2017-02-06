@@ -29,21 +29,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
     expect(rendered).to have_field(t('views.events.completed_date'))
 
     expect_sorting_candidate_list(
-        [
-            [t('label.candidate_event.select'), false, '', expect_select_checkbox],
-            [t('views.events.completed_date'), true, [:completed_date]],
-            [t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-            [t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-            [t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-            [t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
-            [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
-            [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
-            [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
-            [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
-            [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
-            [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
-            [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))]
-        ],
+        get_columns_mass,
         @candidates,
         rendered,
         @confirmation_event)
@@ -52,4 +38,15 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
 
   end
 
+end
+
+def get_columns_mass
+  [
+      [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
+      [I18n.t('views.events.completed_date'), true, [:completed_date]],
+      [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+      [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+      [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
+  ].concat(get_event_columns)
 end

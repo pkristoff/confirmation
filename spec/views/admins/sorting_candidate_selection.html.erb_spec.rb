@@ -22,24 +22,23 @@ describe 'shared/sorting_candidate_selection' do
                                                     route: :mass_edit_candidates_event
                                                     }
 
-      expect_sorting_candidate_list([
-                                        [t('label.candidate_event.select'), false, '', expect_select_checkbox],
-                                        [t('views.events.completed_date'), true, [:completed_date]],
-                                        [t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-                                        [t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-                                        [t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-                                        [t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
-                                        [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
-                                        [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
-                                        [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
-                                        [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
-                                        [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
-                                        [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
-                                        [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))]
-                                    ],
+      @columns_select = get_columns_select
+      expect_sorting_candidate_list(@columns_select,
                                     @candidates,
                                     rendered,
                                     @confirmation_event)
     end
   end
+end
+
+def get_columns_select
+  [
+      [t('label.candidate_event.select'), false, '', expect_select_checkbox],
+      [t('views.events.completed_date'), true, [:completed_date]],
+      # TODO: Add verified
+      [t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+      [t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+      [t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+      [t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
+  ].concat(get_event_columns)
 end

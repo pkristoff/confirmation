@@ -9,6 +9,9 @@ describe 'candidates/event.html.erb' do
 
     @resource = FactoryGirl.create(:candidate)
 
+    @going_event_id = @resource.get_candidate_event('Going out to eat').id
+    @staying_event_id = @resource.get_candidate_event('Staying home').id
+
   end
 
   describe 'Form layout' do
@@ -20,8 +23,8 @@ describe 'candidates/event.html.erb' do
 
       render
 
-      expect_candidate_event(0, 'Going out to eat', '2016-05-31', nil, '', false, '')
-      expect_candidate_event(1, 'Staying home', '2016-04-30', nil, '', false, '2016-03-29')
+      expect_candidate_event(0, @going_event_id, 'Going out to eat', '2016-05-31', nil, '', false, '')
+      expect_candidate_event(1, @staying_event_id, 'Staying home', '2016-04-30', nil, '', false, '2016-03-29')
 
     end
 
@@ -37,8 +40,8 @@ describe 'candidates/event.html.erb' do
 
     render
 
-    expect_candidate_event(0, 'Going out to eat', nil, '2016-05-24', '', false, '')
-    expect_candidate_event(1, 'Staying home', nil, '2016-04-01', '', false, '2016-03-29')
+    expect_candidate_event(0, @going_event_id, 'Going out to eat', nil, '2016-05-24', '', false, '')
+    expect_candidate_event(1, @staying_event_id, 'Staying home', nil, '2016-04-01', '', false, '2016-03-29')
 
   end
 

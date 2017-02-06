@@ -75,7 +75,7 @@ module ViewsHelpers
         expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false select_column_header'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
       end
     end
-    expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size
+    expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size #  checkbox
     #expect table cells
     candidates_in_order.each_with_index do |candidate, tr_index|
       tr_id = "tr[id='candidate_list_tr_#{candidate.id}']"
@@ -96,6 +96,7 @@ module ViewsHelpers
           expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: text
         end
       end
+      expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", count: column_headers_in_order.size #  checkbox
     end
     expect(rendered_or_page).to have_css "#{table_id} tr", count: candidates_in_order.size + 1
   end
@@ -147,24 +148,21 @@ module ViewsHelpers
     expect(rendered_or_page).to have_field(I18n.t('email.salutation_label'), text: I18n.t('email.salutation_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.from_label'), text: I18n.t('email.from_initial_text'))
 
-    expect_sorting_candidate_list([
-                                      [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
-                                      [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-                                      [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-                                      [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-                                      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
-                                      [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
-                                      [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
-                                      [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
-                                      [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
-                                      [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
-                                      [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
-                                      [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))]
-                                  ],
+    expect_sorting_candidate_list(get_columns_helpers,
                                   candidates,
                                   rendered_or_page)
 
     expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.mail')}']")
+  end
+
+  def get_columns_helpers
+    [
+        [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
+        [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+        [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+        [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+        [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
+    ].concat(get_event_columns)
   end
 
   def expect_event(event_name)
@@ -184,5 +182,19 @@ module ViewsHelpers
       AppFactory.add_confirmation_event(i18n_confirmation_name) unless i18n_name == 'events.sponsor_covenant'
     end
     AppFactory.add_confirmation_event('unknown event')
+  end
+
+  def get_event_columns
+    [
+        [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
+        [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
+        [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
+        [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
+        [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
+        [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
+        [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))],
+        [I18n.t('events.retreat_weekend'), true, '', expect_event(I18n.t('events.retreat_weekend'))],
+        [I18n.t('events.parent_meeting'), true, '', expect_event(I18n.t('events.parent_meeting'))]
+    ]
   end
 end

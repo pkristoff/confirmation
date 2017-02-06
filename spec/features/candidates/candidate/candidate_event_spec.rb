@@ -23,8 +23,8 @@ feature 'Candidate event', :devise do
 
     # if this passes then going to wrong controller
     expect(page).not_to have_selector('form[id=new_admin]')
-    expect_candidate_event(@going_out_to_eat_id, 'Going out to eat', '2016-05-31', nil, 'Do this one two three', false, '', 'div')
-    expect_candidate_event(@staying_home_id, 'Staying home', '2016-04-30', nil, 'Do this one two three', false, '2016-03-29', 'div')
+    expect_candidate_event(0, @going_out_to_eat_id, 'Going out to eat', '2016-05-31', nil, 'Do this one two three', false, '', 'div')
+    expect_candidate_event(1, @staying_home_id, 'Staying home', '2016-04-30', nil, 'Do this one two three', false, '2016-03-29', 'div')
   end
 
   scenario 'candidate changes email address' do
@@ -34,8 +34,8 @@ feature 'Candidate event', :devise do
 
     # if this passes then going to wrong controller
     expect(page).not_to have_selector('form[id=new_admin]')
-    expect_candidate_event(@going_out_to_eat_id, 'Going out to eat', nil, '2016-05-24', 'Do this one two three', false, '', 'div')
-    expect_candidate_event(@staying_home_id, 'Staying home', nil, '2016-04-01', 'Do this one two three', false, '2016-03-29', 'div')
+    expect_candidate_event(0, @going_out_to_eat_id, 'Going out to eat', nil, '2016-05-24', 'Do this one two three', false, '', 'div')
+    expect_candidate_event(1, @staying_home_id, 'Staying home', nil, '2016-04-01', 'Do this one two three', false, '2016-03-29', 'div')
   end
 
 end

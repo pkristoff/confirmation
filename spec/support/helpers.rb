@@ -42,15 +42,15 @@ def expect_download_button(name)
   expect(page).to have_button(I18n.t('views.common.download'))
 end
 
-def expect_candidate_event(confirmation_event_id, name, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
+def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
 
   page_or_rendered = (self.respond_to?(:page) ? page : rendered)
   # puts (self.respond_to?(:page) ? page.html : rendered)
 
   if id_css === 'fieldset'
-    name_selector = "fieldset[id=candidate_event_#{confirmation_event_id}_name]"
-    verified_selector = "candidate_candidate_events_attributes_#{confirmation_event_id}_verified"
-    completed_selector = "candidate_candidate_events_attributes_#{confirmation_event_id}_completed_date"
+    name_selector = "fieldset[id=event_id_#{confirmation_event_id}]"
+    verified_selector = "candidate_candidate_events_attributes_#{index}_verified"
+    completed_selector = "candidate_candidate_events_attributes_#{index}_completed_date"
   else
     name_selector = "div[id=candidate_event_#{confirmation_event_id}_header]"
     verified_selector = "div[id=candidate_event_#{confirmation_event_id}_verified]"

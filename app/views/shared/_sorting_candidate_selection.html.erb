@@ -34,6 +34,8 @@
 <% column_headers_in_order.push(I18n.t('events.confirmation_name')) %>
 <% column_headers_in_order.push(I18n.t('events.sponsor_agreement')) %>
 <% column_headers_in_order.push(I18n.t('events.christian_ministry')) %>
+<% column_headers_in_order.push(I18n.t('events.retreat_weekend')) %>
+<% column_headers_in_order.push(I18n.t('events.parent_meeting')) %>
 
 <div class="container">
   <label for="total_selected">Total Selected:</label> <input type="text" readonly="true" id="total_selected" value="0"></input>
@@ -80,6 +82,8 @@
           <td id="tr<%= b.object.id %>_td<%= td_index+8 %>"><%= link_to "#{b.object.get_candidate_event(t('events.confirmation_name')).status}", event_with_picture_path(b.object.id, Event::Route::CONFIRMATION_NAME) %></td>
           <td id="tr<%= b.object.id %>_td<%= td_index+9 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_agreement')).status}", sponsor_agreement_path(b.object.id) %></td>
           <td id="tr<%= b.object.id %>_td<%= td_index+10 %>"><%= link_to "#{b.object.get_candidate_event(t('events.christian_ministry')).status}", event_with_picture_path(b.object.id, Event::Route::CHRISTIAN_MINISTRY) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+11 %>"><%= link_to "#{b.object.get_candidate_event(t('events.retreat_weekend')).status}", event_candidate_path(b.object, anchor: "event_id_#{b.object.get_candidate_event(t('events.retreat_weekend')).id}") %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+12 %>"><%= link_to "#{b.object.get_candidate_event(t('events.parent_meeting')).status}", event_candidate_path(b.object, anchor: "event_id_#{b.object.get_candidate_event(t('events.parent_meeting')).id}") %></td>
         </tr>
     <% end %>
     </tbody>
