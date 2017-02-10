@@ -109,7 +109,8 @@ class CandidateImport
           if events.size === ConfirmationEvent.all.size
             event = events[split[1].to_i]
             val = event.send(split[2])
-            Rails.logger.info "getColumnValue for event=#{event.name} attr=#{split[2]} val=#{val}"
+            cand_event = candidate.get_candidate_event(event.name)
+            Rails.logger.info "getColumnValue for candidate=#{candidate.account_name} event=#{event.name} attr=#{split[2]} val=#{val} cand_event=#{split[2] === 'verified' ? cand_event.verified : cand_event.completed_date}"
             val
           else
             'something wrong with candidate_events'
