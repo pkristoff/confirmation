@@ -68,7 +68,7 @@ class CandidateImport
       images = []
       sheet.add_row candidate_columns
       Candidate.order(:account_name).each do |candidate|
-        events = candidate.candidate_events.to_a
+        events = get_confirmation_events_sorted
         sheet.add_row (candidate_columns.map do |col|
           if ['baptismal_certificate.certificate_filename', 'baptismal_certificate.certificate_content_type', 'baptismal_certificate.certificate_file_contents'].include?(col)
             certificate_image_column(candidate, col, dir, images)
@@ -85,7 +85,7 @@ class CandidateImport
     p
   end
 
-  def get_column_value(candidate, col, events)
+  def get_column_value(candidate, col, confirmation_events)
     split = col.split('.')
     case split.size
       when 1
@@ -106,15 +106,11 @@ class CandidateImport
             candidate_send_0.send(split[1]).send(split[2])
           end
         else
-          if events.size === ConfirmationEvent.all.size
-            event = events[split[1].to_i]
-            val = event.send(split[2])
-            cand_event = candidate.get_candidate_event(event.name)
-            Rails.logger.info "getColumnValue for candidate=#{candidate.account_name} event=#{event.name} attr=#{split[2]} val=#{val} cand_event=#{split[2] === 'verified' ? cand_event.verified : cand_event.completed_date}"
-            val
-          else
-            'something wrong with candidate_events'
-          end
+          confirmation_event = confirmation_events[split[1].to_i]
+          cand_event = candidate.get_candidate_event(confirmation_event.name)
+          val = cand_event.send(split[2])
+          Rails.logger.info "getColumnValue for candidate=#{candidate.account_name} event=#{confirmation_event.name} attr=#{split[2]} val=#{val} cand_event=#{split[2] === 'verified' ? cand_event.verified : cand_event.completed_date}"
+          val
         end
       else
         "Unexpected split size: #{split.size}"
