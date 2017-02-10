@@ -75,7 +75,7 @@ class CandidateImport
           else
             # puts col
             val = get_column_value(candidate, col, events)
-            Rails.logger.info "col=#{col} val=#{val}"
+            # Rails.logger.info "col=#{col} val=#{val}"
             val
           end
         end)
@@ -109,7 +109,7 @@ class CandidateImport
           confirmation_event = confirmation_events[split[1].to_i]
           cand_event = candidate.get_candidate_event(confirmation_event.name)
           val = cand_event.send(split[2])
-          Rails.logger.info "getColumnValue for candidate=#{candidate.account_name} event=#{confirmation_event.name} attr=#{split[2]} val=#{val} cand_event=#{split[2] === 'verified' ? cand_event.verified : cand_event.completed_date}"
+          # Rails.logger.info "getColumnValue for candidate=#{candidate.account_name} event=#{confirmation_event.name} attr=#{split[2]} val=#{val} cand_event=#{split[2] === 'verified' ? cand_event.verified : cand_event.completed_date}"
           val
         end
       else
@@ -250,7 +250,7 @@ class CandidateImport
     columns.delete(:password_confirmation)
     get_confirmation_events_sorted.each_with_index do |confirmation_event, index|
 
-      Rails.logger.info "xlsx_columns: confirmation_event=#{confirmation_event.name} val=#{index}"
+      # Rails.logger.info "xlsx_columns: confirmation_event=#{confirmation_event.name} val=#{index}"
 
       columns << "candidate_events.#{index}.completed_date"
       columns << "candidate_events.#{index}.verified"
@@ -379,7 +379,9 @@ class CandidateImport
       row.each_with_index do |cell, index|
         column_name_split = header_row[index].split('.')
         unless cell.nil?
-          confirmation_event.send("#{column_name_split[0]}=", cell)
+          unless column_name_split[0] === 'index'
+            confirmation_event.send("#{column_name_split[0]}=", cell)
+          end
         end
       end
       confirmation_event.save
