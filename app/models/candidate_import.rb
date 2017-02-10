@@ -74,41 +74,47 @@ class CandidateImport
             certificate_image_column(candidate, col, dir, images)
           else
             # puts col
-            split = col.split('.')
-            case split.size
-              when 1
-                candidate.send(col)
-              when 2
-                candidate_send_0 = candidate.send(split[0])
-                if candidate_send_0.nil?
-                  nil
-                else
-                  candidate_send_0.send(split[1])
-                end
-              when 3
-                if split[0] != 'candidate_events'
-                  candidate_send_0 = candidate.send(split[0])
-                  if candidate_send_0.nil?
-                    nil
-                  else
-                    candidate_send_0.send(split[1]).send(split[2])
-                  end
-                else
-                  if events.size >= ConfirmationEvent.all.size
-                    events[split[1].to_i].send(split[2])
-                  else
-                    'something wrong with candidate_events'
-                  end
-                end
-              else
-                "Unexpected split size: #{split.size}"
-            end
+            val = get_coclumn_value(candidate, col, events)
+            Rails.logger.info "col=#{col} val=#{val}"
+            val
           end
         end)
       end
       process_images(images)
     end
     p
+  end
+
+  def get_coclumn_value(candidate, col, events)
+    split = col.split('.')
+    case split.size
+      when 1
+        candidate.send(col)
+      when 2
+        candidate_send_0 = candidate.send(split[0])
+        if candidate_send_0.nil?
+          nil
+        else
+          candidate_send_0.send(split[1])
+        end
+      when 3
+        if split[0] != 'candidate_events'
+          candidate_send_0 = candidate.send(split[0])
+          if candidate_send_0.nil?
+            nil
+          else
+            candidate_send_0.send(split[1]).send(split[2])
+          end
+        else
+          if events.size >= ConfirmationEvent.all.size
+            events[split[1].to_i].send(split[2])
+          else
+            'something wrong with candidate_events'
+          end
+        end
+      else
+        "Unexpected split size: #{split.size}"
+    end
   end
 
   def certificate_image_column(candidate, col, dir, images)
@@ -126,7 +132,8 @@ class CandidateImport
     confirmation_event_columns = xlsx_conf_event_columns
     wb.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
       sheet.add_row confirmation_event_columns
-      ConfirmationEvent.all.each do |confirmation_event|
+      ConfirmationEvent.all.each_with_index do |confirmation_event, index|
+        # puts "Event: #{confirmation_event.name} index:#{index}"
         sheet.add_row (confirmation_event_columns.map do |col|
           confirmation_event.send(col)
         end)
