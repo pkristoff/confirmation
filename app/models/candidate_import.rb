@@ -67,14 +67,14 @@ class CandidateImport
     wb.add_worksheet(name: @worksheet_name) do |sheet|
       images = []
       sheet.add_row candidate_columns
-      Candidate.all.each do |candidate|
+      Candidate.order(:account_name).each do |candidate|
         events = candidate.candidate_events.to_a
         sheet.add_row (candidate_columns.map do |col|
           if ['baptismal_certificate.certificate_filename', 'baptismal_certificate.certificate_content_type', 'baptismal_certificate.certificate_file_contents'].include?(col)
             certificate_image_column(candidate, col, dir, images)
           else
             # puts col
-            val = get_coclumn_value(candidate, col, events)
+            val = get_column_value(candidate, col, events)
             Rails.logger.info "col=#{col} val=#{val}"
             val
           end
@@ -85,7 +85,7 @@ class CandidateImport
     p
   end
 
-  def get_coclumn_value(candidate, col, events)
+  def get_column_value(candidate, col, events)
     split = col.split('.')
     case split.size
       when 1
@@ -106,8 +106,11 @@ class CandidateImport
             candidate_send_0.send(split[1]).send(split[2])
           end
         else
-          if events.size >= ConfirmationEvent.all.size
-            events[split[1].to_i].send(split[2])
+          if events.size === ConfirmationEvent.all.size
+            event = events[split[1].to_i]
+            val = event.send(split[2])
+            Rails.logger.info "getColumnValue for event=#{event.name} attr=#{split[2]} val=#{val}"
+            val
           else
             'something wrong with candidate_events'
           end
@@ -132,13 +135,21 @@ class CandidateImport
     confirmation_event_columns = xlsx_conf_event_columns
     wb.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
       sheet.add_row confirmation_event_columns
-      ConfirmationEvent.all.each_with_index do |confirmation_event, index|
+      get_confirmation_events_sorted.each_with_index do |confirmation_event, index|
         # puts "Event: #{confirmation_event.name} index:#{index}"
         sheet.add_row (confirmation_event_columns.map do |col|
-          confirmation_event.send(col)
+          if col === 'index'
+            index
+          else
+            confirmation_event.send(col)
+          end
         end)
       end
     end
+  end
+
+  def get_confirmation_events_sorted
+    ConfirmationEvent.order(:name)
   end
 
   def self.image_filename(candidate, dir)
@@ -240,7 +251,10 @@ class CandidateImport
     get_columns(params, columns)
     columns.delete(:password)
     columns.delete(:password_confirmation)
-    ConfirmationEvent.all.each_with_index do |confirmation_event, index|
+    get_confirmation_events_sorted.each_with_index do |confirmation_event, index|
+
+      Rails.logger.info "xlsx_columns: confirmation_event=#{confirmation_event.name} val=#{index}"
+
       columns << "candidate_events.#{index}.completed_date"
       columns << "candidate_events.#{index}.verified"
     end
@@ -249,7 +263,7 @@ class CandidateImport
 
   # test only
   def xlsx_conf_event_columns
-    %w{name the_way_due_date chs_due_date instructions}
+    %w{name index the_way_due_date chs_due_date instructions}
   end
 
   private
