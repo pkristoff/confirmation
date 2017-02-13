@@ -8,20 +8,23 @@ class Candidate < ActiveRecord::Base
   has_many(:candidate_events)
   accepts_nested_attributes_for(:candidate_events, allow_destroy: true)
 
-  belongs_to(:candidate_sheet, validate: true)
+  belongs_to(:candidate_sheet, validate: true, dependent: :destroy)
   accepts_nested_attributes_for(:candidate_sheet, allow_destroy: true)
 
-  belongs_to(:baptismal_certificate, validate: false)
+  belongs_to(:baptismal_certificate, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:baptismal_certificate, allow_destroy: true)
 
-  belongs_to(:sponsor_covenant, validate: false)
+  belongs_to(:sponsor_covenant, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:sponsor_covenant, allow_destroy: true)
 
-  belongs_to(:pick_confirmation_name, validate: false)
+  belongs_to(:pick_confirmation_name, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:pick_confirmation_name, allow_destroy: true)
 
-  belongs_to(:christian_ministry, validate: false)
+  belongs_to(:christian_ministry, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:christian_ministry, allow_destroy: true)
+
+  belongs_to(:retreat_verification, validate: false, dependent: :destroy)
+  accepts_nested_attributes_for(:retreat_verification, allow_destroy: true)
 
   after_initialize :build_associations, :if => :new_record?
 
@@ -117,6 +120,7 @@ class Candidate < ActiveRecord::Base
     sponsor_covenant || create_sponsor_covenant
     pick_confirmation_name || create_pick_confirmation_name
     christian_ministry || create_christian_ministry
+    retreat_verification || create_retreat_verification
     true
   end
 
@@ -130,7 +134,8 @@ class Candidate < ActiveRecord::Base
      sponsor_covenant_attributes: SponsorCovenant.get_permitted_params,
      pick_confirmation_name_attributes: PickConfirmationName.get_permitted_params,
      christian_ministry_attributes: ChristianMinistry.get_permitted_params,
-     candidate_events_attributes: CandidateEvent.get_permitted_params
+     candidate_events_attributes: CandidateEvent.get_permitted_params,
+     retreat_verification_attributes: RetreatVerification.get_permitted_params
     ]
   end
 
@@ -182,6 +187,8 @@ class Candidate < ActiveRecord::Base
         pick_confirmation_name
       when Event::Route::SPONSOR_COVENANT
         sponsor_covenant
+      when Event::Route::RETREAT_VERIFICATION
+        retreat_verification
       when Event::Other::CANDIDATE_INFORMATION_SHEET
         candidate_sheet
       when Event::Other::PARENT_INFORMATION_MEETING, Event::Other::ATTEND_RETREAT, Event::Other::CANDIDATE_COVENANT_AGREEMENT, Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION

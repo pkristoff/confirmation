@@ -49,7 +49,7 @@ en:
     verify: 'Verify'
   events:
     parent_meeting: 'Parent Information Meeting'
-    retreat_weekend: 'Attend Retreat'
+    retreat_verification: 'Attend Retreat'
     candidate_covenant_agreement: 'Candidate Covenant Agreement'
     candidate_information_sheet: 'Candidate Information Sheet'
     baptismal_certificate: 'Baptismal Certificate'
@@ -74,10 +74,34 @@ en:
       father: 'Father name'
       mother: 'Mother name'
     events:
+    retreat_verification:
+      dates: 'Dates'
+      info: 'Info'
+      scan: 'Scan'
     sponsor_covenant:
       sponsor_name: 'Sponsor name'
       sponsor_church: 'Sponsor church'
   label:
+    baptismal_certificate:
+      baptized_at_stmm: 'I was baptized at Saint Mary Magdalene'
+      baptismal_certificate:
+        baptismal_date: 'Baptismal date'
+        birth_date: 'Birth date'
+        certificate_picture: 'Scanned baptismal certificate'
+        church_name: 'Church name'
+        church_address:
+          street_1: 'Street 1'
+          street_2: 'Street 2'
+          city: 'City'
+          state: 'State'
+          zip_code: 'Zip code'
+        father_first: 'Father first'
+        father_middle: 'Father middle'
+        father_last: 'Father last'
+        mother_first: 'Mother first'
+        mother_middle: 'Mother middle'
+        mother_maiden: 'Mother maiden'
+        mother_last: 'Mother last'
     candidate:
       account_name: 'Account name'
     candidate_event:
@@ -116,30 +140,28 @@ en:
       the_way_due_date: 'The Way due date'
       chs_due_date: 'Catholic high schoolc due date'
       instructions: 'Instructions'
+    retreat_verification:
+      retreat_held_at_stmm: 'Did you attend a St. Mary Magdalene confirmation retreat?'
+      start_date: 'Retreat start date'
+      end_date: 'Retreat end date'
+      end_date: 'Retreat end date'
+      who_held_retreat: 'Who held the retreat? (such as St. Andrews, CGHS, etc.)'
+      where_held_retreat: 'Where was the retreat held?'
+      retreat_verification_picture: 'Scanned retreat form'
+    sidebar:
+      parent_meeting: 'Parent Information Meeting'
+      retreat_verification: 'Attend Retreat'
+      candidate_covenant_agreement: 'Covenant Agreement'
+      candidate_information_sheet: 'Information Sheet'
+      baptismal_certificate: 'Baptismal Certificate'
+      sponsor_covenant: 'Sponsor Covenant'
+      confirmation_name: 'Confirmation Name'
+      sponsor_agreement: 'Sponsor Conversation'
+      christian_ministry: 'Christian Ministry'
     sign_agreement:
       signed_agreement: 'By checking you agree to the above.'
     sponsor_agreement:
       sponsor_agreement: 'By checking you agree to the above.'
-    baptismal_certificate:
-      baptized_at_stmm: 'I was baptized at Saint Mary Magdalene'
-      baptismal_certificate:
-        baptismal_date: 'Baptismal date'
-        birth_date: 'Birth date'
-        certificate_picture: 'Scanned baptismal certificate'
-        church_name: 'Church name'
-        church_address:
-          street_1: 'Street 1'
-          street_2: 'Street 2'
-          city: 'City'
-          state: 'State'
-          zip_code: 'Zip code'
-        father_first: 'Father first'
-        father_middle: 'Father middle'
-        father_last: 'Father last'
-        mother_first: 'Mother first'
-        mother_middle: 'Mother middle'
-        mother_maiden: 'Mother maiden'
-        mother_last: 'Mother last'
     sponsor_covenant:
       sponsor_attends_stmm: 'Sponsor registered at Saint Mary Magdalene'
       sponsor_church: 'Sponsor church'

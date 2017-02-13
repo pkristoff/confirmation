@@ -146,7 +146,7 @@ class AppFactory
         # matches 20160603111604_add_parent_information_meeting.rb
         'events.parent_meeting',
         # matches 20160603161241_add_attend_retreat.rb
-        'events.retreat_weekend',
+        'events.retreat_verification',
         # matches 20160701175828_add_covenant_agreement.rb
         'events.candidate_covenant_agreement',
         # matches 20160712191417_add_candidate_information_sheet.rb

@@ -1,0 +1,64 @@
+<%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
+
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'top-update' %>
+    </div>
+
+    <%= f.fields_for :retreat_verification do |rv_fields| %>
+
+        <div>
+          rv_fields.object.retreat_held_at_stmm=<%= rv_fields.object.retreat_held_at_stmm %>
+        </div>
+
+        <div class="field">
+          <%= rv_fields.check_box :retreat_held_at_stmm, onclick: 'confirmation_toggle().toggle_top(\'#retreat_verification-top\')' %>
+          <%= rv_fields.label :retreat_held_at_stmm, t('label.retreat_verification.retreat_held_at_stmm') %>
+        </div>
+
+        <div id="retreat_verification-top" class="<%= rv_fields.object.retreat_held_at_stmm ? 'hide-div' : 'show-div' %>">
+          <%= field_set_tag t('field_set.retreat_verification.dates'), class: 'fieldset' do %>
+              <div class="field">
+                <%= rv_fields.label :start_date, t('label.retreat_verification.start_date') %>
+                <br/>
+                <%= rv_fields.date_field :start_date %>
+              </div>
+              <div class="field">
+                <%= rv_fields.label :end_date, t('label.retreat_verification.end_date') %>
+                <br/>
+                <%= rv_fields.date_field :end_date %>
+              </div>
+          <% end %>
+
+          <%= field_set_tag t('field_set.retreat_verification.info'), class: 'fieldset' do %>
+              <div class="fieldset-div">
+                <div class="field">
+                  <%= rv_fields.label :who_held_retreat, t('label.retreat_verification.who_held_retreat') %>
+                  <br/>
+                  <%= rv_fields.text_field :who_held_retreat %>
+                </div>
+                <div class="field">
+                  <%= rv_fields.label :where_held_retreat, t('label.retreat_verification.where_held_retreat') %>
+                  <br/>
+                  <%= rv_fields.text_field :where_held_retreat %>
+                </div>
+              </div>
+          <% end %>
+          <%= field_set_tag t('field_set.retreat_verification.scan'), class: 'fieldset' do %>
+              <%= rv_fields.file_field :retreat_verification_picture %>
+              <%= rv_fields.label :retreat_verification_picture, t('label.retreat_verification.retreat_verification_picture') %>
+
+              <% unless event_association.retreat_filename.nil? %>
+                  <div>
+                    <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"/>
+                  </div>
+              <% end %>
+
+          <% end %>
+        </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+    </div>
+
+<% end %>

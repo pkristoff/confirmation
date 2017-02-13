@@ -83,12 +83,12 @@ class CandidateEvent < ActiveRecord::Base
         :confirmation_name
       when I18n.t('events.parent_meeting')
         :parent_meeting
-      when I18n.t('events.retreat_weekend')
-        :retreat_weekend
       when I18n.t('events.sponsor_agreement')
         :sponsor_agreement
       when I18n.t('events.sponsor_covenant')
         :sponsor_covenant
+      when I18n.t('events.retreat_verification')
+        :retreat_verification
       else
         raise "Unknown event to route: #{name}"
     end

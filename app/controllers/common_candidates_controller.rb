@@ -41,8 +41,15 @@ class CommonCandidatesController < ApplicationController
           setup_file_params(christian_ministry_params[:christian_ministry_picture], christian_ministry, 'christian_ministry', christian_ministry_params)
 
           render_called = event_with_picture_update_private(ChristianMinistry)
+
+        when Event::Route::RETREAT_VERIFICATION
+          retreat_verification = @candidate.retreat_verification
+          retreat_verification_params = params[:candidate][:retreat_verification_attributes]
+          setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, 'retreat_verification', retreat_verification_params)
+
+          render_called = event_with_picture_update_private(RetreatVerification)
         else
-          flash[:alert] = "Unknowwn event_name: #{event_name}"
+          flash[:alert] = "Unknown event_name: #{event_name}"
       end
     else
       flash[:alert] = I18n.t('messages.unknown_parameter', name: 'candidate')
@@ -90,6 +97,8 @@ class CommonCandidatesController < ApplicationController
         association = @candidate.sponsor_covenant
       when Event::Route::CHRISTIAN_MINISTRY
         association = @candidate.christian_ministry
+      when Event::Route::RETREAT_VERIFICATION
+        association = @candidate.retreat_verification
       else
         flash['alert'] = "Unknown event_name #{params[:event_name]}"
     end
@@ -244,7 +253,9 @@ class CommonCandidatesController < ApplicationController
       else
         association_params[filename_param] = File.basename(file.original_filename)
         association_params[content_type_param] = file.content_type
-        association_params[file_contents_param] = file.read
+        # the encode here is to fix error with this message: ArgumentError: string contains null byte
+        # i know i fixed this before but cannot not figure out how.
+        association_params[file_contents_param] = Base64.encode64(file.read)
       end
     else
       association_params[filename_param] = filename

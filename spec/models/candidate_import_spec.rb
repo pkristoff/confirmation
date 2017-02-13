@@ -367,6 +367,7 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.city')].value).to eq('Apex')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.state')].value).to eq('NC')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.zip_code')].value).to eq(27502)
+
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.birth_date')].value.to_s).to eq('1983-08-20')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.baptismal_date')].value.to_s).to eq('1983-10-20')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_name')].value).to eq('St. Francis')
@@ -386,6 +387,15 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_content_type')].value).to eq('temp/c1_actions.png')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq('temp/c1_actions.png')
 
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_held_at_stmm')].value).to eq(0)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.start_date')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.end_date')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.who_held_retreat')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.where_held_retreat')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.certificate_file_contents')].value).to eq(0)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_content_type')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_file_content')].value).to eq(nil)
+
 
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.0.completed_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.0.verified')].value).to eq(0)
@@ -394,7 +404,7 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.1.verified')].value).to eq(0)
 
   # TODO: add other 31 tests
-  expect(c1_row.size).to eq(80)
+  expect(c1_row.size).to eq(88)
 
   expect(c2_row.cells[0].value).to eq('c2')
 
@@ -448,11 +458,20 @@ def expect_candidates_empty(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_content_type')].value).to eq('temp/c1_')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq('temp/c1_')
 
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_held_at_stmm')].value).to eq(0)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.start_date')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.end_date')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.who_held_retreat')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.where_held_retreat')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.certificate_file_contents')].value).to eq(0)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_content_type')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_file_content')].value).to eq(nil)
+
   (0..ConfirmationEvent.all.length-1).each do |index|
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(80)
+  expect(c1_row.size).to eq(88)
 end
 
 def expect_confirmation_events_empty(ws, candidate_import)
@@ -505,8 +524,8 @@ def expect_import_with_events
   expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).the_way_due_date.to_s).to eq('2016-06-30')
   expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).chs_due_date.to_s).to eq('2016-06-03')
 
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).the_way_due_date.to_s).to eq('2016-05-31')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_weekend')).chs_due_date.to_s).to eq('2016-05-03')
+  expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_verification')).the_way_due_date.to_s).to eq('2016-05-31')
+  expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_verification')).chs_due_date.to_s).to eq('2016-05-03')
 
   expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement')).the_way_due_date.to_s).to eq('2016-07-31')
   expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement')).chs_due_date.to_s).to eq('2016-07-13')
@@ -603,7 +622,7 @@ def get_foo_bar
            due_date: '2016-02-29',
            verified: false},
           {completed_date: '', # Attend Retreat 5/31/16
-           name: I18n.t('events.retreat_weekend'),
+           name: I18n.t('events.retreat_verification'),
            due_date: '2016-05-31',
            verified: false},
           {completed_date: '', # Parent Information Meeting 6/30/16
@@ -687,7 +706,7 @@ def get_paul_kristoff
            name: I18n.t('events.christian_ministry'),
            due_date: '2017-01-31',
            verified: false},
-          {name: I18n.t('events.retreat_weekend'),
+          {name: I18n.t('events.retreat_verification'),
            completed_date: '2016-05-02', # Attend Retreat 5/31/16
            due_date: '2016-05-31',
            verified: true},
@@ -725,7 +744,7 @@ def get_vicki_kristoff
            due_date: '2016-02-16',
            verified: false},
           {completed_date: '', # Attend Retreat
-           name: I18n.t('events.retreat_weekend'),
+           name: I18n.t('events.retreat_verification'),
            due_date: '2016-05-03',
            verified: false},
           {completed_date: '', # Parent Information Meeting

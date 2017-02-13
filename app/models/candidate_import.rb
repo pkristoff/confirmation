@@ -70,7 +70,7 @@ class CandidateImport
       Candidate.order(:account_name).each do |candidate|
         events = get_confirmation_events_sorted
         sheet.add_row (candidate_columns.map do |col|
-          if ['baptismal_certificate.certificate_filename', 'baptismal_certificate.certificate_content_type', 'baptismal_certificate.certificate_file_contents'].include?(col)
+          if %w(baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents).include?(col)
             certificate_image_column(candidate, col, dir, images)
           else
             # puts col
@@ -108,9 +108,7 @@ class CandidateImport
         else
           confirmation_event = confirmation_events[split[1].to_i]
           cand_event = candidate.get_candidate_event(confirmation_event.name)
-          val = cand_event.send(split[2])
-          # Rails.logger.info "getColumnValue for candidate=#{candidate.account_name} event=#{confirmation_event.name} attr=#{split[2]} val=#{val} cand_event=#{split[2] === 'verified' ? cand_event.verified : cand_event.completed_date}"
-          val
+          cand_event.send(split[2])
         end
       else
         "Unexpected split size: #{split.size}"
@@ -179,14 +177,7 @@ class CandidateImport
   def remove_all_candidates
 
     Candidate.all.each do |candidate|
-      candidate.delete
-    end
-
-    [CandidateSheet, BaptismalCertificate, SponsorCovenant,
-     PickConfirmationName, ChristianMinistry, SponsorCovenant].each do |clazz|
-      clazz.all.each do |assoc|
-        assoc.delete
-      end
+      candidate.destroy
     end
 
   end
@@ -200,7 +191,9 @@ class CandidateImport
     Admin.all.each do |admin|
       admin.delete
     end
+
     AppFactory.add_confirmation_events
+
     AppFactory.generate_seed
   end
 
@@ -209,7 +202,7 @@ class CandidateImport
       imported_candidates.each(&:save!)
       true
     else
-      imported_candidates.each_with_index do |candidateImport, index|
+      imported_candidates.each do |candidateImport|
         candidateImport.errors.full_messages.each do |message|
           errors.add :base, "Row #{@candidate_to_row[candidateImport]}: #{message}"
         end
@@ -248,10 +241,7 @@ class CandidateImport
     get_columns(params, columns)
     columns.delete(:password)
     columns.delete(:password_confirmation)
-    get_confirmation_events_sorted.each_with_index do |confirmation_event, index|
-
-      # Rails.logger.info "xlsx_columns: confirmation_event=#{confirmation_event.name} val=#{index}"
-
+    (0..get_confirmation_events_sorted.length-1).each do |index|
       columns << "candidate_events.#{index}.completed_date"
       columns << "candidate_events.#{index}.verified"
     end
@@ -395,7 +385,7 @@ class CandidateImport
       filename = entry[:filename]
       baptismal_certificate = entry[:info]
       begin
-        f = File.new filename, "wb"
+        f = File.new filename, 'wb'
         f.write baptismal_certificate.certificate_file_contents
       ensure
         f.close
@@ -422,14 +412,14 @@ class CandidateImport
           parent_email = spreadsheet_row[3].nil? ? '' : spreadsheet_row[3].strip
           cardinal_gibbons = spreadsheet_row[4].nil? ? '' : spreadsheet_row[4].strip
 
-          candidate_sheet_params = ActionController::Parameters.new()
+          candidate_sheet_params = ActionController::Parameters.new
           params = ActionController::Parameters.new(candidate: ActionController::Parameters.new(candidate_sheet_attributes: candidate_sheet_params))
 
           candidate_sheet_params[:last_name] = last_name
           candidate_sheet_params[:first_name] = first_name
           candidate_sheet_params[:grade] = grade.empty? ? 10 : grade.slice(/^\D*[\d]*/)
           clean_item = ActionView::Base.full_sanitizer.sanitize(parent_email)
-          unless (clean_item.empty?)
+          unless clean_item.empty?
             item_split = clean_item.split(',')
             candidate_sheet_params[:parent_email_1] = item_split[0].strip
             candidate_sheet_params[:parent_email_2] = item_split[1].strip if item_split.size > 1
@@ -456,10 +446,6 @@ class CandidateImport
     is_zip = !uploaded_file.respond_to?(:original_filename)
     path = is_zip ? uploaded_file : uploaded_file.path
     case File.extname(is_zip ? File.basename(uploaded_file) : uploaded_file.original_filename)
-      when '.csv' then
-        Roo::Csv.new(path)
-      when '.xls' then
-        Roo::Excel.new(path)
       when '.xlsx' then
         Roo::Excelx.new(path, file_warning: :ignore)
       else
@@ -469,8 +455,8 @@ class CandidateImport
 
   def remove_all_confirmation_events
 
-    ConfirmationEvent.all.each do |candidate|
-      candidate.delete
+    ConfirmationEvent.all.each do |confirmation_event|
+      confirmation_event.delete
     end
 
   end

@@ -126,7 +126,7 @@ describe Candidate do
       end
 
       it 'two candidate_event with all nil' do
-        @candidates_with_data.each_with_index do | data, index |
+        @candidates_with_data.each do | data |
           # puts "index: #{index}"
           candidate = data[:candidate]
           result = data[:result]
@@ -161,6 +161,36 @@ describe Candidate do
       end
       candidate
     end
+  end
+
+  describe 'delete associations' do
+    it "should delete associations when deleted" do
+      candidate = FactoryGirl.create(:candidate)
+
+      expect_event_association(candidate.baptismal_certificate, 1)
+      expect_event_association(candidate.candidate_sheet, 1)
+      expect_event_association(candidate.sponsor_covenant, 1)
+      expect_event_association(candidate.pick_confirmation_name, 1)
+      expect_event_association(candidate.christian_ministry, 1)
+      expect_event_association(candidate.retreat_verification, 1)
+      expect_event_association(candidate.sponsor_covenant, 1)
+
+      candidate.destroy
+
+      expect_event_association(candidate.baptismal_certificate, 0)
+      expect_event_association(candidate.candidate_sheet, 0)
+      expect_event_association(candidate.sponsor_covenant, 0)
+      expect_event_association(candidate.pick_confirmation_name, 0)
+      expect_event_association(candidate.christian_ministry, 0)
+      expect_event_association(candidate.retreat_verification, 0)
+      expect_event_association(candidate.sponsor_covenant, 0)
+    end
+  end
+
+  def expect_event_association(assoc_from_candidate, size)
+    event_assoc = assoc_from_candidate.class.all
+    expect(event_assoc.size).to eq(size)
+    expect(assoc_from_candidate).to eq(event_assoc.first) if size === 1
   end
 
 end

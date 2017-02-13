@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203130946) do
+ActiveRecord::Schema.define(version: 20170207005903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 20170203130946) do
     t.boolean  "sponsor_agreement",         default: false, null: false
     t.integer  "christian_ministry_id"
     t.integer  "candidate_sheet_id"
+    t.integer  "retreat_verification_id"
   end
 
   add_index "candidates", ["account_name"], name: "index_candidates_on_account_name", unique: true, using: :btree
@@ -122,6 +123,7 @@ ActiveRecord::Schema.define(version: 20170203130946) do
   add_index "candidates", ["christian_ministry_id"], name: "index_candidates_on_christian_ministry_id", using: :btree
   add_index "candidates", ["pick_confirmation_name_id"], name: "index_candidates_on_pick_confirmation_name_id", using: :btree
   add_index "candidates", ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true, using: :btree
+  add_index "candidates", ["retreat_verification_id"], name: "index_candidates_on_retreat_verification_id", using: :btree
   add_index "candidates", ["sponsor_covenant_id"], name: "index_candidates_on_sponsor_covenant_id", using: :btree
 
   create_table "christian_ministries", force: :cascade do |t|
@@ -159,6 +161,19 @@ ActiveRecord::Schema.define(version: 20170203130946) do
     t.datetime "updated_at",                           null: false
   end
 
+  create_table "retreat_verifications", force: :cascade do |t|
+    t.boolean  "retreat_held_at_stmm", default: false, null: false
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "who_held_retreat"
+    t.string   "where_held_retreat"
+    t.string   "retreat_filename"
+    t.string   "retreat_content_type"
+    t.string   "retreat_file_content"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
   create_table "sponsor_covenants", force: :cascade do |t|
     t.string   "sponsor_name"
     t.boolean  "sponsor_attends_stmm",              default: true, null: false
@@ -187,5 +202,6 @@ ActiveRecord::Schema.define(version: 20170203130946) do
   add_foreign_key "candidates", "candidate_sheets"
   add_foreign_key "candidates", "christian_ministries"
   add_foreign_key "candidates", "pick_confirmation_names"
+  add_foreign_key "candidates", "retreat_verifications"
   add_foreign_key "candidates", "sponsor_covenants"
 end

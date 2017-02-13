@@ -120,7 +120,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     late_events_event.save
     late_events_values = [[late_events_event.name, late_events_event.id]]
 
-    completed_events_event = @candidate.get_candidate_event(I18n.t('events.retreat_weekend'))
+    completed_events_event = @candidate.get_candidate_event(I18n.t('events.retreat_verification'))
     completed_events_event.completed_date = Date.today-2
     completed_events_event.verified = true
     completed_events_event.save
@@ -130,7 +130,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_weekend' }.map do |i18n_name|
+    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_verification' }.map do |i18n_name|
       name = I18n.t(i18n_name)
       id = @candidate.get_candidate_event(name).id
       [name, id, today]

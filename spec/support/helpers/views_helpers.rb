@@ -193,7 +193,7 @@ module ViewsHelpers
         [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
         [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
         [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))],
-        [I18n.t('events.retreat_weekend'), true, '', expect_event(I18n.t('events.retreat_weekend'))],
+        [I18n.t('events.retreat_verification'), true, '', expect_event(I18n.t('events.retreat_verification'))],
         [I18n.t('events.parent_meeting'), true, '', expect_event(I18n.t('events.parent_meeting'))]
     ]
   end
