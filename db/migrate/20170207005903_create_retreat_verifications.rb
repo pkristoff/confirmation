@@ -1,5 +1,5 @@
 class CreateRetreatVerifications < ActiveRecord::Migration
-  def up
+  def change
     #TODO: remove add
     AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
 
@@ -18,24 +18,9 @@ class CreateRetreatVerifications < ActiveRecord::Migration
 
     add_reference(:candidates, :retreat_verification, index: true, foreign_key: true)
 
+    Candidate.reset_column_information
     Candidate.all.each do |candidate|
-      candidate.build_retreat_verification
-      result = candidate.save(validate: false)
-      puts "Adding retreat_verification to #{candidate.account_name} candidate=#{candidate}retreat_verification=#{candidate.retreat_verification} save passed=#{result}"
+      candidate.update_attribute(:retreat_verification, RetreatVerification.new)
     end
-  end
-
-
-  def down
-
-    Candidate.all.each do |candidate|
-      puts "removing retreat_verification to #{candidate.account_name}"
-      candidate.retreat_verification = nil
-      candidate.save(validate: false)
-    end
-
-    remove_foreign_key(:candidates, :retreat_verifications)
-    remove_reference(:candidates, :retreat_verification)
-    drop_table(:retreat_verifications)
   end
 end
