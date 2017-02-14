@@ -19,7 +19,7 @@
                         </div >
                     <% end %>
                     <div class = "field" id = '<%= "candidate_event_#{candidate_event_fields.object.id}_verified" %>' >
-                      <%= t('views.events.verified') %>: <%= candidate_event_fields.check_box :verified %>
+                      <%= t('views.events.verified') %>: <%= candidate_event_fields.check_box :verified, onclick: "update_completed_date(this.id)" %>
                     </div >
                     <div class = "field" id = '<%= "candidate_event_#{candidate_event_fields.object.id}_completed_date" %>' >
                       <%= t('views.events.completed_date') %>: <%= candidate_event_fields.date_field :completed_date %>

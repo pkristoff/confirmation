@@ -5,7 +5,7 @@
     <h2><%= @confirmation_event.name %></h2>
 
     <%= label_tag(:verified, t('views.events.verified')) %>:
-    <%= check_box_tag(:verified, 1, params[:verified]) %><br/>
+    <%= check_box_tag(:verified, 1, params[:verified], onclick: "update_completed_date(this.id)") %><br/>
 
     <%= label_tag(:completed_date, t('views.events.completed_date')) %>:
     <%= date_field_tag(:completed_date, params[:completed_date]) %>
