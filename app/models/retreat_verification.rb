@@ -5,9 +5,9 @@ class RetreatVerification < ActiveRecord::Base
   # event_complete
 
   def validate_event_complete(options={})
-    # convert empty picture attributes to something the user can understand
     unless retreat_held_at_stmm
       EventCompleteValidator.new(self).validate(RetreatVerification.get_non_st_mm_required_params)
+      # convert empty picture attributes to something the user can understand
       found = false
       found |= (! errors.delete(:retreat_filename).nil?)
       found |= (! errors.delete(:retreat_content_type).nil?)
@@ -33,7 +33,6 @@ class RetreatVerification < ActiveRecord::Base
   def self.get_non_st_mm_required_params
     xxx = RetreatVerification.get_permitted_params
     xxx.delete(:retreat_held_at_stmm)
-    Rails.logger.info("xxx=#{xxx}")
     xxx
   end
 

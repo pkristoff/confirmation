@@ -79,8 +79,8 @@ en:
       info: 'Info'
       scan: 'Scan'
     sponsor_covenant:
-      sponsor_name: 'Sponsor name'
-      sponsor_church: 'Sponsor church'
+      sponsor_covenant: 'Sponsor covenant'
+      sponsor_eligibility: 'Sponsor eligibility'
   label:
     baptismal_certificate:
       baptized_at_stmm: 'I was baptized at Saint Mary Magdalene'

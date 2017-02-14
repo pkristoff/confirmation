@@ -7,6 +7,22 @@ class SponsorCovenant < ActiveRecord::Base
   def validate_event_complete(options={})
     EventCompleteValidator.new(self, !sponsor_attends_stmm)
         .validate(SponsorCovenant.get_attends_stmm_validation_params, SponsorCovenant.get_not_attends_stmm_params)
+    # convert empty picture attributes to something the user can understand
+    found = false
+    found |= (! errors.delete(:sponsor_elegibility_filename).nil?)
+    found |= (! errors.delete(:sponsor_elegibility_content_type).nil?)
+    found |= (! errors.delete(:sponsor_elegibility_file_contents).nil?)
+    if found
+      errors[:base] << 'Sponsor eligibility form can\'t be blank'
+    end
+    found = false
+    found |= (! errors.delete(:sponsor_covenant_filename).nil?)
+    found |= (! errors.delete(:sponsor_covenant_content_type).nil?)
+    found |= (! errors.delete(:sponsor_covenant_file_contents).nil?)
+    if found
+      errors[:base] << 'Sponsor covenant form can\'t be blank'
+    end
+
   end
 
   def self.get_permitted_params
