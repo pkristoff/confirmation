@@ -13,15 +13,17 @@
 
         <div id="retreat_verification-top" class="<%= rv_fields.object.retreat_held_at_stmm ? 'hide-div' : 'show-div' %>">
           <%= field_set_tag t('field_set.retreat_verification.dates'), class: 'fieldset' do %>
-              <div class="field">
-                <%= rv_fields.label :start_date, t('label.retreat_verification.start_date') %>
-                <br/>
-                <%= rv_fields.date_field :start_date %>
-              </div>
-              <div class="field">
-                <%= rv_fields.label :end_date, t('label.retreat_verification.end_date') %>
-                <br/>
-                <%= rv_fields.date_field :end_date %>
+              <div class="fieldset-div">
+                <div class="field">
+                  <%= rv_fields.label :start_date, t('label.retreat_verification.start_date') %>
+                  <br/>
+                  <%= rv_fields.date_field :start_date %>
+                </div>
+                <div class="field">
+                  <%= rv_fields.label :end_date, t('label.retreat_verification.end_date') %>
+                  <br/>
+                  <%= rv_fields.date_field :end_date %>
+                </div>
               </div>
           <% end %>
 
@@ -40,15 +42,16 @@
               </div>
           <% end %>
           <%= field_set_tag t('field_set.retreat_verification.scan'), class: 'fieldset' do %>
-              <%= rv_fields.file_field :retreat_verification_picture %>
-              <%= rv_fields.label :retreat_verification_picture, t('label.retreat_verification.retreat_verification_picture') %>
+              <div class="fieldset-div">
+                <%= rv_fields.file_field :retreat_verification_picture %>
+                <%= rv_fields.label :retreat_verification_picture, t('label.retreat_verification.retreat_verification_picture') %>
 
-              <% unless event_association.retreat_filename.nil? %>
-                  <div>
-                    <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"/>
-                  </div>
-              <% end %>
-
+                <% unless event_association.retreat_filename.nil? %>
+                    <div>
+                      <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"/>
+                    </div>
+                <% end %>
+              </div>
           <% end %>
         </div>
     <% end %>

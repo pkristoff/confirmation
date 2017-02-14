@@ -4,47 +4,51 @@
     </div>
     <%= f.fields_for :sponsor_covenant do |sc_fields| %>
         <%= field_set_tag t('field_set.sponsor_covenant.sponsor_covenant'), class: 'fieldset' do %>
-            <div class="field">
-              <%= sc_fields.label :sponsor_name, t('label.sponsor_covenant.sponsor_name') %><br/>
-              <%= sc_fields.text_field :sponsor_name %>
-            </div>
-            <div class="field">
-              <%= sc_fields.label :sponsor_covenant_picture, t('label.sponsor_covenant.sponsor_covenant_picture') %>
-              <br/>
-              <%= sc_fields.file_field :sponsor_covenant_picture %>
-            </div>
-
-            <% unless @candidate.sponsor_covenant.sponsor_covenant_filename.nil? %>
-                <div>
-                  <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"/>
-                </div>
-            <% end %>
-        <% end %>
-        <%= field_set_tag t('field_set.sponsor_covenant.sponsor_eligibility'), class: 'fieldset' do %>
-            <div class="field">
-              <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\');' %>
-              <%= sc_fields.label :sponsor_attends_stmm, t('label.sponsor_covenant.sponsor_attends_stmm') %>
-            </div>
-
-            <div id="sponsor-covenant-top" class="<%= @candidate.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div' %>">
+            <div class="fieldset-div">
               <div class="field">
-                <%= sc_fields.label :sponsor_church, t('label.sponsor_covenant.sponsor_church') %><br/>
-                <%= sc_fields.text_field :sponsor_church %>
+                <%= sc_fields.label :sponsor_name, t('label.sponsor_covenant.sponsor_name') %><br/>
+                <%= sc_fields.text_field :sponsor_name %>
               </div>
               <div class="field">
-                <%= sc_fields.label :sponsor_elegibility_picture, t('label.sponsor_covenant.sponsor_elegibility_picture') %>
+                <%= sc_fields.label :sponsor_covenant_picture, t('label.sponsor_covenant.sponsor_covenant_picture') %>
                 <br/>
-                <%= sc_fields.file_field :sponsor_elegibility_picture %>
+                <%= sc_fields.file_field :sponsor_covenant_picture %>
               </div>
 
-              <% unless @candidate.sponsor_covenant.sponsor_elegibility_filename.nil? %>
+              <% unless @candidate.sponsor_covenant.sponsor_covenant_filename.nil? %>
                   <div>
-                    <img src="<%= url_for(is_dev ? dev_upload_sponsor_elegibility_image_path(@candidate.id) : upload_sponsor_elegibility_image_path(@candidate.id)) %>"/>
+                    <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"/>
                   </div>
               <% end %>
-
+            </div>
         <% end %>
-        </div>
+        <%= field_set_tag t('field_set.sponsor_covenant.sponsor_eligibility'), class: 'fieldset' do %>
+            <div class="fieldset-div">
+              <div class="field">
+                <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\');' %>
+                <%= sc_fields.label :sponsor_attends_stmm, t('label.sponsor_covenant.sponsor_attends_stmm') %>
+              </div>
+
+              <div id="sponsor-covenant-top" class="<%= @candidate.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div' %>">
+                <div class="field">
+                  <%= sc_fields.label :sponsor_church, t('label.sponsor_covenant.sponsor_church') %><br/>
+                  <%= sc_fields.text_field :sponsor_church %>
+                </div>
+                <div class="field">
+                  <%= sc_fields.label :sponsor_elegibility_picture, t('label.sponsor_covenant.sponsor_elegibility_picture') %>
+                  <br/>
+                  <%= sc_fields.file_field :sponsor_elegibility_picture %>
+                </div>
+
+                <% unless @candidate.sponsor_covenant.sponsor_elegibility_filename.nil? %>
+                    <div>
+                      <img src="<%= url_for(is_dev ? dev_upload_sponsor_elegibility_image_path(@candidate.id) : upload_sponsor_elegibility_image_path(@candidate.id)) %>"/>
+                    </div>
+                <% end %>
+
+              </div>
+            </div>
+        <% end %>
     <% end %>
 
     <div class="actions">
@@ -52,4 +56,3 @@
     </div>
 
 <% end %>
-</div >
