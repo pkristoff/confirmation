@@ -111,17 +111,23 @@ class CommonCandidatesController < ApplicationController
   end
 
   def sign_agreement_update
+    return aggreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement')
+  end
+
+  def aggreement_update_private(event_name, signed_param_name)
     candidate = Candidate.find(params[:id])
-    candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+    candidate_event = candidate.get_candidate_event(event_name)
     if params['candidate']
-      if params['candidate']['signed_agreement'] === '1'
+      # TODO move logic to association instance.
+      if params['candidate'][signed_param_name] === '1'
         candidate_event.completed_date = Date.today
+        candidate_event.verified = true
       else
-        if params['candidate']['signed_agreement'] === '0'
+        if params['candidate'][signed_param_name] === '0'
           candidate_event.completed_date = nil
           candidate_event.verified = false
         else
-          return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate']['signed_agreement']: %{params['candidate']['signed_agreement']")
+          return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate'][signed_param_name]: %{params['candidate'][signed_param_name]")
         end
       end
     else
@@ -145,32 +151,7 @@ class CommonCandidatesController < ApplicationController
   end
 
   def sponsor_agreement_update
-    candidate = Candidate.find(params[:id])
-    candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
-    if params['candidate']
-      if params['candidate']['sponsor_agreement'] === '1'
-        candidate_event.completed_date = Date.today
-      else
-        if params['candidate']['sponsor_agreement'] === '0'
-          candidate_event.completed_date = nil
-          candidate_event.verified = false
-        else
-          return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate']['signed_agreement']: %{params['candidate']['signed_agreement']")
-        end
-      end
-    else
-      return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: 'candidate')
-    end
-
-    if candidate.update_attributes(candidate_params)
-      if is_admin?
-        redirect_to candidates_path, notice: I18n.t('messages.updated')
-      else
-        redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-      end
-    else
-      redirect_to :back, alert: I18n.t('messages.save_failed')
-    end
+    return aggreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement')
   end
 
   def event_with_picture
@@ -198,6 +179,8 @@ class CommonCandidatesController < ApplicationController
         unless @candidate.errors.any?
           candidate_event = @candidate.get_candidate_event(event_name)
           candidate_event.completed_date = Date.today
+          # TODO move logic to association instance.
+          candidate_event.verified = [CandidateSheet, ChristianMinistry, PickConfirmationName, ].include?(clazz)
           if @candidate.save
             render_called = true
             if is_admin?

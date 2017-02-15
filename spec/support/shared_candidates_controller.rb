@@ -47,7 +47,7 @@ shared_context 'baptismal_certificate' do
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
-    expect(candidate.baptized_at_stmm).to eq(true)
+    expect(candidate.baptized_at_stmm).to eq(false)
     expect(candidate_event.completed_date).to eq(nil)
 
     expect(response).to render_template('candidates/event_with_picture')

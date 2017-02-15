@@ -33,7 +33,7 @@ shared_context 'sign_an_agreement_html_erb' do
       # make sure Candidate list is showing
       expect(page).to have_selector("tr[id=candidate_list_tr_#{@candidate.id}]")
     else
-      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event.id}_verified]", text: false)
+      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event.id}_verified]", text: true)
       expect(page).to have_selector("div[id=candidate_event_#{confirmation_event.id}_completed_date]", text: Date.today)
     end
   end

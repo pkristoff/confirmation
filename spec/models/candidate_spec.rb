@@ -34,7 +34,7 @@ describe Candidate do
 
     it 'baptized_at_stmm' do
       candidate = AppFactory.create_candidate
-      expect(candidate.baptized_at_stmm).to eq(true)
+      expect(candidate.baptized_at_stmm).to eq(false)
     end
 
   end

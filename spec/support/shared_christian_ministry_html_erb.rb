@@ -37,6 +37,7 @@ shared_context 'christian_ministry_html_erb' do
     expect(candidate.christian_ministry.christian_ministry_filename).to eq(nil)
 
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
 
     visit @path
     candidate = Candidate.find(@candidate.id)

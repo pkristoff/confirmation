@@ -101,6 +101,9 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(candidate.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate.sponsor_covenant.sponsor_church).to eq(SPONSOR_CHURCH)
 
+    expect(candidate.get_candidate_event(SPONSOR_COVENANT_EVENT).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(SPONSOR_COVENANT_EVENT).verified).to eq(false)
+
     visit @path
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate)

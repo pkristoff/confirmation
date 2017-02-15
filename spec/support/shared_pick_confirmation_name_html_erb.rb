@@ -27,6 +27,9 @@ shared_context 'pick_confirmation_name_html_erb' do
     expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
     expect(candidate.pick_confirmation_name.about_saint).to eq(ABOUT_SAINT)
     expect(candidate.pick_confirmation_name.why_saint).to eq(WHY_SAINT)
+
+    expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).verified).to eq(true)
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do

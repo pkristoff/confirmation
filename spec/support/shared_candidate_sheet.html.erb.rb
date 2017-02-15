@@ -48,7 +48,7 @@ shared_context 'candidate_sheet_html_erb' do
       expect(page).to have_selector("tr[id=candidate_list_tr_#{@candidate.id}]")
     else
       confirmation_event_id = candidate_event.confirmation_event.id
-      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event_id}_verified]", text: false)
+      expect(page).to have_selector("div[id=candidate_event_#{confirmation_event_id}_verified]", text: true)
       expect(page).to have_selector("div[id=candidate_event_#{confirmation_event_id}_completed_date]", text: Date.today.to_s)
     end
   end

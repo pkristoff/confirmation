@@ -57,6 +57,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(candidate.retreat_verification.retreat_filename).to eq('actions.png')
 
     expect(candidate.get_candidate_event(I18n.t('events.retreat_verification')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.retreat_verification')).verified).to eq(false)
 
     visit @path
     candidate = Candidate.find(@candidate.id)
