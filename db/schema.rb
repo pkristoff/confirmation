@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214143335) do
+ActiveRecord::Schema.define(version: 20170216024119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,16 +127,12 @@ ActiveRecord::Schema.define(version: 20170214143335) do
   add_index "candidates", ["sponsor_covenant_id"], name: "index_candidates_on_sponsor_covenant_id", using: :btree
 
   create_table "christian_ministries", force: :cascade do |t|
-    t.boolean  "signed",                           default: true, null: false
     t.text     "what_service"
     t.text     "where_service"
     t.text     "when_service"
     t.text     "helped_me"
-    t.string   "christian_ministry_filename"
-    t.string   "christian_ministry_content_type"
-    t.binary   "christian_ministry_file_contents"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "confirmation_events", force: :cascade do |t|

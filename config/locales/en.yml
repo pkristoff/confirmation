@@ -126,8 +126,6 @@ en:
       where_service: 'Where did the service take place?'
       when_service: 'When did you do the service?'
       helped_me: 'This experience helped me by'
-      signed: 'Signed'
-      christian_ministry_picture: 'Scanned worksheet'
     confirmation_name:
       birth_date: 'Birth date'
       baptismal_date: 'Baptismal date'

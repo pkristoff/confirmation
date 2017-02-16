@@ -84,7 +84,7 @@
           <td id="tr<%= b.object.id %>_td<%= td_index+7 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_covenant')).status}", event_with_picture_path(b.object.id, Event::Route::SPONSOR_COVENANT) %></td>
           <td id="tr<%= b.object.id %>_td<%= td_index+8 %>"><%= link_to "#{b.object.get_candidate_event(t('events.confirmation_name')).status}", event_with_picture_path(b.object.id, Event::Route::CONFIRMATION_NAME) %></td>
           <td id="tr<%= b.object.id %>_td<%= td_index+9 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_agreement')).status}", sponsor_agreement_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+10 %>"><%= link_to "#{b.object.get_candidate_event(t('events.christian_ministry')).status}", event_with_picture_path(b.object.id, Event::Route::CHRISTIAN_MINISTRY) %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+10 %>"><%= link_to "#{b.object.get_candidate_event(t('events.christian_ministry')).status}", christian_ministry_path(b.object.id) %></td>
           <td id="tr<%= b.object.id %>_td<%= td_index+11 %>"><%= link_to "#{b.object.get_candidate_event(t('events.retreat_verification')).status}", event_with_picture_path(b.object.id, Event::Route::RETREAT_VERIFICATION) %></td>
           <td id="tr<%= b.object.id %>_td<%= td_index+12 %>"><%= link_to "#{b.object.get_candidate_event(t('events.parent_meeting')).status}", event_candidate_path(b.object, anchor: "event_id_#{b.object.get_candidate_event(t('events.parent_meeting')).id}") %></td>
         </tr>

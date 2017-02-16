@@ -4,6 +4,5 @@ FactoryGirl.define do
     where_service 'At my house'
     when_service 'early in the morning'
     helped_me 'help others'
-    signed true
   end
 end

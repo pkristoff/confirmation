@@ -16,7 +16,7 @@ class CommonCandidatesController < ApplicationController
           setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, 'sponsor_covenant', sponsor_covenant_params)
           setup_file_params(sponsor_covenant_params[:sponsor_elegibility_picture], sponsor_covenant, 'sponsor_elegibility', sponsor_covenant_params)
 
-           render_called = event_with_picture_update_private(SponsorCovenant)
+          render_called = event_with_picture_update_private(SponsorCovenant)
 
         when Event::Route::CONFIRMATION_NAME
           pick_confirmation_name = @candidate.pick_confirmation_name
@@ -34,13 +34,6 @@ class CommonCandidatesController < ApplicationController
           end
 
           render_called = event_with_picture_update_private(BaptismalCertificate)
-
-        when Event::Route::CHRISTIAN_MINISTRY
-          christian_ministry = @candidate.christian_ministry
-          christian_ministry_params = params[:candidate][:christian_ministry_attributes]
-          setup_file_params(christian_ministry_params[:christian_ministry_picture], christian_ministry, 'christian_ministry', christian_ministry_params)
-
-          render_called = event_with_picture_update_private(ChristianMinistry)
 
         when Event::Route::RETREAT_VERIFICATION
           retreat_verification = @candidate.retreat_verification
@@ -73,6 +66,21 @@ class CommonCandidatesController < ApplicationController
 
   end
 
+  def christian_ministry
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+  end
+
+  def christian_ministry_update
+    @candidate = Candidate.find(params[:id])
+
+    render_called = event_with_picture_update_private(ChristianMinistry)
+
+    @resource = @candidate
+    render :christian_ministry unless render_called
+
+  end
+
   def download_document
     doc_name = Event::Document::MAPPING[params[:name].to_sym]
     pdf = File.new("public/documents/#{doc_name}")
@@ -95,8 +103,6 @@ class CommonCandidatesController < ApplicationController
         association = @candidate.baptismal_certificate
       when Event::Route::SPONSOR_COVENANT
         association = @candidate.sponsor_covenant
-      when Event::Route::CHRISTIAN_MINISTRY
-        association = @candidate.christian_ministry
       when Event::Route::RETREAT_VERIFICATION
         association = @candidate.retreat_verification
       else
@@ -181,7 +187,7 @@ class CommonCandidatesController < ApplicationController
           candidate_event.completed_date = Date.today
           # TODO move logic to association instance.
           candidate_event.verified = [CandidateSheet, ChristianMinistry, PickConfirmationName, ].include?(clazz)
-          if @candidate.save
+          if candidate_event.save
             render_called = true
             if is_admin?
               redirect_to candidates_path, notice: I18n.t('messages.updated')
@@ -193,6 +199,8 @@ class CommonCandidatesController < ApplicationController
           end
         end
       end
+    else
+      flash['alert'] = 'Update_attributes fails'
     end
     render_called
   end
@@ -200,7 +208,7 @@ class CommonCandidatesController < ApplicationController
   def render_event_with_picture(render_called, event_name)
     unless render_called
       @event_with_picture_name = event_name
-      @is_dev = ! is_admin?
+      @is_dev = !is_admin?
 
       @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
       flash[:alert] = "Internal Error: unknown event: #{event_name}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?

@@ -23,7 +23,7 @@ describe 'layouts/_side_bar.html.erb' do
         [I18n.t('label.sidebar.sponsor_covenant'), '<dev>/event_with_picture/<id>/sponsor_covenant'],
         [I18n.t('label.sidebar.confirmation_name'), '<dev>/event_with_picture/<id>/confirmation_name'],
         [I18n.t('label.sidebar.sponsor_agreement'), '<dev>/sponsor_agreement.<id>'],
-        [I18n.t('label.sidebar.christian_ministry'), '<dev>/event_with_picture/<id>/christian_ministry'],
+        [I18n.t('label.sidebar.christian_ministry'), '<dev>/christian_ministry.<id>'],
         [I18n.t('label.sidebar.retreat_verification'), '<dev>/event_with_picture/<id>/retreat_verification'],
         [I18n.t('views.nav.edit'), '/candidates/<id>/edit', '<dev>/candidates/edit'],
         [I18n.t('views.nav.events'), '/event/<id>', '/dev/registrations/event/<id>']
@@ -86,6 +86,7 @@ describe 'layouts/_side_bar.html.erb' do
         href = info[1].gsub('<dev>', dev)
       end
       href = href.gsub('<id>', candidate_id)
+
       expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index+1})", text: event_name)
       expect(rendered).to have_link(event_name, href: href)
     end

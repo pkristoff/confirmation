@@ -54,6 +54,14 @@ Rails.application.routes.draw do
     get 'sponsor_agreement.:id', to: 'candidates#sponsor_agreement', as: 'sponsor_agreement'
     put 'sponsor_agreement.:id', to: 'candidates#sponsor_agreement_update', as: 'sponsor_agreement_update'
 
+    # Christian Ministry Awareness
+
+    get 'dev/christian_ministry.:id', to: 'dev/candidates#christian_ministry', as: 'dev_christian_ministry'
+    put 'dev/christian_ministry.:id', to: 'dev/candidates#christian_ministry_update', as: 'dev_christian_ministry_update'
+
+    get 'christian_ministry.:id', to: 'candidates#christian_ministry', as: 'christian_ministry'
+    put 'christian_ministry.:id', to: 'candidates#christian_ministry_update', as: 'christian_ministry_update'
+
     # candidate sheet
 
     get 'dev/candidate_sheet.:id', to: 'dev/candidates#candidate_sheet', as: 'dev_candidate_sheet'
