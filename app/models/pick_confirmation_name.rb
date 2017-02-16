@@ -1,7 +1,5 @@
 class PickConfirmationName < ActiveRecord::Base
 
-  attr_accessor :pick_confirmation_name_picture
-
   # event_complete
 
   def validate_event_complete(options={})
@@ -9,7 +7,7 @@ class PickConfirmationName < ActiveRecord::Base
   end
 
   def self.get_permitted_params
-    [:saint_name, :about_saint, :why_saint, :pick_confirmation_name_filename, :pick_confirmation_name_content_type, :pick_confirmation_name_file_contents]
+    [:saint_name]
   end
 
   def self.event_name
@@ -23,46 +21,6 @@ class PickConfirmationName < ActiveRecord::Base
   end
 
   # event_complete - end
-
-  # image interface
-
-  def filename_param
-    :pick_confirmation_name_filename
-  end
-
-  def content_type_param
-    :pick_confirmation_name_content_type
-  end
-
-  def file_contents_param
-    :pick_confirmation_name_file_contents
-  end
-
-  def filename
-    pick_confirmation_name_filename
-  end
-
-  def filename=(name)
-    pick_confirmation_name_filename=name
-  end
-
-  def content_type
-    pick_confirmation_name_content_type
-  end
-
-  def content_type=(type)
-    pick_confirmation_name_content_type=type
-  end
-
-  def file_contents
-    pick_confirmation_name_file_contents
-  end
-
-  def file_contents=(contents)
-    pick_confirmation_name_file_contents=contents
-  end
-
-  # image interface - end
 
   def verifiable_info
     {'Confirmation name': saint_name

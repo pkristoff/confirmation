@@ -1,0 +1,20 @@
+<%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
+
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'top-update' %>
+    </div>
+    <%= f.fields_for :pick_confirmation_name do |pcn_fields| %>
+
+        <%= field_set_tag t('field_set.confirmation_name.saint'), class: 'fieldset' do %>
+            <div class="field">
+              <%= pcn_fields.label :saint_name, t('label.confirmation_name.saint_name') %><br/>
+              <%= pcn_fields.text_field :saint_name %>
+            </div>
+        <% end %>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+    </div>
+
+<% end %>

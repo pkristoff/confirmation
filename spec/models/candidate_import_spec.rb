@@ -404,7 +404,7 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.1.verified')].value).to eq(0)
 
   # TODO: add other 31 tests
-  expect(c1_row.size).to eq(84)
+  expect(c1_row.size).to eq(79)
 
   expect(c2_row.cells[0].value).to eq('c2')
 
@@ -471,7 +471,7 @@ def expect_candidates_empty(ws, candidate_import)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(84)
+  expect(c1_row.size).to eq(79)
 end
 
 def expect_confirmation_events_empty(ws, candidate_import)

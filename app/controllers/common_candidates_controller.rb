@@ -18,13 +18,6 @@ class CommonCandidatesController < ApplicationController
 
           render_called = event_with_picture_update_private(SponsorCovenant)
 
-        when Event::Route::CONFIRMATION_NAME
-          pick_confirmation_name = @candidate.pick_confirmation_name
-          pick_confirmation_name_params = params[:candidate][:pick_confirmation_name_attributes]
-          setup_file_params(pick_confirmation_name_params[:pick_confirmation_name_picture], pick_confirmation_name, 'pick_confirmation_name', pick_confirmation_name_params)
-
-          render_called = event_with_picture_update_private(PickConfirmationName)
-
         when Event::Route::BAPTISMAL_CERTIFICATE
           baptized_at_stmm = params[:candidate]['baptized_at_stmm'] == '1'
           baptismal_certificate = @candidate.baptismal_certificate
@@ -97,8 +90,6 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     association = nil
     case params[:event_name].to_sym
-      when Event::Route::CONFIRMATION_NAME
-        association = @candidate.pick_confirmation_name
       when Event::Route::BAPTISMAL_CERTIFICATE
         association = @candidate.baptismal_certificate
       when Event::Route::SPONSOR_COVENANT
@@ -109,6 +100,19 @@ class CommonCandidatesController < ApplicationController
         flash['alert'] = "Unknown event_name #{params[:event_name]}"
     end
     send_image(association) unless association.nil?
+  end
+
+  def pick_confirmation_name
+    @candidate = Candidate.find(params[:id])
+  end
+
+  def pick_confirmation_name_update
+    @candidate = Candidate.find(params[:id])
+
+    render_called = event_with_picture_update_private(PickConfirmationName)
+
+    @resource = @candidate
+    render :pick_confirmation_name unless render_called
   end
 
   def sign_agreement
@@ -186,7 +190,7 @@ class CommonCandidatesController < ApplicationController
           candidate_event = @candidate.get_candidate_event(event_name)
           candidate_event.completed_date = Date.today
           # TODO move logic to association instance.
-          candidate_event.verified = [CandidateSheet, ChristianMinistry, PickConfirmationName, ].include?(clazz)
+          candidate_event.verified = [CandidateSheet, ChristianMinistry ].include?(clazz)
           if candidate_event.save
             render_called = true
             if is_admin?

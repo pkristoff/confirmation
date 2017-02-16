@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170216024119) do
+ActiveRecord::Schema.define(version: 20170216215215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,13 +148,8 @@ ActiveRecord::Schema.define(version: 20170216024119) do
 
   create_table "pick_confirmation_names", force: :cascade do |t|
     t.string   "saint_name"
-    t.text     "about_saint"
-    t.text     "why_saint"
-    t.string   "pick_confirmation_name_filename"
-    t.string   "pick_confirmation_name_content_type"
-    t.binary   "pick_confirmation_name_file_contents"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "retreat_verifications", force: :cascade do |t|
