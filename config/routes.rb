@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'export_lists/retreat'
+  get 'export_lists/baptism'
+  get 'export_lists/sponsor'
+
   resources :candidate_imports
 
   post 'candidate_imports/check_events'

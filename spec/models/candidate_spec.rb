@@ -187,6 +187,87 @@ describe Candidate do
     end
   end
 
+  describe 'external verification' do
+
+    before(:each) do
+
+      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c2 = create_candidate('c2', 'Vicki', 'Kristoff')
+      c3 = create_candidate('c3', 'Karen', 'Kristoff')
+
+      AppFactory.add_confirmation_events
+
+      @c1 = Candidate.find_by_account_name(c1.account_name)
+      @c2 = Candidate.find_by_account_name(c2.account_name)
+      @c3 = Candidate.find_by_account_name(c3.account_name)
+    end
+
+    it "baptismal_external_verification?" do
+      event_key = I18n.t('events.baptismal_certificate')
+      today = Date.today
+      @c1.baptized_at_stmm = false
+      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.save
+      @c2.baptized_at_stmm = true
+      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.save
+      @c3.baptized_at_stmm = true
+      @c3.get_candidate_event(event_key).completed_date = nil
+      @c3.save
+
+      expect(Candidate.baptismal_external_verification?(@c1)).to eq(false)
+      expect(Candidate.baptismal_external_verification?(@c2)).to eq(true)
+      expect(Candidate.baptismal_external_verification?(@c3)).to eq(nil)
+
+    end
+
+    it "retreat_external_verification??" do
+      event_key = I18n.t('events.retreat_verification')
+      today = Date.today
+      @c1.retreat_verification.retreat_held_at_stmm = false
+      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.save
+      @c2.retreat_verification.retreat_held_at_stmm = true
+      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.save
+      @c3.retreat_verification.retreat_held_at_stmm = true
+      @c3.get_candidate_event(event_key).completed_date = nil
+      @c3.save
+
+      expect(Candidate.retreat_external_verification?(@c1)).to eq(false)
+      expect(Candidate.retreat_external_verification?(@c2)).to eq(true)
+      expect(Candidate.retreat_external_verification?(@c3)).to eq(nil)
+
+    end
+
+    it "sponsor_external_verification?" do
+      event_key = I18n.t('events.sponsor_covenant')
+      today = Date.today
+      @c1.sponsor_covenant.sponsor_attends_stmm = false
+      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.save
+      @c2.sponsor_covenant.sponsor_attends_stmm = true
+      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.save
+      @c3.sponsor_covenant.sponsor_attends_stmm = true
+      @c3.get_candidate_event(event_key).completed_date = nil
+      @c3.save
+
+      expect(Candidate.sponsor_external_verification?(@c1)).to eq(false)
+      expect(Candidate.sponsor_external_verification?(@c2)).to eq(true)
+      expect(Candidate.sponsor_external_verification?(@c3)).to eq(nil)
+
+    end
+  end
+
+  def create_candidate(account_name, first, last)
+    candidate = FactoryGirl.create(:candidate, account_name: account_name)
+    candidate.candidate_sheet.first_name = first
+    candidate.candidate_sheet.last_name = last
+    candidate.save
+    candidate
+  end
+
   def expect_event_association(assoc_from_candidate, size)
     event_assoc = assoc_from_candidate.class.all
     expect(event_assoc.size).to eq(size)

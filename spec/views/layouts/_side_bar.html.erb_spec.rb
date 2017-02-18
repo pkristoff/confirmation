@@ -13,6 +13,9 @@ describe 'layouts/_side_bar.html.erb' do
         [I18n.t('views.nav.add_new_candidate'), '/candidates/new'],
         [I18n.t('views.nav.admins'), '/admins'],
         [I18n.t('views.nav.events'), '/edit_multiple_confirmation_events'],
+        [I18n.t('views.nav.export_attend_retreat'), '/export_lists/retreat'],
+        [I18n.t('views.nav.export_baptized_at_stmm'), '/export_lists/baptism'],
+        [I18n.t('views.nav.export_sponsor_at_stmm'), '/export_lists/sponsor'],
         [I18n.t('views.nav.other'), '/candidate_imports/new']
     ]
 

@@ -224,4 +224,20 @@ class Candidate < ActiveRecord::Base
     Candidate.order(options[:order])
   end
 
+  # external verification
+  def self.baptismal_external_verification?(candidate)
+    candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
+    candidate.baptized_at_stmm && candidate_event.completed_date && !candidate_event.verified
+  end
+
+  def self.retreat_external_verification?(candidate)
+    candidate_event = candidate.get_candidate_event(I18n.t('events.retreat_verification'))
+    candidate.retreat_verification.retreat_held_at_stmm && candidate_event.completed_date && !candidate_event.verified
+  end
+
+  def self.sponsor_external_verification?(candidate)
+    candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_covenant'))
+    candidate.sponsor_covenant.sponsor_attends_stmm && candidate_event.completed_date && !candidate_event.verified
+  end
+
 end
