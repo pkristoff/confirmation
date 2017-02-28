@@ -14,6 +14,7 @@
           <li ><%= link_to I18n.t('views.nav.export_attend_retreat'), export_lists_retreat_path %></li >
           <li ><%= link_to I18n.t('views.nav.export_baptized_at_stmm'), export_lists_baptism_path %></li >
           <li ><%= link_to I18n.t('views.nav.export_sponsor_at_stmm'), export_lists_sponsor_path %></li >
+          <li ><%= link_to I18n.t('views.nav.export_candidate_event_status'), export_lists_events_path %></li >
           <li ><%= link_to I18n.t('views.nav.other'), new_candidate_import_path %></li >
         </ul >
         <% if defined?(resource) && (!resource.nil?) && (!resource.new_record?) && (resource.is_a? Candidate) %>

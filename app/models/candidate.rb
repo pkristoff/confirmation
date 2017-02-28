@@ -240,4 +240,8 @@ class Candidate < ActiveRecord::Base
     candidate.sponsor_covenant.sponsor_attends_stmm && candidate_event.completed_date && !candidate_event.verified
   end
 
+  def self.events_external_verification?(candidate)
+    true
+  end
+
 end

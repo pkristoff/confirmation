@@ -16,6 +16,7 @@ describe 'layouts/_side_bar.html.erb' do
         [I18n.t('views.nav.export_attend_retreat'), '/export_lists/retreat'],
         [I18n.t('views.nav.export_baptized_at_stmm'), '/export_lists/baptism'],
         [I18n.t('views.nav.export_sponsor_at_stmm'), '/export_lists/sponsor'],
+        [I18n.t('views.nav.export_candidate_event_status'), '/export_lists/events'],
         [I18n.t('views.nav.other'), '/candidate_imports/new']
     ]
 

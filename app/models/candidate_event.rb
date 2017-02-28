@@ -59,13 +59,13 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   def status
-    return 'Not Started' unless started?
-    return 'Coming Due' if coming_due?
-    return 'Late' if late?
-    return 'Awaiting Candidate' if awaiting_candidate?
-    return 'Awaiting Admin' if awaiting_admin?
-    return 'Verified' if completed?
-    'Unknown Status'
+    return I18n.t('status.not_started') unless started?
+    return I18n.t('status.coming_due') if coming_due?
+    return I18n.t('status.late') if late?
+    return I18n.t('status.awaiting_candidate') if awaiting_candidate?
+    return I18n.t('status.awaiting_admin') if awaiting_admin?
+    return I18n.t('status.verified') if completed?
+    I18n.t('status.unknown_status')
   end
 
   def route

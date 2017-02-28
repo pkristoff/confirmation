@@ -195,6 +195,14 @@ en:
     candidate:
       attending_the_way: 'The Way'
       attending_catholic_high_school: 'Catholic High School'
+  status:
+    awaiting_admin: 'Awaiting Admin'
+    awaiting_candidate: 'Awaiting Candidate'
+    coming_due: 'Coming Due'
+    late: 'Late'
+    not_started: 'Not Started'
+    unknown_status: 'Unknown Status'
+    verified: 'Verified'
   views:
     admins:
       admin: 'Admin'
@@ -270,6 +278,7 @@ en:
       export_attend_retreat: 'Export Retreat at St. MM'
       export_baptized_at_stmm: 'Export Baptized at St. MM'
       export_sponsor_at_stmm: 'Export Sponsor at St. MM'
+      export_candidate_event_status: 'Export Candidate Events Status'
       email: 'Email'
       events: 'Events'
       ministry_awareness: 'Christian Ministry Awareness'
