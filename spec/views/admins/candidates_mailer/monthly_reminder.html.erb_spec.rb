@@ -1,4 +1,3 @@
-
 describe 'candidates_mailer/monthly_reminder.html.erb' do
 
   today = Date.today.to_s
@@ -130,7 +129,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_verification' }.map do |i18n_name|
+    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select {|i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_verification'}.map do |i18n_name|
       name = I18n.t(i18n_name)
       id = @candidate.get_candidate_event(name).id
       [name, id, today]
@@ -200,16 +199,15 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   def render_setup
-    @pre_late_text = I18n.t('email.late_initial_text')
-    @pre_coming_due_text = I18n.t('email.coming_due_initial_text')
-    @completed_text = I18n.t('email.completed_initial_text')
-    @closing_text = I18n.t('email.closing_initial_text')
-    @salutation_text = I18n.t('email.salutation_initial_text')
-    @from_text = I18n.t('email.from_initial_text')
-
-    @late_events = @candidate.get_late_events
-    @coming_due_events = @candidate.get_coming_due_events
-    @completed_events = @candidate.get_completed
+    @candidate_mailer_text = CandidatesMailerText.new(
+        candidate: @candidate,
+        pre_late_text: I18n.t('email.late_initial_text'),
+        pre_coming_due_text: I18n.t('email.coming_due_initial_text'),
+        completed_text: I18n.t('email.completed_initial_text'),
+        closing_text: I18n.t('email.closing_initial_text'),
+        salutation_text: I18n.t('email.salutation_initial_text'),
+        from_text: I18n.t('email.from_initial_text')
+    )
   end
 
   def set_completed_date(date)

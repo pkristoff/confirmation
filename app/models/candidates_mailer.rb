@@ -29,17 +29,7 @@ class CandidatesMailer < ActionMailer::Base
   end
 
   def setup_message_info(candidate_mailer_text)
-    @candidate = candidate_mailer_text.candidate
-    @pre_late_text = candidate_mailer_text.pre_late_text
-    @pre_coming_due_text = candidate_mailer_text.pre_coming_due_text
-    @completed_text = candidate_mailer_text.completed_text
-    @closing_text = candidate_mailer_text.closing_text
-    @salutation_text = candidate_mailer_text.salutation_text
-    @from_text = candidate_mailer_text.from_text
-    #matches AdminsController#setup_email_candidate
-    @late_events = candidate_mailer_text.get_late_events
-    @coming_due_events = candidate_mailer_text.get_coming_due_events
-    @completed_events = candidate_mailer_text.get_completed
+    @candidate_mailer_text = candidate_mailer_text
   end
 
 end

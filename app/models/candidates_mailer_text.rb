@@ -21,15 +21,15 @@ class CandidatesMailerText
     @from_text = parms[:from_text]
   end
 
-  def get_late_events
+  def late_events
     candidate.get_late_events
   end
 
-  def get_coming_due_events
+  def coming_due_events
     candidate.get_coming_due_events
   end
 
-  def get_completed
+  def completed_events
     candidate.get_completed
   end
 
