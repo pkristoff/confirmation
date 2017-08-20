@@ -29,7 +29,7 @@ class AdminsController < ApplicationController
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
-    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+    candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
     if candidates.empty?
       set_candidates(params[:sort], confirmation_event: confirmation_event)
       flash[:notice] = t('messages.no_candidate_selected')
@@ -57,7 +57,7 @@ class AdminsController < ApplicationController
     candidate_ids = params[:candidate][:candidate_ids]
     candidate_ids.delete('')
     candidates = []
-    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+    candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
 
     if params[:commit] === 'delete'
       candidates.each do |candidate|
@@ -92,7 +92,7 @@ class AdminsController < ApplicationController
     expected_params = {mail: [:subject, :pre_late_input, :pre_coming_due_input, :completed_input, :salutation_text, :closing_text, :from_text],
                        candidate: [:candidate_ids]
     }
-    missing_params = expected_params.select { |expected_param, sub_params| params[expected_param].nil? }
+    missing_params = expected_params.select {|expected_param, sub_params| params[expected_param].nil?}
     unless missing_params.empty?
       return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
     end
@@ -109,25 +109,52 @@ class AdminsController < ApplicationController
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
-    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+    candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
 
     if candidates.empty?
       return redirect_to :back, alert: t('messages.no_candidate_selected')
     end
 
-    mail_param = params[:mail]
+    case params[:commit]
+      when t('email.mail')
 
-    candidates.each_with_index do |candidate, index|
-      SendEmailJob.perform_in(index*2, candidate,
-                              mail_param[:subject], mail_param[:pre_late_input],
-                              mail_param[:pre_coming_due_input], mail_param[:completed_input],
-                              mail_param[:closing_text],
-                              mail_param[:salutation_text],
-                              mail_param[:from_text]
-      )
+        is_test_mail = false
+
+        flash_message = t('messages.monthly_mailing_progress')
+
+      when t('email.test_mail')
+
+        is_test_mail = true
+
+        flash_message = t('messages.monthly_mailing_test_sent')
+
+      else
+
+        return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
+
     end
 
-    flash[:notice] = t('messages.monthly_mailing_progress')
+    mail_param = params[:mail]
+
+    begin
+      candidates.each_with_index do |candidate, index|
+        text = CandidatesMailerText.new(candidate: candidate, subject: mail_param[:subject], pre_late_text: mail_param[:pre_late_input],
+                                        pre_coming_due_text: mail_param[:pre_coming_due_input],
+                                        completed_text: mail_param[:completed_input], closing_text: mail_param[:closing_text],
+                                        salutation_text: mail_param[:salutation_text], from_text: mail_param[:from_text])
+
+        SendEmailJob.perform_in(index*2, text,
+                                current_admin,
+                                is_test_mail
+        )
+      end
+    rescue Exception => e
+      flash_message = e.message
+    end
+
+    flash[:notice] = flash_message
+
+
     set_confirmation_events
     render :edit_multiple_confirmation_events
 
@@ -139,7 +166,7 @@ class AdminsController < ApplicationController
 
   def update_multiple_confirmation_events
     if params[:commit] === t('views.common.update')
-      confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject { |p| p.errors.empty? }
+      confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject {|p| p.errors.empty?}
       if confirmation_events.empty?
         flash[:notice] = t('messages.confirmation_events_updated')
       else

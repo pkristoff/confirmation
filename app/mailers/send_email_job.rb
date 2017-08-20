@@ -1,8 +1,12 @@
 class SendEmailJob
   include SuckerPunch::Job
 
-  def perform(candidate, subject, pre_late_input, pre_coming_due_input, completed_input, closing_text, salutation_text, from_text)
-    mailer = CandidatesMailer.monthly_reminder(candidate, subject, pre_late_input, pre_coming_due_input, completed_input, closing_text, salutation_text, from_text)
+  def perform(candidate, text, admin, test=false)
+    if test
+      mailer = CandidatesMailer.monthly_reminder_test(admin, text)
+    else
+      mailer = CandidatesMailer.monthly_reminder(candidate, admin, text)
+    end
     logger.info "deliverying to #{candidate.account_name} current_time: #{Time.now}"
     mailer.deliver_now
   end

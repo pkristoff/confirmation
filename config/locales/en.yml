@@ -46,6 +46,8 @@ en:
     salutation_label: 'Salutation text'
     subject_initial_text: 'Confirmation'
     subject_label: 'Subject'
+    test_mail: 'Test Mail'
+    test_mail_subject_initial_text: 'Confirmation test email for %{candidate_account_name}'
     verify: 'Verify'
   events:
     parent_meeting: 'Parent Information Meeting'
@@ -180,6 +182,7 @@ en:
     missing_sponsor_covenant_attributes: 'internal: sponsor_covenant_attributes not sent with call'
     missing_pick_confirmation_name_attributes: 'internal: pick_confirmation_name_attributes not sent with call'
     monthly_mailing_progress: 'Monthly mailing in progress'
+    monthly_mailing_test_sent: 'Monthly mailing test sent'
     no_candidate_selected: 'No candidate was selected.'
     not_all_confirmation_events_updated: 'Not all ConfirmationEvents updated'
     not_update_candidate_event: 'NOT Updated CandidateEvent! %{account_name}'

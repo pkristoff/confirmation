@@ -17,7 +17,6 @@ describe AdminsController do
       get :index
       expect(subject.admins.size).to eq(1)
     end
-
   end
 
   describe 'set_confirmation_events' do
@@ -223,32 +222,55 @@ describe AdminsController do
   describe 'mass monthly mailing update' do
 
     before(:each) do
-      login_admin
+      @admin = login_admin
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')
     end
     it 'should set @candidates' do
 
-      allow(SendEmailJob).to receive(:perform_in).with(0, @c1, 'www', 'xxx', 'yyy', 'zzz', 'ccc', 'aaa', 'bbb').exactly(:once)
-      allow(SendEmailJob).to receive(:perform_in).with(2, @c2, 'www', 'xxx', 'yyy', 'zzz', 'ccc', 'aaa', 'bbb').exactly(:once)
+      expect(SendEmailJob).to receive(:perform_in).with(0, instance_of(CandidatesMailerText), @admin, false).exactly(:once) do |index, candidates_mailer_text, admin, isText|
+        puts "index: #{index}"
+        expect(index).to eq(0)
+        expect_mailer_text(@c1, candidates_mailer_text)
+        expect(admin).to eq(@admin)
+        expect(isText).to eq(false)
+      end
+      expect(SendEmailJob).to receive(:perform_in).with(2, instance_of(CandidatesMailerText), @admin, false).exactly(:once) do |index, candidates_mailer_text, admin, isText|
+        expect(index).to eq(2)
+        expect_mailer_text(@c2, candidates_mailer_text)
+        expect(admin).to eq(@admin)
+        expect(isText).to eq(false)
+      end
       request.env["HTTP_REFERER"] = monthly_mass_mailing_path
 
       put :monthly_mass_mailing_update,
-          mail: {subject: 'www',
+          mail: {subject: 'www1',
                  pre_late_input: 'xxx',
                  pre_coming_due_input: 'yyy',
                  completed_input: 'zzz',
                  closing_text: 'ccc',
                  salutation_text: 'aaa',
                  from_text: 'bbb'},
-          candidate: {candidate_ids: [@c1.id, @c2.id]}
+          candidate: {candidate_ids: [@c1.id, @c2.id]},
+          commit: I18n.t('email.mail')
 
       expect_message(:notice, I18n.t('messages.monthly_mailing_progress'))
       expect(render_template('edit_multiple_confirmation_events'))
       expect(response.status).to eq(200)
 
     end
+  end
+
+  def expect_mailer_text(candidate, candidates_mailer_text)
+    expect(candidates_mailer_text.candidate.id).to eq(candidate.id)
+    expect(candidates_mailer_text.subject).to eq('www1')
+    expect(candidates_mailer_text.pre_late_text).to eq('xxx')
+    expect(candidates_mailer_text.pre_coming_due_text).to eq('yyy')
+    expect(candidates_mailer_text.completed_text).to eq('zzz')
+    expect(candidates_mailer_text.closing_text).to eq('ccc')
+    expect(candidates_mailer_text.salutation_text).to eq('aaa')
+    expect(candidates_mailer_text.from_text).to eq('bbb')
   end
 
 

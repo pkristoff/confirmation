@@ -68,53 +68,45 @@ shared_context 'sponsor_covenant_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
-    puts "*** random error test starting."
     @candidate.sponsor_covenant.sponsor_attends_stmm = false
     @candidate.save
     AppFactory.add_candidate_events(@candidate)
     update_sponsor_covenant(false)
-    puts "*** visit. before"
     visit @path
-    puts "*** visit. after"
 
     attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
     attach_file(ELEGIBILITY_PICTURE_LABEL, 'spec/fixtures/actions.png')
-    puts "*** update. before"
     click_button 'top-update'
-    puts "*** update. after"
 
-    candidate = Candidate.find(@candidate.id)
+    candidate_db = Candidate.find(@candidate.id)
     expect_message(:error_explanation, ['2 empty fields need to be filled in', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank'])
-    expect(candidate.sponsor_covenant).not_to eq(nil)
-    expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
-    expect(candidate.sponsor_covenant.sponsor_elegibility_filename).to eq('actions.png')
-    expect(candidate.sponsor_covenant.sponsor_covenant_filename).to eq('actions.png')
-    expect(candidate.sponsor_covenant.sponsor_name).to eq('')
-    expect(candidate.sponsor_covenant.sponsor_church).to eq('')
-@candidate = candidate
+    expect(candidate_db.sponsor_covenant).not_to eq(nil)
+    expect(candidate_db.sponsor_covenant.sponsor_attends_stmm).to eq(false)
+    expect(candidate_db.sponsor_covenant.sponsor_elegibility_filename).to eq('actions.png')
+    expect(candidate_db.sponsor_covenant.sponsor_covenant_filename).to eq('actions.png')
+    expect(candidate_db.sponsor_covenant.sponsor_name).to eq('')
+    expect(candidate_db.sponsor_covenant.sponsor_church).to eq('')
     fill_in_form(false) # no picture
-    puts "*** update. before 2"
     click_button 'top-update'
-    puts "*** update. after 2"
 
     expect_message(:flash_notice, UPDATED_MESSAGE)
-    candidate = Candidate.find(@candidate.id)
-    expect(candidate.sponsor_covenant).not_to eq(nil)
-    expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
-    expect(candidate.sponsor_covenant.sponsor_elegibility_filename).to eq('Baptismal Certificate.png')
-    expect(candidate.sponsor_covenant.sponsor_covenant_filename).to eq('actions.png')
-    expect(candidate.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
-    expect(candidate.sponsor_covenant.sponsor_church).to eq(SPONSOR_CHURCH)
+    candidate_db_update = Candidate.find(@candidate.id)
+    expect(candidate_db_update.sponsor_covenant).not_to eq(nil)
+    expect(candidate_db_update.sponsor_covenant.sponsor_attends_stmm).to eq(false)
+    expect(candidate_db_update.sponsor_covenant.sponsor_elegibility_filename).to eq('Baptismal Certificate.png')
+    expect(candidate_db_update.sponsor_covenant.sponsor_covenant_filename).to eq('actions.png')
+    expect(candidate_db_update.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
+    expect(candidate_db_update.sponsor_covenant.sponsor_church).to eq(SPONSOR_CHURCH)
 
-    event = candidate.get_candidate_event(SPONSOR_COVENANT_EVENT)
+    event = candidate_db_update.get_candidate_event(SPONSOR_COVENANT_EVENT)
     # this errors periodically
+    expect(event.candidate).to eq(candidate_db_update)
     expect(event.completed_date).to eq(Date.today)
     expect(event.verified).to eq(false)
 
     visit @path
-    candidate = Candidate.find(@candidate.id)
-    expect_form_layout(candidate)
-    puts "*** random error test ending."
+    candidate_db_visit = Candidate.find(@candidate.id)
+    expect_form_layout(candidate_db_visit)
 
   end
 

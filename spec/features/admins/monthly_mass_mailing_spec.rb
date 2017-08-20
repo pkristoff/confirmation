@@ -41,6 +41,24 @@ feature 'Admin monthly mass mailing', :devise do
 
   end
 
+  scenario 'admin can send test email to a candidate' do
+
+    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+
+    admin = FactoryGirl.create(:admin)
+    AppFactory.add_confirmation_events
+
+    login_as(admin, :scope => :admin)
+
+    visit monthly_mass_mailing_path
+
+    check("candidate_candidate_ids_#{candidate_1.id}")
+    click_button('top-test')
+
+    expect_message(:flash_notice, I18n.t('messages.monthly_mailing_test_sent'))
+
+  end
+
 end
 
 
