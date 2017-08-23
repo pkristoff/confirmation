@@ -229,14 +229,14 @@ describe AdminsController do
     end
     it 'should set @candidates' do
 
-      expect(SendEmailJob).to receive(:perform_in).with(0, instance_of(CandidatesMailerText), @admin, false).exactly(:once) do |index, candidates_mailer_text, admin, isText|
+      expect(SendEmailJob).to receive(:perform_in).with(0, @c1, instance_of(CandidatesMailerText), @admin, false).exactly(:once) do |index, candidate, candidates_mailer_text, admin, isText|
         puts "index: #{index}"
         expect(index).to eq(0)
         expect_mailer_text(@c1, candidates_mailer_text)
         expect(admin).to eq(@admin)
         expect(isText).to eq(false)
       end
-      expect(SendEmailJob).to receive(:perform_in).with(2, instance_of(CandidatesMailerText), @admin, false).exactly(:once) do |index, candidates_mailer_text, admin, isText|
+      expect(SendEmailJob).to receive(:perform_in).with(2, @c2, instance_of(CandidatesMailerText), @admin, false).exactly(:once) do |index, candidate, candidates_mailer_text, admin, isText|
         expect(index).to eq(2)
         expect_mailer_text(@c2, candidates_mailer_text)
         expect(admin).to eq(@admin)
