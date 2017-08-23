@@ -5,6 +5,12 @@ class AdminsController < ApplicationController
 
   before_action :authenticate_admin!
 
+
+  # These should only be looked up once
+  AdminsController::DELETE = I18n.t('views.common.delete')
+  AdminsController::EMAIL = I18n.t('views.nav.email')
+  AdminsController::RESET_PASSWORD = I18n.t('views.common.reset_password')
+
   # ROUTES
 
   def edit_multiple_confirmation_events
@@ -59,24 +65,25 @@ class AdminsController < ApplicationController
     candidates = []
     candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
 
-    if candidate_ids.empty?
+    if candidates.empty?
       redirect_to :back, alert: t('messages.no_candidate_selected')
     else
       case params[:commit]
-        when 'delete'
+        when AdminsController::DELETE
           candidates.each(&:destroy)
           flash[:notice] = t('messages.candidates_deleted')
           set_candidates(params[:sort])
           render 'candidates/index'
-        when 'email'
+        when AdminsController::EMAIL
           set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
           render :monthly_mass_mailing
-        when 'reset-password'
+        when AdminsController::RESET_PASSWORD
           # This only sends the password reset instructions, the
           # password is not changed. (Recipient has to click link
           # in email and follow instructions to actually change
           # the password).
           candidates.each(&:send_reset_password_instructions)
+          redirect_to :back, notice: t('messages.reset_password_message_sent')
         else
           redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
       end
