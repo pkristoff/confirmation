@@ -143,7 +143,7 @@ class AdminsController < ApplicationController
                                         completed_text: mail_param[:completed_input], closing_text: mail_param[:closing_text],
                                         salutation_text: mail_param[:salutation_text], from_text: mail_param[:from_text])
 
-        SendEmailJob.perform_in(index*2, text,
+        SendEmailJob.perform_in(index*2, candidate, text,
                                 current_admin,
                                 is_test_mail
         )
@@ -153,7 +153,6 @@ class AdminsController < ApplicationController
     end
 
     flash[:notice] = flash_message
-
 
     set_confirmation_events
     render :edit_multiple_confirmation_events
