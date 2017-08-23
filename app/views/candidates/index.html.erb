@@ -1,6 +1,7 @@
 <%= form_tag mass_edit_candidates_update_path(), method: :post do %>
     <div class="btn-group" role="group" aria-label="...">
       <%= submit_tag t('views.common.delete'), id: 'top-update-delete', value: :delete %>
+      <%= submit_tag t('views.common.reset-password'), id: 'top-update-reset-password', value: :reset_password %>
       <%= submit_tag t('views.nav.email'), id: 'top-update-email', value: :email %>
     </div>
 
@@ -20,6 +21,7 @@
                } %>
     <div class="btn-group" role="group" aria-label="...">
       <%= submit_tag t('views.common.delete'), id: 'bottom-update-delete', value: :delete %>
+      <%= submit_tag t('views.common.reset_password'), id: 'bottom-update-reset-password', value: :reset_password %>
       <%= submit_tag t('views.nav.email'), id: 'bottom-update-email', value: :email %>
     </div>
 

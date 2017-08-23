@@ -95,6 +95,7 @@ describe AdminsController do
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')
     end
+
     it 'should NOT update any candidate\'s candidate_event' do
       put :mass_edit_candidates_event_update,
           id: @confirmation_event.id,
@@ -262,80 +263,200 @@ describe AdminsController do
     end
   end
 
-  def expect_mailer_text(candidate, candidates_mailer_text)
-    expect(candidates_mailer_text.candidate.id).to eq(candidate.id)
-    expect(candidates_mailer_text.subject).to eq('www1')
-    expect(candidates_mailer_text.pre_late_text).to eq('xxx')
-    expect(candidates_mailer_text.pre_coming_due_text).to eq('yyy')
-    expect(candidates_mailer_text.completed_text).to eq('zzz')
-    expect(candidates_mailer_text.closing_text).to eq('ccc')
-    expect(candidates_mailer_text.salutation_text).to eq('aaa')
-    expect(candidates_mailer_text.from_text).to eq('bbb')
-  end
+  describe 'mass edit candidates update' do
 
+    before(:each) do
+      @c1 = create_candidate('c1')
+      @c2 = create_candidate('c2')
+      @c3 = create_candidate('c3')
 
-  def expect_message(id, message)
-    [:alert, :notice].each do |my_id|
-      unless my_id == id
-        expect(flash[my_id]).to eq(nil)
+      request.env['HTTP_REFERER'] = monthly_mass_mailing_path
+    end
+
+    describe 'do not login' do
+
+      it 'delete fails if not logged in.' do
+
+        put :mass_edit_candidates_update,
+            commit: 'delete'
+
+        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect(render_template('edit_multiple_confirmation_events'))
+        expect(response.status).to eq(302)
+      end
+
+      it 'reset-password fails if not logged in.' do
+
+        put :mass_edit_candidates_update,
+            commit: 'reset-password'
+
+        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect(render_template('edit_multiple_confirmation_events'))
+        expect(response.status).to eq(302)
+      end
+
+      it 'email fails if not logged in.' do
+
+        put :mass_edit_candidates_update,
+            commit: 'email'
+
+        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect(render_template('edit_multiple_confirmation_events'))
+        expect(response.status).to eq(302)
       end
     end
-    expect(flash[id]).to eq(message) unless id.nil?
+
+    describe 'admin login' do
+      before(:each) do
+        @admin = login_admin
+      end
+
+      describe 'No candidate selected' do
+
+        it 'delete should return no_candidate_selected if none selected' do
+
+          put :mass_edit_candidates_update,
+              commit: 'delete'
+
+          expect_message(:alert, I18n.t('messages.no_candidate_selected'))
+          expect(render_template('edit_multiple_confirmation_events'))
+          expect(response.status).to eq(302)
+        end
+
+        it 'email should return no_candidate_selected if none selected' do
+
+          put :mass_edit_candidates_update,
+              commit: 'email'
+
+          expect_message(:alert, I18n.t('messages.no_candidate_selected'))
+          expect(render_template('edit_multiple_confirmation_events'))
+          expect(response.status).to eq(302)
+        end
+
+        it 'reset-password should return no_candidate_selected if none selected' do
+
+          put :mass_edit_candidates_update,
+              commit: 'reset-password'
+
+          expect_message(:alert, I18n.t('messages.no_candidate_selected'))
+          expect(render_template('edit_multiple_confirmation_events'))
+          expect(response.status).to eq(302)
+        end
+      end
+
+      describe 'delete' do
+        it 'should delete candidate if selected' do
+
+          put :mass_edit_candidates_update,
+              candidate: {candidate_ids: [@c2.id]},
+              commit: 'delete'
+
+          expect_message(:notice, I18n.t('messages.candidates_deleted'))
+          candidates = Candidate.all
+          expect(candidates.size).to eq(2)
+          expect(candidates.include?(@c2)).to eq(false)
+
+        end
+      end
+      describe 'email' do
+        it 'should render monthly mass mailing when email' do
+
+          put :mass_edit_candidates_update,
+              candidate: {candidate_ids: [@c2.id]},
+              commit: 'email'
+
+          expect(render_template('monthly_mass_mailing'))
+
+        end
+      end
+      describe 'reset password' do
+        it 'should send reset password email when ' do
+
+          put :mass_edit_candidates_update,
+              candidate: {candidate_ids: [@c2.id]},
+              commit: 'reset-password'
+
+          expect_message(:notice, I18n.t('messages.reset-password_message_sent'))
+        end
+
+      end
+    end
   end
 
-  def expect_column_sorting(column, *candidates)
+def expect_mailer_text(candidate, candidates_mailer_text)
+  expect(candidates_mailer_text.candidate.id).to eq(candidate.id)
+  expect(candidates_mailer_text.subject).to eq('www1')
+  expect(candidates_mailer_text.pre_late_text).to eq('xxx')
+  expect(candidates_mailer_text.pre_coming_due_text).to eq('yyy')
+  expect(candidates_mailer_text.completed_text).to eq('zzz')
+  expect(candidates_mailer_text.closing_text).to eq('ccc')
+  expect(candidates_mailer_text.salutation_text).to eq('aaa')
+  expect(candidates_mailer_text.from_text).to eq('bbb')
+end
 
-    put :mass_edit_candidates_event,
-        id: @confirmation_event.id,
-        sort: column,
-        direction: 'asc',
-        candidate: {candidate_ids: []}
 
-    expect_message(nil, nil)
-    # order not important js will do it
-    expect(controller.candidates.size).to eq(candidates.size)
-    candidates.each do |candidate|
-      expect(controller.candidates.include? candidate).to eq(true)
-    end
-
-    put :mass_edit_candidates_event,
-        id: @confirmation_event.id,
-        sort: column,
-        direction: 'desc',
-        candidate: {candidate_ids: []}
-
-    expect_message(nil, nil)
-    # order not important js will do it
-    expect(controller.candidates.size).to eq(candidates.size)
-    candidates.each do |candidate|
-      expect(controller.candidates.include? candidate).to eq(true)
+def expect_message(id, message)
+  [:alert, :notice].each do |my_id|
+    unless my_id == id
+      expect(flash[my_id]).to eq(nil)
     end
   end
+  expect(flash[id]).to eq(message) unless id.nil?
+end
 
-  def create_candidate(prefix)
-    candidate = FactoryGirl.create(:candidate, account_name: prefix)
-    candidate_event = candidate.add_candidate_event(@confirmation_event)
-    case prefix
-      when 'c1'
-        candidate.candidate_sheet.first_name = 'c2first_name'
-        candidate.candidate_sheet.middle_name = 'c1middle_name'
-        candidate.candidate_sheet.last_name = 'c3last_name'
-        candidate_event.completed_date='2016-06-09'
-      when 'c2'
-        candidate.candidate_sheet.first_name = 'c3first_name'
-        candidate.candidate_sheet.middle_name = 'c2middle_name'
-        candidate.candidate_sheet.last_name = 'c1last_name'
-        candidate_event.completed_date=''
-      when 'c3'
-        candidate.candidate_sheet.first_name = 'c1first_name'
-        candidate.candidate_sheet.middle_name = 'c3middle_name'
-        candidate.candidate_sheet.last_name = 'c2last_name'
-        candidate_event.completed_date='2016-07-23'
-      else
-        throw RuntimeError.new('Unknown prefix')
-    end
-    candidate.save
-    candidate
+def expect_column_sorting(column, *candidates)
+
+  put :mass_edit_candidates_event,
+      id: @confirmation_event.id,
+      sort: column,
+      direction: 'asc',
+      candidate: {candidate_ids: []}
+
+  expect_message(nil, nil)
+  # order not important js will do it
+  expect(controller.candidates.size).to eq(candidates.size)
+  candidates.each do |candidate|
+    expect(controller.candidates.include? candidate).to eq(true)
   end
+
+  put :mass_edit_candidates_event,
+      id: @confirmation_event.id,
+      sort: column,
+      direction: 'desc',
+      candidate: {candidate_ids: []}
+
+  expect_message(nil, nil)
+  # order not important js will do it
+  expect(controller.candidates.size).to eq(candidates.size)
+  candidates.each do |candidate|
+    expect(controller.candidates.include? candidate).to eq(true)
+  end
+end
+
+def create_candidate(prefix)
+  candidate = FactoryGirl.create(:candidate, account_name: prefix)
+  candidate_event = candidate.add_candidate_event(@confirmation_event)
+  case prefix
+    when 'c1'
+      candidate.candidate_sheet.first_name = 'c2first_name'
+      candidate.candidate_sheet.middle_name = 'c1middle_name'
+      candidate.candidate_sheet.last_name = 'c3last_name'
+      candidate_event.completed_date='2016-06-09'
+    when 'c2'
+      candidate.candidate_sheet.first_name = 'c3first_name'
+      candidate.candidate_sheet.middle_name = 'c2middle_name'
+      candidate.candidate_sheet.last_name = 'c1last_name'
+      candidate_event.completed_date=''
+    when 'c3'
+      candidate.candidate_sheet.first_name = 'c1first_name'
+      candidate.candidate_sheet.middle_name = 'c3middle_name'
+      candidate.candidate_sheet.last_name = 'c2last_name'
+      candidate_event.completed_date='2016-07-23'
+    else
+      throw RuntimeError.new('Unknown prefix')
+  end
+  candidate.save
+  candidate
+end
 
 end

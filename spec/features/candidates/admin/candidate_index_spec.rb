@@ -29,22 +29,25 @@ feature 'Candidate index page', :devise do
     expect(page).to have_css "form[action='/mass_edit_candidates_update']"
 
     expect(page).to have_css("input[type='submit'][value='delete']", count: 2)
+    expect(page).to have_css("input[type='submit'][value='reset_password']", count: 2)
     expect(page).to have_css("input[type='submit'][value='email']", count: 2)
 
 
     expect(page).to have_css("input[id='top-update-delete'][type='submit'][value='delete']")
+    expect(page).to have_css("input[id='top-update-reset-password'][type='submit'][value='reset_password']")
     expect(page).to have_css("input[id='top-update-email'][type='submit'][value='email']")
 
-    expect_sorting_candidate_list(get_columns_index,
+    expect_sorting_candidate_list(columns_index,
                                   [c1, c2, c3],
                                   page)
     expect(page).to have_css("input[id='bottom-update-delete'][type='submit'][value='delete']")
+    expect(page).to have_css("input[id='bottom-update-reset-password'][type='submit'][value='reset_password']")
     expect(page).to have_css("input[id='bottom-update-email'][type='submit'][value='email']")
 
   end
 end
 
-def get_columns_index
+def columns_index
   [
       [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
       [I18n.t('views.nav.edit'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],

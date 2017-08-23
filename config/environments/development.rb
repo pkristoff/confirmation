@@ -71,7 +71,10 @@ Rails.application.configure do
                                           email: {
                                               # :deliver_with => :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
                                               email_prefix: "[PREFIX] ",
-                                              sender_address: %{"notifier" <paul@kristoffs.com>},
+                                              sender_address: %{'notifier' <paul@kristoffs.com>},
                                               exception_recipients: %w{paul@kristoffs.com}
                                           }
+
+  Rails.application.routes.default_url_options[:host] = 'domain.com'
+
 end

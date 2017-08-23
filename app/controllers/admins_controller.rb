@@ -20,7 +20,6 @@ class AdminsController < ApplicationController
     # params[:verified] = "0" unless params[:verified]
     # params[:completed_date] = "" unless params[:completed_date]
     set_candidates(params[:sort], confirmation_event: ConfirmationEvent.find(params[:id]))
-
   end
 
   def mass_edit_candidates_event_update
@@ -54,33 +53,34 @@ class AdminsController < ApplicationController
 
   def mass_edit_candidates_update
 
-    candidate_ids = params[:candidate][:candidate_ids]
-    candidate_ids.delete('')
+    candidate_param = params[:candidate]
+    candidate_ids = candidate_param ? candidate_param[:candidate_ids] : []
+    params.delete(:candidate) if candidate_param
     candidates = []
     candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
 
-    if params[:commit] === 'delete'
-      candidates.each do |candidate|
-        candidate.destroy
-      end
-      if candidate_ids.empty?
-        flash[:alert] = t('messages.no_candidate_selected')
-      else
-        flash[:notice] = t('messages.candidates_deleted')
-      end
-      set_candidates(params[:sort])
-      render 'candidates/index'
-    elsif params[:commit] === 'email'
-      if candidate_ids.empty?
-        redirect_to :back, alert: t('messages.no_candidate_selected')
-      else
-        set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
-        render :monthly_mass_mailing
-      end
+    if candidate_ids.empty?
+      redirect_to :back, alert: t('messages.no_candidate_selected')
     else
-      redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
+      case params[:commit]
+        when 'delete'
+          candidates.each(&:destroy)
+          flash[:notice] = t('messages.candidates_deleted')
+          set_candidates(params[:sort])
+          render 'candidates/index'
+        when 'email'
+          set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
+          render :monthly_mass_mailing
+        when 'reset-password'
+          # This only sends the password reset instructions, the
+          # password is not changed. (Recipient has to click link
+          # in email and follow instructions to actually change
+          # the password).
+          candidates.each(&:send_reset_password_instructions)
+        else
+          redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
+      end
     end
-
   end
 
   def monthly_mass_mailing
