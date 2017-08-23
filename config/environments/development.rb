@@ -66,4 +66,11 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+                                          email: {
+                                              # :deliver_with => :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
+                                              email_prefix: "[PREFIX] ",
+                                              sender_address: %{"notifier" <paul@kristoffs.com>},
+                                              exception_recipients: %w{paul@kristoffs.com}
+                                          }
 end
