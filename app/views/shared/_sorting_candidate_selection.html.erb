@@ -62,7 +62,6 @@
           <td id="tr<%= b.object.id %>_td<%= td_index %>" onclick="update_total_selections()"><%= b.check_box %></td>
           <% td_index += 1 %>
           <% if other_columns %>
-
               <% other_columns[:rows].each do |cell_gen| %>
                   <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= cell_gen.call(b.object) %></td>
                   <% td_index += 1 %>
@@ -74,7 +73,16 @@
               <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.object.get_candidate_event(confirmation_event.name).verified %></td>
               <% td_index += 1 %>
           <% end %>
-          <td id="tr<%= b.object.id %>_td<%= td_index+0 %>"><%= b.object.candidate_sheet.last_name %></td>
+          <td id="tr<%= b.object.id %>_td<%= td_index+0 %>">
+            <% # make last name bold if candidate has confirmed account. %>
+            <% if b.object.confirmed? %>
+              <b>
+            <% end %>
+            <%= b.object.candidate_sheet.last_name %>
+            <% if b.object.confirmed? %>
+              </b>
+            <% end %>
+          </td>
           <td id="tr<%= b.object.id %>_td<%= td_index+1 %>"><%= b.object.candidate_sheet.first_name %></td>
           <td id="tr<%= b.object.id %>_td<%= td_index+2 %>"><%= b.object.candidate_sheet.grade %></td>
           <td id="tr<%= b.object.id %>_td<%= td_index+3 %>"><%= b.object.candidate_sheet.attending %></td>

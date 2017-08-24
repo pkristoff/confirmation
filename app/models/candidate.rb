@@ -29,8 +29,8 @@ class Candidate < ActiveRecord::Base
   after_initialize :build_associations, :if => :new_record?
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
          :authentication_keys => [:account_name],
          :reset_password_keys => [:account_name]

@@ -7,9 +7,10 @@ class AdminsController < ApplicationController
 
 
   # These should only be looked up once
-  AdminsController::DELETE = I18n.t('views.common.delete')
+  DELETE = I18n.t('views.common.delete')
   AdminsController::EMAIL = I18n.t('views.nav.email')
   AdminsController::RESET_PASSWORD = I18n.t('views.common.reset_password')
+  AdminsController::INITIAL_EMAIL = I18n.t('views.common.initial_email')
 
   # ROUTES
 
@@ -84,6 +85,15 @@ class AdminsController < ApplicationController
           # the password).
           candidates.each(&:send_reset_password_instructions)
           redirect_to :back, notice: t('messages.reset_password_message_sent')
+        when AdminsController::INITIAL_EMAIL
+          # This only sends the password reset instructions, the
+          # password is not changed. (Recipient has to click link
+          # in email and follow instructions to actually change
+          # the password).
+          candidates.each(&:send_confirmation_instructions)
+          # immediately send out password reset.  Otherwise they cannot login to their new account.
+          candidates.each(&:send_reset_password_instructions)
+          redirect_to :back, notice: t('messages.initial_email_sent')
         else
           redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
       end

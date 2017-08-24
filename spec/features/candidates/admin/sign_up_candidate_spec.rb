@@ -26,7 +26,7 @@ feature 'Sign Up', :devise do
     #   Then I see a successful sign up message
     scenario 'visitor can sign up with valid candidate id, email address and password' do
       sign_up_candidate_with('candidateId', 'Paul', 'R', 'K', 'test@example.com', 'please123', 'please123')
-      expect_message :flash_notice, I18n.t('devise.registrations.signed_up')
+      expect_message :flash_notice, I18n.t('devise.registrations.signed_up_but_unconfirmed')
     end
 
     # Scenario: Visitor cannot sign up with invalid email address

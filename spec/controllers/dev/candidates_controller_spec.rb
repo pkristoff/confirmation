@@ -24,18 +24,21 @@ describe Dev::CandidatesController do
 
     it 'should not edit candidate' do
       begin
+        rescue_called = false
         get :edit, id: @login_candidate.id
         expect(false).to eq(true) # should never be executed.
       rescue ActionController::UrlGenerationError => err
+        rescue_called = true
         expect(err.message).to eq("No route matches {:action=>\"edit\", :controller=>\"dev/candidates\", :id=>\"#{@login_candidate.id}\"}")
       end
+      expect(rescue_called).to eq(true)
     end
 
   end
 
   describe 'show' do
 
-    it 'show should not rediect if admin is logged in.' do
+    it 'show should not redirect if admin is logged in.' do
 
       get :show, id: @login_candidate.id
       expect(response).to render_template('show')

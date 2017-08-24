@@ -3,6 +3,7 @@ FactoryGirl.define do
     account_name 'sophiaagusta'
     password 'please123'
     after(:build) do |candidate|
+      candidate.confirm
       candidate.candidate_sheet.parent_email_1 = 'test@example.com'
       candidate.candidate_sheet.first_name = 'Sophia'
       candidate.candidate_sheet.middle_name = 'Saraha'

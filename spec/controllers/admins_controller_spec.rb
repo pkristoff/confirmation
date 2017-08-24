@@ -265,10 +265,6 @@ describe AdminsController do
 
   describe 'mass edit candidates update' do
 
-    DELETE = I18n.t('views.common.delete')
-    EMAIL = I18n.t('views.nav.email')
-    RESET_PASSWORD = I18n.t('views.common.reset_password')
-
     before(:each) do
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
@@ -282,17 +278,7 @@ describe AdminsController do
       it 'delete fails if not logged in.' do
 
         put :mass_edit_candidates_update,
-            commit: DELETE
-
-        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
-        expect(render_template('edit_multiple_confirmation_events'))
-        expect(response.status).to eq(302)
-      end
-
-      it 'reset-password fails if not logged in.' do
-
-        put :mass_edit_candidates_update,
-            commit: RESET_PASSWORD
+            commit: AdminsController::DELETE
 
         expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
         expect(render_template('edit_multiple_confirmation_events'))
@@ -302,7 +288,27 @@ describe AdminsController do
       it 'email fails if not logged in.' do
 
         put :mass_edit_candidates_update,
-            commit: EMAIL
+            commit: AdminsController::EMAIL
+
+        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect(render_template('edit_multiple_confirmation_events'))
+        expect(response.status).to eq(302)
+      end
+
+      it 'reset-password fails if not logged in.' do
+
+        put :mass_edit_candidates_update,
+            commit: AdminsController::RESET_PASSWORD
+
+        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect(render_template('edit_multiple_confirmation_events'))
+        expect(response.status).to eq(302)
+      end
+
+      it 'initial-email fails if not logged in.' do
+
+        put :mass_edit_candidates_update,
+            commit: AdminsController::INITIAL_EMAIL
 
         expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
         expect(render_template('edit_multiple_confirmation_events'))
@@ -320,7 +326,7 @@ describe AdminsController do
         it 'delete should return no_candidate_selected if none selected' do
 
           put :mass_edit_candidates_update,
-              commit: DELETE
+              commit: AdminsController::DELETE
 
           expect_message(:alert, I18n.t('messages.no_candidate_selected'))
           expect(render_template('edit_multiple_confirmation_events'))
@@ -330,7 +336,7 @@ describe AdminsController do
         it 'email should return no_candidate_selected if none selected' do
 
           put :mass_edit_candidates_update,
-              commit: EMAIL
+              commit: AdminsController::EMAIL
 
           expect_message(:alert, I18n.t('messages.no_candidate_selected'))
           expect(render_template('edit_multiple_confirmation_events'))
@@ -340,7 +346,17 @@ describe AdminsController do
         it 'reset-password should return no_candidate_selected if none selected' do
 
           put :mass_edit_candidates_update,
-              commit: RESET_PASSWORD
+              commit: AdminsController::RESET_PASSWORD
+
+          expect_message(:alert, I18n.t('messages.no_candidate_selected'))
+          expect(render_template('edit_multiple_confirmation_events'))
+          expect(response.status).to eq(302)
+        end
+
+        it 'initial-email should return no_candidate_selected if none selected' do
+
+          put :mass_edit_candidates_update,
+              commit: AdminsController::INITIAL_EMAIL
 
           expect_message(:alert, I18n.t('messages.no_candidate_selected'))
           expect(render_template('edit_multiple_confirmation_events'))
@@ -353,7 +369,7 @@ describe AdminsController do
 
           put :mass_edit_candidates_update,
               candidate: {candidate_ids: [@c2.id]},
-              commit: DELETE
+              commit: AdminsController::DELETE
 
           expect_message(:notice, I18n.t('messages.candidates_deleted'))
           candidates = Candidate.all
@@ -367,7 +383,7 @@ describe AdminsController do
 
           put :mass_edit_candidates_update,
               candidate: {candidate_ids: [@c2.id]},
-              commit: EMAIL
+              commit: AdminsController::EMAIL
 
           expect(render_template('monthly_mass_mailing'))
 
@@ -378,11 +394,20 @@ describe AdminsController do
 
           put :mass_edit_candidates_update,
               candidate: {candidate_ids: [@c2.id]},
-              commit: RESET_PASSWORD
+              commit: AdminsController::RESET_PASSWORD
 
           expect_message(:notice, I18n.t('messages.reset_password_message_sent'))
         end
+      end
+      describe 'initial email' do
+        it 'should send initial email with reset password when ' do
 
+          put :mass_edit_candidates_update,
+              candidate: {candidate_ids: [@c2.id]},
+              commit: AdminsController::INITIAL_EMAIL
+
+          expect_message(:notice, I18n.t('messages.initial_email_sent'))
+        end
       end
     end
   end

@@ -1,8 +1,9 @@
 <%= form_tag mass_edit_candidates_update_path(), method: :post do %>
     <div class="btn-group" role="group" aria-label="...">
-      <%= submit_tag AdminsController::DELETE, id: 'top-update-delete', value: t('views.common.delete') %>
-      <%= submit_tag AdminsController::RESET_PASSWORD, id: 'top-update-reset-password', value: t('views.common.reset_password') %>
-      <%= submit_tag AdminsController::EMAIL, id: 'top-update-email', value: t('views.nav.email') %>
+      <%= submit_tag AdminsController::DELETE, id: 'top-update-delete', value: AdminsController::DELETE %>
+      <%= submit_tag AdminsController::EMAIL, id: 'top-update-email', value: AdminsController::EMAIL %>
+      <%= submit_tag AdminsController::RESET_PASSWORD, id: 'top-update-reset-password', value: AdminsController::RESET_PASSWORD  %>
+      <%= submit_tag AdminsController::INITIAL_EMAIL, id: 'top-update-initial-email', value: AdminsController::INITIAL_EMAIL  %>
     </div>
 
     <%= render partial: 'shared/sorting_candidate_selection',
@@ -20,9 +21,10 @@
                    selected_candidate_ids: @selected_candidate_ids
                } %>
     <div class="btn-group" role="group" aria-label="...">
-      <%= submit_tag AdminsController::DELETE, id: 'bottom-update-delete', value: t('views.common.delete') %>
-      <%= submit_tag AdminsController::RESET_PASSWORD, id: 'bottom-update-reset-password', value: t('views.common.reset_password') %>
-      <%= submit_tag AdminsController::EMAIL, id: 'bottom-update-email', value: t('views.nav.email') %>
+      <%= submit_tag AdminsController::DELETE, id: 'bottom-update-delete', value: AdminsController::DELETE %>
+      <%= submit_tag AdminsController::EMAIL, id: 'bottom-update-email', value: AdminsController::EMAIL %>
+      <%= submit_tag AdminsController::RESET_PASSWORD, id: 'bottom-update-reset-password', value: AdminsController::RESET_PASSWORD %>
+      <%= submit_tag AdminsController::INITIAL_EMAIL, id: 'bottom-update-initial-email', value: AdminsController::INITIAL_EMAIL %>
     </div>
 
 <% end %>

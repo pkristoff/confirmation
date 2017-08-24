@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170216215215) do
+ActiveRecord::Schema.define(version: 20170824101034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,12 +115,16 @@ ActiveRecord::Schema.define(version: 20170216215215) do
     t.integer  "christian_ministry_id"
     t.integer  "candidate_sheet_id"
     t.integer  "retreat_verification_id"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
   end
 
   add_index "candidates", ["account_name"], name: "index_candidates_on_account_name", unique: true, using: :btree
   add_index "candidates", ["baptismal_certificate_id"], name: "index_candidates_on_baptismal_certificate_id", using: :btree
   add_index "candidates", ["candidate_sheet_id"], name: "index_candidates_on_candidate_sheet_id", using: :btree
   add_index "candidates", ["christian_ministry_id"], name: "index_candidates_on_christian_ministry_id", using: :btree
+  add_index "candidates", ["confirmation_token"], name: "index_candidates_on_confirmation_token", unique: true, using: :btree
   add_index "candidates", ["pick_confirmation_name_id"], name: "index_candidates_on_pick_confirmation_name_id", using: :btree
   add_index "candidates", ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true, using: :btree
   add_index "candidates", ["retreat_verification_id"], name: "index_candidates_on_retreat_verification_id", using: :btree

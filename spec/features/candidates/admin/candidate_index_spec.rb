@@ -29,20 +29,23 @@ feature 'Candidate index page', :devise do
     expect(page).to have_css "form[action='/mass_edit_candidates_update']"
 
     expect(page).to have_css("input[type='submit'][value=#{AdminsController::DELETE}]", count: 2)
-    expect(page).to have_css("input[type='submit'][value='#{AdminsController::RESET_PASSWORD}']", count: 2)
     expect(page).to have_css("input[type='submit'][value=#{AdminsController::EMAIL}]", count: 2)
+    expect(page).to have_css("input[type='submit'][value='#{AdminsController::RESET_PASSWORD}']", count: 2)
+    expect(page).to have_css("input[type='submit'][value='#{AdminsController::INITIAL_EMAIL}']", count: 2)
 
 
     expect(page).to have_css("input[id='top-update-delete'][type='submit'][value='#{AdminsController::DELETE}']")
-    expect(page).to have_css("input[id='top-update-reset-password'][type='submit'][value='#{AdminsController::RESET_PASSWORD}']")
     expect(page).to have_css("input[id='top-update-email'][type='submit'][value='#{AdminsController::EMAIL}']")
+    expect(page).to have_css("input[id='top-update-reset-password'][type='submit'][value='#{AdminsController::RESET_PASSWORD}']")
+    expect(page).to have_css("input[id='top-update-initial-email'][type='submit'][value='#{AdminsController::INITIAL_EMAIL}']")
 
     expect_sorting_candidate_list(columns_index,
                                   [c1, c2, c3],
                                   page)
     expect(page).to have_css("input[id='bottom-update-delete'][type='submit'][value='#{AdminsController::DELETE}']")
-    expect(page).to have_css("input[id='bottom-update-reset-password'][type='submit'][value='#{AdminsController::RESET_PASSWORD}']")
     expect(page).to have_css("input[id='bottom-update-email'][type='submit'][value='#{AdminsController::EMAIL}']")
+    expect(page).to have_css("input[id='bottom-update-reset-password'][type='submit'][value='#{AdminsController::RESET_PASSWORD}']")
+    expect(page).to have_css("input[id='bottom-update-initial-email'][type='submit'][value='#{AdminsController::INITIAL_EMAIL}']")
 
   end
 end
