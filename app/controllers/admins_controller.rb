@@ -83,16 +83,18 @@ class AdminsController < ApplicationController
           # password is not changed. (Recipient has to click link
           # in email and follow instructions to actually change
           # the password).
-          candidates.each(&:send_reset_password_instructions)
+          candidates.each_with_index do | candidate, index |
+            SendResetEmailJob.perform_in( index*2, candidate, AdminsController::RESET_PASSWORD)
+          end
           redirect_to :back, notice: t('messages.reset_password_message_sent')
         when AdminsController::INITIAL_EMAIL
           # This only sends the password reset instructions, the
           # password is not changed. (Recipient has to click link
           # in email and follow instructions to actually change
           # the password).
-          candidates.each(&:send_confirmation_instructions)
-          # immediately send out password reset.  Otherwise they cannot login to their new account.
-          candidates.each(&:send_reset_password_instructions)
+          candidates.each_with_index do | candidate, index |
+            SendResetEmailJob.perform_in( index*2, candidate, AdminsController::INITIAL_EMAIL)
+          end
           redirect_to :back, notice: t('messages.initial_email_sent')
         else
           redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)

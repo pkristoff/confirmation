@@ -392,8 +392,11 @@ describe AdminsController do
       describe 'reset password' do
         it 'should send reset password email when ' do
 
+          expect(SendResetEmailJob).to receive(:perform_in).with(0, @c1, AdminsController::RESET_PASSWORD).exactly(:once)
+          expect(SendResetEmailJob).to receive(:perform_in).with(2, @c2, AdminsController::RESET_PASSWORD).exactly(:once)
+
           put :mass_edit_candidates_update,
-              candidate: {candidate_ids: [@c2.id]},
+              candidate: {candidate_ids: [@c1.id, @c2.id]},
               commit: AdminsController::RESET_PASSWORD
 
           expect_message(:notice, I18n.t('messages.reset_password_message_sent'))
@@ -402,8 +405,11 @@ describe AdminsController do
       describe 'initial email' do
         it 'should send initial email with reset password when ' do
 
+          expect(SendResetEmailJob).to receive(:perform_in).with(0, @c2, AdminsController::INITIAL_EMAIL).exactly(:once)
+          expect(SendResetEmailJob).to receive(:perform_in).with(2, @c3, AdminsController::INITIAL_EMAIL).exactly(:once)
+
           put :mass_edit_candidates_update,
-              candidate: {candidate_ids: [@c2.id]},
+              candidate: {candidate_ids: [@c2.id, @c3.id]},
               commit: AdminsController::INITIAL_EMAIL
 
           expect_message(:notice, I18n.t('messages.initial_email_sent'))
