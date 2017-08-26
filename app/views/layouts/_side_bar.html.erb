@@ -17,7 +17,7 @@
           <li ><%= link_to I18n.t('views.nav.export_candidate_event_status'), export_lists_events_path %></li >
           <li ><%= link_to I18n.t('views.nav.other'), new_candidate_import_path %></li >
         </ul >
-        <% if ( defined?(resource) || respond_to?(resource)) && (!resource.nil?) && (!resource.new_record?) && (resource.is_a? Candidate) %>
+        <% if defined?(resource) && (!resource.nil?) && (!resource.new_record?) && (resource.is_a? Candidate) %>
             <p class = "sidebar-header no-link" >Candidate: <%= "#{resource.candidate_sheet.first_name} #{resource.candidate_sheet.last_name}" %></p >
 
             <ul id = "candidate-sidebar" >
