@@ -96,8 +96,11 @@ Rails.application.configure do
 
   Rails.application.config.middleware.use ExceptionNotification::Rack,
                                           email: {
-                                              email_prefix: '[PREFIX] ',
-                                              sender_address: %{'notifier' <paul@kristoffs.com>},
-                                              exception_recipients: %w{paul@kristoffs.com}
+                                              # :deliver_with => :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
+                                              email_prefix: 'Internal Stmm Confiramtion error: ',
+                                              sender_address: Rails.application.secrets.admin_email,
+                                              exception_recipients: Rails.application.secrets.admin_email,
+                                              email_format: :html
+
                                           }
 end
