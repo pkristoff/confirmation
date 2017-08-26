@@ -8,7 +8,7 @@ class VisitorsController < ApplicationController
   end
 
   def candidate_confirmation
-    @candidate = Candidate.find(params[:id])
+    @candidate = (params[:id].to_i.equal?('-1'.to_i)) ? Candidate.create : Candidate.find(params[:id])
     @errors = params[:errors]
     sign_out current_admin if admin_signed_in?
   end
