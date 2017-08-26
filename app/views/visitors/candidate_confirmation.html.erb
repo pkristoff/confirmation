@@ -1,0 +1,7 @@
+<%= render partial: 'visitors/shared/visitor_common',
+           :locals => {page_content: 'visitors/shared/candidate_confirmation',
+                       # page_count works but below does not
+                       candidate: @candidate,
+                       resource_errors: @errors
+           }
+%>

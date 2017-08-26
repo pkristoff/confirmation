@@ -1,9 +1,12 @@
 FactoryGirl.define do
   factory :candidate do
+    transient do
+      should_confirm true
+    end
     account_name 'sophiaagusta'
     password 'please123'
-    after(:build) do |candidate|
-      candidate.confirm
+    after(:build) do |candidate, evaluator |
+      candidate.confirm if evaluator.should_confirm
       candidate.candidate_sheet.parent_email_1 = 'test@example.com'
       candidate.candidate_sheet.first_name = 'Sophia'
       candidate.candidate_sheet.middle_name = 'Saraha'

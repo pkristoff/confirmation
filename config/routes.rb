@@ -13,13 +13,14 @@ Rails.application.routes.draw do
   post 'candidate_imports/export_to_excel'
 
   devise_for :admins,
-             controllers: {:registrations => 'registrations'}
+             controllers: {registrations: 'registrations',
+                           confirmations: 'confirmations'}
 
   resources :admins
 
   # Sign in CANDIDATE
   devise_for :candidates, :path_prefix => 'dev',
-             controllers: {:registrations => 'dev/registrations'}
+             controllers: {registrations: 'dev/registrations', confirmations: 'dev/confirmations'}
   devise_scope :candidates do
     get 'show/:id', to: 'dev/candidates#show', as: 'dev_candidate'
     get 'event/:id', to: 'candidates#event', as: 'event_candidate'
@@ -109,6 +110,9 @@ Rails.application.routes.draw do
     post 'update_multiple_confirmation_events/', to: 'admins#update_multiple_confirmation_events', as: 'update_multiple_confirmation_events'
 
   end
+
+  # candidate confirmation
+  get 'my_candidate_confirmation/:id/:errors', to: 'visitors#candidate_confirmation', as: 'my_candidate_confirmation'
 
   # Sign in ADMIN
   resources :candidates
