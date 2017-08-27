@@ -41,6 +41,10 @@ class Candidate < ActiveRecord::Base
                 :case_sensitive => false
             }
 
+  def send_on_create_confirmation_instructions
+    # turn off sending verify instructions until admin sends it.
+  end
+
   def candidate_events_sorted
     candidate_events.sort do |ce1, ce2|
       # in order for this to work due_dates should not be nil.
