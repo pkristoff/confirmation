@@ -20,7 +20,10 @@ feature 'Sign in', :devise do
   #   Then I see a success message
   scenario 'candidate can sign in with valid credentials' do
     candidate = FactoryGirl.create(:candidate)
+    AppFactory.add_confirmation_events
+
     signin_candidate(candidate.account_name, candidate.password)
+
     expect_message(:flash_notice, I18n.t('devise.sessions.signed_in'))
   end
 

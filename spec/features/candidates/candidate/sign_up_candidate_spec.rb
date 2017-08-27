@@ -21,6 +21,7 @@ feature 'Sign Up', :devise do
   #   Then I see a Please login as admin to create another candidate.
   scenario 'Candidate cannot sign up another candidate' do
     candidate = FactoryGirl.create(:candidate)
+    AppFactory.add_confirmation_events
     signin_candidate(candidate.account_name, candidate.password)
     referer = dev_candidate_path(candidate.id) # result of signing in.
     Capybara.current_session.driver.header 'Referer', referer

@@ -1,4 +1,4 @@
-<h2 >Status <%= "#{resource.account_name}" %></h2 >
+<h2>Status <%= "#{resource.account_name}" %></h2>
 
 <%= devise_error_messages! %>
 
@@ -6,36 +6,44 @@
 
     <%= f.fields_for :candidate_events, resource.candidate_events_sorted.to_a do |candidate_event_fields| %>
         <%= candidate_event_fields.fields_for :confirmation_event do |confirmation_event_fields| %>
-            <%= field_set_tag confirmation_event_fields.object.name, class: "fieldset #{controller.event_class(candidate_event_fields.object)}", id: "event_id_#{candidate_event_fields.object.id}" do %>
-                <div class = "fieldset-div" >
-                  <div class = "left-col" >
+            <% legend_object = if confirmation_event_fields.object.name === t('events.parent_meeting') %>
+            <% confirmation_event_fields.object.name %>
+            <% else %>
+            <% link_to "#{confirmation_event_fields.object.name}", candidate_event_to_path(confirmation_event_fields.object.name, candidate_event_fields.object.candidate.id) %>
+            <% end %>
+            <%= field_set_tag legend_object, class: "fieldset #{controller.event_class(candidate_event_fields.object)}", id: "event_id_#{candidate_event_fields.object.id}" do %>
+                <div class="fieldset-div">
+                  <div class="left-col">
                     <% if resource.candidate_sheet.attending === t('model.candidate.attending_the_way') %>
-                        <div class = "field" id = '<%= "candidate_event_#{candidate_event_fields.object.id}_the_way_due_date" %>' >
-                          <%= t('views.events.the_way_due_date') %>: <%= l confirmation_event_fields.object.the_way_due_date, format: :default %>
-                        </div >
+                        <div class="field" id='<%= "candidate_event_#{candidate_event_fields.object.id}_the_way_due_date" %>'>
+                          <%= t('views.events.the_way_due_date') %>
+                          : <%= l confirmation_event_fields.object.the_way_due_date, format: :default %>
+                        </div>
                     <% else %>
-                        <div class = "field" id = '<%= "candidate_event_#{candidate_event_fields.object.id}_chs_due_date" %>' >
-                          <%= t('views.events.chs_due_date') %>: <%= l confirmation_event_fields.object.chs_due_date, format: :default %>
-                        </div >
+                        <div class="field" id='<%= "candidate_event_#{candidate_event_fields.object.id}_chs_due_date" %>'>
+                          <%= t('views.events.chs_due_date') %>
+                          : <%= l confirmation_event_fields.object.chs_due_date, format: :default %>
+                        </div>
                     <% end %>
-                    <div class = "field" id = '<%= "candidate_event_#{candidate_event_fields.object.id}_verified" %>' >
-                      <%= t('views.events.verified') %>: <%= candidate_event_fields.check_box :verified, onclick: "update_completed_date(this.id)" %>
-                    </div >
-                    <div class = "field" id = '<%= "candidate_event_#{candidate_event_fields.object.id}_completed_date" %>' >
+                    <div class="field" id='<%= "candidate_event_#{candidate_event_fields.object.id}_verified" %>'>
+                      <%= t('views.events.verified') %>
+                      : <%= candidate_event_fields.check_box :verified, onclick: "update_completed_date(this.id)" %>
+                    </div>
+                    <div class="field" id='<%= "candidate_event_#{candidate_event_fields.object.id}_completed_date" %>'>
                       <%= t('views.events.completed_date') %>: <%= candidate_event_fields.date_field :completed_date %>
-                    </div >
-                  </div >
-                  <div class = "right-col" id = '<%= "candidate_event_#{candidate_event_fields.object.id}_instructions" %>' >
-                    <h2 ><%= t('views.events.instructions') %>: </h2 >
+                    </div>
+                  </div>
+                  <div class="right-col" id='<%= "candidate_event_#{candidate_event_fields.object.id}_instructions" %>'>
+                    <h2><%= t('views.events.instructions') %>: </h2>
                     <%= sanitize confirmation_event_fields.object.instructions %>
-                  </div >
-                </div >
+                  </div>
+                </div>
             <% end %>
         <% end %>
     <% end %>
 
-    <div class = "actions" >
+    <div class="actions">
       <%= f.submit t('views.common.update') %>
-    </div >
+    </div>
 
 <% end %>

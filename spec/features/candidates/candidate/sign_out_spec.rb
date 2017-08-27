@@ -10,9 +10,14 @@ feature 'Sign out', :devise do
   #   Then I see a signed out message
   scenario 'candidate signs out successfully' do
     candidate = FactoryGirl.create(:candidate)
+    AppFactory.add_confirmation_events
+
     signin_candidate(candidate.account_name, candidate.password)
+
     expect_message(:flash_notice, I18n.t('devise.sessions.signed_in'))
+
     click_link I18n.t('views.common.sign_out')
+
     expect_message(:flash_notice, I18n.t('devise.sessions.signed_out'))
   end
 

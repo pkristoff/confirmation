@@ -21,14 +21,14 @@
             <p class = "sidebar-header no-link" >Candidate: <%= "#{resource.candidate_sheet.first_name} #{resource.candidate_sheet.last_name}" %></p >
 
             <ul id = "candidate-sidebar" >
-              <li ><%= link_to "#{I18n.t('label.sidebar.candidate_covenant_agreement')}", sign_agreement_path(resource.id) %></li >
-              <li ><%= link_to "#{I18n.t('label.sidebar.candidate_information_sheet')}", candidate_sheet_path(resource.id) %></li >
-              <li ><%= link_to "#{I18n.t('label.sidebar.baptismal_certificate')}", event_with_picture_path(resource.id, Event::Route::BAPTISMAL_CERTIFICATE) %></li >
-              <li ><%= link_to "#{I18n.t('label.sidebar.sponsor_covenant')}", event_with_picture_path(resource.id, Event::Route::SPONSOR_COVENANT) %></li >
-              <li ><%= link_to "#{I18n.t('label.sidebar.confirmation_name')}", pick_confirmation_name_path(resource.id) %></li >
-              <li ><%= link_to "#{I18n.t('label.sidebar.sponsor_agreement')}", sponsor_agreement_path(resource.id) %></li >
-              <li ><%= link_to "#{I18n.t('label.sidebar.christian_ministry')}", christian_ministry_path(resource.id) %></li >
-              <li ><%= link_to "#{I18n.t('label.sidebar.retreat_verification')}", event_with_picture_path(resource.id, Event::Route::RETREAT_VERIFICATION) %></li >
+              <li ><%= link_to "#{I18n.t('label.sidebar.candidate_covenant_agreement')}", candidate_event_to_path(I18n.t('events.candidate_covenant_agreement'), resource.id) %></li >
+              <li ><%= link_to "#{I18n.t('label.sidebar.candidate_information_sheet')}", candidate_event_to_path(I18n.t('events.candidate_information_sheet'), resource.id) %></li >
+              <li ><%= link_to "#{I18n.t('label.sidebar.baptismal_certificate')}", candidate_event_to_path(I18n.t('events.baptismal_certificate'), resource.id) %></li >
+              <li ><%= link_to "#{I18n.t('label.sidebar.sponsor_covenant')}", candidate_event_to_path(I18n.t('events.sponsor_covenant'), resource.id) %></li >
+              <li ><%= link_to "#{I18n.t('label.sidebar.confirmation_name')}", candidate_event_to_path(I18n.t('events.confirmation_name'), resource.id) %></li >
+              <li ><%= link_to "#{I18n.t('label.sidebar.sponsor_agreement')}", candidate_event_to_path(I18n.t('events.sponsor_agreement'), resource.id) %></li >
+              <li ><%= link_to "#{I18n.t('label.sidebar.christian_ministry')}", candidate_event_to_path(I18n.t('events.christian_ministry'), resource.id) %></li >
+              <li ><%= link_to "#{I18n.t('label.sidebar.retreat_verification')}", candidate_event_to_path(I18n.t('events.retreat_verification'), resource.id) %></li >
 
               <li ><%= link_to "#{I18n.t('views.nav.edit')}", edit_candidate_path(resource.id) %></li >
               <li ><%= link_to "#{I18n.t('views.nav.events')}", event_candidate_path(resource.id) %></li >

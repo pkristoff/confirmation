@@ -8,11 +8,11 @@ Warden.test_mode!
 feature 'Candidate event', :devise do
 
   before(:each) do
-    @candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryGirl.create(:candidate)
+    AppFactory.add_confirmation_events
+    @candidate = Candidate.find(candidate.id)
     @admin = FactoryGirl.create(:admin)
     login_as(@admin, scope: :admin)
-    @going_event_id = @candidate.get_candidate_event('Going out to eat').id
-    @staying_event_id = @candidate.get_candidate_event('Staying home').id
   end
 
   after(:each) do
@@ -24,8 +24,7 @@ feature 'Candidate event', :devise do
 
     # if this fails then going to wrong controller
     expect(page).not_to have_selector("form[id=new_admin]")
-    expect_candidate_event(0, @going_event_id, 'Going out to eat', '2016-05-31', nil, 'Do this one two three', false, '')
-    expect_candidate_event(1, @staying_event_id, 'Staying home', '2016-04-30', nil, 'Do this one two three', false, '2016-03-29')
+    expect_confirmation_events(false)
   end
 
   scenario 'candidate changes email address' do
@@ -35,8 +34,16 @@ feature 'Candidate event', :devise do
 
     # if this fails then going to wrong controller
     expect(page).not_to have_selector("form[id=new_admin]")
-    expect_candidate_event 0, @going_event_id, 'Going out to eat', nil, '2016-05-24', 'Do this one two three', false, ''
-    expect_candidate_event 1, @staying_event_id, 'Staying home', nil, '2016-04-01', 'Do this one two three', false, ' 2016-03-29'
+    expect_confirmation_events(true)
+  end
+
+  def expect_confirmation_events(is_chs)
+
+    @candidate.candidate_events.each_with_index  do |ce,index|
+      conf_e = ce.confirmation_event
+      expect_candidate_event(index, ce.id, conf_e.name, (is_chs ? nil : conf_e.the_way_due_date), (is_chs ? conf_e.chs_due_date : nil), conf_e.instructions, false, '', 'fieldset')
+
+    end
   end
 
 end

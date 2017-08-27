@@ -7,8 +7,7 @@ describe 'candidates/registrations/event.html.erb' do
 
     before(:each) do
       candidate = login_candidate
-      @going_out_to_eat_id = candidate.get_candidate_event('Going out to eat').confirmation_event.id
-      @staying_home_id = candidate.get_candidate_event('Staying home').confirmation_event.id
+      AppFactory.add_confirmation_events
     end
 
     it 'attending == The Way ' do
@@ -17,8 +16,7 @@ describe 'candidates/registrations/event.html.erb' do
 
       render
 
-      expect_candidate_event(0, @going_out_to_eat_id, 'Going out to eat', '2016-05-31', nil, "Do this\none\ntwo\nthree\n\n", false, '', 'div')
-      expect_candidate_event(1, @staying_home_id, 'Staying home', '2016-04-30', nil, "Do this\none\ntwo\nthree\n\n", false, '2016-03-29', 'div')
+      expect_confirmation_events(false)
 
     end
 
@@ -31,10 +29,17 @@ describe 'candidates/registrations/event.html.erb' do
 
       render
 
-      expect_candidate_event(0, @going_out_to_eat_id, 'Going out to eat', nil, '2016-05-24', "Do this\none\ntwo\nthree\n\n", false, '', 'div')
-      expect_candidate_event(1, @staying_home_id, 'Staying home', nil, '2016-04-01', "Do this\none\ntwo\nthree\n\n", false, '2016-03-29', 'div')
+      expect_confirmation_events(true)
 
     end
 
+  end
+
+  def expect_confirmation_events(is_chs)
+
+    ConfirmationEvent.all.each_with_index  do |ce,index|
+      expect_candidate_event(index+3, ce.id, ce.name, (is_chs ? nil : ce.the_way_due_date), (is_chs ? ce.chs_due_date : nil), ce.instructions, false, '', 'div')
+
+    end
   end
 end

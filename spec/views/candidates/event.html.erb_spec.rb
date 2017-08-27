@@ -7,10 +7,10 @@ describe 'candidates/event.html.erb' do
 
     @resource_class = Candidate
 
-    @resource = FactoryGirl.create(:candidate)
+    candidate = FactoryGirl.create(:candidate)
+    AppFactory.add_confirmation_events
+    @resource = Candidate.find(candidate.id)
 
-    @going_event_id = @resource.get_candidate_event('Going out to eat').id
-    @staying_event_id = @resource.get_candidate_event('Staying home').id
 
   end
 
@@ -23,8 +23,7 @@ describe 'candidates/event.html.erb' do
 
       render
 
-      expect_candidate_event(0, @going_event_id, 'Going out to eat', '2016-05-31', nil, '', false, '')
-      expect_candidate_event(1, @staying_event_id, 'Staying home', '2016-04-30', nil, '', false, '2016-03-29')
+      expect_confirmation_events(false)
 
     end
 
@@ -40,9 +39,18 @@ describe 'candidates/event.html.erb' do
 
     render
 
-    expect_candidate_event(0, @going_event_id, 'Going out to eat', nil, '2016-05-24', '', false, '')
-    expect_candidate_event(1, @staying_event_id, 'Staying home', nil, '2016-04-01', '', false, '2016-03-29')
 
+    expect_confirmation_events(true)
+
+  end
+
+  def expect_confirmation_events(is_chs)
+
+    @resource.candidate_events.each_with_index  do |ce,index|
+      conf_e = ce.confirmation_event
+      expect_candidate_event(index, ce.id, conf_e.name, (is_chs ? nil : conf_e.the_way_due_date), (is_chs ? conf_e.chs_due_date : nil), conf_e.instructions, false, '', 'fieldset')
+
+    end
   end
 
 end

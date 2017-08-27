@@ -22,6 +22,8 @@ feature 'Candidate edit', :devise do
   #   Then I see an account updated message
   scenario 'candidate changes email address' do
     candidate = FactoryGirl.create(:candidate)
+    AppFactory.add_confirmation_events
+
     visit edit_candidate_path(candidate.id)
     fill_in 'Parent email 1', :with => 'newemail@example.com'
     click_button I18n.t('views.common.update')

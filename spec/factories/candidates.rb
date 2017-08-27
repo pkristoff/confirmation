@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :candidate do
     transient do
       should_confirm true
+      add_candidate_events true
     end
     account_name 'sophiaagusta'
     password 'please123'
@@ -15,7 +16,7 @@ FactoryGirl.define do
       candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_the_way')
       # overwrite the already created address
       candidate.candidate_sheet.address = FactoryGirl.create(:address)
-      unless candidate.candidate_events.size > 0
+      if evaluator.add_candidate_events && candidate.candidate_events.size <= 0
         candidate.candidate_events = create_candidate_events
       end
     end
