@@ -46,9 +46,12 @@ describe CandidatesMailer, type: :model do
 
         expect_view(body, [], coming_due_values, [])
 
-        expect(body).to have_css('p[id=closing_text]', text: '')
-        expect(body).to have_css('p[id=salutation_text]', text: 'thanks')
-        expect(body).to have_css('p[id=from_text]', text: 'Vicki')
+        expect(body).to have_css('p[id=late_events_text][ style="white-space: pre-line;"]', text: LATE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre-line;"]', text: COMING_DUE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=completed_events_text][ style="white-space: pre-line;"]', text: COMPLETE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=closing_text][ style="white-space: pre-line;"]', text: CLOSING_INITIAL_TEXT)
+        expect(body).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: 'thanks')
+        expect(body).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: 'Vicki')
 
       end
     end
@@ -78,9 +81,9 @@ describe CandidatesMailer, type: :model do
 
         expect_view(body, [], coming_due_values, [])
 
-        expect(body).to have_css('p[id=closing_text]', text: '')
-        expect(body).to have_css('p[id=salutation_text]', text: 'thanks')
-        expect(body).to have_css('p[id=from_text]', text: 'Vicki')
+        expect(body).to have_css('p[id=closing_text][ style="white-space: pre-line;"]', text: '')
+        expect(body).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: 'thanks')
+        expect(body).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: 'Vicki')
 
       end
     end
@@ -110,7 +113,7 @@ describe CandidatesMailer, type: :model do
         body = Capybara.string(mail.body.encoded)
 
         expect(body).to have_css('p[id=first_name]', text: 'Paul,')
-        expect(body).to have_css('p[id=body_text]', text: 'some body')
+        expect(body).to have_css('p[id=body_text][ style="white-space: pre-line;"]', text: 'some body')
 
       end
     end
