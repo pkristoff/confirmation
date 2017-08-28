@@ -3,6 +3,7 @@ class CandidatesMailerText
   attr_accessor :candidate
 
   attr_accessor :subject
+  attr_accessor :body_text
   attr_accessor :pre_late_text
   attr_accessor :pre_coming_due_text
   attr_accessor :completed_text
@@ -13,6 +14,7 @@ class CandidatesMailerText
   def initialize(parms)
     @candidate = parms[:candidate]
     @subject = parms[:subject]
+    @body_text = parms[:body_text]
     @pre_late_text = parms[:pre_late_text]
     @pre_coming_due_text = parms[:pre_coming_due_text]
     @completed_text = parms[:completed_text]

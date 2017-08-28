@@ -40,9 +40,13 @@ Rails.application.routes.draw do
 
     post 'mass_edit_candidates_update', to: 'admins#mass_edit_candidates_update', as: 'mass_edit_candidates_update'
 
-    # email list of candidates
+    # email list of candidates there current status
     get 'monthly_mass_mailing', to: 'admins#monthly_mass_mailing', as: 'monthly_mass_mailing'
     put 'monthly_mass_mailing_update', to: 'admins#monthly_mass_mailing_update', as: 'monthly_mass_mailing_update'
+
+    # adhoc email to a list of candidates
+    get 'adhoc_mailing', to: 'admins#adhoc_mailing', as: 'adhoc_mailing'
+    put 'adhoc_mailing_update', to: 'admins#adhoc_mailing_update', as: 'adhoc_mailing_update'
 
     # sign agreement
 

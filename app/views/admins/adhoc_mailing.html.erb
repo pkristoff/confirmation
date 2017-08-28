@@ -1,0 +1,22 @@
+<%= form_tag adhoc_mailing_update_path, method: :put do %>
+
+    <%= submit_tag t('email.mail'), id: 'top-update' %>
+    <%= submit_tag t('email.test_mail'), id: 'top-test' %>
+<br>
+    <%= label_tag('mail[subject]', t('email.subject_label')) %>:
+    <%= text_area_tag('mail[subject]', t('email.subject_initial_text')) %> <br/>
+
+    <%= label_tag('mail[body_input]', 'Body') %>:
+    <%= text_area_tag('mail[body_input]') %> <br/>
+
+    <%= render partial: 'shared/sorting_candidate_selection',
+               :locals => {
+                   candidates: @candidates,
+                   route: :adhoc_mailing,
+                   selected_candidate_ids: @selected_candidate_ids
+               } %>
+
+    <%= submit_tag t('email.mail'), id: 'bottom-update' %>
+    <%= submit_tag t('email.test_mail'), id: 'bottom-test' %>
+
+<% end %>

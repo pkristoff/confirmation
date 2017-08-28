@@ -14,71 +14,131 @@ describe CandidatesMailer, type: :model do
   REPLY_TO_EMAIL = 'stmm.confirmation@kristoffs.com'.freeze
   SUBJECT = I18n.t('email.subject_initial_text')
 
-  before(:each) do
-    candidate = create_candidate('Paul', 'Richard', 'Kristoff')
-    AppFactory.add_confirmation_events
-    @candidate = Candidate.find_by_account_name(candidate.account_name)
-    @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, pre_late_text: LATE_INITIAL_TEXT,
-                                     pre_coming_due_text: COMING_DUE_INITIAL_TEXT,
-                                     completed_text: COMPLETE_INITIAL_TEXT, closing_text: CLOSING_INITIAL_TEXT,
-                                     salutation_text: SALUTATION_INITIAL_TEXT, from_text: FROM_EMAIL_TEXT)
 
-  end
-  describe 'monthly_reminder' do
-    it 'should create a mail form' do
+  describe 'monthly_reminder testing' do
 
-      admin = AppFactory.create_admin(email: 'candidate@example.com')
-
-      coming_due_values = @candidate.candidate_events.map do |ce|
-        [ce.name, ce.id, ce.due_date]
-      end
-
-      mail = CandidatesMailer.monthly_reminder(admin, @text)
-      expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email, @candidate.candidate_sheet.parent_email_1])
-      expect(mail.from).to eq([FROM_EMAIL])
-      expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
-      expect(mail.subject).to eq(SUBJECT)
-
-      body = Capybara.string(mail.body.encoded)
-
-      expect_view(body, [], coming_due_values, [])
-
-      expect(body).to have_css('p[id=closing_text]', text: '')
-      expect(body).to have_css('p[id=salutation_text]', text: 'thanks')
-      expect(body).to have_css('p[id=from_text]', text: 'Vicki')
+    before(:each) do
+      candidate = create_candidate('Paul', 'Richard', 'Kristoff')
+      AppFactory.add_confirmation_events
+      @candidate = Candidate.find_by_account_name(candidate.account_name)
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, pre_late_text: LATE_INITIAL_TEXT,
+                                       pre_coming_due_text: COMING_DUE_INITIAL_TEXT,
+                                       completed_text: COMPLETE_INITIAL_TEXT, closing_text: CLOSING_INITIAL_TEXT,
+                                       salutation_text: SALUTATION_INITIAL_TEXT, from_text: FROM_EMAIL_TEXT)
 
     end
-  end
+    describe 'monthly_reminder' do
+      it 'should create a mail form' do
 
-  describe 'monthly_reminder_test' do
-    it 'should create a mail form' do
+        admin = AppFactory.create_admin(email: 'candidate@example.com')
 
-      admin = AppFactory.create_admin(email: 'candidate@example.com')
+        coming_due_values = @candidate.candidate_events.map do |ce|
+          [ce.name, ce.id, ce.due_date]
+        end
 
-      coming_due_values = @candidate.candidate_events.map do |ce|
-        [ce.name, ce.id, ce.due_date]
+        mail = CandidatesMailer.monthly_reminder(admin, @text)
+        expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email, @candidate.candidate_sheet.parent_email_1])
+        expect(mail.from).to eq([FROM_EMAIL])
+        expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
+        expect(mail.subject).to eq(SUBJECT)
+
+        body = Capybara.string(mail.body.encoded)
+
+        expect_view(body, [], coming_due_values, [])
+
+        expect(body).to have_css('p[id=closing_text]', text: '')
+        expect(body).to have_css('p[id=salutation_text]', text: 'thanks')
+        expect(body).to have_css('p[id=from_text]', text: 'Vicki')
+
       end
+    end
 
-      mail = CandidatesMailer.monthly_reminder_test(admin, @text)
-      expect(mail.to).to eq([admin.email])
-      expect(mail.from).to eq([FROM_EMAIL])
-      expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
-      expect(mail.subject).to eq(I18n.t('email.test_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
+    describe 'monthly_reminder_test' do
+      it 'should create a mail form' do
 
-      body = Capybara.string(mail.body.encoded)
+        admin = AppFactory.create_admin(email: 'candidate@example.com')
 
-      expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
-      expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
-      expect(body).to have_css('li[id=parent-email-2]', text: @candidate.candidate_sheet.parent_email_2)
+        coming_due_values = @candidate.candidate_events.map do |ce|
+          [ce.name, ce.id, ce.due_date]
+        end
 
-      expect(body).to have_css('p[id=subject]', text: SUBJECT)
+        mail = CandidatesMailer.monthly_reminder_test(admin, @text)
+        expect(mail.to).to eq([admin.email])
+        expect(mail.from).to eq([FROM_EMAIL])
+        expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
+        expect(mail.subject).to eq(I18n.t('email.test_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
 
-      expect_view(body, [], coming_due_values, [])
+        body = Capybara.string(mail.body.encoded)
 
-      expect(body).to have_css('p[id=closing_text]', text: '')
-      expect(body).to have_css('p[id=salutation_text]', text: 'thanks')
-      expect(body).to have_css('p[id=from_text]', text: 'Vicki')
+        expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
+        expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
+        expect(body).to have_css('li[id=parent-email-2]', text: @candidate.candidate_sheet.parent_email_2)
 
+        expect(body).to have_css('p[id=subject]', text: SUBJECT)
+
+        expect_view(body, [], coming_due_values, [])
+
+        expect(body).to have_css('p[id=closing_text]', text: '')
+        expect(body).to have_css('p[id=salutation_text]', text: 'thanks')
+        expect(body).to have_css('p[id=from_text]', text: 'Vicki')
+
+      end
+    end
+
+  end
+  describe 'adhoc mail' do
+
+    before(:each) do
+      candidate = create_candidate('Paul', 'Richard', 'Kristoff')
+      AppFactory.add_confirmation_events
+      @candidate = Candidate.find_by_account_name(candidate.account_name)
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, body_text: 'some body')
+
+    end
+    describe 'adhoc' do
+
+      it 'should create an adhoc mail form' do
+
+        admin = AppFactory.create_admin(email: 'candidate@example.com')
+
+        mail = CandidatesMailer.adhoc(admin, @text)
+        expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email,@candidate.candidate_sheet.parent_email_1])
+        expect(mail.from).to eq([FROM_EMAIL])
+        expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
+        expect(mail.subject).to eq(SUBJECT)
+
+        body = Capybara.string(mail.body.encoded)
+
+        expect(body).to have_css('p[id=first_name]', text: 'Paul,')
+        expect(body).to have_css('p[id=body_text]', text: 'some body')
+
+      end
+    end
+    describe 'adhoc test' do
+
+      it 'should create an adhoc test mail form' do
+
+        admin = AppFactory.create_admin(email: 'candidate@example.com')
+
+        mail = CandidatesMailer.adhoc_test(admin, @text)
+        expect(mail.to).to eq([admin.email])
+        expect(mail.from).to eq([FROM_EMAIL])
+        expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
+        expect(mail.subject).to eq(I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: @candidate.account_name))
+
+        body = Capybara.string(mail.body.encoded)
+
+        expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
+        expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
+        expect(body).to have_css('li[id=parent-email-2]', text: '')
+
+        expect(body).to have_css('p[id=subject]', text: "The subject: #{SUBJECT}")
+
+
+        expect(body).to have_css('p[id=first_name]', text: 'Paul,')
+        expect(body).to have_css('p[id=body_text]', text: 'some body')
+
+      end
     end
   end
 

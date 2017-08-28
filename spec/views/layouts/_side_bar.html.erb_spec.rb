@@ -9,6 +9,7 @@ describe 'layouts/_side_bar.html.erb' do
         [I18n.t('views.nav.add_new_admin'), '/admins/sign_up'],
         [I18n.t('views.nav.edit_account'), '/admins/edit'],
         [I18n.t('views.nav.candidates'), '/candidates'],
+        [I18n.t('views.nav.adhoc_mailing'), '/adhoc_mailing'],
         [I18n.t('views.nav.monthly_mass_mailing'), '/monthly_mass_mailing'],
         [I18n.t('views.nav.add_new_candidate'), '/candidates/new'],
         [I18n.t('views.nav.admins'), '/admins'],

@@ -14,6 +14,79 @@ class AdminsController < ApplicationController
 
   # ROUTES
 
+  def adhoc_mailing
+    set_candidates(params[:sort])
+  end
+
+  def adhoc_mailing_update
+
+    expected_params = {mail: [:subject, :body_input],
+                       candidate: [:candidate_ids]
+    }
+    missing_params = expected_params.select {|expected_param, sub_params| params[expected_param].nil?}
+    unless missing_params.empty?
+      return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
+    end
+
+    missing_params = []
+    expected_params.each do |expected_param, sub_params|
+      xxx = params[expected_param]
+      missing = sub_params.select {|sub_param| xxx[sub_param].nil?}
+      missing_params.push("#{expected_param}: #{missing}") unless missing.empty?
+    end
+    unless missing_params.empty?
+      return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
+    end
+
+    candidate_ids = params[:candidate][:candidate_ids]
+    candidates = []
+    candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
+
+    if candidates.empty?
+      return redirect_to :back, alert: t('messages.no_candidate_selected')
+    end
+
+    case params[:commit]
+      when t('email.mail')
+
+        is_test_mail = false
+
+        flash_message = t('messages.mailing_progress')
+
+      when t('email.test_mail')
+
+        is_test_mail = true
+
+        flash_message = t('messages.mailing_test_sent')
+
+      else
+
+        return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
+
+    end
+
+    mail_param = params[:mail]
+
+    begin
+      candidates.each_with_index do |candidate, index|
+        text = CandidatesMailerText.new(candidate: candidate, subject: mail_param[:subject], body_text: mail_param[:body_input])
+
+        SendEmailJob.perform_in(index*2, candidate, text,
+                                current_admin,
+                                is_test_mail
+        )
+      end
+    rescue Exception => e
+      flash_message = e.message
+    end
+
+    flash[:notice] = flash_message
+
+    set_confirmation_events
+    render :edit_multiple_confirmation_events
+
+  end
+
   def edit_multiple_confirmation_events
     set_confirmation_events
   end
