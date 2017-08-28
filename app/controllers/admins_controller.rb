@@ -47,13 +47,13 @@ class AdminsController < ApplicationController
     end
 
     case params[:commit]
-      when t('email.mail')
+      when t('email.monthly_mail')
 
         is_test_mail = false
 
         flash_message = t('messages.mailing_progress')
 
-      when t('email.test_mail')
+      when t('email.test_monthly_mail')
 
         is_test_mail = true
 
@@ -208,13 +208,13 @@ class AdminsController < ApplicationController
     end
 
     case params[:commit]
-      when t('email.mail')
+      when t('email.monthly_mail')
 
         is_test_mail = false
 
         flash_message = t('messages.monthly_mailing_progress')
 
-      when t('email.test_mail')
+      when t('email.test_monthly_mail')
 
         is_test_mail = true
 

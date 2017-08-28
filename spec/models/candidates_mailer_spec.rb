@@ -69,7 +69,7 @@ describe CandidatesMailer, type: :model do
         expect(mail.to).to eq([admin.email])
         expect(mail.from).to eq([FROM_EMAIL])
         expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
-        expect(mail.subject).to eq(I18n.t('email.test_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
+        expect(mail.subject).to eq(I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
 

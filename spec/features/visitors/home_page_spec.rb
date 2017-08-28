@@ -17,7 +17,6 @@ feature 'Home page' do
     expect(page).to have_selector("a", text: 'Sign in')
     expect(page).to have_selector("a", text: 'Sign in admin')
 
-    expect(page).to have_selector("a", text: 'Start Bootstrap')
     expect(page).to have_selector("a", text: 'Dashboard')
     expect(page).to have_selector("a", text: 'Shortcuts')
     expect(page).to have_selector("a", text: 'Overview')

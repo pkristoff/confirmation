@@ -28,9 +28,9 @@ describe 'admins/adhoc_mailing.html.erb' do
 
     expect(rendered).to have_css "form[action='/adhoc_mailing_update']"
 
-    expect(rendered).to have_css("input[type='submit'][value='#{I18n.t('email.mail')}']", count: 2)
+    expect(rendered).to have_css("input[type='submit'][value='#{I18n.t('email.monthly_mail')}']", count: 2)
 
-    expect(rendered).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.mail')}']")
+    expect(rendered).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
 
     expect(rendered).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_text'))
 
@@ -40,7 +40,7 @@ describe 'admins/adhoc_mailing.html.erb' do
                                   candidates,
                                   rendered)
 
-    expect(rendered).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.mail')}']")
+    expect(rendered).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
   end
 
 end

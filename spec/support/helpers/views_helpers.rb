@@ -136,9 +136,9 @@ module ViewsHelpers
   def expect_mass_mailing_html(candidates, rendered_or_page)
     expect(rendered_or_page).to have_css "form[action='/monthly_mass_mailing_update']"
 
-    expect(rendered_or_page).to have_css("input[type='submit'][value='#{I18n.t('email.mail')}']", count: 2)
+    expect(rendered_or_page).to have_css("input[type='submit'][value='#{I18n.t('email.monthly_mail')}']", count: 2)
 
-    expect(rendered_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.mail')}']")
+    expect(rendered_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
 
     expect(rendered_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.pre_late_label'), text: I18n.t('email.late_initial_text'))
@@ -152,7 +152,7 @@ module ViewsHelpers
                                   candidates,
                                   rendered_or_page)
 
-    expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.mail')}']")
+    expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
   end
 
   def get_columns_helpers

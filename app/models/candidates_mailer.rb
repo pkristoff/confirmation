@@ -46,7 +46,7 @@ class CandidatesMailer < ActionMailer::Base
     @subject = candidate_mailer_text.subject
 
     mail(to: admin.email.to_s,
-         subject: I18n.t('email.test_mail_subject_initial_text', candidate_account_name: candidate_mailer_text.candidate.account_name)
+         subject: I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate_mailer_text.candidate.account_name)
     ) do |format|
       format.html
     end

@@ -254,7 +254,7 @@ describe AdminsController do
                  salutation_text: 'aaa',
                  from_text: 'bbb'},
           candidate: {candidate_ids: [@c1.id, @c2.id]},
-          commit: I18n.t('email.mail')
+          commit: I18n.t('email.monthly_mail')
 
       expect_message(:notice, I18n.t('messages.monthly_mailing_progress'))
       expect(render_template('edit_multiple_confirmation_events'))

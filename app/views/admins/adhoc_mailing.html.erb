@@ -1,7 +1,7 @@
 <%= form_tag adhoc_mailing_update_path, method: :put do %>
 
-    <%= submit_tag t('email.mail'), id: 'top-update' %>
-    <%= submit_tag t('email.test_mail'), id: 'top-test' %>
+    <%= submit_tag t('email.monthly_mail'), id: 'top-update' %>
+    <%= submit_tag t('email.test_monthly_mail'), id: 'top-test' %>
 <br>
     <%= label_tag('mail[subject]', t('email.subject_label')) %>:
     <%= text_area_tag('mail[subject]', t('email.subject_initial_text')) %> <br/>
@@ -16,7 +16,7 @@
                    selected_candidate_ids: @selected_candidate_ids
                } %>
 
-    <%= submit_tag t('email.mail'), id: 'bottom-update' %>
-    <%= submit_tag t('email.test_mail'), id: 'bottom-test' %>
+    <%= submit_tag t('email.monthly_mail'), id: 'bottom-update' %>
+    <%= submit_tag t('email.test_monthly_mail'), id: 'bottom-test' %>
 
 <% end %>

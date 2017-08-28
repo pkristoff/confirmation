@@ -1,7 +1,7 @@
 <%= form_tag monthly_mass_mailing_update_path, method: :put do %>
 
-    <%= submit_tag t('email.mail'), id: 'top-update' %>
-    <%= submit_tag t('email.test_mail'), id: 'top-test' %>
+    <%= submit_tag t('email.monthly_mail'), id: 'top-update' %>
+    <%= submit_tag t('email.test_monthly_mail'), id: 'top-test' %>
 
     <%= render partial: 'shared/reminder_body',
                :locals => {
@@ -15,7 +15,7 @@
                    selected_candidate_ids: @selected_candidate_ids
                } %>
 
-    <%= submit_tag t('email.mail'), id: 'bottom-update' %>
-    <%= submit_tag t('email.test_mail'), id: 'bottom-test' %>
+    <%= submit_tag t('email.monthly_mail'), id: 'bottom-update' %>
+    <%= submit_tag t('email.test_monthly_mail'), id: 'bottom-test' %>
 
 <% end %>
