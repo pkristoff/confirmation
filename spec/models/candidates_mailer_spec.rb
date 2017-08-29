@@ -46,7 +46,7 @@ describe CandidatesMailer, type: :model do
 
         expect_view(body, [], coming_due_values, [])
 
-        expect(body).to have_css('p[id=late_events_text][ style="white-space: pre-line;"]', text: LATE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=past_due_text][ style="white-space: pre-line;"]', text: LATE_INITIAL_TEXT)
         expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre-line;"]', text: COMING_DUE_INITIAL_TEXT)
         expect(body).to have_css('p[id=completed_events_text][ style="white-space: pre-line;"]', text: COMPLETE_INITIAL_TEXT)
         expect_closing(body)
@@ -70,7 +70,7 @@ describe CandidatesMailer, type: :model do
         expect(mail.subject).to eq(I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
-        # puts mail.body.raw_source
+        puts mail.body.raw_source
 
         expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
         expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
@@ -92,7 +92,7 @@ describe CandidatesMailer, type: :model do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by_account_name(candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, body_text: 'some body')
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, body_input: 'some body')
 
     end
     describe 'adhoc' do
@@ -102,13 +102,13 @@ describe CandidatesMailer, type: :model do
         admin = AppFactory.create_admin(email: 'candidate@example.com')
 
         mail = CandidatesMailer.adhoc(admin, @text)
-        expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email,@candidate.candidate_sheet.parent_email_1])
+        expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email, @candidate.candidate_sheet.parent_email_1])
         expect(mail.from).to eq([FROM_EMAIL])
         expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
         expect(mail.subject).to eq(SUBJECT)
 
         body = Capybara.string(mail.body.encoded)
-
+        puts mail.body
         expect(body).to have_css('p[id=first_name]', text: 'Paul,')
         expect(body).to have_css('p[id=body_text][ style="white-space: pre-line;"]', text: 'some body')
 
@@ -146,7 +146,7 @@ describe CandidatesMailer, type: :model do
 
     expect(body).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
-    expect_table(body, I18n.t('email.pre_late_label'), LATE_INITIAL_TEXT, 'past_due',
+    expect_table(body, 'past_due_text', LATE_INITIAL_TEXT, 'past_due',
                  [],
                  late_values)
 
@@ -154,14 +154,15 @@ describe CandidatesMailer, type: :model do
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
-    expect_table(body, I18n.t('email.completed_label'), COMPLETE_INITIAL_TEXT, 'completed_events',
+    expect_table(body, I18n.t('email.completed_text_label'), COMPLETE_INITIAL_TEXT, 'completed_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
   end
 
 
   def expect_table(body, field_id, field_text, event_prefix, column_headers, cell_values)
-    expect(body).to have_css("p[id='#{event_prefix}_text']", text: field_text) if expect(body).to have_field(field_id, text: field_text) unless table_id = "table[id='#{event_prefix}_table']"
+    table_id = "table[id='#{event_prefix}_table']"
+    expect(body).to have_css("p[id='#{event_prefix}_text']", text: field_text) #if expect(body).to have_field(field_id, text: field_text)
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
     expect(body).to have_css("#{table_id}")

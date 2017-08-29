@@ -18,6 +18,9 @@ describe 'admins/monthly_mass_mailing.html.erb' do
 
   it 'display the list of candidates' do
 
+    @subject = t('email.subject_initial_text')
+    @subject = t('email.subject_initial_text')
+
     render
 
     expect_mass_mailing_html(@candidates, rendered)

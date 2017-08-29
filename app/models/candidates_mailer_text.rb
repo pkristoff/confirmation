@@ -14,7 +14,7 @@ class CandidatesMailerText
   def initialize(parms)
     @candidate = parms[:candidate]
     @subject = parms[:subject]
-    @body_text = parms[:body_text]
+    @body_text = parms[:body_input]
     @pre_late_text = parms[:pre_late_text]
     @pre_coming_due_text = parms[:pre_coming_due_text]
     @completed_text = parms[:completed_text]

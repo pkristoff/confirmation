@@ -6,7 +6,7 @@
 <% end %>
 
 <% if render_mail_text %>
-    <p id="late_events_text" style="white-space: pre-line;"><%= @candidate_mailer_text.pre_late_text %></p>
+    <p id="past_due_text" style="white-space: pre-line;"><%= @candidate_mailer_text.pre_late_text %></p>
 <% else %>
     <%= label_tag('mail[pre_late_input]', t('email.pre_late_text_label')) %>:
     <%= text_area_tag('mail[pre_late_input]', @pre_late_input) %> <br/>

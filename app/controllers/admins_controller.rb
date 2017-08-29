@@ -151,7 +151,8 @@ class AdminsController < ApplicationController
           set_candidates(params[:sort])
           render 'candidates/index'
         when AdminsController::EMAIL
-          set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
+          setup_monthly_mailing_render_default(candidate_ids)
+          # set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
           render :monthly_mass_mailing
         when AdminsController::RESET_PASSWORD
           # This only sends the password reset instructions, the
@@ -197,7 +198,19 @@ class AdminsController < ApplicationController
 
     # set_candidates(params[:sort])
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_input, closing_text, salutation_text, from_text)
-    set_candidates(params[:sort])
+  end
+
+  def setup_monthly_mailing_render_default(selected_ids=[])
+
+    subject = t('email.subject_initial_text')
+    pre_late_input = t('email.late_initial_text')
+    pre_coming_due_input = t('email.coming_due_initial_text')
+    completed_input = t('email.completed_initial_text')
+    closing_text = t('email.closing_initial_text')
+    salutation_text = t('email.salutation_initial_text')
+    from_text = t('email.from_initial_text_html')
+
+    setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_input, closing_text, salutation_text, from_text, selected_ids)
   end
 
   def monthly_mass_mailing_update
@@ -300,7 +313,7 @@ class AdminsController < ApplicationController
 
 
   def setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_input,
-                                   closing_text, salutation_text, from_text)
+                                   closing_text, salutation_text, from_text, selected_ids=[])
     @subject = subject
     @pre_late_input = pre_late_input
     @pre_coming_due_input = pre_coming_due_input
@@ -308,7 +321,7 @@ class AdminsController < ApplicationController
     @closing_text = closing_text
     @salutation_text = salutation_text
     @from_text = from_text
-    set_candidates(params[:sort])
+    set_candidates(params[:sort], selected_candidate_ids: selected_ids)
   end
 
   def setup_adhoc_render(body_input_text, subject_text)

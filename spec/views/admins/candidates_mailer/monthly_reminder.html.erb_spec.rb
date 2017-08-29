@@ -144,7 +144,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     expect(rendered).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
-    expect_table(I18n.t('email.pre_late_label'), t('email.late_initial_text'), 'past_due',
+    expect_table('past_due_text', t('email.late_initial_text'), 'past_due',
                  [],
                  late_values)
 
@@ -152,7 +152,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
-    expect_table(I18n.t('email.completed_label'), t('email.completed_initial_text'), 'completed_events',
+    expect_table(I18n.t('email.completed_text_label'), t('email.completed_initial_text'), 'completed_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
 
@@ -164,7 +164,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
 
   def expect_table(field_id, field_text, event_prefix, column_headers, cell_values)
-    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) if expect(rendered).to have_field(field_id, text: field_text) unless table_id = "table[id='#{event_prefix}_table']"
+    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) # ?? expect(rendered).to have_field(field_id, text: field_text)
+    table_id = "table[id='#{event_prefix}_table']"
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
     expect(rendered).to have_css("#{table_id}")
