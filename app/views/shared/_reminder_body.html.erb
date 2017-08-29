@@ -14,10 +14,11 @@
 
 <% if render_mail_text %>
     <%= render partial: 'shared/reminder_table',
-               :locals => {event_key: 'late_events',
-                           headers: [t('email.late_events')],
+               :locals => {event_key: 'past_due',
+                           headers: [],
+                           field_set_header: t('email.past_due'),
                            events: @candidate_mailer_text.late_events,
-                           past_due: Proc.new { |candidate_event| nil }
+                           past_due: Proc.new {|candidate_event| nil}
                } %>
 <% end %>
 
@@ -32,8 +33,9 @@
     <%= render partial: 'shared/reminder_table',
                :locals => {event_key: 'coming_due_events',
                            headers: [t('email.events'), t('email.due_date')],
+                           field_set_header: t('email.coming_due_label'),
                            events: @candidate_mailer_text.coming_due_events,
-                           past_due: Proc.new { |candidate_event| candidate_event.due_date }
+                           past_due: Proc.new {|candidate_event| candidate_event.due_date}
                } %>
 <% end %>
 
@@ -45,23 +47,25 @@
 <% end %>
 
 <% if render_mail_text %>
-    <table id="completed_events_table" class="table table-hover">
-      <tr id="completed_events_header">
-        <th><%= t('email.completed_events') %></th>
-        <th><%= t('email.verify') %></th>
-      </tr>
-      <% @candidate_mailer_text.completed_events.each do |candidate_event| %>
-          <tr id="completed_events_tr<%= candidate_event.id %>">
-            <td id="<%= "completed_events_td0#{candidate_event.id}" %>"><%= candidate_event.name %></td>
-            <td id="<%= "completed_events_td1#{candidate_event.id}" %>">
-              <ul id="completed_events_ul<%= candidate_event.id %>">
-                <% candidate_event.verifiable_info.each do |key, value| %>
-                    <li><%= "#{key.to_s}: #{value}" %></li>
-                <% end %>
-              </ul>
+    <%= field_set_tag t('email.completed_label'), class: 'fieldset' do %>
+        <table id="completed_events_table" class="table table-hover">
+          <tr id="completed_events_header">
+            <th><%= t('email.completed_events') %></th>
+            <th><%= t('email.information_entered') %></th>
           </tr>
-      <% end %>
-    </table>
+          <% @candidate_mailer_text.completed_events.each do |candidate_event| %>
+              <tr id="completed_events_tr<%= candidate_event.id %>">
+                <td id="<%= "completed_events_td0#{candidate_event.id}" %>"><%= candidate_event.name %></td>
+                <td id="<%= "completed_events_td1#{candidate_event.id}" %>">
+                  <ul id="completed_events_ul<%= candidate_event.id %>">
+                    <% candidate_event.verifiable_info.each do |key, value| %>
+                        <li><%= "#{key.to_s}: #{value}" %></li>
+                    <% end %>
+                  </ul>
+              </tr>
+          <% end %>
+        </table>
+    <% end %>
 <% end %>
 
 <% if render_mail_text %>
@@ -82,5 +86,5 @@
     <p id="from_text" style="white-space: pre-line;"><%= @candidate_mailer_text.from_text %></p>
 <% else %>
     <%= label_tag('mail[from_text]', t('email.from_label')) %>:
-    <%= text_area_tag('mail[from_text]', t('email.from_initial_text')) %> <br/>
+    <%= text_area_tag('mail[from_text]', t('email.from_initial_text_html')) %> <br/>
 <% end %>

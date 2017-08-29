@@ -144,8 +144,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     expect(rendered).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
-    expect_table(I18n.t('email.pre_late_label'), t('email.late_initial_text'), 'late_events',
-                 [I18n.t('email.late_events')],
+    expect_table(I18n.t('email.pre_late_label'), t('email.late_initial_text'), 'past_due',
+                 [],
                  late_values)
 
     expect_table(I18n.t('email.coming_due_label'), t('email.coming_due_initial_text'), 'coming_due_events',
@@ -153,12 +153,12 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
                  coming_due_values)
 
     expect_table(I18n.t('email.completed_label'), t('email.completed_initial_text'), 'completed_events',
-                 [I18n.t('email.completed_events'), I18n.t('email.verify')],
+                 [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
 
-    expect(rendered).to have_css('p[id=closing_text]', text: '')
-    expect(rendered).to have_css('p[id=salutation_text]', text: 'thanks')
-    expect(rendered).to have_css('p[id=from_text]', text: 'Vicki')
+    expect(rendered).to have_css('p[id=closing_text][ style="white-space: pre-line;"]', text: '')
+    expect(rendered).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: I18n.t('email.salutation_initial_text'))
+    expect(rendered).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: I18n.t('email.from_initial_text_html'))
 
   end
 
@@ -206,7 +206,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         completed_text: I18n.t('email.completed_initial_text'),
         closing_text: I18n.t('email.closing_initial_text'),
         salutation_text: I18n.t('email.salutation_initial_text'),
-        from_text: I18n.t('email.from_initial_text')
+        from_text: I18n.t('email.from_initial_text_html')
     )
   end
 

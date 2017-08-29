@@ -9,7 +9,7 @@ describe CandidatesMailer, type: :model do
   COMPLETE_INITIAL_TEXT = I18n.t('email.completed_initial_text')
   CLOSING_INITIAL_TEXT = I18n.t('email.closing_initial_text')
   SALUTATION_INITIAL_TEXT = I18n.t('email.salutation_initial_text')
-  FROM_EMAIL_TEXT = I18n.t('email.from_initial_text')
+  FROM_EMAIL_TEXT = I18n.t('email.from_initial_text_html')
   FROM_EMAIL = 'vicki@kristoffs.com'.freeze
   REPLY_TO_EMAIL = 'stmm.confirmation@kristoffs.com'.freeze
   SUBJECT = I18n.t('email.subject_initial_text')
@@ -49,9 +49,7 @@ describe CandidatesMailer, type: :model do
         expect(body).to have_css('p[id=late_events_text][ style="white-space: pre-line;"]', text: LATE_INITIAL_TEXT)
         expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre-line;"]', text: COMING_DUE_INITIAL_TEXT)
         expect(body).to have_css('p[id=completed_events_text][ style="white-space: pre-line;"]', text: COMPLETE_INITIAL_TEXT)
-        expect(body).to have_css('p[id=closing_text][ style="white-space: pre-line;"]', text: CLOSING_INITIAL_TEXT)
-        expect(body).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: 'thanks')
-        expect(body).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: 'Vicki')
+        expect_closing(body)
 
       end
     end
@@ -72,6 +70,7 @@ describe CandidatesMailer, type: :model do
         expect(mail.subject).to eq(I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
+        # puts mail.body.raw_source
 
         expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
         expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
@@ -81,9 +80,7 @@ describe CandidatesMailer, type: :model do
 
         expect_view(body, [], coming_due_values, [])
 
-        expect(body).to have_css('p[id=closing_text][ style="white-space: pre-line;"]', text: '')
-        expect(body).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: 'thanks')
-        expect(body).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: 'Vicki')
+        expect_closing(body)
 
       end
     end
@@ -149,8 +146,8 @@ describe CandidatesMailer, type: :model do
 
     expect(body).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
-    expect_table(body, I18n.t('email.pre_late_label'), LATE_INITIAL_TEXT, 'late_events',
-                 [I18n.t('email.late_events')],
+    expect_table(body, I18n.t('email.pre_late_label'), LATE_INITIAL_TEXT, 'past_due',
+                 [],
                  late_values)
 
     expect_table(body, I18n.t('email.coming_due_label'), COMING_DUE_INITIAL_TEXT, 'coming_due_events',
@@ -158,7 +155,7 @@ describe CandidatesMailer, type: :model do
                  coming_due_values)
 
     expect_table(body, I18n.t('email.completed_label'), COMPLETE_INITIAL_TEXT, 'completed_events',
-                 [I18n.t('email.completed_events'), I18n.t('email.verify')],
+                 [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
   end
 
@@ -196,6 +193,12 @@ describe CandidatesMailer, type: :model do
         end
       end
     end
+  end
+
+  def expect_closing(body)
+    expect(body).to have_css('p[id=closing_text][ style="white-space: pre-line;"]', text: '')
+    expect(body).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: I18n.t('email.salutation_initial_text'))
+    expect(body).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: 'Vicki Kristoff')
   end
 
 end

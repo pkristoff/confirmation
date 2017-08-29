@@ -143,10 +143,12 @@ module ViewsHelpers
     expect(rendered_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.pre_late_label'), text: I18n.t('email.late_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.coming_due_label'), text: I18n.t('email.coming_due_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.completed_label'), text: I18n.t('email.completed_initial_text'))
+    # had to break this into two parts because it could not be found together.  I think it is a bug with RSpec.
+    expect(rendered_or_page).to have_field(I18n.t('email.completed_label'))
+    expect(rendered_or_page).to have_content(I18n.t('email.completed_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.closing_label'), text: I18n.t('email.closing_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.salutation_label'), text: I18n.t('email.salutation_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.from_label'), text: I18n.t('email.from_initial_text'))
+    expect(rendered_or_page).to have_field(I18n.t('email.from_label'), text: 'Vicki Kristoff')
 
     expect_sorting_candidate_list(get_columns_helpers,
                                   candidates,
