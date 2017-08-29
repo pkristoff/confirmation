@@ -1,13 +1,13 @@
 <%= form_tag adhoc_mailing_update_path, method: :put do %>
 
-    <%= submit_tag t('email.monthly_mail'), id: 'top-update' %>
-    <%= submit_tag t('email.test_monthly_mail'), id: 'top-test' %>
+    <%= submit_tag t('email.adhoc_mail'), id: 'top-update' %>
+    <%= submit_tag t('email.test_adhoc_mail'), id: 'top-test' %>
 <br>
     <%= label_tag('mail[subject]', t('email.subject_label')) %>:
-    <%= text_area_tag('mail[subject]', t('email.subject_initial_text')) %> <br/>
+    <%= text_area_tag('mail[subject]', @subject) %> <br/>
 
-    <%= label_tag('mail[body_input]', 'Body') %>:
-    <%= text_area_tag('mail[body_input]') %> <br/>
+    <%= label_tag('mail[body_input]', t('email.body_label')) %>:
+    <%= text_area_tag('mail[body_input]', @body) %> <br/>
 
     <%= render partial: 'shared/sorting_candidate_selection',
                :locals => {
@@ -16,7 +16,7 @@
                    selected_candidate_ids: @selected_candidate_ids
                } %>
 
-    <%= submit_tag t('email.monthly_mail'), id: 'bottom-update' %>
-    <%= submit_tag t('email.test_monthly_mail'), id: 'bottom-test' %>
+    <%= submit_tag t('email.adhoc_mail'), id: 'bottom-update' %>
+    <%= submit_tag t('email.test_adhoc_mail'), id: 'bottom-test' %>
 
 <% end %>

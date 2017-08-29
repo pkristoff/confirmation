@@ -15,7 +15,15 @@ class AdminsController < ApplicationController
   # ROUTES
 
   def adhoc_mailing
-    set_candidates(params[:sort])
+    subject = t('email.subject_initial_text')
+    body = ''
+    if params[:mail]
+      subject = params[:mail][:subject] ? params[:mail][:subject] : subject
+      body = params[:mail][:body_input] ? params[:mail][:body_input] : body
+    end
+
+    # set_candidates(params[:sort])
+    setup_adhoc_render(body, subject)
   end
 
   def adhoc_mailing_update
@@ -28,36 +36,30 @@ class AdminsController < ApplicationController
       return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
     end
 
-    missing_params = []
-    expected_params.each do |expected_param, sub_params|
-      xxx = params[expected_param]
-      missing = sub_params.select {|sub_param| xxx[sub_param].nil?}
-      missing_params.push("#{expected_param}: #{missing}") unless missing.empty?
-    end
-    unless missing_params.empty?
-      return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
-    end
-
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
     candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
 
+    mail_param = params[:mail]
+    subject_text = mail_param[:subject]
+    body_input_text = mail_param[:body_input]
+
     if candidates.empty?
-      return redirect_to :back, alert: t('messages.no_candidate_selected')
+      return redirect_back(t('messages.no_candidate_selected'),mail_param)
     end
 
     case params[:commit]
-      when t('email.monthly_mail')
+      when t('email.adhoc_mail')
 
         is_test_mail = false
 
-        flash_message = t('messages.mailing_progress')
+        flash_message = t('messages.adhoc_mailing_progress')
 
-      when t('email.test_monthly_mail')
+      when t('email.test_adhoc_mail')
 
         is_test_mail = true
 
-        flash_message = t('messages.mailing_test_sent')
+        flash_message = t('messages.adhoc_mailing_test_sent')
 
       else
 
@@ -65,11 +67,9 @@ class AdminsController < ApplicationController
 
     end
 
-    mail_param = params[:mail]
-
     begin
       candidates.each_with_index do |candidate, index|
-        text = CandidatesMailerText.new(candidate: candidate, subject: mail_param[:subject], body_text: mail_param[:body_input])
+        text = CandidatesMailerText.new(candidate: candidate, subject: subject_text, body_input: body_input_text)
 
         SendEmailJob.perform_in(index*2, candidate, text,
                                 current_admin,
@@ -83,7 +83,9 @@ class AdminsController < ApplicationController
     flash[:notice] = flash_message
 
     set_confirmation_events
-    render :edit_multiple_confirmation_events
+
+    setup_adhoc_render(body_input_text, subject_text)
+    render :adhoc_mailing, mail: mail_param
 
   end
 
@@ -156,8 +158,8 @@ class AdminsController < ApplicationController
           # password is not changed. (Recipient has to click link
           # in email and follow instructions to actually change
           # the password).
-          candidates.each_with_index do | candidate, index |
-            SendResetEmailJob.perform_in( index*2, candidate, AdminsController::RESET_PASSWORD)
+          candidates.each_with_index do |candidate, index|
+            SendResetEmailJob.perform_in(index*2, candidate, AdminsController::RESET_PASSWORD)
           end
           redirect_to :back, notice: t('messages.reset_password_message_sent')
         when AdminsController::INITIAL_EMAIL
@@ -165,8 +167,8 @@ class AdminsController < ApplicationController
           # password is not changed. (Recipient has to click link
           # in email and follow instructions to actually change
           # the password).
-          candidates.each_with_index do | candidate, index |
-            SendResetEmailJob.perform_in( index*2, candidate, AdminsController::INITIAL_EMAIL)
+          candidates.each_with_index do |candidate, index|
+            SendResetEmailJob.perform_in(index*2, candidate, AdminsController::INITIAL_EMAIL)
           end
           redirect_to :back, notice: t('messages.initial_email_sent')
         else
@@ -176,6 +178,25 @@ class AdminsController < ApplicationController
   end
 
   def monthly_mass_mailing
+    subject = t('email.subject_initial_text')
+    pre_late_input = t('email.late_initial_text')
+    pre_coming_due_input = t('email.coming_due_initial_text')
+    completed_input = t('email.completed_initial_text')
+    closing_text = t('email.closing_initial_text')
+    salutation_text = t('email.salutation_initial_text')
+    from_text = t('email.from_initial_text_html')
+    if params[:mail]
+      subject = params[:mail][:subject] ? params[:mail][:subject] : subject
+      pre_late_input = params[:mail][:pre_late_input] ? params[:mail][:pre_late_input] : pre_late_input
+      pre_coming_due_input = params[:mail][:pre_coming_due_input] ? params[:mail][:pre_coming_due_input] : pre_coming_due_input
+      completed_input = params[:mail][:completed_input] ? params[:mail][:completed_input] : completed_input
+      closing_text = params[:mail][:closing_text] ? params[:mail][:closing_text] : closing_text
+      salutation_text = params[:mail][:salutation_text] ? params[:mail][:salutation_text] : salutation_text
+      from_text = params[:mail][:from_text] ? params[:mail][:from_text] : from_text
+    end
+
+    # set_candidates(params[:sort])
+    setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_input, closing_text, salutation_text, from_text)
     set_candidates(params[:sort])
   end
 
@@ -189,22 +210,22 @@ class AdminsController < ApplicationController
       return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
     end
 
-    missing_params = []
-    expected_params.each do |expected_param, sub_params|
-      xxx = params[expected_param]
-      missing = sub_params.select {|sub_param| xxx[sub_param].nil?}
-      missing_params.push("#{expected_param}: #{missing}") unless missing.empty?
-    end
-    unless missing_params.empty?
-      return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
-    end
+    mail_param = params[:mail]
+    subject_text = mail_param[:subject]
+    pre_late_input = mail_param[:pre_late_input]
+    pre_coming_due_input = mail_param[:pre_coming_due_input]
+    completed_input = mail_param[:completed_input]
+    salutation_text = mail_param[:salutation_text]
+    closing_text = mail_param[:closing_text]
+    from_text = mail_param[:from_text]
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
     candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
 
     if candidates.empty?
-      return redirect_to :back, alert: t('messages.no_candidate_selected')
+      return redirect_back(t('messages.no_candidate_selected'), mail_param)
+      # return redirect_to :back, alert: t('messages.no_candidate_selected')
     end
 
     case params[:commit]
@@ -247,7 +268,10 @@ class AdminsController < ApplicationController
     flash[:notice] = flash_message
 
     set_confirmation_events
-    render :edit_multiple_confirmation_events
+
+    setup_monthly_mailing_render(subject_text, pre_late_input, pre_coming_due_input, completed_input,
+                                 closing_text, salutation_text, from_text)
+    render :monthly_mass_mailing
 
   end
 
@@ -269,11 +293,50 @@ class AdminsController < ApplicationController
       confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
 
       set_candidates(params[:sort], confirmation_event: confirmation_event)
-      render :mass_edit_candidates_event
+      render :monthly_mass_mailing
     end
 
   end
 
+
+  def setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_input,
+                                   closing_text, salutation_text, from_text)
+    @subject = subject
+    @pre_late_input = pre_late_input
+    @pre_coming_due_input = pre_coming_due_input
+    @completed_input = completed_input
+    @closing_text = closing_text
+    @salutation_text = salutation_text
+    @from_text = from_text
+    set_candidates(params[:sort])
+  end
+
+  def setup_adhoc_render(body_input_text, subject_text)
+    @subject = subject_text
+    @body = body_input_text
+    set_candidates(params[:sort])
+  end
+
+  def redirect_back(flash_message, mail_params)
+
+    # get a URI object for referring url
+    referrer_url = URI.parse(request.referrer) rescue URI.parse(some_default_url)
+    # need to have a default in case referrer is not given
+
+
+    # append the query string to the  referrer url
+    referrer_url.query = Rack::Utils.parse_nested_query(referrer_url.query).
+        # referrer_url.query returns the existing query string => "f=b"
+        # Rack::Utils.parse_nested_query converts query string to hash => {f: "b"}
+        merge({mail: mail_params}).
+        # merge appends or overwrites the new parameter  => {f: "b", cp: :foo'}
+        to_query
+    # to_query converts hash back to query string => "f=b&cp=foo"
+
+    flash[:alert] = flash_message
+    # redirect to the referrer url with the modified query string
+    return redirect_to referrer_url.to_s
+  end
 
   def set_confirmation_events
     @confirmation_events = ConfirmationEvent.all.sort do |ce1, ce2|
