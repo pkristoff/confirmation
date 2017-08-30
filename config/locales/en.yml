@@ -44,7 +44,7 @@ en:
       919-249-5629
     from_text_label: 'From'
     information_entered: 'Information Entered'
-    late_initial_text: 'Here is the status of your Conformation forms(events) that you need to submit.'
+    late_initial_text: 'Here is the status of your Confirmation forms(events) that you need to submit.'
     monthly_mail: 'Monthly Mail'
     past_due: 'Past due events'
     pre_coming_due_text_label: 'The pre-coming text'
@@ -251,6 +251,7 @@ en:
     common:
       about: 'About'
       are_you_sure: 'Are you sure?'
+      are_you_sure_delete_candidates: 'Are you sure you want to delete the selected candidate(s)?'
       delete: 'Delete'
       download: 'Download document'
       email: 'Email'

@@ -70,7 +70,6 @@ describe CandidatesMailer, type: :model do
         expect(mail.subject).to eq(I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
-        puts mail.body.raw_source
 
         expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
         expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
@@ -108,7 +107,7 @@ describe CandidatesMailer, type: :model do
         expect(mail.subject).to eq(SUBJECT)
 
         body = Capybara.string(mail.body.encoded)
-        puts mail.body
+
         expect(body).to have_css('p[id=first_name]', text: 'Paul,')
         expect(body).to have_css('p[id=body_text][ style="white-space: pre-line;"]', text: 'some body')
 
