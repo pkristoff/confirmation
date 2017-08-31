@@ -35,7 +35,7 @@ describe ApplicationController do
       it 'should always return event-awaiting-candidate' do
 
         expect(controller.event_class(candidate_event_not_completed_no_due_date)).to eq('event-unitialized')
-        expect(controller.event_class(candidate_event_not_completed_today)).to eq('event-awaiting-candidate')
+        expect(controller.event_class(candidate_event_not_completed_today)).to eq('event-coming-due')
         expect(controller.event_class(candidate_event_not_completed_today_plus_40)).to eq('event-awaiting-candidate')
         expect(controller.event_class(candidate_event_not_completed_today_minus_40)).to eq('event-late')
 

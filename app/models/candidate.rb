@@ -218,6 +218,18 @@ class Candidate < ActiveRecord::Base
     end
   end
 
+  def get_awaiting_candidate_events
+    candidate_events.select do |candidate_event|
+      candidate_event.awaiting_candidate?
+    end
+  end
+
+  def get_awaiting_admin_events
+    candidate_events.select do |candidate_event|
+      candidate_event.awaiting_admin?
+    end
+  end
+
   def get_late_events
     candidate_events.select do |candidate_event|
       candidate_event.late?

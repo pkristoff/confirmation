@@ -6,6 +6,7 @@ describe CandidatesMailer, type: :model do
   # these should be the same for both tests
   LATE_INITIAL_TEXT = I18n.t('email.late_initial_text')
   COMING_DUE_INITIAL_TEXT = I18n.t('email.coming_due_initial_text')
+  COMPLETE_AWAITING_INITIAL_TEXT = I18n.t('email.completed_awaiting_initial_text')
   COMPLETE_INITIAL_TEXT = I18n.t('email.completed_initial_text')
   CLOSING_INITIAL_TEXT = I18n.t('email.closing_initial_text')
   SALUTATION_INITIAL_TEXT = I18n.t('email.salutation_initial_text')
@@ -23,6 +24,7 @@ describe CandidatesMailer, type: :model do
       @candidate = Candidate.find_by_account_name(candidate.account_name)
       @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, pre_late_text: LATE_INITIAL_TEXT,
                                        pre_coming_due_text: COMING_DUE_INITIAL_TEXT,
+                                       completed_awaiting_text: COMPLETE_AWAITING_INITIAL_TEXT,
                                        completed_text: COMPLETE_INITIAL_TEXT, closing_text: CLOSING_INITIAL_TEXT,
                                        salutation_text: SALUTATION_INITIAL_TEXT, from_text: FROM_EMAIL_TEXT)
 
@@ -44,11 +46,10 @@ describe CandidatesMailer, type: :model do
 
         body = Capybara.string(mail.body.encoded)
 
-        expect_view(body, [], coming_due_values, [])
+        expect_view(body, [], coming_due_values, [], [])
 
         expect(body).to have_css('p[id=past_due_text][ style="white-space: pre-line;"]', text: LATE_INITIAL_TEXT)
         expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre-line;"]', text: COMING_DUE_INITIAL_TEXT)
-        expect(body).to have_css('p[id=completed_events_text][ style="white-space: pre-line;"]', text: COMPLETE_INITIAL_TEXT)
         expect_closing(body)
 
       end
@@ -77,7 +78,7 @@ describe CandidatesMailer, type: :model do
 
         expect(body).to have_css('p[id=subject]', text: SUBJECT)
 
-        expect_view(body, [], coming_due_values, [])
+        expect_view(body, [], coming_due_values, [], [])
 
         expect_closing(body)
 
@@ -141,7 +142,7 @@ describe CandidatesMailer, type: :model do
     end
   end
 
-  def expect_view(body, late_values, coming_due_values, completed_values)
+  def expect_view(body, late_values, coming_due_values, completed_awaiting_values, completed_values)
 
     expect(body).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
@@ -153,6 +154,10 @@ describe CandidatesMailer, type: :model do
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
+    expect_table(body, I18n.t('email.completed_awaiting_text_label'), COMPLETE_AWAITING_INITIAL_TEXT, 'completed_awaiting_events',
+                 [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
+                 completed_awaiting_values)
+
     expect_table(body, I18n.t('email.completed_text_label'), COMPLETE_INITIAL_TEXT, 'completed_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
@@ -161,7 +166,7 @@ describe CandidatesMailer, type: :model do
 
   def expect_table(body, field_id, field_text, event_prefix, column_headers, cell_values)
     table_id = "table[id='#{event_prefix}_table']"
-    expect(body).to have_css("p[id='#{event_prefix}_text']", text: field_text) #if expect(body).to have_field(field_id, text: field_text)
+    expect(body).to have_css("p[id='#{event_prefix}_text']", text: field_text) unless field_text.nil? #if expect(body).to have_field(field_id, text: field_text)
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
     expect(body).to have_css("#{table_id}")

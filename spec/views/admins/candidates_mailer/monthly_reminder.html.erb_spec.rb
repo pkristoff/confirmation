@@ -49,7 +49,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    expect_view(late_values, [], [])
+    expect_view(late_values, [], [], [])
   end
 
   it 'display with all coming due' do
@@ -66,7 +66,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    expect_view([], coming_due_values, [])
+    expect_view([], coming_due_values, [], [])
   end
 
   it 'display with all completed' do
@@ -108,7 +108,49 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    expect_view([], [], completed_values)
+    expect_view([], [], [], completed_values)
+  end
+
+  it 'display with all completed awaiting admin appproval' do
+
+    completed_awaiting_values = @candidate.candidate_events.map do |ce|
+      ce.verified = false
+      ce.completed_date = today
+      info = []
+      case ce.name
+        when I18n.t('events.confirmation_name')
+          info << ['Confirmation name', 'Bolt']
+        when I18n.t('events.sponsor_covenant')
+          info << ['Sponsor name', 'The Boss']
+          info << ['Sponsor attends', 'St. Mary Magdalene']
+        when I18n.t('events.baptismal_certificate')
+          info << ['Birthday', '1999-03-05']
+          info << ['Baptismal date', '1999-05-05']
+          info << ['Father\'s name', 'A B C']
+          info << ['Mother\'s name', 'Z Y X W']
+          info << ['Church', 'St Pete']
+          info << ['Street', 'The Holy Way']
+          info << ['Street 2', '']
+          info << ['City', 'Very Wet City']
+          info << ['State', 'HA']
+          info << ['Zip Code', '12345']
+        when I18n.t('events.candidate_information_sheet')
+          info << [:name, 'Sophia Agusta']
+          info << [:grade, '10']
+          info << [:street_1, '2120 Frissell Ave.']
+          info << [:street_2, 'Apt. 456']
+          info << [:city, 'Apex']
+          info << [:state, 'NC']
+          info << [:zipcode, '27502']
+      end
+      [ce.name, ce.id, info]
+    end
+
+    render_setup
+
+    render
+
+    expect_view([], [], completed_awaiting_values, [])
   end
 
   it 'display with mixture of events' do
@@ -119,7 +161,13 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     late_events_event.save
     late_events_values = [[late_events_event.name, late_events_event.id]]
 
-    completed_events_event = @candidate.get_candidate_event(I18n.t('events.retreat_verification'))
+    completed_awaiting_event = @candidate.get_candidate_event(I18n.t('events.retreat_verification'))
+    completed_awaiting_event.completed_date = Date.today-2
+    completed_awaiting_event.verified = false
+    completed_awaiting_event.save
+    completed_awaiting_values = [[completed_awaiting_event.name, completed_awaiting_event.id, []]]
+
+    completed_events_event = @candidate.get_candidate_event(I18n.t('events.christian_ministry'))
     completed_events_event.completed_date = Date.today-2
     completed_events_event.verified = true
     completed_events_event.save
@@ -129,7 +177,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select {|i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_verification'}.map do |i18n_name|
+    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select {|i18n_name| i18n_name != 'events.parent_meeting' and i18n_name != 'events.retreat_verification' and i18n_name != 'events.christian_ministry'}.map do |i18n_name|
       name = I18n.t(i18n_name)
       id = @candidate.get_candidate_event(name).id
       [name, id, today]
@@ -137,10 +185,11 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     expect_view(late_events_values,
                 coming_due_values,
+                completed_awaiting_values,
                 completed_events_values)
   end
 
-  def expect_view(late_values, coming_due_values, completed_values)
+  def expect_view(late_values, coming_due_values, completed_awaiting_values, completed_values)
 
     expect(rendered).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
@@ -152,7 +201,11 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
-    expect_table(I18n.t('email.completed_text_label'), t('email.completed_initial_text'), 'completed_events',
+    expect_table(I18n.t('email.completed_awaiting_approval_label'), t('email.completed_awaiting_initial_text'), 'completed_awaiting_events',
+                 [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
+                 completed_awaiting_values)
+
+    expect_table(I18n.t('email.completed_text_label'), nil, 'completed_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
 
@@ -164,7 +217,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
 
   def expect_table(field_id, field_text, event_prefix, column_headers, cell_values)
-    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) # ?? expect(rendered).to have_field(field_id, text: field_text)
+    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) unless field_text.nil? # ?? expect(rendered).to have_field(field_id, text: field_text)
     table_id = "table[id='#{event_prefix}_table']"
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
@@ -205,6 +258,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         candidate: @candidate,
         pre_late_text: I18n.t('email.late_initial_text'),
         pre_coming_due_text: I18n.t('email.coming_due_initial_text'),
+        completed_awaiting_text: I18n.t('email.completed_awaiting_initial_text'),
         completed_text: I18n.t('email.completed_initial_text'),
         closing_text: I18n.t('email.closing_initial_text'),
         salutation_text: I18n.t('email.salutation_initial_text'),

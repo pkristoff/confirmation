@@ -6,6 +6,7 @@ class CandidatesMailerText
   attr_accessor :body_text
   attr_accessor :pre_late_text
   attr_accessor :pre_coming_due_text
+  attr_accessor :completed_awaiting_text
   attr_accessor :completed_text
   attr_accessor :closing_text
   attr_accessor :salutation_text
@@ -17,6 +18,7 @@ class CandidatesMailerText
     @body_text = parms[:body_input]
     @pre_late_text = parms[:pre_late_text]
     @pre_coming_due_text = parms[:pre_coming_due_text]
+    @completed_awaiting_text = parms[:completed_awaiting_text]
     @completed_text = parms[:completed_text]
     @closing_text = parms[:closing_text]
     @salutation_text = parms[:salutation_text]
@@ -29,6 +31,14 @@ class CandidatesMailerText
 
   def coming_due_events
     candidate.get_coming_due_events
+  end
+
+  def awaiting_candidate_events
+    candidate.get_awaiting_candidate_events
+  end
+
+  def completed_awaiting_events
+    candidate.get_awaiting_admin_events
   end
 
   def completed_events

@@ -1,0 +1,20 @@
+
+<%= field_set_tag field_set_header, class: 'fieldset' do %>
+    <table id='<%= "#{event_key}_table" %>' class="table table-hover">
+      <tr id='<%= "#{event_key}_header" %>'>
+        <th><%= t('email.completed_events') %></th>
+        <th><%= t('email.information_entered') %></th>
+      </tr>
+      <% events.each do |candidate_event| %>
+          <tr id='<%= "#{event_key}_tr#{candidate_event.id}" %>'>
+            <td id='<%= "#{event_key}_td0#{candidate_event.id}" %>'><%= candidate_event.name %></td>
+            <td id='<%= "#{event_key}_td1#{candidate_event.id}" %>'>
+              <ul id='<%= "#{event_key}_ul#{candidate_event.id}" %>'>
+                <% candidate_event.verifiable_info.each do |key, value| %>
+                    <li><%= "#{key.to_s}: #{value}" %></li>
+                <% end %>
+              </ul>
+          </tr>
+      <% end %>
+    </table>
+<% end %>

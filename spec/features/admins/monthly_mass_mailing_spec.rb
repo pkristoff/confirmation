@@ -17,6 +17,7 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.subject_label'), with: 'The subject'
     fill_in I18n.t('email.pre_late_text_label'), with: 'The pre_late_text'
     fill_in I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text'
+    fill_in I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text'
     fill_in I18n.t('email.completed_text_label'), with: 'The completed_text'
     fill_in I18n.t('email.closing_text_label'), with: 'The closing_text'
     fill_in I18n.t('email.salutation_text_label'), with: 'The salutation_text'
@@ -27,6 +28,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
     expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
+    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text')
     expect(page).to have_field(I18n.t('email.completed_text_label'), with: 'The completed_text')
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
@@ -49,6 +51,7 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.subject_label'), with: 'The subject'
     fill_in I18n.t('email.pre_late_text_label'), with: 'The pre_late_text'
     fill_in I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text'
+    fill_in I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text'
     fill_in I18n.t('email.completed_text_label'), with: 'The completed_text'
     fill_in I18n.t('email.closing_text_label'), with: 'The closing_text'
     fill_in I18n.t('email.salutation_text_label'), with: 'The salutation_text'
@@ -63,6 +66,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
     expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
+    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text')
     expect(page).to have_field(I18n.t('email.completed_text_label'), with: 'The completed_text')
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
@@ -99,6 +103,7 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.subject_label'), with: 'The subject'
     fill_in I18n.t('email.pre_late_text_label'), with: 'The pre_late_text'
     fill_in I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text'
+    fill_in I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text'
     fill_in I18n.t('email.completed_text_label'), with: 'The completed_text'
     fill_in I18n.t('email.closing_text_label'), with: 'The closing_text'
     fill_in I18n.t('email.salutation_text_label'), with: 'The salutation_text'
@@ -109,6 +114,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
     expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
+    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text')
     expect(page).to have_field(I18n.t('email.completed_text_label'), with: 'The completed_text')
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
@@ -149,6 +155,7 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.subject_label'), with: 'The subject'
     fill_in I18n.t('email.pre_late_text_label'), with: 'The pre_late_text'
     fill_in I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text'
+    fill_in I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text'
     fill_in I18n.t('email.completed_text_label'), with: 'The completed_text'
     fill_in I18n.t('email.closing_text_label'), with: 'The closing_text'
     fill_in I18n.t('email.salutation_text_label'), with: 'The salutation_text'
@@ -160,7 +167,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
     expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
-    expect(page).to have_field(I18n.t('email.completed_text_label'), with: 'The completed_text')
+    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text')
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
     expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
@@ -172,6 +179,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.subject_label'), with: I18n.t('email.subject_initial_text'))
     expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: I18n.t('email.late_initial_text'))
     expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: I18n.t('email.coming_due_initial_text'))
+    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: I18n.t('email.completed_awaiting_initial_text'))
     expect(page).to have_field(I18n.t('email.completed_text_label'), with: I18n.t('email.completed_initial_text'))
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: I18n.t('email.closing_initial_text'))
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: I18n.t('email.salutation_initial_text'))

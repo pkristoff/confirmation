@@ -24,6 +24,8 @@ class CandidateEvent < ActiveRecord::Base
     confirmation_event.name
   end
 
+  #status
+
   def started?
     !due_date.nil?
   end
@@ -38,7 +40,7 @@ class CandidateEvent < ActiveRecord::Base
 
   def coming_due?
     today = Date.today
-    started? and completed_date.nil? and (due_date >= today) and (due_date < today+30)
+    awaiting_candidate? and (due_date >= today) and (due_date < today+30)
   end
 
   def completed?
@@ -46,7 +48,7 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   def late?
-    started? and awaiting_candidate? and (due_date < Date.today)
+    awaiting_candidate? and (due_date < Date.today)
   end
 
   def self.get_permitted_params
@@ -65,8 +67,10 @@ class CandidateEvent < ActiveRecord::Base
     return I18n.t('status.awaiting_candidate') if awaiting_candidate?
     return I18n.t('status.awaiting_admin') if awaiting_admin?
     return I18n.t('status.verified') if completed?
-    I18n.t('status.unknown_status')
+    raise("Unknown candidate_event status")
   end
+
+  # end status
 
   def route
     # TODO: maybe move to constants

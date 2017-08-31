@@ -139,7 +139,13 @@
     padding-left: 40px;
 }
 
+/* event status colors */
+
 .event-awaiting-candidate{
+    background-color: #4cae4c;
+}
+
+.event-coming-due{
     background-color: #4cae4c;
 }
 

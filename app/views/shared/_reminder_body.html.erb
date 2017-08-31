@@ -40,32 +40,34 @@
 <% end %>
 
 <% if render_mail_text %>
+    <p id="completed_awaiting_events_text" style="white-space: pre-line;"><%= @candidate_mailer_text.completed_awaiting_text %></p>
+<% else %>
+    <%= label_tag('mail[completed_awaiting_input]', t('email.completed_awaiting_text_label')) %>:
+    <%= text_area_tag('mail[completed_awaiting_input]', @completed_awaiting_input) %> <br/>
+<% end %>
+
+<% if render_mail_text %>
+    <%= render partial: 'shared/completed_reminder_table',
+               :locals => {event_key: 'completed_awaiting_events',
+                           field_set_header: t('email.completed_awaiting_approval_label'),
+                           events: @candidate_mailer_text.completed_awaiting_events,
+               } %>
+
+<% end %>
+
+
+<% if render_mail_text %>
     <p id="completed_events_text" style="white-space: pre-line;"><%= @candidate_mailer_text.completed_text %></p>
 <% else %>
     <%= label_tag('mail[completed_input]', t('email.completed_text_label')) %>:
     <%= text_area_tag('mail[completed_input]', @completed_input) %> <br/>
 <% end %>
-
 <% if render_mail_text %>
-    <%= field_set_tag t('email.completed_label'), class: 'fieldset' do %>
-        <table id="completed_events_table" class="table table-hover">
-          <tr id="completed_events_header">
-            <th><%= t('email.completed_events') %></th>
-            <th><%= t('email.information_entered') %></th>
-          </tr>
-          <% @candidate_mailer_text.completed_events.each do |candidate_event| %>
-              <tr id="completed_events_tr<%= candidate_event.id %>">
-                <td id="<%= "completed_events_td0#{candidate_event.id}" %>"><%= candidate_event.name %></td>
-                <td id="<%= "completed_events_td1#{candidate_event.id}" %>">
-                  <ul id="completed_events_ul<%= candidate_event.id %>">
-                    <% candidate_event.verifiable_info.each do |key, value| %>
-                        <li><%= "#{key.to_s}: #{value}" %></li>
-                    <% end %>
-                  </ul>
-              </tr>
-          <% end %>
-        </table>
-    <% end %>
+    <%= render partial: 'shared/completed_reminder_table',
+               :locals => {event_key: 'completed_events',
+                           field_set_header: t('email.completed_text_label'),
+                           events: @candidate_mailer_text.completed_events,
+               } %>
 <% end %>
 
 <% if render_mail_text %>

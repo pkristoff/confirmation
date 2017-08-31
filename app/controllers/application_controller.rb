@@ -7,20 +7,25 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # map  from candidate_event status to css class
+  # it should match candidate_event.status
   def event_class(candidate_event)
 
-    if candidate_event.due_date.nil?
-      'event-unitialized'
-    elsif candidate_event.late?
-      'event-late'
-    elsif candidate_event.awaiting_candidate?
-      'event-awaiting-candidate'
-    elsif candidate_event.awaiting_admin?
-      'event-awaiting-verification'
-    elsif candidate_event.completed?
-      'event-completed'
-    else
-      ''
+    case candidate_event.status
+      when I18n.t('status.not_started')
+        'event-unitialized'
+      when I18n.t('status.coming_due')
+        'event-coming-due'
+      when I18n.t('status.late')
+        'event-late'
+      when I18n.t('status.awaiting_candidate')
+        'event-awaiting-candidate'
+      when I18n.t('status.awaiting_admin')
+        'event-awaiting-verification'
+      when I18n.t('status.verified')
+        'event-completed'
+      else
+        raise("Unknown candidate_event status = #{candidate_event.status}")
     end
   end
 

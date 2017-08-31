@@ -21,6 +21,7 @@ describe 'admins/monthly_mass_mailing.html.erb' do
     @subject = t('email.subject_initial_text')
     @pre_late_input = t('email.late_initial_text')
     @pre_coming_due_input = t('email.coming_due_initial_text')
+    @completed_awaiting_input = t('email.completed_awaiting_initial_text')
     @completed_input = t('email.completed_initial_text')
     @closing_text = t('email.closing_initial_text')
     @salutation_text = t('email.salutation_initial_text')
