@@ -22,7 +22,7 @@ class PickConfirmationName < ActiveRecord::Base
 
   # event_complete - end
 
-  def verifiable_info
+  def verifiable_info(candidate)
     {'Confirmation name': saint_name
     }
   end

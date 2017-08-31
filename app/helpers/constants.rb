@@ -47,3 +47,6 @@ module Event
     }
   end
 end
+module SideBar
+  TRUNCATELENGTH = 20
+end

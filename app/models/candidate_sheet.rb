@@ -86,7 +86,7 @@ class CandidateSheet < ActiveRecord::Base
     value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   end
 
-  def verifiable_info
+  def verifiable_info(candidate)
     # TODO: come up with prettier names
     {name: "#{first_name} #{last_name}",
     grade: grade,

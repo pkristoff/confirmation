@@ -95,7 +95,7 @@ class SponsorCovenant < ActiveRecord::Base
 
   # image interface - end
 
-  def verifiable_info
+  def verifiable_info(candidate)
     info = {'Sponsor name': sponsor_name,
             'Sponsor attends': (sponsor_attends_stmm ? 'St. Mary Magdalene' : sponsor_church)
     }

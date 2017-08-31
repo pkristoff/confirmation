@@ -22,7 +22,8 @@ describe RetreatVerification, type: :model do
 
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value' do
-      verifiables = FactoryGirl.create(:retreat_verification).verifiable_info
+      candidate = FactoryGirl.create(:candidate)
+      verifiables = FactoryGirl.create(:retreat_verification).verifiable_info(candidate)
       expected_verifiables = {}
       expect(verifiables).to eq(expected_verifiables)
     end

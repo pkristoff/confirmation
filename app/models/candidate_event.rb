@@ -55,7 +55,7 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   def verifiable_info
-    candidate.get_event_association(route).verifiable_info
+    candidate.get_event_association(route).verifiable_info(candidate)
   end
 
   def status

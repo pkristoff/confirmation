@@ -88,7 +88,7 @@ class RetreatVerification < ActiveRecord::Base
 
   # image interface - end
 
-  def verifiable_info
+  def verifiable_info(candidate)
     {}
   end
 end

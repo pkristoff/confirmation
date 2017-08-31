@@ -183,6 +183,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       tr_li_ul_id = "ul[id='#{event_prefix}_ul#{values[1]}']"
 
       expect(rendered).to have_css("#{table_id} #{tr_td_id} #{tr_td_0_id}", text: values[0])
+
       verifiable_info = values[2]
       if verifiable_info.is_a? Array
         expect(rendered).to have_css("#{tr_li_ul_id} li", count: verifiable_info.size)

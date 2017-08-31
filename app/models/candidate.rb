@@ -202,7 +202,7 @@ class Candidate < ActiveRecord::Base
     end
   end
 
-  def verifiable_info
+  def verifiable_info(candidate)
     {}
   end
 

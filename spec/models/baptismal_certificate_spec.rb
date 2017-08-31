@@ -29,7 +29,8 @@ describe BaptismalCertificate, type: :model do
 
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value' do
-      verifiables = FactoryGirl.create(:baptismal_certificate).verifiable_info
+      candidate = FactoryGirl.create(:candidate, baptized_at_stmm: false)
+      verifiables = FactoryGirl.create(:baptismal_certificate).verifiable_info(candidate)
       expected_verifiables = {
           Birthday: Date.parse('1983-08-20'),
           'Baptismal date': Date.parse('1983-10-20'),
@@ -45,4 +46,13 @@ describe BaptismalCertificate, type: :model do
       expect(verifiables).to eq(expected_verifiables)
     end
   end
+
+    it 'should return a hash of :attribute => value' do
+      candidate = FactoryGirl.create(:candidate, baptized_at_stmm: true)
+      verifiables = FactoryGirl.create(:baptismal_certificate).verifiable_info(candidate)
+      expected_verifiables = {
+          Church: I18n.t('home_parish.name')
+      }
+      expect(verifiables).to eq(expected_verifiables)
+    end
 end

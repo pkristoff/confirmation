@@ -31,7 +31,8 @@ describe CandidateSheet, type: :model do
 
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value' do
-      verifiables = FactoryGirl.create(:candidate_sheet).verifiable_info
+      candidate = FactoryGirl.create(:candidate)
+      verifiables = FactoryGirl.create(:candidate_sheet).verifiable_info(candidate)
       expected_verifiables = {name: 'Sophia Young', grade: 10, street_1: '555 Xxx Ave.', street_2: '<nothing>', city: 'Clarksville', state: 'IN', zipcode: '47529'}
       expect(verifiables).to eq(expected_verifiables)
     end
