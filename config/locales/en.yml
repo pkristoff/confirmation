@@ -147,7 +147,7 @@ en:
     events:
       name: 'Name'
       the_way_due_date: 'The Way due date'
-      chs_due_date: 'Catholic high schoolc due date'
+      chs_due_date: 'Catholic high school due date'
       instructions: 'Instructions'
     retreat_verification:
       retreat_held_at_stmm: 'Did you attend a St. Mary Magdalene confirmation retreat?'
