@@ -1,4 +1,4 @@
-<%= require 'constants' %>
+<% require 'constants' %>
 
 
 <% if admin_signed_in? %>
@@ -13,7 +13,7 @@
             [I18n.t('views.nav.admins'), admins_path, I18n.t('views.nav.admins')],
             [I18n.t('views.nav.events'), edit_multiple_confirmation_events_path, I18n.t('views.nav.events')]
         ] %>
-        <ul id="admin-sidebar">
+        <ul id="admin-sidebar" class="nav navbar-nav">
           <% admin_info.each do |arr| %>
               <li><%= link_to truncate(arr[2], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
           <% end %>
@@ -24,7 +24,7 @@
                 [I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_sponsor_path, I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name'))],
                 [I18n.t('views.nav.export_candidate_event_status_title'), export_lists_events_path, I18n.t('views.nav.export_candidate_event_status_title')]
             ] %>
-            <ul id="export-sidebar">
+            <ul id="export-sidebar" class="nav navbar-nav">
               <% export_info.each do |arr| %>
                   <li><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
               <% end %>
@@ -48,7 +48,7 @@
                 [I18n.t('views.nav.edit'), edit_candidate_path(resource.id), I18n.t('views.nav.edit'),],
                 [I18n.t('views.nav.events'), event_candidate_path(resource.id), I18n.t('views.nav.events')]
             ] %>
-            <ul id="candidate-sidebar">
+            <ul id="candidate-sidebar" class="nav navbar-nav">
 
               <% candidate_info.each do |arr| %>
                   <li><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
@@ -73,7 +73,7 @@
         [I18n.t('views.nav.edit'), edit_candidate_registration_path, I18n.t('views.nav.edit'),],
         [I18n.t('views.nav.events'), event_candidate_registration_path(current_candidate.id), I18n.t('views.nav.events')]
     ] %>
-    <ul id="candidate-sidebar">
+    <ul id="candidate-sidebar" class="nav navbar-nav">
 
       <% candidate_info.each do |arr| %>
           <li><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>

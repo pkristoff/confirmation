@@ -14,6 +14,19 @@
       <ul class="nav navbar-nav">
         <%= render 'layouts/navigation_links' %>
         <%= render 'layouts/nav_links_for_auth' %>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <%= I18n.t('views.top_bar.help') %> <span class="caret"></span>
+        </a>
+          <ul class="dropdown-menu">
+          <li><%= link_to I18n.t('views.top_bar.contact_information'), contact_information_path %></li>
+            <% if candidate_signed_in? %>
+                <li><%= link_to I18n.t('views.top_bar.candidate_checklist'), dev_download_document_path(current_candidate.id, Event::Document::CANDIDATE_CHECKLIST), {method: :put} %></li>
+            <% end %>
+            <% if admin_signed_in? %>
+                <li><%= link_to I18n.t('views.top_bar.candidate_checklist'), download_document_path(current_admin.id, Event::Document::CANDIDATE_CHECKLIST), {method: :put} %></li>
+            <% end %>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>

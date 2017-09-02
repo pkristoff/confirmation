@@ -35,15 +35,18 @@ module Event
     CONFIRMATION_NAME = Event::Route::CONFIRMATION_NAME
     RETREAT_VERIFICATION = Event::Route::RETREAT_VERIFICATION
     SPONSOR_COVENANT = Event::Route::SPONSOR_COVENANT
+    CANDIDATE_CHECKLIST = :candidate_checklist
 
     MAPPING = {
+        candidate_checklist: '2. Check List.pdf', # complete
         candidate_covenant: '4. Candidate Covenant Form.pdf', # complete
+        information_sheet: '5. Information Sheet.pdf', # complete
         baptismal_certificate: '6. Baptismal Certificate.pdf', # complete
         sponsor_covenant: '7. Sponsor Covenant & Eligibility.pdf', # complete
-        conversation_sponsor_candidate: '8. Conversation between Sponsor & Candidate.pdf',
-        christian_ministry: '9. Christian Ministry Awareness.pdf',
-        confirmation_name: '10. Choosing a Confirmation Name.pdf', # complete
-        retreat_verification: '10. Choosing a Confirmation Name.pdf' # complete
+        conversation_sponsor_candidate: '7. Sponsor Covenant & Eligibility.pdf',
+        christian_ministry: '8. Christian Ministry Awareness.pdf',
+        confirmation_name: '9. Choosing a Confirmation Name.pdf', # complete
+        retreat_verification: '10. Retreat Verification.pdf' # complete
     }
   end
 end

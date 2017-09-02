@@ -121,4 +121,5 @@ Rails.application.routes.draw do
   # Sign in ADMIN
   resources :candidates
   root to: 'visitors#index'
+  get 'contact_information', to: 'visitors#contact_information'
 end

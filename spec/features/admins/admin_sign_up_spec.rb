@@ -51,7 +51,7 @@ feature 'Admin sign up', :devise do
     scenario 'admin can sign up another admin' do
       visit new_admin_registration_path # click Sign up admin
       expect(page).to have_content(I18n.t('views.common.name'))
-      expect(page).to have_content(I18n.t('views.common.sign_up'))
+      expect(page).to have_content(I18n.t('views.top_bar.sign_up'))
     end
 
     # Scenario: Visitor can sign up with valid email address and password
@@ -121,7 +121,7 @@ feature 'Admin sign up', :devise do
       fill_in I18n.t('views.common.email'), :with => 'otheremail@example.com'
       fill_in I18n.t('views.common.password'), :with => 'abcdefgh'
       fill_in I18n.t('views.common.password_confirmation'), :with => 'abcdefgh'
-      click_button I18n.t('views.common.sign_up')
+      click_button I18n.t('views.top_bar.sign_up')
 
       expect(page).to have_selector('p', count: 3)
       expect(page).to have_selector('p', text: 'Admin')

@@ -1,4 +1,4 @@
-<h2><%= t('views.common.sign_in', name: resource_name) %></h2>
+<h2><%= t('views.top_bar.sign_in', name: resource_name) %></h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
@@ -19,7 +19,7 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.submit t('views.common.sign_in', name: resource_name) %>
+    <%= f.submit t('views.top_bar.sign_in', name: resource_name) %>
   </div>
 <% end %>
 

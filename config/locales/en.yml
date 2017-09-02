@@ -255,21 +255,16 @@ en:
       sponsor_name: 'Sponsor covenant'
       confirmation_name: 'Confirmation name'
     common:
-      about: 'About'
       are_you_sure: 'Are you sure?'
       are_you_sure_delete_candidates: 'Are you sure you want to delete the selected candidate(s)?'
       delete: 'Delete'
       download: 'Download document'
       email: 'Email'
       initial_email: 'Initial email'
-      home: 'Home'
       name: 'Name'
       password: 'Password'
       password_confirmation: 'Password confirmation'
       reset_password: 'Reset Password'
-      sign_in: "Sign in %{name}"
-      sign_out: 'Sign out'
-      sign_up: 'Sign up'
       status: 'Status'
       update: 'Update'
       update_candidates_event: 'Update event for candidates'
@@ -317,3 +312,15 @@ en:
       toggle_navigation: 'Toggle navigation'
     title:
       instruction_link: 'Show/hide instructions'
+    top_bar:
+      about: 'About' #checked
+      candidate_checklist: 'Candidate checklist'
+      contact_admin: 'Contact Admin'
+      contact_admin_mail:  'mailto:stmm.confirmation@kristoffs.com?Subject=Help'
+      contact_information: 'Contact Information'
+      contact_information: 'Contact Information'
+      help: 'Help'
+      home: 'Home' #checked
+      sign_in: "Sign in %{name}" #checked
+      sign_out: 'Sign out' #checked
+      sign_up: 'Sign up' #chedked
