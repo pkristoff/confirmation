@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.3.3'
 gem 'rails', '4.2.5.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -50,3 +50,6 @@ gem 'jquery-tablesorter', '~> 1.23', '>= 1.23.2'
 # Avoid issues with turbolinks and jquery
 gem 'jquery-turbolinks'
 gem 'exception_notification'
+group :test do
+  gem "i18n-tasks"
+end

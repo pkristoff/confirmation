@@ -1,326 +1,255 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
+---
 en:
-  candidates:
-      index:
-        status: 'green'
-        title: 'Candidates'
-        total_entries: 'Total: %{value} '
   email:
-    adhoc_mail: 'Adhoc Mail'
-    body_label: 'Body'
+    adhoc_mail: Adhoc Mail
+    body_label: Body
     closing_initial_text: ''
-    closing_text_label: 'Closing paragraph'
-    coming_due_events: 'Coming due events'
-    coming_due_initial_text: 'These events are not due yet.'
-    coming_due_label: 'Coming due events'
-    completed_events: 'Events'
-    completed_awaiting_initial_text: 'These are the completed events awaiting approval.  Please verify that the information you entered is correct, if any.'
-    completed_awaiting_text_label: 'Completed events awaiting approval'
-    completed_awaiting_approval_label: 'Completed events awaiting approval.'
-    completed_initial_text: 'These are the completed events.  Please verify that the information you entered is correct, if any.'
-    completed_text_label: 'Completed events'
-    due_date: 'Due date'
-    events: 'Events'
+    closing_text_label: Closing paragraph
+    coming_due_initial_text: These events are not due yet.
+    coming_due_label: Coming due events
+    completed_awaiting_approval_label: Completed events awaiting approval.
+    completed_awaiting_initial_text: These are the completed events awaiting approval.  Please
+      verify that the information you entered is correct, if any.
+    completed_awaiting_text_label: Completed events awaiting approval
+    completed_events: Events
+    completed_initial_text: These are the completed events.  Please verify that the
+      information you entered is correct, if any.
+    completed_text_label: Completed events
+    due_date: Due date
+    events: Events
     from_initial_text_html: |
       Vicki Kristoff
       stmm.confirmation@kristoffs.com
       919-249-5629
-    from_text_label: 'From'
-    information_entered: 'Information Entered'
-    late_initial_text: 'Here is the status of your Confirmation forms(events) that you need to submit.'
-    monthly_mail: 'Monthly Mail'
-    past_due: 'Past due events'
-    pre_coming_due_text_label: 'The pre-coming text'
-    pre_late_text_label: 'The pre-late text'
-    salutation_initial_text: 'Please email me if you have any questions'
-    salutation_text_label: 'Salutation text'
-    subject_initial_text: 'Confirmation Information Status'
-    subject_label: 'Subject'
-    test_adhoc_mail: 'Test adhoc mail'
-    test_monthly_mail: 'Test monthly mail'
-    test_monthly_mail_subject_initial_text: 'Monthly mailing test email for %{candidate_account_name}'
-    test_adhoc_subject_initial_text: 'Adhoc test email for %{candidate_account_name}'
+    from_text_label: From
+    information_entered: Information Entered
+    late_initial_text: Here is the status of your Confirmation forms(events) that
+      you need to submit.
+    monthly_mail: Monthly Mail
+    past_due: Past due events
+    pre_coming_due_text_label: The pre-coming text
+    pre_late_text_label: The pre-late text
+    salutation_initial_text: Please email me if you have any questions
+    salutation_text_label: Salutation text
+    subject_initial_text: Confirmation Information Status
+    subject_label: Subject
+    test_adhoc_mail: Test adhoc mail
+    test_adhoc_subject_initial_text: Adhoc test email for %{candidate_account_name}
+    test_monthly_mail: Test monthly mail
+    test_monthly_mail_subject_initial_text: Monthly mailing test email for %{candidate_account_name}
   events:
-    parent_meeting: 'Parent Information Meeting'
-    retreat_verification: 'Attend Retreat'
-    candidate_covenant_agreement: 'Candidate Covenant Agreement'
-    candidate_information_sheet: 'Candidate Information Sheet'
-    baptismal_certificate: 'Baptismal Certificate'
-    sponsor_covenant: 'Sponsor Covenant'
-    confirmation_name: 'Confirmation Name'
-    sponsor_agreement: 'Sponsor and Candidate Conversation'
-    christian_ministry: 'Christian Ministry Awareness'
+    baptismal_certificate: Baptismal Certificate
+    candidate_covenant_agreement: Candidate Covenant Agreement
+    candidate_information_sheet: Candidate Information Sheet
+    christian_ministry: Christian Ministry Awareness
+    confirmation_name: Confirmation Name
+    parent_meeting: Parent Information Meeting
+    retreat_verification: Attend Retreat
+    sponsor_agreement: Sponsor and Candidate Conversation
+    sponsor_covenant: Sponsor Covenant
   field_set:
-    candidate_sheet:
-      address: 'Address'
-      email: 'Email'
-      name: 'Name'
-      other: 'Other'
-    christian_ministry:
-      questions: 'Answer questions'
-    confirmation_name:
-      saint: 'Saint'
     baptismal_certificate:
-      scan: 'Scan baptismal certificate'
-      church: 'Church'
-      dates: 'Dates'
-      father: 'Father name'
-      mother: 'Mother name'
-    events:
+      church: Church
+      dates: Dates
+      father: Father name
+      mother: Mother name
+      scan: Scan baptismal certificate
+    candidate_sheet:
+      address: Address
+      email: Email
+      name: Name
+      other: Other
+    christian_ministry:
+      questions: Answer questions
+    confirmation_name:
+      saint: Saint
     retreat_verification:
-      dates: 'Dates'
-      info: 'Info'
-      scan: 'Scan'
+      dates: Dates
+      info: Info
+      scan: Scan
     sponsor_covenant:
-      sponsor_covenant: 'Sponsor covenant'
-      sponsor_eligibility: 'Sponsor eligibility'
+      sponsor_covenant: Sponsor covenant
+      sponsor_eligibility: Sponsor eligibility
   home_parish:
     name: St. Mary Magdalene
     nick_name: St. MM
   label:
     baptismal_certificate:
-      baptized_at_stmm: 'I was baptized at Saint Mary Magdalene'
       baptismal_certificate:
-        baptismal_date: 'Baptismal date'
-        birth_date: 'Birth date'
-        certificate_picture: 'Scanned baptismal certificate'
-        church_name: 'Church name'
+        baptismal_date: Baptismal date
+        birth_date: Birth date
+        certificate_picture: Scanned baptismal certificate
         church_address:
-          street_1: 'Street 1'
-          street_2: 'Street 2'
-          city: 'City'
-          state: 'State'
-          zip_code: 'Zip code'
-        father_first: 'Father first'
-        father_middle: 'Father middle'
-        father_last: 'Father last'
-        mother_first: 'Mother first'
-        mother_middle: 'Mother middle'
-        mother_maiden: 'Mother maiden'
-        mother_last: 'Mother last'
-    candidate:
-      account_name: 'Account name'
-    candidate_event:
-      select: 'Select'
+          city: City
+          state: State
+          street_1: Street 1
+          street_2: Street 2
+          zip_code: Zip code
+        church_name: Church name
+        father_first: Father first
+        father_last: Father last
+        father_middle: Father middle
+        mother_first: Mother first
+        mother_last: Mother last
+        mother_maiden: Mother maiden
+        mother_middle: Mother middle
+      baptized_at_stmm: I was baptized at Saint Mary Magdalene
     candidate_sheet:
       address:
-        street_1: 'Street 1'
-        street_2: 'Street 2'
-        city: 'City'
-        state: 'State'
-        zip_code: 'Zip code'
-      attending: 'Attending'
-      candidate_email: 'Candidate email'
-      first_name: 'First name'
-      middle_name: 'Middle name'
-      last_name: 'Last name'
-      parent_email_1: 'Parent email 1'
-      parent_email_2: 'Parent email 2'
-      grade: 'Grade'
+        city: City
+        state: State
+        street_1: Street 1
+        street_2: Street 2
+        zip_code: Zip code
+      attending: Attending
+      candidate_email: Candidate email
+      first_name: First name
+      grade: Grade
+      last_name: Last name
+      middle_name: Middle name
+      parent_email_1: Parent email 1
+      parent_email_2: Parent email 2
     christian_ministry:
-      what_service: 'What was the service?'
-      where_service: 'Where did the service take place?'
-      when_service: 'When did you do the service?'
-      helped_me: 'This experience helped me by'
+      helped_me: This experience helped me by
+      what_service: What was the service?
+      when_service: When did you do the service?
+      where_service: Where did the service take place?
     confirmation_name:
-      saint_name: 'Saint name'
+      saint_name: Saint name
     events:
-      name: 'Name'
-      the_way_due_date: 'The Way due date'
-      chs_due_date: 'Catholic high school due date'
-      instructions: 'Instructions'
+      chs_due_date: Catholic high school due date
+      instructions: Instructions
+      the_way_due_date: The Way due date
     retreat_verification:
-      retreat_held_at_stmm: 'Did you attend a St. Mary Magdalene confirmation retreat?'
-      start_date: 'Retreat start date'
-      end_date: 'Retreat end date'
-      end_date: 'Retreat end date'
-      who_held_retreat: 'Who held the retreat? (such as St. Andrews, CGHS, etc.)'
-      where_held_retreat: 'Where was the retreat held?'
-      retreat_verification_picture: 'Scanned retreat form'
+      end_date: Retreat end date
+      retreat_held_at_stmm: Did you attend a St. Mary Magdalene confirmation retreat?
+      retreat_verification_picture: Scanned retreat form
+      start_date: Retreat start date
+      where_held_retreat: Where was the retreat held?
+      who_held_retreat: Who held the retreat? (such as St. Andrews, CGHS, etc.)
     sidebar:
-      parent_meeting: 'Parent Information Meeting'
-      retreat_verification: 'Attend Retreat'
-      candidate_covenant_agreement: 'Covenant Agreement'
-      candidate_information_sheet: 'Information Sheet'
-      baptismal_certificate: 'Baptismal Certificate'
-      sponsor_covenant: 'Sponsor Covenant'
-      confirmation_name: 'Confirmation Name'
-      sponsor_agreement: 'Sponsor Conversation'
-      christian_ministry: 'Christian Ministry'
+      baptismal_certificate: Baptismal Certificate
+      candidate_covenant_agreement: Covenant Agreement
+      candidate_information_sheet: Information Sheet
+      christian_ministry: Christian Ministry
+      confirmation_name: Confirmation Name
+      retreat_verification: Attend Retreat
+      sponsor_agreement: Sponsor Conversation
+      sponsor_covenant: Sponsor Covenant
     sign_agreement:
-      signed_agreement: 'By checking you agree to the above.'
-    sponsor_agreement:
-      sponsor_agreement: 'By checking you agree to the above.'
+      signed_agreement: By checking you agree to the above.
     sponsor_covenant:
-      sponsor_attends_stmm: 'Sponsor registered at Saint Mary Magdalene'
-      sponsor_church: 'Sponsor church'
-      sponsor_name: 'Sponsor name'
-      sponsor_covenant_picture: 'Scanned covenant'
-      sponsor_elegibility_picture: 'Scanned sponsor elegibiliy form'
+      sponsor_attends_stmm: Sponsor registered at Saint Mary Magdalene
+      sponsor_church: Sponsor church
+      sponsor_covenant_picture: Scanned covenant
+      sponsor_elegibility_picture: Scanned sponsor elegibiliy form
+      sponsor_name: Sponsor name
   messages:
-    accessed_denied: 'Accessed denied.'
-    adhoc_mailing_progress: 'Adhoc mailing in progress'
-    adhoc_mailing_test_sent: 'Adhoc mailing test sent'
-    admin_login_needed: 'Please login as admin to %{message}.'
-    another_admin: 'create another admin'
-    another_candidate: 'create another candidate'
-    candidate_removed: "Candidate %{name} successfully removed"
-    candidate_updated: 'Candidate %{name} updated successfully'
-    candidates_deleted: 'Candidates deleted'
-    candidates_removed: 'All candidates successfully removed.'
-    certificate_not_blank: 'Certificate picture cannot be blank'
-    confirmation_events_updated: 'Updated ConfirmationEvents!'
-    database_reset: 'Database successfully reset.'
-    email_delivered: 'Delivered to %{first_name} %{last_name}'
-    event_updated: 'Event %{name} updated successfully'
-    import_successful: 'Imported candidates successfully.'
-    initial_email_sent: 'Initial email sent.'
-    mailing_progress: 'Mailing in progress'
-    mailing_test_sent: 'Mailing test sent'
-    missing_baptismal_certificate_attributes: 'internal: baptismal_certificate_attributes not sent with call'
-    missing_sponsor_covenant_attributes: 'internal: sponsor_covenant_attributes not sent with call'
-    missing_pick_confirmation_name_attributes: 'internal: pick_confirmation_name_attributes not sent with call'
-    monthly_mailing_progress: 'Monthly mailing in progress'
-    monthly_mailing_test_sent: 'Monthly mailing test sent'
-    no_candidate_selected: 'No candidate was selected.'
-    not_all_confirmation_events_updated: 'Not all ConfirmationEvents updated'
-    not_update_candidate_event: 'NOT Updated CandidateEvent! %{account_name}'
-    reset_password_message_sent: 'Reset password messages sent'
-    remove_candidate: 'remove a candidate'
-    save_failed: 'Save sailed'
-    select_excel_file: 'Please select a zipped excel file to upload.'
-    sponsor_elegibility_not_blank: 'Sponsor Elegibility picture cannot be blank'
+    accessed_denied: Accessed denied.
+    adhoc_mailing_progress: Adhoc mailing in progress
+    adhoc_mailing_test_sent: Adhoc mailing test sent
+    admin_login_needed: Please login as admin to %{message}.
+    another_admin: create another admin
+    another_candidate: create another candidate
+    candidate_updated: Candidate %{name} updated successfully
+    candidates_deleted: Candidates deleted
+    candidates_removed: All candidates successfully removed.
+    confirmation_events_updated: Updated ConfirmationEvents!
+    database_reset: Database successfully reset.
+    import_successful: Imported candidates successfully.
+    initial_email_sent: Initial email sent.
+    monthly_mailing_progress: Monthly mailing in progress
+    monthly_mailing_test_sent: Monthly mailing test sent
+    no_candidate_selected: No candidate was selected.
+    not_all_confirmation_events_updated: Not all ConfirmationEvents updated
+    remove_candidate: remove a candidate
+    reset_password_message_sent: Reset password messages sent
+    save_failed: Save sailed
+    select_excel_file: Please select a zipped excel file to upload.
     unknown_parameter: 'Unknown Parameter: %{name}'
     unknown_parameter_commit: 'Unknown Parameter value: %{commit} params: %{params}'
-    updated: 'Updated'
-    update_candidate_event: 'Updated CandidateEvent! for candidates.'
+    update_candidate_event: Updated CandidateEvent! for candidates.
+    updated: Updated
   model:
     candidate:
-      attending_the_way: 'The Way'
-      attending_catholic_high_school: 'Catholic High School'
+      attending_catholic_high_school: Catholic High School
+      attending_the_way: The Way
   status:
-    awaiting_admin: 'Awaiting Admin'
-    awaiting_candidate: 'Awaiting Candidate'
-    coming_due: 'Coming Due'
-    late: 'Late'
-    not_started: 'Not Started'
-    unknown_status: 'Unknown Status'
-    verified: 'Verified'
+    awaiting_admin: Awaiting Admin
+    awaiting_candidate: Awaiting Candidate
+    coming_due: Coming Due
+    late: Late
+    not_started: Not Started
+    verified: Verified
   views:
     admins:
-      admin: 'Admin'
-      cancel_my_account: 'Cancel my account'
-      current_password: 'Current password'
-      email: 'Email'
-      event: 'Event'
-      sign_in: 'Sign in admin'
+      admin: Admin
+      sign_in: Sign in admin
     candidates:
-      account_name: 'Account name'
-      attending_the_way: 'The Way'
-      attending_catholic_high_school: 'Catholic High School'
-      candidate: 'Candidate'
-      church: 'Church'
-      dates: 'Dates'
-      edit_candidate: 'Edit Candidate'
-      event_related: 'Event Related'
-      father_name: 'Father name'
-      first_name: 'First name'
-      middle_name: 'Middle name'
-      last_name: 'Last name'
-      mother_name: 'Mother name'
-      parent_email_1: 'Parent email 1'
-      password: 'Password'
-      scan_sponsor_covenant: 'Scan sponsor covenant'
-      scan_pick_confirmation_name: 'Scan confirmation name'
-      sponsor_name: 'Sponsor covenant'
-      confirmation_name: 'Confirmation name'
+      attending_catholic_high_school: Catholic High School
+      attending_the_way: The Way
+      candidate: Candidate
+      edit_candidate: Edit Candidate
+      password: Password
     common:
-      are_you_sure: 'Are you sure?'
-      are_you_sure_delete_candidates: 'Are you sure you want to delete the selected candidate(s)?'
-      delete: 'Delete'
-      download: 'Download document'
-      email: 'Email'
-      initial_email: 'Initial email'
-      name: 'Name'
-      password: 'Password'
-      password_confirmation: 'Password confirmation'
-      reset_password: 'Reset Password'
-      status: 'Status'
-      update: 'Update'
-      update_candidates_event: 'Update event for candidates'
+      are_you_sure: Are you sure?
+      are_you_sure_delete_candidates: Are you sure you want to delete the selected
+        candidate(s)?
+      delete: Delete
+      download: Download document
+      email: Email
+      initial_email: Initial email
+      name: Name
+      reset_password: Reset Password
+      status: Status
+      update: Update
+      update_candidates_event: Update event for candidates
     events:
-      the_way_due_date: 'The Way Due date'
-      chs_due_date: 'Catholic High School Due date'
-      instructions: 'Instructions'
-      verified: 'Verified'
-      completed_date: 'Completed date'
+      chs_due_date: Catholic High School Due date
+      completed_date: Completed date
+      instructions: Instructions
+      the_way_due_date: The Way Due date
+      verified: Verified
     imports:
-      add_missing_events: 'Add Missing Events'
-      candidates_export: 'Export Candidates'
-      candidates_import: 'Import Candidates'
-      cannot_recover: 'You cannot recover from this.'
-      check_events: 'Check Events'
-      check_events_first: 'No missing events found running Check Events first.'
-      excel: 'Export to Excel'
-      import: 'Import'
-      found: 'Found'
-      missing: 'Missing'
-      reset_database: 'Reset the Database'
-      remove_all_candidates: 'Remove All Candidates'
-      unknown: 'Unknown'
+      add_missing_events: Add Missing Events
+      candidates_export: Export Candidates
+      candidates_import: Import Candidates
+      cannot_recover: You cannot recover from this.
+      check_events: Check Events
+      check_events_first: No missing events found running Check Events first.
+      excel: Export to Excel
+      found: Found
+      import: Import
+      missing: Missing
+      remove_all_candidates: Remove All Candidates
+      reset_database: Reset the Database
+      unknown: Unknown
     nav:
-      add_new_admin: 'Add new admin'
-      add_new_candidate: 'Add new candidate'
-      admins: 'Admins'
-      candidates: 'Candidates'
-      adhoc_mailing: 'Adhoc Mailing'
-      edit: 'Edit'
-      edit_account: 'Edit account'
-      export_attend_retreat_title: 'Export Retreat at %{home_parish}'
-      export_baptized_at_stmm_title: 'Export Baptized at %{home_parish}'
-      export_sponsor_at_stmm_title: 'Export Sponsor at %{home_parish}'
-      export_candidate_event_status_title: 'Export Candidate Events Status'
-      export_attend_retreat: 'Attend Retreat'
-      export_baptized_at_stmm: 'Baptized'
-      export_sponsor_at_stmm: 'Sponsor'
-      export_candidate_event_status: 'Candidate Events Status'
-      email: 'Email'
-      events: 'Events'
-      ministry_awareness: 'Christian Ministry Awareness'
-      monthly_mass_mailing: 'Monthly Mailing'
-      other: 'Other'
-      toggle_navigation: 'Toggle navigation'
+      add_new_admin: Add new admin
+      add_new_candidate: Add new candidate
+      adhoc_mailing: Adhoc Mailing
+      admins: Admins
+      candidates: Candidates
+      edit: Edit
+      edit_account: Edit account
+      email: Email
+      events: Events
+      export_attend_retreat_title: Export Retreat at %{home_parish}
+      export_baptized_at_stmm_title: Export Baptized at %{home_parish}
+      export_candidate_event_status_title: Export Candidate Events Status
+      export_sponsor_at_stmm_title: Export Sponsor at %{home_parish}
+      monthly_mass_mailing: Monthly Mailing
+      other: Other
+      toggle_navigation: Toggle navigation
     title:
-      instruction_link: 'Show/hide instructions'
+      instruction_link: Show/hide instructions
     top_bar:
-      about: 'About' #checked
-      candidate_checklist: 'Candidate checklist'
-      contact_admin: 'Contact Admin'
-      contact_admin_mail:  'mailto:stmm.confirmation@kristoffs.com?Subject=Help'
-      contact_information: 'Contact Information'
-      contact_information: 'Contact Information'
-      help: 'Help'
-      home: 'Home' #checked
-      sign_in: "Sign in %{name}" #checked
-      sign_out: 'Sign out' #checked
-      sign_up: 'Sign up' #chedked
+      about: About
+      candidate_checklist: Candidate checklist
+      contact_admin: Contact Admin
+      contact_admin_mail: mailto:stmm.confirmation@kristoffs.com?Subject=Help
+      contact_information: Contact Information
+      help: Help
+      sign_in: Sign in %{name}
+      sign_out: Sign out
+      sign_up: Sign up
