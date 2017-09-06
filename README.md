@@ -81,13 +81,17 @@ Install postgres
 - brew update
 - if postgres is installed
   * brew uninstall postgres 
+  * remove rm -r /usr/local/postgres
 - brew install postgres
   * if brew postgres post install did not work then do
     * ls -al /usr/local/var/
     * if /usr/local/var/postgres is owned by root then
-      * sudo chown -R $(whoami) $(brew --prefix)
+      * sudo chown -R $(whoami) /usr/local/var/postgres
     * brew postinstall postgres
+    * if still having problems with permissions then
+        * sudo chmod -R 700 /usr/local/var/postgres
   * try: psql postgres - should take you into postgres console.
+    * if not reboot
   * create role for current login
     * CREATE ROLE paulkristoff LOGIN SUPERUSER CREATEROLE CREATEDB REPLICATION BYPASSRLS;
   
