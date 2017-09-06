@@ -138,6 +138,8 @@ en:
       sponsor_covenant: Sponsor Covenant
     sign_agreement:
       signed_agreement: By checking you agree to the above.
+    sponsor_agreement:
+      sponsor_agreement: By checking you agree to the above.
     sponsor_covenant:
       sponsor_attends_stmm: Sponsor registered at Saint Mary Magdalene
       sponsor_church: Sponsor church
@@ -184,12 +186,19 @@ en:
   views:
     admins:
       admin: Admin
+      current_password: Current password
+      email: Email
       sign_in: Sign in admin
     candidates:
+      account_name: Account name
       attending_catholic_high_school: Catholic High School
       attending_the_way: The Way
       candidate: Candidate
       edit_candidate: Edit Candidate
+      first_name: First name
+      last_name: Last name
+      middle_name: Middle name
+      parent_email_1: Parent email 1
       password: Password
     common:
       are_you_sure: Are you sure?
@@ -200,6 +209,8 @@ en:
       email: Email
       initial_email: Initial email
       name: Name
+      password: Password
+      password_confirmation: Password confirmation
       reset_password: Reset Password
       status: Status
       update: Update

@@ -73,6 +73,36 @@ This application requires:
 * hiding passwords http://railsapps.github.io/rails-environment-variables.html
 
 
+Postgres local
+---------------
+Install postgres
+- Login as administrator
+- bring up terminal
+- brew update
+- if postgres is installed
+  * brew uninstall postgres 
+- brew install postgres
+  * if brew postgres post install did not work then do
+    * ls -al /usr/local/var/
+    * if /usr/local/var/postgres is owned by root then
+      * sudo chown -R $(whoami) $(brew --prefix)
+    * brew postinstall postgres
+  * try: psql postgres - should take you into postgres console.
+  * create role for current login
+    * CREATE ROLE paulkristoff LOGIN SUPERUSER CREATEROLE CREATEDB REPLICATION BYPASSRLS;
+  
+Start DB
+- login as paulkristoff
+- open terminal
+- su - administrator
+- show-pg-status
+  * if running do nothing
+  * if not do start-pg
+  
+Creating DBs.
+- open terminal
+- cd dev/confirmation
+- rake db:setup
 
 Getting Started
 ---------------
