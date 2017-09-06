@@ -94,6 +94,8 @@ en:
         mother_maiden: Mother maiden
         mother_middle: Mother middle
       baptized_at_stmm: I was baptized at Saint Mary Magdalene
+    candidate_event:
+      select: Select
     candidate_sheet:
       address:
         city: City
@@ -261,6 +263,7 @@ en:
       contact_admin_mail: mailto:stmm.confirmation@kristoffs.com?Subject=Help
       contact_information: Contact Information
       help: Help
+      home: Home
       sign_in: Sign in %{name}
       sign_out: Sign out
       sign_up: Sign up
