@@ -11,8 +11,8 @@ describe CandidateImport do
       all_event_names = AppFactory.add_confirmation_events
 
       uploaded_file = fixture_file_upload('Confirmation 2017 Database for all teens.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
-      success = candidate_import.save
+      candidate_import = CandidateImport.new
+      success = candidate_import.load_initial_file(uploaded_file)
       unless success
         candidate_import.errors.messages.each do |error|
           puts error
@@ -21,9 +21,9 @@ describe CandidateImport do
       expect(success).to eq(true)
 
       expect(Candidate.all.size).to eq(115)
-      the_way_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way') }
+      the_way_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way')}
       expect(the_way_candidates.size).to eq(91)
-      chs_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school') }
+      chs_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school')}
       expect(chs_candidates.size).to eq(24)
 
       the_way_candidate = Candidate.find_by_account_name('laiquongnicholas')
@@ -48,8 +48,8 @@ describe CandidateImport do
 
     it 'import invalid spreadsheet will not update database' do
       uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
-      expect(candidate_import.save).to eq(false)
+      candidate_import = CandidateImport.new
+      expect(candidate_import.load_initial_file(uploaded_file)).to eq(false)
       error_messages = [
           'Row 2: Candidate sheet last name can\'t be blank',
           'Row 3: Candidate sheet first name can\'t be blank',
@@ -64,9 +64,9 @@ describe CandidateImport do
 
     it 'import spreadsheet from export will update database' do
       uploaded_zip_file = fixture_file_upload('export_with_events.zip', 'application/zip')
-      candidate_import = CandidateImport.new(uploaded_zip_file: uploaded_zip_file)
+      candidate_import = CandidateImport.new
 
-      expect(save candidate_import).to eq(true)
+      expect(save_zip candidate_import, uploaded_zip_file).to eq(true)
 
       expect_import_with_events
     end
@@ -110,7 +110,7 @@ describe CandidateImport do
         Dir.mkdir(dir_name)
 
         candidate_import = CandidateImport.new
-        package = candidate_import.create_xlsx_package(dir_name)
+        package = candidate_import.to_xlsx(dir_name)
 
         filename = CandidateImport.image_filename(candidate, dir_name)
         package.workbook do |wb|
@@ -160,8 +160,8 @@ describe CandidateImport do
 
         expect(Candidate.find_by_account_name(candidate.account_name)).to eq(nil)
 
-        candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
-        save_result = candidate_import.save
+        candidate_import = CandidateImport.new
+        save_result = candidate_import.load_initial_file(uploaded_file)
         expect(save_result).to eq(true)
 
         candidate = Candidate.find_by_account_name(candidate.account_name)
@@ -199,7 +199,7 @@ describe CandidateImport do
       begin
 
         Dir.mkdir(dir_name)
-        package = candidate_import.create_xlsx_package(dir_name)
+        package = candidate_import.to_xlsx(dir_name)
 
         package.workbook do |wb|
           wb.worksheets.each do |ws|
@@ -236,7 +236,7 @@ describe CandidateImport do
     begin
 
       Dir.mkdir(dir_name)
-      package = candidate_import.create_xlsx_package(dir_name)
+      package = candidate_import.to_xlsx(dir_name)
 
       package.workbook do |wb|
         wb.worksheets.each do |ws|
@@ -258,15 +258,102 @@ describe CandidateImport do
 end
 
 
+def expect_confirmation_event(event_name, way_date, chs_date)
+  confirmation_event = ConfirmationEvent.find_by_name(event_name)
+  expect(confirmation_event.the_way_due_date.to_s).to eq(way_date)
+  expect(confirmation_event.chs_due_date.to_s).to eq(chs_date)
+end
+
+def expect_initial_conf_events
+  today = Date.today.to_s
+
+  expect_confirmation_event(I18n.t('events.parent_meeting'), today, today)
+  expect_confirmation_event(I18n.t('events.retreat_verification'), today, today)
+  expect_confirmation_event(I18n.t('events.candidate_covenant_agreement'), today, today)
+  expect_confirmation_event(I18n.t('events.candidate_information_sheet'), today, today)
+  expect_confirmation_event(I18n.t('events.baptismal_certificate'), today, today)
+  expect_confirmation_event(I18n.t('events.sponsor_covenant'), today, today)
+  expect_confirmation_event(I18n.t('events.confirmation_name'), today, today)
+  expect_confirmation_event(I18n.t('events.christian_ministry'), today, today)
+  expect_confirmation_event(I18n.t('events.sponsor_agreement'), today, today)
+
+  if ConfirmationEvent.all.size != 9
+    ConfirmationEvent.all.each {|x| puts x.name}
+    expect(ConfirmationEvent.all.size).to eq(9), '"Wrong number of Confirmation Events" '
+  end
+end
+
 describe 'combinations' do
   it 'reset db followed by import should update existing candidate and confirmation_events' do
     uploaded_file_zip = fixture_file_upload('export_with_events.zip', 'application/zip')
     candidate_import = CandidateImport.new(uploaded_zip_file: uploaded_file_zip)
     candidate_import.reset_database
 
-    expect(save candidate_import).to eq(true)
+    expect(save_zip candidate_import, uploaded_file_zip).to eq(true)
 
     expect_import_with_events
+  end
+  it 'initial import followed by initial import should update and add' do
+    uploaded_file = fixture_file_upload('Initial candidates.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    candidate_import = CandidateImport.new
+    candidate_import.reset_database
+
+    expect(save candidate_import, uploaded_file).to eq(true)
+
+    expect_initial_conf_events
+    expect(Candidate.all.size).to eq(4) # vicki + 3 import
+
+    uploaded_file_updated = fixture_file_upload('Initial candidates update.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+    expect(save candidate_import, uploaded_file_updated).to eq(true)
+
+    expect_initial_conf_events
+    expect(Candidate.all.size).to eq(6) # vicki + 3 old import + 2 new from update
+    expect_candidate(
+        account_name: 'corganmakenzie',
+        candidate_sheet: {
+            first_name: 'Makenzie',
+            last_name: 'Corgan',
+            grade: 10,
+            attending: I18n.t('model.candidate.attending_catholic_high_school')
+        }
+    )
+    expect_candidate(
+        account_name: 'barrerocarlos',
+        candidate_sheet: {
+            first_name: 'Carlos',
+            last_name: 'Barrero',
+            grade: 11,
+            attending: I18n.t('model.candidate.attending_the_way')
+        }
+    )
+    expect_candidate(
+        account_name: 'agiusjulia',
+        candidate_sheet: {
+            first_name: 'Julia',
+            last_name: 'Agius',
+            grade: 10,
+            attending: I18n.t('model.candidate.attending_the_way')
+        }
+    )
+    expect_candidate(
+        account_name: 'brixeynoah',
+        candidate_sheet: {
+            first_name: 'Noah',
+            last_name: 'Brixey',
+            grade: 11,
+            attending: I18n.t('model.candidate.attending_catholic_high_school')
+        }
+    )
+    expect_candidate(
+        account_name: 'baronemaddy',
+        candidate_sheet: {
+            first_name: 'Maddy',
+            last_name: 'Barone',
+            grade: 10,
+            attending: I18n.t('model.candidate.attending_catholic_high_school')
+        }
+    )
   end
 end
 
@@ -521,35 +608,18 @@ def expect_confirmation_events(ws, candidate_import)
 end
 
 def expect_import_with_events
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).the_way_due_date.to_s).to eq('2016-06-30')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.parent_meeting')).chs_due_date.to_s).to eq('2016-06-03')
-
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_verification')).the_way_due_date.to_s).to eq('2016-05-31')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.retreat_verification')).chs_due_date.to_s).to eq('2016-05-03')
-
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement')).the_way_due_date.to_s).to eq('2016-07-31')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement')).chs_due_date.to_s).to eq('2016-07-13')
-
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_information_sheet')).the_way_due_date.to_s).to eq('2016-02-29')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.candidate_information_sheet')).chs_due_date.to_s).to eq('2016-02-16')
-
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.baptismal_certificate')).the_way_due_date.to_s).to eq('2016-08-31')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.baptismal_certificate')).chs_due_date.to_s).to eq('2016-08-12')
-
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_covenant')).the_way_due_date.to_s).to eq('2016-10-31')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_covenant')).chs_due_date.to_s).to eq('2016-10-15')
-
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).the_way_due_date.to_s).to eq('2016-11-30')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')).chs_due_date.to_s).to eq('2016-11-20')
-
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_agreement')).the_way_due_date.to_s).to eq('2016-12-31')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.sponsor_agreement')).chs_due_date.to_s).to eq('2016-12-15')
-
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.christian_ministry')).the_way_due_date.to_s).to eq('2017-01-31')
-  expect(ConfirmationEvent.find_by_name(I18n.t('events.christian_ministry')).chs_due_date.to_s).to eq('2017-01-22')
+  expect_confirmation_event(I18n.t('events.parent_meeting'), '2016-06-30', '2016-06-03')
+  expect_confirmation_event(I18n.t('events.retreat_verification'), '2016-05-31', '2016-05-03')
+  expect_confirmation_event(I18n.t('events.candidate_covenant_agreement'), '2016-07-31', '2016-07-13')
+  expect_confirmation_event(I18n.t('events.candidate_information_sheet'), '2016-02-29', '2016-02-16')
+  expect_confirmation_event(I18n.t('events.baptismal_certificate'), '2016-08-31', '2016-08-12')
+  expect_confirmation_event(I18n.t('events.sponsor_covenant'), '2016-10-31', '2016-10-15')
+  expect_confirmation_event(I18n.t('events.confirmation_name'), '2016-11-30', '2016-11-20')
+  expect_confirmation_event(I18n.t('events.sponsor_agreement'), '2016-12-31', '2016-12-15')
+  expect_confirmation_event(I18n.t('events.christian_ministry'), '2017-01-31', '2017-01-22')
 
   if ConfirmationEvent.all.size != 9
-    ConfirmationEvent.all.each { |x| puts x.name }
+    ConfirmationEvent.all.each {|x| puts x.name}
   end
 
   expect(ConfirmationEvent.all.size).to eq(9)
@@ -779,8 +849,16 @@ def get_vicki_kristoff
   }
 end
 
-def save(candidate_import)
-  import_result = candidate_import.save
+def save(candidate_import, uploaded_file)
+  import_result = candidate_import.load_initial_file(uploaded_file)
+  candidate_import.errors.each do |candidate|
+    puts "Errors:  #{candidate[1]}"
+  end
+  import_result
+end
+
+def save_zip(candidate_import, uploaded_file_zip)
+  import_result = candidate_import.load_zip_file(uploaded_file_zip)
   candidate_import.errors.each do |candidate|
     puts "Errors:  #{candidate[1]}"
   end

@@ -43,8 +43,8 @@ describe 'candidate_imports/new.html.erb' do
   it 'layout with errors' do
 
     uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    @candidate_import = CandidateImport.new(uploaded_file: uploaded_file)
-    @candidate_import.save
+    @candidate_import = CandidateImport.new
+    @candidate_import.load_initial_file(uploaded_file)
 
     render
 

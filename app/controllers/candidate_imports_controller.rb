@@ -25,14 +25,14 @@ class CandidateImportsController < ApplicationController
       redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')
     elsif File.extname(import_file_param.values.first.original_filename) === '.zip'
       @candidate_import = CandidateImport.new(uploaded_zip_file: import_file_param.values.first)
-      if @candidate_import.save
+      if @candidate_import.load_zip_file(import_file_param.values.first)
         redirect_to root_url, notice: I18n.t('messages.import_successful')
       else
         render :new
       end
     else
-      @candidate_import = CandidateImport.new(uploaded_file: import_file_param.values.first)
-      if @candidate_import.save
+      @candidate_import = CandidateImport.new
+      if @candidate_import.load_initial_file(import_file_param.values.first)
         redirect_to root_url, notice: I18n.t('messages.import_successful')
       else
         render :new

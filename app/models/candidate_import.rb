@@ -13,7 +13,7 @@ class CandidateImport
   attr_accessor :unknown_confirmation_events
 
   def initialize(attributes = {})
-    attributes.each { |name, value| send("#{name}=", value) }
+    attributes.each {|name, value| send("#{name}=", value)}
     @worksheet_conf_event_name = 'Confirmation Events'
     @worksheet_name = 'Candidates with events'
     # check_events
@@ -22,8 +22,8 @@ class CandidateImport
     @unknown_confirmation_events = []
   end
 
-  def persisted?
-    false
+  def self.image_filename(candidate, dir)
+    "#{dir}/#{candidate.account_name}_#{candidate.baptismal_certificate.certificate_filename}"
   end
 
   def add_missing_events (missing_events)
@@ -40,7 +40,7 @@ class CandidateImport
 
   def check_events
     all_in_confirmation_event_names = AppFactory.all_i18n_confirmation_event_names
-    unknowns = ConfirmationEvent.all.map { |ce| ce.name }
+    unknowns = ConfirmationEvent.all.map {|ce| ce.name}
     all_in_confirmation_event_names.each do |i18n_key|
       confirmation_event_name = I18n.t(i18n_key)
       unknowns_index = unknowns.index(confirmation_event_name)
@@ -58,7 +58,111 @@ class CandidateImport
     self
   end
 
+  def load_initial_file(file)
+    @uploaded_file = file
+    @imported_candidates = load_imported_candidates
+    validate_and_save_import
+  end
+
+  def load_zip_file(file)
+    @uploaded_zip_file = file
+    @imported_candidates = load_imported_candidates
+    validate_and_save_import
+  end
+
+  def persisted?
+    false
+  end
+
+  def remove_all_candidates
+
+    Candidate.all.each do |candidate|
+      candidate.destroy
+    end
+
+  end
+
+  def reset_database
+
+    remove_all_candidates
+
+    remove_all_confirmation_events
+
+    Admin.all.each do |admin|
+      admin.delete
+    end
+
+    AppFactory.add_confirmation_events
+
+    AppFactory.generate_seed
+  end
+
+  def to_xlsx(dir)
+    p = create_xlsx_package(dir)
+    # the Package will be generated with a shared string table
+    p.use_shared_strings = true
+    p
+  end
+
+  # test only
+  def xlsx_columns
+    params = Candidate.get_permitted_params
+    columns = []
+    get_columns(params, columns)
+    columns.delete(:password)
+    columns.delete(:password_confirmation)
+    (0..get_confirmation_events_sorted.length-1).each do |index|
+      columns << "candidate_events.#{index}.completed_date"
+      columns << "candidate_events.#{index}.verified"
+    end
+    columns
+  end
+
+  # test only
+  def xlsx_conf_event_columns
+    %w{name index the_way_due_date chs_due_date instructions}
+  end
+
+  private
+
+  def candidate_events_in_order (candidate)
+    events = []
+    @events_in_order.each do |confirmation_event|
+      events << (candidate.get_candidate_event(confirmation_event.name))
+    end
+    events
+  end
+
+  def certificate_image_column(candidate, col, dir, images)
+    if candidate.baptismal_certificate
+      filename = CandidateImport.image_filename(candidate, dir)
+      images.append({filename: filename,
+                     info: candidate.baptismal_certificate}) if col === 'baptismal_certificate.certificate_filename'
+      filename
+    else
+      'no candidate.baptismal_certificate'
+    end
+  end
+
+  def create_confirmation_event(wb)
+    confirmation_event_columns = xlsx_conf_event_columns
+    wb.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
+      sheet.add_row confirmation_event_columns
+      get_confirmation_events_sorted.each_with_index do |confirmation_event, index|
+        # puts "Event: #{confirmation_event.name} index:#{index}"
+        sheet.add_row (confirmation_event_columns.map do |col|
+          if col === 'index'
+            index
+          else
+            confirmation_event.send(col)
+          end
+        end)
+      end
+    end
+  end
+
   def create_xlsx_package(dir)
+    # http://www.rubydoc.info/github/randym/axlsx/Axlsx/Workbook:use_shared_strings
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
     create_confirmation_event(wb)
@@ -115,108 +219,6 @@ class CandidateImport
     end
   end
 
-  def certificate_image_column(candidate, col, dir, images)
-    if candidate.baptismal_certificate
-      filename = CandidateImport.image_filename(candidate, dir)
-      images.append({filename: filename,
-                     info: candidate.baptismal_certificate}) if col === 'baptismal_certificate.certificate_filename'
-      filename
-    else
-      'no candidate.baptismal_certificate'
-    end
-  end
-
-  def create_confirmation_event(wb)
-    confirmation_event_columns = xlsx_conf_event_columns
-    wb.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
-      sheet.add_row confirmation_event_columns
-      get_confirmation_events_sorted.each_with_index do |confirmation_event, index|
-        # puts "Event: #{confirmation_event.name} index:#{index}"
-        sheet.add_row (confirmation_event_columns.map do |col|
-          if col === 'index'
-            index
-          else
-            confirmation_event.send(col)
-          end
-        end)
-      end
-    end
-  end
-
-  def get_confirmation_events_sorted
-    ConfirmationEvent.order(:name)
-  end
-
-  def self.image_filename(candidate, dir)
-    "#{dir}/#{candidate.account_name}_#{candidate.baptismal_certificate.certificate_filename}"
-  end
-
-  def imported_candidates
-    @imported_candidates ||= load_imported_candidates
-  end
-
-  def load_imported_candidates
-    # uploaded_file is an xlsx, either initial file or an exported file.
-    if uploaded_file
-      candidates = []
-      @candidate_to_row = {}
-      spreadsheet = open_spreadsheet
-      if spreadsheet.sheets[0] == @worksheet_name or spreadsheet.sheets[0] == @worksheet_conf_event_name
-        process_exported_xlsx(candidates, spreadsheet)
-      else
-        process_initial_xlsx(candidates, spreadsheet)
-      end
-      candidates
-    elsif uploaded_zip_file
-      # zipped dir with xlsx and images.  this was generated via an export.
-      # once expanded then set uploaded_file and recurse
-      process_xlsx_zip
-    end
-  end
-
-  def remove_all_candidates
-
-    Candidate.all.each do |candidate|
-      candidate.destroy
-    end
-
-  end
-
-  def reset_database
-
-    remove_all_candidates
-
-    remove_all_confirmation_events
-
-    Admin.all.each do |admin|
-      admin.delete
-    end
-
-    AppFactory.add_confirmation_events
-
-    AppFactory.generate_seed
-  end
-
-  def save
-    if imported_candidates.map(&:valid?).all?
-      imported_candidates.each(&:save!)
-      true
-    else
-      imported_candidates.each do |candidateImport|
-        candidateImport.errors.full_messages.each do |message|
-          errors.add :base, "Row #{@candidate_to_row[candidateImport]}: #{message}"
-        end
-      end
-      false
-    end
-  end
-
-  def to_xlsx(dir)
-    p = create_xlsx_package(dir)
-    p.use_shared_strings = true
-    p
-  end
-
   def get_columns (params, columns, prefix='')
     return columns if params.empty?
     params.each do |param|
@@ -234,72 +236,49 @@ class CandidateImport
     end
   end
 
-  # test only
-  def xlsx_columns
-    params = Candidate.get_permitted_params
-    columns = []
-    get_columns(params, columns)
-    columns.delete(:password)
-    columns.delete(:password_confirmation)
-    (0..get_confirmation_events_sorted.length-1).each do |index|
-      columns << "candidate_events.#{index}.completed_date"
-      columns << "candidate_events.#{index}.verified"
-    end
-    columns
+  def get_confirmation_events_sorted
+    ConfirmationEvent.order(:name)
   end
 
-  # test only
-  def xlsx_conf_event_columns
-    %w{name index the_way_due_date chs_due_date instructions}
-  end
-
-  private
-
-  # expand zip file and the process xlsx
-  def process_xlsx_zip
-    dir = 'xlsx_export'
-
-    delete_dir(dir)
-
-    begin
-      Dir.mkdir(dir)
-
-      Zip::File.open(uploaded_zip_file.tempfile) do |zip_file|
-        # Handle entries one by one
-        zip_file.each do |entry|
-          # Extract to file/directory/symlink
-          # puts "Extracting #{entry.name}"
-          entry.extract("#{dir}/#{entry.name}")
-          if File.extname(entry.name) == '.xlsx' && @uploaded_file.nil?
-            @uploaded_file = "#{dir}/#{entry.name}"
-          end
-        end
+  def load_imported_candidates
+    # uploaded_file is an xlsx, either initial file or an exported file.
+    if uploaded_file
+      candidates = []
+      @candidate_to_row = {}
+      spreadsheet = open_spreadsheet
+      if spreadsheet.sheets[0] == @worksheet_name or spreadsheet.sheets[0] == @worksheet_conf_event_name
+        process_exported_xlsx(candidates, spreadsheet)
+      else
+        process_initial_xlsx(candidates, spreadsheet)
       end
-      load_imported_candidates
-    ensure
-      delete_dir(dir)
+      spreadsheet.close
+      candidates
+    elsif uploaded_zip_file
+      # zipped dir with xlsx and images.  this was generated via an export.
+      # once expanded then set uploaded_file and recurse
+      process_xlsx_zip
     end
   end
 
-  def process_exported_xlsx(candidates, spreadsheet)
-
-    process_confirmation_events(spreadsheet)
-
-    process_candidates(candidates, spreadsheet)
-  end
-
-  def candidate_events_in_order (candidate)
-    events = []
-    @events_in_order.each do |confirmation_event|
-      events << (candidate.get_candidate_event(confirmation_event.name))
+  def open_spreadsheet
+    is_zip = !uploaded_file.respond_to?(:original_filename)
+    path = is_zip ? uploaded_file : uploaded_file.path
+    case File.extname(is_zip ? File.basename(uploaded_file) : uploaded_file.original_filename)
+      when '.xlsx' then
+        spreadsheet = Roo::Excelx.new(path, file_warning: :ignore)
+        spreadsheet.header_line = 1
+        spreadsheet.default_sheet = spreadsheet.sheets[0]
+        spreadsheet
+      # Axlsx::Workbook.new(path)
+      else
+        raise "Unknown file type: #{uploaded_file.original_filename}"
     end
-    events
   end
 
   def process_candidates(candidates, spreadsheet)
     sheet = spreadsheet.sheet(@worksheet_name)
     header_row = sheet.row(1)
-    account_name_index = header_row.find_index { |cell| cell == 'account_name' }
+    account_name_index = header_row.find_index {|cell| cell == 'account_name'}
     (2..spreadsheet.last_row).each do |i|
       row = sheet.row(i)
 
@@ -362,7 +341,7 @@ class CandidateImport
     @events_in_order = []
     sheet = spreadsheet.sheet(@worksheet_conf_event_name)
     header_row = sheet.row(1)
-    name_index = header_row.find_index { |cell| cell == 'name' }
+    name_index = header_row.find_index {|cell| cell == 'name'}
     (2..spreadsheet.last_row).each do |i|
       row = sheet.row(i)
       confirmation_event = ConfirmationEvent.find_by_name(row[name_index]) || AppFactory.add_confirmation_event(row[name_index])
@@ -378,6 +357,13 @@ class CandidateImport
       @events_in_order << confirmation_event
       # puts "#{i-2}: #{confirmation_event.name}:#{confirmation_event.the_way_due_date.to_s}:#{confirmation_event.chs_due_date.to_s}"
     end
+  end
+
+  def process_exported_xlsx(candidates, spreadsheet)
+
+    process_confirmation_events(spreadsheet)
+
+    process_candidates(candidates, spreadsheet)
   end
 
   def process_images(images)
@@ -436,20 +422,35 @@ class CandidateImport
           @candidate_to_row[candidate] = i
         end
       end
-
+      candidates
     else
       raise "Unknown spread sheet columns: #{header_row.to_s}"
     end
   end
 
-  def open_spreadsheet
-    is_zip = !uploaded_file.respond_to?(:original_filename)
-    path = is_zip ? uploaded_file : uploaded_file.path
-    case File.extname(is_zip ? File.basename(uploaded_file) : uploaded_file.original_filename)
-      when '.xlsx' then
-        Roo::Excelx.new(path, file_warning: :ignore)
-      else
-        raise "Unknown file type: #{uploaded_file.original_filename}"
+  # expand zip file and the process xlsx
+  def process_xlsx_zip
+    dir = 'xlsx_export'
+
+    delete_dir(dir)
+
+    begin
+      Dir.mkdir(dir)
+
+      Zip::File.open(uploaded_zip_file.tempfile) do |zip_file|
+        # Handle entries one by one
+        zip_file.each do |entry|
+          # Extract to file/directory/symlink
+          # puts "Extracting #{entry.name}"
+          entry.extract("#{dir}/#{entry.name}")
+          if File.extname(entry.name) == '.xlsx' && @uploaded_file.nil?
+            @uploaded_file = "#{dir}/#{entry.name}"
+          end
+        end
+      end
+      load_imported_candidates
+    ensure
+      delete_dir(dir)
     end
   end
 
@@ -461,14 +462,18 @@ class CandidateImport
 
   end
 
-  def add_admin(email='stmm.confirmation@kristoffs.com', name='confirmation')
-
-    admin = Admin.find_or_create_by!(email: email) do |admin|
-      admin.name = name
-      admin.password = Rails.application.secrets.admin_password
-      admin.password_confirmation = Rails.application.secrets.admin_password
+  def validate_and_save_import
+    if imported_candidates.map(&:valid?).all?
+      imported_candidates.each(&:save!)
+      true
+    else
+      imported_candidates.each do |candidateImport|
+        candidateImport.errors.full_messages.each do |message|
+          errors.add :base, "Row #{@candidate_to_row[candidateImport]}: #{message}"
+        end
+      end
+      false
     end
-    admin.save
   end
 
 end
