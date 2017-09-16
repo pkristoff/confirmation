@@ -178,6 +178,7 @@ class CandidateImport
         sheet.add_row (candidate_columns.map do |col|
           if %w(baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents).include?(col)
             certificate_image_column(candidate, col, dir, images)
+            Rails.logger.info "create_xlsx_package image_filename found:#{candidate.baptismal_certificate.certificate_filename}"
             Rails.logger.info "create_xlsx_package certificate_filename found:#{CandidateImport.image_filename(candidate, dir)}"
           else
             # puts col
