@@ -100,8 +100,8 @@ describe CandidateImport do
   describe 'export candidate to excel' do
 
     it 'export baptismal certificate image' do
-      candidate = FactoryGirl.create(:candidate,
-                                     baptismal_certificate: FactoryGirl.create(:baptismal_certificate))
+      CandidateImport.new.reset_database
+      candidate = Candidate.first
       add_baptismal_certificate_image(candidate)
 
       dir_name = 'temp'
@@ -112,7 +112,7 @@ describe CandidateImport do
         candidate_import = CandidateImport.new
         package = candidate_import.to_xlsx(dir_name)
 
-        filename = CandidateImport.image_filename(candidate, dir_name)
+        filename = CandidateImport.image_filename_export(candidate, dir_name)
         package.workbook do |wb|
           ws = wb.worksheets[1]
           header_row = ws.rows[0]
@@ -125,8 +125,7 @@ describe CandidateImport do
         expect(File.exist? filename).to eq(true)
 
       ensure
-        File.delete(filename) if File.exist?(filename)
-        Dir.rmdir(dir_name) if Dir.exist?(dir_name)
+        clean_dir(dir_name)
 
       end
 
@@ -173,13 +172,43 @@ describe CandidateImport do
         expect(baptismal_certificate.certificate_file_contents).not_to eq(nil)
 
       ensure
-        # puts "#{xlsx_path}=#{File.exist?(xlsx_path)}"
-        File.delete(xlsx_path) if File.exist?(xlsx_path)
-        # puts "#{image_path}=#{File.exist?(image_path)}"
-        File.delete(image_path) if File.exist?(image_path)
-        # Dir.entries(dir_name).each {|x| puts x}
-        Dir.rmdir(dir_name) if Dir.exist?(dir_name)
+        clean_dir(dir_name)
       end
+    end
+
+    it 'import with image followed by export' do
+
+      uploaded_zip_file = fixture_file_upload('export_with_image.zip', 'application/zip')
+      candidate_import = CandidateImport.new
+
+      expect(save_zip candidate_import, uploaded_zip_file).to eq(true)
+
+      # now do the export
+      dir_name = 'temp'
+      begin
+
+        Dir.mkdir(dir_name)
+
+        candidate_import = CandidateImport.new
+        package = candidate_import.to_xlsx(dir_name)
+
+        filename = CandidateImport.image_filename_export(Candidate.first, dir_name)
+        package.workbook do |wb|
+          ws = wb.worksheets[1]
+          header_row = ws.rows[0]
+          c1_row = ws.rows[1]
+          expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_filename')].value).to eq(filename) #certificate_filename
+          expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_content_type')].value).to eq(filename) #certificate_content_type
+          expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq(filename) #certificate_file_contents
+        end
+
+        expect(File.exist? filename).to eq(true)
+
+      ensure
+        clean_dir(dir_name)
+
+      end
+
     end
 
     it 'reset after adding in some candidates' do
@@ -225,8 +254,8 @@ describe CandidateImport do
 
   it 'what do things look like when empty' do
 
-    c1 = Candidate.create(account_name: 'c1', password: 'asdfgthe',
-                          candidate_sheet: CandidateSheet.create(first_name: 'Paul', last_name: 'George'))
+    Candidate.create(account_name: 'c1', password: 'asdfgthe',
+                     candidate_sheet: CandidateSheet.create(first_name: 'Paul', last_name: 'George'))
     # c1.save
 
     AppFactory.add_confirmation_events
@@ -391,14 +420,47 @@ describe 'check_events' do
 
 end
 
+describe 'image_filename' do
+
+  before(:each) do
+    CandidateImport.new.reset_database
+    candidate = Candidate.first
+    add_baptismal_certificate_image(candidate)
+
+  end
+
+  it 'should concat a file path for the scanned in file' do
+    candidate = Candidate.find_by_account_name('vickikristoff')
+    expect(CandidateImport.image_filename_export(candidate, 'temp_dir')).to eq('temp_dir/vickikristoff_actions.png')
+  end
+
+  it 'should handle baptismal_certificate filename being nil.' do
+    candidate = Candidate.find_by_account_name('vickikristoff')
+    candidate.baptismal_certificate.certificate_filename = nil
+    expect(CandidateImport.image_filename_export(candidate, 'temp_dir')).to eq('temp_dir/vickikristoff_')
+  end
+
+  it 'should concat a file path for the scanned in file removing unnecessary directories from the filename' do
+    candidate = Candidate.find_by_account_name('vickikristoff')
+    candidate.baptismal_certificate.certificate_filename= 'foo/actions.png'
+    expect(CandidateImport.image_filename_export(candidate, 'temp_dir')).to eq('temp_dir/vickikristoff_actions.png')
+  end
+
+  it 'should remove any directories in the filename' do
+    expect(CandidateImport.image_filename_import('temp/vickikristoff_actions.png')).to eq('actions.png')
+    expect(CandidateImport.image_filename_import('temp_dir/vickikristoff_actions.png')).to eq('actions.png')
+  end
+end
+
 def add_baptismal_certificate_image(candidate)
   filename = 'actions.png'
   baptismal_certificate = candidate.baptismal_certificate
   baptismal_certificate.certificate_filename = filename
   baptismal_certificate.certificate_content_type = 'type/png'
-  File.open(File.join('spec/fixtures/', filename), "rb").read do |data|
+  File.open(File.join('spec/fixtures/', filename), 'rb').read do |data|
     baptismal_certificate.certificate_file_contents = data
   end
+  candidate.save
 end
 
 def expect_candidate (values)
@@ -847,6 +909,22 @@ def get_vicki_kristoff
            verified: true}
       ]
   }
+end
+
+def clean_dir(dir)
+  if Dir.exists?(dir)
+    Dir.foreach(dir) do |entry|
+      unless entry === '.' or entry === '..'
+        filename = "#{dir}/#{entry}"
+        if File.file?(filename)
+          File.delete filename
+        else
+          clean_dir(filename)
+        end
+      end
+    end
+    Dir.rmdir(dir)
+  end
 end
 
 def save(candidate_import, uploaded_file)

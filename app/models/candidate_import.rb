@@ -22,8 +22,15 @@ class CandidateImport
     @unknown_confirmation_events = []
   end
 
-  def self.image_filename(candidate, dir)
-    "#{dir}/#{candidate.account_name}_#{candidate.baptismal_certificate.certificate_filename}"
+  def self.image_filename_export(candidate, dir)
+    certificate_filename = candidate.baptismal_certificate.certificate_filename
+    certificate_filename = '' if certificate_filename.nil?
+    "#{dir}/#{candidate.account_name}_#{File.basename(certificate_filename)}"
+  end
+
+  def self.image_filename_import(file_path)
+    filename = File.basename(file_path)
+    filename[filename.index('_')+1..filename.size]
   end
 
   def add_missing_events (missing_events)
@@ -135,7 +142,7 @@ class CandidateImport
 
   def certificate_image_column(candidate, col, dir, images)
     if candidate.baptismal_certificate
-      filename = CandidateImport.image_filename(candidate, dir)
+      filename = CandidateImport.image_filename_export(candidate, dir)
       images.append({filename: filename,
                      info: candidate.baptismal_certificate}) if col === 'baptismal_certificate.certificate_filename'
       filename
@@ -162,7 +169,7 @@ class CandidateImport
   end
 
   def create_xlsx_package(dir)
-    Rails.logger.info "create_xlsx_package(dir):#{dir}"
+    # Rails.logger.info "create_xlsx_package(dir):#{dir}"
     # http://www.rubydoc.info/github/randym/axlsx/Axlsx/Workbook:use_shared_strings
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
@@ -173,13 +180,13 @@ class CandidateImport
       images = []
       sheet.add_row candidate_columns
       Candidate.order(:account_name).each do |candidate|
-        Rails.logger.info "create_xlsx_package processing candidate:#{candidate.account_name}"
+        # Rails.logger.info "create_xlsx_package processing candidate:#{candidate.account_name}"
         events = get_confirmation_events_sorted
         sheet.add_row (candidate_columns.map do |col|
           if %w(baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents).include?(col)
+            # Rails.logger.info "create_xlsx_package image_filename found:#{candidate.baptismal_certificate.certificate_filename}"
+            # Rails.logger.info "create_xlsx_package certificate_filename found:#{CandidateImport.image_filename_export(candidate, dir)}" unless candidate.baptismal_certificate.certificate_filename.nil?
             certificate_image_column(candidate, col, dir, images)
-            Rails.logger.info "create_xlsx_package image_filename found:#{candidate.baptismal_certificate.certificate_filename}"
-            Rails.logger.info "create_xlsx_package certificate_filename found:#{CandidateImport.image_filename(candidate, dir)}"
           else
             # puts col
             val = get_column_value(candidate, col, events)
@@ -301,7 +308,7 @@ class CandidateImport
               when 'certificate_filename'
                 unless cell === 'no candidate.baptismal_certificate'
                   filename = cell
-                  candidate.baptismal_certificate.certificate_filename = filename[filename.index('_')+1..filename.size]
+                  candidate.baptismal_certificate.certificate_filename = CandidateImport.image_filename_import(filename)
                 end
               when 'certificate_content_type'
                 unless cell === 'no candidate.baptismal_certificate'
@@ -375,10 +382,10 @@ class CandidateImport
       filename = entry[:filename]
       baptismal_certificate = entry[:info]
       # begin
-      File.open(filename, mode='wb') do | f |
-          f.write baptismal_certificate.certificate_file_contents
-        end
-        # f = File.new filename, 'wb'
+      File.open(filename, mode='wb') do |f|
+        f.write baptismal_certificate.certificate_file_contents
+      end
+      # f = File.new filename, 'wb'
       # ensure
       #   f.close
       # end
