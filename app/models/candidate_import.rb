@@ -162,6 +162,7 @@ class CandidateImport
   end
 
   def create_xlsx_package(dir)
+    Rails.logger.info "create_xlsx_package(dir):#{dir}"
     # http://www.rubydoc.info/github/randym/axlsx/Axlsx/Workbook:use_shared_strings
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
@@ -172,10 +173,12 @@ class CandidateImport
       images = []
       sheet.add_row candidate_columns
       Candidate.order(:account_name).each do |candidate|
+        Rails.logger.info "create_xlsx_package processing candidate:#{candidate.account_name}"
         events = get_confirmation_events_sorted
         sheet.add_row (candidate_columns.map do |col|
           if %w(baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents).include?(col)
             certificate_image_column(candidate, col, dir, images)
+            Rails.logger.info "create_xlsx_package certificate_filename found:#{CandidateImport.image_filename(candidate, dir)}"
           else
             # puts col
             val = get_column_value(candidate, col, events)
@@ -371,7 +374,7 @@ class CandidateImport
       filename = entry[:filename]
       baptismal_certificate = entry[:info]
       # begin
-        File.open(filename, mode='wb') do | f |
+      File.open(filename, mode='wb') do | f |
           f.write baptismal_certificate.certificate_file_contents
         end
         # f = File.new filename, 'wb'
