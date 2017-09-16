@@ -370,12 +370,14 @@ class CandidateImport
     images.each do |entry|
       filename = entry[:filename]
       baptismal_certificate = entry[:info]
-      begin
-        f = File.new filename, 'wb'
-        f.write baptismal_certificate.certificate_file_contents
-      ensure
-        f.close
-      end
+      # begin
+        File.open(filename, mode='wb') do | f |
+          f.write baptismal_certificate.certificate_file_contents
+        end
+        # f = File.new filename, 'wb'
+      # ensure
+      #   f.close
+      # end
     end
   end
 
