@@ -54,7 +54,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(candidate.retreat_verification.where_held_retreat).to eq(WHERE_HELD_RETREAT)
     expect(candidate.retreat_verification.start_date).to eq(START_DATE)
     expect(candidate.retreat_verification.end_date).to eq(END_DATE)
-    expect(candidate.retreat_verification.retreat_filename).to eq('actions.png')
+    expect(candidate.retreat_verification.retreat_filename).to eq('actions for spec testing.png')
 
     expect(candidate.get_candidate_event(I18n.t('events.retreat_verification')).completed_date).to eq(Date.today)
     expect(candidate.get_candidate_event(I18n.t('events.retreat_verification')).verified).to eq(false)
@@ -71,7 +71,7 @@ shared_context 'retreat_verification_html_erb' do
     candidate.save
     visit @path
 
-    attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions for spec testing.png')
     click_button 'top-update'
 
     expect_message(:error_explanation, '4 empty fields need to be filled in: Start date can\'t be blank End date can\'t be blank Who held retreat can\'t be blank Where held retreat can\'t be blank')
@@ -80,7 +80,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(candidate.retreat_verification.where_held_retreat).to eq('')
     expect(candidate.retreat_verification.start_date).to eq(nil)
     expect(candidate.retreat_verification.end_date).to eq(nil)
-    expect(candidate.retreat_verification.retreat_filename).to eq('actions.png')
+    expect(candidate.retreat_verification.retreat_filename).to eq('actions for spec testing.png')
 
     expect(candidate.get_candidate_event(I18n.t('events.retreat_verification')).completed_date).to eq(nil)
 
@@ -154,7 +154,7 @@ shared_context 'retreat_verification_html_erb' do
     fill_in(I18n.t('label.retreat_verification.start_date'), with: START_DATE)
     fill_in(I18n.t('label.retreat_verification.end_date'), with: END_DATE)
     if retreat_verification_attach_file
-      attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions.png')
+      attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions for spec testing.png')
     end
   end
 

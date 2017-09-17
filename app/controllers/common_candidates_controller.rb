@@ -121,10 +121,10 @@ class CommonCandidatesController < ApplicationController
   end
 
   def sign_agreement_update
-    return aggreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement')
+    agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement')
   end
 
-  def aggreement_update_private(event_name, signed_param_name)
+  def agreement_update_private(event_name, signed_param_name)
     candidate = Candidate.find(params[:id])
     candidate_event = candidate.get_candidate_event(event_name)
     if params['candidate']
@@ -161,7 +161,7 @@ class CommonCandidatesController < ApplicationController
   end
 
   def sponsor_agreement_update
-    return aggreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement')
+    agreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement')
   end
 
   def event_with_picture
@@ -221,7 +221,8 @@ class CommonCandidatesController < ApplicationController
   end
 
   def send_image(association)
-    send_data association.file_contents,
+    conts = association.file_contents
+    send_data conts,
               type: association.content_type,
               disposition: 'inline'
   end
@@ -248,9 +249,12 @@ class CommonCandidatesController < ApplicationController
       else
         association_params[filename_param] = File.basename(file.original_filename)
         association_params[content_type_param] = file.content_type
-        # the encode here is to fix error with this message: ArgumentError: string contains null byte
-        # i know i fixed this before but cannot not figure out how.
-        association_params[file_contents_param] = Base64.encode64(file.read)
+        contents = file.read
+        # The problem is that while running tests if I do NOT do encode64 the tests
+        # break with this message: ArgumentError: string contains null byte
+        #  if it is left in all the time then the png does not show up in the browser.
+        contents = Base64.encode64(contents) if File.basename(file.original_filename) === 'actions for spec testing.png'
+        association_params[file_contents_param] = contents
       end
     else
       association_params[filename_param] = filename

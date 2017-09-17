@@ -40,7 +40,10 @@ update_total_selections = function () {
             count++;
         }
     }
-    document.querySelector( 'input[id=total_selected]' ).value = count;
+    var x=document.querySelector( 'input[id=total_selected]' );
+    if (x) {
+        x.value = count;
+    }
 };
 
 confirmation_toggle = function () {
