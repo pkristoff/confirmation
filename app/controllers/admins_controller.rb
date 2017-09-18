@@ -1,3 +1,5 @@
+require 'prawn'
+
 class AdminsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
@@ -11,6 +13,7 @@ class AdminsController < ApplicationController
   AdminsController::EMAIL = I18n.t('views.nav.email')
   AdminsController::RESET_PASSWORD = I18n.t('views.common.reset_password')
   AdminsController::INITIAL_EMAIL = I18n.t('views.common.initial_email')
+  AdminsController::GENERATE_PDF = I18n.t('views.common.generate_pdf')
 
   # ROUTES
 
@@ -150,6 +153,20 @@ class AdminsController < ApplicationController
           flash[:notice] = t('messages.candidates_deleted')
           set_candidates(params[:sort])
           render 'candidates/index'
+        when AdminsController::GENERATE_PDF
+          pdf = CandidatePDFDocument.new(candidates.first)
+          send_data pdf.render, filename:
+              'tmp/temp.pdf',
+                    type: 'application/pdf'
+          doc_name = 'tmp/temp.pdf'
+          # Prawn::Document.generate(doc_name) do
+          #   text 'Hello World'
+          # end
+          # pdf = File.new(doc_name)
+          # File.open(pdf.path) do |pdf_file|
+          #   send_data(pdf_file.read, type: 'application/pdf', filename: doc_name)
+          # end
+          # render 'candidates/index'
         when AdminsController::EMAIL
           setup_monthly_mailing_render_default(candidate_ids)
           # set_candidates(params[:sort], selected_candidate_ids: candidate_ids)

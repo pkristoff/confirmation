@@ -4,6 +4,7 @@
       <%= submit_tag AdminsController::EMAIL, id: 'top-update-email', value: AdminsController::EMAIL %>
       <%= submit_tag AdminsController::RESET_PASSWORD, id: 'top-update-reset-password', value: AdminsController::RESET_PASSWORD  %>
       <%= submit_tag AdminsController::INITIAL_EMAIL, id: 'top-update-initial-email', value: AdminsController::INITIAL_EMAIL  %>
+      <%= submit_tag AdminsController::GENERATE_PDF, id: 'top-update-generate-pdf', value: AdminsController::GENERATE_PDF  %>
     </div>
 
     <%= render partial: 'shared/sorting_candidate_selection',
@@ -25,6 +26,7 @@
       <%= submit_tag AdminsController::EMAIL, id: 'bottom-update-email', value: AdminsController::EMAIL %>
       <%= submit_tag AdminsController::RESET_PASSWORD, id: 'bottom-update-reset-password', value: AdminsController::RESET_PASSWORD %>
       <%= submit_tag AdminsController::INITIAL_EMAIL, id: 'bottom-update-initial-email', value: AdminsController::INITIAL_EMAIL %>
+      <%= submit_tag AdminsController::GENERATE_PDF, id: 'top-update-generate-pdf', value: AdminsController::GENERATE_PDF  %>
     </div>
 
 <% end %>

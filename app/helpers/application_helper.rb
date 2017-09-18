@@ -1,3 +1,5 @@
+# require_relative '../../External Libraries/'
+
 module ApplicationHelper
   def sortable(column, title, route, confirmation_event_id='')
     title ||= column.titleize

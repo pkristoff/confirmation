@@ -209,6 +209,7 @@ en:
       delete: Delete
       download: Download document
       email: Email
+      generate_pdf: Generate PDF
       initial_email: Initial email
       name: Name
       password: Password

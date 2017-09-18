@@ -50,6 +50,7 @@ gem 'jquery-tablesorter', '~> 1.23', '>= 1.23.2'
 # Avoid issues with turbolinks and jquery
 gem 'jquery-turbolinks'
 gem 'exception_notification'
+gem 'prawn'
 group :test do
   gem "i18n-tasks"
 end

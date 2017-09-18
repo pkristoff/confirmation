@@ -180,7 +180,7 @@ class CandidateImport
       images = []
       sheet.add_row candidate_columns
       Candidate.order(:account_name).each do |candidate|
-        # Rails.logger.info "create_xlsx_package processing candidate:#{candidate.account_name}"
+        Rails.logger.info "xxx create_xlsx_package processing candidate:#{candidate.account_name}"
         events = get_confirmation_events_sorted
         sheet.add_row (candidate_columns.map do |col|
           if %w(baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents).include?(col)
@@ -381,14 +381,14 @@ class CandidateImport
     images.each do |entry|
       filename = entry[:filename]
       baptismal_certificate = entry[:info]
-      # begin
+      file_contents = baptismal_certificate.certificate_file_contents
+
+      encoding = (file_contents.nil? || file_contents.empty?) ? 'no contents' : file_contents.encoding
+      Rails.logger.info "  xxx process_images content encoding:#{encoding}"
+
       File.open(filename, mode='wb') do |f|
-        f.write baptismal_certificate.certificate_file_contents
+        f.write file_contents
       end
-      # f = File.new filename, 'wb'
-      # ensure
-      #   f.close
-      # end
     end
   end
 

@@ -158,7 +158,11 @@ GEM
     orm_adapter (0.5.0)
     parser (2.4.0.0)
       ast (~> 2.2)
+    pdf-core (0.7.0)
     pg (0.19.0)
+    prawn (2.2.2)
+      pdf-core (~> 0.7.0)
+      ttfunk (~> 1.5)
     public_suffix (2.0.5)
     puma (3.7.0)
     quiet_assets (1.1.0)
@@ -255,6 +259,7 @@ GEM
     tilt (2.0.6)
     tinymce-rails (4.3.12)
       railties (>= 3.1.1)
+    ttfunk (1.5.1)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -303,6 +308,7 @@ DEPENDENCIES
   jquery-turbolinks
   launchy
   pg
+  prawn
   puma
   quiet_assets
   rails (= 4.2.5.1)
