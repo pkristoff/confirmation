@@ -191,6 +191,7 @@ class CandidateImport
           else
             # puts col
             val = get_column_value(candidate, col, events)
+            Rails.logger.info "xxx create_confirmation_event event:#{candidate.account_name} #{col} encoding: #{val.encoding}" if val.is_a? String
             # Rails.logger.info "col=#{col} val=#{val}"
             val
           end
