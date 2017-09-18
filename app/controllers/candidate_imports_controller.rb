@@ -49,7 +49,7 @@ class CandidateImportsController < ApplicationController
     begin
       Dir.mkdir(dir)
 
-      CandidateImport.new.to_xlsx(dir).serialize("#{dir}/export.xlsx")
+      CandidateImport.new.to_xlsx(dir).serialize("#{dir}/export.xlsx", true)
 
       zip_filename = 'xlsx_export.zip'
       temp_file = Tempfile.new(zip_filename)
