@@ -108,6 +108,14 @@ Creating DBs.
 - cd dev/confirmation
 - rake db:setup
 
+Time consuming bugs
+-------------------
+- When exporting spreadsheet to excel get the error:
+  * An Encoding::CompatibilityError occurred in candidate_imports#export_to_excel:
+    * incompatible character encodings: UTF-8 and ASCII-8BIT
+    * app/controllers/candidate_imports_controller.rb:52:in `export_to_excel'
+
+
 Getting Started
 ---------------
 
