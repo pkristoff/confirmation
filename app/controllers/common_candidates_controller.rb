@@ -253,7 +253,7 @@ class CommonCandidatesController < ApplicationController
         # The problem is that while running tests if I do NOT do encode64 the tests
         # break with this message: ArgumentError: string contains null byte
         #  if it is left in all the time then the png does not show up in the browser.
-        contents = Base64.encode64(contents) #if File.basename(file.original_filename) === 'actions for spec testing.png'
+        contents = Base64.encode64(contents) if File.basename(file.original_filename) === 'actions for spec testing.png'
         association_params[file_contents_param] = contents
       end
     else

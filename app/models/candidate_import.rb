@@ -161,6 +161,7 @@ class CandidateImport
           if col === 'index'
             index
           else
+            Rails.logger.info "xxx create_confirmation_event event:#{confirmation_event.name} instructions encoding: #{confirmation_event.send(col)}" if col === 'instructions'
             confirmation_event.send(col)
           end
         end)
