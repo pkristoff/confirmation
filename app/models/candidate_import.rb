@@ -22,15 +22,16 @@ class CandidateImport
     @unknown_confirmation_events = []
   end
 
-  def self.image_filename_export(candidate, dir)
-    certificate_filename = candidate.baptismal_certificate.certificate_filename
-    certificate_filename = '' if certificate_filename.nil?
-    "#{dir}/#{candidate.account_name}_#{File.basename(certificate_filename)}"
+  def self.image_filepath_export(candidate, dir, columns)
+    association_method, filename_method = columns.split('.')
+    image_filename = candidate.send(association_method).send(filename_method)
+    image_filename = '' if image_filename.nil?
+    "#{dir}/#{candidate.account_name}_#{filename_method}_#{File.basename(image_filename)}"
   end
 
   def self.image_filename_import(file_path)
     filename = File.basename(file_path)
-    filename[filename.index('_')+1..filename.size]
+    filename
   end
 
   def add_missing_events (missing_events)
@@ -140,14 +141,88 @@ class CandidateImport
     events
   end
 
+  def content_type (type)
+    return type if type.nil? || type.empty?
+    type.split('/')[1]
+  end
+
+  # setsup images to write file info out.
+  # ..._filename = original filename
+  # ..._content_type = content_type
+  # ..._file_cotent = new filename
   def certificate_image_column(candidate, col, dir, images)
-    if candidate.baptismal_certificate
-      filename = CandidateImport.image_filename_export(candidate, dir)
-      images.append({filename: filename,
-                     info: candidate.baptismal_certificate}) if col === 'baptismal_certificate.certificate_filename'
-      filename
-    else
-      'no candidate.baptismal_certificate'
+    if col.include? 'baptismal_certificate'
+      association = candidate.baptismal_certificate
+      if association
+        if col.include? 'certificate_filename'
+          association.certificate_filename
+        elsif col.include? 'certificate_content_type'
+          content_type(association.certificate_content_type)
+        elsif col.include? 'certificate_file_contents'
+          new_filename = CandidateImport.image_filepath_export(candidate, dir, 'baptismal_certificate.certificate_filename')
+          images.append({filename: new_filename,
+                         info: association})
+          new_filename
+        else
+          raise "unknown col #{col}"
+        end
+      else
+        'no candidate.baptismal_certificate'
+      end
+    elsif col.include? 'retreat_verification'
+      association = candidate.retreat_verification
+      if association
+        if col.include? 'retreat_filename'
+          association.retreat_filename
+        elsif col.include? 'retreat_content_type'
+          content_type(association.retreat_content_type)
+        elsif col.include? 'retreat_file_content'
+          new_filename = CandidateImport.image_filepath_export(candidate, dir, 'retreat_verification.retreat_filename')
+          images.append({filename: new_filename,
+                         info: association})
+          new_filename
+        else
+          raise "unknown col #{col}"
+        end
+      else
+        'no candidate.retreat_verification'
+      end
+    elsif col.include? 'sponsor_covenant.sponsor_elegibility'
+      association = candidate.sponsor_covenant
+      if association
+        if col.include? 'sponsor_elegibility_filename'
+          association.sponsor_elegibility_filename
+        elsif col.include? 'sponsor_elegibility_content_type'
+          content_type(association.sponsor_elegibility_content_type)
+        elsif col.include? 'sponsor_elegibility_file_contents'
+          new_filename = CandidateImport.image_filepath_export(candidate, dir, 'sponsor_covenant.sponsor_elegibility_filename')
+          images.append({filename: new_filename,
+                         info: association})
+          new_filename
+        else
+          raise "unknown col #{col}"
+        end
+      else
+        'no candidate.sponsor_covenant'
+      end
+    elsif col.include? 'sponsor_covenant.sponsor_covenant'
+      association = candidate.sponsor_covenant
+      if association
+        if col.include? 'sponsor_covenant_filename'
+          association.sponsor_covenant_filename
+        elsif col.include? 'sponsor_covenant_content_type'
+          content_type(association.sponsor_covenant_content_type)
+        elsif col.include? 'sponsor_covenant_file_contents'
+          new_filename = CandidateImport.image_filepath_export(candidate, dir, 'sponsor_covenant.sponsor_covenant_filename')
+          images.append({filename: new_filename,
+                         info: association})
+          new_filename
+        else
+          raise "unknown col #{col}"
+        end
+      else
+        'no candidate.sponsor_covenant'
+      end
     end
   end
 
@@ -161,7 +236,7 @@ class CandidateImport
           if col === 'index'
             index
           else
-            Rails.logger.info "xxx create_confirmation_event event:#{confirmation_event.name} instructions encoding: #{confirmation_event.send(col).encoding}" if col === 'instructions'
+            # Rails.logger.info "xxx create_confirmation_event event:#{confirmation_event.name} instructions encoding: #{confirmation_event.send(col).encoding}" if col === 'instructions'
             confirmation_event.send(col)
           end
         end)
@@ -170,7 +245,12 @@ class CandidateImport
   end
 
   def create_xlsx_package(dir)
-    # Rails.logger.info "create_xlsx_package(dir):#{dir}"
+    image_columns = %w(
+        baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents
+        retreat_verification.retreat_filename retreat_verification.retreat_content_type retreat_verification.retreat_file_content
+        sponsor_covenant.sponsor_elegibility_filename sponsor_covenant.sponsor_elegibility_content_type sponsor_covenant.sponsor_elegibility_file_contents
+        sponsor_covenant.sponsor_covenant_filename sponsor_covenant.sponsor_covenant_content_type sponsor_covenant.sponsor_covenant_file_contents
+)
     # http://www.rubydoc.info/github/randym/axlsx/Axlsx/Workbook:use_shared_strings
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
@@ -184,14 +264,12 @@ class CandidateImport
         Rails.logger.info "xxx create_xlsx_package processing candidate:#{candidate.account_name}"
         events = get_confirmation_events_sorted
         sheet.add_row (candidate_columns.map do |col|
-          if %w(baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents).include?(col)
-            # Rails.logger.info "create_xlsx_package image_filename found:#{candidate.baptismal_certificate.certificate_filename}"
-            # Rails.logger.info "create_xlsx_package certificate_filename found:#{CandidateImport.image_filename_export(candidate, dir)}" unless candidate.baptismal_certificate.certificate_filename.nil?
+          if image_columns.include?(col)
+            Rails.logger.info "   xxx create_xlsx_package Image:#{candidate.account_name} #{col}"
             certificate_image_column(candidate, col, dir, images)
           else
             # puts col
             val = get_column_value(candidate, col, events)
-            Rails.logger.info "xxx create_confirmation_event event:#{candidate.account_name} #{col} encoding: #{val.encoding}" if val.is_a? String
             # Rails.logger.info "col=#{col} val=#{val}"
             val
           end
@@ -308,23 +386,53 @@ class CandidateImport
             case column_name_split[1]
 
               when 'certificate_filename'
-                unless cell === 'no candidate.baptismal_certificate'
                   filename = cell
                   candidate.baptismal_certificate.certificate_filename = CandidateImport.image_filename_import(filename)
-                end
               when 'certificate_content_type'
-                unless cell === 'no candidate.baptismal_certificate'
                   filename = cell
                   file_extname = File.extname(filename)
-                  candidate.baptismal_certificate.certificate_content_type = "type/#{file_extname[1..file_extname.size]}"
-                end
+                  candidate.baptismal_certificate.certificate_content_type = "type/#{cell}"
               when 'certificate_file_contents'
-                unless cell === 'no candidate.baptismal_certificate'
                   filename = cell
                   File.open(filename, 'rb') do |f|
                     candidate.baptismal_certificate.certificate_file_contents = f.read
                   end
-                end
+              when 'retreat_filename'
+                  filename = cell
+                  candidate.retreat_verification.retreat_filename = CandidateImport.image_filename_import(filename)
+              when 'retreat_content_type'
+                  filename = cell
+                  file_extname = File.extname(filename)
+                  candidate.retreat_verification.retreat_content_type = "type/#{cell}"
+              when 'retreat_file_content'
+                  filename = cell
+                  File.open(filename, 'rb') do |f|
+                    candidate.retreat_verification.retreat_file_content = f.read
+                  end
+              when 'sponsor_elegibility_filename'
+                  filename = cell
+                  candidate.sponsor_covenant.sponsor_elegibility_filename = CandidateImport.image_filename_import(filename)
+              when 'sponsor_elegibility_content_type'
+                  filename = cell
+                  file_extname = File.extname(filename)
+                  candidate.sponsor_covenant.sponsor_elegibility_content_type = "type/#{cell}"
+              when 'sponsor_elegibility_file_contents'
+                  filename = cell
+                  File.open(filename, 'rb') do |f|
+                    candidate.sponsor_covenant.sponsor_elegibility_file_contents = f.read
+                  end
+              when 'sponsor_covenant_filename'
+                  filename = cell
+                  candidate.sponsor_covenant.sponsor_covenant_filename = CandidateImport.image_filename_import(filename)
+              when 'sponsor_covenant_content_type'
+                  filename = cell
+                  file_extname = File.extname(filename)
+                  candidate.sponsor_covenant.sponsor_covenant_content_type = "type/#{cell}"
+              when 'sponsor_covenant_file_contents'
+                  filename = cell
+                  File.open(filename, 'rb') do |f|
+                    candidate.sponsor_covenant.sponsor_covenant_file_contents = f.read
+                  end
               else
                 candidate.baptismal_certificate.create_church_address if column_name_split[1] === 'church_address' && candidate.baptismal_certificate.church_address.nil?
                 candidate_send_0 = candidate.send(column_name_split[0])
@@ -382,11 +490,12 @@ class CandidateImport
   def process_images(images)
     images.each do |entry|
       filename = entry[:filename]
-      baptismal_certificate = entry[:info]
-      file_contents = baptismal_certificate.certificate_file_contents
-
-      encoding = (file_contents.nil? || file_contents.empty?) ? 'no contents' : file_contents.encoding
-      Rails.logger.info "  xxx process_images content encoding:#{encoding}"
+      association = entry[:info]
+      file_contents = if filename.include? 'elegibility'
+                        association.sponsor_elegibility_file_contents
+                      else
+                        association.file_contents
+                      end
 
       File.open(filename, mode='wb') do |f|
         f.write file_contents

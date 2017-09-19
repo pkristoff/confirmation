@@ -67,15 +67,15 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  Rails.application.config.middleware.use ExceptionNotification::Rack,
-                                          email: {
-                                              # :deliver_with => :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
-                                              email_prefix: 'Internal Stmm Confiramtion error: ',
-                                              sender_address: Rails.application.secrets.admin_email,
-                                              exception_recipients: Rails.application.secrets.admin_email,
-                                              email_format: :html
-
-                                          }
+  # Rails.application.config.middleware.use ExceptionNotification::Rack,
+  #                                         email: {
+  #                                             # :deliver_with => :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
+  #                                             email_prefix: 'Internal Stmm Confiramtion error: ',
+  #                                             sender_address: Rails.application.secrets.admin_email,
+  #                                             exception_recipients: Rails.application.secrets.admin_email,
+  #                                             email_format: :html
+  #
+  #                                         }
 
   Rails.application.routes.default_url_options[:host] = 'domain.com'
 
