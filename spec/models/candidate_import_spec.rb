@@ -46,26 +46,28 @@ describe CandidateImport do
       end
       expect(success).to eq(true)
 
-      expect(Candidate.all.size).to eq(115)
+      expect(Candidate.all.size).to eq(85)
       the_way_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way')}
-      expect(the_way_candidates.size).to eq(91)
+      expect(the_way_candidates.size).to eq(83)
       chs_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school')}
-      expect(chs_candidates.size).to eq(24)
+      expect(chs_candidates.size).to eq(2)
 
-      the_way_candidate = Candidate.find_by_account_name('laiquongnicholas')
-      expect(the_way_candidate.candidate_sheet.first_name).to eq('Nicholas')
-      expect(the_way_candidate.candidate_sheet.last_name).to eq('Lai Quong')
+      the_way_candidate = Candidate.find_by_account_name('dawannie')
+      expect(the_way_candidate.candidate_sheet.first_name).to eq('Annie')
+      expect(the_way_candidate.candidate_sheet.last_name).to eq('Daw')
       expect(the_way_candidate.candidate_sheet.grade).to eq(10)
-      expect(the_way_candidate.candidate_sheet.parent_email_1).to eq('mardavnich@yahoo.com')
-      expect(the_way_candidate.candidate_sheet.parent_email_2).to eq('dlqtrini@hotmail.com')
+      expect(the_way_candidate.candidate_sheet.candidate_email).to eq('financial@kristoffs.com')
+      expect(the_way_candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
+      expect(the_way_candidate.candidate_sheet.parent_email_2).to eq('')
       expect(the_way_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_the_way'))
 
-      chs_candidate = Candidate.find_by_account_name('woomerkevin')
-      expect(chs_candidate.candidate_sheet.first_name).to eq('Kevin')
-      expect(chs_candidate.candidate_sheet.last_name).to eq('Woomer')
-      expect(chs_candidate.candidate_sheet.grade).to eq(12)
-      expect(chs_candidate.candidate_sheet.parent_email_1).to eq('karenwoomer@gmail.com')
-      expect(chs_candidate.candidate_sheet.parent_email_2).to eq('')
+      chs_candidate = Candidate.find_by_account_name('clavijoabbie')
+      expect(chs_candidate.candidate_sheet.first_name).to eq('Abbie')
+      expect(chs_candidate.candidate_sheet.last_name).to eq('Clavijo')
+      expect(chs_candidate.candidate_sheet.grade).to eq(10)
+      expect(the_way_candidate.candidate_sheet.candidate_email).to eq('financial@kristoffs.com')
+      expect(chs_candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
+      expect(chs_candidate.candidate_sheet.parent_email_2).to eq('stmm-confirmation@kristoffs.com')
       expect(chs_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_catholic_high_school'))
 
       expect(the_way_candidates[0].candidate_events.size).to eq(all_event_names.size)

@@ -386,53 +386,53 @@ class CandidateImport
             case column_name_split[1]
 
               when 'certificate_filename'
-                  filename = cell
-                  candidate.baptismal_certificate.certificate_filename = CandidateImport.image_filename_import(filename)
+                filename = cell
+                candidate.baptismal_certificate.certificate_filename = CandidateImport.image_filename_import(filename)
               when 'certificate_content_type'
-                  filename = cell
-                  file_extname = File.extname(filename)
-                  candidate.baptismal_certificate.certificate_content_type = "type/#{cell}"
+                filename = cell
+                file_extname = File.extname(filename)
+                candidate.baptismal_certificate.certificate_content_type = "type/#{cell}"
               when 'certificate_file_contents'
-                  filename = cell
-                  File.open(filename, 'rb') do |f|
-                    candidate.baptismal_certificate.certificate_file_contents = f.read
-                  end
+                filename = cell
+                File.open(filename, 'rb') do |f|
+                  candidate.baptismal_certificate.certificate_file_contents = f.read
+                end
               when 'retreat_filename'
-                  filename = cell
-                  candidate.retreat_verification.retreat_filename = CandidateImport.image_filename_import(filename)
+                filename = cell
+                candidate.retreat_verification.retreat_filename = CandidateImport.image_filename_import(filename)
               when 'retreat_content_type'
-                  filename = cell
-                  file_extname = File.extname(filename)
-                  candidate.retreat_verification.retreat_content_type = "type/#{cell}"
+                filename = cell
+                file_extname = File.extname(filename)
+                candidate.retreat_verification.retreat_content_type = "type/#{cell}"
               when 'retreat_file_content'
-                  filename = cell
-                  File.open(filename, 'rb') do |f|
-                    candidate.retreat_verification.retreat_file_content = f.read
-                  end
+                filename = cell
+                File.open(filename, 'rb') do |f|
+                  candidate.retreat_verification.retreat_file_content = f.read
+                end
               when 'sponsor_elegibility_filename'
-                  filename = cell
-                  candidate.sponsor_covenant.sponsor_elegibility_filename = CandidateImport.image_filename_import(filename)
+                filename = cell
+                candidate.sponsor_covenant.sponsor_elegibility_filename = CandidateImport.image_filename_import(filename)
               when 'sponsor_elegibility_content_type'
-                  filename = cell
-                  file_extname = File.extname(filename)
-                  candidate.sponsor_covenant.sponsor_elegibility_content_type = "type/#{cell}"
+                filename = cell
+                file_extname = File.extname(filename)
+                candidate.sponsor_covenant.sponsor_elegibility_content_type = "type/#{cell}"
               when 'sponsor_elegibility_file_contents'
-                  filename = cell
-                  File.open(filename, 'rb') do |f|
-                    candidate.sponsor_covenant.sponsor_elegibility_file_contents = f.read
-                  end
+                filename = cell
+                File.open(filename, 'rb') do |f|
+                  candidate.sponsor_covenant.sponsor_elegibility_file_contents = f.read
+                end
               when 'sponsor_covenant_filename'
-                  filename = cell
-                  candidate.sponsor_covenant.sponsor_covenant_filename = CandidateImport.image_filename_import(filename)
+                filename = cell
+                candidate.sponsor_covenant.sponsor_covenant_filename = CandidateImport.image_filename_import(filename)
               when 'sponsor_covenant_content_type'
-                  filename = cell
-                  file_extname = File.extname(filename)
-                  candidate.sponsor_covenant.sponsor_covenant_content_type = "type/#{cell}"
+                filename = cell
+                file_extname = File.extname(filename)
+                candidate.sponsor_covenant.sponsor_covenant_content_type = "type/#{cell}"
               when 'sponsor_covenant_file_contents'
-                  filename = cell
-                  File.open(filename, 'rb') do |f|
-                    candidate.sponsor_covenant.sponsor_covenant_file_contents = f.read
-                  end
+                filename = cell
+                File.open(filename, 'rb') do |f|
+                  candidate.sponsor_covenant.sponsor_covenant_file_contents = f.read
+                end
               else
                 candidate.baptismal_certificate.create_church_address if column_name_split[1] === 'church_address' && candidate.baptismal_certificate.church_address.nil?
                 candidate_send_0 = candidate.send(column_name_split[0])
@@ -507,10 +507,10 @@ class CandidateImport
     header_row = spreadsheet.first
     if header_row[0].strip === 'Last Name' &&
         header_row[1].strip === 'First Name' &&
-        header_row[3].strip === 'Grade' &&
-        header_row[6].strip === 'Teen Email' &&
-        header_row[7].strip === 'Parent Email Address(es)' &&
-        header_row[8].strip === 'Cardinal Gibbons HS Group'
+        header_row[2].strip === 'Grade' &&
+        header_row[3].strip === 'Teen Email' &&
+        header_row[4].strip === 'Parent Email Address(es)' &&
+        header_row[5].strip === 'Cardinal Gibbons HS Group'
 
       (2..spreadsheet.last_row).each do |i|
         spreadsheet_row = spreadsheet.row(i)
@@ -519,11 +519,14 @@ class CandidateImport
 
           last_name = spreadsheet_row[0].nil? ? '' : spreadsheet_row[0].strip
           first_name = spreadsheet_row[1].nil? ? '' : spreadsheet_row[1].strip
-          grade = (spreadsheet_row[3].nil? ? '10th' : spreadsheet_row[3].strip) unless spreadsheet_row[3].class.to_s === 'Fixnum'
-          grade = (spreadsheet_row[3].nil? ? '10th' : "#{spreadsheet_row[3]}th") if spreadsheet_row[3].class.to_s === 'Fixnum'
-          candidate_email = spreadsheet_row[6].nil? ? '' : spreadsheet_row[6].strip
-          parent_email = spreadsheet_row[7].nil? ? '' : spreadsheet_row[7].strip
-          cardinal_gibbons = spreadsheet_row[8].nil? ? '' : spreadsheet_row[8].strip
+          if spreadsheet_row[2].class.to_s === 'Fixnum'
+            grade = (spreadsheet_row[2].nil? ? '10th' : "#{spreadsheet_row[2]}th")
+          else
+            grade = (spreadsheet_row[2].nil? ? '10th' : spreadsheet_row[2].strip)
+          end
+          candidate_email = spreadsheet_row[3].nil? ? '' : spreadsheet_row[3].strip
+          parent_email = spreadsheet_row[4].nil? ? '' : spreadsheet_row[4].strip
+          cardinal_gibbons = spreadsheet_row[5].nil? ? '' : spreadsheet_row[5].strip
 
           candidate_sheet_params = ActionController::Parameters.new
           params = ActionController::Parameters.new(candidate: ActionController::Parameters.new(candidate_sheet_attributes: candidate_sheet_params))
@@ -533,7 +536,7 @@ class CandidateImport
           candidate_sheet_params[:grade] = grade.empty? ? 10 : grade.slice(/^\D*[\d]*/)
           clean_item = ActionView::Base.full_sanitizer.sanitize(candidate_email)
           unless clean_item.empty?
-            candidate_sheet_params[:candidate_emailfirst_name] = clean_item
+            candidate_sheet_params[:candidate_email] = clean_item
           end
           clean_item = ActionView::Base.full_sanitizer.sanitize(parent_email)
           unless clean_item.empty?
