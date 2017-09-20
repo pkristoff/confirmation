@@ -506,10 +506,11 @@ class CandidateImport
   def process_initial_xlsx(candidates, spreadsheet)
     header_row = spreadsheet.first
     if header_row[0].strip === 'Last Name' &&
-        header_row[1].strip === '1st name' &&
-        header_row[2].strip === 'grade' &&
-        header_row[3].strip === 'parents preferred email' &&
-        header_row[4].strip === 'Cardinal Gibbons HS Group'
+        header_row[1].strip === 'First Name' &&
+        header_row[3].strip === 'Grade' &&
+        header_row[6].strip === 'Teen Email' &&
+        header_row[7].strip === 'Parent Email Address(es)' &&
+        header_row[8].strip === 'Cardinal Gibbons HS Group'
 
       (2..spreadsheet.last_row).each do |i|
         spreadsheet_row = spreadsheet.row(i)
@@ -518,9 +519,14 @@ class CandidateImport
 
           last_name = spreadsheet_row[0].nil? ? '' : spreadsheet_row[0].strip
           first_name = spreadsheet_row[1].nil? ? '' : spreadsheet_row[1].strip
-          grade = spreadsheet_row[2].nil? ? '10th' : spreadsheet_row[2].strip
-          parent_email = spreadsheet_row[3].nil? ? '' : spreadsheet_row[3].strip
-          cardinal_gibbons = spreadsheet_row[4].nil? ? '' : spreadsheet_row[4].strip
+          puts "spreadsheet_row[3].class=#{spreadsheet_row[3].class}"
+          puts "spreadsheet_row[3].class === Fixnum=#{spreadsheet_row[3].class === Fixnum}"
+          puts "spreadsheet_row[3].class.to_s === 'Fixnum'=#{spreadsheet_row[3].class.to_s === 'Fixnum'}"
+          grade = (spreadsheet_row[3].nil? ? '10th' : spreadsheet_row[3].strip) unless spreadsheet_row[3].class.to_s === 'Fixnum'
+          grade = (spreadsheet_row[3].nil? ? '10th' : "#{spreadsheet_row[3]}th") if spreadsheet_row[3].class.to_s === 'Fixnum'
+          candidate_email = spreadsheet_row[6].nil? ? '' : spreadsheet_row[6].strip
+          parent_email = spreadsheet_row[7].nil? ? '' : spreadsheet_row[7].strip
+          cardinal_gibbons = spreadsheet_row[8].nil? ? '' : spreadsheet_row[8].strip
 
           candidate_sheet_params = ActionController::Parameters.new
           params = ActionController::Parameters.new(candidate: ActionController::Parameters.new(candidate_sheet_attributes: candidate_sheet_params))
@@ -528,6 +534,10 @@ class CandidateImport
           candidate_sheet_params[:last_name] = last_name
           candidate_sheet_params[:first_name] = first_name
           candidate_sheet_params[:grade] = grade.empty? ? 10 : grade.slice(/^\D*[\d]*/)
+          clean_item = ActionView::Base.full_sanitizer.sanitize(candidate_email)
+          unless clean_item.empty?
+            candidate_sheet_params[:candidate_emailfirst_name] = clean_item
+          end
           clean_item = ActionView::Base.full_sanitizer.sanitize(parent_email)
           unless clean_item.empty?
             item_split = clean_item.split(',')
@@ -536,7 +546,7 @@ class CandidateImport
           end
           candidate_sheet_params[:attending] = cardinal_gibbons.empty? ? I18n.t('views.candidates.attending_the_way') : I18n.t('model.candidate.attending_catholic_high_school')
 
-          account_name = String.new(candidate_sheet_params[:last_name].gsub(/\s+/, "") || '').concat(candidate_sheet_params[:first_name].gsub(/\s+/, "") || '').downcase
+          account_name = String.new(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '').concat(candidate_sheet_params[:first_name].gsub(/\s+/, '') || '').downcase
           params[:candidate][:account_name] = account_name
           params[:candidate][:password] = '12345678'
 

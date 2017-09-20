@@ -36,7 +36,7 @@ describe CandidateImport do
 
       all_event_names = AppFactory.add_confirmation_events
 
-      uploaded_file = fixture_file_upload('Confirmation 2017 Database for all teens.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      uploaded_file = fixture_file_upload('Confirmation 2018 Group The Way test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       candidate_import = CandidateImport.new
       success = candidate_import.load_initial_file(uploaded_file)
       unless success
