@@ -519,9 +519,6 @@ class CandidateImport
 
           last_name = spreadsheet_row[0].nil? ? '' : spreadsheet_row[0].strip
           first_name = spreadsheet_row[1].nil? ? '' : spreadsheet_row[1].strip
-          puts "spreadsheet_row[3].class=#{spreadsheet_row[3].class}"
-          puts "spreadsheet_row[3].class === Fixnum=#{spreadsheet_row[3].class === Fixnum}"
-          puts "spreadsheet_row[3].class.to_s === 'Fixnum'=#{spreadsheet_row[3].class.to_s === 'Fixnum'}"
           grade = (spreadsheet_row[3].nil? ? '10th' : spreadsheet_row[3].strip) unless spreadsheet_row[3].class.to_s === 'Fixnum'
           grade = (spreadsheet_row[3].nil? ? '10th' : "#{spreadsheet_row[3]}th") if spreadsheet_row[3].class.to_s === 'Fixnum'
           candidate_email = spreadsheet_row[6].nil? ? '' : spreadsheet_row[6].strip
