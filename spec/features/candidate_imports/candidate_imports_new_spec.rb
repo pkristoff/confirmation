@@ -50,9 +50,14 @@ feature 'Other', :devise do
       admin = FactoryGirl.create(:admin)
       login_as(admin, :scope => :admin)
       visit new_candidate_import_path
-      click_button I18n.t('views.imports.remove_all_candidates')
+      click_button I18n.t('views.imports.start_new_year')
       expect_message(:flash_notice, I18n.t('messages.candidates_removed'))
       expect(Candidate.all.size).to eq(0)
+      expect(ConfirmationEvent.all.size).not_to eq(0)
+      ConfirmationEvent.all.each do |ce|
+        expect(ce.chs_due_date).to eq(Date.today)
+        expect(ce.the_way_due_date).to eq(Date.today)
+      end
     end
 
   end
@@ -96,8 +101,13 @@ feature 'Other', :devise do
       begin
 
         visit new_candidate_import_path
-        click_button I18n.t('views.imports.remove_all_candidates')
+        click_button I18n.t('views.imports.start_new_year')
         expect(Candidate.all.size).to eq(0)
+        expect(ConfirmationEvent.all.size).not_to eq(0)
+        ConfirmationEvent.all.each do |ce|
+          expect(ce.chs_due_date).to eq(Date.today)
+          expect(ce.the_way_due_date).to eq(Date.today)
+        end
 
         visit new_candidate_import_path
         attach_file :candidate_import_file, xlsx_filename_zip
@@ -124,6 +134,7 @@ feature 'Other', :devise do
       admin = FactoryGirl.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
+#TODO: events
       expect(page.html).to have_selector('section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]')
       expect(page.html).to have_button(I18n.t('views.imports.check_events'))
 

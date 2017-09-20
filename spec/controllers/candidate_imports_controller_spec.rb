@@ -47,7 +47,7 @@ describe CandidateImportsController do
     end
   end
 
-  describe 'remove_all_candidates' do
+  describe 'start_new_year' do
 
     it 'should remove all candidates' do
       expect(Candidate.all.size).to eq(0)
@@ -57,11 +57,15 @@ describe CandidateImportsController do
       expect(Candidate.all.size).to eq(3)
       login_admin
 
-      post :remove_all_candidates
+      post :start_new_year
 
       expect(response).to redirect_to(root_url)
       expect(Candidate.all.size).to eq(0)
-
+      expect(ConfirmationEvent.all.size).not_to eq(0)
+      ConfirmationEvent.all.each do |ce|
+        expect(ce.chs_due_date).to eq(Date.today)
+        expect(ce.the_way_due_date).to eq(Date.today)
+      end
     end
   end
 

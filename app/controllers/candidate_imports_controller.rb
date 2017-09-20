@@ -78,8 +78,8 @@ class CandidateImportsController < ApplicationController
     redirect_to root_url, notice: I18n.t('messages.database_reset')
   end
 
-  def remove_all_candidates
-    CandidateImport.new.remove_all_candidates
+  def start_new_year
+    CandidateImport.new.start_new_year
     redirect_to root_url, notice: I18n.t('messages.candidates_removed')
   end
 

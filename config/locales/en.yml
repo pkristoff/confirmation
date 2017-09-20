@@ -235,8 +235,8 @@ en:
       found: Found
       import: Import
       missing: Missing
-      remove_all_candidates: Remove All Candidates
       reset_database: Reset the Database
+      start_new_year: Start new year
       unknown: Unknown
     nav:
       add_new_admin: Add new admin

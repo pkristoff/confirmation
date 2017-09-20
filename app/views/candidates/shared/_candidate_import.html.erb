@@ -42,10 +42,10 @@
   <% end %>
 </section>
 
-<section id="remove_all_candidates">
+<section id="start_new_year">
 
-  <%= form_for @candidate_import, url: candidate_imports_remove_all_candidates_path do |f| %>
-      <h2><%= t('views.imports.remove_all_candidates') %></h2>
+  <%= form_for @candidate_import, url: candidate_imports_start_new_year_path do |f| %>
+      <h2><%= t('views.imports.start_new_year') %></h2>
 
       <h3><%= t('views.imports.cannot_recover') %></h3>
       <p>
@@ -53,10 +53,11 @@
       </p>
       <ul>
         <li>Candidates: All will be removed from the database</li>
+        <li>Confirmation events will remail with instrutions staying the same however due dates will be set to today</li>
         <li>Admins: not affected</li>
         <li>Remain logged in: yes</li>
       </ul>
-      <div class="buttons"><%= f.submit t('views.imports.remove_all_candidates'), data: {confirm: 'Are you sure?'} %></div>
+      <div class="buttons"><%= f.submit t('views.imports.start_new_year'), data: {confirm: 'Are you sure?'} %></div>
   <% end %>
 </section>
 

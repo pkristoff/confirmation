@@ -489,7 +489,7 @@ describe 'check_events' do
 
   it 'should show "Sponsor Covenant" is missing.' do
     candidate_import = CandidateImport.new
-    candidate_import.remove_all_candidates
+    candidate_import.start_new_year
     setup_unknown_missing_events
 
     candidate_import.check_events
@@ -503,7 +503,7 @@ describe 'check_events' do
 
   it 'should add "Sponsor Covenant".' do
     candidate_import = CandidateImport.new
-    candidate_import.remove_all_candidates
+    candidate_import.start_new_year
     setup_unknown_missing_events
     sponsor_covenant_event_name = I18n.t('events.sponsor_covenant')
 

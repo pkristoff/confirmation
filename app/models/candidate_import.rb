@@ -82,17 +82,23 @@ class CandidateImport
     false
   end
 
-  def remove_all_candidates
+  def start_new_year
 
     Candidate.all.each do |candidate|
       candidate.destroy
+    end
+    today = Date.today
+    ConfirmationEvent.all.each do |ce|
+      ce.chs_due_date = today
+      ce.the_way_due_date = today
+      ce.save
     end
 
   end
 
   def reset_database
 
-    remove_all_candidates
+    start_new_year
 
     remove_all_confirmation_events
 
