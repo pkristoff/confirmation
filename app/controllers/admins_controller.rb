@@ -48,7 +48,7 @@ class AdminsController < ApplicationController
     body_input_text = mail_param[:body_input]
 
     if candidates.empty?
-      return redirect_back(t('messages.no_candidate_selected'),mail_param)
+      return redirect_back(t('messages.no_candidate_selected'), mail_param)
     end
 
     case params[:commit]
@@ -154,19 +154,11 @@ class AdminsController < ApplicationController
           set_candidates(params[:sort])
           render 'candidates/index'
         when AdminsController::GENERATE_PDF
-          pdf = CandidatePDFDocument.new(candidates.first)
-          send_data pdf.render, filename:
-              'tmp/temp.pdf',
-                    type: 'application/pdf'
           doc_name = 'tmp/temp.pdf'
-          # Prawn::Document.generate(doc_name) do
-          #   text 'Hello World'
-          # end
-          # pdf = File.new(doc_name)
-          # File.open(pdf.path) do |pdf_file|
-          #   send_data(pdf_file.read, type: 'application/pdf', filename: doc_name)
-          # end
-          # render 'candidates/index'
+          pdf = CandidatePDFDocument.new(candidates.first)
+          send_data pdf.render,
+                    filename: doc_name,
+                    type: 'application/pdf'
         when AdminsController::EMAIL
           setup_monthly_mailing_render_default(candidate_ids)
           # set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
@@ -217,7 +209,7 @@ class AdminsController < ApplicationController
     end
 
     # set_candidates(params[:sort])
-    setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input,  completed_awaiting_input, completed_input, closing_text, salutation_text, from_text)
+    setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text)
   end
 
   def setup_monthly_mailing_render_default(selected_ids=[])
