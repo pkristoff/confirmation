@@ -118,7 +118,7 @@ class AppFactory
       candidate.password = Rails.application.secrets.admin_password
       candidate.password_confirmation = Rails.application.secrets.admin_password
       candidate.create_candidate_sheet if candidate.candidate_sheet.nil?
-      candidate.candidate_sheet.parent_email_1 = 'paul@kristoffs.com'
+      candidate.candidate_sheet.parent_email_1 = 'stmm.confirmation@kristoffs.com'
       candidate.candidate_sheet.first_name = 'Vicki'
       candidate.candidate_sheet.middle_name = 'Anne'
       candidate.candidate_sheet.last_name = 'Kristoff'

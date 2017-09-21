@@ -52,7 +52,8 @@ feature 'Other', :devise do
       visit new_candidate_import_path
       click_button I18n.t('views.imports.start_new_year')
       expect_message(:flash_notice, I18n.t('messages.candidates_removed'))
-      expect(Candidate.all.size).to eq(0)
+      expect(Candidate.find_by_account_name('vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
+      expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
       expect(ConfirmationEvent.all.size).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
         expect(ce.chs_due_date).to eq(Date.today)
@@ -102,7 +103,8 @@ feature 'Other', :devise do
 
         visit new_candidate_import_path
         click_button I18n.t('views.imports.start_new_year')
-        expect(Candidate.all.size).to eq(0)
+        expect(Candidate.find_by_account_name('vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
+        expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
         expect(ConfirmationEvent.all.size).not_to eq(0)
         ConfirmationEvent.all.each do |ce|
           expect(ce.chs_due_date).to eq(Date.today)
@@ -112,7 +114,7 @@ feature 'Other', :devise do
         visit new_candidate_import_path
         attach_file :candidate_import_file, xlsx_filename_zip
         click_button I18n.t('views.imports.import')
-        expect(Candidate.all.size).to eq(2)
+        expect(Candidate.all.size).to eq(3) # + candidate seed
       ensure
         File.delete xlsx_filename if File.exist? xlsx_filename
         File.delete xlsx_filename_zip if File.exist? xlsx_filename_zip
@@ -134,7 +136,7 @@ feature 'Other', :devise do
       admin = FactoryGirl.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
-#TODO: events
+
       expect(page.html).to have_selector('section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]')
       expect(page.html).to have_button(I18n.t('views.imports.check_events'))
 

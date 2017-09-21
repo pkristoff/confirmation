@@ -87,6 +87,7 @@ class CandidateImport
     Candidate.all.each do |candidate|
       candidate.destroy
     end
+    AppFactory.create_seed_candidate
     today = Date.today
     ConfirmationEvent.all.each do |ce|
       ce.chs_due_date = today
@@ -432,7 +433,6 @@ class CandidateImport
                 candidate.sponsor_covenant.sponsor_covenant_filename = CandidateImport.image_filename_import(filename)
               when 'sponsor_covenant_content_type'
                 filename = cell
-                file_extname = File.extname(filename)
                 candidate.sponsor_covenant.sponsor_covenant_content_type = "type/#{cell}"
               when 'sponsor_covenant_file_contents'
                 filename = cell

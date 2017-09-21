@@ -7,7 +7,7 @@ class CandidateImportsController < ApplicationController
   attr_accessor :candidate_import
 
   def check_events
-    if (params[:commit] == t('views.imports.add_missing_events'))
+    if params[:commit] == t('views.imports.add_missing_events')
       if params[:candidate_import][:missing] == ''
         flash[:alert] = t('views.imports.check_events_first')
       else

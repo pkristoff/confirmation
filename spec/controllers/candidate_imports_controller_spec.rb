@@ -49,7 +49,7 @@ describe CandidateImportsController do
 
   describe 'start_new_year' do
 
-    it 'should remove all candidates' do
+    it 'should remove all candidates, changes due date to today, and adds a seed candidate' do
       expect(Candidate.all.size).to eq(0)
       FactoryGirl.create(:candidate, account_name: 'a1')
       FactoryGirl.create(:candidate, account_name: 'a2')
@@ -60,7 +60,8 @@ describe CandidateImportsController do
       post :start_new_year
 
       expect(response).to redirect_to(root_url)
-      expect(Candidate.all.size).to eq(0)
+      expect(Candidate.find_by_account_name('vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
+      expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
       expect(ConfirmationEvent.all.size).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
         expect(ce.chs_due_date).to eq(Date.today)
@@ -119,7 +120,7 @@ describe CandidateImportsController do
 
       post :export_to_excel, format: 'xlsx'
 
-      expect(controller.headers["Content-Transfer-Encoding"]).to eq("binary")
+      expect(controller.headers['Content-Transfer-Encoding']).to eq('binary')
       expect(response.header['Content-Type']).to eq('application/zip')
       expect(response.status).to eq(200)
 
