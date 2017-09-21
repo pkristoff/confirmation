@@ -49,12 +49,12 @@ class CandidatePDFDocument < Prawn::Document
       section(I18n.t('label.sidebar.retreat_verification'), destination: 8)
     end
     page_number_string = 'page <page> of <total>'
-    page_number_options = {:at => [bounds.right - 150, 0],
-                           :width => 150,
-                           :align => :right,
-                           :start_count_at => 1,
-                           :page_filter => lambda {|pg| pg > 1},
-                           :color => '007700'}
+    page_number_options = {at: [bounds.right - 150, 0],
+                           width: 150,
+                           align: :right,
+                           start_count_at: 1,
+                           page_filter: lambda {|pg| pg > 1},
+                           color: '007700'}
     number_pages page_number_string, page_number_options
 
   end
@@ -83,9 +83,6 @@ class CandidatePDFDocument < Prawn::Document
       grid_label_value([8, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle')}:", bc.mother_middle)
       grid_label_value([9, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden')}:", bc.mother_maiden)
       grid_label_value([10, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last')}:", bc.mother_last)
-      # grid.show_all
-      # grid([0,0],[0,1]).show
-      # grid([0,2],[0,3]).show
     end
 
     common_image(bc.certificate_filename, bc.certificate_content_type, bc.certificate_file_contents, I18n.t('field_set.baptismal_certificate.scan'))
@@ -204,13 +201,12 @@ class CandidatePDFDocument < Prawn::Document
     image_width = bounds.width-20
     image_height = bounds.height-20
 
-    # [bounds.left, bounds.top], :width => bounds.width, :height => bounds.height
-    bounding_box([label_x, label_y], :width => label_width, :height => label_height) do
-      text label, :align => :center, :valign => :center
+    bounding_box([label_x, label_y], width: label_width, height: label_height) do
+      text label,align: :center, valign: :center
     end
     if file_name.nil? or file_name.empty?
-      bounding_box([image_x, image_y], :width => image_width, :height => bounds.height-25) do
-        text '<No Image Provided>', :align => :center, :valign => :center
+      bounding_box([image_x, image_y], width: image_width, height: bounds.height-25) do
+        text '<No Image Provided>', align: :center, valign: :center
         # stroke_bounds
       end
     else
@@ -220,14 +216,14 @@ class CandidatePDFDocument < Prawn::Document
       end
       begin
         # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
-        bounding_box([image_x, image_y], :width => image_width, :height => image_height) do
+        bounding_box([image_x, image_y], width: image_width, height: image_height) do
           # stroke_bounds
-          image file_path, :width => image_width, :height => image_height
+          image file_path, width: image_width, height: image_height
         end
       rescue Prawn::Errors::UnsupportedImageType
-        bounding_box([image_x, image_y], :width => image_width, :height => image_height) do
+        bounding_box([image_x, image_y], width: image_width, height: image_height) do
           stroke_bounds
-          text "<Unrecognized file type: #{file_type} for file: #{file_name}>", :align => :center, :valign => :center
+          text "<Unrecognized file type: #{file_type} for file: #{file_name}>", align: :center, valign: :center
         end
       ensure
         File.delete(file_path) if File.exists?(file_path)
@@ -276,33 +272,24 @@ class CandidatePDFDocument < Prawn::Document
   end
 
   def page_header(event_name)
-    bounding_box [bounds.left, bounds.top], :width => bounds.width do
+    bounding_box [bounds.left, bounds.top], width: bounds.width do
       font 'Helvetica'
-      text event_name, :align => :center, :size => 25
+      text event_name, align: :center, size: 25
       stroke_horizontal_rule
     end
   end
 
   def title_page
-    bounding_box [bounds.left, bounds.top], :width => bounds.width, :height => bounds.height do
-      bounding_box [bounds.left, bounds.top], :width => bounds.width, :height => bounds.height/3 do
-        text 'Confirmation booklet', size: 30, style: :bold, :align => :center, :valign => :bottom
-        # stroke_bounds
+    bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height do
+      bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height/3 do
+        text 'Confirmation booklet', size: 30, style: :bold, align: :center, valign: :bottom
       end
-      bounding_box [bounds.left, bounds.top-(bounds.height/3)], :width => bounds.width, :height => bounds.height/3 do
-        text 'for', size: 30, style: :bold, :align => :center, :valign => :center
-        # stroke_bounds
+      bounding_box [bounds.left, bounds.top-(bounds.height/3)], width: bounds.width, height: bounds.height/3 do
+        text 'for', size: 30, style: :bold, align: :center, valign: :center
       end
-      bounding_box [bounds.left, bounds.top-((bounds.height*2)/3)], :width => bounds.width, :height => bounds.height/3 do
-        text "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}", size: 30, style: :bold, :align => :center, :valign => :top
-        # stroke_bounds
+      bounding_box [bounds.left, bounds.top-((bounds.height*2)/3)], width: bounds.width, height: bounds.height/3 do
+        text "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}", size: 30, style: :bold, align: :center, valign: :top
       end
-
-      # stroke_bounds
-
-
     end
-
   end
-
 end
