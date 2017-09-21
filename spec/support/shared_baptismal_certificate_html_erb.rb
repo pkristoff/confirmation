@@ -89,7 +89,6 @@ shared_context 'baptismal_certificate_html_erb' do
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.baptized_at_stmm = false
     @candidate.save
-    AppFactory.add_candidate_events(@candidate)
     update_baptismal_certificate(false)
     visit @path
 

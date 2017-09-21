@@ -29,7 +29,6 @@ shared_context 'pick_confirmation_name_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do
-    AppFactory.add_candidate_events(@candidate)
     update_pick_confirmation_name(false)
     visit @path
 

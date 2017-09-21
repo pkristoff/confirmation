@@ -15,6 +15,7 @@ class AppFactory
   end
 
   def self.add_candidate_events(candidate)
+    raise 'Cannot add candidate_events because some already exist.' if candidate.candidate_events.size > 0
     ConfirmationEvent.all.each do |confirmation_event|
       candidate.add_candidate_event(confirmation_event)
     end

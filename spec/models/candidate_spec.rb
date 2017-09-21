@@ -127,7 +127,6 @@ describe Candidate do
 
       it 'two candidate_event with all nil' do
         @candidates_with_data.each do | data |
-          # puts "index: #{index}"
           candidate = data[:candidate]
           result = data[:result]
           expect(candidate.candidate_events.size).to eq(result.size)

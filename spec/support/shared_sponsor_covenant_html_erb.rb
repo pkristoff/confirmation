@@ -70,7 +70,6 @@ shared_context 'sponsor_covenant_html_erb' do
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.sponsor_covenant.sponsor_attends_stmm = false
     @candidate.save
-    AppFactory.add_candidate_events(@candidate)
     update_sponsor_covenant(false)
     visit @path
 

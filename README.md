@@ -71,6 +71,7 @@ This application requires:
 * Learn more about [MD-markdown] (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 * Gmail mailing do https://accounts.google.com/DisplayUnlockCaptcha if gmail is not authenticating.
 * hiding passwords http://railsapps.github.io/rails-environment-variables.html
+* pdf = http://prawnpdf.org/manual.pdf
 
 
 Postgres local
@@ -114,6 +115,7 @@ Time consuming bugs
   * An Encoding::CompatibilityError occurred in candidate_imports#export_to_excel:
     * incompatible character encodings: UTF-8 and ASCII-8BIT
     * app/controllers/candidate_imports_controller.rb:52:in `export_to_excel'
+  * Solution:  I was putting biary image in worksheet.
 
 
 Getting Started
