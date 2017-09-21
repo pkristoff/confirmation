@@ -154,11 +154,15 @@ class AdminsController < ApplicationController
           set_candidates(params[:sort])
           render 'candidates/index'
         when AdminsController::GENERATE_PDF
-          doc_name = 'tmp/temp.pdf'
-          pdf = CandidatePDFDocument.new(candidates.first)
-          send_data pdf.render,
-                    filename: doc_name,
-                    type: 'application/pdf'
+          if candidates.size > 1
+            redirect_to :back, notice: t('messages.generate_pdf_error')
+          else
+            doc_name = 'tmp/temp.pdf'
+            pdf = CandidatePDFDocument.new(candidates.first)
+            send_data pdf.render,
+                      filename: doc_name,
+                      type: 'application/pdf'
+          end
         when AdminsController::EMAIL
           setup_monthly_mailing_render_default(candidate_ids)
           # set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
