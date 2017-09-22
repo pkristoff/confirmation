@@ -11,7 +11,9 @@ describe ApplicationController do
     end
 
     context 'confirmation due_date is set' do
-      index += 1
+      while Candidate.find_by_account_name("bar_#{index}")
+        index += 1
+      end
       candidate = FactoryGirl.create(:candidate, account_name: "bar_#{index}")
       let (:confirmation_event_no_due_date) { FactoryGirl.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
       let (:confirmation_event_today) { FactoryGirl.create(:confirmation_event, the_way_due_date: Date.today, chs_due_date: Date.today) }

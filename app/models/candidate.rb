@@ -153,12 +153,16 @@ class Candidate < ActiveRecord::Base
     complete
   end
 
+  def emails
+    "#{candidate_sheet.candidate_email}, #{candidate_sheet.parent_email_1},#{candidate_sheet.parent_email_2}"
+  end
+
   def email
-    candidate_sheet.parent_email_1
+    "#{candidate_sheet.candidate_email}"
   end
 
   def email=(value)
-    candidate_sheet.parent_email_1= value
+    candidate_sheet.candidate_email = value
   end
 
   def email_required?
