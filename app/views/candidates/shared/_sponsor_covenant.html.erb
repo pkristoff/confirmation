@@ -15,9 +15,10 @@
                 <%= sc_fields.file_field :sponsor_covenant_picture %>
               </div>
 
-              <% unless @candidate.sponsor_covenant.sponsor_covenant_filename.nil? %>
+              <% unless @candidate.sponsor_covenant.scanned_covenant.nil? %>
                   <div>
-                    <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"/>
+                    <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"
+                    alt="<%= "Did not receive the picture: #{event_association.scanned_covenant.filename}" %>"/>
                   </div>
               <% end %>
             </div>
@@ -35,14 +36,15 @@
                   <%= sc_fields.text_field :sponsor_church %>
                 </div>
                 <div class="field">
-                  <%= sc_fields.label :sponsor_elegibility_picture, t('label.sponsor_covenant.sponsor_elegibility_picture') %>
+                  <%= sc_fields.label :sponsor_eligibility_picture, t('label.sponsor_covenant.sponsor_eligibility_picture') %>
                   <br/>
-                  <%= sc_fields.file_field :sponsor_elegibility_picture %>
+                  <%= sc_fields.file_field :sponsor_eligibility_picture %>
                 </div>
 
-                <% unless @candidate.sponsor_covenant.sponsor_elegibility_filename.nil? %>
+                <% unless @candidate.sponsor_covenant.scanned_eligibility.nil? %>
                     <div>
-                      <img src="<%= url_for(is_dev ? dev_upload_sponsor_elegibility_image_path(@candidate.id) : upload_sponsor_elegibility_image_path(@candidate.id)) %>"/>
+                      <img src="<%= url_for(is_dev ? dev_upload_sponsor_eligibility_image_path(@candidate.id) : upload_sponsor_eligibility_image_path(@candidate.id)) %>"
+                      alt="<%= "Did not receive the picture: #{event_association.scanned_eligibility.filename}" %>"/>
                     </div>
                 <% end %>
 

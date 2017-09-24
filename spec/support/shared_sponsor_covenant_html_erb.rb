@@ -7,7 +7,7 @@ UPDATED_MESSAGE = I18n.t('messages.updated')
 
 ATTENDS_STMM_LABEL = I18n.t('label.sponsor_covenant.sponsor_attends_stmm')
 COVENANT_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_covenant_picture')
-ELEGIBILITY_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_elegibility_picture')
+ELEGIBILITY_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_eligibility_picture')
 SPONSOR_CHURCH_LABEL = I18n.t('label.sponsor_covenant.sponsor_church')
 SPONSOR_NAME_LABEL = I18n.t('label.sponsor_covenant.sponsor_name')
 
@@ -81,8 +81,8 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_message(:error_explanation, ['2 empty fields need to be filled in', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank'])
     expect(candidate_db.sponsor_covenant).not_to eq(nil)
     expect(candidate_db.sponsor_covenant.sponsor_attends_stmm).to eq(false)
-    expect(candidate_db.sponsor_covenant.sponsor_elegibility_filename).to eq('actions.png')
-    expect(candidate_db.sponsor_covenant.sponsor_covenant_filename).to eq('actions.png')
+    expect(candidate_db.sponsor_covenant.scanned_eligibility.filename).to eq('actions.png')
+    expect(candidate_db.sponsor_covenant.scanned_covenant.filename).to eq('actions.png')
     expect(candidate_db.sponsor_covenant.sponsor_name).to eq('')
     expect(candidate_db.sponsor_covenant.sponsor_church).to eq('')
     fill_in_form(false) # no picture
@@ -92,8 +92,8 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate_db_update = Candidate.find(@candidate.id)
     expect(candidate_db_update.sponsor_covenant).not_to eq(nil)
     expect(candidate_db_update.sponsor_covenant.sponsor_attends_stmm).to eq(false)
-    expect(candidate_db_update.sponsor_covenant.sponsor_elegibility_filename).to eq('Baptismal Certificate.png')
-    expect(candidate_db_update.sponsor_covenant.sponsor_covenant_filename).to eq('actions.png')
+    expect(candidate_db_update.sponsor_covenant.scanned_eligibility.filename).to eq('Baptismal Certificate.png')
+    expect(candidate_db_update.sponsor_covenant.scanned_covenant.filename).to eq('actions.png')
     expect(candidate_db_update.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate_db_update.sponsor_covenant.sponsor_church).to eq(SPONSOR_CHURCH)
 
@@ -117,10 +117,10 @@ shared_context 'sponsor_covenant_html_erb' do
 
     fill_in_form(false) # no picture
     click_button 'top-update'
-    expect_message(:error_explanation, ['1 empty field need to be filled in', 'Sponsor eligibility form can\'t be blank', 'Sponsor elegibility content type can\'t be blank', 'Sponsor elegibility file contents can\'t be blank'])
+    expect_message(:error_explanation, ['1 empty field need to be filled in', 'Sponsor eligibility form can\'t be blank', 'Sponsor eligibility content type can\'t be blank', 'Sponsor eligibility file contents can\'t be blank'])
 
     expect(page).not_to have_selector(get_img_src_selector)
-    expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_elegibility_image.#{@candidate.id}\"]")
+    expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
 
     attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
     click_button 'top-update'
@@ -129,7 +129,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
     expect(candidate.sponsor_covenant).not_to eq(nil)
-    expect(candidate.sponsor_covenant.sponsor_elegibility_filename).not_to eq(nil)
+    expect(candidate.sponsor_covenant.scanned_eligibility.filename).not_to eq(nil)
 
     visit @path
     candidate = Candidate.find(@candidate.id)
@@ -179,13 +179,13 @@ shared_context 'sponsor_covenant_html_erb' do
     end
   end
 
-  def fill_in_form(covenant_attach_file=true, elegibility_attach_file=true)
+  def fill_in_form(covenant_attach_file=true, eligibility_attach_file=true)
     fill_in(SPONSOR_NAME_LABEL, with: SPONSOR_NAME)
     fill_in(SPONSOR_CHURCH_LABEL, with: SPONSOR_CHURCH)
     if covenant_attach_file
       attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
     end
-    if elegibility_attach_file
+    if eligibility_attach_file
       attach_file(ELEGIBILITY_PICTURE_LABEL, 'spec/fixtures/Baptismal Certificate.png')
     end
   end

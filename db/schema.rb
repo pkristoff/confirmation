@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170917195659) do
+ActiveRecord::Schema.define(version: 20170924095611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,15 +57,14 @@ ActiveRecord::Schema.define(version: 20170917195659) do
     t.string   "mother_middle"
     t.string   "mother_maiden"
     t.string   "mother_last"
-    t.string   "certificate_filename"
-    t.string   "certificate_content_type"
-    t.binary   "certificate_file_contents"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.integer  "church_address_id"
+    t.integer  "scanned_certificate_id"
   end
 
   add_index "baptismal_certificates", ["church_address_id"], name: "index_baptismal_certificates_on_church_address_id", using: :btree
+  add_index "baptismal_certificates", ["scanned_certificate_id"], name: "index_baptismal_certificates_on_scanned_certificate_id", using: :btree
 
   create_table "candidate_events", force: :cascade do |t|
     t.date     "completed_date"
@@ -162,26 +161,33 @@ ActiveRecord::Schema.define(version: 20170917195659) do
     t.date     "end_date"
     t.string   "who_held_retreat"
     t.string   "where_held_retreat"
-    t.string   "retreat_filename"
-    t.string   "retreat_content_type"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
-    t.binary   "retreat_file_content"
+    t.integer  "scanned_retreat_id"
+  end
+
+  add_index "retreat_verifications", ["scanned_retreat_id"], name: "index_retreat_verifications_on_scanned_retreat_id", using: :btree
+
+  create_table "scanned_images", force: :cascade do |t|
+    t.string   "filename"
+    t.string   "content_type"
+    t.binary   "content"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "sponsor_covenants", force: :cascade do |t|
     t.string   "sponsor_name"
-    t.boolean  "sponsor_attends_stmm",              default: true, null: false
+    t.boolean  "sponsor_attends_stmm",   default: true, null: false
     t.string   "sponsor_church"
-    t.string   "sponsor_elegibility_filename"
-    t.string   "sponsor_elegibility_content_type"
-    t.binary   "sponsor_elegibility_file_contents"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.string   "sponsor_covenant_filename"
-    t.string   "sponsor_covenant_content_type"
-    t.binary   "sponsor_covenant_file_contents"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "scanned_eligibility_id"
+    t.integer  "scanned_covenant_id"
   end
+
+  add_index "sponsor_covenants", ["scanned_covenant_id"], name: "index_sponsor_covenants_on_scanned_covenant_id", using: :btree
+  add_index "sponsor_covenants", ["scanned_eligibility_id"], name: "index_sponsor_covenants_on_scanned_eligibility_id", using: :btree
 
   create_table "to_dos", force: :cascade do |t|
     t.integer  "confirmation_event_id"

@@ -120,10 +120,10 @@
                 <%= bc_fields.file_field :certificate_picture %>
                 <%= bc_fields.label :certificate_picture, t('label.baptismal_certificate.baptismal_certificate.certificate_picture') %>
 
-                <% unless event_association.certificate_filename.nil? %>
+                <% unless event_association.scanned_certificate.nil? %>
                     <div>
                       <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"
-                           alt="<%= "Did not receive the picture: #{event_association.certificate_filename}" %>"/>
+                           alt="<%= "Did not receive the picture: #{event_association.scanned_certificate.filename}" %>"/>
                     </div>
                 <% end %>
               </div>

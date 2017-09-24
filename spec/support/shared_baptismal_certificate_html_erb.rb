@@ -104,7 +104,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect(candidate.baptized_at_stmm).to eq(false)
     expect(candidate.baptismal_certificate).not_to eq(nil)
-    expect(candidate.baptismal_certificate.certificate_filename).not_to eq(nil)
+    expect(candidate.baptismal_certificate.scanned_certificate).not_to eq(nil)
 
     visit @path
     candidate = Candidate.find(@candidate.id)
@@ -120,8 +120,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
     fill_in_form(false) # no picture
     click_button 'bottom-update'
-    expect_message(:error_explanation, ['3 empty fields need to be filled in:', 'Certificate filename can\'t be blank', 'Certificate content type can\'t be blank', 'Certificate file contents can\'t be blank'])
-    expect(page).not_to have_selector(get_img_src_selector)
+
+    expect_message(:error_explanation, ['1 empty field need to be filled in:', 'Scanned baptismal certificate can\'t be blank'])
 
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
     click_button 'bottom-update'
@@ -130,7 +130,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect(candidate.baptized_at_stmm).to eq(false)
     expect(candidate.baptismal_certificate).not_to eq(nil)
-    expect(candidate.baptismal_certificate.certificate_filename).not_to eq(nil)
+    expect(candidate.baptismal_certificate.scanned_certificate).not_to eq(nil)
 
     visit @path
     candidate = Candidate.find(@candidate.id)

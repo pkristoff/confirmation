@@ -46,9 +46,10 @@
                 <%= rv_fields.file_field :retreat_verification_picture %>
                 <%= rv_fields.label :retreat_verification_picture, t('label.retreat_verification.retreat_verification_picture') %>
 
-                <% unless event_association.retreat_filename.nil? %>
+                <% unless event_association.scanned_retreat.nil? %>
                     <div>
-                      <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"/>
+                      <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"
+                      alt="<%= "Did not receive the picture: #{event_association.scanned_retreat.filename}" %>"/>
                     </div>
                 <% end %>
               </div>

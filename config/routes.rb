@@ -83,8 +83,8 @@ Rails.application.routes.draw do
     # Baptismal Certificate
 
     # Sponsor covenant
-    get 'dev/upload_sponsor_elegibility_image.:id', to: 'dev/candidates#upload_sponsor_elegibility_image', as: 'dev_upload_sponsor_elegibility_image'
-    get 'upload_sponsor_elegibility_image.:id', to: 'candidates#upload_sponsor_elegibility_image', as: 'upload_sponsor_elegibility_image'
+    get 'dev/upload_sponsor_eligibility_image.:id', to: 'dev/candidates#upload_sponsor_eligibility_image', as: 'dev_upload_sponsor_eligibility_image'
+    get 'upload_sponsor_eligibility_image.:id', to: 'candidates#upload_sponsor_eligibility_image', as: 'upload_sponsor_eligibility_image'
 
     # Pick confirmation name
 

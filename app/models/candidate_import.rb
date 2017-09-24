@@ -22,11 +22,9 @@ class CandidateImport
     @unknown_confirmation_events = []
   end
 
-  def self.image_filepath_export(candidate, dir, columns)
-    association_method, filename_method = columns.split('.')
-    image_filename = candidate.send(association_method).send(filename_method)
-    image_filename = '' if image_filename.nil?
-    "#{dir}/#{candidate.account_name}_#{filename_method}_#{File.basename(image_filename)}"
+  def self.image_filepath_export(candidate, dir, image_column, image)
+    file_basename = image.nil? ? '' : File.basename(image.filename)
+    "#{dir}/#{candidate.account_name}_#{image_column}_#{file_basename}"
   end
 
   def self.image_filename_import(file_path)
@@ -126,6 +124,13 @@ class CandidateImport
     get_columns(params, columns)
     columns.delete(:password)
     columns.delete(:password_confirmation)
+    ['baptismal_certificate.scanned_certificate', 'retreat_verification.scanned_retreat',
+    'sponsor_covenant.scanned_eligibility', 'sponsor_covenant.scanned_covenant'].each do | base |
+      ScannedImage.get_permitted_params.each do | not_exported |
+        columns.delete("#{base}.#{not_exported}")
+
+      end
+    end
     (0..get_confirmation_events_sorted.length-1).each do |index|
       columns << "candidate_events.#{index}.completed_date"
       columns << "candidate_events.#{index}.verified"
@@ -158,77 +163,33 @@ class CandidateImport
   # ..._content_type = content_type
   # ..._file_cotent = new filename
   def certificate_image_column(candidate, col, dir, images)
-    if col.include? 'baptismal_certificate'
-      association = candidate.baptismal_certificate
-      if association
-        if col.include? 'certificate_filename'
-          association.certificate_filename
-        elsif col.include? 'certificate_content_type'
-          content_type(association.certificate_content_type)
-        elsif col.include? 'certificate_file_contents'
-          new_filename = CandidateImport.image_filepath_export(candidate, dir, 'baptismal_certificate.certificate_filename')
-          images.append({filename: new_filename,
-                         info: association})
-          new_filename
-        else
-          raise "unknown col #{col}"
-        end
-      else
-        'no candidate.baptismal_certificate'
+    if col.include? 'scanned_certificate'
+      image = candidate.baptismal_certificate.scanned_certificate
+      unless image.nil?
+        export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_certificate', image)
+        images.append({export_filename: export_filename, image: image})
+        "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
       end
     elsif col.include? 'retreat_verification'
-      association = candidate.retreat_verification
-      if association
-        if col.include? 'retreat_filename'
-          association.retreat_filename
-        elsif col.include? 'retreat_content_type'
-          content_type(association.retreat_content_type)
-        elsif col.include? 'retreat_file_content'
-          new_filename = CandidateImport.image_filepath_export(candidate, dir, 'retreat_verification.retreat_filename')
-          images.append({filename: new_filename,
-                         info: association})
-          new_filename
-        else
-          raise "unknown col #{col}"
-        end
-      else
-        'no candidate.retreat_verification'
+      image = candidate.retreat_verification.scanned_retreat
+      unless image.nil?
+        export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_retreat', image)
+        images.append({export_filename: export_filename, image: image})
+        "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
       end
-    elsif col.include? 'sponsor_covenant.sponsor_elegibility'
-      association = candidate.sponsor_covenant
-      if association
-        if col.include? 'sponsor_elegibility_filename'
-          association.sponsor_elegibility_filename
-        elsif col.include? 'sponsor_elegibility_content_type'
-          content_type(association.sponsor_elegibility_content_type)
-        elsif col.include? 'sponsor_elegibility_file_contents'
-          new_filename = CandidateImport.image_filepath_export(candidate, dir, 'sponsor_covenant.sponsor_elegibility_filename')
-          images.append({filename: new_filename,
-                         info: association})
-          new_filename
-        else
-          raise "unknown col #{col}"
-        end
-      else
-        'no candidate.sponsor_covenant'
+    elsif col.include? 'scanned_eligibility'
+      image = candidate.sponsor_covenant.scanned_eligibility
+      unless image.nil?
+        export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_eligibility', image)
+        images.append({export_filename: export_filename, image: image})
+        "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
       end
-    elsif col.include? 'sponsor_covenant.sponsor_covenant'
-      association = candidate.sponsor_covenant
-      if association
-        if col.include? 'sponsor_covenant_filename'
-          association.sponsor_covenant_filename
-        elsif col.include? 'sponsor_covenant_content_type'
-          content_type(association.sponsor_covenant_content_type)
-        elsif col.include? 'sponsor_covenant_file_contents'
-          new_filename = CandidateImport.image_filepath_export(candidate, dir, 'sponsor_covenant.sponsor_covenant_filename')
-          images.append({filename: new_filename,
-                         info: association})
-          new_filename
-        else
-          raise "unknown col #{col}"
-        end
-      else
-        'no candidate.sponsor_covenant'
+    elsif col.include? 'scanned_covenant'
+      image = candidate.sponsor_covenant.scanned_covenant
+      unless image.nil?
+        export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_covenant', image)
+        images.append({export_filename: export_filename, image: image})
+        "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
       end
     end
   end
@@ -253,10 +214,10 @@ class CandidateImport
 
   def create_xlsx_package(dir)
     image_columns = %w(
-        baptismal_certificate.certificate_filename baptismal_certificate.certificate_content_type baptismal_certificate.certificate_file_contents
-        retreat_verification.retreat_filename retreat_verification.retreat_content_type retreat_verification.retreat_file_content
-        sponsor_covenant.sponsor_elegibility_filename sponsor_covenant.sponsor_elegibility_content_type sponsor_covenant.sponsor_elegibility_file_contents
-        sponsor_covenant.sponsor_covenant_filename sponsor_covenant.sponsor_covenant_content_type sponsor_covenant.sponsor_covenant_file_contents
+        baptismal_certificate.scanned_certificate retreat_verification.scanned_retreat  sponsor_covenant.scanned_eligibility sponsor_covenant.scanned_covenant
+)
+    transient_columns = %w(
+        baptismal_certificate.certificate_picture retreat_verification.retreat_verification_picture  sponsor_covenant.sponsor_eligibility_picture sponsor_covenant.sponsor_covenant_picture
 )
     # http://www.rubydoc.info/github/randym/axlsx/Axlsx/Workbook:use_shared_strings
     p = Axlsx::Package.new(author: 'Admin')
@@ -274,15 +235,19 @@ class CandidateImport
           if image_columns.include?(col)
             Rails.logger.info "   xxx create_xlsx_package Image:#{candidate.account_name} #{col}"
             certificate_image_column(candidate, col, dir, images)
+          elsif transient_columns.include?(col)
+            # don't put these out in the spreadsheet they are associated with getting images to the server.
+            Rails.logger.info "   xxx create_xlsx_package Transient:#{candidate.account_name} #{col}"
           else
             # puts col
+            # Rails.logger.info "   xxx create_xlsx_package NOT Image:#{candidate.account_name} #{col}"
             val = get_column_value(candidate, col, events)
             # Rails.logger.info "col=#{col} val=#{val}"
             val
           end
         end)
       end
-      process_images(images)
+      write_export_images(images)
     end
     p
   end
@@ -392,53 +357,14 @@ class CandidateImport
           elsif column_name_split.size == 2
             case column_name_split[1]
 
-              when 'certificate_filename'
-                filename = cell
-                candidate.baptismal_certificate.certificate_filename = CandidateImport.image_filename_import(filename)
-              when 'certificate_content_type'
-                filename = cell
-                file_extname = File.extname(filename)
-                candidate.baptismal_certificate.certificate_content_type = "type/#{cell}"
-              when 'certificate_file_contents'
-                filename = cell
-                File.open(filename, 'rb') do |f|
-                  candidate.baptismal_certificate.certificate_file_contents = f.read
-                end
-              when 'retreat_filename'
-                filename = cell
-                candidate.retreat_verification.retreat_filename = CandidateImport.image_filename_import(filename)
-              when 'retreat_content_type'
-                filename = cell
-                file_extname = File.extname(filename)
-                candidate.retreat_verification.retreat_content_type = "type/#{cell}"
-              when 'retreat_file_content'
-                filename = cell
-                File.open(filename, 'rb') do |f|
-                  candidate.retreat_verification.retreat_file_content = f.read
-                end
-              when 'sponsor_elegibility_filename'
-                filename = cell
-                candidate.sponsor_covenant.sponsor_elegibility_filename = CandidateImport.image_filename_import(filename)
-              when 'sponsor_elegibility_content_type'
-                filename = cell
-                file_extname = File.extname(filename)
-                candidate.sponsor_covenant.sponsor_elegibility_content_type = "type/#{cell}"
-              when 'sponsor_elegibility_file_contents'
-                filename = cell
-                File.open(filename, 'rb') do |f|
-                  candidate.sponsor_covenant.sponsor_elegibility_file_contents = f.read
-                end
-              when 'sponsor_covenant_filename'
-                filename = cell
-                candidate.sponsor_covenant.sponsor_covenant_filename = CandidateImport.image_filename_import(filename)
-              when 'sponsor_covenant_content_type'
-                filename = cell
-                candidate.sponsor_covenant.sponsor_covenant_content_type = "type/#{cell}"
-              when 'sponsor_covenant_file_contents'
-                filename = cell
-                File.open(filename, 'rb') do |f|
-                  candidate.sponsor_covenant.sponsor_covenant_file_contents = f.read
-                end
+              when 'scanned_certificate'
+                candidate.baptismal_certificate.scanned_certificate = create_scanned_image(cell)
+              when 'scanned_retreat'
+                candidate.retreat_verification.scanned_retreat = create_scanned_image(cell)
+              when 'scanned_eligibility'
+                candidate.sponsor_covenant.scanned_eligibility = create_scanned_image(cell)
+              when 'scanned_covenant'
+                candidate.sponsor_covenant.scanned_covenant = create_scanned_image(cell)
               else
                 candidate.baptismal_certificate.create_church_address if column_name_split[1] === 'church_address' && candidate.baptismal_certificate.church_address.nil?
                 candidate_send_0 = candidate.send(column_name_split[0])
@@ -462,6 +388,17 @@ class CandidateImport
       candidate.password = '12345678'
       candidates.push(candidate)
     end
+  end
+
+  def create_scanned_image(cell)
+    image_filename, image_content_type, export_filename = cell.split(':::')
+    scanned_image = ScannedImage.new
+    scanned_image.filename = image_filename
+    scanned_image.content_type = "image/#{image_content_type}"
+    File.open(export_filename, 'rb') do |f|
+      scanned_image.content = f.read
+    end
+    scanned_image
   end
 
   def process_confirmation_events(spreadsheet)
@@ -493,18 +430,12 @@ class CandidateImport
     process_candidates(candidates, spreadsheet)
   end
 
-  def process_images(images)
+  def write_export_images(images)
     images.each do |entry|
-      filename = entry[:filename]
-      association = entry[:info]
-      file_contents = if filename.include? 'elegibility'
-                        association.sponsor_elegibility_file_contents
-                      else
-                        association.file_contents
-                      end
-
-      File.open(filename, mode='wb') do |f|
-        f.write file_contents
+      export_filename = entry[:export_filename]
+      image = entry[:image]
+      File.open(export_filename, mode='wb') do |f|
+        f.write image.content
       end
     end
   end

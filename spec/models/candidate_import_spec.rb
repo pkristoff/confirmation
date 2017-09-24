@@ -7,26 +7,10 @@ describe CandidateImport do
   before(:each) do
 
     @image_column_mappings = {
-        baptismal_certificate: {
-            filename: 'baptismal_certificate.certificate_filename',
-            content_type: 'baptismal_certificate.certificate_content_type',
-            file_content: 'baptismal_certificate.certificate_file_contents'
-        },
-        retreat_verification: {
-            filename: 'retreat_verification.retreat_filename',
-            content_type: 'retreat_verification.retreat_content_type',
-            file_content: 'retreat_verification.retreat_file_content'
-        },
-        sponsor_elegibility: {
-            filename: 'sponsor_covenant.sponsor_elegibility_filename',
-            content_type: 'sponsor_covenant.sponsor_elegibility_content_type',
-            file_content: 'sponsor_covenant.sponsor_elegibility_file_contents'
-        },
-        sponsor_covenant: {
-            filename: 'sponsor_covenant.sponsor_covenant_filename',
-            content_type: 'sponsor_covenant.sponsor_covenant_content_type',
-            file_content: 'sponsor_covenant.sponsor_covenant_file_contents'
-        }
+        baptismal_certificate: 'baptismal_certificate.scanned_certificate',
+        retreat_verification: 'retreat_verification.scanned_retreat',
+        sponsor_eligibility: 'sponsor_covenant.scanned_eligibility',
+        sponsor_covenant: 'sponsor_covenant.scanned_covenant'
     }
   end
 
@@ -108,13 +92,13 @@ describe CandidateImport do
       candidate = Candidate.find_by_account_name 'vickikristoff'
       expect_image_values(candidate, :baptismal_certificate, 'Baptismal Certificate.png')
       expect_image_values(candidate, :retreat_verification, 'actions.png')
-      expect_image_values(candidate, :sponsor_elegibility, 'Baptismal Certificate.png')
+      expect_image_values(candidate, :sponsor_eligibility, 'Baptismal Certificate.png')
       expect_image_values(candidate, :sponsor_covenant, 'actions.png')
     end
 
     def image_column_value (candidate, columns)
-      association, value_method = columns.split('.')
-      candidate.send(association).send(value_method)
+      association, image_method, value_method = columns.split('.')
+      candidate.send(association).send(image_method).send(value_method)
     end
   end
 
@@ -174,10 +158,10 @@ describe CandidateImport do
         expect_image(@dir_name, [:retreat_verification])
       end
 
-      it 'export sponsor_covenants image - sponsor_elegibility' do
+      it 'export sponsor_covenants image - sponsor_eligibility' do
         candidate = Candidate.first
-        add_sponsor_elegibility_image(candidate)
-        expect_image(@dir_name, [:sponsor_elegibility])
+        add_sponsor_eligibility_image(candidate)
+        expect_image(@dir_name, [:sponsor_eligibility])
       end
 
       it 'export sponsor_covenants image - sponsor_covenant' do
@@ -191,8 +175,8 @@ describe CandidateImport do
         add_baptismal_certificate_image(candidate)
         add_retreat_verification_image(candidate)
         add_sponsor_covenant_image(candidate)
-        add_sponsor_elegibility_image(candidate)
-        expect_image(@dir_name, [:baptismal_certificate, :retreat_verification, :sponsor_covenant, :sponsor_elegibility])
+        add_sponsor_eligibility_image(candidate)
+        expect_image(@dir_name, [:baptismal_certificate, :retreat_verification, :sponsor_covenant, :sponsor_eligibility])
 
       end
     end
@@ -206,24 +190,25 @@ describe CandidateImport do
         header_row = ws.rows[0]
         c1_row = ws.rows[1]
         @image_column_mappings.each_key do |image_type|
-          column_names = @image_column_mappings[image_type]
-          new_filename = CandidateImport.image_filepath_export(candidate, dir_name, column_names[:filename])
-          original_filename = 'actions.png'
-          original_content_type = 'png'
+          column_name = @image_column_mappings[image_type]
+          cell = c1_row.cells[find_cell_offset(header_row, column_name)].value
           if image_types.include? image_type
-            expect(c1_row.cells[find_cell_offset(header_row, column_names[:filename])].value).to eq(original_filename)
-            expect(c1_row.cells[find_cell_offset(header_row, column_names[:content_type])].value).to eq(original_content_type)
-            expect(c1_row.cells[find_cell_offset(header_row, column_names[:file_content])].value).to eq(new_filename)
 
-            expect(File.exist? new_filename).to eq(true), "Expected new_filename '#{new_filename}' to exist"
-            expect(File.size new_filename).to_not eq(0), "Expected filename '#{new_filename}' is greater than 0 for image type: #{image_type}"
+            association_column, image_column = column_name.split('.')
+            expected_export_filename = CandidateImport.image_filepath_export(candidate, dir_name, image_column, candidate.send(association_column).send(image_column))
+            expected_filename = 'actions.png'
+            expected_content_type = 'png'
+
+            original_filename, original_content_type, export_filename = cell.split(':::')
+
+            expect(expected_filename).to eq(original_filename)
+            expect(expected_content_type).to eq(original_content_type)
+            expect(expected_export_filename).to eq(export_filename)
+
+            expect(File.exist? export_filename).to eq(true), "Expected export_filename '#{export_filename}' to exist"
+            expect(File.size export_filename).to_not eq(0), "Expected export_filename '#{export_filename}' is greater than 0 for image type: #{image_type}"
           else
-            expect(c1_row.cells[find_cell_offset(header_row, column_names[:filename])].value).to eq(nil)
-            expect(c1_row.cells[find_cell_offset(header_row, column_names[:content_type])].value).to eq(nil)
-            expect(c1_row.cells[find_cell_offset(header_row, column_names[:file_content])].value).to eq(new_filename)
-
-            expect(File.exist? new_filename).to eq(true), "Expected new_filename '#{new_filename}' to exist"
-            expect(File.size new_filename).to eq(0), "Expected filename '#{new_filename}' to be 0 for image type: #{image_type}"
+            expect(cell).to eq(nil)
           end
         end
       end
@@ -252,7 +237,7 @@ describe CandidateImport do
 
         Dir.mkdir(dir_name)
         CandidateImport.new.to_xlsx(dir_name).serialize(xlsx_path)
-        uploaded_file = Rack::Test::UploadedFile.new(xlsx_path, 'type/png', true)
+        uploaded_file = Rack::Test::UploadedFile.new(xlsx_path, 'image/png', true)
         CandidateImport.new.reset_database
 
         expect(Candidate.find_by_account_name(candidate.account_name)).to eq(nil)
@@ -265,10 +250,10 @@ describe CandidateImport do
         expect(candidate).not_to eq(nil)
         baptismal_certificate = candidate.baptismal_certificate
         expect(baptismal_certificate).not_to eq(nil)
-        expect(baptismal_certificate.certificate_filename).to eq('actions.png')
-        expect(baptismal_certificate.certificate_content_type).to eq('type/png')
-        expect(baptismal_certificate.certificate_file_contents).not_to eq(nil)
-        expect(baptismal_certificate.certificate_file_contents).not_to eq('')
+        expect(baptismal_certificate.scanned_certificate.filename).to eq('actions.png')
+        expect(baptismal_certificate.scanned_certificate.content_type).to eq('image/png')
+        expect(baptismal_certificate.scanned_certificate.content).not_to eq(nil)
+        expect(baptismal_certificate.scanned_certificate.content).not_to eq('')
 
       ensure
         clean_dir(dir_name)
@@ -277,7 +262,7 @@ describe CandidateImport do
 
     it 'import with image followed by export' do
 
-      uploaded_zip_file = fixture_file_upload('export with image.zip', 'application/zip')
+      uploaded_zip_file = fixture_file_upload('export with images.zip', 'application/zip')
       candidate_import = CandidateImport.new
 
       expect(save_zip candidate_import, uploaded_zip_file).to eq(true)
@@ -290,18 +275,22 @@ describe CandidateImport do
 
         candidate_import = CandidateImport.new
         package = candidate_import.to_xlsx(dir_name)
+        # column_names = @image_column_mappings[image_type]
 
-        filename = CandidateImport.image_filepath_export(Candidate.first, dir_name, 'baptismal_certificate.certificate_filename')
+        expected_export_filename = 'temp/vickikristoff_scanned_certificate_Baptismal Certificate.png'
         package.workbook do |wb|
           ws = wb.worksheets[1]
           header_row = ws.rows[0]
           c1_row = ws.rows[1]
-          expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_filename')].value).to eq('Baptismal Certificate.png') #certificate_filename
-          expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_content_type')].value).to eq('png') #certificate_content_type
-          expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq(filename) #certificate_file_contents
+          cell = c1_row.cells[find_cell_offset(header_row, @image_column_mappings[:baptismal_certificate])].value
+          expect(cell).not_to be(nil)
+          original_filename, original_content_type, export_filename = cell.split(':::')
+          expect(original_filename).to eq('Baptismal Certificate.png')
+          expect(original_content_type).to eq('png')
+          expect(export_filename).to eq(expected_export_filename)
         end
 
-        expect(File.exist? filename).to eq(true)
+        expect(File.exist? expected_export_filename).to eq(true)
 
       ensure
         clean_dir(dir_name)
@@ -527,40 +516,40 @@ describe 'image_filename' do
     add_baptismal_certificate_image(candidate)
     add_retreat_verification_image(candidate)
     add_sponsor_covenant_image(candidate)
-    add_sponsor_elegibility_image(candidate)
+    add_sponsor_eligibility_image(candidate)
 
   end
 
   it 'should concat a file path for the scanned in file' do
     candidate = Candidate.find_by_account_name('vickikristoff')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'baptismal_certificate.certificate_filename')).to eq('temp_dir/vickikristoff_certificate_filename_actions.png')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'retreat_verification.retreat_filename')).to eq('temp_dir/vickikristoff_retreat_filename_actions.png')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'sponsor_covenant.sponsor_elegibility_filename')).to eq('temp_dir/vickikristoff_sponsor_elegibility_filename_actions.png')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'sponsor_covenant.sponsor_covenant_filename')).to eq('temp_dir/vickikristoff_sponsor_covenant_filename_actions.png')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_certificate', candidate.baptismal_certificate.scanned_certificate)).to eq('temp_dir/vickikristoff_scanned_certificate_actions.png')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_retreat', candidate.retreat_verification.scanned_retreat)).to eq('temp_dir/vickikristoff_scanned_retreat_actions.png')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_eligibility', candidate.sponsor_covenant.scanned_eligibility)).to eq('temp_dir/vickikristoff_scanned_eligibility_actions.png')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_covenant', candidate.sponsor_covenant.scanned_covenant)).to eq('temp_dir/vickikristoff_scanned_covenant_actions.png')
   end
 
   it 'should handle filename being nil.' do
     candidate = Candidate.find_by_account_name('vickikristoff')
-    candidate.baptismal_certificate.certificate_filename = nil
-    candidate.retreat_verification.retreat_filename = nil
-    candidate.sponsor_covenant.sponsor_elegibility_filename = nil
-    candidate.sponsor_covenant.sponsor_covenant_filename = nil
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'baptismal_certificate.certificate_filename')).to eq('temp_dir/vickikristoff_certificate_filename_')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'retreat_verification.retreat_filename')).to eq('temp_dir/vickikristoff_retreat_filename_')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'sponsor_covenant.sponsor_elegibility_filename')).to eq('temp_dir/vickikristoff_sponsor_elegibility_filename_')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'sponsor_covenant.sponsor_covenant_filename')).to eq('temp_dir/vickikristoff_sponsor_covenant_filename_')
+    candidate.baptismal_certificate.scanned_certificate = nil
+    candidate.retreat_verification.scanned_retreat = nil
+    candidate.sponsor_covenant.scanned_eligibility = nil
+    candidate.sponsor_covenant.scanned_covenant = nil
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_certificate', nil)).to eq('temp_dir/vickikristoff_scanned_certificate_')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_retreat', nil)).to eq('temp_dir/vickikristoff_scanned_retreat_')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_eligibility', nil)).to eq('temp_dir/vickikristoff_scanned_eligibility_')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_covenant', nil)).to eq('temp_dir/vickikristoff_scanned_covenant_')
   end
 
   it 'should concat a file path for the scanned in file removing unnecessary directories from the filename' do
     candidate = Candidate.find_by_account_name('vickikristoff')
-    candidate.baptismal_certificate.certificate_filename= 'foo/actions.png'
-    candidate.retreat_verification.retreat_filename = 'foo/actions.png'
-    candidate.sponsor_covenant.sponsor_elegibility_filename = 'foo/actions.png'
-    candidate.sponsor_covenant.sponsor_covenant_filename = 'foo/actions.png'
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'baptismal_certificate.certificate_filename')).to eq('temp_dir/vickikristoff_certificate_filename_actions.png')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'retreat_verification.retreat_filename')).to eq('temp_dir/vickikristoff_retreat_filename_actions.png')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'sponsor_covenant.sponsor_elegibility_filename')).to eq('temp_dir/vickikristoff_sponsor_elegibility_filename_actions.png')
-    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'sponsor_covenant.sponsor_covenant_filename')).to eq('temp_dir/vickikristoff_sponsor_covenant_filename_actions.png')
+    candidate.baptismal_certificate.scanned_certificate = ScannedImage.new(filename: 'foo/actions.png')
+    candidate.retreat_verification.scanned_retreat = ScannedImage.new(filename: 'foo/actions.png')
+    candidate.sponsor_covenant.scanned_eligibility = ScannedImage.new(filename: 'foo/actions.png')
+    candidate.sponsor_covenant.scanned_covenant = ScannedImage.new(filename: 'foo/actions.png')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_certificate', candidate.baptismal_certificate.scanned_certificate)).to eq('temp_dir/vickikristoff_scanned_certificate_actions.png')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_retreat', candidate.retreat_verification.scanned_retreat)).to eq('temp_dir/vickikristoff_scanned_retreat_actions.png')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_eligibility', candidate.sponsor_covenant.scanned_eligibility)).to eq('temp_dir/vickikristoff_scanned_eligibility_actions.png')
+    expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_covenant', candidate.sponsor_covenant.scanned_covenant)).to eq('temp_dir/vickikristoff_scanned_covenant_actions.png')
   end
 
   it 'should remove any directories in the filename' do
@@ -572,10 +561,11 @@ end
 def add_baptismal_certificate_image(candidate)
   filename = 'actions.png'
   baptismal_certificate = candidate.baptismal_certificate
-  baptismal_certificate.certificate_filename = filename
-  baptismal_certificate.certificate_content_type = 'type/png'
+  candidate.baptismal_certificate.build_scanned_certificate
+  baptismal_certificate.scanned_certificate.filename = filename
+  baptismal_certificate.scanned_certificate.content_type = 'image/png'
   File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
-    baptismal_certificate.certificate_file_contents = f.read
+    baptismal_certificate.scanned_certificate.content = f.read
   end
   candidate.save
 end
@@ -583,10 +573,11 @@ end
 def add_retreat_verification_image(candidate)
   filename = 'actions.png'
   retreat_verification = candidate.retreat_verification
-  retreat_verification.retreat_filename = filename
-  retreat_verification.retreat_content_type = 'type/png'
+  candidate.retreat_verification.build_scanned_retreat
+  retreat_verification.scanned_retreat.filename = filename
+  retreat_verification.scanned_retreat.content_type = 'image/png'
   File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
-    retreat_verification.retreat_file_content = f.read
+    retreat_verification.scanned_retreat.content = f.read
   end
   candidate.save
 end
@@ -594,21 +585,23 @@ end
 def add_sponsor_covenant_image(candidate)
   filename = 'actions.png'
   sponsor_covenant = candidate.sponsor_covenant
-  sponsor_covenant.sponsor_covenant_filename = filename
-  sponsor_covenant.sponsor_covenant_content_type = 'type/png'
+  candidate.sponsor_covenant.build_scanned_covenant
+  sponsor_covenant.scanned_covenant.filename = filename
+  sponsor_covenant.scanned_covenant.content_type = 'image/png'
   File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
-    sponsor_covenant.sponsor_covenant_file_contents = f.read
+    sponsor_covenant.scanned_covenant.content = f.read
   end
   candidate.save
 end
 
-def add_sponsor_elegibility_image(candidate)
+def add_sponsor_eligibility_image(candidate)
   filename = 'actions.png'
   sponsor_covenant = candidate.sponsor_covenant
-  sponsor_covenant.sponsor_elegibility_filename = filename
-  sponsor_covenant.sponsor_elegibility_content_type = 'type/png'
+  candidate.sponsor_covenant.build_scanned_eligibility
+  sponsor_covenant.scanned_eligibility.filename = filename
+  sponsor_covenant.scanned_eligibility.content_type = 'image/png'
   File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
-    sponsor_covenant.sponsor_elegibility_file_contents = f.read
+    sponsor_covenant.scanned_eligibility.content = f.read
   end
   candidate.save
 end
@@ -682,18 +675,14 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.mother_middle')].value).to eq('Paula')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.mother_maiden')].value).to eq('Kirk')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.mother_last')].value).to eq('Smith')
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_filename')].value).to eq('actions.png')
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_content_type')].value).to eq('png')
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq('temp/c1_certificate_filename_actions.png')
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.scanned_certificate')].value).to eq('actions.png:::png:::temp/c1_scanned_certificate_actions.png')
 
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_held_at_stmm')].value).to eq(0)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.start_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.end_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.who_held_retreat')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.where_held_retreat')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_filename')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_content_type')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_file_content')].value).to eq('temp/c1_retreat_filename_')
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.scanned_retreat')].value).to eq(nil)
 
 
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.0.completed_date')].value).to eq(nil)
@@ -703,7 +692,7 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.1.verified')].value).to eq(0)
 
   # TODO: add other 31 tests
-  expect(c1_row.size).to eq(79)
+  expect(c1_row.size).to eq(72)
 
   expect(c2_row.cells[0].value).to eq('c2')
 
@@ -753,24 +742,20 @@ def expect_candidates_empty(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.mother_middle')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.mother_maiden')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.mother_last')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_filename')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_content_type')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.certificate_file_contents')].value).to eq('temp/c1_certificate_filename_')
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.scanned_certificate')].value).to eq(nil)
 
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_held_at_stmm')].value).to eq(0)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.start_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.end_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.who_held_retreat')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.where_held_retreat')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_filename')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_content_type')].value).to eq(nil)
-  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_file_content')].value).to eq('temp/c1_retreat_filename_')
+  expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.scanned_retreat')].value).to eq(nil)
 
   (0..ConfirmationEvent.all.length-1).each do |index|
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(79)
+  expect(c1_row.size).to eq(72)
 end
 
 def expect_confirmation_events_empty(ws, candidate_import)
@@ -1079,9 +1064,9 @@ end
 
 def expect_image_values(candidate, image_column_mapping_key, image_filename)
   value_methods = @image_column_mappings[image_column_mapping_key]
-  expect(image_column_value(candidate, value_methods[:filename])).to eq(image_filename)
-  expect(image_column_value(candidate, value_methods[:content_type])).to eq('type/png')
-  expect(image_column_value(candidate, value_methods[:file_content])).not_to eq(nil)
+  expect(image_column_value(candidate, "#{value_methods}.filename")).to eq(image_filename)
+  expect(image_column_value(candidate, "#{value_methods}.content_type")).to eq('image/png')
+  expect(image_column_value(candidate, "#{value_methods}.content")).not_to eq(nil)
 end
 
 def save(candidate_import, uploaded_file)

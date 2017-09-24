@@ -1,6 +1,12 @@
 class SponsorCovenant < ActiveRecord::Base
 
-  attr_accessor :sponsor_elegibility_picture
+  belongs_to(:scanned_eligibility, class_name: 'ScannedImage', validate: false)
+  accepts_nested_attributes_for(:scanned_eligibility, allow_destroy: true)
+
+  belongs_to(:scanned_covenant, class_name: 'ScannedImage', validate: false)
+  accepts_nested_attributes_for(:scanned_covenant, allow_destroy: true)
+
+  attr_accessor :sponsor_eligibility_picture
 
   # event_complete
 
@@ -9,28 +15,33 @@ class SponsorCovenant < ActiveRecord::Base
         .validate(SponsorCovenant.get_attends_stmm_validation_params, SponsorCovenant.get_not_attends_stmm_params)
     # convert empty picture attributes to something the user can understand
     found = false
-    found |= (! errors.delete(:sponsor_elegibility_filename).nil?)
-    found |= (! errors.delete(:sponsor_elegibility_content_type).nil?)
-    found |= (! errors.delete(:sponsor_elegibility_file_contents).nil?)
+    found |= (! errors.delete(:scanned_covenant).nil?)
     if found
-      errors[:base] << 'Sponsor eligibility form can\'t be blank'
+      errors[:base] << 'Scanned sponsor covenant form can\'t be blank'
     end
     found = false
-    found |= (! errors.delete(:sponsor_covenant_filename).nil?)
-    found |= (! errors.delete(:sponsor_covenant_content_type).nil?)
-    found |= (! errors.delete(:sponsor_covenant_file_contents).nil?)
+    found |= (! errors.delete(:scanned_eligibility).nil?)
     if found
-      errors[:base] << 'Sponsor covenant form can\'t be blank'
+      errors[:base] << 'Scanned sponsor eligibility form can\'t be blank'
     end
 
+  end
+
+  def self.get_basic_permitted_params
+    [:sponsor_name, :sponsor_attends_stmm, :sponsor_church, :scanned_covenant, :scanned_eligibility]
   end
 
   def self.get_permitted_params
-    SponsorCovenant.get_attends_stmm_params.concat(SponsorCovenant.get_not_attends_stmm_params) << :sponsor_elegibility_picture
+    SponsorCovenant.get_attends_stmm_params.concat(SponsorCovenant.get_not_attends_stmm_params.concat(
+        [scanned_eligibility_attributes: ScannedImage.get_permitted_params,
+         scanned_covenant_attributes: ScannedImage.get_permitted_params])) << :sponsor_eligibility_picture
   end
 
   def self.get_attends_stmm_params
-    [:sponsor_name, :sponsor_attends_stmm, :sponsor_covenant_filename, :sponsor_covenant_content_type, :sponsor_covenant_file_contents]
+    params = self.get_basic_permitted_params
+    params.delete(:sponsor_church)
+    params.delete(:scanned_eligibility)
+    params
   end
 
   def self.get_attends_stmm_validation_params
@@ -40,8 +51,15 @@ class SponsorCovenant < ActiveRecord::Base
   end
 
   def self.get_not_attends_stmm_params
-    [:sponsor_church, :sponsor_elegibility_filename, :sponsor_elegibility_content_type, :sponsor_elegibility_file_contents]
+    params = self.get_basic_permitted_params
+    params.delete(:sponsor_name)
+    params.delete(:scanned_covenant)
+    params.delete(:sponsor_attends_stmm)
+    params
   end
+
+
+
 
   def self.event_name
     I18n.t('events.sponsor_covenant')
@@ -58,39 +76,39 @@ class SponsorCovenant < ActiveRecord::Base
   # image interface
 
   def filename_param
-    :sponsor_covenant_filename
+    :scanned_covenant.filename
   end
 
   def content_type_param
-    :sponsor_covenant_content_type
+    :scanned_covenant.content_type
   end
 
   def file_contents_param
-    :sponsor_covenant_file_contents
+    :scanned_covenant.contents
   end
 
   def filename
-    sponsor_covenant_filename
+    scanned_covenant.filename
   end
 
   def filename=(name)
-    sponsor_covenant_filename=name
+    scanned_covenant.filename=name
   end
 
   def content_type
-    sponsor_covenant_content_type
+    scanned_covenant.content_type
   end
 
   def content_type=(type)
-    sponsor_covenant_content_type=type
+    scanned_covenant.content_type=type
   end
 
   def file_contents
-    sponsor_covenant_file_contents
+    scanned_covenant.content
   end
 
   def file_contents=(contents)
-    sponsor_covenant_file_contents=contents
+    scanned_covenant.contents=content
   end
 
   # image interface - end

@@ -55,13 +55,13 @@ class ApplicationController < ActionController::Base
   end
 
   def certificate_file_params
-    params.require(:candidate).permit(baptismal_certificate_attributes: [:certificate_filename, :certificate_content_type, :certificate_file_contents])
+    params.require(:candidate).permit(baptismal_certificate_attributes: [:scanned_certificate])
   end
 
-  def sponsor_elegibility_file_params
-    params.require(:candidate).permit(sponsor_covenant_attributes: [:sponsor_elegibility_filename, :sponsor_elegibility_content_type, :sponsor_elegibility_file_contents])
+  def sponsor_eligibility_file_params
+    params.require(:candidate).permit(sponsor_covenant_attributes: [:scanned_eligibility])
   end
-
+#TODO Remove?
   def pick_confirmation_name_file_params
     params.require(:candidate).permit(pick_confirmation_name_attributes: [:pick_confirmation_name_filename, :pick_confirmation_name_content_type, :pick_confirmation_name_file_contents])
   end

@@ -5,8 +5,8 @@ FactoryGirl.define do
     end_date "2017-02-06"
     who_held_retreat "I did"
     where_held_retreat "Here"
-    retreat_filename 'actions.png'
-    retreat_content_type 'type/pgn'
-    retreat_file_content 'WWW'
+    after(:build) do |retreat, evaluator|
+      retreat.scanned_retreat = FactoryGirl.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'WWW')
+    end
   end
 end

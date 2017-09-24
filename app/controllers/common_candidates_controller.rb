@@ -13,8 +13,8 @@ class CommonCandidatesController < ApplicationController
         when Event::Route::SPONSOR_COVENANT
           sponsor_covenant = @candidate.sponsor_covenant
           sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
-          setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, 'sponsor_covenant', sponsor_covenant_params)
-          setup_file_params(sponsor_covenant_params[:sponsor_elegibility_picture], sponsor_covenant, 'sponsor_elegibility', sponsor_covenant_params)
+          setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, :scanned_covenant_attributes, sponsor_covenant_params)
+          setup_file_params(sponsor_covenant_params[:sponsor_eligibility_picture], sponsor_covenant, :scanned_eligibility_attributes, sponsor_covenant_params)
 
           render_called = event_with_picture_update_private(SponsorCovenant)
 
@@ -23,7 +23,7 @@ class CommonCandidatesController < ApplicationController
           baptismal_certificate = @candidate.baptismal_certificate
           unless baptized_at_stmm
             baptismal_certificate_params = params[:candidate][:baptismal_certificate_attributes]
-            setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, 'certificate', baptismal_certificate_params)
+            setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, baptismal_certificate_params)
           end
 
           render_called = event_with_picture_update_private(BaptismalCertificate)
@@ -31,7 +31,7 @@ class CommonCandidatesController < ApplicationController
         when Event::Route::RETREAT_VERIFICATION
           retreat_verification = @candidate.retreat_verification
           retreat_verification_params = params[:candidate][:retreat_verification_attributes]
-          setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, 'retreat_verification', retreat_verification_params)
+          setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, :scanned_retreat_attributes, retreat_verification_params)
 
           render_called = event_with_picture_update_private(RetreatVerification)
         else
@@ -88,18 +88,21 @@ class CommonCandidatesController < ApplicationController
 
   def event_with_picture_image
     @candidate = Candidate.find(params[:id])
-    association = nil
+    scanned_image = nil
     case params[:event_name].to_sym
       when Event::Route::BAPTISMAL_CERTIFICATE
-        association = @candidate.baptismal_certificate
+        scanned_image = @candidate.baptismal_certificate.scanned_certificate
       when Event::Route::SPONSOR_COVENANT
-        association = @candidate.sponsor_covenant
+        scanned_image = @candidate.sponsor_covenant.scanned_covenant
       when Event::Route::RETREAT_VERIFICATION
-        association = @candidate.retreat_verification
+        scanned_image = @candidate.retreat_verification.scanned_retreat
       else
         flash['alert'] = "Unknown event_name #{params[:event_name]}"
     end
-    send_image(association) unless association.nil?
+    if scanned_image.nil?
+    else
+      send_image(scanned_image)
+    end
   end
 
   def pick_confirmation_name
@@ -171,12 +174,10 @@ class CommonCandidatesController < ApplicationController
     render_event_with_picture(false, event_name)
   end
 
-  def upload_sponsor_elegibility_image
+  def upload_sponsor_eligibility_image
     @candidate = Candidate.find(params[:id])
-    sponsor_covenant = @candidate.sponsor_covenant
-    send_data sponsor_covenant.sponsor_elegibility_file_contents,
-              type: sponsor_covenant.sponsor_elegibility_content_type,
-              disposition: 'inline'
+    scanned_image = @candidate.sponsor_covenant.scanned_eligibility
+    send_image(scanned_image) unless scanned_image.nil?
   end
 
   private
@@ -190,7 +191,7 @@ class CommonCandidatesController < ApplicationController
           candidate_event = @candidate.get_candidate_event(event_name)
           candidate_event.completed_date = Date.today
           # TODO move logic to association instance.
-          candidate_event.verified = [CandidateSheet, ChristianMinistry ].include?(clazz)
+          candidate_event.verified = [CandidateSheet, ChristianMinistry].include?(clazz)
           if candidate_event.save
             render_called = true
             if is_admin?
@@ -220,48 +221,55 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  def send_image(association)
-    conts = association.file_contents
+  def send_image(scanned_image)
+    conts = scanned_image.content
     send_data conts,
-              type: association.content_type,
+              type: scanned_image.content_type,
               disposition: 'inline'
   end
 
-  def setup_file_params(file, association, prefix, association_params)
-    is_sponsor_elegibillity = prefix === 'sponsor_elegibility'
-    filename_param = is_sponsor_elegibillity ? "#{prefix}_filename".to_sym : association.filename_param
-    content_type_param = is_sponsor_elegibillity ? "#{prefix}_content_type".to_sym : association.content_type_param
-    file_contents_param = is_sponsor_elegibillity ? "#{prefix}_file_contents".to_sym : association.file_contents_param
-    if is_sponsor_elegibillity
-      filename = association.sponsor_elegibility_filename
-      content_type = association.sponsor_elegibility_content_type
-      file_contents = association.sponsor_elegibility_file_contents
-    else
-      filename = association.filename
-      content_type = association.content_type
-      file_contents = association.file_contents
-    end
-    if file
-      if File.basename(file.original_filename) === filename
-        association_params[filename_param] = filename
-        association_params[content_type_param] = content_type
-        association_params[file_contents_param] = file_contents
+  def setup_file_params(file, association, scanned_image_attributes, association_params)
+
+    case scanned_image_attributes
+      when :scanned_certificate_attributes
+        unless file.nil? && association.scanned_certificate.nil?
+          scanned_filename = file ? File.basename(file.original_filename) : association.scanned_certificate.filename
+          scanned_content_type = file ? file.content_type : association.scanned_certificate.content_type
+          scanned_content = file ? file.read : association.scanned_certificate.content
+        end
+      when :scanned_retreat_attributes
+        unless file.nil? && association.scanned_retreat.nil?
+          scanned_filename = file ? File.basename(file.original_filename) : association.scanned_retreat.filename
+          scanned_content_type = file ? file.content_type : association.scanned_retreat.content_type
+          scanned_content = file ? file.read : association.scanned_retreat.content
+        end
+      when :scanned_eligibility_attributes
+        unless file.nil? && association.scanned_eligibility.nil?
+          scanned_filename = file ? File.basename(file.original_filename) : association.scanned_eligibility.filename
+          scanned_content_type = file ? file.content_type : association.scanned_eligibility.content_type
+          scanned_content = file ? file.read : association.scanned_eligibility.content
+        end
+      when :scanned_covenant_attributes
+        unless file.nil? && association.scanned_covenant.nil?
+          scanned_filename = file ? File.basename(file.original_filename) : association.scanned_covenant.filename
+          scanned_content_type = file ? file.content_type : association.scanned_covenant.content_type
+          scanned_content = file ? file.read : association.scanned_covenant.content
+        end
       else
-        association_params[filename_param] = File.basename(file.original_filename)
-        association_params[content_type_param] = file.content_type
-        contents = file.read
-        # The problem is that while running tests if I do NOT do encode64 the tests
-        # break with this message: ArgumentError: string contains null byte
-        #  if it is left in all the time then the png does not show up in the browser.
-        contents = Base64.encode64(contents) if File.basename(file.original_filename) === 'actions for spec testing.png'
-        association_params[file_contents_param] = contents
-      end
-    else
-      association_params[filename_param] = filename
-      association_params[content_type_param] = content_type
-      association_params[file_contents_param] = file_contents
+        raise "Unknown scanned_image_attributes #{scanned_image_attributes}"
+    end
+    unless scanned_filename.nil?
+      # The problem is that while running tests if I do NOT do encode64 the tests
+      # break with this message: ArgumentError: string contains null byte
+      #  if it is left in all the time then the png does not show up in the browser.
+      # scanned_content = Base64.encode64(scanned_content) if file && (File.basename(file.original_filename) === 'actions for spec testing.png')
+
+      picture_params = ActionController::Parameters.new
+      association_params[scanned_image_attributes] = picture_params
+      picture_params[:filename] = scanned_filename
+      picture_params[:content_type] = scanned_content_type
+      picture_params[:content] = scanned_content
     end
   end
-
 
 end

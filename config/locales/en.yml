@@ -146,7 +146,7 @@ en:
       sponsor_attends_stmm: Sponsor registered at Saint Mary Magdalene
       sponsor_church: Sponsor church
       sponsor_covenant_picture: Scanned covenant
-      sponsor_elegibility_picture: Scanned sponsor elegibiliy form
+      sponsor_eligibility_picture: Scanned sponsor elegibiliy form
       sponsor_name: Sponsor name
   messages:
     accessed_denied: Accessed denied.

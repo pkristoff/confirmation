@@ -2,6 +2,9 @@ class BaptismalCertificate < ActiveRecord::Base
   belongs_to(:church_address, class_name: 'Address', validate: true)
   accepts_nested_attributes_for :church_address, allow_destroy: true
 
+  belongs_to(:scanned_certificate, class_name: 'ScannedImage', validate: false)
+  accepts_nested_attributes_for(:scanned_certificate, allow_destroy: true)
+
   # before_create :build_associations
   after_initialize :build_associations, :if => :new_record?
 
@@ -19,12 +22,20 @@ class BaptismalCertificate < ActiveRecord::Base
         errors[:base] << msg
         event_complete = false
       end
+      found = false
+      found |= (!errors.delete(:scanned_certificate).nil?)
+      if found
+        errors[:base] << 'Scanned baptismal certificate can\'t be blank' #TODO I18n
+        event_complete = false
+      end
     end
     event_complete
   end
 
   def self.get_permitted_params
-    BaptismalCertificate.get_basic_permitted_params.concat([church_address_attributes: BaptismalCertificate.get_church_address_permitted_params])
+    BaptismalCertificate.get_basic_permitted_params.concat(
+        [church_address_attributes: BaptismalCertificate.get_church_address_permitted_params,
+         scanned_certificate_attributes: ScannedImage.get_permitted_params])
   end
 
   def self.get_church_address_permitted_params
@@ -38,7 +49,7 @@ class BaptismalCertificate < ActiveRecord::Base
   def self.get_basic_permitted_params
     [:birth_date, :baptismal_date, :church_name, :father_first, :father_middle, :father_last,
      :mother_first, :mother_middle, :mother_maiden, :mother_last, :certificate_picture,
-     :certificate_filename, :certificate_content_type, :certificate_file_contents]
+     :scanned_certificate]
   end
 
   def self.get_basic_validation_params
@@ -63,42 +74,42 @@ class BaptismalCertificate < ActiveRecord::Base
     church_address || create_church_address
   end
 
-  # image interface
+  # image interface  #TODO remove
 
   def filename_param
-    :certificate_filename
+    :scanned_certificate.filename
   end
 
   def content_type_param
-    :certificate_content_type
+    :scanned_certificate.content_type
   end
 
   def file_contents_param
-    :certificate_file_contents
+    :scanned_certificate.contents
   end
 
   def filename
-    certificate_filename
+    scanned_certificate.filename
   end
 
   def filename=(name)
-    certificate_filename=name
+    scanned_certificate.filename=name
   end
 
   def content_type
-    certificate_content_type
+    scanned_certificate.content_type
   end
 
   def content_type=(type)
-    certificate_content_type=type
+    scanned_certificate.content_type=type
   end
 
   def file_contents
-    certificate_file_contents
+    scanned_certificate.contents
   end
 
   def file_contents=(contents)
-    certificate_file_contents=contents
+    scanned_certificate.contents=contents
   end
 
   # image interface - end

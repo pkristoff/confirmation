@@ -10,9 +10,6 @@ FactoryGirl.define do
     mother_middle 'Paula'
     mother_maiden 'Kirk'
     mother_last 'Smith'
-    certificate_filename 'actions.png'
-    certificate_content_type 'type/png'
-    certificate_file_contents 'vvv'
     after(:build) do |baptismal_certificate|
       # replace baptismal_certificate
       baptismal_certificate.church_address = FactoryGirl.create(
@@ -23,6 +20,7 @@ FactoryGirl.define do
           state: 'NC',
           zip_code: '27502',
       )
+      baptismal_certificate.scanned_certificate = FactoryGirl.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
     end
   end
 end

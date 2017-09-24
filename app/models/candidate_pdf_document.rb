@@ -85,7 +85,7 @@ class CandidatePDFDocument < Prawn::Document
       grid_label_value([10, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last')}:", bc.mother_last)
     end
 
-    common_image(bc.certificate_filename, bc.certificate_content_type, bc.certificate_file_contents, I18n.t('field_set.baptismal_certificate.scan'))
+    common_image(bc.scanned_certificate, I18n.t('field_set.baptismal_certificate.scan'))
 
   end
 
@@ -159,7 +159,7 @@ class CandidatePDFDocument < Prawn::Document
       grid_label_value([3, 0], "#{I18n.t('label.retreat_verification.who_held_retreat')}:", rv.who_held_retreat)
       grid_label_value([4, 0], "#{I18n.t('label.retreat_verification.where_held_retreat')}:", rv.where_held_retreat)
 
-      common_image(rv.retreat_filename, rv.retreat_content_type, rv.retreat_file_content, I18n.t('label.retreat_verification.retreat_verification_picture'))
+      common_image(rv.scanned_retreat, I18n.t('label.retreat_verification.retreat_verification_picture'))
     end
 
   end
@@ -183,13 +183,13 @@ class CandidatePDFDocument < Prawn::Document
 
     unless sc.sponsor_attends_stmm
       grid_label_value([3, 0], "#{I18n.t('label.sponsor_covenant.sponsor_church')}:", sc.sponsor_church)
-      common_image(sc.sponsor_covenant_filename, sc.sponsor_covenant_content_type, sc.sponsor_covenant_file_contents, I18n.t('field_set.sponsor_covenant.sponsor_covenant'))
+      common_image(sc.scanned_covenant, I18n.t('field_set.sponsor_covenant.sponsor_covenant'))
     end
 
-    common_image(sc.sponsor_elegibility_filename, sc.sponsor_elegibility_content_type, sc.sponsor_elegibility_file_contents, I18n.t('field_set.sponsor_covenant.sponsor_eligibility'))
+    common_image(sc.scanned_eligibility, I18n.t('field_set.sponsor_covenant.sponsor_eligibility'))
   end
 
-  def common_image (file_name, file_type, file_contents, label)
+  def common_image (scanned_image, label)
     start_new_page
     label_x = bounds.left
     label_y = bounds.top
@@ -202,17 +202,17 @@ class CandidatePDFDocument < Prawn::Document
     image_height = bounds.height-20
 
     bounding_box([label_x, label_y], width: label_width, height: label_height) do
-      text label,align: :center, valign: :center
+      text label, align: :center, valign: :center
     end
-    if file_name.nil? or file_name.empty?
+    if scanned_image.nil?
       bounding_box([image_x, image_y], width: image_width, height: bounds.height-25) do
         text '<No Image Provided>', align: :center, valign: :center
         # stroke_bounds
       end
     else
-      file_path = "tmp/#{file_name}"
+      file_path = "tmp/#{scanned_image.filename}"
       File.open(file_path, 'wb') do |f|
-        f.write(file_contents)
+        f.write(scanned_image.content)
       end
       begin
         # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
