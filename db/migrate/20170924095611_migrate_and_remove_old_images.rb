@@ -9,6 +9,7 @@ class MigrateAndRemoveOldImages < ActiveRecord::Migration
             content_type: sc.sponsor_elegibility_content_type,
             content: sc.sponsor_elegibility_file_contents
         )
+        sc.save
       end
       unless sc.sponsor_covenant_filename.nil?
         puts "SponsorCovenant sc.sponsor_covenant_filename=#{sc.sponsor_covenant_filename}"
@@ -17,6 +18,7 @@ class MigrateAndRemoveOldImages < ActiveRecord::Migration
             content_type: sc.sponsor_covenant_content_type,
             content: sc.sponsor_covenant_file_contents
         )
+        sc.save
       end
     end
 
@@ -28,6 +30,7 @@ class MigrateAndRemoveOldImages < ActiveRecord::Migration
             content_type: rv.retreat_content_type,
             content: rv.retreat_file_content
         )
+        rv.save
       end
     end
 
@@ -39,6 +42,7 @@ class MigrateAndRemoveOldImages < ActiveRecord::Migration
             content_type: bc.certificate_content_type,
             content: bc.certificate_file_contents
         )
+        bc.save
       end
     end
 
