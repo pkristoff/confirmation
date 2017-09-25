@@ -124,7 +124,12 @@ class CommonCandidatesController < ApplicationController
   end
 
   def sign_agreement_update
-    agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement')
+    rendered_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement')
+    unless rendered_called
+      @candidate = Candidate.find(params[:id])
+      @resource = @candidate
+      render :sign_agreement
+    end
   end
 
   def agreement_update_private(event_name, signed_param_name)
@@ -140,21 +145,23 @@ class CommonCandidatesController < ApplicationController
           candidate_event.completed_date = nil
           candidate_event.verified = false
         else
-          return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate'][signed_param_name]: %{params['candidate'][signed_param_name]")
+          redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate'][signed_param_name]: %{params['candidate'][signed_param_name]")
+          return false
         end
       end
     else
-      return redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: 'candidate')
+      redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: 'candidate')
+      return false
     end
 
     if candidate.update_attributes(candidate_params)
-      if is_admin?
-        redirect_to candidates_path, notice: I18n.t('messages.updated')
-      else
-        redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-      end
+      @candidate = Candidate.find(params[:id])
+      @resource = @candidate
+      flash['notice'] = I18n.t('messages.updated')
+      false
     else
       redirect_to :back, alert: I18n.t('messages.save_failed')
+      true
     end
   end
 
@@ -165,6 +172,9 @@ class CommonCandidatesController < ApplicationController
 
   def sponsor_agreement_update
     agreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement')
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+    render :sponsor_agreement
   end
 
   def event_with_picture
@@ -193,12 +203,20 @@ class CommonCandidatesController < ApplicationController
           # TODO move logic to association instance.
           candidate_event.verified = [CandidateSheet, ChristianMinistry].include?(clazz)
           if candidate_event.save
-            render_called = true
-            if is_admin?
-              redirect_to candidates_path, notice: I18n.t('messages.updated')
-            else
-              redirect_to event_candidate_registration_path(params[:id]), notice: I18n.t('messages.updated')
-            end
+            render_called = false
+            # @resource = @candidate
+            flash['notice'] = I18n.t('messages.updated')
+            # if is_admin?
+            #   case clazz.to_s
+            #     when BaptismalCertificate.to_s
+            #       render_event_with_picture(false, params[:event_name])
+            #     when CandidateSheet.to_s
+            #       render :candidate_sheet
+            #   end
+            # render :candidate_sheet
+            # else
+            #   render :candidate_sheet
+            # end
           else
             flash['alert'] = "Save of #{event_name} failed"
           end

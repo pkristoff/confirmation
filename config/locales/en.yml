@@ -169,7 +169,7 @@ en:
     not_all_confirmation_events_updated: Not all ConfirmationEvents updated
     remove_candidate: remove a candidate
     reset_password_message_sent: Reset password messages sent
-    save_failed: Save sailed
+    save_failed: Save failed
     select_excel_file: Please select a zipped excel file to upload.
     unknown_parameter: 'Unknown Parameter: %{name}'
     unknown_parameter_commit: 'Unknown Parameter value: %{commit} params: %{params}'

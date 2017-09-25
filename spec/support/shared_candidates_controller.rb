@@ -28,7 +28,7 @@ shared_context 'baptismal_certificate' do
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
-    expect(response.status).to eq(302)
+    expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=1")
     expect(candidate.baptized_at_stmm).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
@@ -67,6 +67,7 @@ shared_context 'baptismal_certificate' do
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     # expect(response).to redirect_to(baptismal_certificate_update_path(candidate.id))
+
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=0")
     expect(candidate.baptized_at_stmm).to eq(false)
@@ -88,11 +89,7 @@ shared_context 'baptismal_certificate' do
                     baptismal_certificate_attributes: valid_parameters
         }
 
-    if @dev.empty?
-      expect(response).to redirect_to(candidates_path)
-    else
-      expect(response).to redirect_to("/#{@dev_registration}event/#{candidate.id}")
-    end
+    expect(response.status).to eq(200)
     expect(flash[:notice]).to eq(I18n.t('messages.updated'))
   end
 
@@ -143,11 +140,8 @@ shared_context 'sign_agreement' do
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
-    unless @dev.empty?
-      expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
-    else
-      expect(response).to redirect_to(candidates_path)
-    end
+
+    expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}sign_agreement.#{candidate.id}?candidate%5Bsigned_agreement%5D=1")
     expect(candidate.signed_agreement).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
@@ -178,11 +172,8 @@ shared_context 'sponsor_agreement' do
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
-    unless @dev.empty?
-      expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
-    else
-      expect(response).to redirect_to(candidates_path)
-    end
+
+    expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}sponsor_agreement.#{candidate.id}?candidate%5Bsponsor_agreement%5D=1")
     expect(candidate.sponsor_agreement).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
@@ -230,11 +221,7 @@ shared_context 'candidate_information_sheet' do
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
-    if @dev.empty?
-      expect(response).to redirect_to(candidates_path)
-    else
-      expect(response).to redirect_to(event_candidate_registration_path(candidate.id))
-    end
+    expect(response.status).to eq(200)
     expect(candidate.candidate_sheet.first_name).to eq('Paul')
     expect(candidate.candidate_sheet.middle_name).to eq('Richard')
     expect(candidate.candidate_sheet.address.city).to eq('wayville')
