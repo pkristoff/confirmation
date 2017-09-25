@@ -40,6 +40,7 @@ class CommonCandidatesController < ApplicationController
     else
       flash[:alert] = I18n.t('messages.unknown_parameter', name: 'candidate')
     end
+    @resource = @candidate
     render_event_with_picture(render_called, event_name)
 
   end
@@ -107,6 +108,7 @@ class CommonCandidatesController < ApplicationController
 
   def pick_confirmation_name
     @candidate = Candidate.find(params[:id])
+    @resource = @candidate
   end
 
   def pick_confirmation_name_update
@@ -206,17 +208,6 @@ class CommonCandidatesController < ApplicationController
             render_called = false
             # @resource = @candidate
             flash['notice'] = I18n.t('messages.updated')
-            # if is_admin?
-            #   case clazz.to_s
-            #     when BaptismalCertificate.to_s
-            #       render_event_with_picture(false, params[:event_name])
-            #     when CandidateSheet.to_s
-            #       render :candidate_sheet
-            #   end
-            # render :candidate_sheet
-            # else
-            #   render :candidate_sheet
-            # end
           else
             flash['alert'] = "Save of #{event_name} failed"
           end
@@ -248,6 +239,9 @@ class CommonCandidatesController < ApplicationController
 
   def setup_file_params(file, association, scanned_image_attributes, association_params)
 
+    scanned_filename = nil
+    scanned_content_type = nil
+    scanned_content = nil
     case scanned_image_attributes
       when :scanned_certificate_attributes
         unless file.nil? && association.scanned_certificate.nil?

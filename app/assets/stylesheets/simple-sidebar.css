@@ -88,6 +88,11 @@
     line-height: 60px;
 }
 
+.nav li.active {
+    border-bottom: 3px solid #338ecf;
+    background: #eee
+}
+
 .sidebar-nav > .sidebar-brand a {
     color: #999999;
 }

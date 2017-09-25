@@ -14,8 +14,8 @@ describe 'layouts/_side_bar.html.erb' do
         [I18n.t('views.nav.add_new_candidate'), '/candidates/new'],
         [I18n.t('views.nav.admins'), '/admins'],
         [I18n.t('views.nav.events'), '/edit_multiple_confirmation_events'],
-        ['Export'],
-        [I18n.t('views.nav.other'), '/candidate_imports/new']
+        [I18n.t('views.nav.other'), '/candidate_imports/new'],
+        ['Export']
     ]
 
     @admin_export_link_names_in_order = [
@@ -78,11 +78,14 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', @admin_export_link_names_in_order.size )
+      # the admin UL now includes the candidates UL.
+      all_admin_links = @admin_link_names_in_order + @candidate_link_names_in_order
+
+      expect_links_in_order(@admin_export_link_names_in_order, 'admin-sidebar', '', all_admin_links.size + 1 ) # +1 is for candidate
 
       expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 0 )
 
-      expect(rendered).to have_selector("p[class='sidebar-header no-link']", text: 'Candidate: Sophia Agusta')
+      expect(rendered).to have_selector("li[class='no-link']", text: 'Candidate: Sophia Agusta')
 
       expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '', 0,@resource.id.to_s)
     end
@@ -105,6 +108,7 @@ describe 'layouts/_side_bar.html.erb' do
       expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index+1})", text: event_name)
       expect(rendered).to have_link(event_name, href: href) unless href.nil?
     end
-    expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li", count: link_names_in_order.size + li_offset)
+    number_of_links = link_names_in_order.size + li_offset
+    expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li", count: number_of_links)
   end
 end

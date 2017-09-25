@@ -91,4 +91,12 @@ module ApplicationHelper
         raise "Unknown candidate_event_to_path: #{confirmation_event_name}"
     end
   end
+
+  # used to show selection of sidebar links
+  def active_tab_class(*paths)
+    active = false
+    # originally used current_page? but it did not work when update button was called.
+    paths.each {|path| active ||= path === request.path}
+    active ? 'active' : ''
+  end
 end
