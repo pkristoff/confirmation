@@ -90,6 +90,9 @@ module ViewsHelpers
         elsif confirmation_event && (cell_access_path[0] === :completed_date or cell_access_path[0] === :verified)
           text = candidate.get_candidate_event(confirmation_event.name).method(cell_access_path[0]).call
           expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: text
+        elsif cell_access_path[0] === :candidate_event
+          candidate_event = candidate.get_candidate_event(cell_access_path[1])
+          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: candidate_event.method(cell_access_path[2]).call
         else
           text = candidate.method(cell_access_path[0]).call if cell_access_path.size === 1
           text = candidate.method(cell_access_path[0]).call.method(cell_access_path[1]).call if cell_access_path.size === 2

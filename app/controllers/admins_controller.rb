@@ -322,11 +322,16 @@ class AdminsController < ApplicationController
       end
       set_confirmation_events
       render :edit_multiple_confirmation_events
-    else
+    elsif params[:update].size === 1 && (params[:update][params[:update].keys[0]] === t('views.common.update_candidates_event'))
+
       confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
 
       set_candidates(params[:sort], confirmation_event: confirmation_event)
-      render :monthly_mass_mailing
+      render :mass_edit_candidates_event
+    else
+      flash[:alert] = "Unkown commit param: #{params[:commit]}"
+      set_confirmation_events
+      render :edit_multiple_confirmation_events
     end
 
   end
