@@ -81,10 +81,7 @@ class CandidateImport
   end
 
   def start_new_year
-
-    Candidate.all.each do |candidate|
-      candidate.destroy
-    end
+    clean_associations(Candidate)
     AppFactory.create_seed_candidate
     today = Date.today
     ConfirmationEvent.all.each do |ce|
@@ -93,6 +90,16 @@ class CandidateImport
       ce.save
     end
 
+  end
+
+  def clean_associations(clazz, checked=[], do_not_destroy=[Admin, ConfirmationEvent])
+    unless (checked.include? clazz) || (do_not_destroy.include? clazz)
+      checked << clazz
+      clazz.destroy_all
+      clazz.reflect_on_all_associations.each do |assoc|
+        clean_associations(assoc.klass, checked)
+      end
+    end
   end
 
   def reset_database
@@ -125,8 +132,8 @@ class CandidateImport
     columns.delete(:password)
     columns.delete(:password_confirmation)
     ['baptismal_certificate.scanned_certificate', 'retreat_verification.scanned_retreat',
-    'sponsor_covenant.scanned_eligibility', 'sponsor_covenant.scanned_covenant'].each do | base |
-      ScannedImage.get_permitted_params.each do | not_exported |
+     'sponsor_covenant.scanned_eligibility', 'sponsor_covenant.scanned_covenant'].each do |base|
+      ScannedImage.get_permitted_params.each do |not_exported|
         columns.delete("#{base}.#{not_exported}")
 
       end

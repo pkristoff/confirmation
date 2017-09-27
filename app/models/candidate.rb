@@ -1,11 +1,11 @@
 require 'constants'
 
 class Candidate < ActiveRecord::Base
-
-  belongs_to(:address, validate: false)
+# TODO: Remove address - this should be gone.
+  belongs_to(:address, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:address, allow_destroy: true)
 
-  has_many(:candidate_events)
+  has_many(:candidate_events, dependent: :destroy)
   accepts_nested_attributes_for(:candidate_events, allow_destroy: true)
 
   belongs_to(:candidate_sheet, validate: true, dependent: :destroy)

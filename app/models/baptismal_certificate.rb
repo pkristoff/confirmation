@@ -1,8 +1,8 @@
 class BaptismalCertificate < ActiveRecord::Base
-  belongs_to(:church_address, class_name: 'Address', validate: true)
+  belongs_to(:church_address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :church_address, allow_destroy: true
 
-  belongs_to(:scanned_certificate, class_name: 'ScannedImage', validate: false)
+  belongs_to(:scanned_certificate, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_certificate, allow_destroy: true)
 
   # before_create :build_associations

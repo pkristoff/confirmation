@@ -558,6 +558,186 @@ describe 'image_filename' do
   end
 end
 
+describe 'start new year' do
+  it 'should start a new year will clean out candidates and all its associations' do
+    FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+    AppFactory.add_confirmation_events
+
+    expect(Admin.all.size).to eq(1)
+
+    cand_assoc = {Address: 0,
+                  BaptismalCertificate: 0,
+                  Candidate: 0,
+                  CandidateEvent: 0,
+                  CandidateSheet: 0,
+                  ChristianMinistry: 0,
+                  ConfirmationEvent: 9,
+                  PickConfirmationName: 0,
+                  RetreatVerification: 0,
+                  SponsorCovenant: 0,
+                  ScannedImage: 0,
+                  ToDo: 0}
+
+    expect_table_rows(Candidate, cand_assoc)
+
+    candidate_import = CandidateImport.new
+    # candidate_import.load_zip_file(fixture_file_upload('export with images.zip'))
+
+    c0 = FactoryGirl.create(:candidate, add_candidate_events: false)
+    AppFactory.add_candidate_events(c0)
+    c0.baptismal_certificate.scanned_certificate=create_scanned_image
+    c0.sponsor_covenant.scanned_eligibility=create_scanned_image
+    c0.sponsor_covenant.scanned_covenant=create_scanned_image
+    c0.retreat_verification.scanned_retreat=create_scanned_image
+    c0.save
+
+    c1 = FactoryGirl.create(:candidate, account_name: 'c1', add_candidate_events: false)
+    AppFactory.add_candidate_events(c1)
+    c1.save
+
+    c2 = FactoryGirl.create(:candidate, account_name: 'c2', add_candidate_events: false)
+    AppFactory.add_candidate_events(c2)
+    c2.save
+
+    expect(Admin.all.size).to eq(1)
+
+    cand_assoc = {Address: 6,
+                  BaptismalCertificate: 3,
+                  Candidate: 3,
+                  CandidateEvent: 27,
+                  CandidateSheet: 3,
+                  ChristianMinistry: 3,
+                  ConfirmationEvent: 9,
+                  PickConfirmationName: 3,
+                  RetreatVerification: 3,
+                  SponsorCovenant: 3,
+                  ScannedImage: 4,
+                  ToDo: 27}
+
+    expect_table_rows(Candidate, cand_assoc)
+
+    candidate_import.start_new_year
+
+    expect(Admin.all.size).to eq(1)
+
+    cand_assoc = {Address: 2,
+                  BaptismalCertificate: 1,
+                  Candidate: 1,
+                  CandidateEvent: 9,
+                  CandidateSheet: 1,
+                  ChristianMinistry: 1,
+                  ConfirmationEvent: 9,
+                  PickConfirmationName: 1,
+                  RetreatVerification: 1,
+                  SponsorCovenant: 1,
+                  ScannedImage: 0,
+                  ToDo: 9}
+
+    expect_table_rows(Candidate, cand_assoc)
+  end
+
+  def create_scanned_image
+    content = ''
+    File.open(File.join('spec/fixtures/actions.png'), 'rb') do |f|
+      content = f.read
+    end
+    ScannedImage.new(
+        filename: 'actions.png',
+        content_type: 'image/png',
+        content: content
+    )
+
+  end
+
+  it 'start a new year will clean up dangling references the DB' do
+    FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+    AppFactory.add_confirmation_events
+
+    expect(Admin.all.size).to eq(1)
+
+    cand_assoc = {Address: 0,
+                  BaptismalCertificate: 0,
+                  Candidate: 0,
+                  CandidateEvent: 0,
+                  CandidateSheet: 0,
+                  ChristianMinistry: 0,
+                  ConfirmationEvent: 9,
+                  PickConfirmationName: 0,
+                  RetreatVerification: 0,
+                  SponsorCovenant: 0,
+                  ScannedImage: 0,
+                  ToDo: 0}
+
+    expect_table_rows(Candidate, cand_assoc)
+
+    # create orphaned records - TODO: use get_association_classes
+    FactoryGirl.create(:address)
+    FactoryGirl.create(:baptismal_certificate)
+    FactoryGirl.create(:candidate_event)
+    FactoryGirl.create(:candidate_sheet)
+    FactoryGirl.create(:christian_ministry)
+    FactoryGirl.create(:pick_confirmation_name)
+    FactoryGirl.create(:retreat_verification)
+    FactoryGirl.create(:sponsor_covenant)
+    FactoryGirl.create(:to_do)
+    FactoryGirl.create(:scanned_image)
+
+    candidate_import = CandidateImport.new
+
+    c0 = FactoryGirl.create(:candidate, add_candidate_events: false)
+    AppFactory.add_candidate_events(c0)
+    c0.save
+    c1 = FactoryGirl.create(:candidate, account_name: 'c1', add_candidate_events: false)
+    AppFactory.add_candidate_events(c1)
+    c1.baptismal_certificate.scanned_certificate=create_scanned_image
+    c1.save
+    c2 = FactoryGirl.create(:candidate, account_name: 'c2', add_candidate_events: false)
+    AppFactory.add_candidate_events(c2)
+    c2.save
+
+    expect(Admin.all.size).to eq(1)
+    expect(ConfirmationEvent.all.size).to eq(9)
+    expect(Candidate.all.size).to eq(3)
+
+    cand_assoc = {Address: 10,
+                  BaptismalCertificate: 4,
+                  Candidate: 3,
+                  CandidateEvent: 28,
+                  CandidateSheet: 4,
+                  ChristianMinistry: 4,
+                  ConfirmationEvent: 9,
+                  PickConfirmationName: 4,
+                  RetreatVerification: 4,
+                  SponsorCovenant: 4,
+                  ScannedImage: 4,
+                  ToDo: 28}
+
+    expect_table_rows(Candidate, cand_assoc)
+
+    candidate_import.start_new_year
+
+    expect(Admin.all.size).to eq(1)
+    expect(ConfirmationEvent.all.size).to eq(9)
+    expect(Candidate.all.size).to eq(1) #vickikristoff the seed
+
+    cand_assoc = {Address: 2,
+                  BaptismalCertificate: 1,
+                  Candidate: 1,
+                  CandidateEvent: 9,
+                  CandidateSheet: 1,
+                  ChristianMinistry: 1,
+                  ConfirmationEvent: 9,
+                  PickConfirmationName: 1,
+                  RetreatVerification: 1,
+                  SponsorCovenant: 1,
+                  ScannedImage: 0,
+                  ToDo: 9}
+
+    expect_table_rows(Candidate, cand_assoc)
+  end
+
+end
+
 def add_baptismal_certificate_image(candidate)
   filename = 'actions.png'
   baptismal_certificate = candidate.baptismal_certificate
@@ -842,6 +1022,26 @@ def expect_keys(obj, attributes)
     else
       expect(obj.send(sub_key).to_s).to eq(attributes[sub_key].to_s)
     end
+  end
+end
+
+def expect_table_rows(clazz, expected_sizes, checked=[], do_not_include=[Admin])
+  top = checked === []
+  class_sym = clazz.to_s.to_sym
+  unless checked.include?(class_sym) || do_not_include.include?(clazz)
+    checked << class_sym
+    expect(clazz.all.size).to eq(expected_sizes[class_sym]), "Association(#{clazz}) size #{clazz.all.size} does mot match expected size #{expected_sizes[class_sym]}"
+    clazz.reflect_on_all_associations.each do |assoc_reflect|
+      assoc_class = assoc_reflect.klass
+      expect_table_rows(assoc_class, expected_sizes, checked)
+    end
+  end
+  if top
+    unless checked.size === expected_sizes.size
+      puts checked
+      puts expected_sizes
+    end
+    expect(checked.size).to eq(expected_sizes.size)
   end
 end
 

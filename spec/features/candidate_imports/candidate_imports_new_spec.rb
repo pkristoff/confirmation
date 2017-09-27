@@ -41,9 +41,9 @@ feature 'Other', :devise do
 
   end
 
-  describe 'Remove All Candiadates from database' do
+  describe 'Start new year' do
 
-    scenario 'admin can remove all candidates from database' do
+    scenario 'admin will start a new year, which will cleanup the DB' do
       FactoryGirl.create(:candidate)
       FactoryGirl.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) #prove there are only 2

@@ -15,6 +15,7 @@ FactoryGirl.define do
       candidate.candidate_sheet.grade = 10
       candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_the_way')
       # overwrite the already created address
+      candidate.candidate_sheet.address.destroy unless candidate.candidate_sheet.address.nil?
       candidate.candidate_sheet.address = FactoryGirl.create(:address)
       if evaluator.add_candidate_events && candidate.candidate_events.size <= 0
         candidate.candidate_events = create_candidate_events

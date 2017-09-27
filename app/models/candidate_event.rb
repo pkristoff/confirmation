@@ -3,7 +3,7 @@ class CandidateEvent < ActiveRecord::Base
   # has_and_belongs_to_many :confirmation_event
   # accepts_nested_attributes_for :confirmation_event, allow_destroy: false
 
-  has_one :to_do
+  has_one :to_do, dependent: :destroy
   has_one :confirmation_event, through: :to_do
   accepts_nested_attributes_for :confirmation_event, allow_destroy: false
   belongs_to(:candidate)

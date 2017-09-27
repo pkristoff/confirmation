@@ -1,5 +1,5 @@
 class CandidateSheet < ActiveRecord::Base
-  belongs_to(:address, class_name: 'Address', validate: true)
+  belongs_to(:address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :address, allow_destroy: true
 
   # before_create :build_associations
@@ -40,7 +40,7 @@ class CandidateSheet < ActiveRecord::Base
 
   def self.validate_event_complete(candidate)
     candidate_sheet = candidate.candidate_sheet
-    candidate_sheet.validate_event_complete()
+    candidate_sheet.validate_event_complete
     candidate_sheet
   end
 
