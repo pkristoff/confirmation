@@ -67,13 +67,17 @@ class CandidateImport
   def load_initial_file(file)
     @uploaded_file = file
     @imported_candidates = load_imported_candidates
-    validate_and_save_import
+    ans = validate_and_save_import
+    Rails.logger.info "done load_initial_file: #{file.original_filename}"
+    ans
   end
 
   def load_zip_file(file)
     @uploaded_zip_file = file
     @imported_candidates = load_imported_candidates
-    validate_and_save_import
+    ans = validate_and_save_import
+    Rails.logger.info "done load_zip_file: #{file.path}"
+    ans
   end
 
   def persisted?
@@ -90,12 +94,19 @@ class CandidateImport
       ce.save
     end
 
+    Rails.logger.info 'done start new year'
   end
 
   def clean_associations(clazz, checked=[], do_not_destroy=[Admin, ConfirmationEvent])
     unless (checked.include? clazz) || (do_not_destroy.include? clazz)
       checked << clazz
-      clazz.destroy_all
+      begin
+        clazz.destroy_all
+      rescue Exception => e
+        Rails.logger.info "cleaning association error when destroying #{clazz}"
+        Rails.logger.info e.message
+        Rails.logger.info e.backtrace.inspect
+      end
       clazz.reflect_on_all_associations.each do |assoc|
         clean_associations(assoc.klass, checked)
       end
