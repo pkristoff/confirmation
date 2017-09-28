@@ -36,11 +36,12 @@ describe 'layouts/_navigation.html.erb' do
     expect(rendered).to have_button(I18n.t('views.nav.toggle_navigation'))
     expect(rendered).to have_link(I18n.t('views.top_bar.home'), href: '/')
 
-    expect(rendered).to have_selector('li', count: 5)
+    expect(rendered).to have_selector('li', count: 6)
 
     expect(rendered).to have_link(I18n.t('views.top_bar.about'), href: '/pages/about')
     expect(rendered).to have_link(I18n.t('views.top_bar.help'), href: '#')
     expect(rendered).to have_link(I18n.t('views.top_bar.contact_information'), href: contact_information_path)
+    expect(rendered).to have_link(I18n.t('views.top_bar.about'), href: about_path)
   end
 end
 

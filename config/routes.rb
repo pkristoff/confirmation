@@ -122,4 +122,5 @@ Rails.application.routes.draw do
   resources :candidates
   root to: 'visitors#index'
   get 'contact_information', to: 'visitors#contact_information'
+  get 'about', to: 'visitors#about'
 end

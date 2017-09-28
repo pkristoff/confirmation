@@ -29,13 +29,13 @@ module Event
   module Document
 
     BAPTISMAL_CERTIFICATE = Event::Route::BAPTISMAL_CERTIFICATE
+    CANDIDATE_CHECKLIST = :candidate_checklist
     CANDIDATE_COVENANT = :candidate_covenant
     CHRISTIAN_MINISTRY = Event::Route::CHRISTIAN_MINISTRY
-    CONVERSATION_SPONSOR_CANDIDATE = :conversation_sponsor_candidate
     CONFIRMATION_NAME = Event::Route::CONFIRMATION_NAME
+    CONVERSATION_SPONSOR_CANDIDATE = :conversation_sponsor_candidate
     RETREAT_VERIFICATION = Event::Route::RETREAT_VERIFICATION
     SPONSOR_COVENANT = Event::Route::SPONSOR_COVENANT
-    CANDIDATE_CHECKLIST = :candidate_checklist
 
     MAPPING = {
         candidate_checklist: '2. Check List.pdf', # complete
