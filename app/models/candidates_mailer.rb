@@ -1,6 +1,6 @@
 class CandidatesMailer < ActionMailer::Base
 
-  default from: 'vicki@kristoffs.com'
+  default from: 'stmm.confirmation@kristoffs.com'
   default reply_to: 'stmm.confirmation@kristoffs.com'
 
   def adhoc(admin, candidateMailerText)

@@ -26,6 +26,7 @@ feature 'Sign Up', :devise do
     referer = dev_candidate_path(candidate.id) # result of signing in.
     Capybara.current_session.driver.header 'Referer', referer
     visit new_candidate_registration_path
+    puts page.html
     expect(page.current_path).to eq(referer)
     expect_message(:flash_alert, I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_candidate')))
   end

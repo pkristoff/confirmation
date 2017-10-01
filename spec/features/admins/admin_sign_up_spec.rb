@@ -50,64 +50,68 @@ feature 'Admin sign up', :devise do
     #   Then I am not blocked because i am logged in
     scenario 'admin can sign up another admin' do
       visit new_admin_registration_path # click Sign up admin
-      expect(page).to have_content(I18n.t('views.common.name'))
-      expect(page).to have_content(I18n.t('views.top_bar.sign_up'))
+        expect(page).to have_selector('p', text: 'This is turned off')
     end
 
-    # Scenario: Visitor can sign up with valid email address and password
+    # Scenario: Visitor cannot sign up - ony admin can create a new candidate
     #   Given I am not signed in
     #   When I sign up with a valid email address and password
     #   Then I see a successful sign up message
-    scenario 'visitor can sign up with valid email address and password' do
-      sign_up_admin_with('test1@example.com', 'please123', 'please123')
-      txts = [I18n.t('devise.registrations.signed_up'), I18n.t('devise.registrations.signed_up_but_unconfirmed')]
-      expect_message :flash_notice, /.*#{txts[0]}.*|.*#{txts[1]}.*/
-    end
+    # scenario 'visitor can sign up with valid email address and password' do
+    #   visit new_admin_registration_path
+    #   expect(page).to have_selector('p', count: 3)
+    #   expect(page).to have_selector('h3', text: 'Admin')
+    #   expect(page).to have_selector('p', text: 'Name: Admin Candidate')
+    #   expect(page).to have_selector('p', text: 'Email: test@example.com')
+      # sign_up_admin_with('test1@example.com', 'please123', 'please123')
+      # txts = [I18n.t('devise.registrations.signed_up'), I18n.t('devise.registrations.signed_up_but_unconfirmed')]
+      # expect_message :flash_notice, /.*#{txts[0]}.*|.*#{txts[1]}.*/
+    # end
 
     # Scenario: Visitor cannot sign up with invalid email address
     #   Given I am not signed in
     #   When I sign up with an invalid email address
     #   Then I see an invalid email message
-    scenario 'visitor cannot sign up with invalid email address' do
-      sign_up_admin_with('bogus', 'please123', 'please123')
-      expect_message :error_explanation, 'Email is invalid'
-    end
+    # scenario 'visitor cannot sign up with invalid email address' do
+    #   sign_up_admin_with('bogus', 'please123', 'please123')
+    #   expect_message :error_explanation, 'Email is invalid'
+    # end
 
     # Scenario: Visitor cannot sign up without password
     #   Given I am not signed in
     #   When I sign up without a password
     #   Then I see a missing password message
-    scenario 'visitor cannot sign up without password' do
-      sign_up_admin_with('test1@example.com', '', '')
-      expect_message :error_explanation, 'Password can\'t be blank'
-    end
+    # scenario 'visitor cannot sign up without password' do
+    #   sign_up_admin_with('test1@example.com', '', '')
+    #   expect_message :error_explanation, 'Password can\'t be blank'
+    # end
 
     # Scenario: Visitor cannot sign up with a short password
     #   Given I am not signed in
     #   When I sign up with a short password
     #   Then I see a 'too short password' message
-    scenario 'visitor cannot sign up with a short password' do
-      sign_up_admin_with('test1@example.com', 'please', 'please')
-      expect_message :error_explanation, 'Password is too short'
-    end
+    # scenario 'visitor cannot sign up with a short password' do
+    #   sign_up_admin_with('test1@example.com', 'please', 'please')
+    #   expect_message :error_explanation, 'Password is too short'
+    # end
 
     # Scenario: Visitor cannot sign up without password confirmation
     #   Given I am not signed in
     #   When I sign up without a password confirmation
     #   Then I see a missing password confirmation message
-    scenario 'visitor cannot sign up without password confirmation' do
-      sign_up_admin_with('test1@example.com', 'please123', '')
-      expect_message :error_explanation, 'Password confirmation doesn\'t match'
-    end
+    # scenario 'visitor cannot sign up without password confirmation' do
+    #   sign_up_admin_with('test1@example.com', 'please123', '')
+    #   expect_message :error_explanation, 'Password confirmation doesn\'t match'
+    # end
 
     # Scenario: Visitor cannot sign up with mismatched password and confirmation
     #   Given I am not signed in
     #   When I sign up with a mismatched password confirmation
     #   Then I should see a mismatched password message
-    scenario 'visitor cannot sign up with mismatched password and confirmation' do
-      sign_up_admin_with('test1@example.com', 'please123', 'mismatch')
-      expect_message :error_explanation, 'Password confirmation doesn\'t match'
-    end
+    # scenario 'visitor cannot sign up with mismatched password and confirmation' do
+    #   sign_up_admin_with('test1@example.com', 'please123', 'mismatch')
+    #   expect_message :error_explanation, 'Password confirmation doesn\'t match'
+    # end
 
 
     # Scenario: admin can create another admin
@@ -115,18 +119,9 @@ feature 'Admin sign up', :devise do
     #   admin clicks admin sign up
     #   admin fills in fields
     #   Then I see list of admins including me & new admin
-    scenario "admin can create another admin", :me do
+    scenario "admin can NOT create another admin", :me do
       visit new_admin_registration_path # click Sign up admin
-      fill_in I18n.t('views.common.name'), :with => 'otherName'
-      fill_in I18n.t('views.common.email'), :with => 'otheremail@example.com'
-      fill_in I18n.t('views.common.password'), :with => 'abcdefgh'
-      fill_in I18n.t('views.common.password_confirmation'), :with => 'abcdefgh'
-      click_button I18n.t('views.top_bar.sign_up')
-
-      expect(page).to have_selector('p', count: 3)
-      expect(page).to have_selector('p', text: 'Admin')
-      expect(page).to have_selector('p', text: 'Name: otherName')
-      expect(page).to have_selector('p', text: 'Email: otheremail@example.com')
+      expect(page).to have_selector('p', text: 'This is turned off')
     end
   end
 end

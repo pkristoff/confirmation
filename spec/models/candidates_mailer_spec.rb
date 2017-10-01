@@ -11,7 +11,7 @@ describe CandidatesMailer, type: :model do
   CLOSING_INITIAL_TEXT = I18n.t('email.closing_initial_text')
   SALUTATION_INITIAL_TEXT = I18n.t('email.salutation_initial_text')
   FROM_EMAIL_TEXT = I18n.t('email.from_initial_text_html')
-  FROM_EMAIL = 'vicki@kristoffs.com'.freeze
+  FROM_EMAIL = 'stmm.confirmation@kristoffs.com'.freeze
   REPLY_TO_EMAIL = 'stmm.confirmation@kristoffs.com'.freeze
   SUBJECT = I18n.t('email.subject_initial_text')
 

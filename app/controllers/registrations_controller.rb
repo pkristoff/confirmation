@@ -1,7 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
 
   before_action :authenticate_admin!
-  skip_before_filter :require_no_authentication, only: [:new, :create, :destroy]
+  skip_before_filter :require_no_authentication, only: [:new]
 
   def create
     unless admin_signed_in?
@@ -43,6 +43,10 @@ class RegistrationsController < Devise::RegistrationsController
 
   def sign_up(resource_name, resource)
     true # don't sign_in new candidate after signup.
+  end
+
+  def event
+    puts "RegistrationsController  I am in event"
   end
 
 end

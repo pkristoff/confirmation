@@ -7,7 +7,7 @@ describe 'candidates/new.html.erb' do
 
     render
 
-    expect_edit_and_new_view(rendered, nil, '/create', I18n.t('views.top_bar.sign_up'), false, true)
+    expect(page).to have_selector('p', text: 'This is turned off')
 
   end
 end

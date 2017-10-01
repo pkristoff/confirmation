@@ -21,6 +21,7 @@ module Features
 
     def sign_up_admin_with(email, password, confirmation)
       visit new_admin_registration_path
+      puts page.html
       fill_in I18n.t('views.common.email'), with: email
       fill_in I18n.t('views.common.password'), with: password
       fill_in 'Password confirmation', :with => confirmation
