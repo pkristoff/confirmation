@@ -7,7 +7,6 @@ class SendResetEmailJob
         candidate.send_reset_password_instructions
       when AdminsController::INITIAL_EMAIL
         candidate.send_confirmation_instructions
-        candidate.send_reset_password_instructions
       else
         raise "SendResetEmailJob unknown type '#{type}'"
     end

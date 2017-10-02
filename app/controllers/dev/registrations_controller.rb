@@ -31,9 +31,7 @@ module Dev
     end
 
     def event
-      if candidate_signed_in?
-        puts "DEV::RegistrationsController I am in event"
-      else
+      unless candidate_signed_in?
         return redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin'))
       end
     end
