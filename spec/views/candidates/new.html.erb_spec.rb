@@ -7,7 +7,7 @@ describe 'candidates/new.html.erb' do
 
     render
 
-    expect(page).to have_selector('p', text: 'This is turned off')
+    expect(rendered).to have_selector('p', text: 'This has been turned off')
 
   end
 end

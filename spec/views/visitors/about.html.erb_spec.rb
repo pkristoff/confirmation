@@ -3,7 +3,7 @@ describe 'visitors/about.html.erb' do
   before(:each) do
     last_version = `git describe --tags --always`
     split_v = last_version.split('.')
-    next_version = (Integer(split_v[2])+1).to_s
+    next_version = (Integer(split_v[2].split('-')[0])+1).to_s
     @next_version = "#{split_v[0]}.#{split_v[1]}.#{next_version}"
   end
   it 'navigation layout' do
