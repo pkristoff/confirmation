@@ -22,23 +22,11 @@ describe 'shared/sorting_candidate_selection' do
                                                     route: :mass_edit_candidates_event
                                                     }
 
-      @columns_select = get_columns_select
+      @columns_select = candidate_events_columns
       expect_sorting_candidate_list(@columns_select,
                                     @candidates,
                                     rendered,
                                     @confirmation_event)
     end
   end
-end
-
-def get_columns_select
-  [
-      [t('label.candidate_event.select'), false, '', expect_select_checkbox],
-      [t('views.events.completed_date'), true, [:completed_date]],
-      [t('views.events.verified'), true, [:verified]],
-      [t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-      [t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-      [t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-      [t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
-  ].concat(get_event_columns)
 end

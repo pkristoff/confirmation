@@ -79,7 +79,7 @@ module ViewsHelpers
     #expect table cells
     candidates_in_order.each_with_index do |candidate, tr_index|
       tr_id = "tr[id='candidate_list_tr_#{candidate.id}']"
-      column_headers_in_order.each_with_index do |info, td_index |
+      column_headers_in_order.each_with_index do |info, td_index|
         td_index_adj = td_index
         td_id = "td[id=tr#{candidate.id}_td#{td_index_adj}]"
         text = nil
@@ -155,32 +155,26 @@ module ViewsHelpers
     expect(rendered_or_page).to have_field(I18n.t('email.salutation_text_label'), text: I18n.t('email.salutation_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.from_text_label'), text: 'Vicki Kristoff')
 
-    expect_sorting_candidate_list(get_columns_helpers,
+    expect_sorting_candidate_list(common_columns,
                                   candidates,
                                   rendered_or_page)
 
     expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
   end
 
-  def get_columns_helpers
-    [
-        [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
-        [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-        [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-        [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-        [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
-    ].concat(get_event_columns)
+  def expect_password_changed
+    lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: 'true'}
   end
 
   def expect_event(event_name)
-    lambda { |candidate, rendered, td_index|
+    lambda {|candidate, rendered, td_index|
       expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{candidate.id}'] td[id=tr#{candidate.id}_td#{td_index}]",
                                    text: candidate.get_candidate_event(event_name).status)
     }
   end
 
   def expect_select_checkbox
-    lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}] input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]" }
+    lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}] input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]"}
   end
 
   def setup_unknown_missing_events
@@ -191,8 +185,38 @@ module ViewsHelpers
     AppFactory.add_confirmation_event('unknown event')
   end
 
-  def get_event_columns
+  def candidates_columns
+    cols = common_columns
+    cols.insert(1, [I18n.t('views.nav.edit'), false, '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']"}])
+    cols << [I18n.t('views.candidates.password_changed'), true, '', expect_password_changed]
+    cols
+  end
+
+  def candidate_events_columns
+    cols = common_columns
+    cols.insert(1,
+                [I18n.t('views.events.completed_date'), true, [:completed_date]],
+                [t('views.events.verified'), true, [:verified]])
+    cols
+  end
+
+  def confirmation_events_columns (confirmation_event_name)
+    cols = common_columns
+    cols.insert(
+        1,
+        [I18n.t('views.events.completed_date'), true, [:candidate_event, confirmation_event_name, :completed_date]],
+        [I18n.t('views.events.verified'), true, [:candidate_event, confirmation_event_name, :verified]]
+    )
+    cols
+  end
+
+  def common_columns
     [
+        [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
+        [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
+        [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
+        [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
+        [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
         [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
         [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
         [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],

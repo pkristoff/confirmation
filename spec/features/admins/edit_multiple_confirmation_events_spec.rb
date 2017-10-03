@@ -59,15 +59,8 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
     expect(page).to have_field(I18n.t('views.events.completed_date'))
     expect(page).to have_unchecked_field(I18n.t('views.events.verified'))
 
-
-    columns_in_order = get_columns_helpers
-    columns_in_order.insert(
-        1,
-        [I18n.t('views.events.completed_date'), true, [:candidate_event, event_name, :completed_date]],
-        [I18n.t('views.events.verified'), true, [:candidate_event, event_name, :verified]]
-    )
     expect_sorting_candidate_list(
-        columns_in_order,
+        confirmation_events_columns(event_name),
         @candidates,
         page)
 

@@ -29,7 +29,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
     expect(rendered).to have_field(t('views.events.completed_date'))
 
     expect_sorting_candidate_list(
-        get_columns_mass,
+        candidate_events_columns,
         @candidates,
         rendered,
         @confirmation_event)
@@ -38,16 +38,4 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
 
   end
 
-end
-
-def get_columns_mass
-  [
-      [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
-      [I18n.t('views.events.completed_date'), true, [:completed_date]],
-      [I18n.t('views.events.verified'), true, [:verified]],
-      [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-      [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-      [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
-  ].concat(get_event_columns)
 end

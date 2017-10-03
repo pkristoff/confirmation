@@ -203,6 +203,7 @@ en:
       middle_name: Middle name
       parent_email_1: Parent email 1
       password: Password
+      password_changed: Password Changed
     common:
       are_you_sure: Are you sure?
       are_you_sure_delete_candidates: Are you sure you want to delete the selected

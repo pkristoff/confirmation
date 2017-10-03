@@ -175,6 +175,10 @@ class Candidate < ActiveRecord::Base
 
   # event_complete - end
 
+  def password_changed
+    !valid_password?(Event::Other::INITIAL_PASSWORD)
+  end
+
   def get_candidate_event (event_name)
     event = candidate_events.find { |candidate_event| candidate_event.name === event_name }
     if event.nil?

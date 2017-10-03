@@ -1,3 +1,5 @@
+<% require 'constants' %>
+
 <% #Parameter confirmation_event %>
 <% confirmation_event = nil if local_assigns[:confirmation_event].nil? %>
 <% #Parameter candidates %>
@@ -8,6 +10,8 @@
 <% other_columns = nil if local_assigns[:other_columns].nil? %>
 <% #Parameter selected_candidate_ids %>
 <% selected_candidate_ids = [] if local_assigns[:selected_candidate_ids].nil? %>
+
+<% show_password_changed = route && route === :candidates %>
 
 <% if confirmation_event %>
     <% confirmation_event_id = confirmation_event.id %>
@@ -37,9 +41,13 @@
 <% column_headers_in_order.push(I18n.t('events.christian_ministry')) %>
 <% column_headers_in_order.push(I18n.t('events.retreat_verification')) %>
 <% column_headers_in_order.push(I18n.t('events.parent_meeting')) %>
+<% if show_password_changed %>
+    <% column_headers_in_order.push(t('views.candidates.password_changed')) %>
+<% end %>
 
 <div class="container">
-  <label for="total_selected">Total Selected:</label> <input type="text" readonly="true" id="total_selected" value="0"></input>
+  <label for="total_selected">Total Selected:</label>
+  <input type="text" readonly="true" id="total_selected" value="0"></input>
   <table id="candidate_list_table" class="tablesorter">
     <thead>
     <tr id="candidate_list_header">
@@ -47,7 +55,7 @@
         <a onclick="select_all_none('select_all_none_input');" href="#"><input type="checkbox" id="select_all_none_input"></a>
       </th>
       <% column_headers_in_order.each_with_index do |sort_header, index| %>
-          <% if column_headers_in_order[index] === t('views.nav.edit')   %>
+          <% if column_headers_in_order[index] === t('views.nav.edit') %>
               <th id="candidate_list_header_th_<%= index+2 %>" class="sorter-false filter-false edit_column_header"><%= column_headers_in_order[index] %></th>
           <% else %>
               <th id="candidate_list_header_th_<%= index+2 %>"><%= column_headers_in_order[index] %></th>
@@ -57,44 +65,49 @@
     </thead>
     <tbody>
     <%= collection_check_boxes(:candidate, :candidate_ids, candidates, :id, :account_name, checked: selected_candidate_ids) do |b| %>
-        <tr id="candidate_list_tr_<%= b.object.id %>">
+        <% candidate = b.object %>
+        <% candidate_id = candidate.id %>
+        <tr id="candidate_list_tr_<%= candidate_id %>">
           <% td_index = 0 %>
-          <td id="tr<%= b.object.id %>_td<%= td_index %>" onclick="update_total_selections()"><%= b.check_box %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index %>" onclick="update_total_selections()"><%= b.check_box %></td>
           <% td_index += 1 %>
           <% if other_columns %>
               <% other_columns[:rows].each do |cell_gen| %>
-                  <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= cell_gen.call(b.object) %></td>
+                  <td id="tr<%= candidate_id %>_td<%= td_index %>"><%= cell_gen.call(candidate) %></td>
                   <% td_index += 1 %>
               <% end %>
           <% end %>
           <% if confirmation_event %>
-              <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.object.get_candidate_event(confirmation_event.name).completed_date %></td>
+              <td id="tr<%= candidate_id %>_td<%= td_index %>"><%= candidate.get_candidate_event(confirmation_event.name).completed_date %></td>
               <% td_index += 1 %>
-              <td id="tr<%= b.object.id %>_td<%= td_index %>"><%= b.object.get_candidate_event(confirmation_event.name).verified %></td>
+              <td id="tr<%= candidate_id %>_td<%= td_index %>"><%= candidate.get_candidate_event(confirmation_event.name).verified %></td>
               <% td_index += 1 %>
           <% end %>
-          <td id="tr<%= b.object.id %>_td<%= td_index+0 %>">
+          <td id="tr<%= candidate_id %>_td<%= td_index+0 %>">
             <% # make last name bold if candidate has confirmed account. %>
-            <% if b.object.confirmed? %>
-              <b>
+            <% if candidate.confirmed? %>
+                <b>
             <% end %>
-            <%= b.object.candidate_sheet.last_name %>
-            <% if b.object.confirmed? %>
-              </b>
+            <%= candidate.candidate_sheet.last_name %>
+            <% if candidate.confirmed? %>
+                </b>
             <% end %>
           </td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+1 %>"><%= b.object.candidate_sheet.first_name %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+2 %>"><%= b.object.candidate_sheet.grade %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+3 %>"><%= b.object.candidate_sheet.attending %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+4 %>"><%= link_to "#{b.object.get_candidate_event(t('events.candidate_covenant_agreement')).status}", sign_agreement_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+5 %>"><%= link_to "#{b.object.get_candidate_event(t('events.candidate_information_sheet')).status}", candidate_sheet_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+6 %>"><%= link_to "#{b.object.get_candidate_event(t('events.baptismal_certificate')).status}", event_with_picture_path(b.object.id, Event::Route::BAPTISMAL_CERTIFICATE) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+7 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_covenant')).status}", event_with_picture_path(b.object.id, Event::Route::SPONSOR_COVENANT) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+8 %>"><%= link_to "#{b.object.get_candidate_event(t('events.confirmation_name')).status}", pick_confirmation_name_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+9 %>"><%= link_to "#{b.object.get_candidate_event(t('events.sponsor_agreement')).status}", sponsor_agreement_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+10 %>"><%= link_to "#{b.object.get_candidate_event(t('events.christian_ministry')).status}", christian_ministry_path(b.object.id) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+11 %>"><%= link_to "#{b.object.get_candidate_event(t('events.retreat_verification')).status}", event_with_picture_path(b.object.id, Event::Route::RETREAT_VERIFICATION) %></td>
-          <td id="tr<%= b.object.id %>_td<%= td_index+12 %>"><%= link_to "#{b.object.get_candidate_event(t('events.parent_meeting')).status}", event_candidate_path(b.object, anchor: "event_id_#{b.object.get_candidate_event(t('events.parent_meeting')).id}") %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+1 %>"><%= candidate.candidate_sheet.first_name %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+2 %>"><%= candidate.candidate_sheet.grade %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+3 %>"><%= candidate.candidate_sheet.attending %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+4 %>"><%= link_to "#{candidate.get_candidate_event(t('events.candidate_covenant_agreement')).status}", sign_agreement_path(candidate_id) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+5 %>"><%= link_to "#{candidate.get_candidate_event(t('events.candidate_information_sheet')).status}", candidate_sheet_path(candidate_id) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+6 %>"><%= link_to "#{candidate.get_candidate_event(t('events.baptismal_certificate')).status}", event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+7 %>"><%= link_to "#{candidate.get_candidate_event(t('events.sponsor_covenant')).status}", event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+8 %>"><%= link_to "#{candidate.get_candidate_event(t('events.confirmation_name')).status}", pick_confirmation_name_path(candidate_id) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+9 %>"><%= link_to "#{candidate.get_candidate_event(t('events.sponsor_agreement')).status}", sponsor_agreement_path(candidate_id) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+10 %>"><%= link_to "#{candidate.get_candidate_event(t('events.christian_ministry')).status}", christian_ministry_path(candidate_id) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+11 %>"><%= link_to "#{candidate.get_candidate_event(t('events.retreat_verification')).status}", event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index+12 %>"><%= link_to "#{candidate.get_candidate_event(t('events.parent_meeting')).status}", event_candidate_path(candidate, anchor: "event_id_#{candidate.get_candidate_event(t('events.parent_meeting')).id}") %></td>
+          <% if show_password_changed %>
+              <td id="tr<%= candidate_id %>_td<%= td_index+13 %>"><%= candidate.password_changed %></td>
+          <% end %>
         </tr>
     <% end %>
     </tbody>

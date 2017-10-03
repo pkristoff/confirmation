@@ -37,7 +37,7 @@ describe 'admins/adhoc_mailing.html.erb' do
 
     expect(rendered).to have_field(I18n.t('email.body_label'), text: '')
 
-    expect_sorting_candidate_list(get_columns_helpers,
+    expect_sorting_candidate_list(common_columns,
                                   candidates,
                                   rendered)
 

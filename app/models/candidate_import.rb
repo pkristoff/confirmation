@@ -403,7 +403,7 @@ class CandidateImport
           end
         end
       end
-      candidate.password = '12345678'
+      candidate.password = Event::Other::INITIAL_PASSWORD
       candidates.push(candidate)
     end
   end
@@ -503,7 +503,7 @@ class CandidateImport
 
           account_name = String.new(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '').concat(candidate_sheet_params[:first_name].gsub(/\s+/, '') || '').downcase
           params[:candidate][:account_name] = account_name
-          params[:candidate][:password] = '12345678'
+          params[:candidate][:password] = Event::Other::INITIAL_PASSWORD
 
           candidate = Candidate.find_by_account_name(account_name) || ::AppFactory.create_candidate
           candidate.update_attributes(params.require(:candidate).permit(Candidate.get_permitted_params))

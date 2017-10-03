@@ -116,8 +116,8 @@ class AppFactory
 
   def self.create_seed_candidate
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
-      candidate.password = Rails.application.secrets.admin_password
-      candidate.password_confirmation = Rails.application.secrets.admin_password
+      candidate.password = Event::Other::INITIAL_PASSWORD
+      candidate.password_confirmation = Event::Other::INITIAL_PASSWORD
       candidate.create_candidate_sheet if candidate.candidate_sheet.nil?
       candidate.candidate_sheet.parent_email_1 = 'stmm.confirmation@kristoffs.com'
       candidate.candidate_sheet.first_name = 'Vicki'

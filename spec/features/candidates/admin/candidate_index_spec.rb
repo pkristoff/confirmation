@@ -39,7 +39,7 @@ feature 'Candidate index page', :devise do
     expect(page).to have_css("input[id='top-update-reset-password'][type='submit'][value='#{AdminsController::RESET_PASSWORD}']")
     expect(page).to have_css("input[id='top-update-initial-email'][type='submit'][value='#{AdminsController::INITIAL_EMAIL}']")
 
-    expect_sorting_candidate_list(columns_index,
+    expect_sorting_candidate_list(candidates_columns,
                                   [c1, c2, c3],
                                   page)
     expect(page).to have_css("input[id='bottom-update-delete'][type='submit'][value='#{AdminsController::DELETE}']")
@@ -48,15 +48,4 @@ feature 'Candidate index page', :devise do
     expect(page).to have_css("input[id='bottom-update-initial-email'][type='submit'][value='#{AdminsController::INITIAL_EMAIL}']")
 
   end
-end
-
-def columns_index
-  [
-      [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
-      [I18n.t('views.nav.edit'), false, '', lambda { |candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']" }],
-      [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-      [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-      [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
-      [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]]
-  ].concat(get_event_columns)
 end

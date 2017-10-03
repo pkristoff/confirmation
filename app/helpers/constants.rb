@@ -5,6 +5,7 @@ module Event
     CANDIDATE_COVENANT_AGREEMENT = :candidate_covenant_agreement
     CANDIDATE_INFORMATION_SHEET = :candidate_information_sheet
     SPONSOR_AND_CANDIDATE_CONVERSATION = :sponsor_agreement
+    INITIAL_PASSWORD = Rails.application.secrets.candidate_initial_password
   end
   module Route
     BAPTISMAL_CERTIFICATE = :baptismal_certificate
