@@ -11,8 +11,8 @@ If you are planning on being Confirmed, please click this link below.
 <%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %>
 
 <p>
-  You should have received a second email with a link that will allow you to enter a password. After setting your password,
-  you will be able to login with your user name (shown at the bottom of this email) and password at any time and enter and upload your information.
+  After I see that you have confirmed your account, I will send another email with a link that will allow you to enter a password. After setting your password,
+  you will be logged into the website and you will be able to download, complete and/or upload the forms. After logging out, you can login back in at anytime using your user name (shown at the bottom of this email) and password.
 </p>
 
 <p>
@@ -28,7 +28,7 @@ If you have any questions or need help, I can be reached at stmm.conmfirmation@k
 
 <p> Link to <%= link_to "St. Mary Magdalene confirmation",  root_path(only_path: false) %></p>
 
-<p> Account name: <%= @resource.account_name %> </p>
+<p> User name: <%= @resource.account_name %> </p>
 
 <p>Have a good year,</p>
 
