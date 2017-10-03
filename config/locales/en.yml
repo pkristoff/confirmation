@@ -193,6 +193,7 @@ en:
       email: Email
       sign_in: Sign in admin
     candidates:
+      account_confirmed: Account Confirmed
       account_name: Account name
       attending_catholic_high_school: Catholic High School
       attending_the_way: The Way

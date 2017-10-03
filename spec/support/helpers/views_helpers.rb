@@ -166,6 +166,10 @@ module ViewsHelpers
     lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: 'true'}
   end
 
+  def expect_account_confirmed
+    lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: candidate.account_confirmed?}
+  end
+
   def expect_event(event_name)
     lambda {|candidate, rendered, td_index|
       expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{candidate.id}'] td[id=tr#{candidate.id}_td#{td_index}]",
@@ -188,6 +192,7 @@ module ViewsHelpers
   def candidates_columns
     cols = common_columns
     cols.insert(1, [I18n.t('views.nav.edit'), false, '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']"}])
+    cols << [I18n.t('views.candidates.account_confirmed'), true, '', expect_account_confirmed]
     cols << [I18n.t('views.candidates.password_changed'), true, '', expect_password_changed]
     cols
   end

@@ -175,8 +175,12 @@ class Candidate < ActiveRecord::Base
 
   # event_complete - end
 
-  def password_changed
+  def password_changed?
     !valid_password?(Event::Other::INITIAL_PASSWORD)
+  end
+
+  def account_confirmed?
+    confirmed?
   end
 
   def get_candidate_event (event_name)

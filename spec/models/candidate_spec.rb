@@ -265,14 +265,14 @@ describe Candidate do
 
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
       c1.password = 'abcdefghij'
-      expect(c1.password_changed).to eq(true)
+      expect(c1.password_changed?).to eq(true)
     end
 
     it 'should return false if password is initial password' do
 
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
       c1.password = Event::Other::INITIAL_PASSWORD
-      expect(c1.password_changed).to eq(false)
+      expect(c1.password_changed?).to eq(false)
     end
 
   end
