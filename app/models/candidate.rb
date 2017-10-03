@@ -183,6 +183,15 @@ class Candidate < ActiveRecord::Base
     confirmed?
   end
 
+  def self.reset_password_by_token(resource_params)
+
+    candidate = super(resource_params)
+    if candidate.errors.empty? && !candidate.account_confirmed?
+      candidate.skip_confirmation!
+    end
+    candidate
+  end
+
   def get_candidate_event (event_name)
     event = candidate_events.find { |candidate_event| candidate_event.name === event_name }
     if event.nil?

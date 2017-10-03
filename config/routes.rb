@@ -14,13 +14,17 @@ Rails.application.routes.draw do
 
   devise_for :admins,
              controllers: {registrations: 'registrations',
-                           confirmations: 'confirmations'}
+                           confirmations: 'confirmations'
+                           }
 
   resources :admins
 
   # Sign in CANDIDATE
   devise_for :candidates, :path_prefix => 'dev',
-             controllers: {registrations: 'dev/registrations', confirmations: 'dev/confirmations'}
+             controllers: {registrations: 'dev/registrations',
+                           confirmations: 'dev/confirmations',
+                           passwords: 'dev/passwords'
+             }
   devise_scope :candidates do
     get 'show/:id', to: 'dev/candidates#show', as: 'dev_candidate'
     get 'event/:id', to: 'candidates#event', as: 'event_candidate'
