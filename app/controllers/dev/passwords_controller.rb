@@ -27,8 +27,10 @@ module Dev
       if args.size > 0
         candidate = args[0]
         parms = resource_params
-        if candidate.account_confirmed? && !parms['was_confirmed']
+        if candidate.respond_to?(:account_confirmed?) && candidate.account_confirmed? && !parms['was_confirmed']
           flash[:notice] = t('messages.password.reset_and_confirmed', name: candidate.account_name)
+        else
+          Rails.logger.info("respond_with either candidate=#{candidate} is not a candidate or !parms['was_confirmed']=#{!parms['was_confirmed']}")
         end
       else
         raise('PasswordsController.respond_with called with no args')
