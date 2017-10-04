@@ -28,24 +28,28 @@ feature 'Candidate index page', :devise do
 
     expect(page).to have_css "form[action='/mass_edit_candidates_update']"
 
-    expect(page).to have_css("input[type='submit'][value=#{AdminsController::DELETE}]", count: 2)
-    expect(page).to have_css("input[type='submit'][value=#{AdminsController::EMAIL}]", count: 2)
-    expect(page).to have_css("input[type='submit'][value='#{AdminsController::RESET_PASSWORD}']", count: 2)
-    expect(page).to have_css("input[type='submit'][value='#{AdminsController::INITIAL_EMAIL}']", count: 2)
+    buttons = [
+        [AdminsController::DELETE, 'delete'],
+        [AdminsController::EMAIL, 'email'],
+        [AdminsController::RESET_PASSWORD, 'reset-password'],
+        [AdminsController::INITIAL_EMAIL, 'initial-email'],
+        [AdminsController::GENERATE_PDF, 'generate-pdf'],
+        [AdminsController::CONFIRM_ACCOUNT, 'confirm-account']
+    ]
 
+    buttons.each do |button_info|
+      const = button_info[0]
+      id_suffix = button_info[1]
+      expect(page).to have_css("input[type='submit'][value='#{const}']", count: 2)
+      expect(page).to have_css("input[id='top-update-#{id_suffix}'][type='submit'][value='#{const}']")
+      expect(page).to have_css("input[id='bottom-update-#{id_suffix}'][type='submit'][value='#{const}']")
+    end
 
-    expect(page).to have_css("input[id='top-update-delete'][type='submit'][value='#{AdminsController::DELETE}']")
-    expect(page).to have_css("input[id='top-update-email'][type='submit'][value='#{AdminsController::EMAIL}']")
-    expect(page).to have_css("input[id='top-update-reset-password'][type='submit'][value='#{AdminsController::RESET_PASSWORD}']")
-    expect(page).to have_css("input[id='top-update-initial-email'][type='submit'][value='#{AdminsController::INITIAL_EMAIL}']")
+    expect(page).to have_css("input[type='submit']", count: buttons.size*2)
 
     expect_sorting_candidate_list(candidates_columns,
                                   [c1, c2, c3],
                                   page)
-    expect(page).to have_css("input[id='bottom-update-delete'][type='submit'][value='#{AdminsController::DELETE}']")
-    expect(page).to have_css("input[id='bottom-update-email'][type='submit'][value='#{AdminsController::EMAIL}']")
-    expect(page).to have_css("input[id='bottom-update-reset-password'][type='submit'][value='#{AdminsController::RESET_PASSWORD}']")
-    expect(page).to have_css("input[id='bottom-update-initial-email'][type='submit'][value='#{AdminsController::INITIAL_EMAIL}']")
 
   end
 end

@@ -14,6 +14,7 @@ class AdminsController < ApplicationController
   AdminsController::RESET_PASSWORD = I18n.t('views.common.reset_password')
   AdminsController::INITIAL_EMAIL = I18n.t('views.common.initial_email')
   AdminsController::GENERATE_PDF = I18n.t('views.common.generate_pdf')
+  AdminsController::CONFIRM_ACCOUNT = I18n.t('views.common.confirm_account')
 
   # ROUTES
 
@@ -185,6 +186,19 @@ class AdminsController < ApplicationController
             SendResetEmailJob.perform_in(index*2, candidate, AdminsController::INITIAL_EMAIL)
           end
           redirect_to :back, notice: t('messages.initial_email_sent')
+        when AdminsController::CONFIRM_ACCOUNT
+          confirmed = 0
+          candidates.each do |candidate|
+            if candidate.account_confirmed?
+              Rails.logger.info("Candidate account already confirmed: #{candidate.account_name}")
+            else
+              candidate.confirm_account
+              candidate.save
+              confirmed += 1
+              Rails.logger.info("Candidate account confirmed: #{candidate.account_name}")
+            end
+          end
+          redirect_to :back, notice: t('messages.account_confirmed', number_confirmed: confirmed, number_not_confirmed: candidates.size-confirmed)
         else
           redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
       end

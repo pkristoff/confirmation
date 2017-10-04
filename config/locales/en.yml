@@ -150,6 +150,8 @@ en:
       sponsor_name: Sponsor name
   messages:
     accessed_denied: Accessed denied.
+    account_confirmed: 'Candidate accounts confirmed: %{number_confirmed} and already
+      confirmed %{number_not_confirmed}.'
     adhoc_mailing_progress: Adhoc mailing in progress
     adhoc_mailing_test_sent: Adhoc mailing test sent
     admin_login_needed: Please login as admin to %{message}.
@@ -214,6 +216,7 @@ en:
       are_you_sure: Are you sure?
       are_you_sure_delete_candidates: Are you sure you want to delete the selected
         candidate(s)?
+      confirm_account: Confirm Account
       delete: Delete
       download: Download document
       email: Email

@@ -9,4 +9,14 @@ class CustomDeviseMailer < Devise::Mailer
     headers
   end
 
+  def subject_for(key)
+    if key === :reset_password_instructions
+      'StMM website for Confirmation Candidates - Reset password instructions'
+    elsif key ===:confirmation_instructions
+      'StMM website for Confirmation Candidates - User Verification instructions'
+    else
+      super
+    end
+  end
+
 end

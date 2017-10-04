@@ -417,6 +417,66 @@ describe AdminsController do
     end
   end
 
+  describe 'confirm account' do
+    before(:each) do
+      @admin = login_admin
+      @c1 = create_candidate('c1', false)
+      @c2 = create_candidate('c2', false)
+      @c3 = create_candidate('c3', false)
+    end
+
+    it 'should confirm all accounts' do
+
+      ids = [@c1.id, @c2.id, @c3.id]
+      request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
+
+      put :mass_edit_candidates_update,
+          commit: AdminsController::CONFIRM_ACCOUNT,
+          candidate: {candidate_ids: ids}
+
+      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size, number_not_confirmed: 0))
+      ids.each do |id|
+        expect(Candidate.find(id).account_confirmed?).to eq(true)
+      end
+    end
+
+    it 'should confirm all accounts sent' do
+
+      ids = [@c1.id, @c3.id]
+      request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
+
+      put :mass_edit_candidates_update,
+          commit: AdminsController::CONFIRM_ACCOUNT,
+          candidate: {candidate_ids: ids}
+
+      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size, number_not_confirmed: 0))
+      ids.each do |id|
+        expect(Candidate.find(id).account_confirmed?).to eq(true)
+      end
+      expect(Candidate.find(@c2.id).account_confirmed?).to eq(false)
+    end
+
+    it 'should confirm all accounts sent except confirmed ones' do
+
+      c2 = Candidate.find(@c2.id)
+      c2.confirm_account
+      c2.save
+
+      ids = [@c1.id, @c2.id, @c3.id]
+      request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
+
+      put :mass_edit_candidates_update,
+          commit: AdminsController::CONFIRM_ACCOUNT,
+          candidate: {candidate_ids: ids}
+
+      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size-1, number_not_confirmed: 1))
+      ids.each do |id|
+        expect(Candidate.find(id).account_confirmed?).to eq(true)
+      end
+    end
+
+  end
+
 def expect_mailer_text(candidate, candidates_mailer_text)
   expect(candidates_mailer_text.candidate.id).to eq(candidate.id)
   expect(candidates_mailer_text.subject).to eq('www1')
@@ -467,8 +527,8 @@ def expect_column_sorting(column, *candidates)
   end
 end
 
-def create_candidate(prefix)
-  candidate = FactoryGirl.create(:candidate, account_name: prefix)
+def create_candidate(prefix, should_confirm=true)
+  candidate = FactoryGirl.create(:candidate, account_name: prefix, should_confirm: should_confirm)
   candidate_event = candidate.add_candidate_event(@confirmation_event)
   case prefix
     when 'c1'

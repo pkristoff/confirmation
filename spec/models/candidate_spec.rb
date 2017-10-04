@@ -275,6 +275,36 @@ describe Candidate do
       expect(c1.password_changed?).to eq(false)
     end
 
+    it 'should return true if password is changed back to initial password' do
+
+      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1.password = 'abcdefghij'
+      expect(c1.password_changed?).to eq(true)
+      c1.password = Event::Other::INITIAL_PASSWORD
+    end
+
+  end
+
+  describe 'confirm_account' do
+    it 'should confirm an unconfirmed account' do
+      candidate = FactoryGirl.create(:candidate, should_confirm: false)
+      expect(candidate.account_confirmed?).to eq(false)
+      candidate.confirm_account
+      expect(candidate.account_confirmed?).to eq(true)
+    end
+    it 'should confirm a confirmed account' do
+      candidate = FactoryGirl.create(:candidate, should_confirm: true)
+      expect(candidate.account_confirmed?).to eq(true)
+      candidate.confirm_account
+      expect(candidate.account_confirmed?).to eq(true)
+    end
+    it 'should confirm a confirmed account that started not confirmed' do
+      candidate = FactoryGirl.create(:candidate, should_confirm: false)
+      expect(candidate.account_confirmed?).to eq(false)
+      candidate.confirm_account
+      candidate.confirm_account
+      expect(candidate.account_confirmed?).to eq(true)
+    end
   end
 
   def create_candidate(account_name, first, last)

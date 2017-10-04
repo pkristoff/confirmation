@@ -183,6 +183,10 @@ class Candidate < ActiveRecord::Base
     confirmed?
   end
 
+  def confirm_account
+    confirm
+  end
+
   def self.reset_password_by_token(resource_params)
 
     candidate = super(resource_params)
