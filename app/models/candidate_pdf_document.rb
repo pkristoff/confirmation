@@ -216,7 +216,7 @@ class CandidatePDFDocument < Prawn::Document
       Rails.logger.info("scanned_image.filename=#{scanned_image.filename}")
       Rails.logger.info("scanned_image.content_type=#{scanned_image.content_type}")
       # convert pdf to jpg which Prawn handles.
-      if scanned_image.content_type === 'image/pdf'
+      if scanned_image.content_type === 'application/pdf'
         pdf_file_path = "tmp/#{scanned_image.filename}"
         jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
         File.open(pdf_file_path, 'wb') do |f|

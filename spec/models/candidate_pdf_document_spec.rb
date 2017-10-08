@@ -8,7 +8,7 @@ describe CandidatePDFDocument, type: :model do
       @candidate.baptismal_certificate.scanned_certificate =
           ScannedImage.new(
               filename: 'Baptismal Certificate.pdf',
-              content_type: 'image/pdf',
+              content_type: 'application/pdf',
               content: f.read
           )
     end
@@ -17,10 +17,7 @@ describe CandidatePDFDocument, type: :model do
 
   it 'should generate a pdf with a pdf image and no traceback.' do
 
-    pdf_doc = CandidatePDFDocument.new((Candidate.find(@candidate.id)))
-
-    puts "pdf_doc=#{pdf_doc}"
-    puts pdf_doc.public_methods.sort
+    CandidatePDFDocument.new((Candidate.find(@candidate.id)))
 
   end
 
