@@ -213,6 +213,8 @@ class CandidatePDFDocument < Prawn::Document
         # stroke_bounds
       end
     else
+      Rails.logger.info("scanned_image.filename=#{scanned_image.filename}")
+      Rails.logger.info("scanned_image.content_type=#{scanned_image.content_type}")
       # convert pdf to jpg which Prawn handles.
       if scanned_image.content_type === 'image/pdf'
         pdf_file_path = "tmp/#{scanned_image.filename}"
