@@ -51,6 +51,7 @@ gem 'jquery-tablesorter', '~> 1.23', '>= 1.23.2'
 gem 'jquery-turbolinks'
 gem 'exception_notification'
 gem 'prawn'
+gem 'rmagick'
 group :test do
   gem "i18n-tasks"
 end
