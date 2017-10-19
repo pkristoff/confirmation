@@ -28,7 +28,7 @@ class SponsorCovenant < ActiveRecord::Base
   end
 
   def self.get_basic_permitted_params
-    [:sponsor_name, :sponsor_attends_stmm, :sponsor_church, :scanned_covenant, :scanned_eligibility]
+    [:sponsor_name, :sponsor_attends_stmm, :sponsor_church, :scanned_covenant, :scanned_eligibility, :id]
   end
 
   def self.get_permitted_params

@@ -24,7 +24,7 @@ class RetreatVerification < ActiveRecord::Base
   end
 
   def RetreatVerification.get_basic_permitted_params
-    [:retreat_held_at_stmm, :start_date, :end_date, :who_held_retreat, :where_held_retreat, :retreat_verification_picture, :scanned_retreat]
+    [:retreat_held_at_stmm, :start_date, :end_date, :who_held_retreat, :where_held_retreat, :retreat_verification_picture, :scanned_retreat, :id]
   end
 
   def RetreatVerification.get_basic_validation_params

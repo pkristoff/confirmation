@@ -16,6 +16,9 @@ shared_context 'pick_confirmation_name_html_erb' do
 
   scenario 'admin logs in and selects a candidate, fills in template' do
     update_pick_confirmation_name(false)
+
+    expect_db(1, 9, 0)
+
     visit @path
     fill_in_form
     click_button 'top-update'
@@ -26,6 +29,8 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(Date.today)
     expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).verified).to eq(false)
+
+    expect_db(1, 9, 0)  #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do

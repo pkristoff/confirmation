@@ -30,7 +30,8 @@ describe CandidateImport do
       end
       expect(success).to eq(true)
 
-      expect(Candidate.all.size).to eq(85)
+      expect_db(85, 9, 0)
+
       the_way_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way')}
       expect(the_way_candidates.size).to eq(83)
       chs_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school')}
