@@ -314,8 +314,6 @@ describe Candidate do
       expect(delivery).not_to eq(nil)
       text = delivery.message.body.to_s
 
-      puts text
-
       expect(text).not_to eq(nil)
       expect(text.include? 'Hello c1!').to eq(true)
       expect(text.include? 'Your Username is: c1').to eq(true)
