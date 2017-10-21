@@ -8,12 +8,12 @@
 <p>This is a test message sending a message to the admin.</p>
 <p>Had it been real the below message would have been sent to the following email addresses</p>
 <ul>
-  <li id="candidate-email">Candidate email: <%= @candidate_mailer_text.candidate.candidate_sheet.candidate_email %></li>
-  <li id="parent-email-1">Parent email 1: <%= @candidate_mailer_text.candidate.candidate_sheet.parent_email_1 %></li>
-  <li id="parent-email-2">Parent email 2: <%= @candidate_mailer_text.candidate.candidate_sheet.parent_email_2 %></li>
+  <li id="candidate-email">Candidate email: %candidate_email%</li>
+  <li id="parent-email-1">Parent email 1: %parent_email_1%</li>
+  <li id="parent-email-2">Parent email 2: %parent_email_2%</li>
 </ul>
 
-<p id="subject">The subject: <%= @candidate_mailer_text.subject %> </p>
+<p id="subject">The subject: %subject_text% </p>
 
 <p>The Message</p>
 

@@ -109,6 +109,11 @@ Creating DBs.
 - cd dev/confirmation
 - rake db:setup
 
+SendGrid
+-------------------
+https://sendgrid.com/docs/API_Reference/api_v3.html
+https://github.com/sendgrid/sendgrid-ruby/blob/master/examples/helpers/mail/example.rb#L21
+
 Time consuming bugs
 -------------------
 - When exporting spreadsheet to excel get the error:

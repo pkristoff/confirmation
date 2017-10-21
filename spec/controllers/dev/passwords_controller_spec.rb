@@ -12,7 +12,7 @@ describe Dev::PasswordsController do
       @request.env["devise.mapping"] = Devise.mappings[:candidate]
 
       get :edit, reset_password_token: token
-# puts response.body
+
       expect(response).to redirect_to('/dev/candidates/sign_in')
       expect(flash[:alert]).to eq(I18n.t('messages.password.token_expired'))
     end
@@ -41,7 +41,7 @@ describe Dev::PasswordsController do
       @request.env["devise.mapping"] = Devise.mappings[:candidate]
 
       put :update, candidate: {reset_password_token: token, password: 'therainin', password_confirmation: 'therainin'}
- # puts response.body
+
       candidate = Candidate.find(candidate.id)
       expect(response.status).to eq(302)
       expect(response).to redirect_to(event_candidate_registration_path(candidate))
@@ -57,7 +57,7 @@ describe Dev::PasswordsController do
       @request.env["devise.mapping"] = Devise.mappings[:candidate]
 
       put :update, candidate: {reset_password_token: token, password: 'therainin', password_confirmation: 'therainin'}
- # puts response.body
+
       candidate = Candidate.find(candidate.id)
       expect(response.status).to eq(302)
       expect(response).to redirect_to(event_candidate_registration_path(candidate))

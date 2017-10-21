@@ -391,9 +391,6 @@ describe AdminsController do
       describe 'reset password' do
         it 'should send reset password email when ' do
 
-          expect(SendResetEmailJob).to receive(:perform_in).with(0, @c1, AdminsController::RESET_PASSWORD).exactly(:once)
-          expect(SendResetEmailJob).to receive(:perform_in).with(2, @c2, AdminsController::RESET_PASSWORD).exactly(:once)
-
           put :mass_edit_candidates_update,
               candidate: {candidate_ids: [@c1.id, @c2.id]},
               commit: AdminsController::RESET_PASSWORD

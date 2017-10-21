@@ -1,4 +1,6 @@
 require 'prawn'
+require 'sendgrid-ruby'
+include SendGrid
 
 class AdminsController < ApplicationController
   helper_method :sort_column, :sort_direction
@@ -52,41 +54,34 @@ class AdminsController < ApplicationController
       return redirect_back(t('messages.no_candidate_selected'), mail_param)
     end
 
-    case params[:commit]
-      when t('email.adhoc_mail')
-
-        is_test_mail = false
-
-        flash_message = t('messages.adhoc_mailing_progress')
-
-      when t('email.test_adhoc_mail')
-
-        is_test_mail = true
-
-        flash_message = t('messages.adhoc_mailing_test_sent')
-
-      else
-
-        return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
-
-    end
-
     begin
-      candidates.each_with_index do |candidate, index|
-        text = CandidatesMailerText.new(candidate: candidate, subject: subject_text, body_input: body_input_text)
+      send_grid_mail = SendGridMail.new(current_admin, candidates)
+      case params[:commit]
+        when t('email.adhoc_mail')
 
-        SendEmailJob.perform_in(index*2, candidate, text,
-                                current_admin,
-                                is_test_mail
-        )
+          flash_message = t('messages.adhoc_mailing_progress')
+          response = send_grid_mail.adhoc_test(subject_text, body_input_text)
+
+        when t('email.test_adhoc_mail')
+
+          flash_message = t('messages.adhoc_mailing_test_sent')
+          response = send_grid_mail.adhoc(subject_text, body_input_text)
+
+        else
+
+          return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
+
+      end
+
+      if response.status_code[0] === '2'
+        flash[:notice] = flash_message
+      else
+        flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
       end
     rescue Exception => e
-      flash_message = e.message
+      error_message = e.message
+      flash[:alert] = error_message
     end
-
-    flash[:notice] = flash_message
-
-    set_confirmation_events
 
     setup_adhoc_render(body_input_text, subject_text)
     render :adhoc_mailing, mail: mail_param
@@ -166,17 +161,20 @@ class AdminsController < ApplicationController
           end
         when AdminsController::EMAIL
           setup_monthly_mailing_render_default(candidate_ids)
-          # set_candidates(params[:sort], selected_candidate_ids: candidate_ids)
           render :monthly_mass_mailing
         when AdminsController::RESET_PASSWORD
           # This only sends the password reset instructions, the
           # password is not changed. (Recipient has to click link
           # in email and follow instructions to actually change
           # the password).
-          candidates.each_with_index do |candidate, index|
-            SendResetEmailJob.perform_in(index*2, candidate, AdminsController::RESET_PASSWORD)
+          send_grid_mail = SendGridMail.new(current_admin, candidates)
+          response = send_grid_mail.reset_password
+          if response.status_code[0] === '2'
+            flash[:notice] = I18n.t('messages.reset_password_message_sent')
+          else
+            flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
           end
-          redirect_to :back, notice: t('messages.reset_password_message_sent')
+          redirect_to :back
         when AdminsController::INITIAL_EMAIL
           # This only sends the password reset instructions, the
           # password is not changed. (Recipient has to click link
@@ -388,7 +386,7 @@ class AdminsController < ApplicationController
 
     flash[:alert] = flash_message
     # redirect to the referrer url with the modified query string
-    return redirect_to referrer_url.to_s
+    redirect_to referrer_url.to_s
   end
 
   def set_confirmation_events

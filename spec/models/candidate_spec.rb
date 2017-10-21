@@ -307,6 +307,20 @@ describe Candidate do
     end
   end
 
+  describe 'password_reset_message' do
+    it 'should return a DeliveryMessage' do
+      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      delivery = c1.password_reset_message
+
+      expect(delivery).not_to eq(nil)
+      text = delivery.message.body.to_s
+
+      expect(text).not_to eq(nil)
+      expect(text.include? 'Hello %account_name%!').to eq(true)
+      expect(text.include? 'Your Username is: %account_name%').to eq(true)
+    end
+  end
+
   def create_candidate(account_name, first, last)
     candidate = FactoryGirl.create(:candidate, account_name: account_name)
     candidate.candidate_sheet.first_name = first

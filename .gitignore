@@ -92,3 +92,4 @@ public/assets/application-d6a18fec36566c1b0611682191b7be366b34478e65b4bb5ccb0c0c
 public/assets/application-e403026e16e1a976a3a741766cc6625fce13d6d8710bd96d373cb9f63057f60a.css.gz
 public/assets/application-ff5e25509ac1972dd85a717eba93fea66dfae5bb132483c7c2185a2536ff0f54.css.gz
 local_env.yml
+sendgrid.env

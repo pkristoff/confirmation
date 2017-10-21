@@ -12,7 +12,7 @@ class CandidateSheet < ActiveRecord::Base
   def validate_event_complete
     event_complete_validator = EventCompleteValidator.new(self)
     event_complete_validator.validate(CandidateSheet.get_basic_validation_params)
-    event_complete = ! errors.any?
+    event_complete = !errors.any?
     address.validate_event_complete
     address.errors.full_messages.each do |msg|
       errors[:base] << msg
@@ -89,13 +89,34 @@ class CandidateSheet < ActiveRecord::Base
   def verifiable_info(candidate)
     # TODO: come up with prettier names
     {name: "#{first_name} #{last_name}",
-    grade: grade,
-    street_1: address.street_1,
-    street_2: address.street_2,
-    city: address.city,
-    state: address.state,
-    zipcode: address.zip_code
+     grade: grade,
+     street_1: address.street_1,
+     street_2: address.street_2,
+     city: address.city,
+     state: address.state,
+     zipcode: address.zip_code
     }
+  end
+
+  def to_email
+    return candidate_email unless candidate_email.nil?
+    return parent_email_1 unless parent_email_1.nil?
+    parent_email_2
+  end
+
+  def cc_email
+    if candidate_email.nil?
+      return parent_email_2 unless parent_email_1.nil?
+      nil
+    else
+      return parent_email_1 unless parent_email_1.nil?
+      parent_email_2
+    end
+  end
+
+  def cc_email_2
+    return parent_email_2 unless candidate_email.nil? || parent_email_1.nil?
+    nil
   end
 
 end

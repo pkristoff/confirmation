@@ -285,4 +285,12 @@ class Candidate < ActiveRecord::Base
     true
   end
 
+  def password_reset_message
+    token = set_reset_password_token
+    devise_mailer.reset_password_instructions(self, token)
+    # message = delivery.message
+    # text = message.body.to_s
+    # text
+  end
+
 end

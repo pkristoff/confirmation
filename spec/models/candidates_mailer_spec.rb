@@ -109,8 +109,8 @@ describe CandidatesMailer, type: :model do
 
         body = Capybara.string(mail.body.encoded)
 
-        expect(body).to have_css('p[id=first_name]', text: 'Paul,')
-        expect(body).to have_css('p[id=body_text][ style="white-space: pre-line;"]', text: 'some body')
+        expect(body).to have_css('p[id=first_name]', text: '%name%')
+        expect(body).to have_css('p[id=body_text][ style="white-space: pre-line;"]', text: '%body%')
 
       end
     end
@@ -127,16 +127,15 @@ describe CandidatesMailer, type: :model do
         expect(mail.subject).to eq(I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
+        puts mail.body.encoded
+        expect(body).to have_css('li[id=candidate-email]', text: '%candidate_email%')
+        expect(body).to have_css('li[id=parent-email-1]', text: '%parent_email_1%')
+        expect(body).to have_css('li[id=parent-email-2]', text: '%parent_email_2%')
 
-        expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
-        expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
-        expect(body).to have_css('li[id=parent-email-2]', text: '')
+        expect(body).to have_css('p[id=subject]', text: 'The subject: %subject_text%')
 
-        expect(body).to have_css('p[id=subject]', text: "The subject: #{SUBJECT}")
-
-
-        expect(body).to have_css('p[id=first_name]', text: 'Paul,')
-        expect(body).to have_css('p[id=body_text]', text: 'some body')
+        expect(body).to have_css('p[id=first_name]', text: '%name%')
+        expect(body).to have_css('p[id=body_text]', text: '%body%')
 
       end
     end
