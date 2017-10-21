@@ -1,3 +1,6 @@
+require 'RMagick'
+include Magick
+
 class CandidatePDFDocument < Prawn::Document
 
   def initialize (candidate)
@@ -210,23 +213,43 @@ class CandidatePDFDocument < Prawn::Document
         # stroke_bounds
       end
     else
-      file_path = "tmp/#{scanned_image.filename}"
-      File.open(file_path, 'wb') do |f|
-        f.write(scanned_image.content)
-      end
-      begin
-        # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
-        bounding_box([image_x, image_y], width: image_width, height: image_height) do
-          # stroke_bounds
-          image file_path, width: image_width, height: image_height
+      # convert pdf to jpg which Prawn handles.
+      if scanned_image.content_type === 'application/pdf'
+        pdf_file_path = "tmp/#{scanned_image.filename}"
+        jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
+        File.open(pdf_file_path, 'wb') do |f|
+          f.write(scanned_image.content)
         end
-      rescue Prawn::Errors::UnsupportedImageType
-        bounding_box([image_x, image_y], width: image_width, height: image_height) do
-          stroke_bounds
-          text "<Unrecognized file type: #{file_type} for file: #{file_name}>", align: :center, valign: :center
+        begin
+
+          pdf = Magick::ImageList.new(pdf_file_path)
+
+          pdf.each_with_index do |page_img, i|
+            page_img.write jpg_file_path
+
+            bounding_box([image_x, image_y], width: image_width, height: image_height) do
+              # stroke_bounds
+              image jpg_file_path, width: image_width, height: image_height
+            end
+          end
+        ensure
+          File.delete(pdf_file_path) if File.exists?(pdf_file_path)
+          File.delete(jpg_file_path) if File.exists?(jpg_file_path)
         end
-      ensure
-        File.delete(file_path) if File.exists?(file_path)
+      else
+        file_path = "tmp/#{scanned_image.filename}"
+        File.open(file_path, 'wb') do |f|
+          f.write(scanned_image.content)
+        end
+        begin
+          # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
+          bounding_box([image_x, image_y], width: image_width, height: image_height) do
+            # stroke_bounds
+            image file_path, width: image_width, height: image_height
+          end
+        ensure
+          File.delete(file_path) if File.exists?(file_path)
+        end
       end
     end
 

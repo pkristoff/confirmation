@@ -242,27 +242,32 @@ class CommonCandidatesController < ApplicationController
     scanned_filename = nil
     scanned_content_type = nil
     scanned_content = nil
+    scanned_image_id = nil
     case scanned_image_attributes
       when :scanned_certificate_attributes
         unless file.nil? && association.scanned_certificate.nil?
+          scanned_image_id = association.scanned_certificate_id
           scanned_filename = file ? File.basename(file.original_filename) : association.scanned_certificate.filename
           scanned_content_type = file ? file.content_type : association.scanned_certificate.content_type
           scanned_content = file ? file.read : association.scanned_certificate.content
         end
       when :scanned_retreat_attributes
         unless file.nil? && association.scanned_retreat.nil?
+          scanned_image_id = association.scanned_retreat_id
           scanned_filename = file ? File.basename(file.original_filename) : association.scanned_retreat.filename
           scanned_content_type = file ? file.content_type : association.scanned_retreat.content_type
           scanned_content = file ? file.read : association.scanned_retreat.content
         end
       when :scanned_eligibility_attributes
         unless file.nil? && association.scanned_eligibility.nil?
+          scanned_image_id = association.scanned_eligibility_id
           scanned_filename = file ? File.basename(file.original_filename) : association.scanned_eligibility.filename
           scanned_content_type = file ? file.content_type : association.scanned_eligibility.content_type
           scanned_content = file ? file.read : association.scanned_eligibility.content
         end
       when :scanned_covenant_attributes
         unless file.nil? && association.scanned_covenant.nil?
+          scanned_image_id = association.scanned_covenant_id
           scanned_filename = file ? File.basename(file.original_filename) : association.scanned_covenant.filename
           scanned_content_type = file ? file.content_type : association.scanned_covenant.content_type
           scanned_content = file ? file.read : association.scanned_covenant.content
@@ -281,6 +286,7 @@ class CommonCandidatesController < ApplicationController
       picture_params[:filename] = scanned_filename
       picture_params[:content_type] = scanned_content_type
       picture_params[:content] = scanned_content
+      picture_params[:id] = scanned_image_id unless scanned_image_id.nil?
     end
   end
 

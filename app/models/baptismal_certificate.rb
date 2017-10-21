@@ -49,7 +49,7 @@ class BaptismalCertificate < ActiveRecord::Base
   def self.get_basic_permitted_params
     [:birth_date, :baptismal_date, :church_name, :father_first, :father_middle, :father_last,
      :mother_first, :mother_middle, :mother_maiden, :mother_last, :certificate_picture,
-     :scanned_certificate]
+     :scanned_certificate, :id]
   end
 
   def self.get_basic_validation_params

@@ -312,7 +312,8 @@ class CandidateImport
           end
         end
       else
-        columns << (prefix.empty? ? param.to_s : "#{prefix}.#{param.to_s}")
+        # no need to save id because it will get a new id when filed in.
+        columns << (prefix.empty? ? param.to_s : "#{prefix}.#{param.to_s}") unless param === :id
       end
     end
   end

@@ -9,7 +9,7 @@ class ChristianMinistry < ActiveRecord::Base
   end
 
   def self.get_permitted_params
-    [:what_service, :where_service, :when_service, :helped_me]
+    [:what_service, :where_service, :when_service, :helped_me, :id]
   end
 
   def self.event_name

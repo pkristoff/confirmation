@@ -41,6 +41,9 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.save
     update_baptismal_certificate(false)
     expect(@candidate.baptized_at_stmm).to eq(false)
+
+    expect_db(1, 9, 0)
+
     visit @path
     fill_in_form
     click_button 'bottom-update'
@@ -62,6 +65,8 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(candidate.baptismal_certificate.mother_middle).to eq(MOTHER_MIDDLE)
     expect(candidate.baptismal_certificate.mother_maiden).to eq(MOTHER_MAIDEN)
     expect(candidate.baptismal_certificate.mother_last).to eq(LAST_NAME)
+
+    expect_db(1, 9, 1)  #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template then changes mind she was baptized at stmm' do
@@ -90,16 +95,21 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.baptized_at_stmm = false
     @candidate.save
     update_baptismal_certificate(false)
+
+    expect_db(1, 9, 0)
+
     visit @path
 
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
     click_button 'bottom-update'
 
+    expect_db(1, 9, 1)
     expect(page).to have_selector(get_img_src_selector)
 
     fill_in_form(false) # no picture
     click_button 'bottom-update'
 
+    expect_db(1, 9, 1)
     expect_message(:flash_notice, 'Updated')
     candidate = Candidate.find(@candidate.id)
     expect(candidate.baptized_at_stmm).to eq(false)
@@ -109,6 +119,8 @@ shared_context 'baptismal_certificate_html_erb' do
     visit @path
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate)
+
+    expect_db(1, 9, 1)  #make sure DB does not increase in size.
 
   end
 

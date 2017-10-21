@@ -20,6 +20,8 @@ shared_context 'christian_ministry_html_erb' do
 
   scenario 'admin logs in and selects a candidate, fills in template and no picture' do
     update_christian_ministry(false)
+
+    expect_db(1, 9, 0)
     visit @path
 
     fill_in_form
@@ -38,10 +40,15 @@ shared_context 'christian_ministry_html_erb' do
     visit @path
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true)
+
+    expect_db(1, 9, 0)  #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and picture' do
     update_christian_ministry(false)
+
+    expect_db(1, 9, 0)
+
     visit @path
     fill_in_form
     click_button 'top-update'
@@ -59,12 +66,16 @@ shared_context 'christian_ministry_html_erb' do
     visit @path
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true)
+
+    expect_db(1, 9, 0)  #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
     candidate = Candidate.find(@candidate.id)
     candidate.save
     update_christian_ministry(false)
+
+    expect_db(1, 9, 0)
     visit @path
 
     click_button 'top-update'
@@ -83,11 +94,16 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, false)
 
+    expect_db(1, 9, 0)  #make sure DB does not increase in size.
+
   end
 
   scenario 'admin logs in and selects a candidate, fills in template, except saint_name' do
 
     update_christian_ministry(false)
+
+    expect_db(1, 9, 0)
+
     visit @path
     fill_in_form
     fill_in(I18n.t('label.christian_ministry.what_service'), with: nil)
@@ -96,6 +112,8 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_message(:error_explanation, '1 empty field need to be filled in: What service can\'t be blank')
     expect_form_layout(candidate, true, '')
+
+    expect_db(1, 9, 0)  #make sure DB does not increase in size.
   end
 
   def expect_form_layout(candidate, with_values, what_service=WHAT_SERVICE)

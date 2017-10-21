@@ -7,7 +7,7 @@ class PickConfirmationName < ActiveRecord::Base
   end
 
   def self.get_permitted_params
-    [:saint_name]
+    [:saint_name, :id]
   end
 
   def self.event_name

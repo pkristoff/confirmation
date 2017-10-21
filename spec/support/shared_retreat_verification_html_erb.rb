@@ -21,6 +21,9 @@ shared_context 'retreat_verification_html_erb' do
 
   scenario 'admin logs in and selects a candidate, fills in template and no picture' do
     # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
+
+    expect_db(1, 9, 0)
+
     visit @path
 
     fill_in_form(false)
@@ -40,10 +43,14 @@ shared_context 'retreat_verification_html_erb' do
     visit @path
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true)
+
+    expect_db(1, 9, 0)  #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and picture' do
     # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
+
+    expect_db(1, 9, 0)
     visit @path
     fill_in_form(true)
     click_button 'top-update'
@@ -62,10 +69,14 @@ shared_context 'retreat_verification_html_erb' do
     visit @path
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true)
+
+    expect_db(1, 9, 1)  #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
     # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
+
+    expect_db(1, 9, 0)
     candidate = Candidate.find(@candidate.id)
     candidate.retreat_verification.retreat_held_at_stmm=false
     candidate.save
@@ -87,6 +98,8 @@ shared_context 'retreat_verification_html_erb' do
     visit @path
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, false)
+
+    expect_db(1, 9, 1)  #make sure DB does not increase in size.
 
   end
 

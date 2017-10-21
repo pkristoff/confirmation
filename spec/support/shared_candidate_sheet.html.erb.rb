@@ -19,6 +19,8 @@ shared_context 'candidate_sheet_html_erb' do
 
   scenario 'candidate fills out candidate sheet' do
 
+    expect_db(1, 9, 0)
+
     visit @path
 
     candidate_event = @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
@@ -44,6 +46,8 @@ shared_context 'candidate_sheet_html_erb' do
 
     expect_message(:flash_notice, 'Updated')
     expect(page).to have_selector('h2', text: I18n.t('events.candidate_information_sheet'))
+
+    expect_db(1, 9, 0)  #make sure DB does not increase in size.
   end
 
   def expect_form_layout

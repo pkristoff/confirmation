@@ -311,13 +311,14 @@ describe Candidate do
     it 'should return a DeliveryMessage' do
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
       delivery = c1.password_reset_message
-
       expect(delivery).not_to eq(nil)
       text = delivery.message.body.to_s
 
+      puts text
+
       expect(text).not_to eq(nil)
-      expect(text.include? 'Hello %account_name%!').to eq(true)
-      expect(text.include? 'Your Username is: %account_name%').to eq(true)
+      expect(text.include? 'Hello c1!').to eq(true)
+      expect(text.include? 'Your Username is: c1').to eq(true)
     end
   end
 

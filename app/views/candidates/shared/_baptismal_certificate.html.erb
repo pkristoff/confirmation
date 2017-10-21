@@ -122,8 +122,15 @@
 
                 <% unless event_association.scanned_certificate.nil? %>
                     <div>
-                      <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"
-                           alt="<%= "Did not receive the picture: #{event_association.scanned_certificate.filename}" %>"/>
+                      <% if event_association.scanned_certificate.content_type === 'application/pdf' %>
+                          <object data="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"
+                                  type="<%= event_association.scanned_certificate.content_type %>"
+                                  width="600" height=783"
+                                  alt="<%= "Did not receive the pdf picture: #{event_association.scanned_certificate.filename}" %>" ></object>
+                      <% else %>
+                          <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"
+                               alt="<%= "Did not receive the picture: #{event_association.scanned_certificate.filename}" %>"/>
+                      <% end %>
                     </div>
                 <% end %>
               </div>

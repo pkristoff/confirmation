@@ -53,10 +53,10 @@ class SendGridMail
         # has a unique token for a particular candidate and thus needs to be sent per candidate.
         sg_mail = create_mail('StMM website for Confirmation Candidates - Reset password instructions')
         @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: I18n.t('email.test_adhoc_subject_initial_text'), body_input: '')
-        delivery = candidate.password_reset_message
 
-        create_personalization(candidate, sg_mail, nil,
-                               SendGrid::Substitution.new(key: '%account_name%', value: candidate.account_name))
+        create_personalization(candidate, sg_mail, nil)
+
+        delivery = candidate.password_reset_message
         set_text(delivery, sg_mail)
         response = post_email(sg_mail)
       else
