@@ -106,6 +106,7 @@ describe CandidateEvent, type: :model do
   describe 'state model' do
     context 'confirmation event not started' do
       xxx += 1
+      candidate = nil
       candidate = FactoryGirl.create(:candidate, account_name: "foo_#{xxx}") unless Candidate.find_by_account_name("foo_#{xxx}")
       candidate = Candidate.find_by_account_name("foo_#{xxx}") unless candidate
       confirmation_event_not_started = FactoryGirl.create(:confirmation_event, the_way_due_date: '', chs_due_date: '')
@@ -159,6 +160,7 @@ describe CandidateEvent, type: :model do
       end
       context 'candidate has done the event awaiting admin approval' do
         xxx += 1
+        candidate = nil
         candidate = FactoryGirl.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by_account_name("bag_#{xxx}")
         candidate = Candidate.find_by_account_name("bag_#{xxx}") unless candidate
         candidate.candidate_events.clear
@@ -181,6 +183,7 @@ describe CandidateEvent, type: :model do
       end
       context 'candidate has done the event and admin has approved' do
         xxx += 1
+        candidate = nil
         candidate = FactoryGirl.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by_account_name("bag_#{xxx}")
         candidate = Candidate.find_by_account_name("bag_#{xxx}") unless candidate
         candidate.candidate_events.clear
@@ -282,5 +285,74 @@ describe CandidateEvent, type: :model do
 
     end
 
+  end
+
+  describe 'mark_completed' do
+
+    it 'validated event will be completed and verified.' do
+      candidate = FactoryGirl.create(:candidate)
+      event_key = I18n.t('events.baptismal_certificate')
+      AppFactory.add_confirmation_event(event_key)
+      candidate = Candidate.find_by_account_name(candidate.account_name)
+      candidate_event = candidate.get_candidate_event(event_key)
+
+      [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
+       [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]
+      ].each do | association_class_pair |
+
+        candidate_event.completed_date = nil
+        candidate_event.verified = false
+
+        candidate_event.mark_completed(true, association_class_pair[0])
+
+        expect(candidate_event.completed_date).to eq(Date.today)
+        expect(candidate_event.verified).to eq(association_class_pair[1]), "Verification does not match for association #{association_class_pair[0]} expected: #{association_class_pair[1]}"
+      end
+
+    end
+
+    it 'validated event will be uncompleted and unverified.' do
+      candidate = FactoryGirl.create(:candidate)
+      event_key = I18n.t('events.baptismal_certificate')
+      AppFactory.add_confirmation_event(event_key)
+      candidate = Candidate.find_by_account_name(candidate.account_name)
+      candidate_event = candidate.get_candidate_event(event_key)
+
+      [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
+       [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]
+      ].each do | association_class_pair |
+
+        candidate_event.completed_date = Date.today
+        candidate_event.verified = true
+
+        candidate_event.mark_completed(false, association_class_pair[0])
+
+        expect(candidate_event.completed_date).to eq(nil)
+        expect(candidate_event.verified).to eq(false), "Verification does not match for association #{association_class_pair[0]} expected: #{false}"
+      end
+
+    end
+
+    it 'validated event will be uncompleted and unverified.' do
+      candidate = FactoryGirl.create(:candidate)
+      event_key = I18n.t('events.baptismal_certificate')
+      AppFactory.add_confirmation_event(event_key)
+      candidate = Candidate.find_by_account_name(candidate.account_name)
+      candidate_event = candidate.get_candidate_event(event_key)
+
+      [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
+       [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]
+      ].each do | association_class_pair |
+
+        candidate_event.completed_date = nil
+        candidate_event.verified = false
+
+        candidate_event.mark_completed(false, association_class_pair[0])
+
+        expect(candidate_event.completed_date).to eq(nil)
+        expect(candidate_event.verified).to eq(false), "Verification does not match for association #{association_class_pair[0]} expected: #{false}"
+      end
+
+    end
   end
 end

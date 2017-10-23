@@ -198,20 +198,14 @@ class CommonCandidatesController < ApplicationController
     render_called = false
     event_name = clazz.event_name
     if @candidate.update_attributes(candidate_params)
-      if @candidate.validate_event_complete(clazz)
-        unless @candidate.errors.any?
-          candidate_event = @candidate.get_candidate_event(event_name)
-          candidate_event.completed_date = Date.today
-          # TODO move logic to association instance.
-          candidate_event.verified = [CandidateSheet, ChristianMinistry].include?(clazz)
-          if candidate_event.save
-            render_called = false
-            # @resource = @candidate
-            flash['notice'] = I18n.t('messages.updated')
-          else
-            flash['alert'] = "Save of #{event_name} failed"
-          end
-        end
+      candidate_event = @candidate.get_candidate_event(event_name)
+      candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
+      if candidate_event.save
+        render_called = false
+        # @resource = @candidate
+        flash['notice'] = I18n.t('messages.updated')
+      else
+        flash['alert'] = "Save of #{event_name} failed"
       end
     else
       flash['alert'] = 'Update_attributes fails'

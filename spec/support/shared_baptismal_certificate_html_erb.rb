@@ -68,7 +68,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(candidate.baptismal_certificate.mother_maiden).to eq(MOTHER_MAIDEN)
     expect(candidate.baptismal_certificate.mother_last).to eq(LAST_NAME)
 
-    expect_db(1, 9, 1)  #make sure DB does not increase in size.
+    expect_db(1, 9, 1) #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template then changes mind she was baptized at stmm' do
@@ -122,7 +122,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate)
 
-    expect_db(1, 9, 1)  #make sure DB does not increase in size.
+    expect_db(1, 9, 1) #make sure DB does not increase in size.
 
   end
 
@@ -135,7 +135,9 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in_form(false) # no picture
     click_button 'bottom-update'
 
-    expect_message(:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Scanned baptismal certificate can\'t be blank'])
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Scanned baptismal certificate can\'t be blank']]
+                    ])
 
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
     click_button 'bottom-update'
@@ -161,7 +163,9 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in('Street 1', with: nil)
     click_button 'bottom-update'
 
-    expect_message(:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Street 1 can\'t be blank')
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Street 1 can\'t be blank']
+                    ])
     expect(page).to have_selector(get_img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')

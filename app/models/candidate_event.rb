@@ -53,7 +53,7 @@ class CandidateEvent < ActiveRecord::Base
 
   def self.get_permitted_params
     [:id, :completed_date, :verified,
-    confirmation_event_attributes: ConfirmationEvent.get_permitted_params]
+     confirmation_event_attributes: ConfirmationEvent.get_permitted_params]
   end
 
   def verifiable_info
@@ -95,6 +95,21 @@ class CandidateEvent < ActiveRecord::Base
         :retreat_verification
       else
         raise "Unknown event to route: #{name}"
+    end
+  end
+
+  def mark_completed(validated, cand_assoc_class)
+    if validated
+      if self.completed_date.nil?
+        self.completed_date = Date.today
+        # automatically mark verified when completed.
+        self.verified = ['CandidateSheet', 'ChristianMinistry'].include?(cand_assoc_class.to_s)
+      end
+    else
+      unless self.completed_date.nil?
+        self.completed_date = nil
+        self.verified = false
+      end
     end
   end
 

@@ -41,7 +41,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true)
 
-    expect_db(1, 9, 0)  #make sure DB does not increase in size.
+    expect_db(1, 9, 0) #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and picture' do
@@ -67,7 +67,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true)
 
-    expect_db(1, 9, 0)  #make sure DB does not increase in size.
+    expect_db(1, 9, 0) #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
@@ -80,7 +80,9 @@ shared_context 'christian_ministry_html_erb' do
 
     click_button 'top-update'
 
-    expect_message(:error_explanation, 'Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied: What service can\'t be blank Where service can\'t be blank When service can\'t be blank Helped me can\'t be blank')
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, 'Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied: What service can\'t be blank Where service can\'t be blank When service can\'t be blank Helped me can\'t be blank']
+                    ])
     candidate = Candidate.find(@candidate.id)
     expect(candidate.christian_ministry.what_service).to eq('')
     expect(candidate.christian_ministry.where_service).to eq('')
@@ -94,7 +96,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, false)
 
-    expect_db(1, 9, 0)  #make sure DB does not increase in size.
+    expect_db(1, 9, 0) #make sure DB does not increase in size.
 
   end
 
@@ -110,10 +112,12 @@ shared_context 'christian_ministry_html_erb' do
     click_button 'top-update'
 
     candidate = Candidate.find(@candidate.id)
-    expect_message(:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: What service can\'t be blank')
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: What service can\'t be blank']
+                    ])
     expect_form_layout(candidate, true, '')
 
-    expect_db(1, 9, 0)  #make sure DB does not increase in size.
+    expect_db(1, 9, 0) #make sure DB does not increase in size.
   end
 
   def expect_form_layout(candidate, with_values, what_service=WHAT_SERVICE)

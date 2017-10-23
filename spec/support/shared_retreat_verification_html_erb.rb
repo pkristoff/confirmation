@@ -44,7 +44,7 @@ shared_context 'retreat_verification_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true)
 
-    expect_db(1, 9, 0)  #make sure DB does not increase in size.
+    expect_db(1, 9, 0) #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and picture' do
@@ -70,7 +70,7 @@ shared_context 'retreat_verification_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true)
 
-    expect_db(1, 9, 1)  #make sure DB does not increase in size.
+    expect_db(1, 9, 1) #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
@@ -85,7 +85,9 @@ shared_context 'retreat_verification_html_erb' do
     attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions for spec testing.png')
     click_button 'top-update'
 
-    expect_message(:error_explanation, 'Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied: Start date can\'t be blank End date can\'t be blank Who held retreat can\'t be blank Where held retreat can\'t be blank')
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, 'Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied: Start date can\'t be blank End date can\'t be blank Who held retreat can\'t be blank Where held retreat can\'t be blank']
+                    ])
     candidate = Candidate.find(@candidate.id)
     expect(candidate.retreat_verification.who_held_retreat).to eq('')
     expect(candidate.retreat_verification.where_held_retreat).to eq('')
@@ -99,7 +101,7 @@ shared_context 'retreat_verification_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, false)
 
-    expect_db(1, 9, 1)  #make sure DB does not increase in size.
+    expect_db(1, 9, 1) #make sure DB does not increase in size.
 
   end
 
@@ -113,7 +115,9 @@ shared_context 'retreat_verification_html_erb' do
     fill_in_form(false, false)
     click_button 'top-update'
 
-    expect_message(:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Scanned retreat verification can\'t be blank')
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Scanned retreat verification can\'t be blank']
+                    ])
 
   end
 
@@ -132,7 +136,9 @@ shared_context 'retreat_verification_html_erb' do
     fill_in(I18n.t('label.retreat_verification.who_held_retreat'), with: nil)
     click_button 'top-update'
 
-    expect_message(:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Who held retreat can\'t be blank')
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Who held retreat can\'t be blank']
+                    ])
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true, '')
   end

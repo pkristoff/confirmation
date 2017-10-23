@@ -30,7 +30,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(Date.today)
     expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).verified).to eq(false)
 
-    expect_db(1, 9, 0)  #make sure DB does not increase in size.
+    expect_db(1, 9, 0) #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do
@@ -40,7 +40,9 @@ shared_context 'pick_confirmation_name_html_erb' do
     click_button 'top-update'
 
     candidate = Candidate.find(@candidate.id)
-    expect_message(:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Saint name can\'t be blank'])
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Saint name can\'t be blank']]
+                    ])
 
     expect(candidate.pick_confirmation_name.saint_name).to eq('')
 
@@ -65,7 +67,9 @@ shared_context 'pick_confirmation_name_html_erb' do
     fill_in('Saint name', with: nil)
     click_button 'top-update'
 
-    expect_message(:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Saint name can\'t be blank')
+    expect_messages([[:flash_notice, 'Updated'],
+                     [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Saint name can\'t be blank']
+                    ])
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true, '')
   end
