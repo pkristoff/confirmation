@@ -3,7 +3,6 @@ RSpec.configure do |config|
   config.include Features::SessionHelpers
 end
 
-
 def expect_message(id, message, rendered_page=page)
   [:flash_alert, :flash_notice, :error_explanation].each do |my_id|
     unless my_id == id
@@ -70,7 +69,7 @@ def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date,
     expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: "#{chs_due_date}")
   else
     expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: "#{I18n.t('views.events.the_way_due_date')}")
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text:  "#{the_way_due_date}")
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: "#{the_way_due_date}")
     expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: "#{I18n.t('views.events.chs_due_date')}")
     expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: "#{chs_due_date}")
   end

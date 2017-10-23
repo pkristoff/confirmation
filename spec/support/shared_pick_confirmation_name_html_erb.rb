@@ -40,7 +40,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     click_button 'top-update'
 
     candidate = Candidate.find(@candidate.id)
-    expect_message(:error_explanation, ['1 empty field need to be filled in', 'Saint name can\'t be blank'])
+    expect_message(:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Saint name can\'t be blank'])
 
     expect(candidate.pick_confirmation_name.saint_name).to eq('')
 
@@ -65,7 +65,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     fill_in('Saint name', with: nil)
     click_button 'top-update'
 
-    expect_message(:error_explanation, '1 empty field need to be filled in: Saint name can\'t be blank')
+    expect_message(:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Saint name can\'t be blank')
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, true, '')
   end

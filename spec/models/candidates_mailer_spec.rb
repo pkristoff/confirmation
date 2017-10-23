@@ -127,7 +127,7 @@ describe CandidatesMailer, type: :model do
         expect(mail.subject).to eq(I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
-        puts mail.body.encoded
+        # puts mail.body.encoded
         expect(body).to have_css('li[id=candidate-email]', text: '%candidate_email%')
         expect(body).to have_css('li[id=parent-email-1]', text: '%parent_email_1%')
         expect(body).to have_css('li[id=parent-email-2]', text: '%parent_email_2%')

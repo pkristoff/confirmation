@@ -69,7 +69,7 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(true)
     expect(candidate.sponsor_covenant).not_to eq(nil)
 
-    expect_db(1, 9, 2)  #make sure DB does not increase in size.
+    expect_db(1, 9, 2) #make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
@@ -86,7 +86,7 @@ shared_context 'sponsor_covenant_html_erb' do
     click_button 'top-update'
 
     candidate_db = Candidate.find(@candidate.id)
-    expect_message(:error_explanation, ['2 empty fields need to be filled in', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank'])
+    expect_message(:error_explanation, ['Your changes were saved!! 2 empty fields need to be filled in on the form to be verfied:', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank'])
     expect(candidate_db.sponsor_covenant).not_to eq(nil)
     expect(candidate_db.sponsor_covenant.sponsor_attends_stmm).to eq(false)
     expect(candidate_db.sponsor_covenant.scanned_eligibility.filename).to eq('actions.png')
@@ -115,7 +115,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate_db_visit = Candidate.find(@candidate.id)
     expect_form_layout(candidate_db_visit)
 
-    expect_db(1, 9, 2)  #make sure DB does not increase in size.
+    expect_db(1, 9, 2) #make sure DB does not increase in size.
 
   end
 
@@ -127,8 +127,8 @@ shared_context 'sponsor_covenant_html_erb' do
 
     fill_in_form(false, true) # no picture
     click_button 'top-update'
-    expect_message(:error_explanation, ['1 empty field need to be filled in', 'Sponsor eligibility form can\'t be blank', 'Sponsor eligibility content type can\'t be blank', 'Sponsor eligibility file contents can\'t be blank'])
-puts page.body
+    expect_message(:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Sponsor eligibility form can\'t be blank', 'Sponsor eligibility content type can\'t be blank', 'Sponsor eligibility file contents can\'t be blank'])
+
     expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
     expect(page).not_to have_selector(get_img_src_selector)
 
@@ -156,7 +156,7 @@ puts page.body
     fill_in('Sponsor name', with: nil)
     click_button 'top-update'
 
-    expect_message(:error_explanation, '1 empty field need to be filled in: Sponsor name can\'t be blank')
+    expect_message(:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Sponsor name can\'t be blank')
     expect(page).to have_selector(get_img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')

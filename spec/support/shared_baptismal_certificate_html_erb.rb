@@ -135,7 +135,7 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in_form(false) # no picture
     click_button 'bottom-update'
 
-    expect_message(:error_explanation, ['1 empty field need to be filled in:', 'Scanned baptismal certificate can\'t be blank'])
+    expect_message(:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Scanned baptismal certificate can\'t be blank'])
 
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
     click_button 'bottom-update'
@@ -161,7 +161,7 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in('Street 1', with: nil)
     click_button 'bottom-update'
 
-    expect_message(:error_explanation, '1 empty field need to be filled in: Street 1 can\'t be blank')
+    expect_message(:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Street 1 can\'t be blank')
     expect(page).to have_selector(get_img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_form_layout(candidate, '')
