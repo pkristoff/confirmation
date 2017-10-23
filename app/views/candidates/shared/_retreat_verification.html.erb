@@ -41,21 +41,23 @@
                 </div>
               </div>
           <% end %>
-          <%= field_set_tag t('field_set.retreat_verification.scan'), class: 'fieldset' do %>
-              <div class="fieldset-div">
-                <%= rv_fields.file_field :retreat_verification_picture %>
-                <%= rv_fields.label :retreat_verification_picture, t('label.retreat_verification.retreat_verification_picture') %>
 
-                <% unless event_association.scanned_retreat.nil? %>
-                    <div>
-                      <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)) %>"
-                      alt="<%= "Did not receive the picture: #{event_association.scanned_retreat.filename}" %>"/>
-                    </div>
-                <% end %>
-              </div>
-          <% end %>
-        </div>
+
+          <%= render partial: "candidates/shared/scanned_image",
+                     :locals => {
+                         url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)),
+                         candidate: candidate,
+
+                         fieldset_text: t('field_set.retreat_verification.scan'),
+                         field: :retreat_verification_picture,
+                         scanned_image: event_association.scanned_retreat,
+                         scanned_image_field: rv_fields.file_field(:retreat_verification_picture),
+                         scanned_image_label: rv_fields.label(:retreat_verification_picture, t('label.retreat_verification.retreat_verification_picture')),
+                     } %>
+
     <% end %>
+
+    </div>
 
     <div class="actions">
       <%= f.submit t('views.common.update'), id: 'bottom-update' %>

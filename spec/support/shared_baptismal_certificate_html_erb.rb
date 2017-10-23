@@ -24,7 +24,9 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.baptized_at_stmm = true
     @candidate.save
     update_baptismal_certificate(false)
+
     visit @path
+
     expect_form_layout(@candidate)
   end
 

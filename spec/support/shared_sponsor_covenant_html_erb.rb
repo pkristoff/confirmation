@@ -125,12 +125,12 @@ shared_context 'sponsor_covenant_html_erb' do
     update_sponsor_covenant(false)
     visit @path
 
-    fill_in_form(false) # no picture
+    fill_in_form(false, true) # no picture
     click_button 'top-update'
     expect_message(:error_explanation, ['1 empty field need to be filled in', 'Sponsor eligibility form can\'t be blank', 'Sponsor eligibility content type can\'t be blank', 'Sponsor eligibility file contents can\'t be blank'])
-
-    expect(page).not_to have_selector(get_img_src_selector)
+puts page.body
     expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
+    expect(page).not_to have_selector(get_img_src_selector)
 
     attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
     click_button 'top-update'

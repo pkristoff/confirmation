@@ -9,18 +9,17 @@
                 <%= sc_fields.label :sponsor_name, t('label.sponsor_covenant.sponsor_name') %><br/>
                 <%= sc_fields.text_field :sponsor_name %>
               </div>
-              <div class="field">
-                <%= sc_fields.label :sponsor_covenant_picture, t('label.sponsor_covenant.sponsor_covenant_picture') %>
-                <br/>
-                <%= sc_fields.file_field :sponsor_covenant_picture %>
-              </div>
 
-              <% unless @candidate.sponsor_covenant.scanned_covenant.nil? %>
-                  <div>
-                    <img src="<%= url_for(is_dev ? dev_event_with_picture_image_path(@candidate.id, @event_with_picture_name) : event_with_picture_image_path(@candidate.id, @event_with_picture_name)) %>"
-                    alt="<%= "Did not receive the picture: #{event_association.scanned_covenant.filename}" %>"/>
-                  </div>
-              <% end %>
+              <%= render partial: "candidates/shared/scanned_image",
+                         :locals => {
+                             url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)),
+                             candidate: candidate,
+
+                             fieldset_text: '',
+                             scanned_image: event_association.scanned_covenant,
+                             scanned_image_field: sc_fields.file_field(:sponsor_covenant_picture),
+                             scanned_image_label: sc_fields.label(:sponsor_covenant_picture, t('label.sponsor_covenant.sponsor_covenant_picture')),
+                         } %>
             </div>
         <% end %>
         <%= field_set_tag t('field_set.sponsor_covenant.sponsor_eligibility'), class: 'fieldset' do %>
@@ -35,18 +34,17 @@
                   <%= sc_fields.label :sponsor_church, t('label.sponsor_covenant.sponsor_church') %><br/>
                   <%= sc_fields.text_field :sponsor_church %>
                 </div>
-                <div class="field">
-                  <%= sc_fields.label :sponsor_eligibility_picture, t('label.sponsor_covenant.sponsor_eligibility_picture') %>
-                  <br/>
-                  <%= sc_fields.file_field :sponsor_eligibility_picture %>
-                </div>
 
-                <% unless @candidate.sponsor_covenant.scanned_eligibility.nil? %>
-                    <div>
-                      <img src="<%= url_for(is_dev ? dev_upload_sponsor_eligibility_image_path(@candidate.id) : upload_sponsor_eligibility_image_path(@candidate.id)) %>"
-                      alt="<%= "Did not receive the picture: #{event_association.scanned_eligibility.filename}" %>"/>
-                    </div>
-                <% end %>
+                <%= render partial: "candidates/shared/scanned_image",
+                           :locals => {
+                               url_for_image: url_for(is_dev ? dev_upload_sponsor_eligibility_image_path(candidate.id) : upload_sponsor_eligibility_image_path(candidate.id)),
+                               candidate: candidate,
+
+                               fieldset_text: '',
+                               scanned_image: event_association.scanned_eligibility,
+                               scanned_image_field: sc_fields.file_field(:sponsor_eligibility_picture),
+                               scanned_image_label: sc_fields.label(:sponsor_eligibility_picture, t('label.sponsor_covenant.sponsor_eligibility_picture')),
+                           } %>
 
               </div>
             </div>

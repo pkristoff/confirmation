@@ -96,7 +96,14 @@ class SendGridMail
   def post_email(sg_mail)
     sg_mail
     sg = SendGrid::API.new(api_key: Rails.application.secrets.email_key, host: 'https://api.sendgrid.com')
-    response = sg.client.mail._('send').post(request_body: sg_mail.to_json)
+    begin
+      response = sg.client.mail._('send').post(request_body: sg_mail.to_json)
+    rescue SocketError
+      if Rails.env.test?
+        # not connected to the internet
+        return Response.new(OfflineResponse.new)
+      end
+    end
     response
   end
 
@@ -105,5 +112,22 @@ class SendGridMail
     text = message.body.to_s
     # puts "text=#{text}"
     sg_mail.add_content(SendGrid::Content.new(type: 'text/html', value: text))
+  end
+end
+
+class OfflineResponse
+  def initialize
+    unless Rails.env.test?
+      raise RuntimteError.new('Not in test mode')
+    end
+  end
+  def code
+    '202'
+  end
+  def body
+    ''
+  end
+  def to_hash
+    {}
   end
 end
