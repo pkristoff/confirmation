@@ -60,12 +60,12 @@ class AdminsController < ApplicationController
         when t('email.adhoc_mail')
 
           flash_message = t('messages.adhoc_mailing_progress')
-          response = send_grid_mail.adhoc_test(subject_text, body_input_text)
+          response = send_grid_mail.adhoc(subject_text, body_input_text)
 
         when t('email.test_adhoc_mail')
 
           flash_message = t('messages.adhoc_mailing_test_sent')
-          response = send_grid_mail.adhoc(subject_text, body_input_text)
+          response = send_grid_mail.adhoc_test(subject_text, body_input_text)
 
         else
 
