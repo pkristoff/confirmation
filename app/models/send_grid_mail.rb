@@ -48,12 +48,19 @@ class SendGridMail
     )
   end
 
+  def confirmation_instructions
+    send_email('StMM website for Confirmation Candidates - User Verification instructions', '', 'confirmation_instructions',
+               lambda {| admin, candidate_mailer_text | candidate_mailer_text.candidate.confirmation_instructions}
+    )
+  end
+
 
   def create_mail(subject, email_type, account_name)
     mail = SendGrid::Mail.new
     if Rails.env.test?
       mail_settings = SendGrid::MailSettings.new
       mail_settings.sandbox_mode = SandBoxMode.new(enable: true)
+      mail.mail_settings = mail_settings
     end
     mail.from = SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: 'St MM Confirmation')
     mail.subject = subject

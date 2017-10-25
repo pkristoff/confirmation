@@ -99,24 +99,24 @@ class CandidateSheet < ActiveRecord::Base
   end
 
   def to_email
-    return candidate_email unless candidate_email.nil?
-    return parent_email_1 unless parent_email_1.nil?
+    return candidate_email unless (candidate_email.nil? || candidate_email.empty?)
+    return parent_email_1 unless (parent_email_1.nil? || parent_email_1.empty?)
     parent_email_2
   end
 
   def cc_email
-    if candidate_email.nil?
-      return parent_email_2 unless parent_email_1.nil?
-      nil
+    if candidate_email.nil? || candidate_email.empty?
+      return parent_email_2 unless (parent_email_1.nil? || parent_email_1.empty?)
+      ''
     else
-      return parent_email_1 unless parent_email_1.nil?
+      return parent_email_1 unless (parent_email_1.nil? || parent_email_1.empty?)
       parent_email_2
     end
   end
 
   def cc_email_2
-    return parent_email_2 unless candidate_email.nil? || parent_email_1.nil?
-    nil
+    return parent_email_2 unless (candidate_email.nil? || candidate_email.empty?) || (parent_email_1.nil? || parent_email_1.empty?)
+    ''
   end
 
 end

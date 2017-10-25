@@ -297,4 +297,12 @@ class Candidate < ActiveRecord::Base
     # text
   end
 
+  def confirmation_instructions
+    token = generate_confirmation_token
+    devise_mailer.confirmation_instructions(self, token)
+    # message = delivery.message
+    # text = message.body.to_s
+    # text
+  end
+
 end
