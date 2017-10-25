@@ -153,6 +153,10 @@ class Candidate < ActiveRecord::Base
     complete
   end
 
+  def bcc_email
+    'stmm.confirmation@kristoffs.com'
+  end
+
   def emails
     "#{candidate_sheet.candidate_email}, #{candidate_sheet.parent_email_1},#{candidate_sheet.parent_email_2}"
   end

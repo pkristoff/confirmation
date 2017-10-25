@@ -3,7 +3,8 @@ class CustomDeviseMailer < Devise::Mailer
   def headers_for(action, opts)
     headers = super
     headers = headers.merge({
-                   to: resource.emails
+                   to: resource.emails,
+                   bcc: resource.bcc_email
                })
     @email = headers[:to]
     headers

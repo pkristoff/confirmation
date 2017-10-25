@@ -79,8 +79,9 @@ class AdminsController < ApplicationController
         flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
       end
     rescue Exception => e
-      error_message = e.message
-      flash[:alert] = error_message
+      # puts "adhoc_mailing_update message=#{e.message} backtrace=#{e.backtrace[0...5]}"
+      flash[:alert] = "message=#{e.message} backtrace=#{e.backtrace[0...5]}"
+      Rails.logger.error("message=#{e.message} backtrace=#{e.backtrace[0...5]}")
     end
 
     setup_adhoc_render(body_input_text, subject_text)
