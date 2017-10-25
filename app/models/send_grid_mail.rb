@@ -7,24 +7,28 @@ class SendGridMail
 
   def adhoc(subject_text, body_input_text)
 
+    send_email(subject_text, body_input_text, 'adhoc',
+               lambda {| admin, candidate_mailer_text | CandidatesMailer.adhoc(admin, candidate_mailer_text)}
+    )
+  end
+
+  def send_email(subject_text, body_input_text, email_type, delivery_call, test_subject=nil)
+
     response = nil
 
     @candidates.each_with_index do |candidate, index|
 
-      sg_mail = create_mail(subject_text)
+      sg_mail = create_mail((test_subject.nil? ? subject_text : test_subject.call(candidate)), email_type, candidate.account_name)
 
-      @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: subject_text, body_input: body_input_text)
+      @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: (test_subject.nil? ? subject_text : test_subject.call(candidate)), body_input: body_input_text)
 
-      create_personalization(candidate, sg_mail, nil,
-                             SendGrid::Substitution.new(key: '%name%', value: candidate.candidate_sheet.first_name),
-                             SendGrid::Substitution.new(key: '%body%', value: @candidate_mailer_text.body_text))
+      create_personalization(candidate, sg_mail,test_subject ? @admin : nil)
 
-      delivery = CandidatesMailer.adhoc(@admin, @candidate_mailer_text)
+      delivery = delivery_call.call(@admin, @candidate_mailer_text)
       set_text(delivery, sg_mail)
-      # puts "posting email"
       response = post_email(sg_mail)
       if response.status_code[0] != '2'
-        Rails.logger.info("Skipping sending adhoc message for #{candidate.account_name} because of a bad response")
+        Rails.logger.info("Skipping sending #{email_type} message for #{candidate.account_name} because of a bad response")
         Rails.logger.info("Status=#{response.status_code} body=#{response.body}")
       end
     end
@@ -32,53 +36,20 @@ class SendGridMail
   end
 
   def adhoc_test(subject_text, body_input_text)
-    sg_mail = create_mail(I18n.t('email.test_adhoc_subject_initial_text'))
-
-    @candidates.each_with_index do |candidate, index|
-
-      @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: I18n.t('email.test_adhoc_subject_initial_text'), body_input: body_input_text)
-
-      create_personalization(candidate, sg_mail, @admin,
-                             SendGrid::Substitution.new(key: '%candidate_email%', value: candidate.candidate_sheet.candidate_email),
-                             SendGrid::Substitution.new(key: '%parent_email_1%', value: candidate.candidate_sheet.parent_email_1),
-                             SendGrid::Substitution.new(key: '%parent_email_2%', value: candidate.candidate_sheet.parent_email_2),
-                             SendGrid::Substitution.new(key: '%subject_text%', value: subject_text),
-                             SendGrid::Substitution.new(key: '%candidate_account_name%', value: @candidate_mailer_text.candidate.account_name),
-                             SendGrid::Substitution.new(key: '%name%', value: candidate.candidate_sheet.first_name),
-                             SendGrid::Substitution.new(key: '%body%', value: @candidate_mailer_text.body_text))
-    end
-    delivery = CandidatesMailer.adhoc_test(@admin, @candidate_mailer_text)
-    set_text(delivery, sg_mail)
-    # puts "posting email"
-    post_email(sg_mail)
+    send_email(subject_text, body_input_text, 'adhoc_test',
+               lambda {| admin, candidate_mailer_text | CandidatesMailer.adhoc_test(admin, candidate_mailer_text)},
+               lambda {|candidate | I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate.account_name)}
+    )
   end
 
   def reset_password
-    response = nil
-    @candidates.each_with_index do |candidate, index|
-      Rails.logger.info("reset_password processing #{candidate.account_name}")
-      if response.nil? || response.status_code[0] === '2'
-        # Normally this would be send with one email and multiple personalizations but each message
-        # has a unique token for a particular candidate and thus needs to be sent per candidate.
-        sg_mail = create_mail('StMM website for Confirmation Candidates - Reset password instructions')
-        @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: I18n.t('email.test_adhoc_subject_initial_text'), body_input: '')
-
-        create_personalization(candidate, sg_mail, nil)
-
-        delivery = candidate.password_reset_message
-        set_text(delivery, sg_mail)
-        response = post_email(sg_mail)
-        if response.status_code[0] != '2'
-          Rails.logger.info("Skipping sending reset_password message for #{candidate.account_name} because of a bad response")
-          Rails.logger.info("Status=#{response.status_code} body=#{response.body}")
-        end
-      end
-    end
-    response
+    send_email('StMM website for Confirmation Candidates - Reset password instructions', '', 'reset_password',
+               lambda {| admin, candidate_mailer_text | candidate_mailer_text.candidate.password_reset_message}
+    )
   end
 
 
-  def create_mail(subject)
+  def create_mail(subject, email_type, account_name)
     mail = SendGrid::Mail.new
     if Rails.env.test?
       mail_settings = SendGrid::MailSettings.new
@@ -86,6 +57,13 @@ class SendGridMail
     end
     mail.from = SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: 'St MM Confirmation')
     mail.subject = subject
+    cat_env = ''
+    cat_env = 'test' if Rails.env.test?
+    cat_env = 'development' if Rails.env.development?
+    cat_env = 'production' if Rails.env.production?
+    mail.add_category(SendGrid::Category.new(name: cat_env))
+    mail.add_category(SendGrid::Category.new(name: email_type))
+    mail.add_category(SendGrid::Category.new(name: account_name))
     mail
   end
 

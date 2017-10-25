@@ -34,9 +34,9 @@ en:
     subject_initial_text: Confirmation Information Status
     subject_label: Subject
     test_adhoc_mail: Test adhoc mail
-    test_adhoc_subject_initial_text: Adhoc test email for %candidate_account_name%
+    test_adhoc_subject_initial_text: Adhoc test email for %{candidate_account_name}
     test_monthly_mail: Test monthly mail
-    test_monthly_mail_subject_initial_text: Monthly mailing test email for %account_name%
+    test_monthly_mail_subject_initial_text: Monthly mailing test email for %{candidate_account_name}
   events:
     baptismal_certificate: Baptismal Certificate
     candidate_covenant_agreement: Candidate Covenant Agreement
