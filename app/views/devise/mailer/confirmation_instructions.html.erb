@@ -1,4 +1,4 @@
-<p>Welcome <%= @resource.candidate_sheet.first_name  %>  <%= @resource.candidate_sheet.last_name %>!</p>
+<p id="welcome">Welcome <%= @resource.candidate_sheet.first_name  %>  <%= @resource.candidate_sheet.last_name %>!</p>
 
 <p>
   I am Vicki Kristoff and I track all the data/forms for the Confirmation Candidates.
@@ -25,13 +25,14 @@ For example, if you were NOT baptized at StMM, the baptismal certificate informa
 If you have any questions or need help, I can be reached at stmm.conmfirmation@kristoffs.com or 919-249-5629.
 </p>
 
-
-<p> Link to <%= link_to "St. Mary Magdalene confirmation",  root_path(only_path: false) %></p>
-
-<p> User name: <%= @resource.account_name %> </p>
+<%= render partial: 'shared/mailer/basic_candidate_info',
+           locals: {
+               candidate: @resource
+           } %>
 
 <p>Have a good year,</p>
 
-<p>Vicki Kristoff<br />
-  <%= mail_to 'stmm.confirmation@kristoffs.com' %><br />
-919-249-5629</p>
+<%= render partial: 'shared/mailer/basic_admin_info',
+           locals: {
+               subject: 'Account confirmation instructions'
+           } %>

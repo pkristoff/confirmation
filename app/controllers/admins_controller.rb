@@ -272,7 +272,6 @@ class AdminsController < ApplicationController
 
     if candidates.empty?
       return redirect_back(t('messages.no_candidate_selected'), mail_param)
-      # return redirect_to :back, alert: t('messages.no_candidate_selected')
     end
 
     case params[:commit]
@@ -295,23 +294,22 @@ class AdminsController < ApplicationController
     end
 
     mail_param = params[:mail]
+    send_grid_mail = SendGridMail.new(current_admin, candidates)
 
-    begin
-      candidates.each_with_index do |candidate, index|
-        text = CandidatesMailerText.new(candidate: candidate, subject: mail_param[:subject], pre_late_text: mail_param[:pre_late_input],
-                                        pre_coming_due_text: mail_param[:pre_coming_due_input],
-                                        completed_awaiting_text: mail_param[:completed_awaiting_input],
-                                        completed_text: mail_param[:completed_input],
-                                        closing_text: mail_param[:closing_text],
-                                        salutation_text: mail_param[:salutation_text], from_text: mail_param[:from_text])
-
-        SendEmailJob.perform_in(index*2, candidate, text,
-                                current_admin,
-                                is_test_mail
-        )
-      end
-    rescue Exception => e
-      flash_message = e.message
+    if is_test_mail
+      send_grid_mail.monthly_mass_mailing_test(mail_param[:subject], pre_late_text: mail_param[:pre_late_input],
+                                               pre_coming_due_text: mail_param[:pre_coming_due_input],
+                                               completed_awaiting_text: mail_param[:completed_awaiting_input],
+                                               completed_text: mail_param[:completed_input],
+                                               closing_text: mail_param[:closing_text],
+                                               salutation_text: mail_param[:salutation_text], from_text: mail_param[:from_text])
+    else
+      send_grid_mail.monthly_mass_mailing(mail_param[:subject], pre_late_text: mail_param[:pre_late_input],
+                                          pre_coming_due_text: mail_param[:pre_coming_due_input],
+                                          completed_awaiting_text: mail_param[:completed_awaiting_input],
+                                          completed_text: mail_param[:completed_input],
+                                          closing_text: mail_param[:closing_text],
+                                          salutation_text: mail_param[:salutation_text], from_text: mail_param[:from_text])
     end
 
     flash[:notice] = flash_message

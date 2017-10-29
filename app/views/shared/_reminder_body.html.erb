@@ -1,3 +1,5 @@
+<% render_mail_text = local_assigns[:render_mail_text] %>
+
 <% if render_mail_text %>
     <p><%= @candidate_mailer_text.candidate.candidate_sheet.first_name %>,</p>
 <% else %>
@@ -14,7 +16,7 @@
 
 <% if render_mail_text %>
     <%= render partial: 'shared/reminder_table',
-               :locals => {event_key: 'past_due',
+               locals: {event_key: 'past_due',
                            headers: [],
                            field_set_header: t('email.past_due'),
                            events: @candidate_mailer_text.late_events,
@@ -31,7 +33,7 @@
 
 <% if render_mail_text %>
     <%= render partial: 'shared/reminder_table',
-               :locals => {event_key: 'coming_due_events',
+               locals: {event_key: 'coming_due_events',
                            headers: [t('email.events'), t('email.due_date')],
                            field_set_header: t('email.coming_due_label'),
                            events: @candidate_mailer_text.coming_due_events,
@@ -48,7 +50,7 @@
 
 <% if render_mail_text %>
     <%= render partial: 'shared/completed_reminder_table',
-               :locals => {event_key: 'completed_awaiting_events',
+               locals: {event_key: 'completed_awaiting_events',
                            field_set_header: t('email.completed_awaiting_approval_label'),
                            events: @candidate_mailer_text.completed_awaiting_events,
                } %>
@@ -64,7 +66,7 @@
 <% end %>
 <% if render_mail_text %>
     <%= render partial: 'shared/completed_reminder_table',
-               :locals => {event_key: 'completed_events',
+               locals: {event_key: 'completed_events',
                            field_set_header: t('email.completed_text_label'),
                            events: @candidate_mailer_text.completed_events,
                } %>

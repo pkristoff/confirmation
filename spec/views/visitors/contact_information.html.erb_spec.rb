@@ -1,4 +1,3 @@
-
 describe 'visitors/contact_information.html.erb' do
   it 'navigation layout' do
 
@@ -32,7 +31,7 @@ describe 'visitors/contact_information.html.erb' do
 
   def expect_common
     expect(rendered).to have_css('p', text: t('views.top_bar.contact_information'))
-    expect(rendered).to have_link(I18n.t('views.top_bar.contact_admin'), href: I18n.t('views.top_bar.contact_admin_mail'))
+    expect(rendered).to have_link(I18n.t('views.top_bar.contact_admin'), href: I18n.t('views.top_bar.contact_admin_mail', subject: 'Help'))
 
   end
 end

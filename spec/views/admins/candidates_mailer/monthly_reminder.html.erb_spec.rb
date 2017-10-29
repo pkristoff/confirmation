@@ -256,13 +256,15 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   def render_setup
     @candidate_mailer_text = CandidatesMailerText.new(
         candidate: @candidate,
-        pre_late_text: I18n.t('email.late_initial_text'),
-        pre_coming_due_text: I18n.t('email.coming_due_initial_text'),
-        completed_awaiting_text: I18n.t('email.completed_awaiting_initial_text'),
-        completed_text: I18n.t('email.completed_initial_text'),
-        closing_text: I18n.t('email.closing_initial_text'),
-        salutation_text: I18n.t('email.salutation_initial_text'),
-        from_text: I18n.t('email.from_initial_text_html')
+        body_input: {
+            pre_late_text: I18n.t('email.late_initial_text'),
+            pre_coming_due_text: I18n.t('email.coming_due_initial_text'),
+            completed_awaiting_text: I18n.t('email.completed_awaiting_initial_text'),
+            completed_text: I18n.t('email.completed_initial_text'),
+            closing_text: I18n.t('email.closing_initial_text'),
+            salutation_text: I18n.t('email.salutation_initial_text'),
+            from_text: I18n.t('email.from_initial_text_html')
+        }
     )
   end
 

@@ -2,31 +2,18 @@ include ViewsHelpers
 
 describe CandidatesMailer, type: :model do
 
-
-  # these should be the same for both tests
-  LATE_INITIAL_TEXT = I18n.t('email.late_initial_text')
-  COMING_DUE_INITIAL_TEXT = I18n.t('email.coming_due_initial_text')
-  COMPLETE_AWAITING_INITIAL_TEXT = I18n.t('email.completed_awaiting_initial_text')
-  COMPLETE_INITIAL_TEXT = I18n.t('email.completed_initial_text')
-  CLOSING_INITIAL_TEXT = I18n.t('email.closing_initial_text')
-  SALUTATION_INITIAL_TEXT = I18n.t('email.salutation_initial_text')
-  FROM_EMAIL_TEXT = I18n.t('email.from_initial_text_html')
-  FROM_EMAIL = 'stmm.confirmation@kristoffs.com'.freeze
-  REPLY_TO_EMAIL = 'stmm.confirmation@kristoffs.com'.freeze
-  SUBJECT = I18n.t('email.subject_initial_text')
-
-
   describe 'monthly_reminder testing' do
 
     before(:each) do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by_account_name(candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, pre_late_text: LATE_INITIAL_TEXT,
-                                       pre_coming_due_text: COMING_DUE_INITIAL_TEXT,
-                                       completed_awaiting_text: COMPLETE_AWAITING_INITIAL_TEXT,
-                                       completed_text: COMPLETE_INITIAL_TEXT, closing_text: CLOSING_INITIAL_TEXT,
-                                       salutation_text: SALUTATION_INITIAL_TEXT, from_text: FROM_EMAIL_TEXT)
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT,
+                                       body_input: {pre_late_text: LATE_INITIAL_TEXT,
+                                                    pre_coming_due_text: COMING_DUE_INITIAL_TEXT,
+                                                    completed_awaiting_text: COMPLETE_AWAITING_INITIAL_TEXT,
+                                                    completed_text: COMPLETE_INITIAL_TEXT, closing_text: CLOSING_INITIAL_TEXT,
+                                                    salutation_text: SALUTATION_INITIAL_TEXT, from_text: FROM_EMAIL_TEXT})
 
     end
     describe 'monthly_reminder' do

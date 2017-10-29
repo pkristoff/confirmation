@@ -16,13 +16,15 @@ class CandidatesMailerText
     @candidate = parms[:candidate]
     @subject = parms[:subject]
     @body_text = parms[:body_input]
-    @pre_late_text = parms[:pre_late_text]
-    @pre_coming_due_text = parms[:pre_coming_due_text]
-    @completed_awaiting_text = parms[:completed_awaiting_text]
-    @completed_text = parms[:completed_text]
-    @closing_text = parms[:closing_text]
-    @salutation_text = parms[:salutation_text]
-    @from_text = parms[:from_text]
+    if @body_text.is_a? Hash
+      @pre_late_text = @body_text[:pre_late_text]
+      @pre_coming_due_text = @body_text[:pre_coming_due_text]
+      @completed_awaiting_text = @body_text[:completed_awaiting_text]
+      @completed_text = @body_text[:completed_text]
+      @closing_text = @body_text[:closing_text]
+      @salutation_text = @body_text[:salutation_text]
+      @from_text = @body_text[:from_text]
+    end
   end
 
   def late_events

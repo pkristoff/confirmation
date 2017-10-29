@@ -1,4 +1,16 @@
 module ViewsHelpers
+
+  LATE_INITIAL_TEXT = I18n.t('email.late_initial_text')
+  COMING_DUE_INITIAL_TEXT = I18n.t('email.coming_due_initial_text')
+  COMPLETE_AWAITING_INITIAL_TEXT = I18n.t('email.completed_awaiting_initial_text')
+  COMPLETE_INITIAL_TEXT = I18n.t('email.completed_initial_text')
+  CLOSING_INITIAL_TEXT = I18n.t('email.closing_initial_text')
+  SALUTATION_INITIAL_TEXT = I18n.t('email.salutation_initial_text')
+  FROM_EMAIL_TEXT = I18n.t('email.from_initial_text_html')
+  SUBJECT = I18n.t('email.subject_initial_text')
+  FROM_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
+  REPLY_TO_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
+
   def expect_edit_and_new_view(rendered, candidate, action, submit_button, is_candidate_signed_in, is_new)
 
     form_id = is_new ? 'new_candidate' : 'edit_candidate'

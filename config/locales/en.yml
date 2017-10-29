@@ -15,6 +15,8 @@ en:
     completed_initial_text: These are the completed events.  Please verify that the
       information you entered is correct, if any.
     completed_text_label: Completed events
+    confirmation_instructions_subject: StMM website for Confirmation Candidates -
+      User Verification instructions
     due_date: Due date
     events: Events
     from_initial_text_html: |
@@ -29,6 +31,8 @@ en:
     past_due: Past due events
     pre_coming_due_text_label: The pre-coming text
     pre_late_text_label: The pre-late text
+    reset_password_subject: StMM website for Confirmation Candidates - Reset password
+      instructions
     salutation_initial_text: Please email me if you have any questions
     salutation_text_label: Salutation text
     subject_initial_text: Confirmation Information Status
@@ -37,6 +41,7 @@ en:
     test_adhoc_subject_initial_text: Adhoc test email for %{candidate_account_name}
     test_monthly_mail: Test monthly mail
     test_monthly_mail_subject_initial_text: Monthly mailing test email for %{candidate_account_name}
+    website_name: StMM website for Confirmation Candidates
   events:
     baptismal_certificate: Baptismal Certificate
     candidate_covenant_agreement: Candidate Covenant Agreement
@@ -272,7 +277,9 @@ en:
       about: About
       candidate_checklist: Candidate checklist
       contact_admin: Contact Admin via email stmm.confirmation@kristoffs.com
-      contact_admin_mail: mailto:stmm.confirmation@kristoffs.com?Subject=Help
+      contact_admin_mail: mailto:stmm.confirmation@kristoffs.com?subject=%{subject}
+      contact_admin_mail_text: stmm.confirmation@kristoffs.com
+      contact_admin_phone: 919-249-5629
       contact_information: Contact Information
       help: Help
       home: Home

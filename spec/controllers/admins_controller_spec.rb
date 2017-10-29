@@ -227,21 +227,9 @@ describe AdminsController do
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')
+      AppFactory.add_confirmation_events
     end
     it 'should set @candidates' do
-
-      expect(SendEmailJob).to receive(:perform_in).with(0, @c1, instance_of(CandidatesMailerText), @admin, false).exactly(:once) do |index, candidate, candidates_mailer_text, admin, isText|
-        expect(index).to eq(0)
-        expect_mailer_text(@c1, candidates_mailer_text)
-        expect(admin).to eq(@admin)
-        expect(isText).to eq(false)
-      end
-      expect(SendEmailJob).to receive(:perform_in).with(2, @c2, instance_of(CandidatesMailerText), @admin, false).exactly(:once) do |index, candidate, candidates_mailer_text, admin, isText|
-        expect(index).to eq(2)
-        expect_mailer_text(@c2, candidates_mailer_text)
-        expect(admin).to eq(@admin)
-        expect(isText).to eq(false)
-      end
       request.env['HTTP_REFERER'] = monthly_mass_mailing_path
 
       put :monthly_mass_mailing_update,
@@ -474,83 +462,83 @@ describe AdminsController do
 
   end
 
-def expect_mailer_text(candidate, candidates_mailer_text)
-  expect(candidates_mailer_text.candidate.id).to eq(candidate.id)
-  expect(candidates_mailer_text.subject).to eq('www1')
-  expect(candidates_mailer_text.pre_late_text).to eq('xxx')
-  expect(candidates_mailer_text.pre_coming_due_text).to eq('yyy')
-  expect(candidates_mailer_text.completed_text).to eq('zzz')
-  expect(candidates_mailer_text.closing_text).to eq('ccc')
-  expect(candidates_mailer_text.salutation_text).to eq('aaa')
-  expect(candidates_mailer_text.from_text).to eq('bbb')
-end
+  def expect_mailer_text(candidate, candidates_mailer_text)
+    expect(candidates_mailer_text.candidate.id).to eq(candidate.id)
+    expect(candidates_mailer_text.subject).to eq('www1')
+    expect(candidates_mailer_text.pre_late_text).to eq('xxx')
+    expect(candidates_mailer_text.pre_coming_due_text).to eq('yyy')
+    expect(candidates_mailer_text.completed_text).to eq('zzz')
+    expect(candidates_mailer_text.closing_text).to eq('ccc')
+    expect(candidates_mailer_text.salutation_text).to eq('aaa')
+    expect(candidates_mailer_text.from_text).to eq('bbb')
+  end
 
 
-def expect_message(id, message)
-  [:alert, :notice].each do |my_id|
-    unless my_id == id
-      expect(flash[my_id]).to eq(nil)
+  def expect_message(id, message)
+    [:alert, :notice].each do |my_id|
+      unless my_id == id
+        expect(flash[my_id]).to eq(nil)
+      end
+    end
+    expect(flash[id]).to eq(message) unless id.nil?
+  end
+
+  def expect_column_sorting(column, *candidates)
+
+    put :mass_edit_candidates_event,
+        id: @confirmation_event.id,
+        sort: column,
+        direction: 'asc',
+        candidate: {candidate_ids: []}
+
+    expect_message(nil, nil)
+    # order not important js will do it
+    expect(controller.candidates.size).to eq(candidates.size)
+    candidates.each do |candidate|
+      expect(controller.candidates.include? candidate).to eq(true)
+    end
+
+    put :mass_edit_candidates_event,
+        id: @confirmation_event.id,
+        sort: column,
+        direction: 'desc',
+        candidate: {candidate_ids: []}
+
+    expect_message(nil, nil)
+    # order not important js will do it
+    expect(controller.candidates.size).to eq(candidates.size)
+    candidates.each do |candidate|
+      expect(controller.candidates.include? candidate).to eq(true)
     end
   end
-  expect(flash[id]).to eq(message) unless id.nil?
-end
 
-def expect_column_sorting(column, *candidates)
-
-  put :mass_edit_candidates_event,
-      id: @confirmation_event.id,
-      sort: column,
-      direction: 'asc',
-      candidate: {candidate_ids: []}
-
-  expect_message(nil, nil)
-  # order not important js will do it
-  expect(controller.candidates.size).to eq(candidates.size)
-  candidates.each do |candidate|
-    expect(controller.candidates.include? candidate).to eq(true)
+  def create_candidate(prefix, should_confirm=true)
+    candidate = FactoryGirl.create(:candidate, account_name: prefix, should_confirm: should_confirm)
+    candidate_event = candidate.add_candidate_event(@confirmation_event)
+    case prefix
+      when 'c1'
+        candidate.candidate_sheet.first_name = 'c2first_name'
+        candidate.candidate_sheet.middle_name = 'c1middle_name'
+        candidate.candidate_sheet.last_name = 'c3last_name'
+        candidate.candidate_sheet.candidate_email = 'c3last_name.c3first_name@test.com'
+        candidate_event.completed_date='2016-06-09'
+      when 'c2'
+        candidate.candidate_sheet.first_name = 'c3first_name'
+        candidate.candidate_sheet.middle_name = 'c2middle_name'
+        candidate.candidate_sheet.last_name = 'c1last_name'
+        candidate.candidate_sheet.candidate_email = 'c1last_name.c3first_name@test.com'
+        candidate_event.completed_date=''
+      when 'c3'
+        candidate.candidate_sheet.first_name = 'c1first_name'
+        candidate.candidate_sheet.middle_name = 'c3middle_name'
+        candidate.candidate_sheet.last_name = 'c2last_name'
+        candidate.candidate_sheet.candidate_email = 'c2last_name.c1first_name@test.com'
+        candidate_event.completed_date='2016-07-23'
+      else
+        throw RuntimeError.new('Unknown prefix')
+    end
+    candidate.save
+    candidate
   end
-
-  put :mass_edit_candidates_event,
-      id: @confirmation_event.id,
-      sort: column,
-      direction: 'desc',
-      candidate: {candidate_ids: []}
-
-  expect_message(nil, nil)
-  # order not important js will do it
-  expect(controller.candidates.size).to eq(candidates.size)
-  candidates.each do |candidate|
-    expect(controller.candidates.include? candidate).to eq(true)
-  end
-end
-
-def create_candidate(prefix, should_confirm=true)
-  candidate = FactoryGirl.create(:candidate, account_name: prefix, should_confirm: should_confirm)
-  candidate_event = candidate.add_candidate_event(@confirmation_event)
-  case prefix
-    when 'c1'
-      candidate.candidate_sheet.first_name = 'c2first_name'
-      candidate.candidate_sheet.middle_name = 'c1middle_name'
-      candidate.candidate_sheet.last_name = 'c3last_name'
-      candidate.candidate_sheet.candidate_email = 'c3last_name.c3first_name@test.com'
-      candidate_event.completed_date='2016-06-09'
-    when 'c2'
-      candidate.candidate_sheet.first_name = 'c3first_name'
-      candidate.candidate_sheet.middle_name = 'c2middle_name'
-      candidate.candidate_sheet.last_name = 'c1last_name'
-      candidate.candidate_sheet.candidate_email = 'c1last_name.c3first_name@test.com'
-      candidate_event.completed_date=''
-    when 'c3'
-      candidate.candidate_sheet.first_name = 'c1first_name'
-      candidate.candidate_sheet.middle_name = 'c3middle_name'
-      candidate.candidate_sheet.last_name = 'c2last_name'
-      candidate.candidate_sheet.candidate_email = 'c2last_name.c1first_name@test.com'
-      candidate_event.completed_date='2016-07-23'
-    else
-      throw RuntimeError.new('Unknown prefix')
-  end
-  candidate.save
-  candidate
-end
 
 end
