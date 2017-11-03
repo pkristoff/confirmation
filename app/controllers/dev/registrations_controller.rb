@@ -32,7 +32,7 @@ module Dev
 
     def event
       unless candidate_signed_in?
-        return redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin'))
+        redirect_to root_path, alert: I18n.t('devise.failure.timeout')
       end
     end
 
