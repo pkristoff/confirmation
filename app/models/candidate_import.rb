@@ -453,8 +453,15 @@ class CandidateImport
     images.each do |entry|
       export_filename = entry[:export_filename]
       image = entry[:image]
-      File.open(export_filename, mode='wb') do |f|
-        f.write image.content
+      begin
+
+        File.open(export_filename, mode='wb') do |f|
+          f.write image.content
+        end
+      rescue Exception => e
+        Rails.logger.info "Exception opening file for image: #{export_filename}"
+        Rails.logger.info "Error message #{e.message}"
+        Rails.logger.info e.backtrace.inspect
       end
     end
   end

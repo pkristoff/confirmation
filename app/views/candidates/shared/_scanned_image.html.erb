@@ -11,11 +11,6 @@
                         type="<%= scanned_image.content_type %>"
                         width="600" height=783"
                         alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>" ></object>
-            <% elsif ['application/octet-stream', 'application/psd','image/psd'].include? scanned_image.content_type #  %>
-                <object data="<%= url_for_image %>"
-                        type="<%= scanned_image.content_type %>"
-                        width="600" height=783"
-                        alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>" ></object>
             <% else %>
                 <img src="<%= url_for_image %>"
                      alt="<%= "Did not receive the picture: #{scanned_image.filename}" %>"/>
