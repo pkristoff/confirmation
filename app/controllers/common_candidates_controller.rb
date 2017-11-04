@@ -227,7 +227,7 @@ class CommonCandidatesController < ApplicationController
   def send_image(scanned_image)
     conts = scanned_image.content
     c_type = scanned_image.content_type
-    c_type = 'application/psd' if c_type === 'application/octet-stream'
+    c_type = 'image/psd' if c_type === 'application/octet-stream'
     send_data conts,
               type: c_type,
               disposition: 'inline'
