@@ -1,3 +1,5 @@
+<% require 'constants' %>
+
 <%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
 
     <div class="actions">
@@ -51,7 +53,7 @@
                          fieldset_text: t('field_set.retreat_verification.scan'),
                          field: :retreat_verification_picture,
                          scanned_image: event_association.scanned_retreat,
-                         scanned_image_field: rv_fields.file_field(:retreat_verification_picture),
+                         scanned_image_field: rv_fields.file_field(:retreat_verification_picture, accept: SideBar::IMAGE_FILE_TYPES),
                          scanned_image_label: rv_fields.label(:retreat_verification_picture, t('label.retreat_verification.retreat_verification_picture')),
                      } %>
 

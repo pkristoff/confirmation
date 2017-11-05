@@ -203,6 +203,8 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_field('Mother maiden', candidate.baptized_at_stmm ? nil : MOTHER_MAIDEN)
     expect_field('Mother last', candidate.baptized_at_stmm ? nil : LAST_NAME)
 
+    expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
+
     expect(page).to have_button(I18n.t('views.common.update'))
     expect_download_button(Event::Document::BAPTISMAL_CERTIFICATE)
   end

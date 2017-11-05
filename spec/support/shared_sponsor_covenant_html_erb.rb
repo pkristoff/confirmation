@@ -157,7 +157,8 @@ shared_context 'sponsor_covenant_html_erb' do
     update_sponsor_covenant(false)
     visit @path
     fill_in_form
-    fill_in('Sponsor name', with: nil)
+
+    fill_in(SPONSOR_NAME_LABEL, with: nil)
     click_button 'top-update'
 
     expect_messages([[:flash_notice, 'Updated'],

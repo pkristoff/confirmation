@@ -1,3 +1,5 @@
+<% require 'constants' %>
+
 <%= form_for(@candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(@candidate.id, @event_with_picture_name) : event_with_picture_update_path(@candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
     <div class="actions">
       <%= f.submit t('views.common.update'), id: 'top-update' %>
@@ -16,8 +18,9 @@
                              candidate: candidate,
 
                              fieldset_text: '',
+                             field: :sponsor_covenant_picture,
                              scanned_image: event_association.scanned_covenant,
-                             scanned_image_field: sc_fields.file_field(:sponsor_covenant_picture),
+                             scanned_image_field: sc_fields.file_field(:sponsor_covenant_picture, accept: SideBar::IMAGE_FILE_TYPES),
                              scanned_image_label: sc_fields.label(:sponsor_covenant_picture, t('label.sponsor_covenant.sponsor_covenant_picture')),
                          } %>
             </div>
@@ -41,8 +44,9 @@
                                candidate: candidate,
 
                                fieldset_text: '',
+                               field: :sponsor_eligibility_picture,
                                scanned_image: event_association.scanned_eligibility,
-                               scanned_image_field: sc_fields.file_field(:sponsor_eligibility_picture),
+                               scanned_image_field: sc_fields.file_field(:sponsor_eligibility_picture, accept: SideBar::IMAGE_FILE_TYPES),
                                scanned_image_label: sc_fields.label(:sponsor_eligibility_picture, t('label.sponsor_covenant.sponsor_eligibility_picture')),
                            } %>
 

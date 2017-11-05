@@ -52,5 +52,6 @@ module Event
   end
 end
 module SideBar
+  IMAGE_FILE_TYPES = 'image/png,image/jpeg,application/pdf'
   TRUNCATELENGTH = 20
 end

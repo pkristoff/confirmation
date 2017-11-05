@@ -1,6 +1,7 @@
 
 <%= field_set_tag fieldset_text, class: 'fieldset' do %>
     <div class="fieldset-div">
+      <div id="file-type-message_<%= field %>"> <%= t('views.common.image_upload_file_types') %> </div>
       <%= scanned_image_field %>
       <%= scanned_image_label %>
 
@@ -13,7 +14,7 @@
                         alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>" ></object>
             <% else %>
                 <img src="<%= url_for_image %>"
-                     alt="<%= "Did not receive the picture: #{scanned_image.filename}" %>"/>
+                     alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>"/>
             <% end %>
           </div>
       <% end %>

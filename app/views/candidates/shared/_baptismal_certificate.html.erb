@@ -1,6 +1,5 @@
 <% require 'constants' %>
 
-
 <%= form_for(candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(candidate.id, @event_with_picture_name) : event_with_picture_update_path(candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
 
     <div class="actions">
@@ -124,7 +123,7 @@
                          fieldset_text: t('field_set.baptismal_certificate.scan'),
                          field: :certificate_picture,
                          scanned_image: event_association.scanned_certificate,
-                         scanned_image_field: bc_fields.file_field(:certificate_picture),
+                         scanned_image_field: bc_fields.file_field(:certificate_picture, accept: SideBar::IMAGE_FILE_TYPES),
                          scanned_image_label: bc_fields.label(:certificate_picture, t('label.baptismal_certificate.baptismal_certificate.certificate_picture')),
                      } %>
 

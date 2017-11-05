@@ -225,37 +225,44 @@ class CommonCandidatesController < ApplicationController
   end
 
   def send_image(scanned_image)
-    # if scanned_image.content_type === 'application/octet-stream'
-    #   send_octet(scanned_image)
-    #   else
-        conts = scanned_image.content
-        c_type = scanned_image.content_type
-        send_data conts,
-                  type: c_type,
-                  disposition: 'inline'
-    # end
+    if scanned_image.content_type === 'image/octet-stream'
+      send_octet(scanned_image)
+    else
+      conts = scanned_image.content
+      c_type = scanned_image.content_type
+      send_data conts,
+                type: c_type,
+                disposition: 'inline'
+    end
   end
 
   def send_octet(scanned_image)
+    image_file_path = "tmp/#{scanned_image.filename}"
+    jpg_file_path = image_file_path + '.jpg'
+    pdf_file_path = image_file_path + '.pdf'
+    File.open(pdf_file_path, 'wb') do |f|
+      f.write(scanned_image.content)
+    end
+    begin
 
-      image_file_path = "tmp/#{scanned_image.filename}"
-      jpg_file_path = image_file_path + '.jpg'
-      pdf_file_path = image_file_path + '.pdf'
-      File.open(pdf_file_path, 'wb') do |f|
-        f.write(scanned_image.content)
+      pdf = Magick::ImageList.new(pdf_file_path)
+
+      pdf.each_with_index do |page_img, i|
+        page_img.write jpg_file_path
       end
-      begin
+      conts = nil
+      File.open(jpg_file_path, 'rb') do |f|
+        conts = f.read
+      end
 
-        pdf = Magick::ImageList.new(pdf_file_path)
+      send_data conts,
+                type: 'image/jpg',
+                disposition: 'inline'
+    ensure
+      File.delete(pdf_file_path) if File.exists?(pdf_file_path)
+      File.delete(jpg_file_path) if File.exists?(jpg_file_path)
 
-        pdf.each_with_index do |page_img, i|
-          return page_img
-          end
-        end
-      ensure
-        File.delete(pdf_file_path) if File.exists?(pdf_file_path)
-        File.delete(jpg_file_path) if File.exists?(jpg_file_path)
-
+    end
   end
 
   def setup_file_params(file, association, scanned_image_attributes, association_params)
@@ -301,7 +308,8 @@ class CommonCandidatesController < ApplicationController
       # break with this message: ArgumentError: string contains null byte
       #  if it is left in all the time then the png does not show up in the browser.
       # scanned_content = Base64.encode64(scanned_content) if file && (File.basename(file.original_filename) === 'actions for spec testing.png')
-
+puts "scanned_filename=#{scanned_filename}"
+puts "scanned_content_type=#{scanned_content_type}"
       picture_params = ActionController::Parameters.new
       association_params[scanned_image_attributes] = picture_params
       picture_params[:filename] = scanned_filename

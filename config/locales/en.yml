@@ -61,7 +61,7 @@ en:
       dates: Dates
       father: Father name
       mother: Mother name
-      scan: Scan baptismal certificate
+      scan: Baptismal certificate
     candidate_sheet:
       address: Address
       email: Email
@@ -74,7 +74,7 @@ en:
     retreat_verification:
       dates: Dates
       info: Info
-      scan: Scan
+      scan: Retreat Verification Form
     sponsor_covenant:
       sponsor_covenant: Sponsor covenant
       sponsor_eligibility: Sponsor eligibility
@@ -86,7 +86,7 @@ en:
       baptismal_certificate:
         baptismal_date: Baptismal date
         birth_date: Birth date
-        certificate_picture: Scanned baptismal certificate
+        certificate_picture: Baptismal certificate
         church_address:
           city: City
           state: State
@@ -133,7 +133,7 @@ en:
     retreat_verification:
       end_date: Retreat end date
       retreat_held_at_stmm: Did you attend a St. Mary Magdalene confirmation retreat?
-      retreat_verification_picture: Scanned retreat form
+      retreat_verification_picture: Retreat Verification Form
       start_date: Retreat start date
       where_held_retreat: Where was the retreat held?
       who_held_retreat: Who held the retreat? (such as St. Andrews, CGHS, etc.)
@@ -145,17 +145,17 @@ en:
       confirmation_name: Confirmation Name
       retreat_verification: Attend Retreat
       sponsor_agreement: Sponsor Conversation
-      sponsor_covenant: Sponsor Covenant
+      sponsor_covenant: Sponsor's Covenant
     sign_agreement:
       signed_agreement: By checking you agree to the above.
     sponsor_agreement:
       sponsor_agreement: By checking you agree to the above.
     sponsor_covenant:
       sponsor_attends_stmm: Sponsor registered at Saint Mary Magdalene
-      sponsor_church: Sponsor church
-      sponsor_covenant_picture: Scanned covenant
-      sponsor_eligibility_picture: Scanned sponsor elegibiliy form
-      sponsor_name: Sponsor name
+      sponsor_church: Sponsor's church
+      sponsor_covenant_picture: Sponsor Covenant
+      sponsor_eligibility_picture: Sponsor's Eligibiliy form
+      sponsor_name: Sponsor's Name
   messages:
     accessed_denied: Accessed denied.
     account_confirmed: 'Candidate accounts confirmed: %{number_confirmed} and already
@@ -229,6 +229,8 @@ en:
       download: Download document
       email: Email
       generate_pdf: Generate PDF
+      image_upload_file_types: You can only upload a file type of .pdf, .jpg, .jpeg,
+        .png
       initial_email: Initial email
       name: Name
       password: Password

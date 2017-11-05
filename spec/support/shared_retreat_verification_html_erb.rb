@@ -154,6 +154,8 @@ shared_context 'retreat_verification_html_erb' do
     expect_field(I18n.t('label.retreat_verification.start_date'), with_values ? START_DATE : '')
     expect_field(I18n.t('label.retreat_verification.end_date'), with_values ? END_DATE : '')
 
+    expect_image_upload('retreat_verification', 'retreat_verification_picture', I18n.t('label.retreat_verification.retreat_verification_picture'))
+
     expect(page).to have_button('top-update')
     expect_download_button(Event::Document::RETREAT_VERIFICATION)
   end

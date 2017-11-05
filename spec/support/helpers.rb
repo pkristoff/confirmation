@@ -113,3 +113,11 @@ def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date,
   end
   expect(page_or_rendered).to have_selector(completed_selector, text: completed_text) unless id_css === 'fieldset'
 end
+
+def expect_image_upload(key, picture_column, label)
+
+  expect(page).to have_css("div[id=file-type-message_#{picture_column}]", text: I18n.t('views.common.image_upload_file_types'))
+  expect(page).to have_css("input[id=candidate_#{key}_attributes_#{picture_column}][type=file][accept='#{SideBar::IMAGE_FILE_TYPES}']")
+  expect(page).to have_css("label[for=candidate_#{key}_attributes_#{picture_column}]", text: label)
+
+end
