@@ -289,20 +289,24 @@ class Candidate < ActiveRecord::Base
     true
   end
 
-  def password_reset_message
-    token = set_reset_password_token
-    devise_mailer.reset_password_instructions(self, token)
-    # message = delivery.message
-    # text = message.body.to_s
-    # text
+  def send_reset_password_instructions
+    # This comes via devise/password_controller
+    # The user has clicked on the Forgot Password link
+    send_grid_mail = SendGridMail.new(nil, [self])
+    response, token = send_grid_mail.reset_password
+    token
   end
 
-  def confirmation_instructions
+  def password_reset_message(candidate_mailer_text)
+    token = set_reset_password_token
+    candidate_mailer_text.token = token
+    devise_mailer.reset_password_instructions(self, token)
+  end
+
+  def confirmation_instructions(candidate_mailer_text)
     token = generate_confirmation_token
+    candidate_mailer_text.token = token
     devise_mailer.confirmation_instructions(self, token)
-    # message = delivery.message
-    # text = message.body.to_s
-    # text
   end
 
 end

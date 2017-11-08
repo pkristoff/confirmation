@@ -1,3 +1,5 @@
+require 'constants'
+
 class SendGridMail
 
   def initialize(admin, candidates)
@@ -7,43 +9,43 @@ class SendGridMail
 
   def adhoc(subject_text, body_input_text)
 
-    send_email(subject_text, body_input_text, 'adhoc',
+    send_email(subject_text, body_input_text, EmailStuff::TYPES[:adhoc],
                adhoc_call
     )
   end
 
   def adhoc_test(subject_text, body_input_text)
-    send_email(subject_text, body_input_text, 'adhoc_test',
+    send_email(subject_text, body_input_text, EmailStuff::TYPES[:adhoc_test],
                adhoc_test_call,
                adhoc_test_subj_call
     )
   end
 
-  def confirmation_instructions(subject_text, body_input_text)
-    send_email(I18n.t('email.confirmation_instructions_subject'), '', 'confirmation_instructions',
-               conf_insts_call
-    )
+  def confirmation_instructions
+    return send_email(I18n.t('email.confirmation_instructions_subject'), '', EmailStuff::TYPES[:confirmation_instructions],
+                      conf_insts_call
+    ), @candidate_mailer_text.token
   end
 
   def monthly_mass_mailing(subject_text, *body_input_text)
 
-    send_email(subject_text, *body_input_text, 'monthly_mass_mailing',
+    send_email(subject_text, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing],
                mmm_call
     )
   end
 
   def monthly_mass_mailing_test(subject_text, *body_input_text)
 
-    send_email(subject_text, *body_input_text, 'monthly_mass_mailing_test',
+    send_email(subject_text, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing_test],
                mmm_test_call,
                mmm_test_subj_call
     )
   end
 
   def reset_password
-    send_email(I18n.t('email.reset_password_subject'), '', 'reset_password',
-               reset_pass_call
-    )
+    return send_email(I18n.t('email.reset_password_subject'), '', EmailStuff::TYPES[:reset_password],
+                      reset_pass_call
+    ), @candidate_mailer_text.token
   end
 
 
@@ -51,7 +53,7 @@ class SendGridMail
     mail = SendGrid::Mail.new
     if Rails.env.test?
       mail_settings = SendGrid::MailSettings.new
-      mail_settings.sandbox_mode = SandBoxMode.new(enable: true)
+      mail_settings.sandbox_mode = SendGrid::SandBoxMode.new(enable: true)
       mail.mail_settings = mail_settings
     end
     mail.from = SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: 'St MM Confirmation')
@@ -132,38 +134,6 @@ class SendGridMail
     # puts "text=#{text}"
   end
 
-  def adhoc_call
-    lambda {|admin, candidate_mailer_text| CandidatesMailer.adhoc(admin, candidate_mailer_text)}
-  end
-
-  def adhoc_test_call
-    lambda {|admin, candidate_mailer_text| CandidatesMailer.adhoc_test(admin, candidate_mailer_text)}
-  end
-
-  def adhoc_test_subj_call
-    lambda {|candidate| I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate.account_name)}
-  end
-
-  def conf_insts_call
-    lambda {|admin, candidate_mailer_text| candidate_mailer_text.candidate.confirmation_instructions}
-  end
-
-  def mmm_call
-    lambda {|admin, candidate_mailer_text| CandidatesMailer.monthly_reminder(admin, candidate_mailer_text)}
-  end
-
-  def mmm_test_call
-    lambda {|admin, candidate_mailer_text| CandidatesMailer.monthly_reminder_test(admin, candidate_mailer_text)}
-  end
-
-  def mmm_test_subj_call
-    lambda {|candidate| I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate.account_name)}
-  end
-
-  def reset_pass_call
-    lambda {|admin, candidate_mailer_text| candidate_mailer_text.candidate.password_reset_message}
-  end
-
 # TEST ONLY
   def expand_text_adhoc(candidate, subject_text, *body_input_text)
 
@@ -198,6 +168,41 @@ class SendGridMail
     expand_text(candidate, subject_text, *body_input_text,
                 mmm_call
     )
+  end
+
+  private
+
+
+  def adhoc_call
+    lambda {|admin, candidate_mailer_text| CandidatesMailer.adhoc(admin, candidate_mailer_text)}
+  end
+
+  def adhoc_test_call
+    lambda {|admin, candidate_mailer_text| CandidatesMailer.adhoc_test(admin, candidate_mailer_text)}
+  end
+
+  def adhoc_test_subj_call
+    lambda {|candidate| I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate.account_name)}
+  end
+
+  def conf_insts_call
+    lambda {|admin, candidate_mailer_text| candidate_mailer_text.candidate.confirmation_instructions(candidate_mailer_text)}
+  end
+
+  def mmm_call
+    lambda {|admin, candidate_mailer_text| CandidatesMailer.monthly_reminder(admin, candidate_mailer_text)}
+  end
+
+  def mmm_test_call
+    lambda {|admin, candidate_mailer_text| CandidatesMailer.monthly_reminder_test(admin, candidate_mailer_text)}
+  end
+
+  def mmm_test_subj_call
+    lambda {|candidate| I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate.account_name)}
+  end
+
+  def reset_pass_call
+    lambda {|admin, candidate_mailer_text| candidate_mailer_text.candidate.password_reset_message(candidate_mailer_text)}
   end
 
 end

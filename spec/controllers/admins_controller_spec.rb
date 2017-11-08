@@ -389,9 +389,6 @@ describe AdminsController do
       describe 'initial email' do
         it 'should send initial email with reset password when ' do
 
-          expect(SendResetEmailJob).to receive(:perform_in).with(0, @c2, AdminsController::INITIAL_EMAIL).exactly(:once)
-          expect(SendResetEmailJob).to receive(:perform_in).with(2, @c3, AdminsController::INITIAL_EMAIL).exactly(:once)
-
           put :mass_edit_candidates_update,
               candidate: {candidate_ids: [@c2.id, @c3.id]},
               commit: AdminsController::INITIAL_EMAIL

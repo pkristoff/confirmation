@@ -11,6 +11,7 @@ class CandidatesMailerText
   attr_accessor :closing_text
   attr_accessor :salutation_text
   attr_accessor :from_text
+  attr_accessor :token
 
   def initialize(parms)
     @candidate = parms[:candidate]

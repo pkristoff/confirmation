@@ -71,21 +71,21 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  config.action_mailer.smtp_settings = {
-    address: Rails.application.secrets.email_provider_address,
-    port: 587,
-    domain: Rails.application.secrets.email_provider_domain,
-    authentication: :login,
-    enable_starttls_auto: true,
-    user_name: Rails.application.secrets.email_provider_username,
-    password: Rails.application.secrets.email_provider_password,
-    openssl_verify_mode: 'none'
-  }
+  # config.action_mailer.smtp_settings = {
+  #   address: Rails.application.secrets.email_provider_address,
+  #   port: 587,
+  #   domain: Rails.application.secrets.email_provider_domain,
+  #   authentication: :login,
+  #   enable_starttls_auto: true,
+  #   user_name: Rails.application.secrets.email_provider_username,
+  #   password: Rails.application.secrets.email_provider_password,
+  #   openssl_verify_mode: 'none'
+  # }
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.perform_deliveries = true
+  # config.action_mailer.raise_delivery_errors = true
 
 
   # Use default logging formatter so that PID and timestamp are not suppressed.

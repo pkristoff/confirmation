@@ -310,7 +310,7 @@ describe Candidate do
   describe 'password_reset_message' do
     it 'should return a DeliveryMessage' do
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
-      delivery = c1.password_reset_message
+      delivery = c1.password_reset_message(CandidatesMailerText.new(candidate: c1, subject: 'sub', body_input: ''))
       expect(delivery).not_to eq(nil)
       text = delivery.message.body.to_s
 

@@ -169,7 +169,7 @@ class AdminsController < ApplicationController
           # in email and follow instructions to actually change
           # the password).
           send_grid_mail = SendGridMail.new(current_admin, candidates)
-          response = send_grid_mail.reset_password
+          response, token = send_grid_mail.reset_password
           if response.nil? && Rails.env.test?
             # not connected to the internet
             flash[:notice] = I18n.t('messages.reset_password_message_sent')
@@ -184,8 +184,15 @@ class AdminsController < ApplicationController
           # password is not changed. (Recipient has to click link
           # in email and follow instructions to actually change
           # the password).
-          candidates.each_with_index do |candidate, index|
-            SendResetEmailJob.perform_in(index*2, candidate, AdminsController::INITIAL_EMAIL)
+          send_grid_mail = SendGridMail.new(current_admin, candidates)
+          response, token = send_grid_mail.confirmation_instructions
+          if response.nil? && Rails.env.test?
+            # not connected to the internet
+            flash[:notice] = t('messages.initial_email_sent')
+          elsif response.status_code[0] === '2'
+            flash[:notice] = t('messages.initial_email_sent')
+          else
+            flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
           end
           redirect_to :back, notice: t('messages.initial_email_sent')
         when AdminsController::CONFIRM_ACCOUNT

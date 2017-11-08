@@ -37,22 +37,22 @@ Rails.application.configure do
   #     :enable_starttls_auto => true
   # }
 
-  config.action_mailer.smtp_settings = {
-      address: Rails.application.secrets.email_provider_address,
-      port: 587,
-      domain: Rails.application.secrets.email_provider_domain,
-      authentication: :login,
-      enable_starttls_auto: true,
-      user_name: Rails.application.secrets.email_provider_username,
-      password: Rails.application.secrets.email_provider_password
-
-  }
+  # config.action_mailer.smtp_settings = {
+  #     address: Rails.application.secrets.email_provider_address,
+  #     port: 587,
+  #     domain: Rails.application.secrets.email_provider_domain,
+  #     authentication: :login,
+  #     enable_starttls_auto: true,
+  #     user_name: Rails.application.secrets.email_provider_username,
+  #     password: Rails.application.secrets.email_provider_password
+  #
+  # }
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.raise_delivery_errors = true
-  # Send email in development mode?
-  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.raise_delivery_errors = true
+  # # Send email in development mode?
+  # config.action_mailer.perform_deliveries = true
 
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,

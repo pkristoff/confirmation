@@ -304,12 +304,6 @@ class CommonCandidatesController < ApplicationController
         raise "Unknown scanned_image_attributes #{scanned_image_attributes}"
     end
     unless scanned_filename.nil?
-      # The problem is that while running tests if I do NOT do encode64 the tests
-      # break with this message: ArgumentError: string contains null byte
-      #  if it is left in all the time then the png does not show up in the browser.
-      # scanned_content = Base64.encode64(scanned_content) if file && (File.basename(file.original_filename) === 'actions for spec testing.png')
-puts "scanned_filename=#{scanned_filename}"
-puts "scanned_content_type=#{scanned_content_type}"
       picture_params = ActionController::Parameters.new
       association_params[scanned_image_attributes] = picture_params
       picture_params[:filename] = scanned_filename

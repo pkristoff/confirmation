@@ -4,9 +4,9 @@ class SendResetEmailJob
   def perform(candidate, type)
     case type
       when AdminsController::RESET_PASSWORD
-        candidate.send_reset_password_instructions
+        raise "Do not do SendResetEmailJob type '#{type}'"
       when AdminsController::INITIAL_EMAIL
-        candidate.send_confirmation_instructions
+        raise "Do not do SendResetEmailJob type '#{type}'"
       else
         raise "SendResetEmailJob unknown type '#{type}'"
     end
