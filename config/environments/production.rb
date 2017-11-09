@@ -103,4 +103,6 @@ Rails.application.configure do
                                               email_format: :html
 
                                           }
+
+  Rails.application.routes.default_url_options[:host] = Rails.application.secrets.domain_name
 end

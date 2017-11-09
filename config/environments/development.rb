@@ -77,6 +77,6 @@ Rails.application.configure do
   #
   #                                         }
 
-  Rails.application.routes.default_url_options[:host] = 'domain.com'
+  Rails.application.routes.default_url_options[:host] = Rails.application.secrets.domain_name
 
 end
