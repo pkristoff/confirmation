@@ -72,6 +72,9 @@ This application requires:
 * Gmail mailing do https://accounts.google.com/DisplayUnlockCaptcha if gmail is not authenticating.
 * hiding passwords http://railsapps.github.io/rails-environment-variables.html
 * pdf = http://prawnpdf.org/manual.pdf
+* sorting table = github.com/themilkman/jquery-tablesorter-rails
+  * doc:  
+* tinymc - editig gem
 
 
 Postgres local

@@ -34,7 +34,7 @@ $(document).ready ->
         filter_reset: '.reset',
 
 # Use the $.tablesorter.storage utility to save the most recent filters
-        filter_saveFilters: true,
+        filter_saveFilters: false,
 
 # Delay in milliseconds before the filter widget starts searching; This option prevents searching for
 # every character while typing and should make searching large tables faster.
