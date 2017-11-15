@@ -6,6 +6,13 @@ class CandidateImportsController < ApplicationController
 
   attr_accessor :candidate_import
 
+  def orphaned_table_rows
+    case params[:commit]
+      when t('views.imports.check_orphaned_table_rows')
+        @candidate_import = CandidateImport.new.add_orphaned_table_rows
+    end
+  end
+
   def check_events
     if params[:commit] == t('views.imports.add_missing_events')
       if params[:candidate_import][:missing] == ''

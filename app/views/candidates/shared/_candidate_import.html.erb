@@ -117,3 +117,45 @@
       <div class="buttons"><%= f.submit t('views.imports.add_missing_events') %></div>
   <% end %>
 </section>
+
+<section id="orphaned-table-rows">
+  <h2><%= t('views.imports.orphaned_table_rows') %></h2>
+
+  <%= form_for(@candidate_import, url: candidate_imports_orphaned_table_rows_path, method: :post) do |f| %>
+      <div id="div_missing_confirmation_events">
+        <h3><%= t('views.imports.missing') %>:</h3>
+        <ul id="add_orphaned_table_rows">
+          <% @candidate_import.orphaned_table_rows.each do |key, missing_list| %>
+              <li><%= key %></li>
+              <ul id="add_orphaned_table_rows_"<%= key %>>
+                <% missing_list.each do | missing | %>
+                    <li><%= missing.id %></li>
+                <% end %>
+              </ul>
+          <% end %>
+        </ul>
+      </div>
+
+      <div id="div_unknown_confirmation_events">
+        <%= f.hidden_field :unknown, :value => @candidate_import.unknown_confirmation_events.join(":")%>
+        <h3><%= t('views.imports.unknown') %>:</h3>
+        <ul id="unknown_confirmation_events">
+          <% @candidate_import.unknown_confirmation_events.map do |confirmation_event_name| %>
+              <li><%= confirmation_event_name %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div id="div_found_confirmation_events">
+        <%= f.hidden_field :found, :value => @candidate_import.found_confirmation_events.join(":")%>
+        <h3><%= t('views.imports.found') %>:</h3>
+        <ul id="found_confirmation_events">
+          <% @candidate_import.found_confirmation_events.map do |confirmation_event_name| %>
+              <li><%= confirmation_event_name %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="buttons"><%= f.submit t('views.imports.check_orphaned_table_rows')  %></div>
+      <div class="buttons"><%= f.submit t('views.imports.remove_orphaned_table_rows') %></div>
+  <% end %>
+</section>

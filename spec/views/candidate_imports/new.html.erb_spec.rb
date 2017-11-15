@@ -14,7 +14,8 @@ describe 'candidate_imports/new.html.erb' do
         ['section[id=import] form[id=new_candidate_import][action="/candidate_imports"]', I18n.t('views.imports.import')],
         ['section[id=start_new_year] form[id=new_candidate_import][action="/candidate_imports/start_new_year"]', I18n.t('views.imports.reset_database')],
         ['section[id=reset_database] form[id=new_candidate_import][action="/candidate_imports/reset_database"]', I18n.t('views.imports.start_new_year')],
-        ['section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]', I18n.t('views.imports.check_events')]
+        ['section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]', I18n.t('views.imports.check_events')],
+        ['section[id=orphaned-table-rows] form[id=new_candidate_import][action="/candidate_imports/orphaned_table_rows"]', I18n.t('views.imports.check_orphaned_table_rows')]
     ]
 
     section_info.each do |info|

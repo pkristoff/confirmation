@@ -252,10 +252,13 @@ en:
       cannot_recover: You cannot recover from this.
       check_events: Check Events
       check_events_first: No missing events found running Check Events first.
+      check_orphaned_table_rows: Check Orphaned Table Rows
       excel: Export to Excel
       found: Found
       import: Import
       missing: Missing
+      orphaned_table_rows: Orphaned table rows
+      remove_orphaned_table_rows: Remove orphaned talbe rows
       reset_database: Reset the Database
       start_new_year: Start new year
       unknown: Unknown

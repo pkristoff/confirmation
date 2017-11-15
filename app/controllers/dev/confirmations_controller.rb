@@ -1,23 +1,27 @@
 module Dev
   class ConfirmationsController < Devise::ConfirmationsController
 
+    # Confirms user(account)
     # copied from parent class
+    # ==== Attributes
+    #
+    # * +confirmation_token+ - Token from email link
     def show
       self.resource = resource_class.confirm_by_token(params[:confirmation_token])
       yield resource if block_given?
 
-      # if resource.errors.empty?
-        # set_flash_message!(:notice, :confirmed, account: resource.account_name)
-        respond_with_navigational(resource.errors, resource) {redirect_to after_confirmation_path_for(resource, resource_name, resource.errors)}
-      #   return
-      # else
-      #   respond_with_navigational(resource) {redirect_to after_confirmation_path_for(resource_name, resource)}
-      #   return
-      # end
+      respond_with_navigational(resource.errors, resource) {redirect_to after_confirmation_path_for(resource, resource_name, resource.errors)}
     end
 
     protected
 
+    # Where to go after user(account) is confirmed
+    # ==== Attributes
+    #
+    # * +resource+ - candidate
+    # * +resource_name+ - candidate class name
+    # * +errors+ - Errors gathered while confirming account
+    #
     def after_confirmation_path_for(resource, resource_name, errors)
       msgs = ''
       errors.full_messages.each {|msg| msgs += "#{msg}"}
