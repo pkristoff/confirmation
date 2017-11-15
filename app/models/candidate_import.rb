@@ -167,36 +167,36 @@ class CandidateImport
     all_retreat_verifications = RetreatVerification.all
     all_sponsor_covenants = SponsorCovenant.all
 
-    orphaned_rows = all_baptismal_certificates.select {|ar| all_candidates.select {|c| c.baptismal_certificate_id === ar.id}.empty?}
+    orphaned_rows = BaptismalCertificate.select {|ar| all_candidates.select {|c| c.baptismal_certificate_id === ar.id}.empty?}
     self.orphaned_table_rows = {BaptismalCertificate: orphaned_rows}
-    orphaned_rows = all_candidate_sheets.select {|ar| all_candidates.select {|c| c.candidate_sheet_id === ar.id}.empty?}
+    orphaned_rows = CandidateSheet.select {|ar| all_candidates.select {|c| c.candidate_sheet_id === ar.id}.empty?}
     self.orphaned_table_rows[:CandidateSheet] = orphaned_rows
-    orphaned_rows = ChristianMinistry.all.select {|ar| all_candidates.select {|c| c.christian_ministry_id === ar.id}.empty?}
+    orphaned_rows = ChristianMinistry.select {|ar| all_candidates.select {|c| c.christian_ministry_id === ar.id}.empty?}
     self.orphaned_table_rows[:ChristianMinistry] = orphaned_rows
-    orphaned_rows = PickConfirmationName.all.select {|ar| all_candidates.select {|c| c.pick_confirmation_name_id === ar.id}.empty?}
+    orphaned_rows = PickConfirmationName.select {|ar| all_candidates.select {|c| c.pick_confirmation_name_id === ar.id}.empty?}
     self.orphaned_table_rows[:PickConfirmationName] = orphaned_rows
-    orphaned_rows = all_retreat_verifications.select {|ar| all_candidates.select {|c| c.retreat_verification_id === ar.id}.empty?}
+    orphaned_rows = RetreatVerification.select {|ar| all_candidates.select {|c| c.retreat_verification_id === ar.id}.empty?}
     self.orphaned_table_rows[:RetreatVerification] = orphaned_rows
-    orphaned_rows = all_sponsor_covenants.select {|ar| all_candidates.select {|c| c.sponsor_covenant_id === ar.id}.empty?}
+    orphaned_rows = SponsorCovenant.select {|ar| all_candidates.select {|c| c.sponsor_covenant_id === ar.id}.empty?}
     self.orphaned_table_rows[:SponsorCovenant] = orphaned_rows
 
-    orphaned_rows = Address.all.select do |ar|
-      all_baptismal_certificates.select {|bc| bc.church_address_id === ar.id}.empty? &&
-          all_candidate_sheets.select {|sc| sc.address_id === ar.id}.empty?
+    orphaned_rows = Address.select do |ar|
+      BaptismalCertificate.select {|bc| bc.church_address_id === ar.id}.empty? &&
+          CandidateSheet.select {|sc| sc.address_id === ar.id}.empty?
     end
     self.orphaned_table_rows[:Address] = orphaned_rows
     self
 
-    orphaned_rows = ScannedImage.all.select do |ar|
-      all_baptismal_certificates.select {|ar| ar.scanned_certificate_id === ar.id}.empty? &&
-          all_retreat_verifications.select {|ar| ar.scanned_retreat_id === ar.id}.empty? &&
-          all_sponsor_covenants.select {|ar| ar.scanned_covenant_id === ar.id}.empty? &&
-          all_sponsor_covenants.select {|ar| ar.scanned_eligibility_id === ar.id}.empty?
+    orphaned_rows = ScannedImage.select do |ar|
+      BaptismalCertificate.select {|ar| ar.scanned_certificate_id === ar.id}.empty? &&
+          RetreatVerification.select {|ar| ar.scanned_retreat_id === ar.id}.empty? &&
+          SponsorCovenant.select {|ar| ar.scanned_covenant_id === ar.id}.empty? &&
+          SponsorCovenant.select {|ar| ar.scanned_eligibility_id === ar.id}.empty?
     end
     self.orphaned_table_rows[:ScannedImage] = orphaned_rows
 
-    orphaned_rows = ToDo.all.select do |ar|
-      ConfirmationEvent.all.select {|ce| ar.confirmation_event_id === ce.id}.empty? &&
+    orphaned_rows = ToDo.select do |ar|
+      ConfirmationEvent.select {|ce| ar.confirmation_event_id === ce.id}.empty? &&
           CandidateEvent.select {|ce| ar.candidate_event_id === ce.id}.empty?
     end
     self.orphaned_table_rows[:ToDo] = orphaned_rows
