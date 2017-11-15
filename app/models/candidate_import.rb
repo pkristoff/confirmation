@@ -167,17 +167,17 @@ class CandidateImport
     all_retreat_verifications = RetreatVerification.all
     all_sponsor_covenants = SponsorCovenant.all
 
-    orphaned_rows = BaptismalCertificate.select {|ar| all_candidates.select {|c| c.baptismal_certificate_id === ar.id}.empty?}
+    orphaned_rows = BaptismalCertificate.select {|ar| Candidate.select {|c| c.baptismal_certificate_id === ar.id}.empty?}
     self.orphaned_table_rows = {BaptismalCertificate: orphaned_rows}
-    orphaned_rows = CandidateSheet.select {|ar| all_candidates.select {|c| c.candidate_sheet_id === ar.id}.empty?}
+    orphaned_rows = CandidateSheet.select {|ar| Candidate.select {|c| c.candidate_sheet_id === ar.id}.empty?}
     self.orphaned_table_rows[:CandidateSheet] = orphaned_rows
-    orphaned_rows = ChristianMinistry.select {|ar| all_candidates.select {|c| c.christian_ministry_id === ar.id}.empty?}
+    orphaned_rows = ChristianMinistry.select {|ar| Candidate.select {|c| c.christian_ministry_id === ar.id}.empty?}
     self.orphaned_table_rows[:ChristianMinistry] = orphaned_rows
-    orphaned_rows = PickConfirmationName.select {|ar| all_candidates.select {|c| c.pick_confirmation_name_id === ar.id}.empty?}
+    orphaned_rows = PickConfirmationName.select {|ar| Candidate.select {|c| c.pick_confirmation_name_id === ar.id}.empty?}
     self.orphaned_table_rows[:PickConfirmationName] = orphaned_rows
-    orphaned_rows = RetreatVerification.select {|ar| all_candidates.select {|c| c.retreat_verification_id === ar.id}.empty?}
+    orphaned_rows = RetreatVerification.select {|ar| Candidate.select {|c| c.retreat_verification_id === ar.id}.empty?}
     self.orphaned_table_rows[:RetreatVerification] = orphaned_rows
-    orphaned_rows = SponsorCovenant.select {|ar| all_candidates.select {|c| c.sponsor_covenant_id === ar.id}.empty?}
+    orphaned_rows = SponsorCovenant.select {|ar| Candidate.select {|c| c.sponsor_covenant_id === ar.id}.empty?}
     self.orphaned_table_rows[:SponsorCovenant] = orphaned_rows
 
     orphaned_rows = Address.select do |ar|
