@@ -10,6 +10,8 @@ class CandidateImportsController < ApplicationController
     case params[:commit]
       when t('views.imports.check_orphaned_table_rows')
         @candidate_import = CandidateImport.new.add_orphaned_table_rows
+      when t('views.imports.remove_orphaned_table_rows')
+        @candidate_import = CandidateImport.new.remove_orphaned_table_rows
     end
   end
 

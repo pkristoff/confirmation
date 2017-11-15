@@ -247,6 +247,7 @@ en:
       verified: Verified
     imports:
       add_missing_events: Add Missing Events
+      broken_associations: Broken Associations
       candidates_export: Export Candidates
       candidates_import: Import Candidates
       cannot_recover: You cannot recover from this.
