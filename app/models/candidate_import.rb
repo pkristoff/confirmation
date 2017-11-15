@@ -172,6 +172,15 @@ class CandidateImport
     removed = 0
     orphaned_rows = orphaned_christian_ministry
     removed = ChristianMinistry.destroy(orphaned_rows) unless orphaned_rows.empty?
+    removed = 0
+    orphaned_rows = orphaned_pick_name
+    removed = PickConfirmationName.destroy(orphaned_rows) unless orphaned_rows.empty?
+    removed = 0
+    orphaned_rows = orphaned_retreat_verification
+    removed = RetreatVerification.destroy(orphaned_rows) unless orphaned_rows.empty?
+    removed = 0
+    orphaned_rows = orphaned_sponsor_covenant
+    removed = SponsorCovenant.destroy(orphaned_rows) unless orphaned_rows.empty?
     self
   end
 
@@ -187,11 +196,11 @@ class CandidateImport
     self.orphaned_table_rows[:CandidateSheet] = orphaned_rows
     orphaned_rows = orphaned_christian_ministry
     self.orphaned_table_rows[:ChristianMinistry] = orphaned_rows
-    orphaned_rows = PickConfirmationName.pluck(:id).select {|ar_id| Candidate.pluck(:pick_confirmation_name_id).select {|pc_id| pc_id === ar_id}.empty?}
+    orphaned_rows = orphaned_pick_name
     self.orphaned_table_rows[:PickConfirmationName] = orphaned_rows
-    orphaned_rows = RetreatVerification.pluck(:id).select {|ar_id| Candidate.pluck(:retreat_verification_id).select {|rv_id| rv_id === ar_id}.empty?}
+    orphaned_rows = orphaned_retreat_verification
     self.orphaned_table_rows[:RetreatVerification] = orphaned_rows
-    orphaned_rows = SponsorCovenant.pluck(:id).select {|ar_id| Candidate.pluck(:sponsor_covenant_id).select {|sc_id| sc_id === ar_id}.empty?}
+    orphaned_rows = orphaned_sponsor_covenant
     self.orphaned_table_rows[:SponsorCovenant] = orphaned_rows
 
     orphaned_rows = Address.pluck(:id).select do |ar_id|
@@ -233,6 +242,18 @@ class CandidateImport
     end
 
     self
+  end
+
+  def orphaned_sponsor_covenant
+    SponsorCovenant.pluck(:id).select {|ar_id| Candidate.pluck(:sponsor_covenant_id).select {|sc_id| sc_id === ar_id}.empty?}
+  end
+
+  def orphaned_retreat_verification
+    RetreatVerification.pluck(:id).select {|ar_id| Candidate.pluck(:retreat_verification_id).select {|rv_id| rv_id === ar_id}.empty?}
+  end
+
+  def orphaned_pick_name
+    PickConfirmationName.pluck(:id).select {|ar_id| Candidate.pluck(:pick_confirmation_name_id).select {|pc_id| pc_id === ar_id}.empty?}
   end
 
   def orphaned_christian_ministry
