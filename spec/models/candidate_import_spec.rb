@@ -341,6 +341,44 @@ describe CandidateImport do
 
   end
 
+  describe 'orphaned associations' do
+    it 'No orphaned associations' do
+
+      c1 = FactoryGirl.create(:candidate)
+      candidate_import = CandidateImport.new
+      candidate_import.add_orphaned_table_rows
+      orphaned_table_rows = candidate_import.orphaned_table_rows
+      orphaned_table_rows.each do |key, orphan_ids|
+        expect(orphan_ids).to be_empty
+      end
+    end
+    it 'orphaned associations' do
+      expected_orphans = get_expected_orphans
+
+      c1 = FactoryGirl.create(:candidate)
+      candidate_import = CandidateImport.new
+      # create orphans
+      expect_ophans(candidate_import, expected_orphans)
+    end
+    it 'destroy orphaned associations' do
+      expected_orphans = get_expected_orphans
+
+      c1 = FactoryGirl.create(:candidate)
+      candidate_import = CandidateImport.new
+
+      expect_ophans(candidate_import, expected_orphans)
+
+      candidate_import.remove_orphaned_table_rows
+      candidate_import.add_orphaned_table_rows
+      orphaned_table_rows = candidate_import.orphaned_table_rows
+
+      orphaned_table_rows.each do |key, orphan_ids|
+        expect(orphan_ids.size).to be(0), "There should be no orphaned rows for '#{key}': #{orphan_ids}"
+      end
+    end
+
+  end
+
   it 'what do things look like when empty' do
 
     Candidate.create(account_name: 'c1', password: 'asdfgthe',
@@ -375,6 +413,31 @@ describe CandidateImport do
   end
 end
 
+def expect_ophans(candidate_import, expected_orphans)
+  candidate_import.add_orphaned_table_rows
+  orphaned_table_rows = candidate_import.orphaned_table_rows
+  orphaned_table_rows.each do |key, orphan_ids|
+    expect(orphan_ids.size).to be(1), "There should be only one orphaned row for '#{key}': #{orphan_ids}"
+    expect(orphan_ids[0]).to be(expected_orphans[key].id), "Id mismatch for '#{key}' orphan:#{orphan_ids[0]} expected:#{expected_orphans[key].id}"
+  end
+end
+
+def get_expected_orphans
+
+  {
+      # Candidate associations
+      BaptismalCertificate: FactoryGirl.create(:baptismal_certificate, skip_address_replacement: true),
+      CandidateSheet: FactoryGirl.create(:candidate_sheet),
+      ChristianMinistry: FactoryGirl.create(:christian_ministry),
+      PickConfirmationName: FactoryGirl.create(:pick_confirmation_name),
+      RetreatVerification: FactoryGirl.create(:retreat_verification),
+      SponsorCovenant: FactoryGirl.create(:sponsor_covenant),
+      # # other associations
+      ScannedImage: FactoryGirl.create(:scanned_image),
+      Address: FactoryGirl.create(:address),
+      ToDo: FactoryGirl.create(:to_do, confirmation_event_id: nil, candidate_event_id: nil)
+  }
+end
 
 def expect_confirmation_event(event_name, way_date, chs_date)
   confirmation_event = ConfirmationEvent.find_by_name(event_name)
