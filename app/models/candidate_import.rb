@@ -175,45 +175,45 @@ class CandidateImport
   # Walks through the associations searching for associations that are created but not associated with parent
   def add_orphaned_table_rows
 
-    self.orphaned_table_rows = {BaptismalCertificate: orphaned_baptismal_certificates}
-    orphaned_rows =
-        self.orphaned_table_rows[:CandidateSheet] = orphaned_candidate_sheets
-    orphaned_rows =
-        self.orphaned_table_rows[:ChristianMinistry] = orphaned_christian_ministry
-    orphaned_rows =
-        self.orphaned_table_rows[:PickConfirmationName] = orphaned_pick_name
-    orphaned_rows =
-        self.orphaned_table_rows[:RetreatVerification] = orphaned_retreat_verification
-    orphaned_rows =
-        self.orphaned_table_rows[:SponsorCovenant] = orphaned_sponsor_covenant
-
-    orphaned_rows =
-        self.orphaned_table_rows[:Address] = orphaned_addresses
-
-
-    orphaned_rows = orphaned_scanned_image
-    self.orphaned_table_rows[:ScannedImage] = orphaned_rows
-
-    orphaned_rows = orphaned_to_do
-    self.orphaned_table_rows[:ToDo] = orphaned_rows
-
-    self.candidate_missing_associations = {
-        Candidate: Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id, :pick_confirmation_name_id, :retreat_verification_id, :sponsor_covenant_id).select do |id, baptismal_certificate_id, candidate_sheet_id, christian_ministry_id, pick_confirmation_name_id, retreat_verification_id, sponsor_covenant_id|
-          BaptismalCertificate.find(baptismal_certificate_id).nil? || CandidateSheet.find(candidate_sheet_id).nil? || ChristianMinistry.find(christian_ministry_id).nil? || PickConfirmationName.find(pick_confirmation_name_id).nil? || RetreatVerification.find(retreat_verification_id).nil? || SponsorCovenant.find(sponsor_covenant_id).nil?
+    begin
+      self.orphaned_table_rows = {BaptismalCertificate: orphaned_baptismal_certificates}
+      self.orphaned_table_rows[:CandidateSheet] = orphaned_candidate_sheets
+      self.orphaned_table_rows[:ChristianMinistry] = orphaned_christian_ministry
+      self.orphaned_table_rows[:PickConfirmationName] = orphaned_pick_name
+      self.orphaned_table_rows[:RetreatVerification] = orphaned_retreat_verification
+      self.orphaned_table_rows[:SponsorCovenant] = orphaned_sponsor_covenant
+      self.orphaned_table_rows[:Address] = orphaned_addresses
+      self.orphaned_table_rows[:ScannedImage] = orphaned_scanned_image
+      self.orphaned_table_rows[:ToDo] = orphaned_to_do
+    rescue Exception => e
+      Rails.logger.info 'error while looking for orphans'
+      Rails.logger.info e.message
+      Rails.logger.info e.backtrace.inspect
+      [:BaptismalCertificate, :CandidateSheet, :ChristianMinistry, :PickConfirmationName, :RetreatVerification,
+       :SponsorCovenant, :Address, :ScannedImage, :ToDo].each do
+        [key]
+        unless self.orphaned_table_rows[key]
+          self.orphaned_table_rows[key] = [:error]
         end
-    }
-    self.candidate_missing_associations[:BaptismalCertificate] = BaptismalCertificate.pluck(:id, :scanned_certificate_id, :church_address_id).select do |id, scanned_certificate_id, church_address_id|
-      (!scanned_certificate_id.nil? && ScannedImage.find(scanned_certificate_id).nil?) || Address.find(church_address_id).nil?
+      end
     end
-    self.candidate_missing_associations[:CandidateSheet] = CandidateSheet.pluck(:id, :address_id).select do |id, address_id|
-      Address.find(address_id).nil?
-    end
-    self.candidate_missing_associations[:RetreatVerification] = RetreatVerification.pluck(:id, :scanned_retreat_id).select do |id, scanned_retreat_id|
-      !scanned_retreat_id.nil? && ScannedImage.find(scanned_retreat_id).nil?
-    end
-    self.candidate_missing_associations[:SponsorCovenant] = SponsorCovenant.pluck(:id, :scanned_covenant_id, :scanned_eligibility_id).select do |id, scanned_covenant_id, scanned_eligibility_id|
-      (!scanned_covenant_id.nil? && ScannedImage.find(scanned_covenant_id).nil?) || (!scanned_eligibility_id.nil? && ScannedImage.find(scanned_eligibility_id).nil?)
-    end
+    # self.candidate_missing_associations = {
+    #     Candidate: Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id, :pick_confirmation_name_id, :retreat_verification_id, :sponsor_covenant_id).select do |id, baptismal_certificate_id, candidate_sheet_id, christian_ministry_id, pick_confirmation_name_id, retreat_verification_id, sponsor_covenant_id|
+    #       BaptismalCertificate.find(baptismal_certificate_id).nil? || CandidateSheet.find(candidate_sheet_id).nil? || ChristianMinistry.find(christian_ministry_id).nil? || PickConfirmationName.find(pick_confirmation_name_id).nil? || RetreatVerification.find(retreat_verification_id).nil? || SponsorCovenant.find(sponsor_covenant_id).nil?
+    #     end
+    # }
+    # self.candidate_missing_associations[:BaptismalCertificate] = BaptismalCertificate.pluck(:id, :scanned_certificate_id, :church_address_id).select do |id, scanned_certificate_id, church_address_id|
+    #   (!scanned_certificate_id.nil? && ScannedImage.find(scanned_certificate_id).nil?) || Address.find(church_address_id).nil?
+    # end
+    # self.candidate_missing_associations[:CandidateSheet] = CandidateSheet.pluck(:id, :address_id).select do |id, address_id|
+    #   Address.find(address_id).nil?
+    # end
+    # self.candidate_missing_associations[:RetreatVerification] = RetreatVerification.pluck(:id, :scanned_retreat_id).select do |id, scanned_retreat_id|
+    #   !scanned_retreat_id.nil? && ScannedImage.find(scanned_retreat_id).nil?
+    # end
+    # self.candidate_missing_associations[:SponsorCovenant] = SponsorCovenant.pluck(:id, :scanned_covenant_id, :scanned_eligibility_id).select do |id, scanned_covenant_id, scanned_eligibility_id|
+    #   (!scanned_covenant_id.nil? && ScannedImage.find(scanned_covenant_id).nil?) || (!scanned_eligibility_id.nil? && ScannedImage.find(scanned_eligibility_id).nil?)
+    # end
 
     self
   end
