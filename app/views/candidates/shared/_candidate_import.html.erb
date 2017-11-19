@@ -17,28 +17,6 @@
           <% end %>
         </ul>
       </div>
-
-      <div id="div_broken_associations">
-        <h3><%= t('views.imports.broken_associations') %>:</h3>
-        <% @candidate_import.candidate_missing_associations.each do |key, broken_id_list| %>
-            <li><%= key %>: <%= broken_id_list.size %></li>
-            <ul id="add_candidate_missing_associations_"<%= key %>>
-              <% broken_id_list.each do | broken_id | %>
-                  <li><%= broken_id %></li>
-              <% end %>
-            </ul>
-        <% end %>
-      </div>
-
-      <div id="div_found_confirmation_events">
-        <%= f.hidden_field :found, :value => @candidate_import.found_confirmation_events.join(":")%>
-        <h3><%= t('views.imports.found') %>:</h3>
-        <ul id="found_confirmation_events">
-          <% @candidate_import.found_confirmation_events.map do |confirmation_event_name| %>
-              <li><%= confirmation_event_name %></li>
-          <% end %>
-        </ul>
-      </div>
       <div class="buttons"><%= f.submit t('views.imports.check_orphaned_table_rows')  %></div>
       <div class="buttons"><%= f.submit t('views.imports.remove_orphaned_table_rows') %></div>
   <% end %>
