@@ -26,6 +26,8 @@ Features:
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 Deploying:
+* forking production: https://devcenter.heroku.com/articles/fork-app#setup
+* Managing Multiple Environments for an App: https://devcenter.heroku.com/articles/multiple-environments#managing-staging-and-production-configurations
 * remote versions: git remote -v
 * staging: git push staging master
 * production: git push heroku master

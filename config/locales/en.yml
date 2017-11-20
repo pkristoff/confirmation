@@ -256,7 +256,7 @@ en:
       excel: Export to Excel
       found: Found
       import: Import
-      missing: Missing x
+      missing: Missing
       orphaned_table_rows: Orphaned table rows
       remove_orphaned_table_rows: Remove orphaned talbe rows
       reset_database: Reset the Database
