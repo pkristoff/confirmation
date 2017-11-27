@@ -74,6 +74,155 @@ describe SendGridMail, type: :model do
 
   end
 
+  describe 'convert_if_not_production' do
+
+    before(:each) do
+      @admin = FactoryGirl.create(:admin)
+      candidate = create_candidate('Paul', 'Richard', 'Kristoff')
+      AppFactory.add_confirmation_events
+      @candidate = Candidate.find_by_account_name(candidate.account_name)
+    end
+
+    it 'should return nil' do
+      send_grid_mail = SendGridMail.new(@admin, [@candidate])
+      expect(send_grid_mail.convert_if_not_production(nil)).to be_nil
+    end
+
+    describe 'PIPELINE' do
+      it 'should return PIPELINE=nil' do
+        Rails.application.secrets.pipeline = nil
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production(nil)).to be_nil
+      end
+      it 'should return PIPELINE=nil for convert_emails' do
+        Rails.application.secrets.pipeline = nil
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails([nil], ['stmm.confirmation@kristoffs.com'])).to eq([nil])
+      end
+
+      it 'should return local email when multiple emails when PIPELINE=nil' do
+        Rails.application.secrets.pipeline = nil
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('prk1@test.com')).to eq('paul@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('prk2@test.com')).to eq('paul.kristoff@kristoffs.com')
+      end
+      it 'should return local email when multiple emails when PIPELINE=nil for convert_emails' do
+        Rails.application.secrets.pipeline = nil
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(%w(prk1@test.com prk2@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul@kristoffs.com paul.kristoff@kristoffs.com))
+      end
+
+      it 'should return local email when multiple emails and one local when PIPELINE=nil' do
+        Rails.application.secrets.pipeline = nil
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('paul@kristoffs.com', [], ['paul@kristoffs.com'])).to eq('paul@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('prk2@test.com', ['paul@kristoffs.com'], ['paul@kristoffs.com'])).to eq('paul.kristoff@kristoffs.com')
+      end
+      it 'should return local email when multiple emails and one local when PIPELINE=nil for convert_emails' do
+        Rails.application.secrets.pipeline = nil
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(%w(paul@kristoffs.com prk2@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul@kristoffs.com paul.kristoff@kristoffs.com))
+      end
+
+      it 'should return local email when multiple emails and one local when PIPELINE=nil' do
+        Rails.application.secrets.pipeline = nil
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('paul.kristoff@kristoffs.com')).to eq('paul.kristoff@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('prk2@test.com')).to eq('paul@kristoffs.com')
+      end
+      it 'should return local email when multiple emails and one local when PIPELINE=nil for convert_emails' do
+        Rails.application.secrets.pipeline = nil
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(%w(paul.kristoff@kristoffs.com prk2@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul.kristoff@kristoffs.com paul@kristoffs.com))
+      end
+
+      it 'should return local email when PIPELINE=staging' do
+        Rails.application.secrets.pipeline = 'staging'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('prk@test.com')).to eq('paul@kristoffs.com')
+      end
+      it 'should return local email when PIPELINE=staging for convert_emails' do
+        Rails.application.secrets.pipeline = 'staging'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(['prk@test.com'], ['stmm.confirmation@kristoffs.com'])).to eq(['paul@kristoffs.com'])
+      end
+
+      it 'should return local email when multiple emails when PIPELINE=staging' do
+        Rails.application.secrets.pipeline = 'staging'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('prk1@test.com')).to eq('paul@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('prk2@test.com')).to eq('paul.kristoff@kristoffs.com')
+      end
+      it 'should return local email when multiple emails when PIPELINE=staging for convert_emails' do
+        Rails.application.secrets.pipeline = 'staging'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(%w(paul@kristoffs.com prk2@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul@kristoffs.com paul.kristoff@kristoffs.com))
+      end
+
+      it 'should return local email when multiple emails when PIPELINE=staging' do
+        Rails.application.secrets.pipeline = 'staging'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('camping@kristoffs.com', [], ['paul@kristoffs.com'])).to eq('paul.kristoff@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('paul@kristoffs.com', ['paul.kristoff@kristoffs.com'], ['paul@kristoffs.com'])).to eq('paul@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('medical@kristoffs.com', ['paul.kristoff@kristoffs.com', 'paul@kristoffs.com'], ['paul@kristoffs.com'])).to eq('retail@kristoffs.com')
+      end
+      it 'should return local email when multiple emails when PIPELINE=staging' do
+        Rails.application.secrets.pipeline = 'staging'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(%w(camping@kristoffs.com paul@kristoffs.com medical@kristoffs.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul.kristoff@kristoffs.com paul@kristoffs.com retail@kristoffs.com))
+      end
+
+      it 'should return local email when multiple emails when PIPELINE=staging' do
+        Rails.application.secrets.pipeline = 'staging'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('prk1@test.com')).to eq('paul@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('retail@kristoffs.com', ['paul@kristoffs.com'])).to eq('retail@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('prk2@test.com', ['paul@kristoffs.com', 'retail@kristoffs.com'])).to eq('paul.kristoff@kristoffs.com')
+        expect(send_grid_mail.convert_if_not_production('prk3@test.com', ['paul@kristoffs.com', 'retail@kristoffs.com', 'paul.kristoff@kristoffs.com'])).to eq('justfaith@kristoffs.com')
+      end
+      it 'should return local email when multiple emails when PIPELINE=staging for convert_emails' do
+        Rails.application.secrets.pipeline = 'staging'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(%w(prk1@test.com retail@kristoffs.com prk2@test.com prk3@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul@kristoffs.com retail@kristoffs.com paul.kristoff@kristoffs.com justfaith@kristoffs.com))
+      end
+
+      it 'should return unchanged email when PIPELINE=production' do
+        Rails.application.secrets.pipeline = 'production'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('prk@test.com')).to eq('prk@test.com')
+      end
+      it 'should return unchanged email when PIPELINE=production for convert_emails' do
+        Rails.application.secrets.pipeline = 'production'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(%w(prk@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(prk@test.com))
+      end
+
+      it 'should return nil when PIPELINE=production' do
+        Rails.application.secrets.pipeline = 'production'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production(nil)).to be_nil
+      end
+      it 'should return nil when PIPELINE=production for convert_emails' do
+        Rails.application.secrets.pipeline = 'production'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails([nil], ['stmm.confirmation@kristoffs.com'])).to eq([nil])
+      end
+
+      it 'should return unchanged emails when multiple emails when PIPELINE=production' do
+        Rails.application.secrets.pipeline = 'production'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_if_not_production('prk1@test.com')).to eq('prk1@test.com')
+        expect(send_grid_mail.convert_if_not_production('retail@test.com')).to eq('retail@test.com')
+      end
+      it 'should return unchanged emails when multiple emails when PIPELINE=production for convert_emails' do
+        Rails.application.secrets.pipeline = 'production'
+        send_grid_mail = SendGridMail.new(@admin, [@candidate])
+        expect(send_grid_mail.convert_emails(%w(prk1@test.com retail@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(prk1@test.com retail@test.com))
+      end
+    end
+  end
+
+
   def expect_basic_admin_info(body, subject)
     expect(body).to have_css('p[id=admin-info]', text: 'Vicki Kristoff')
     expect(body).to have_css('p[id=admin-info]', text: I18n.t('views.top_bar.contact_admin_mail_text'))

@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>PluckCan</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            PluckCan
+            
+                <span class="parent">&lt;
+                    
+                    <a href="Object.html">Object</a>
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/helpers/pluck_can_rb.html">app/helpers/pluck_can.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>This was created in an attempt to keep DB objects from being created to
+generate the sorting_candidate_selection pane.</p>
+
+<p>Each instance represents a row in _sorting_candidate_selection.html.erb</p>
+
+<h3 id="class-PluckCan-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:cand_info</code> <a href="Candidate.html">Candidate</a> information
+shown in the sorting table.</p>
+</li><li>
+<p><code>:cand_event_info</code> A hash that has the information necessary to
+generate the status of each candidate event for a candidate.</p>
+</li><li>
+<p><code>:candidate_event</code> The candiate event information (verified,
+completion_date) being editied in mass_edit_candidates_event.html.erb</p>
+</li></ul>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-account_name">account_name</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-attending">attending</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-candidate_event_id">candidate_event_id</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-completed_date">completed_date</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-conf_event_id">conf_event_id</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-confirmed-3F">confirmed?</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>F</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-first_name">first_name</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>G</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-grade">grade</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>I</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-id">id</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>L</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-last_name">last_name</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>N</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-new">new</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>P</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-password_changed">password_changed</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-pluck_cand_events">pluck_cand_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-pluck_candidates">pluck_candidates</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-status">status</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>V</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-verified">verified</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-new">
+            
+              <b>new</b>(cand_info, cand_event_info, candidate_event=nil)
+            
+            <a href="../classes/PluckCan.html#method-c-new" name="method-c-new" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
+                
+              </p>
+              <div id="method-c-new_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">cand_info</span>, <span class="ruby-identifier">cand_event_info</span>, <span class="ruby-identifier">candidate_event</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@cand_info</span> = <span class="ruby-identifier">cand_info</span>
+  <span class="ruby-ivar">@cand_event_info</span> = <span class="ruby-identifier">cand_event_info</span>
+  <span class="ruby-ivar">@candidate_event</span> = <span class="ruby-identifier">candidate_event</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-pluck_cand_events">
+            
+              <b>pluck_cand_events</b>()
+            
+            <a href="../classes/PluckCan.html#method-c-pluck_cand_events" name="method-c-pluck_cand_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Gather candidate_events information</p>
+
+<h3 id="method-c-pluck_cand_events-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-c-pluck_cand_events-label-Return-3A">Return:</h3>
+
+<p>Array of candidate_event information</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-pluck_cand_events_source')" id="l_method-c-pluck_cand_events_source">show</a>
+                
+              </p>
+              <div id="method-c-pluck_cand_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 63</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">pluck_cand_events</span>()
+  <span class="ruby-identifier">cand_event_info</span> = {}
+  <span class="ruby-constant">ToDo</span>.<span class="ruby-identifier">joins</span>(<span class="ruby-value">:confirmation_event</span>, <span class="ruby-value">:candidate_event</span>).
+      <span class="ruby-identifier">pluck</span>(<span class="ruby-value">:candidate_id</span>, <span class="ruby-value">:confirmation_event_id</span>, <span class="ruby-value">:candidate_event_id</span>, <span class="ruby-value">:name</span>, <span class="ruby-value">:verified</span>, <span class="ruby-value">:completed_date</span>, <span class="ruby-value">:the_way_due_date</span>, <span class="ruby-value">:chs_due_date</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">info</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">cand_info</span> = <span class="ruby-identifier">cand_event_info</span>[<span class="ruby-identifier">info</span>[<span class="ruby-number">0</span>]]
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">cand_info</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">cand_info</span> = []
+      <span class="ruby-identifier">cand_event_info</span>[<span class="ruby-identifier">info</span>[<span class="ruby-number">0</span>]] = <span class="ruby-identifier">cand_info</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">cand_info</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">info</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">cand_event_info</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-pluck_candidates">
+            
+              <b>pluck_candidates</b>(confirmation_event_id = nil)
+            
+            <a href="../classes/PluckCan.html#method-c-pluck_candidates" name="method-c-pluck_candidates" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Calcuate status of candidate_event</p>
+
+<h3 id="method-c-pluck_candidates-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code><em>:confirmation_event_id</em></code> The event being edited in
+mass_edit_candidates_event.html.erb</p>
+</li></ul>
+
+<h3 id="method-c-pluck_candidates-label-Return-3A">Return:</h3>
+
+<p>Array of <a href="PluckCan.html">PluckCan</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-pluck_candidates_source')" id="l_method-c-pluck_candidates_source">show</a>
+                
+              </p>
+              <div id="method-c-pluck_candidates_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">pluck_candidates</span>(<span class="ruby-identifier">confirmation_event_id</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">candidate_events</span> = <span class="ruby-identifier">pluck_cand_events</span>()
+  <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">joins</span>(<span class="ruby-value">:candidate_sheet</span>).
+      <span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:account_name</span>, <span class="ruby-value">:confirmed_at</span>, <span class="ruby-value">:encrypted_password</span>, <span class="ruby-value">:last_name</span>, <span class="ruby-value">:first_name</span>, <span class="ruby-value">:grade</span>, <span class="ruby-value">:attending</span>).<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cand_info</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate_id</span> = <span class="ruby-identifier">cand_info</span>[<span class="ruby-number">0</span>]
+    <span class="ruby-identifier">event</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-identifier">event</span> = <span class="ruby-identifier">candidate_events</span>[<span class="ruby-identifier">candidate_id</span>].<span class="ruby-identifier">find</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cand_event_for_cand</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">cand_event_for_cand</span>[<span class="ruby-number">1</span>] <span class="ruby-operator">===</span> <span class="ruby-identifier">confirmation_event_id</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-constant">PluckCan</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cand_info</span>, <span class="ruby-identifier">candidate_events</span>, <span class="ruby-identifier">event</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-account_name">
+            
+              <b>account_name</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-account_name" name="method-i-account_name" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p><a href="PluckCan.html#method-i-account_name">#account_name</a></p>
+
+<h3 id="method-i-account_name-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-account_name-label-Return-3A">Return:</h3>
+
+<p><a href="PluckCan.html#method-i-account_name">#account_name</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-account_name_source')" id="l_method-i-account_name_source">show</a>
+                
+              </p>
+              <div id="method-i-account_name_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 165</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">account_name</span>
+  <span class="ruby-ivar">@cand_info</span>[<span class="ruby-number">1</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-attending">
+            
+              <b>attending</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-attending" name="method-i-attending" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>attending</p>
+
+<h3 id="method-i-attending-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-attending-label-Return-3A">Return:</h3>
+
+<p>attending</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-attending_source')" id="l_method-i-attending_source">show</a>
+                
+              </p>
+              <div id="method-i-attending_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 239</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">attending</span>
+  <span class="ruby-ivar">@cand_info</span>[<span class="ruby-number">7</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-candidate_event_id">
+            
+              <b>candidate_event_id</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-candidate_event_id" name="method-i-candidate_event_id" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p><a href="PluckCan.html#method-i-candidate_event_id">#candidate_event_id</a></p>
+
+<h3 id="method-i-candidate_event_id-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-candidate_event_id-label-Return-3A">Return:</h3>
+
+<p><a href="PluckCan.html#method-i-candidate_event_id">#candidate_event_id</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-candidate_event_id_source')" id="l_method-i-candidate_event_id_source">show</a>
+                
+              </p>
+              <div id="method-i-candidate_event_id_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">candidate_event_id</span>
+  <span class="ruby-ivar">@candidate_event</span>[<span class="ruby-number">3</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-completed_date">
+            
+              <b>completed_date</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-completed_date" name="method-i-completed_date" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p><a href="PluckCan.html#method-i-completed_date">#completed_date</a></p>
+
+<h3 id="method-i-completed_date-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-completed_date-label-Return-3A">Return:</h3>
+
+<p><a href="PluckCan.html#method-i-completed_date">#completed_date</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-completed_date_source')" id="l_method-i-completed_date_source">show</a>
+                
+              </p>
+              <div id="method-i-completed_date_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 141</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">completed_date</span>
+  <span class="ruby-ivar">@candidate_event</span>[<span class="ruby-number">5</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-conf_event_id">
+            
+              <b>conf_event_id</b>(cand_id, event_name)
+            
+            <a href="../classes/PluckCan.html#method-i-conf_event_id" name="method-i-conf_event_id" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Get <a href="Confirmation.html">Confirmation</a> event id.</p>
+
+<h3 id="method-i-conf_event_id-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:cand_id</code> <a href="Candidate.html">Candidate</a> id.</p>
+</li><li>
+<p><code>:event_name</code> Name of caandidate event.</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-conf_event_id_source')" id="l_method-i-conf_event_id_source">show</a>
+                
+              </p>
+              <div id="method-i-conf_event_id_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 102</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">conf_event_id</span>(<span class="ruby-identifier">cand_id</span>, <span class="ruby-identifier">event_name</span>)
+  <span class="ruby-identifier">event_info</span> = <span class="ruby-ivar">@cand_event_info</span>[<span class="ruby-identifier">cand_id</span>].<span class="ruby-identifier">find</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cand_event_for_cand</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">cand_event_for_cand</span>[<span class="ruby-number">3</span>] <span class="ruby-operator">===</span> <span class="ruby-identifier">event_name</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">event_info</span>[<span class="ruby-number">1</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-confirmed-3F">
+            
+              <b>confirmed?</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-confirmed-3F" name="method-i-confirmed-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>confirmed?</p>
+
+<h3 id="method-i-confirmed-3F-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-confirmed-3F-label-Return-3A">Return:</h3>
+
+<p>confirmed?</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-confirmed-3F_source')" id="l_method-i-confirmed-3F_source">show</a>
+                
+              </p>
+              <div id="method-i-confirmed-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 177</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">confirmed?</span>
+  <span class="ruby-ivar">@cand_info</span>[<span class="ruby-number">2</span>] <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-first_name">
+            
+              <b>first_name</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-first_name" name="method-i-first_name" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p><a href="PluckCan.html#method-i-first_name">#first_name</a></p>
+
+<h3 id="method-i-first_name-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-first_name-label-Return-3A">Return:</h3>
+
+<p><a href="PluckCan.html#method-i-first_name">#first_name</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-first_name_source')" id="l_method-i-first_name_source">show</a>
+                
+              </p>
+              <div id="method-i-first_name_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 215</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">first_name</span>
+  <span class="ruby-ivar">@cand_info</span>[<span class="ruby-number">5</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-grade">
+            
+              <b>grade</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-grade" name="method-i-grade" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>grade</p>
+
+<h3 id="method-i-grade-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-grade-label-Return-3A">Return:</h3>
+
+<p>grade</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-grade_source')" id="l_method-i-grade_source">show</a>
+                
+              </p>
+              <div id="method-i-grade_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 227</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">grade</span>
+  <span class="ruby-ivar">@cand_info</span>[<span class="ruby-number">6</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-id">
+            
+              <b>id</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-id" name="method-i-id" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>id</p>
+
+<h3 id="method-i-id-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-id-label-Return-3A">Return:</h3>
+
+<p>id</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-id_source')" id="l_method-i-id_source">show</a>
+                
+              </p>
+              <div id="method-i-id_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 153</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">id</span>
+  <span class="ruby-ivar">@cand_info</span>[<span class="ruby-number">0</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-last_name">
+            
+              <b>last_name</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-last_name" name="method-i-last_name" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p><a href="PluckCan.html#method-i-last_name">#last_name</a></p>
+
+<h3 id="method-i-last_name-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-last_name-label-Return-3A">Return:</h3>
+
+<p><a href="PluckCan.html#method-i-last_name">#last_name</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-last_name_source')" id="l_method-i-last_name_source">show</a>
+                
+              </p>
+              <div id="method-i-last_name_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 203</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">last_name</span>
+  <span class="ruby-ivar">@cand_info</span>[<span class="ruby-number">4</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-password_changed">
+            
+              <b>password_changed</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-password_changed" name="method-i-password_changed" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p><a href="PluckCan.html#method-i-password_changed">#password_changed</a></p>
+
+<h3 id="method-i-password_changed-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-password_changed-label-Return-3A">Return:</h3>
+
+<p><a href="PluckCan.html#method-i-password_changed">#password_changed</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-password_changed_source')" id="l_method-i-password_changed_source">show</a>
+                
+              </p>
+              <div id="method-i-password_changed_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 189</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">password_changed</span>
+  <span class="ruby-identifier">encrypted_password</span> = <span class="ruby-ivar">@cand_info</span>[<span class="ruby-number">3</span>]
+  <span class="ruby-comment"># Copied from database_authenticatable.rb - valid_Password?</span>
+  <span class="ruby-operator">!</span><span class="ruby-constant">Devise</span><span class="ruby-operator">::</span><span class="ruby-constant">Encryptor</span>.<span class="ruby-identifier">compare</span>(<span class="ruby-constant">Candidate</span>, <span class="ruby-identifier">encrypted_password</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">INITIAL_PASSWORD</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-status">
+            
+              <b>status</b>(cand_id, event_name, attending)
+            
+            <a href="../classes/PluckCan.html#method-i-status" name="method-i-status" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Calcuate status of candidate_event</p>
+
+<h3 id="method-i-status-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:cand_id</code> <a href="Candidate.html">Candidate</a> id.</p>
+</li><li>
+<p><code>:event_name</code> Name of caandidate event.</p>
+</li><li>
+<p><code>:attending</code> The way or catholic hs.</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-status_source')" id="l_method-i-status_source">show</a>
+                
+              </p>
+              <div id="method-i-status_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 85</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">status</span>(<span class="ruby-identifier">cand_id</span>, <span class="ruby-identifier">event_name</span>, <span class="ruby-identifier">attending</span>)
+  <span class="ruby-identifier">event_info</span> = <span class="ruby-ivar">@cand_event_info</span>[<span class="ruby-identifier">cand_id</span>].<span class="ruby-identifier">find</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">cand_event_for_cand</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">cand_event_for_cand</span>[<span class="ruby-number">3</span>] <span class="ruby-operator">===</span> <span class="ruby-identifier">event_name</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">status</span>((<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;model.candidate.attending_the_way&#39;</span>) <span class="ruby-operator">===</span> <span class="ruby-identifier">attending</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">event_info</span>[<span class="ruby-number">6</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">event_info</span>[<span class="ruby-number">6</span>],
+                        <span class="ruby-identifier">event_info</span>[<span class="ruby-number">5</span>],
+                        <span class="ruby-identifier">event_info</span>[<span class="ruby-number">4</span>]
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-verified">
+            
+              <b>verified</b>()
+            
+            <a href="../classes/PluckCan.html#method-i-verified" name="method-i-verified" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>verified</p>
+
+<h3 id="method-i-verified-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-verified-label-Return-3A">Return:</h3>
+
+<p>verified</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-verified_source')" id="l_method-i-verified_source">show</a>
+                
+              </p>
+              <div id="method-i-verified_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/pluck_can.rb, line 129</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verified</span>
+  <span class="ruby-ivar">@candidate_event</span>[<span class="ruby-number">4</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

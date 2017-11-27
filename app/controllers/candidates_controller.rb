@@ -9,7 +9,7 @@ class CandidatesController < CommonCandidatesController
                resource_class resource_params devise_mapping)
   helper_method(*helpers)
 
-  attr_accessor :candidates # for testing
+  attr_accessor :candidate_info # for testing
   attr_accessor :candidate # for testing
 
   before_action :authenticate_admin!
@@ -24,7 +24,7 @@ class CandidatesController < CommonCandidatesController
   end
 
   def index
-    set_candidates(params[:sort])
+    set_candidates
   end
 
   def is_admin?

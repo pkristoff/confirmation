@@ -12,9 +12,11 @@
 
     <%= render partial: 'shared/sorting_candidate_selection',
                :locals => {
+                   candidate_info: @candidate_info,
                    confirmation_event: @confirmation_event,
-                   candidates: @candidates,
-                   route: :mass_edit_candidates_event
+                   other_columns: nil,
+                   route: :mass_edit_candidates_event,
+                   selected_candidate_ids: nil
                } %>
 
     <%= submit_tag t('views.common.update'), id: 'bottom-update' %>

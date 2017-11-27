@@ -5,7 +5,7 @@ include SendGrid
 class AdminsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
-  attr_accessor :admins, :confirmation_events, :candidates # for testing
+  attr_accessor :admins, :confirmation_events, :candidate_info # for testing
 
   before_action :authenticate_admin!
 
@@ -28,7 +28,6 @@ class AdminsController < ApplicationController
       body = params[:mail][:body_input] ? params[:mail][:body_input] : body
     end
 
-    # set_candidates(params[:sort])
     setup_adhoc_render(body, subject)
   end
 
@@ -98,10 +97,7 @@ class AdminsController < ApplicationController
   end
 
   def mass_edit_candidates_event
-    # TODO: called via sorting - messed up
-    # params[:verified] = "0" unless params[:verified]
-    # params[:completed_date] = "" unless params[:completed_date]
-    set_candidates(params[:sort], confirmation_event: ConfirmationEvent.find(params[:id]))
+    set_candidates(confirmation_event: ConfirmationEvent.find(params[:id]))
   end
 
   def mass_edit_candidates_event_update
@@ -112,7 +108,7 @@ class AdminsController < ApplicationController
     candidates = []
     candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
     if candidates.empty?
-      set_candidates(params[:sort], confirmation_event: confirmation_event)
+      set_candidates(confirmation_event: confirmation_event)
       flash[:notice] = t('messages.no_candidate_selected')
       return render :mass_edit_candidates_event
     end
@@ -127,7 +123,7 @@ class AdminsController < ApplicationController
       end
     end
 
-    set_candidates(params[:sort], confirmation_event: confirmation_event)
+    set_candidates(confirmation_event: confirmation_event)
     params.delete(:verified)
     params.delete(:completed_date)
     render :mass_edit_candidates_event
@@ -148,7 +144,7 @@ class AdminsController < ApplicationController
         when AdminsController::DELETE
           candidates.each(&:destroy)
           flash[:notice] = t('messages.candidates_deleted')
-          set_candidates(params[:sort])
+          set_candidates
           render 'candidates/index'
         when AdminsController::GENERATE_PDF
           if candidates.size > 1
@@ -235,7 +231,6 @@ class AdminsController < ApplicationController
       from_text = params[:mail][:from_text] ? params[:mail][:from_text] : from_text
     end
 
-    # set_candidates(params[:sort])
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text)
   end
 
@@ -347,7 +342,7 @@ class AdminsController < ApplicationController
 
       confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
 
-      set_candidates(params[:sort], confirmation_event: confirmation_event)
+      set_candidates(confirmation_event: confirmation_event)
       render :mass_edit_candidates_event
     else
       flash[:alert] = "Unkown commit param: #{params[:commit]}"
@@ -368,13 +363,13 @@ class AdminsController < ApplicationController
     @closing_text = closing_text
     @salutation_text = salutation_text
     @from_text = from_text
-    set_candidates(params[:sort], selected_candidate_ids: selected_ids)
+    set_candidates(selected_candidate_ids: selected_ids)
   end
 
   def setup_adhoc_render(body_input_text, subject_text)
     @subject = subject_text
     @body = body_input_text
-    set_candidates(params[:sort])
+    set_candidates
   end
 
   def redirect_back(flash_message, mail_params)

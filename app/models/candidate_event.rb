@@ -27,29 +27,69 @@ class CandidateEvent < ActiveRecord::Base
   #status
 
   def started?
+    CandidateEvent.started?(due_date)
+  end
+
+  def self.started?(due_date)
     !due_date.nil?
   end
 
   def awaiting_candidate?
-    started? and completed_date.nil?
+    CandidateEvent.awaiting_candidate?(due_date, completed_date)
+  end
+
+  def self.awaiting_candidate?(due_date, completed_date)
+    CandidateEvent.started?(due_date) and completed_date.nil?
   end
 
   def awaiting_admin?
-    started? and !completed_date.nil? and !verified?
+    CandidateEvent.awaiting_admin?(due_date, completed_date, verified)
+  end
+
+  def self.awaiting_admin?(due_date, completed_date, verified)
+    CandidateEvent.started?(due_date) and !completed_date.nil? and !verified
   end
 
   def coming_due?
+    CandidateEvent.coming_due?(due_date, completed_date)
+  end
+
+  def self.coming_due?(due_date, completed_date)
     today = Date.today
-    awaiting_candidate? and (due_date >= today) and (due_date < today+30)
+    CandidateEvent.awaiting_candidate?(due_date, completed_date) and (due_date >= today) and (due_date < today+30)
   end
 
   def completed?
-    started? and verified
+    CandidateEvent.completed?(due_date, verified)
+  end
+
+  def self.completed?(due_date, verified)
+    CandidateEvent.started?(due_date) and verified
   end
 
   def late?
-    awaiting_candidate? and (due_date < Date.today)
+    CandidateEvent.late?(due_date, completed_date)
   end
+
+  def self.late?(due_date, completed_date)
+    CandidateEvent.awaiting_candidate?(due_date, completed_date) and (due_date < Date.today)
+  end
+
+  def self.status(due_date, completed_date,verified)
+    return I18n.t('status.not_started') unless self.started?(due_date)
+    return I18n.t('status.coming_due') if self.coming_due?(due_date, completed_date)
+    return I18n.t('status.late') if self.late?(due_date, completed_date)
+    return I18n.t('status.awaiting_candidate') if self.awaiting_candidate?(due_date, completed_date)
+    return I18n.t('status.awaiting_admin') if self.awaiting_admin?(due_date, completed_date, verified)
+    return I18n.t('status.verified') if self.completed?(due_date, verified)
+    raise("Unknown candidate_event status")
+  end
+
+  def status
+    CandidateEvent.status(due_date, completed_date, verified)
+  end
+
+  # end status
 
   def self.get_permitted_params
     [:id, :completed_date, :verified,
@@ -59,18 +99,6 @@ class CandidateEvent < ActiveRecord::Base
   def verifiable_info
     candidate.get_event_association(route).verifiable_info(candidate)
   end
-
-  def status
-    return I18n.t('status.not_started') unless started?
-    return I18n.t('status.coming_due') if coming_due?
-    return I18n.t('status.late') if late?
-    return I18n.t('status.awaiting_candidate') if awaiting_candidate?
-    return I18n.t('status.awaiting_admin') if awaiting_admin?
-    return I18n.t('status.verified') if completed?
-    raise("Unknown candidate_event status")
-  end
-
-  # end status
 
   def route
     # TODO: maybe move to constants

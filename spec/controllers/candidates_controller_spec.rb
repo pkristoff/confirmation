@@ -14,10 +14,10 @@ describe CandidatesController do
     get :index
     expect(response).to render_template('index')
     expect(response.status).to eq(200)
-    expect(controller.candidates.size).to eq(3)
-    expect(controller.candidates[0]).to eq(c1)
-    expect(controller.candidates[1]).to eq(c2)
-    expect(controller.candidates[2]).to eq(c3)
+    expect(controller.candidate_info.size).to eq(3)
+    expect(controller.candidate_info[0].id).to eq(c1.id)
+    expect(controller.candidate_info[1].id).to eq(c2.id)
+    expect(controller.candidate_info[2].id).to eq(c3.id)
   end
 
   it 'should show sorted list of candidates based on first_name' do
@@ -28,9 +28,9 @@ describe CandidatesController do
     expect(response).to render_template('index')
     expect(response.status).to eq(200)
     # order not important js will do it
-    expect(controller.candidates.size).to eq(3)
-    [c1,c2,c3].each do |candidate|
-      expect(controller.candidates.include? candidate).to eq(true)
+    expect(controller.candidate_info.size).to eq(3)
+    [c1,c2,c3].each_with_index do |candidate, index|
+      expect(controller.candidate_info[index].id ).to eq(candidate.id)
     end
   end
 
@@ -42,9 +42,9 @@ describe CandidatesController do
     expect(response).to render_template('index')
     expect(response.status).to eq(200)
     # order not important js will do it
-    expect(controller.candidates.size).to eq(3)
-    [c1,c2,c3].each do |candidate|
-      expect(controller.candidates.include? candidate).to eq(true)
+    expect(controller.candidate_info.size).to eq(3)
+    [c1,c2,c3].each_with_index do |candidate, index|
+      expect(controller.candidate_info[index].id ).to eq(candidate.id)
     end
   end
 

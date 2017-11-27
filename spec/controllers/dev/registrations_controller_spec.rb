@@ -8,8 +8,6 @@ describe Dev::RegistrationsController do
 
     expect(response).to redirect_to (root_path)
 
-    puts response.body
-
     expect(response.body).to have_css("a[href='#{root_url}']", text='redirected')
 
   end

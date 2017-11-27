@@ -10,6 +10,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
     AppFactory.add_confirmation_events
 
     @confirmation_event = ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement'))
+    @candidate_info = PluckCan.pluck_candidates(@confirmation_event.id)
 
   end
 

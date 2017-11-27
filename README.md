@@ -1,3 +1,4 @@
+
 Confirmation
 ================
 v0.1
@@ -36,6 +37,10 @@ This application was generated with the [rails_apps_composer](https://github.com
 provided by the [RailsApps Project](http://railsapps.github.io/).
 
 Rails Composer is supported by developers who purchase our RailsApps tutorials.
+
+Documentation:
+* http://docs.seattlerb.org/rdoc/RDoc
+* https://github.com/zzak/sdoc
 
 Create a file in config named local_env.yml
 * EMAIL_PROVIDER_ADDRESS: ''

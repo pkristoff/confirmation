@@ -87,14 +87,18 @@ class ApplicationController < ActionController::Base
         end
   end
 
-  # args
-  #   - selected_candidate_ids:  Array of initially selected candidates
-  #   - confirmation_event:  Confirmation event used for mass update of candidate event for candidates.
-  def set_candidates(sort_column, args = {})
+  # sets info for _sorting_candidate_selection.html.erb
+  #
+  # === Parameters:
+  #
+  # * <tt>_selected_candidate_ids_</tt> Array of initially selected candidates
+  # * <tt>_confirmation_event_</tt> Confirmation event used for mass update of candidate event for candidates.
+  #
+  def set_candidates(args = {})
     args = {confirmation_event: nil, selected_candidate_ids: []}.merge(args)
     @confirmation_event = args[:confirmation_event]
     @selected_candidate_ids = args[:selected_candidate_ids]
-    @candidates = Candidate.all
+    ce_id = @confirmation_event.nil? ? nil : @confirmation_event.id
+    @candidate_info = PluckCan.pluck_candidates(ce_id)
   end
-
 end

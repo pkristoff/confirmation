@@ -10,16 +10,17 @@
 
     <%= render partial: 'shared/sorting_candidate_selection',
                :locals => {
-                   candidates: @candidates,
-                   route: :candidates,
+                   candidate_info: @candidate_info,
+                   confirmation_event: nil,
                    other_columns: {
                        headers: [
                            t('views.nav.edit')
                        ],
                        rows: [
-                           lambda { |candidate| link_to t('views.nav.edit'), event_candidate_path(candidate.id) }
+                           lambda { |id| link_to t('views.nav.edit'), event_candidate_path(id) }
                        ]
                    },
+                   route: :candidates,
                    selected_candidate_ids: @selected_candidate_ids
                } %>
     <div class="btn-group" role="group" aria-label="...">

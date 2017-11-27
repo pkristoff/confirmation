@@ -139,69 +139,6 @@ describe AdminsController do
 
   end
 
-  describe 'set_candidates' do
-    before(:each) do
-      @admdin = login_admin
-      @confirmation_event = AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
-    end
-    it 'is sorted zero candidates' do
-      put :mass_edit_candidates_event_update,
-          id: @confirmation_event.id,
-          sort: 'account_name',
-          direction: 'desc',
-          candidate: {candidate_ids: []}
-      expect(controller.candidates.size).to eq(0)
-    end
-    it 'is sorted one candidate' do
-      c1 = create_candidate('c1')
-
-      put :mass_edit_candidates_event_update,
-          id: @confirmation_event.id,
-          sort: 'account_name',
-          direction: 'desc',
-          candidate: {candidate_ids: []}
-
-      expect(controller.candidates.size).to eq(1)
-      expect(controller.candidates.first).to eq(c1)
-    end
-    it 'is sorted two candidates' do
-      c1 = create_candidate('c1')
-      c2 = create_candidate('c2')
-
-      put :mass_edit_candidates_event_update,
-          id: @confirmation_event.id,
-          sort: 'account_name',
-          direction: 'desc',
-          candidate: {candidate_ids: []}
-
-      # order not important js will do it
-      expect(controller.candidates.size).to eq(2)
-      expect(controller.candidates.include? c2).to eq(true)
-      expect(controller.candidates.include? c1).to eq(true)
-    end
-    describe 'three candidates' do
-
-      before(:each) do
-        @c1 = create_candidate('c1')
-        @c2 = create_candidate('c2')
-        @c3 = create_candidate('c3')
-      end
-
-      it 'is sorted by account name' do
-        expect_column_sorting('account_name', @c1, @c2, @c3)
-      end
-      it 'is sorted by first name' do
-        expect_column_sorting('candidate_sheet.first_name', @c3, @c1, @c2)
-      end
-      it 'is sorted by last name' do
-        expect_column_sorting('candidate_sheet.last_name', @c2, @c3, @c1)
-      end
-      it 'is sorted by completed date' do
-        expect_column_sorting('completed_date', @c1, @c3, @c2)
-      end
-    end
-  end
-
   describe 'mass monthly mailing' do
 
     before(:each) do
@@ -213,10 +150,10 @@ describe AdminsController do
 
       controller.monthly_mass_mailing
 
-      expect(controller.candidates.size).to eq(3)
-      expect(controller.candidates[0]).to eq(@c1)
-      expect(controller.candidates[1]).to eq(@c2)
-      expect(controller.candidates[2]).to eq(@c3)
+      expect(controller.candidate_info.size).to eq(3)
+      expect(controller.candidate_info[0].id).to eq(@c1.id)
+      expect(controller.candidate_info[1].id).to eq(@c2.id)
+      expect(controller.candidate_info[2].id).to eq(@c3.id)
     end
   end
 
@@ -490,9 +427,9 @@ describe AdminsController do
 
     expect_message(nil, nil)
     # order not important js will do it
-    expect(controller.candidates.size).to eq(candidates.size)
-    candidates.each do |candidate|
-      expect(controller.candidates.include? candidate).to eq(true)
+    expect(controller.candidate_info.size).to eq(candidates.size)
+    candidates.each_with_index do |candidate, index|
+      expect(controller.candidate_info[index].id ).to eq(candidate.id)
     end
 
     put :mass_edit_candidates_event,
@@ -503,9 +440,9 @@ describe AdminsController do
 
     expect_message(nil, nil)
     # order not important js will do it
-    expect(controller.candidates.size).to eq(candidates.size)
-    candidates.each do |candidate|
-      expect(controller.candidates.include? candidate).to eq(true)
+    expect(controller.candidate_info.size).to eq(candidates.size)
+    candidates.each_index do |candidate, index|
+      expect(controller.candidate_info[index].id).to eq(candidate.id)
     end
   end
 

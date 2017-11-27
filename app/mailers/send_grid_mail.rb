@@ -5,6 +5,27 @@ class SendGridMail
   def initialize(admin, candidates)
     @admin = admin
     @candidates = candidates
+    @email_index = -1
+  end
+
+  # legal emails for non-production
+  #
+  # === return:
+  #
+  # Array of legal emails for non-production
+  #
+  def legal_emails
+    %W(stmm.confirmation@kristoffs.com stmm.confirmationa@aol.com paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)
+  end
+
+  # convert illegal email to one of these in non-production
+  #
+  # === return:
+  #
+  # Array of legal emails for non-production
+  #
+  def convert_email
+    %W(paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)
   end
 
   def adhoc(subject_text, body_input_text)
@@ -72,9 +93,11 @@ class SendGridMail
     personalization = SendGrid::Personalization.new
     sheet = candidate.candidate_sheet
     if admin.nil?
-      personalization.add_to(SendGrid::Email.new(email: sheet.to_email, name: "#{sheet.first_name} #{sheet.last_name}"))
-      personalization.add_cc(SendGrid::Email.new(email: sheet.cc_email)) unless sheet.cc_email.nil? || sheet.cc_email.empty?
-      personalization.add_cc(SendGrid::Email.new(email: sheet.cc_email_2)) unless sheet.cc_email_2.nil? || sheet.cc_email_2.empty?
+      used = ['stmm.confirmation@kristoffs.com']
+      converted_emails = convert_emails([sheet.to_email, sheet.cc_email, sheet.cc_email_2], used)
+      personalization.add_to(SendGrid::Email.new(email: converted_emails[0], name: "#{sheet.first_name} #{sheet.last_name}"))
+      personalization.add_cc(SendGrid::Email.new(email: converted_emails[1])) unless converted_emails[1].nil?
+      personalization.add_cc(SendGrid::Email.new(email: converted_emails[2])) unless converted_emails[2].nil?
       personalization.add_bcc(SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: 'St MM Confirmation'))
     else
       personalization.add_to(SendGrid::Email.new(email: admin.email, name: 'admin'))
@@ -82,6 +105,67 @@ class SendGridMail
     subs.each {|sub| personalization.add_substitution(sub)}
     sg_mail.add_personalization(personalization)
     personalization
+  end
+
+  # In non-production(test development or pipeline=staging) will convert
+  # illegal non-production email addresses to legal ones
+  #
+  # === Parameters:
+  #
+  # * <tt>:emails</tt> Array of email addresses. Can be nil or ''
+  # * <tt>:used</tt> List of emai addresses alrady used for this email
+  #
+  # === return:
+  #
+  # In production - Array of passed in email addresses.
+  # else - Array of legal non-production email addresses
+  #
+  def convert_emails(emails, used)
+    legal_used = []
+    emails.each do |em|
+      if legal_emails.include? em
+        legal_used << em
+      end
+    end
+    emails.map do | em |
+      convert_if_not_production(em, used, legal_used)
+    end
+  end
+
+  # In non-production(test development or pipeline=staging) will convert
+  # illegal non-production email address to legal one
+  #
+  # === Parameters:
+  #
+  # * <tt>:email</tt> email address to be converted
+  # * <tt>:used</tt>  Array of email addresses already used
+  # * <tt>:legal_used</tt>  Array of legal email addresses.  If converted and in this array do not use.
+  #
+  # === return:
+  #
+  # In production - email address passed in with '' converted to nil.
+  # else - email address if not legal.
+  #
+  def convert_if_not_production(email, used=[], legal_used = [])
+    if email.nil? || email.empty?
+      nil
+    else
+      if Rails.application.secrets.pipeline == 'production'
+        email
+      else
+        if legal_emails.include?(email)
+          email
+        else
+          @email_index += 1
+          em = convert_email[@email_index]
+          while (used.include? em) || (legal_used.include? em) do
+            @email_index += 1
+            em = convert_email[@email_index]
+          end
+          return em
+        end
+      end
+    end
   end
 
   def expand_text(candidate, subject_text, body_input_text, delivery_call)
@@ -134,7 +218,7 @@ class SendGridMail
     # puts "text=#{text}"
   end
 
-# TEST ONLY
+  # TEST ONLY
   def expand_text_adhoc(candidate, subject_text, *body_input_text)
 
     expand_text(candidate, subject_text, *body_input_text,
@@ -142,28 +226,28 @@ class SendGridMail
     )
   end
 
-# TEST ONLY
+  # TEST ONLY
   def expand_text_at(candidate, subject_text, body_input_text)
     expand_text(candidate, subject_text, body_input_text,
                 adhoc_test_call
     )
   end
 
-# TEST ONLY
+  # TEST ONLY
   def expand_text_ci(candidate)
     expand_text(candidate, 'StMM website for Confirmation Candidates - User Verification instructions', '',
                 conf_insts_call
     )
   end
 
-# TEST ONLY
+  # TEST ONLY
   def expand_text_rp(candidate)
     expand_text(candidate, 'StMM website for Confirmation Candidates - Reset password instructions', '',
                 reset_pass_call
     )
   end
 
-# TEST ONLY
+  # TEST ONLY
   def expand_text_mmm(candidate, subject_text, *body_input_text)
     expand_text(candidate, subject_text, *body_input_text,
                 mmm_call

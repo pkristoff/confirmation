@@ -12,6 +12,7 @@ describe 'admins/monthly_mass_mailing.html.erb' do
     # have re-lookup candidates because local a diff instance
     @candidates = [Candidate.find_by_account_name(candidate_1.account_name),
                    Candidate.find_by_account_name(candidate_2.account_name)]
+    @candidate_info = PluckCan.pluck_candidates
 
   end
 

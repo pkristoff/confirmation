@@ -56,3 +56,4 @@ group :test do
   gem "i18n-tasks"
 end
 gem 'sendgrid-ruby'
+gem 'sdoc'

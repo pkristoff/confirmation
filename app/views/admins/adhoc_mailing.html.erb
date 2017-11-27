@@ -11,7 +11,9 @@
 
     <%= render partial: 'shared/sorting_candidate_selection',
                :locals => {
-                   candidates: @candidates,
+                   candidate_info: @candidate_info,
+                   confirmation_event: nil,
+                   other_columns: nil,
                    route: :adhoc_mailing,
                    selected_candidate_ids: @selected_candidate_ids
                } %>
