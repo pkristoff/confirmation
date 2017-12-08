@@ -1,18 +1,30 @@
+#
+# Actve Record
+#
 class BaptismalCertificate < ActiveRecord::Base
   belongs_to(:church_address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :church_address, allow_destroy: true
 
+  # scanned image of baptismal certificate
   belongs_to(:scanned_certificate, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_certificate, allow_destroy: true)
 
-  # before_create :build_associations
   after_initialize :build_associations, :if => :new_record?
 
   attr_accessor :certificate_picture
 
-  # event_complete
-
-  def validate_event_complete(baptized_at_stmm)
+  # Validate if event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:baptized_at_stmm</tt> If true then nothing else needs to be added
+  #
+  # === Return:
+  #
+  # Boolean
+  #
+  def validate_event_complete(options={})
+    baptized_at_stmm = options[:baptized_at_stmm]
     event_complete = true
     event_complete_validator = EventCompleteValidator.new(self, !baptized_at_stmm)
     event_complete_validator.validate([], BaptismalCertificate.get_basic_validation_params)
@@ -32,88 +44,104 @@ class BaptismalCertificate < ActiveRecord::Base
     event_complete
   end
 
+  # Editable attributes
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_permitted_params
     BaptismalCertificate.get_basic_permitted_params.concat(
         [church_address_attributes: BaptismalCertificate.get_church_address_permitted_params,
          scanned_certificate_attributes: ScannedImage.get_permitted_params])
   end
 
+  # Editable church address attributes
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_church_address_permitted_params
     Address.get_basic_permitted_params
   end
 
+  # Required church address attributes
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_church_address_validation_params
     Address.get_basic_validatiion_params
   end
 
+  # Editable attributes
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_basic_permitted_params
     [:birth_date, :baptismal_date, :church_name, :father_first, :father_middle, :father_last,
      :mother_first, :mother_middle, :mother_maiden, :mother_last, :certificate_picture,
      :scanned_certificate, :id]
   end
 
+  # Required attributes
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_basic_validation_params
     params = BaptismalCertificate.get_basic_permitted_params
     params.delete(:certificate_picture)
     params
   end
 
+  # associated confirmation event name
+  #
+  # === Return:
+  #
+  # String
+  #
   def self.event_name
     I18n.t('events.baptismal_certificate')
   end
 
+  # Validate if event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of association
+  #
+  # === Return:
+  #
+  # baptismal_certificate with validation errors
+  #
   def self.validate_event_complete(candidate)
     baptismal_certificate = candidate.baptismal_certificate
-    baptismal_certificate.validate_event_complete(candidate.baptized_at_stmm)
+    baptismal_certificate.validate_event_complete(baptized_at_stmm: candidate.baptized_at_stmm)
     baptismal_certificate
   end
 
-  # event_complete - end
-
+  # build church address
+  #
   def build_associations
     church_address || create_church_address
   end
 
-  # image interface  #TODO remove
-
-  def filename_param
-    :scanned_certificate.filename
-  end
-
-  def content_type_param
-    :scanned_certificate.content_type
-  end
-
-  def file_contents_param
-    :scanned_certificate.contents
-  end
-
-  def filename
-    scanned_certificate.filename
-  end
-
-  def filename=(name)
-    scanned_certificate.filename=name
-  end
-
-  def content_type
-    scanned_certificate.content_type
-  end
-
-  def content_type=(type)
-    scanned_certificate.content_type=type
-  end
-
-  def file_contents
-    scanned_certificate.contents
-  end
-
-  def file_contents=(contents)
-    scanned_certificate.contents=contents
-  end
-
-  # image interface - end
-
+  # information to be verified by admin
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of this association
+  #
+  # === Return:
+  #
+  # Hash of information to be verified
+  #
   def verifiable_info(candidate)
     if candidate.baptized_at_stmm
       {

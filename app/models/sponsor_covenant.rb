@@ -1,3 +1,6 @@
+#
+# Actve Record
+#
 class SponsorCovenant < ActiveRecord::Base
 
   belongs_to(:scanned_eligibility, class_name: 'ScannedImage', validate: false, dependent: :destroy)
@@ -8,8 +11,12 @@ class SponsorCovenant < ActiveRecord::Base
 
   attr_accessor :sponsor_eligibility_picture
 
-  # event_complete
-
+  # Validate if event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:_options_</tt>
+  #
   def validate_event_complete(options={})
     EventCompleteValidator.new(self, !sponsor_attends_stmm)
         .validate(SponsorCovenant.get_attends_stmm_validation_params, SponsorCovenant.get_not_attends_stmm_params)
@@ -27,16 +34,34 @@ class SponsorCovenant < ActiveRecord::Base
 
   end
 
+  # Editable attributes
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_basic_permitted_params
     [:sponsor_name, :sponsor_attends_stmm, :sponsor_church, :scanned_covenant, :scanned_eligibility, :id]
   end
 
+  # Editable attributes
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_permitted_params
     SponsorCovenant.get_attends_stmm_params.concat(SponsorCovenant.get_not_attends_stmm_params.concat(
         [scanned_eligibility_attributes: ScannedImage.get_permitted_params,
          scanned_covenant_attributes: ScannedImage.get_permitted_params])) << :sponsor_eligibility_picture
   end
 
+  # Editable attributes when sponsor belongs to stmm
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_attends_stmm_params
     params = self.get_basic_permitted_params
     params.delete(:sponsor_church)
@@ -44,12 +69,24 @@ class SponsorCovenant < ActiveRecord::Base
     params
   end
 
+  # Required attributes when sponsor belongs to stmm
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_attends_stmm_validation_params
     params = SponsorCovenant.get_attends_stmm_params
     params.delete(:sponsor_attends_stmm)
     params
   end
 
+  # Editable attributes when sponsor does NOT belongs to stmm
+  #
+  # === Return:
+  #
+  # Array of attributes
+  #
   def self.get_not_attends_stmm_params
     params = self.get_basic_permitted_params
     params.delete(:sponsor_name)
@@ -58,61 +95,42 @@ class SponsorCovenant < ActiveRecord::Base
     params
   end
 
-
-
-
+  # associated confirmation event name
+  #
+  # === Return:
+  #
+  # String
+  #
   def self.event_name
     I18n.t('events.sponsor_covenant')
   end
 
+  # Validate whether event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of association
+  #
+  # === Return:
+  #
+  # sponsor_covenant with validation errors
+  #
   def self.validate_event_complete(candidate)
     sponsor_covenant = candidate.sponsor_covenant
     sponsor_covenant.validate_event_complete
     sponsor_covenant
   end
 
-  # event_complete - end
-
-  # image interface
-
-  def filename_param
-    :scanned_covenant.filename
-  end
-
-  def content_type_param
-    :scanned_covenant.content_type
-  end
-
-  def file_contents_param
-    :scanned_covenant.contents
-  end
-
-  def filename
-    scanned_covenant.filename
-  end
-
-  def filename=(name)
-    scanned_covenant.filename=name
-  end
-
-  def content_type
-    scanned_covenant.content_type
-  end
-
-  def content_type=(type)
-    scanned_covenant.content_type=type
-  end
-
-  def file_contents
-    scanned_covenant.content
-  end
-
-  def file_contents=(contents)
-    scanned_covenant.contents=content
-  end
-
-  # image interface - end
-
+  # information to be verified by admin
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of this association
+  #
+  # === Return:
+  #
+  # Hash of information to be verified
+  #
   def verifiable_info(candidate)
     info = {'Sponsor name': sponsor_name,
             'Sponsor attends': (sponsor_attends_stmm ? 'St. Mary Magdalene' : sponsor_church)

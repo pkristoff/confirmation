@@ -1,0 +1,966 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CandidateSheet</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            CandidateSheet
+            
+                <span class="parent">&lt;
+                    
+                    ActiveRecord::Base
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/models/candidate_sheet_rb.html">app/models/candidate_sheet.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>B</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-build_associations">build_associations</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-cc_email">cc_email</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-cc_email_2">cc_email_2</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-email">email</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-email-3D">email=</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-email_changed-3F">email_changed?</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-email_required-3F">email_required?</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-event_name">event_name</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>G</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-get_basic_permitted_params">get_basic_permitted_params</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-get_basic_validation_params">get_basic_validation_params</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-get_permitted_params">get_permitted_params</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>T</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-to_email">to_email</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>V</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-validate_email">validate_email</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-validate_emails">validate_emails</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-validate_event_complete">validate_event_complete</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-validate_event_complete">validate_event_complete</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-verifiable_info">verifiable_info</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-event_name">
+            
+              <b>event_name</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-c-event_name" name="method-c-event_name" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>associated confirmation event name</p>
+
+<h3 id="method-c-event_name-label-Return-3A">Return:</h3>
+
+<p>String</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-event_name_source')" id="l_method-c-event_name_source">show</a>
+                
+              </p>
+              <div id="method-c-event_name_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 89</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">event_name</span>
+  <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_basic_permitted_params">
+            
+              <b>get_basic_permitted_params</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-c-get_basic_permitted_params" name="method-c-get_basic_permitted_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable attributes</p>
+
+<h3 id="method-c-get_basic_permitted_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_basic_permitted_params_source')" id="l_method-c-get_basic_permitted_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_basic_permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 48</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_basic_permitted_params</span>
+  [<span class="ruby-value">:first_name</span>, <span class="ruby-value">:middle_name</span>, <span class="ruby-value">:last_name</span>, <span class="ruby-value">:candidate_email</span>, <span class="ruby-value">:parent_email_1</span>, <span class="ruby-value">:parent_email_2</span>, <span class="ruby-value">:grade</span>, <span class="ruby-value">:attending</span>, <span class="ruby-value">:id</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_basic_validation_params">
+            
+              <b>get_basic_validation_params</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-c-get_basic_validation_params" name="method-c-get_basic_validation_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Required attributes</p>
+
+<h3 id="method-c-get_basic_validation_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_basic_validation_params_source')" id="l_method-c-get_basic_validation_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_basic_validation_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_basic_validation_params</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">get_basic_permitted_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:middle_name</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:candidate_email</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:parent_email_1</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:parent_email_2</span>)
+  <span class="ruby-identifier">params</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_permitted_params">
+            
+              <b>get_permitted_params</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-c-get_permitted_params" name="method-c-get_permitted_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable attributes</p>
+
+<h3 id="method-c-get_permitted_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_permitted_params_source')" id="l_method-c-get_permitted_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_permitted_params</span>
+  <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">get_basic_permitted_params</span>.<span class="ruby-identifier">concat</span>([<span class="ruby-identifier">address_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">Address</span>.<span class="ruby-identifier">get_basic_permitted_params</span>])
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-validate_event_complete">
+            
+              <b>validate_event_complete</b>(candidate)
+            
+            <a href="../classes/CandidateSheet.html#method-c-validate_event_complete" name="method-c-validate_event_complete" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Validate if event is complete by adding validation errors to active record</p>
+
+<h3 id="method-c-validate_event_complete-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of association</p>
+</li></ul>
+
+<h3 id="method-c-validate_event_complete-label-Return-3A">Return:</h3>
+
+<p>candidate_sheet with validation errors</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-validate_event_complete_source')" id="l_method-c-validate_event_complete_source">show</a>
+                
+              </p>
+              <div id="method-c-validate_event_complete_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 77</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">validate_event_complete</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-identifier">candidate_sheet</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>
+  <span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">validate_event_complete</span>
+  <span class="ruby-identifier">candidate_sheet</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-build_associations">
+            
+              <b>build_associations</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-i-build_associations" name="method-i-build_associations" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>build address</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-build_associations_source')" id="l_method-i-build_associations_source">show</a>
+                
+              </p>
+              <div id="method-i-build_associations_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 95</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">build_associations</span>
+  <span class="ruby-identifier">address</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_address</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-cc_email">
+            
+              <b>cc_email</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-i-cc_email" name="method-i-cc_email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Attempts to guarentee that there is always a &#39;to&#39; email</p>
+
+<pre><code>1. if parent_1 email is not nil and not used in to_email then return it.
+2. if parent_2 email is not nil then return it.
+3. Otherwise return &#39;&#39;.</code></pre>
+
+<h3 id="method-i-cc_email-label-Return-3A">Return:</h3>
+
+<p>String: email address or nil</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-cc_email_source')" id="l_method-i-cc_email_source">show</a>
+                
+              </p>
+              <div id="method-i-cc_email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 206</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">cc_email</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate_email</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">candidate_email</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">parent_email_2</span> <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">empty?</span>)
+    <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">parent_email_1</span> <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">empty?</span>)
+    <span class="ruby-identifier">parent_email_2</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-cc_email_2">
+            
+              <b>cc_email_2</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-i-cc_email_2" name="method-i-cc_email_2" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Attempts to guarentee that there is always a &#39;to&#39; email</p>
+
+<pre><code>1. if parent_2 email is not nil and not used in to_email or in cc_mail then return it.
+2. Otherwise return &#39;&#39;.</code></pre>
+
+<h3 id="method-i-cc_email_2-label-Return-3A">Return:</h3>
+
+<p>String: email address or nil</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-cc_email_2_source')" id="l_method-i-cc_email_2_source">show</a>
+                
+              </p>
+              <div id="method-i-cc_email_2_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 224</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">cc_email_2</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">parent_email_2</span> <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">candidate_email</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">candidate_email</span>.<span class="ruby-identifier">empty?</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">empty?</span>)
+  <span class="ruby-string">&#39;&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-email">
+            
+              <b>email</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-i-email" name="method-i-email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns the parent_1&#39;s email - used by Factory Girl</p>
+
+<h3 id="method-i-email-label-Return-3A">Return:</h3>
+
+<p>email address String</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-email_source')" id="l_method-i-email_source">show</a>
+                
+              </p>
+              <div id="method-i-email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">email</span>
+  <span class="ruby-identifier">parent_email_1</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-email-3D">
+            
+              <b>email=</b>(value)
+            
+            <a href="../classes/CandidateSheet.html#method-i-email-3D" name="method-i-email-3D" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>sets canidates email to value - used by Factory Girl</p>
+
+<h3 id="method-i-email-3D-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:value</code> String: nil or email address</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-email-3D_source')" id="l_method-i-email-3D_source">show</a>
+                
+              </p>
+              <div id="method-i-email-3D_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 115</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">email=</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">parent_email_1</span>= <span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-email_changed-3F">
+            
+              <b>email_changed?</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-i-email_changed-3F" name="method-i-email_changed-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns false - used by Factory Girl</p>
+
+<h3 id="method-i-email_changed-3F-label-Return-3A">Return:</h3>
+
+<p>boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-email_changed-3F_source')" id="l_method-i-email_changed-3F_source">show</a>
+                
+              </p>
+              <div id="method-i-email_changed-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">email_changed?</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-email_required-3F">
+            
+              <b>email_required?</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-i-email_required-3F" name="method-i-email_required-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns false - used by Factory Girl</p>
+
+<h3 id="method-i-email_required-3F-label-Return-3A">Return:</h3>
+
+<p>boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-email_required-3F_source')" id="l_method-i-email_required-3F_source">show</a>
+                
+              </p>
+              <div id="method-i-email_required-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 125</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">email_required?</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-to_email">
+            
+              <b>to_email</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-i-to_email" name="method-i-to_email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Attempts to guarentee that there is always a &#39;to&#39; email</p>
+
+<pre><code>1. if candidate_email is not nil then return it.
+2. if parent_1 email is not nil then return it.
+3. if parent_2 email is not nil then return it.
+4. Otherwise return &#39;&#39;.</code></pre>
+
+<h3 id="method-i-to_email-label-Return-3A">Return:</h3>
+
+<p>String: email address or nil</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-to_email_source')" id="l_method-i-to_email_source">show</a>
+                
+              </p>
+              <div id="method-i-to_email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 191</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">to_email</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">candidate_email</span> <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">candidate_email</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">candidate_email</span>.<span class="ruby-identifier">empty?</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">parent_email_1</span> <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">empty?</span>)
+  <span class="ruby-identifier">parent_email_2</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-validate_email">
+            
+              <b>validate_email</b>(value)
+            
+            <a href="../classes/CandidateSheet.html#method-i-validate_email" name="method-i-validate_email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Validate if value is a valid email addrress.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-validate_email_source')" id="l_method-i-validate_email_source">show</a>
+                
+              </p>
+              <div id="method-i-validate_email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 155</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_email</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-validate_emails">
+            
+              <b>validate_emails</b>()
+            
+            <a href="../classes/CandidateSheet.html#method-i-validate_emails" name="method-i-validate_emails" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Validate if email addrresses are either nil or a valid email syntax.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-validate_emails_source')" id="l_method-i-validate_emails_source">show</a>
+                
+              </p>
+              <div id="method-i-validate_emails_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 141</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_emails</span>()
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">candidate_email</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">candidate_email</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:candidate_email</span>, <span class="ruby-node">&quot;is an invalid email: #{candidate_email}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_email</span>(<span class="ruby-identifier">candidate_email</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">parent_email_1</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:parent_email_1</span>, <span class="ruby-node">&quot;is an invalid email: #{parent_email_1}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_email</span>(<span class="ruby-identifier">parent_email_1</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">parent_email_2</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">parent_email_2</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:parent_email_2</span>, <span class="ruby-node">&quot;is an invalid email: #{parent_email_2}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">validate_email</span>(<span class="ruby-identifier">parent_email_2</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-validate_event_complete">
+            
+              <b>validate_event_complete</b>(options={})
+            
+            <a href="../classes/CandidateSheet.html#method-i-validate_event_complete" name="method-i-validate_event_complete" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Validate if event is complete by adding validation errors to active record</p>
+
+<h3 id="method-i-validate_event_complete-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:baptized_at_stmm</code> If true then nothing else needs to be added</p>
+</li></ul>
+
+<h3 id="method-i-validate_event_complete-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-validate_event_complete_source')" id="l_method-i-validate_event_complete_source">show</a>
+                
+              </p>
+              <div id="method-i-validate_event_complete_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 20</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_event_complete</span>(<span class="ruby-identifier">options</span>={})
+  <span class="ruby-identifier">event_complete_validator</span> = <span class="ruby-constant">EventCompleteValidator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>)
+  <span class="ruby-identifier">event_complete_validator</span>.<span class="ruby-identifier">validate</span>(<span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">get_basic_validation_params</span>)
+  <span class="ruby-identifier">event_complete</span> = <span class="ruby-operator">!</span><span class="ruby-identifier">errors</span>.<span class="ruby-identifier">any?</span>
+  <span class="ruby-identifier">address</span>.<span class="ruby-identifier">validate_event_complete</span>
+  <span class="ruby-identifier">address</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">msg</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">errors</span>[<span class="ruby-value">:base</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">msg</span>
+    <span class="ruby-identifier">event_complete</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">event_complete</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-verifiable_info">
+            
+              <b>verifiable_info</b>(candidate)
+            
+            <a href="../classes/CandidateSheet.html#method-i-verifiable_info" name="method-i-verifiable_info" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>information to be verified by admin</p>
+
+<h3 id="method-i-verifiable_info-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of this association</p>
+</li></ul>
+
+<h3 id="method-i-verifiable_info-label-Return-3A">Return:</h3>
+
+<p>Hash of information to be verified</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-verifiable_info_source')" id="l_method-i-verifiable_info_source">show</a>
+                
+              </p>
+              <div id="method-i-verifiable_info_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_sheet.rb, line 169</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verifiable_info</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-comment"># TODO: come up with prettier names</span>
+  {<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{first_name} #{last_name}&quot;</span>,
+   <span class="ruby-identifier">grade</span><span class="ruby-operator">:</span> <span class="ruby-identifier">grade</span>,
+   <span class="ruby-identifier">street_1</span><span class="ruby-operator">:</span> <span class="ruby-identifier">address</span>.<span class="ruby-identifier">street_1</span>,
+   <span class="ruby-identifier">street_2</span><span class="ruby-operator">:</span> <span class="ruby-identifier">address</span>.<span class="ruby-identifier">street_2</span>,
+   <span class="ruby-identifier">city</span><span class="ruby-operator">:</span> <span class="ruby-identifier">address</span>.<span class="ruby-identifier">city</span>,
+   <span class="ruby-identifier">state</span><span class="ruby-operator">:</span> <span class="ruby-identifier">address</span>.<span class="ruby-identifier">state</span>,
+   <span class="ruby-identifier">zipcode</span><span class="ruby-operator">:</span> <span class="ruby-identifier">address</span>.<span class="ruby-identifier">zip_code</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

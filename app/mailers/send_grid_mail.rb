@@ -1,5 +1,13 @@
 require 'constants'
 
+#
+# Generates and sends email through SendGrid
+#
+# === Parameters:
+#
+# * <tt>:admin</tt> The admin logged in.  If sent then doing a test email (adhoc, monthly mass mailing)
+# * <tt>:candidates</tt> Array of candidates who are being emailed
+#
 class SendGridMail
 
   def initialize(admin, candidates)
@@ -28,6 +36,14 @@ class SendGridMail
     %W(paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)
   end
 
+  #
+  # Generate and send adhoc email
+  #
+  # === Parameters:
+  #
+  # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:body_input_text</tt> The body of the email puy in by the admin
+  #
   def adhoc(subject_text, body_input_text)
 
     send_email(subject_text, body_input_text, EmailStuff::TYPES[:adhoc],
@@ -35,6 +51,14 @@ class SendGridMail
     )
   end
 
+  #
+  # Generate and send adhoc test email
+  #
+  # === Parameters:
+  #
+  # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:body_input_text</tt> The body of the email put in by the admin
+  #
   def adhoc_test(subject_text, body_input_text)
     send_email(subject_text, body_input_text, EmailStuff::TYPES[:adhoc_test],
                adhoc_test_call,
@@ -42,12 +66,23 @@ class SendGridMail
     )
   end
 
+  #
+  # Generate and send candidate user id confirmation email
+  #
   def confirmation_instructions
     return send_email(I18n.t('email.confirmation_instructions_subject'), '', EmailStuff::TYPES[:confirmation_instructions],
                       conf_insts_call
     ), @candidate_mailer_text.token
   end
 
+  #
+  # Generate and send monthly reminder email
+  #
+  # === Parameters:
+  #
+  # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:body_input_text</tt> The body of the email put in by the admin
+  #
   def monthly_mass_mailing(subject_text, *body_input_text)
 
     send_email(subject_text, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing],
@@ -55,6 +90,14 @@ class SendGridMail
     )
   end
 
+  #
+  # Generate and send monthly reminder test email
+  #
+  # === Parameters:
+  #
+  # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:body_input_text</tt> The body of the email put in by the admin
+  #
   def monthly_mass_mailing_test(subject_text, *body_input_text)
 
     send_email(subject_text, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing_test],
@@ -63,15 +106,33 @@ class SendGridMail
     )
   end
 
+  #
+  # Generate and send reset password email
+  #
   def reset_password
     return send_email(I18n.t('email.reset_password_subject'), '', EmailStuff::TYPES[:reset_password],
                       reset_pass_call
     ), @candidate_mailer_text.token
   end
 
-
+  #
+  # Generate and email.
+  #
+  # category is used to distinguish emails in SendGrid application
+  #
+  # === Parameters:
+  #
+  # * <tt>:subject</tt> The subject of the email put in by the admin
+  # * <tt>:email_type</tt> The type of email: adhoc, confirmation, etc.
+  # * <tt>:account_name</tt> User id of candidate
+  #
+  # === Returns:
+  #
+  # SendGrid::Email
+  #
   def create_mail(subject, email_type, account_name)
     mail = SendGrid::Mail.new
+    # If we are testing don't actuallly send just have SendGrid validate it.
     if Rails.env.test?
       mail_settings = SendGrid::MailSettings.new
       mail_settings.sandbox_mode = SendGrid::SandBoxMode.new(enable: true)
@@ -89,10 +150,20 @@ class SendGridMail
     mail
   end
 
+  #
+  # Create personalizations
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> The candidate.
+  # * <tt>:sg_mail</tt> An instance of SendGrid::Email
+  # * <tt>:admin</tt> The admin logged in.  If sent then doing a test email (adhoc, monthly mass mailing)
+  # * <tt>:subs</tt> Any substitutions that SendGrid can do.  This is currently not being used.
+  #
   def create_personalization(candidate, sg_mail, admin, *subs)
     personalization = SendGrid::Personalization.new
     sheet = candidate.candidate_sheet
-    if admin.nil?
+    if admin.nil? # unless test email
       used = ['stmm.confirmation@kristoffs.com']
       converted_emails = convert_emails([sheet.to_email, sheet.cc_email, sheet.cc_email_2], used)
       personalization.add_to(SendGrid::Email.new(email: converted_emails[0], name: "#{sheet.first_name} #{sheet.last_name}"))
@@ -127,7 +198,7 @@ class SendGridMail
         legal_used << em
       end
     end
-    emails.map do | em |
+    emails.map do |em|
       convert_if_not_production(em, used, legal_used)
     end
   end
@@ -168,6 +239,22 @@ class SendGridMail
     end
   end
 
+  #
+  # Expand the email text making any necessary substitutions.
+  #
+  # === Parameters:
+  #
+  #
+  # * <tt>:candidate</tt> The candidate
+  # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:body_input_text</tt> The body of the email put in by the admin
+  # * <tt>:delivery_call</tt> Generates and expands the email body
+  #
+  # === return:
+  #
+  # In production - Array of passed in email addresses.
+  # else - Array of legal non-production email addresses
+  #
   def expand_text(candidate, subject_text, body_input_text, delivery_call)
     @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: (subject_text), body_input: body_input_text)
 
@@ -175,19 +262,47 @@ class SendGridMail
     text(delivery)
   end
 
+  #
+  # Send the email to SendGrid, which will send the email
+  #
+  # === Parameters:
+  #
+  #
+  # * <tt>:sg_mail</tt> An instance of SendGrid::Email
+  #
+  # === returns:
+  #
+  # The response from SendGrid
+  #
   def post_email(sg_mail)
     sg = SendGrid::API.new(api_key: Rails.application.secrets.email_key, host: 'https://api.sendgrid.com')
     begin
       response = sg.client.mail._('send').post(request_body: sg_mail.to_json)
     rescue SocketError
       if Rails.env.test?
-        # not connected to the internet
+        # not connected to the internet - so just allow it to continue.
         return Response.new(OfflineResponse.new)
       end
     end
     response
   end
 
+  #
+  # Generates and sends the email
+  #
+  # === Parameters:
+  #
+  #
+  # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:body_input_text</tt> The body of the email put in by the admin
+  # * <tt>:email_type</tt> The type of email: adhoc, confirmation, etc.
+  # * <tt>:delivery_call</tt> Generates and expands the email body
+  # * <tt>:_test_subject_</tt> The subject of the email when it is a test email
+  #
+  # === returns:
+  #
+  # The response from SendGrid
+  #
   def send_email(subject_text, body_input_text, email_type, delivery_call, test_subject=nil)
 
     response = nil
@@ -212,10 +327,21 @@ class SendGridMail
     response
   end
 
+  #
+  # Generates email body with expansion
+  #
+  # === Parameters:
+  #
+  #
+  # * <tt>:delivery</tt> SendGrid
+  #
+  # === returns:
+  #
+  # The expanded email body
+  #
   def text(delivery)
     message = delivery.message
-    text = message.body.to_s
-    # puts "text=#{text}"
+    message.body.to_s
   end
 
   # TEST ONLY
@@ -256,31 +382,94 @@ class SendGridMail
 
   private
 
-
+  #
+  # Generates email body for adhoc email
+  #
+  # === Parameters:
+  #
+  # === returns:
+  #
+  # A lambda
+  #
   def adhoc_call
     lambda {|admin, candidate_mailer_text| CandidatesMailer.adhoc(admin, candidate_mailer_text)}
   end
 
+  #
+  # Generates email body for adhoc test email
+  #
+  # === Parameters:
+  #
+  # === returns:
+  #
+  # A lambda
+  #
   def adhoc_test_call
     lambda {|admin, candidate_mailer_text| CandidatesMailer.adhoc_test(admin, candidate_mailer_text)}
   end
 
+  #
+  # Generates email body for adhoc test subject
+  #
+  # === Parameters:
+  #
+  #
+  # === returns:
+  #
+  # A lambda
+  #
   def adhoc_test_subj_call
     lambda {|candidate| I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate.account_name)}
   end
 
+  #
+  # Generates email body for confirmation email
+  #
+  # === Parameters:
+  #
+  # === returns:
+  #
+  # A lambda
+  #
   def conf_insts_call
     lambda {|admin, candidate_mailer_text| candidate_mailer_text.candidate.confirmation_instructions(candidate_mailer_text)}
   end
 
+  #
+  # Generates email body for monthly mass mailing
+  #
+  # === Parameters:
+  #
+  # === returns:
+  #
+  # A lambda
+  #
   def mmm_call
     lambda {|admin, candidate_mailer_text| CandidatesMailer.monthly_reminder(admin, candidate_mailer_text)}
   end
 
+  #
+  # Generates email body for monthly mass test mailing
+  #
+  # === Parameters:
+  #
+  # === returns:
+  #
+  # A lambda
+  #
   def mmm_test_call
     lambda {|admin, candidate_mailer_text| CandidatesMailer.monthly_reminder_test(admin, candidate_mailer_text)}
   end
 
+  #
+  # Generates email body for monthly mass mailing test subject
+  #
+  # === Parameters:
+  #
+  # === returns:
+  #
+  # A lambda
+  #
   def mmm_test_subj_call
     lambda {|candidate| I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate.account_name)}
   end
@@ -291,6 +480,9 @@ class SendGridMail
 
 end
 
+#
+# An exception used when running tests and you are not connected to the internet.
+#
 class OfflineResponse
   def initialize
     unless Rails.env.test?

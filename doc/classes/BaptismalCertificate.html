@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>BaptismalCertificate</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            BaptismalCertificate
+            
+                <span class="parent">&lt;
+                    
+                    ActiveRecord::Base
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/models/baptismal_certificate_rb.html">app/models/baptismal_certificate.rb</a></li>
+            
+            <li><a href="../files/db/migrate/20160716025107_baptismal_certificate_rb.html">db/migrate/20160716025107_baptismal_certificate.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>Actve Record</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>B</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-build_associations">build_associations</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>D</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-down">down</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-event_name">event_name</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>G</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-get_basic_permitted_params">get_basic_permitted_params</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-get_basic_validation_params">get_basic_validation_params</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-get_church_address_permitted_params">get_church_address_permitted_params</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-get_church_address_validation_params">get_church_address_validation_params</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-get_permitted_params">get_permitted_params</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>U</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-up">up</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>V</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-validate_event_complete">validate_event_complete</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-validate_event_complete">validate_event_complete</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-verifiable_info">verifiable_info</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>certificate_picture</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+      </table>
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-event_name">
+            
+              <b>event_name</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-c-event_name" name="method-c-event_name" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>associated confirmation event name</p>
+
+<h3 id="method-c-event_name-label-Return-3A">Return:</h3>
+
+<p>String</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-event_name_source')" id="l_method-c-event_name_source">show</a>
+                
+              </p>
+              <div id="method-c-event_name_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 109</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">event_name</span>
+  <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_basic_permitted_params">
+            
+              <b>get_basic_permitted_params</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-c-get_basic_permitted_params" name="method-c-get_basic_permitted_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable attributes</p>
+
+<h3 id="method-c-get_basic_permitted_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_basic_permitted_params_source')" id="l_method-c-get_basic_permitted_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_basic_permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 85</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_basic_permitted_params</span>
+  [<span class="ruby-value">:birth_date</span>, <span class="ruby-value">:baptismal_date</span>, <span class="ruby-value">:church_name</span>, <span class="ruby-value">:father_first</span>, <span class="ruby-value">:father_middle</span>, <span class="ruby-value">:father_last</span>,
+   <span class="ruby-value">:mother_first</span>, <span class="ruby-value">:mother_middle</span>, <span class="ruby-value">:mother_maiden</span>, <span class="ruby-value">:mother_last</span>, <span class="ruby-value">:certificate_picture</span>,
+   <span class="ruby-value">:scanned_certificate</span>, <span class="ruby-value">:id</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_basic_validation_params">
+            
+              <b>get_basic_validation_params</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-c-get_basic_validation_params" name="method-c-get_basic_validation_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Required attributes</p>
+
+<h3 id="method-c-get_basic_validation_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_basic_validation_params_source')" id="l_method-c-get_basic_validation_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_basic_validation_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 97</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_basic_validation_params</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">get_basic_permitted_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:certificate_picture</span>)
+  <span class="ruby-identifier">params</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_church_address_permitted_params">
+            
+              <b>get_church_address_permitted_params</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-c-get_church_address_permitted_params" name="method-c-get_church_address_permitted_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable church address attributes</p>
+
+<h3 id="method-c-get_church_address_permitted_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_church_address_permitted_params_source')" id="l_method-c-get_church_address_permitted_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_church_address_permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_church_address_permitted_params</span>
+  <span class="ruby-constant">Address</span>.<span class="ruby-identifier">get_basic_permitted_params</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_church_address_validation_params">
+            
+              <b>get_church_address_validation_params</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-c-get_church_address_validation_params" name="method-c-get_church_address_validation_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Required church address attributes</p>
+
+<h3 id="method-c-get_church_address_validation_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_church_address_validation_params_source')" id="l_method-c-get_church_address_validation_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_church_address_validation_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 75</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_church_address_validation_params</span>
+  <span class="ruby-constant">Address</span>.<span class="ruby-identifier">get_basic_validatiion_params</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_permitted_params">
+            
+              <b>get_permitted_params</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-c-get_permitted_params" name="method-c-get_permitted_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable attributes</p>
+
+<h3 id="method-c-get_permitted_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_permitted_params_source')" id="l_method-c-get_permitted_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 53</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_permitted_params</span>
+  <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">get_basic_permitted_params</span>.<span class="ruby-identifier">concat</span>(
+      [<span class="ruby-identifier">church_address_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">get_church_address_permitted_params</span>,
+       <span class="ruby-identifier">scanned_certificate_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">get_permitted_params</span>])
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-validate_event_complete">
+            
+              <b>validate_event_complete</b>(candidate)
+            
+            <a href="../classes/BaptismalCertificate.html#method-c-validate_event_complete" name="method-c-validate_event_complete" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Validate if event is complete by adding validation errors to active record</p>
+
+<h3 id="method-c-validate_event_complete-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of association</p>
+</li></ul>
+
+<h3 id="method-c-validate_event_complete-label-Return-3A">Return:</h3>
+
+<p>baptismal_certificate with validation errors</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-validate_event_complete_source')" id="l_method-c-validate_event_complete_source">show</a>
+                
+              </p>
+              <div id="method-c-validate_event_complete_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 123</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">validate_event_complete</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-identifier">baptismal_certificate</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>
+  <span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">validate_event_complete</span>(<span class="ruby-identifier">baptized_at_stmm</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptized_at_stmm</span>)
+  <span class="ruby-identifier">baptismal_certificate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-build_associations">
+            
+              <b>build_associations</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-i-build_associations" name="method-i-build_associations" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>build church address</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-build_associations_source')" id="l_method-i-build_associations_source">show</a>
+                
+              </p>
+              <div id="method-i-build_associations_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 131</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">build_associations</span>
+  <span class="ruby-identifier">church_address</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_church_address</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-down">
+            
+              <b>down</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-i-down" name="method-i-down" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-down_source')" id="l_method-i-down_source">show</a>
+                
+              </p>
+              <div id="method-i-down_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File db/migrate/20160716025107_baptismal_certificate.rb, line 7</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">down</span>
+  <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">revert_confirmation_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>))
+  <span class="ruby-identifier">remove_column</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:baptized_at_stmm</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-up">
+            
+              <b>up</b>()
+            
+            <a href="../classes/BaptismalCertificate.html#method-i-up" name="method-i-up" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-up_source')" id="l_method-i-up_source">show</a>
+                
+              </p>
+              <div id="method-i-up_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File db/migrate/20160716025107_baptismal_certificate.rb, line 2</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">up</span>
+  <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_event_due_date</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>))
+  <span class="ruby-identifier">add_column</span> <span class="ruby-value">:candidates</span>, <span class="ruby-value">:baptized_at_stmm</span>, <span class="ruby-value">:boolean</span>, <span class="ruby-identifier">null</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>, <span class="ruby-identifier">default</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-validate_event_complete">
+            
+              <b>validate_event_complete</b>(options={})
+            
+            <a href="../classes/BaptismalCertificate.html#method-i-validate_event_complete" name="method-i-validate_event_complete" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Validate if event is complete by adding validation errors to active record</p>
+
+<h3 id="method-i-validate_event_complete-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:baptized_at_stmm</code> If true then nothing else needs to be added</p>
+</li></ul>
+
+<h3 id="method-i-validate_event_complete-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-validate_event_complete_source')" id="l_method-i-validate_event_complete_source">show</a>
+                
+              </p>
+              <div id="method-i-validate_event_complete_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_event_complete</span>(<span class="ruby-identifier">options</span>={})
+  <span class="ruby-identifier">baptized_at_stmm</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:baptized_at_stmm</span>]
+  <span class="ruby-identifier">event_complete</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">event_complete_validator</span> = <span class="ruby-constant">EventCompleteValidator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">!</span><span class="ruby-identifier">baptized_at_stmm</span>)
+  <span class="ruby-identifier">event_complete_validator</span>.<span class="ruby-identifier">validate</span>([], <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">get_basic_validation_params</span>)
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">baptized_at_stmm</span>
+    <span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">validate_event_complete</span>
+    <span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">msg</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">errors</span>[<span class="ruby-value">:base</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">msg</span>
+      <span class="ruby-identifier">event_complete</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">found</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-identifier">found</span> <span class="ruby-operator">|=</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">errors</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scanned_certificate</span>).<span class="ruby-identifier">nil?</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">found</span>
+      <span class="ruby-identifier">errors</span>[<span class="ruby-value">:base</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;Scanned baptismal certificate can\t be blank&#39;</span> <span class="ruby-comment">#TODO I18n</span>
+      <span class="ruby-identifier">event_complete</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">event_complete</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-verifiable_info">
+            
+              <b>verifiable_info</b>(candidate)
+            
+            <a href="../classes/BaptismalCertificate.html#method-i-verifiable_info" name="method-i-verifiable_info" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>information to be verified by admin</p>
+
+<h3 id="method-i-verifiable_info-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of this association</p>
+</li></ul>
+
+<h3 id="method-i-verifiable_info-label-Return-3A">Return:</h3>
+
+<p>Hash of information to be verified</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-verifiable_info_source')" id="l_method-i-verifiable_info_source">show</a>
+                
+              </p>
+              <div id="method-i-verifiable_info_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/baptismal_certificate.rb, line 145</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verifiable_info</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptized_at_stmm</span>
+    {
+        <span class="ruby-constant">Church</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;home_parish.name&#39;</span>)
+    }
+  <span class="ruby-keyword">else</span>
+    {
+        <span class="ruby-constant">Birthday</span><span class="ruby-operator">:</span> <span class="ruby-identifier">birth_date</span>,
+        <span class="ruby-string">&#39;Baptismal date&#39;</span><span class="ruby-operator">:</span> <span class="ruby-identifier">baptismal_date</span>,
+        <span class="ruby-string">&#39;Father\s name&#39;</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{father_first} #{father_middle} #{father_last}&quot;</span>,
+        <span class="ruby-string">&#39;Mother\s name&#39;</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{mother_first} #{mother_middle} #{mother_maiden} #{mother_last}&quot;</span>,
+        <span class="ruby-constant">Church</span><span class="ruby-operator">:</span> <span class="ruby-identifier">church_name</span>,
+        <span class="ruby-constant">Street</span><span class="ruby-operator">:</span> <span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">street_1</span>,
+        <span class="ruby-string">&#39;Street 2&#39;</span><span class="ruby-operator">:</span> <span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">street_2</span>,
+        <span class="ruby-constant">City</span><span class="ruby-operator">:</span> <span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">city</span>,
+        <span class="ruby-constant">State</span><span class="ruby-operator">:</span> <span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">state</span>,
+        <span class="ruby-string">&#39;Zip Code&#39;</span><span class="ruby-operator">:</span> <span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">zip_code</span>
+    }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

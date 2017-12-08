@@ -1,15 +1,3 @@
-# :: ("Candidate information"): Array: \[:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending\]
-# :: ("candidate_events by candidate_id"): Hash: {
-#       :candidate_id, \[...
-#                       \[:candidate_id, :confirmation_event_id, :candidate_event_id, :name, :verified, :completed_date, :the_way_due_date, :chs_due_date\]
-#                       ...\]
-#::
-# *"The event being edited in mass_edit_candidates_event.html.erb")
-#     * Array:
-#     * \[:candidate_id, :confirmation_event_id, :candidate_event_id, :name, :verified, :completed_date, :the_way_due_date, :chs_due_date\]
-#   }
-
-
 #
 # This was created in an attempt to keep DB objects from being created to generate
 # the sorting_candidate_selection pane.
@@ -40,7 +28,7 @@ class PluckCan
   # Array of PluckCan
   #
   def self.pluck_candidates(confirmation_event_id = nil)
-    candidate_events = pluck_cand_events()
+    candidate_events = pluck_cand_events
     Candidate.joins(:candidate_sheet).
         pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending).map do |cand_info|
       candidate_id = cand_info[0]

@@ -23,7 +23,7 @@
         </h1>
         <ul class="files">
             <li>app/helpers/pluck_can.rb</li>
-            <li>Last modified: 2017-11-25 21:37:39 -0500</li>
+            <li>Last modified: 2017-12-07 22:35:51 -0600</li>
         </ul>
     </div>
 
@@ -32,19 +32,23 @@
   
     <div class="description">
       
-<pre><code>:: (&quot;Candidate information&quot;): Array: \[:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending\]
-:: (&quot;candidate_events by candidate_id&quot;): Hash: {
-      :candidate_id, \[...
-                      \[:candidate_id, :confirmation_event_id, :candidate_event_id, :name, :verified, :completed_date, :the_way_due_date, :chs_due_date\]
-                      ...\]</code></pre>
-<dl class="rdoc-list note-list"><dt>
-<dd>
-<p>*“The event being edited in mass_edit_candidates_event.html.erb”)</p>
+<p>This was created in an attempt to keep DB objects from being created to
+generate the sorting_candidate_selection pane.</p>
 
-<pre><code>  * Array:
-  * \[:candidate_id, :confirmation_event_id, :candidate_event_id, :name, :verified, :completed_date, :the_way_due_date, :chs_due_date\]
-}</code></pre>
-</dd></dl>
+<p>Each instance represents a row in _sorting_candidate_selection.html.erb</p>
+
+<h3 id="label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:cand_info</code> <a
+href="../../../classes/Candidate.html">Candidate</a> information shown in
+the sorting table.</p>
+</li><li>
+<p><code>:cand_event_info</code> A hash that has the information necessary to
+generate the status of each candidate event for a candidate.</p>
+</li><li>
+<p><code>:candidate_event</code> The candiate event information (verified,
+completion_date) being editied in mass_edit_candidates_event.html.erb</p>
+</li></ul>
 
     </div>
   

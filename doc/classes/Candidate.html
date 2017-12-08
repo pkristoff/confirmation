@@ -1,0 +1,1865 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Candidate</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            Candidate
+            
+                <span class="parent">&lt;
+                    
+                    ActiveRecord::Base
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/models/candidate_rb.html">app/models/candidate.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>Person being confirmed</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-account_confirmed-3F">account_confirmed?</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-add_candidate_event">add_candidate_event</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>B</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-baptismal_external_verification-3F">baptismal_external_verification?</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-bcc_email">bcc_email</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-build_associations">build_associations</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-candidate_events_sorted">candidate_events_sorted</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-candidate_params">candidate_params</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-confirm_account">confirm_account</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-confirmation_instructions">confirmation_instructions</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-email">email</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-email-3D">email=</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-email_changed-3F">email_changed?</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-email_required-3F">email_required?</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-emails">emails</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-events_external_verification-3F">events_external_verification?</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>F</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-find_first_by_auth_conditions">find_first_by_auth_conditions</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>G</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-get_awaiting_admin_events">get_awaiting_admin_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-get_awaiting_candidate_events">get_awaiting_candidate_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-get_candidate_event">get_candidate_event</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-get_coming_due_events">get_coming_due_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-get_completed">get_completed</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-get_event_association">get_event_association</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-get_late_events">get_late_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-get_permitted_params">get_permitted_params</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>P</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-password_changed-3F">password_changed?</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-password_reset_message">password_reset_message</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>R</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-reset_password_by_token">reset_password_by_token</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-retreat_external_verification-3F">retreat_external_verification?</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-send_on_create_confirmation_instructions">send_on_create_confirmation_instructions</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-send_reset_password_instructions">send_reset_password_instructions</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-sponsor_external_verification-3F">sponsor_external_verification?</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>V</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-validate_event_complete">validate_event_complete</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-verifiable_info">verifiable_info</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-baptismal_external_verification-3F">
+            
+              <b>baptismal_external_verification?</b>(candidate)
+            
+            <a href="../classes/Candidate.html#method-c-baptismal_external_verification-3F" name="method-c-baptismal_external_verification-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>baptismal certificate needs admin verification</p>
+
+<h3 id="method-c-baptismal_external_verification-3F-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of this association</p>
+</li></ul>
+
+<h3 id="method-c-baptismal_external_verification-3F-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-baptismal_external_verification-3F_source')" id="l_method-c-baptismal_external_verification-3F_source">show</a>
+                
+              </p>
+              <div id="method-c-baptismal_external_verification-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 451</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">baptismal_external_verification?</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-comment"># TODO: use awaiting_admin?</span>
+  <span class="ruby-identifier">candidate_event</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>))
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptized_at_stmm</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">completed_date</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">verified</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-candidate_params">
+            
+              <b>candidate_params</b>()
+            
+            <a href="../classes/Candidate.html#method-c-candidate_params" name="method-c-candidate_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable attributes</p>
+
+<h3 id="method-c-candidate_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-candidate_params_source')" id="l_method-c-candidate_params_source">show</a>
+                
+              </p>
+              <div id="method-c-candidate_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">candidate_params</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-identifier">attribute_names</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">to_sym</span> } <span class="ruby-operator">&amp;</span> [<span class="ruby-value">:account_name</span>, <span class="ruby-value">:password</span>]
+  <span class="ruby-identifier">params</span> = <span class="ruby-identifier">params</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">:password</span>
+  <span class="ruby-identifier">params</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-events_external_verification-3F">
+            
+              <b>events_external_verification?</b>(candidate)
+            
+            <a href="../classes/Candidate.html#method-c-events_external_verification-3F" name="method-c-events_external_verification-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>candidate events needs admin verification</p>
+
+<h3 id="method-c-events_external_verification-3F-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of this association</p>
+</li></ul>
+
+<h3 id="method-c-events_external_verification-3F-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-events_external_verification-3F_source')" id="l_method-c-events_external_verification-3F_source">show</a>
+                
+              </p>
+              <div id="method-c-events_external_verification-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 499</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">events_external_verification?</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-find_first_by_auth_conditions">
+            
+              <b>find_first_by_auth_conditions</b>(tainted_conditions, options = {})
+            
+            <a href="../classes/Candidate.html#method-c-find_first_by_auth_conditions" name="method-c-find_first_by_auth_conditions" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>???</p>
+
+<h3 id="method-c-find_first_by_auth_conditions-label-Return-3A">Return:</h3>
+
+<p>Array of condidations</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-find_first_by_auth_conditions_source')" id="l_method-c-find_first_by_auth_conditions_source">show</a>
+                
+              </p>
+              <div id="method-c-find_first_by_auth_conditions_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 116</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">find_first_by_auth_conditions</span>(<span class="ruby-identifier">tainted_conditions</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">login</span> = <span class="ruby-identifier">tainted_conditions</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:account_name</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">login</span>
+    <span class="ruby-identifier">conditions</span> = <span class="ruby-identifier">devise_parameter_filter</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">value</span><span class="ruby-operator">:</span> <span class="ruby-identifier">login</span>.<span class="ruby-identifier">downcase</span>)
+    <span class="ruby-identifier">where</span>([<span class="ruby-string">&#39;lower(account_name) = :value&#39;</span>, <span class="ruby-identifier">conditions</span>]).<span class="ruby-identifier">first</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">super</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_permitted_params">
+            
+              <b>get_permitted_params</b>()
+            
+            <a href="../classes/Candidate.html#method-c-get_permitted_params" name="method-c-get_permitted_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable attributes</p>
+
+<h3 id="method-c-get_permitted_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_permitted_params_source')" id="l_method-c-get_permitted_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 171</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_permitted_params</span>
+  [<span class="ruby-value">:account_name</span>, <span class="ruby-value">:password</span>, <span class="ruby-value">:password_confirmation</span>,
+   <span class="ruby-value">:signed_agreement</span>, <span class="ruby-value">:baptized_at_stmm</span>, <span class="ruby-value">:sponsor_agreement</span>,
+   <span class="ruby-identifier">candidate_sheet_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">get_permitted_params</span>,
+   <span class="ruby-identifier">baptismal_certificate_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">get_permitted_params</span>,
+   <span class="ruby-identifier">sponsor_covenant_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">get_permitted_params</span>,
+   <span class="ruby-identifier">pick_confirmation_name_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">get_permitted_params</span>,
+   <span class="ruby-identifier">christian_ministry_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">get_permitted_params</span>,
+   <span class="ruby-identifier">candidate_events_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">get_permitted_params</span>,
+   <span class="ruby-identifier">retreat_verification_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">get_permitted_params</span>
+  ]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-reset_password_by_token">
+            
+              <b>reset_password_by_token</b>(resource_params)
+            
+            <a href="../classes/Candidate.html#method-c-reset_password_by_token" name="method-c-reset_password_by_token" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Confirm user account when changing password</p>
+
+<h3 id="method-c-reset_password_by_token-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:resource_params</code> parms necessary to change password</p>
+</li></ul>
+
+<h3 id="method-c-reset_password_by_token-label-Return-3A">Return:</h3>
+
+<p><a href="Candidate.html">Candidate</a> whose password was changed</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-reset_password_by_token_source')" id="l_method-c-reset_password_by_token_source">show</a>
+                
+              </p>
+              <div id="method-c-reset_password_by_token_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 305</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">reset_password_by_token</span>(<span class="ruby-identifier">resource_params</span>)
+
+  <span class="ruby-identifier">candidate</span> = <span class="ruby-keyword">super</span>(<span class="ruby-identifier">resource_params</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_confirmed?</span>
+    <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">skip_confirmation!</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">candidate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-retreat_external_verification-3F">
+            
+              <b>retreat_external_verification?</b>(candidate)
+            
+            <a href="../classes/Candidate.html#method-c-retreat_external_verification-3F" name="method-c-retreat_external_verification-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>retreat needs admin verification</p>
+
+<h3 id="method-c-retreat_external_verification-3F-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of this association</p>
+</li></ul>
+
+<h3 id="method-c-retreat_external_verification-3F-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-retreat_external_verification-3F_source')" id="l_method-c-retreat_external_verification-3F_source">show</a>
+                
+              </p>
+              <div id="method-c-retreat_external_verification-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 467</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">retreat_external_verification?</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-comment"># TODO: use awaiting_admin?</span>
+  <span class="ruby-identifier">candidate_event</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>))
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">retreat_verification</span>.<span class="ruby-identifier">retreat_held_at_stmm</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">completed_date</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">verified</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-sponsor_external_verification-3F">
+            
+              <b>sponsor_external_verification?</b>(candidate)
+            
+            <a href="../classes/Candidate.html#method-c-sponsor_external_verification-3F" name="method-c-sponsor_external_verification-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>sponsor needs admin verification</p>
+
+<h3 id="method-c-sponsor_external_verification-3F-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of this association</p>
+</li></ul>
+
+<h3 id="method-c-sponsor_external_verification-3F-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-sponsor_external_verification-3F_source')" id="l_method-c-sponsor_external_verification-3F_source">show</a>
+                
+              </p>
+              <div id="method-c-sponsor_external_verification-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 483</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">sponsor_external_verification?</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-comment"># TODO: use awaiting_admin?</span>
+  <span class="ruby-identifier">candidate_event</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>))
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">sponsor_covenant</span>.<span class="ruby-identifier">sponsor_attends_stmm</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">completed_date</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">verified</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-account_confirmed-3F">
+            
+              <b>account_confirmed?</b>()
+            
+            <a href="../classes/Candidate.html#method-i-account_confirmed-3F" name="method-i-account_confirmed-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns whether the User account has been confirmed</p>
+
+<h3 id="method-i-account_confirmed-3F-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-account_confirmed-3F_source')" id="l_method-i-account_confirmed-3F_source">show</a>
+                
+              </p>
+              <div id="method-i-account_confirmed-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 281</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">account_confirmed?</span>
+  <span class="ruby-identifier">confirmed?</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-add_candidate_event">
+            
+              <b>add_candidate_event</b>(confirmation_event)
+            
+            <a href="../classes/Candidate.html#method-i-add_candidate_event" name="method-i-add_candidate_event" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Adds a candidate event as part of the creation process</p>
+
+<h3 id="method-i-add_candidate_event-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:confirmation_event</code> common event</p>
+</li></ul>
+
+<h3 id="method-i-add_candidate_event-label-Return-3A">Return:</h3>
+
+<p>candidate_event</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-add_candidate_event_source')" id="l_method-i-add_candidate_event_source">show</a>
+                
+              </p>
+              <div id="method-i-add_candidate_event_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 136</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">add_candidate_event</span> (<span class="ruby-identifier">confirmation_event</span>)
+  <span class="ruby-identifier">candidate_event</span> = <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">create_candidate_event</span>(<span class="ruby-identifier">confirmation_event</span>)
+  <span class="ruby-identifier">candidate_events</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">candidate_event</span>
+  <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">candidate</span> = <span class="ruby-keyword">self</span>
+  <span class="ruby-identifier">candidate_event</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-bcc_email">
+            
+              <b>bcc_email</b>()
+            
+            <a href="../classes/Candidate.html#method-i-bcc_email" name="method-i-bcc_email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>If bcc is called use this email  address</p>
+
+<h3 id="method-i-bcc_email-label-Return-3A">Return:</h3>
+
+<p>String</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-bcc_email_source')" id="l_method-i-bcc_email_source">show</a>
+                
+              </p>
+              <div id="method-i-bcc_email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 211</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">bcc_email</span>
+  <span class="ruby-string">&#39;stmm.confirmation@kristoffs.com&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-build_associations">
+            
+              <b>build_associations</b>()
+            
+            <a href="../classes/Candidate.html#method-i-build_associations" name="method-i-build_associations" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-build_associations_source')" id="l_method-i-build_associations_source">show</a>
+                
+              </p>
+              <div id="method-i-build_associations_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 155</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">build_associations</span>
+  <span class="ruby-identifier">candidate_sheet</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_candidate_sheet</span>
+  <span class="ruby-identifier">baptismal_certificate</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_baptismal_certificate</span>
+  <span class="ruby-identifier">sponsor_covenant</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_sponsor_covenant</span>
+  <span class="ruby-identifier">pick_confirmation_name</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_pick_confirmation_name</span>
+  <span class="ruby-identifier">christian_ministry</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_christian_ministry</span>
+  <span class="ruby-identifier">retreat_verification</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_retreat_verification</span>
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-candidate_events_sorted">
+            
+              <b>candidate_events_sorted</b>()
+            
+            <a href="../classes/Candidate.html#method-i-candidate_events_sorted" name="method-i-candidate_events_sorted" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Sorts candidate events in priorty order (to be cmpleted first)</p>
+
+<h3 id="method-i-candidate_events_sorted-label-Return-3A">Return:</h3>
+
+<p>Array candidate events</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-candidate_events_sorted_source')" id="l_method-i-candidate_events_sorted_source">show</a>
+                
+              </p>
+              <div id="method-i-candidate_events_sorted_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 59</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">candidate_events_sorted</span>
+  <span class="ruby-comment"># TODO: rewrite using event states</span>
+  <span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">sort</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ce1</span>, <span class="ruby-identifier">ce2</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment"># in order for this to work due_dates should not be nil.</span>
+    <span class="ruby-comment"># if they are move them to the top so admin can give them</span>
+    <span class="ruby-comment"># one.</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">due_date</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">due_date</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">name</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-number">-1</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">due_date</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-number">1</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-comment"># due_dates filled in.</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+            <span class="ruby-comment"># if neither completed then the first to come</span>
+            <span class="ruby-comment"># due is first</span>
+            <span class="ruby-identifier">due_date</span> = <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">due_date</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">due_date</span> <span class="ruby-operator">==</span> <span class="ruby-number">0</span>
+              <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">name</span>
+            <span class="ruby-keyword">else</span>
+              <span class="ruby-identifier">due_date</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">else</span>
+            <span class="ruby-comment"># non completed goes on top.</span>
+            <span class="ruby-number">-1</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-comment"># non completed goes on top.</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+            <span class="ruby-number">1</span>
+          <span class="ruby-keyword">else</span>
+            <span class="ruby-comment"># if both are completed then the first to come</span>
+            <span class="ruby-comment"># due is on top</span>
+            <span class="ruby-identifier">due_date</span> = <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">due_date</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">due_date</span> <span class="ruby-operator">==</span> <span class="ruby-number">0</span>
+              <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">name</span>
+            <span class="ruby-keyword">else</span>
+              <span class="ruby-identifier">due_date</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-confirm_account">
+            
+              <b>confirm_account</b>()
+            
+            <a href="../classes/Candidate.html#method-i-confirm_account" name="method-i-confirm_account" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>confirm the user account</p>
+
+<h3 id="method-i-confirm_account-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-confirm_account_source')" id="l_method-i-confirm_account_source">show</a>
+                
+              </p>
+              <div id="method-i-confirm_account_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 291</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">confirm_account</span>
+  <span class="ruby-identifier">confirm</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-confirmation_instructions">
+            
+              <b>confirmation_instructions</b>(candidate_mailer_text)
+            
+            <a href="../classes/Candidate.html#method-i-confirmation_instructions" name="method-i-confirmation_instructions" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>get expanded account confirmation instructions</p>
+
+<h3 id="method-i-confirmation_instructions-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate_mailer_text</code> expands instructions</p>
+</li></ul>
+
+<h3 id="method-i-confirmation_instructions-label-Return-3A">Return:</h3>
+
+<p>String</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-confirmation_instructions_source')" id="l_method-i-confirmation_instructions_source">show</a>
+                
+              </p>
+              <div id="method-i-confirmation_instructions_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 543</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">confirmation_instructions</span>(<span class="ruby-identifier">candidate_mailer_text</span>)
+  <span class="ruby-identifier">token</span> = <span class="ruby-identifier">generate_confirmation_token</span>
+  <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">token</span> = <span class="ruby-identifier">token</span>
+  <span class="ruby-identifier">devise_mailer</span>.<span class="ruby-identifier">confirmation_instructions</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">token</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-email">
+            
+              <b>email</b>()
+            
+            <a href="../classes/Candidate.html#method-i-email" name="method-i-email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns the canidates email - used by Factory Girl</p>
+
+<h3 id="method-i-email-label-Return-3A">Return:</h3>
+
+<p>email address String</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-email_source')" id="l_method-i-email_source">show</a>
+                
+              </p>
+              <div id="method-i-email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 231</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">email</span>
+  <span class="ruby-node">&quot;#{candidate_sheet.candidate_email}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-email-3D">
+            
+              <b>email=</b>(value)
+            
+            <a href="../classes/Candidate.html#method-i-email-3D" name="method-i-email-3D" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>sets canidates email to value - used by Factory Girl</p>
+
+<h3 id="method-i-email-3D-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:value</code> String: nil or email address</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-email-3D_source')" id="l_method-i-email-3D_source">show</a>
+                
+              </p>
+              <div id="method-i-email-3D_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 241</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">email=</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">candidate_email</span> = <span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-email_changed-3F">
+            
+              <b>email_changed?</b>()
+            
+            <a href="../classes/Candidate.html#method-i-email_changed-3F" name="method-i-email_changed-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns false - used by Factory Girl</p>
+
+<h3 id="method-i-email_changed-3F-label-Return-3A">Return:</h3>
+
+<p>boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-email_changed-3F_source')" id="l_method-i-email_changed-3F_source">show</a>
+                
+              </p>
+              <div id="method-i-email_changed-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 261</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">email_changed?</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-email_required-3F">
+            
+              <b>email_required?</b>()
+            
+            <a href="../classes/Candidate.html#method-i-email_required-3F" name="method-i-email_required-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns false - used by Factory Girl</p>
+
+<h3 id="method-i-email_required-3F-label-Return-3A">Return:</h3>
+
+<p>boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-email_required-3F_source')" id="l_method-i-email_required-3F_source">show</a>
+                
+              </p>
+              <div id="method-i-email_required-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 251</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">email_required?</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-emails">
+            
+              <b>emails</b>()
+            
+            <a href="../classes/Candidate.html#method-i-emails" name="method-i-emails" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Array of email addresses ignoring the fact they could be nil - devise</p>
+
+<h3 id="method-i-emails-label-Return-3A">Return:</h3>
+
+<p>Array of Stings</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-emails_source')" id="l_method-i-emails_source">show</a>
+                
+              </p>
+              <div id="method-i-emails_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 221</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">emails</span>
+  <span class="ruby-node">&quot;#{candidate_sheet.candidate_email}, #{candidate_sheet.parent_email_1},#{candidate_sheet.parent_email_2}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-get_awaiting_admin_events">
+            
+              <b>get_awaiting_admin_events</b>()
+            
+            <a href="../classes/Candidate.html#method-i-get_awaiting_admin_events" name="method-i-get_awaiting_admin_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns array of awaiting admin events</p>
+
+<h3 id="method-i-get_awaiting_admin_events-label-Return-3A">Return:</h3>
+
+<p>Array of awaiting admin candidate events</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-get_awaiting_admin_events_source')" id="l_method-i-get_awaiting_admin_events_source">show</a>
+                
+              </p>
+              <div id="method-i-get_awaiting_admin_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 421</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">get_awaiting_admin_events</span>
+  <span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">awaiting_admin?</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-get_awaiting_candidate_events">
+            
+              <b>get_awaiting_candidate_events</b>()
+            
+            <a href="../classes/Candidate.html#method-i-get_awaiting_candidate_events" name="method-i-get_awaiting_candidate_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns array of &#39;awaiting candidate&#39; events</p>
+
+<h3 id="method-i-get_awaiting_candidate_events-label-Return-3A">Return:</h3>
+
+<p>Array of &#39;awaiting candidate&#39; candidate events</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-get_awaiting_candidate_events_source')" id="l_method-i-get_awaiting_candidate_events_source">show</a>
+                
+              </p>
+              <div id="method-i-get_awaiting_candidate_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 409</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">get_awaiting_candidate_events</span>
+  <span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">awaiting_candidate?</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-get_candidate_event">
+            
+              <b>get_candidate_event</b>(event_name)
+            
+            <a href="../classes/Candidate.html#method-i-get_candidate_event" name="method-i-get_candidate_event" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns candidate_event whose name is event_name</p>
+
+<h3 id="method-i-get_candidate_event-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:event_name</code> owner of association</p>
+</li></ul>
+
+<h3 id="method-i-get_candidate_event-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-get_candidate_event_source')" id="l_method-i-get_candidate_event_source">show</a>
+                
+              </p>
+              <div id="method-i-get_candidate_event_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 324</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">get_candidate_event</span> (<span class="ruby-identifier">event_name</span>)
+  <span class="ruby-identifier">event</span> = <span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">event_name</span> }
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">event</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Could not find event: #{event_name}&quot;</span>
+    <span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">name</span> }
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown candidate_event named: #{event_name}&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">event</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-get_coming_due_events">
+            
+              <b>get_coming_due_events</b>()
+            
+            <a href="../classes/Candidate.html#method-i-get_coming_due_events" name="method-i-get_coming_due_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns array of coming due events</p>
+
+<h3 id="method-i-get_coming_due_events-label-Return-3A">Return:</h3>
+
+<p>Array of coming due candidate events</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-get_coming_due_events_source')" id="l_method-i-get_coming_due_events_source">show</a>
+                
+              </p>
+              <div id="method-i-get_coming_due_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 397</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">get_coming_due_events</span>
+  <span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">coming_due?</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-get_completed">
+            
+              <b>get_completed</b>()
+            
+            <a href="../classes/Candidate.html#method-i-get_completed" name="method-i-get_completed" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns array of completed events</p>
+
+<h3 id="method-i-get_completed-label-Return-3A">Return:</h3>
+
+<p>Array of completed candidate events</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-get_completed_source')" id="l_method-i-get_completed_source">show</a>
+                
+              </p>
+              <div id="method-i-get_completed_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 385</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">get_completed</span>
+  <span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">completed?</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-get_event_association">
+            
+              <b>get_event_association</b>(event_route_name)
+            
+            <a href="../classes/Candidate.html#method-i-get_event_association" name="method-i-get_event_association" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns the association based on event name</p>
+
+<h3 id="method-i-get_event_association-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:event_route_name</code> event name</p>
+</li></ul>
+
+<h3 id="method-i-get_event_association-label-Return-3A">Return:</h3>
+
+<p>christian_ministry with validation errors</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-get_event_association_source')" id="l_method-i-get_event_association_source">show</a>
+                
+              </p>
+              <div id="method-i-get_event_association_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 344</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">get_event_association</span> (<span class="ruby-identifier">event_route_name</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">event_route_name</span>.<span class="ruby-identifier">to_sym</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>
+      <span class="ruby-identifier">baptismal_certificate</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">CHRISTIAN_MINISTRY</span>
+      <span class="ruby-identifier">christian_ministry</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRMATION_NAME</span>
+      <span class="ruby-identifier">pick_confirmation_name</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>
+      <span class="ruby-identifier">sponsor_covenant</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>
+      <span class="ruby-identifier">retreat_verification</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">CANDIDATE_INFORMATION_SHEET</span>
+      <span class="ruby-identifier">candidate_sheet</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">PARENT_INFORMATION_MEETING</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">ATTEND_RETREAT</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">CANDIDATE_COVENANT_AGREEMENT</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_AND_CANDIDATE_CONVERSATION</span>
+      <span class="ruby-keyword">self</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown event association: #{event_route_name}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-get_late_events">
+            
+              <b>get_late_events</b>()
+            
+            <a href="../classes/Candidate.html#method-i-get_late_events" name="method-i-get_late_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns array of late events</p>
+
+<h3 id="method-i-get_late_events-label-Return-3A">Return:</h3>
+
+<p>Array of late candidate events</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-get_late_events_source')" id="l_method-i-get_late_events_source">show</a>
+                
+              </p>
+              <div id="method-i-get_late_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 433</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">get_late_events</span>
+  <span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">late?</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-password_changed-3F">
+            
+              <b>password_changed?</b>()
+            
+            <a href="../classes/Candidate.html#method-i-password_changed-3F" name="method-i-password_changed-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>whether the password has been changed - allows admin to know whether the
+candidate has signed in.</p>
+
+<h3 id="method-i-password_changed-3F-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-password_changed-3F_source')" id="l_method-i-password_changed-3F_source">show</a>
+                
+              </p>
+              <div id="method-i-password_changed-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 271</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">password_changed?</span>
+  <span class="ruby-operator">!</span><span class="ruby-identifier">valid_password?</span>(<span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">INITIAL_PASSWORD</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-password_reset_message">
+            
+              <b>password_reset_message</b>(candidate_mailer_text)
+            
+            <a href="../classes/Candidate.html#method-i-password_reset_message" name="method-i-password_reset_message" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>get expanded password reset instructions</p>
+
+<h3 id="method-i-password_reset_message-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate_mailer_text</code> expands instructions</p>
+</li></ul>
+
+<h3 id="method-i-password_reset_message-label-Return-3A">Return:</h3>
+
+<p>String</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-password_reset_message_source')" id="l_method-i-password_reset_message_source">show</a>
+                
+              </p>
+              <div id="method-i-password_reset_message_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 527</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">password_reset_message</span>(<span class="ruby-identifier">candidate_mailer_text</span>)
+  <span class="ruby-identifier">token</span> = <span class="ruby-identifier">set_reset_password_token</span>
+  <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">token</span> = <span class="ruby-identifier">token</span>
+  <span class="ruby-identifier">devise_mailer</span>.<span class="ruby-identifier">reset_password_instructions</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">token</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-send_on_create_confirmation_instructions">
+            
+              <b>send_on_create_confirmation_instructions</b>()
+            
+            <a href="../classes/Candidate.html#method-i-send_on_create_confirmation_instructions" name="method-i-send_on_create_confirmation_instructions" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>turn off sending verify instructions until admin sends it.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-send_on_create_confirmation_instructions_source')" id="l_method-i-send_on_create_confirmation_instructions_source">show</a>
+                
+              </p>
+              <div id="method-i-send_on_create_confirmation_instructions_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 49</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">send_on_create_confirmation_instructions</span>
+  <span class="ruby-comment">#</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-send_reset_password_instructions">
+            
+              <b>send_reset_password_instructions</b>()
+            
+            <a href="../classes/Candidate.html#method-i-send_reset_password_instructions" name="method-i-send_reset_password_instructions" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>This comes via devise/password_controller The user has clicked on the
+Forgot Password link on the sign in pane</p>
+
+<h3 id="method-i-send_reset_password_instructions-label-Return-3A">Return:</h3>
+
+<p>password reset token</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-send_reset_password_instructions_source')" id="l_method-i-send_reset_password_instructions_source">show</a>
+                
+              </p>
+              <div id="method-i-send_reset_password_instructions_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 511</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">send_reset_password_instructions</span>
+  <span class="ruby-identifier">send_grid_mail</span> = <span class="ruby-constant">SendGridMail</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>, [<span class="ruby-keyword">self</span>])
+  <span class="ruby-identifier">response</span>, <span class="ruby-identifier">token</span> = <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">reset_password</span>
+  <span class="ruby-identifier">token</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-validate_event_complete">
+            
+              <b>validate_event_complete</b>(association_class)
+            
+            <a href="../classes/Candidate.html#method-i-validate_event_complete" name="method-i-validate_event_complete" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Validate if association_class event is complete by adding validation errors
+to active record</p>
+
+<h3 id="method-i-validate_event_complete-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of association</p>
+</li></ul>
+
+<h3 id="method-i-validate_event_complete-label-Return-3A">Return:</h3>
+
+<p>christian_ministry with validation errors</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-validate_event_complete_source')" id="l_method-i-validate_event_complete_source">show</a>
+                
+              </p>
+              <div id="method-i-validate_event_complete_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 194</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_event_complete</span> (<span class="ruby-identifier">association_class</span>)
+  <span class="ruby-identifier">complete</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">association</span> = <span class="ruby-identifier">association_class</span>.<span class="ruby-identifier">validate_event_complete</span>(<span class="ruby-keyword">self</span>)
+  <span class="ruby-identifier">association</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">msg</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">errors</span>[<span class="ruby-value">:base</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">msg</span>
+    <span class="ruby-identifier">complete</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">complete</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-verifiable_info">
+            
+              <b>verifiable_info</b>(candidate)
+            
+            <a href="../classes/Candidate.html#method-i-verifiable_info" name="method-i-verifiable_info" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>information to be verified by admin</p>
+
+<h3 id="method-i-verifiable_info-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> owner of this association</p>
+</li></ul>
+
+<h3 id="method-i-verifiable_info-label-Return-3A">Return:</h3>
+
+<p>Hash of information to be verified</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-verifiable_info_source')" id="l_method-i-verifiable_info_source">show</a>
+                
+              </p>
+              <div id="method-i-verifiable_info_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate.rb, line 375</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verifiable_info</span>(<span class="ruby-identifier">candidate</span>)
+  {}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

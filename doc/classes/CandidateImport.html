@@ -1,0 +1,1583 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CandidateImport</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            CandidateImport
+            
+                <span class="parent">&lt;
+                    
+                    <a href="Object.html">Object</a>
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/models/candidate_import_rb.html">app/models/candidate_import.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>A helper class used for importing and exporting the DB information.</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-add_missing_events">add_missing_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-add_orphaned_table_rows">add_orphaned_table_rows</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-check_events">check_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-clean_associations">clean_associations</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>I</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-image_filename_import">image_filename_import</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-image_filepath_export">image_filepath_export</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>L</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-load_initial_file">load_initial_file</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-load_zip_file">load_zip_file</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>N</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-new">new</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>O</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_addresses">orphaned_addresses</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_baptismal_certificates">orphaned_baptismal_certificates</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_candidate_sheets">orphaned_candidate_sheets</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_christian_ministry">orphaned_christian_ministry</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_pick_name">orphaned_pick_name</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_retreat_verification">orphaned_retreat_verification</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_scanned_image">orphaned_scanned_image</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_sponsor_covenant">orphaned_sponsor_covenant</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_to_do">orphaned_to_do</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>P</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-persisted-3F">persisted?</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>R</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-remove_orphaned_table_rows">remove_orphaned_table_rows</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-reset_database">reset_database</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-start_new_year">start_new_year</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>T</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-to_xlsx">to_xlsx</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>X</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-xlsx_columns">xlsx_columns</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-xlsx_conf_event_columns">xlsx_conf_event_columns</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+    <!-- Includes -->
+    <div class="sectiontitle">Included Modules</div>
+    <ul>
+      
+        <li>
+          
+            ActiveModel::Conversion
+          
+        </li>
+      
+        <li>
+          
+            ActiveModel::Validations
+          
+        </li>
+      
+        <li>
+          
+            <a href="FileHelper.html">
+              FileHelper
+            </a>
+          
+        </li>
+      
+    </ul>
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>candidate_missing_associations</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>found_confirmation_events</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>imported_candidates</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>missing_confirmation_events</td>
+            <td class='attr-desc'><p><a href="CandidateImport.html#method-i-check_events">#check_events</a></p></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>orphaned_table_rows</td>
+            <td class='attr-desc'><p>orphaned table rows</p></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>unknown_confirmation_events</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>uploaded_file</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>uploaded_zip_file</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+      </table>
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-image_filename_import">
+            
+              <b>image_filename_import</b>(file_path)
+            
+            <a href="../classes/CandidateImport.html#method-c-image_filename_import" name="method-c-image_filename_import" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>File for importing</p>
+
+<h3 id="method-c-image_filename_import-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:file_path</code> String: filepath for importing</p>
+</li></ul>
+
+<h3 id="method-c-image_filename_import-label-Return-3A">Return:</h3>
+
+<p>File: for file_path</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-image_filename_import_source')" id="l_method-c-image_filename_import_source">show</a>
+                
+              </p>
+              <div id="method-c-image_filename_import_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">image_filename_import</span>(<span class="ruby-identifier">file_path</span>)
+  <span class="ruby-identifier">filename</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file_path</span>)
+  <span class="ruby-identifier">filename</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-image_filepath_export">
+            
+              <b>image_filepath_export</b>(candidate, dir, image_column, image)
+            
+            <a href="../classes/CandidateImport.html#method-c-image_filepath_export" name="method-c-image_filepath_export" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>filepath for exporting</p>
+
+<h3 id="method-c-image_filepath_export-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> Candidate: being exported</p>
+</li><li>
+<p><code>:dir</code> String: the directory</p>
+</li><li>
+<p><code>:image_column</code> Symbol: The <a
+href="ScannedImage.html">ScannedImage</a> accessor.</p>
+</li><li>
+<p><code>:image</code> ScannedImage: the image being exported</p>
+</li></ul>
+
+<h3 id="method-c-image_filepath_export-label-Return-3A">Return:</h3>
+
+<p>String: the file path</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-image_filepath_export_source')" id="l_method-c-image_filepath_export_source">show</a>
+                
+              </p>
+              <div id="method-c-image_filepath_export_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 57</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">image_filepath_export</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">dir</span>, <span class="ruby-identifier">image_column</span>, <span class="ruby-identifier">image</span>)
+  <span class="ruby-identifier">file_basename</span> = <span class="ruby-identifier">image</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">image</span>.<span class="ruby-identifier">filename</span>)
+  <span class="ruby-node">&quot;#{dir}/#{candidate.account_name}_#{image_column}_#{file_basename}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-new">
+            
+              <b>new</b>(attributes = {})
+            
+            <a href="../classes/CandidateImport.html#method-c-new" name="method-c-new" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>initialize new instance</p>
+
+<h3 id="method-c-new-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:<em>attributes</em></code> name vaue pairs</p>
+</li></ul>
+
+<h3 id="method-c-new-label-Return-3A">Return:</h3>
+
+<p>Hash of information to be verified</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
+                
+              </p>
+              <div id="method-c-new_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 31</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">attributes</span> = {})
+  <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{name}=&quot;</span>, <span class="ruby-identifier">value</span>)}
+  <span class="ruby-ivar">@worksheet_conf_event_name</span> = <span class="ruby-string">&#39;Confirmation Events&#39;</span>
+  <span class="ruby-ivar">@worksheet_name</span> = <span class="ruby-string">&#39;Candidates with events&#39;</span>
+  <span class="ruby-comment"># check_events</span>
+  <span class="ruby-ivar">@found_confirmation_events</span> = []
+  <span class="ruby-ivar">@missing_confirmation_events</span> = []
+  <span class="ruby-ivar">@unknown_confirmation_events</span> = []
+
+  <span class="ruby-ivar">@orphaned_table_rows</span> = []
+  <span class="ruby-ivar">@candidate_missing_associations</span> = []
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-add_missing_events">
+            
+              <b>add_missing_events</b>(missing_events)
+            
+            <a href="../classes/CandidateImport.html#method-i-add_missing_events" name="method-i-add_missing_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Add events expectd to be missing</p>
+
+<h3 id="method-i-add_missing_events-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:missing_events</code> Array: of expected missing ConfirmationEvents</p>
+</li></ul>
+
+<h3 id="method-i-add_missing_events-label-Return-3A">Return:</h3>
+
+<p>CandidateImport: self</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-add_missing_events_source')" id="l_method-i-add_missing_events_source">show</a>
+                
+              </p>
+              <div id="method-i-add_missing_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 87</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">add_missing_events</span> (<span class="ruby-identifier">missing_events</span>)
+  <span class="ruby-identifier">missing_events</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">event_name</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_by_name</span>(<span class="ruby-identifier">event_name</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_event</span>(<span class="ruby-identifier">event_name</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Attempting to candidate_event named: #{event_name} that already exists.s&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">check_events</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-add_orphaned_table_rows">
+            
+              <b>add_orphaned_table_rows</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-add_orphaned_table_rows" name="method-i-add_orphaned_table_rows" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Walks through the associations searching for associations that are created
+but not associated with parent</p>
+
+<h3 id="method-i-add_orphaned_table_rows-label-Return-3A">Return:</h3>
+
+<p>CandidateImport: self</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-add_orphaned_table_rows_source')" id="l_method-i-add_orphaned_table_rows_source">show</a>
+                
+              </p>
+              <div id="method-i-add_orphaned_table_rows_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 287</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">add_orphaned_table_rows</span>
+
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span> = {<span class="ruby-constant">BaptismalCertificate</span><span class="ruby-operator">:</span> <span class="ruby-identifier">orphaned_baptismal_certificates</span>}
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:CandidateSheet</span>] = <span class="ruby-identifier">orphaned_candidate_sheets</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ChristianMinistry</span>] = <span class="ruby-identifier">orphaned_christian_ministry</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:PickConfirmationName</span>] = <span class="ruby-identifier">orphaned_pick_name</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:RetreatVerification</span>] = <span class="ruby-identifier">orphaned_retreat_verification</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:SponsorCovenant</span>] = <span class="ruby-identifier">orphaned_sponsor_covenant</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:Address</span>] = <span class="ruby-identifier">orphaned_addresses</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ScannedImage</span>] = <span class="ruby-identifier">orphaned_scanned_image</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ToDo</span>] = <span class="ruby-identifier">orphaned_to_do</span>
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&#39;error while looking for orphans&#39;</span>
+    <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
+    <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">inspect</span>
+    [<span class="ruby-value">:BaptismalCertificate</span>, <span class="ruby-value">:CandidateSheet</span>, <span class="ruby-value">:ChristianMinistry</span>, <span class="ruby-value">:PickConfirmationName</span>, <span class="ruby-value">:RetreatVerification</span>,
+     <span class="ruby-value">:SponsorCovenant</span>, <span class="ruby-value">:Address</span>, <span class="ruby-value">:ScannedImage</span>, <span class="ruby-value">:ToDo</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span>
+      [<span class="ruby-identifier">key</span>]
+      <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-identifier">key</span>]
+        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-identifier">key</span>] = [<span class="ruby-value">:error</span>]
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-check_events">
+            
+              <b>check_events</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-check_events" name="method-i-check_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Check to seeif any ConfirmaEvents are missing.  It stores missing store in
+<a
+href="CandidateImport.html#attribute-i-unknown_confirmation_events">#unknown_confirmation_events</a></p>
+
+<h3 id="method-i-check_events-label-Return-3A">Return:</h3>
+
+<p>CandidateImport: self</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-check_events_source')" id="l_method-i-check_events_source">show</a>
+                
+              </p>
+              <div id="method-i-check_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">check_events</span>
+  <span class="ruby-identifier">all_in_confirmation_event_names</span> = <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">all_i18n_confirmation_event_names</span>
+  <span class="ruby-identifier">unknowns</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ce</span><span class="ruby-operator">|</span> <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">name</span>}
+  <span class="ruby-identifier">all_in_confirmation_event_names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i18n_key</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">confirmation_event_name</span> = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-identifier">i18n_key</span>)
+    <span class="ruby-identifier">unknowns_index</span> = <span class="ruby-identifier">unknowns</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">confirmation_event_name</span>)
+    <span class="ruby-identifier">unknowns</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-identifier">unknowns_index</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">unknowns_index</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_by_name</span>(<span class="ruby-identifier">confirmation_event_name</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">missing_confirmation_events</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">confirmation_event_name</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">found_confirmation_events</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">confirmation_event_name</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">unknowns</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">confirmation_event_name</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">unknown_confirmation_events</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">confirmation_event_name</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-clean_associations">
+            
+              <b>clean_associations</b>(clazz, checked=[], do_not_destroy=[Admin, ConfirmationEvent])
+            
+            <a href="../classes/CandidateImport.html#method-i-clean_associations" name="method-i-clean_associations" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Used to start a new year - cleans out tables for new year.</p>
+
+<h3 id="method-i-clean_associations-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:clazz</code> Class: class under consideration</p>
+</li><li>
+<p><code>:checked</code> Array: of class already checked</p>
+</li><li>
+<p><code>:do_not_destroy</code> Array: of class not to destroy table entries.</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-clean_associations_source')" id="l_method-i-clean_associations_source">show</a>
+                
+              </p>
+              <div id="method-i-clean_associations_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 194</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">clean_associations</span>(<span class="ruby-identifier">clazz</span>, <span class="ruby-identifier">checked</span>=[], <span class="ruby-identifier">do_not_destroy</span>=[<span class="ruby-constant">Admin</span>, <span class="ruby-constant">ConfirmationEvent</span>])
+  <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">checked</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">clazz</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">do_not_destroy</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">clazz</span>)
+    <span class="ruby-identifier">checked</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">clazz</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-identifier">clazz</span>.<span class="ruby-identifier">destroy_all</span>
+    <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;cleaning association error when destroying #{clazz}&quot;</span>
+      <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
+      <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">inspect</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">clazz</span>.<span class="ruby-identifier">reflect_on_all_associations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">assoc</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">clean_associations</span>(<span class="ruby-identifier">assoc</span>.<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">checked</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-load_initial_file">
+            
+              <b>load_initial_file</b>(file)
+            
+            <a href="../classes/CandidateImport.html#method-i-load_initial_file" name="method-i-load_initial_file" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Load an excel file with initial list of candidates.  It can be loaded in
+multiple times</p>
+
+<h3 id="method-i-load_initial_file-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:file</code> String: filepath</p>
+</li></ul>
+
+<h3 id="method-i-load_initial_file-label-Return-3A">Return:</h3>
+
+<p>Boolean:  whether valid</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-load_initial_file_source')" id="l_method-i-load_initial_file_source">show</a>
+                
+              </p>
+              <div id="method-i-load_initial_file_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">load_initial_file</span>(<span class="ruby-identifier">file</span>)
+  <span class="ruby-ivar">@uploaded_file</span> = <span class="ruby-identifier">file</span>
+  <span class="ruby-ivar">@imported_candidates</span> = <span class="ruby-identifier">load_imported_candidates</span>
+  <span class="ruby-identifier">ans</span> = <span class="ruby-identifier">validate_and_save_import</span>
+  <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;done load_initial_file: #{file.original_filename}&quot;</span>
+  <span class="ruby-identifier">ans</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-load_zip_file">
+            
+              <b>load_zip_file</b>(file)
+            
+            <a href="../classes/CandidateImport.html#method-i-load_zip_file" name="method-i-load_zip_file" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Load a zip file generated by exporting</p>
+
+<h3 id="method-i-load_zip_file-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:file</code> String: filepath</p>
+</li></ul>
+
+<h3 id="method-i-load_zip_file-label-Return-3A">Return:</h3>
+
+<p>Boolean: whether valid</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-load_zip_file_source')" id="l_method-i-load_zip_file_source">show</a>
+                
+              </p>
+              <div id="method-i-load_zip_file_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 153</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">load_zip_file</span>(<span class="ruby-identifier">file</span>)
+  <span class="ruby-ivar">@uploaded_zip_file</span> = <span class="ruby-identifier">file</span>
+  <span class="ruby-ivar">@imported_candidates</span> = <span class="ruby-identifier">load_imported_candidates</span>
+  <span class="ruby-identifier">ans</span> = <span class="ruby-identifier">validate_and_save_import</span>
+  <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;done load_zip_file: #{file.path}&quot;</span>
+  <span class="ruby-identifier">ans</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_addresses">
+            
+              <b>orphaned_addresses</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_addresses" name="method-i-orphaned_addresses" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the Address&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_addresses_source')" id="l_method-i-orphaned_addresses_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_addresses_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 315</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_addresses</span>
+  <span class="ruby-constant">Address</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:church_address_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">church_address_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">church_address_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+        <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:address_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">address_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">address_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_baptismal_certificates">
+            
+              <b>orphaned_baptismal_certificates</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_baptismal_certificates" name="method-i-orphaned_baptismal_certificates" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the BaptismalCertificate&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_baptismal_certificates_source')" id="l_method-i-orphaned_baptismal_certificates_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_baptismal_certificates_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 323</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_baptismal_certificates</span>
+  <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:baptismal_certificate_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_candidate_sheets">
+            
+              <b>orphaned_candidate_sheets</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_candidate_sheets" name="method-i-orphaned_candidate_sheets" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the CandidateSheet&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_candidate_sheets_source')" id="l_method-i-orphaned_candidate_sheets_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_candidate_sheets_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 328</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_candidate_sheets</span>
+  <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:candidate_sheet_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">cs_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">cs_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_christian_ministry">
+            
+              <b>orphaned_christian_ministry</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_christian_ministry" name="method-i-orphaned_christian_ministry" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the ChristianMinistry&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_christian_ministry_source')" id="l_method-i-orphaned_christian_ministry_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_christian_ministry_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 333</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_christian_ministry</span>
+  <span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:christian_ministry_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">cm_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">cm_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_pick_name">
+            
+              <b>orphaned_pick_name</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_pick_name" name="method-i-orphaned_pick_name" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the PickConfirmationName&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_pick_name_source')" id="l_method-i-orphaned_pick_name_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_pick_name_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 338</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_pick_name</span>
+  <span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:pick_confirmation_name_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">pc_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pc_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_retreat_verification">
+            
+              <b>orphaned_retreat_verification</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_retreat_verification" name="method-i-orphaned_retreat_verification" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the RetreatVerification&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_retreat_verification_source')" id="l_method-i-orphaned_retreat_verification_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_retreat_verification_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 343</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_retreat_verification</span>
+  <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:retreat_verification_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">rv_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">rv_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_scanned_image">
+            
+              <b>orphaned_scanned_image</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_scanned_image" name="method-i-orphaned_scanned_image" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the ScannedImage&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_scanned_image_source')" id="l_method-i-orphaned_scanned_image_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_scanned_image_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 348</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_scanned_image</span>
+  <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:scanned_certificate_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">scanned_certificate_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_certificate_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+        <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:scanned_retreat_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">scanned_retreat_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_retreat_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+        <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:scanned_covenant_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">scanned_covenant_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_covenant_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+        <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:scanned_eligibility_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">scanned_eligibility_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_eligibility_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_sponsor_covenant">
+            
+              <b>orphaned_sponsor_covenant</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_sponsor_covenant" name="method-i-orphaned_sponsor_covenant" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the SponsorCovenant&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_sponsor_covenant_source')" id="l_method-i-orphaned_sponsor_covenant_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_sponsor_covenant_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 358</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_sponsor_covenant</span>
+  <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:sponsor_covenant_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">sc_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">sc_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_to_do">
+            
+              <b>orphaned_to_do</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_to_do" name="method-i-orphaned_to_do" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Finds all the ScannedImage&#39;s that have been orphaned.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_to_do_source')" id="l_method-i-orphaned_to_do_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_to_do_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 363</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_to_do</span>
+  <span class="ruby-constant">ToDo</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:confirmation_event_id</span>, <span class="ruby-value">:candidate_event_id</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">todo_id</span>, <span class="ruby-identifier">confirmation_event_id</span>, <span class="ruby-identifier">candidate_event_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ce_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">confirmation_event_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ce_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+        <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ce_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_event_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ce_id</span>}.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">end</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">id</span>, <span class="ruby-identifier">ce_id</span>, <span class="ruby-identifier">cand_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">id</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-persisted-3F">
+            
+              <b>persisted?</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-persisted-3F" name="method-i-persisted-3F" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>needed to expand _candidate_import.html.erb</p>
+
+<h3 id="method-i-persisted-3F-label-Return-3A">Return:</h3>
+
+<p>Boolean: false</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-persisted-3F_source')" id="l_method-i-persisted-3F_source">show</a>
+                
+              </p>
+              <div id="method-i-persisted-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 167</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">persisted?</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-remove_orphaned_table_rows">
+            
+              <b>remove_orphaned_table_rows</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-remove_orphaned_table_rows" name="method-i-remove_orphaned_table_rows" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>destroy orphaned rows</p>
+
+<h3 id="method-i-remove_orphaned_table_rows-label-Return-3A">Return:</h3>
+
+<p>CandidateImport: self</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-remove_orphaned_table_rows_source')" id="l_method-i-remove_orphaned_table_rows_source">show</a>
+                
+              </p>
+              <div id="method-i-remove_orphaned_table_rows_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 250</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">remove_orphaned_table_rows</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_baptismal_certificates</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_candidate_sheets</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_christian_ministry</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_pick_name</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_retreat_verification</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_sponsor_covenant</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_addresses</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">Address</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_scanned_image</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_to_do</span>
+  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">ToDo</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-reset_database">
+            
+              <b>reset_database</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-reset_database" name="method-i-reset_database" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Reset the database.  End up with only an admin + confirmation events and
+the candidate vickikristoff</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-reset_database_source')" id="l_method-i-reset_database_source">show</a>
+                
+              </p>
+              <div id="method-i-reset_database_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 212</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">reset_database</span>
+
+  <span class="ruby-identifier">start_new_year</span>
+
+  <span class="ruby-identifier">remove_all_confirmation_events</span>
+
+  <span class="ruby-constant">Admin</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">admin</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">delete</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_events</span>
+
+  <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">generate_seed</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-start_new_year">
+            
+              <b>start_new_year</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-start_new_year" name="method-i-start_new_year" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Clear DB out for starting a new year.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-start_new_year_source')" id="l_method-i-start_new_year_source">show</a>
+                
+              </p>
+              <div id="method-i-start_new_year_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 173</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">start_new_year</span>
+  <span class="ruby-identifier">clean_associations</span>(<span class="ruby-constant">Candidate</span>)
+  <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">create_seed_candidate</span>
+  <span class="ruby-identifier">today</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
+  <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ce</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">chs_due_date</span> = <span class="ruby-identifier">today</span>
+    <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">the_way_due_date</span> = <span class="ruby-identifier">today</span>
+    <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&#39;done start new year&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-to_xlsx">
+            
+              <b>to_xlsx</b>(dir)
+            
+            <a href="../classes/CandidateImport.html#method-i-to_xlsx" name="method-i-to_xlsx" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>exporting the DB tables to excel.</p>
+
+<h3 id="method-i-to_xlsx-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:dir</code> String:  where to store the zip file.</p>
+</li></ul>
+
+<h3 id="method-i-to_xlsx-label-Return-3A">Return:</h3>
+
+<p>Package: package</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-to_xlsx_source')" id="l_method-i-to_xlsx_source">show</a>
+                
+              </p>
+              <div id="method-i-to_xlsx_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 237</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">to_xlsx</span>(<span class="ruby-identifier">dir</span>)
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx_package</span>(<span class="ruby-identifier">dir</span>)
+  <span class="ruby-comment"># the Package will be generated with a shared string table</span>
+  <span class="ruby-identifier">p</span>.<span class="ruby-identifier">use_shared_strings</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">p</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-xlsx_columns">
+            
+              <b>xlsx_columns</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-xlsx_columns" name="method-i-xlsx_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>test only gets columns</p>
+
+<h3 id="method-i-xlsx_columns-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:missing_events</code> Array: of expected missing ConfirmationEvents</p>
+</li></ul>
+
+<h3 id="method-i-xlsx_columns-label-Return-3A">Return:</h3>
+
+<p>CandidateImport: self</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-xlsx_columns_source')" id="l_method-i-xlsx_columns_source">show</a>
+                
+              </p>
+              <div id="method-i-xlsx_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 381</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">xlsx_columns</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">get_permitted_params</span>
+  <span class="ruby-identifier">columns</span> = []
+  <span class="ruby-identifier">get_columns</span>(<span class="ruby-identifier">params</span>, <span class="ruby-identifier">columns</span>)
+  <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:password</span>)
+  <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:password_confirmation</span>)
+  [<span class="ruby-string">&#39;baptismal_certificate.scanned_certificate&#39;</span>, <span class="ruby-string">&#39;retreat_verification.scanned_retreat&#39;</span>,
+   <span class="ruby-string">&#39;sponsor_covenant.scanned_eligibility&#39;</span>, <span class="ruby-string">&#39;sponsor_covenant.scanned_covenant&#39;</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">base</span><span class="ruby-operator">|</span>
+    <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">get_permitted_params</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">not_exported</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-node">&quot;#{base}.#{not_exported}&quot;</span>)
+
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  (<span class="ruby-number">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">get_confirmation_events_sorted</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">-</span><span class="ruby-number">1</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">columns</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;candidate_events.#{index}.completed_date&quot;</span>
+    <span class="ruby-identifier">columns</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;candidate_events.#{index}.verified&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">columns</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-xlsx_conf_event_columns">
+            
+              <b>xlsx_conf_event_columns</b>()
+            
+            <a href="../classes/CandidateImport.html#method-i-xlsx_conf_event_columns" name="method-i-xlsx_conf_event_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>test only Conifirmation <a href="Event.html">Event</a> columns</p>
+
+<h3 id="method-i-xlsx_conf_event_columns-label-Return-3A">Return:</h3>
+
+<p>Array: String</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-xlsx_conf_event_columns_source')" id="l_method-i-xlsx_conf_event_columns_source">show</a>
+                
+              </p>
+              <div id="method-i-xlsx_conf_event_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 409</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">xlsx_conf_event_columns</span>
+  <span class="ruby-node">%w{name index the_way_due_date chs_due_date instructions}</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

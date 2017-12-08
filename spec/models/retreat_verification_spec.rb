@@ -14,7 +14,6 @@ describe RetreatVerification, type: :model do
     it 'FactoryGirl can retrieve a RetreatVerification\'s info' do
       retreat_verification = FactoryGirl.create(:retreat_verification)
       expect(retreat_verification.where_held_retreat).to match 'Here'
-      expect(retreat_verification.filename).to eq('actions.png')
 
     end
 

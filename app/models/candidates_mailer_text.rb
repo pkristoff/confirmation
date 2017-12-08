@@ -1,3 +1,6 @@
+#
+# Used to hold information input from client
+#
 class CandidatesMailerText
 
   attr_accessor :candidate
@@ -28,22 +31,52 @@ class CandidatesMailerText
     end
   end
 
+  # late CandidateEvent
+  #
+  # === Return:
+  #
+  # Array: CandidateEvent
+  #
   def late_events
     candidate.get_late_events
   end
 
+  # coming due (due within 30 days) CandidateEvent
+  #
+  # === Return:
+  #
+  # Array: CandidateEvent
+  #
   def coming_due_events
     candidate.get_coming_due_events
   end
 
+  # awaiting candidate CandidateEvent
+  #
+  # === Return:
+  #
+  # Array: CandidateEvent
+  #
   def awaiting_candidate_events
     candidate.get_awaiting_candidate_events
   end
 
+  # awaiting admin verification CandidateEvent
+  #
+  # === Return:
+  #
+  # Array: CandidateEvent
+  #
   def completed_awaiting_events
     candidate.get_awaiting_admin_events
   end
 
+  # completed CandidateEvent
+  #
+  # === Return:
+  #
+  # Array: CandidateEvent
+  #
   def completed_events
     candidate.get_completed
   end

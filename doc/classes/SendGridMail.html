@@ -1,0 +1,1988 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>SendGridMail</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            SendGridMail
+            
+                <span class="parent">&lt;
+                    
+                    <a href="Object.html">Object</a>
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/mailers/send_grid_mail_rb.html">app/mailers/send_grid_mail.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>Generates and sends email through SendGrid</p>
+
+<h3 id="class-SendGridMail-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:admin</code> The admin logged in.  If sent then doing a test email
+(adhoc, monthly mass mailing)</p>
+</li><li>
+<p><code>:candidates</code> Array of candidates who are being emailed</p>
+</li></ul>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+    <!-- Namespace -->
+    <div class="sectiontitle">Namespace</div>
+    <ul>
+      
+        <li>
+          <span class="type">CLASS</span>
+          <a href="SendGridMail/OfflineResponse.html">SendGridMail::OfflineResponse</a>
+        </li>
+      
+    </ul>
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-adhoc">adhoc</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-adhoc_call">adhoc_call</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-adhoc_test">adhoc_test</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-adhoc_test_call">adhoc_test_call</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-adhoc_test_subj_call">adhoc_test_subj_call</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-conf_insts_call">conf_insts_call</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-confirmation_instructions">confirmation_instructions</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-convert_email">convert_email</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-convert_emails">convert_emails</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-convert_if_not_production">convert_if_not_production</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-create_mail">create_mail</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-create_personalization">create_personalization</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-expand_text">expand_text</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expand_text_adhoc">expand_text_adhoc</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expand_text_at">expand_text_at</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expand_text_ci">expand_text_ci</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expand_text_mmm">expand_text_mmm</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expand_text_rp">expand_text_rp</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>L</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-legal_emails">legal_emails</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>M</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-mmm_call">mmm_call</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-mmm_test_call">mmm_test_call</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-mmm_test_subj_call">mmm_test_subj_call</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-monthly_mass_mailing">monthly_mass_mailing</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-monthly_mass_mailing_test">monthly_mass_mailing_test</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>N</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-new">new</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>P</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-post_email">post_email</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>R</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-reset_pass_call">reset_pass_call</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-reset_password">reset_password</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-send_email">send_email</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>T</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-text">text</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-new">
+            
+              <b>new</b>(admin, candidates)
+            
+            <a href="../classes/SendGridMail.html#method-c-new" name="method-c-new" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
+                
+              </p>
+              <div id="method-c-new_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidates</span>)
+  <span class="ruby-ivar">@admin</span> = <span class="ruby-identifier">admin</span>
+  <span class="ruby-ivar">@candidates</span> = <span class="ruby-identifier">candidates</span>
+  <span class="ruby-ivar">@email_index</span> = <span class="ruby-number">-1</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-adhoc">
+            
+              <b>adhoc</b>(subject_text, body_input_text)
+            
+            <a href="../classes/SendGridMail.html#method-i-adhoc" name="method-i-adhoc" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generate and send adhoc email</p>
+
+<h3 id="method-i-adhoc-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:subject_text</code> The subject of the email put in by the admin</p>
+</li><li>
+<p><code>:body_input_text</code> The body of the email puy in by the admin</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-adhoc_source')" id="l_method-i-adhoc_source">show</a>
+                
+              </p>
+              <div id="method-i-adhoc_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
+
+  <span class="ruby-identifier">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:adhoc</span>],
+             <span class="ruby-identifier">adhoc_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-adhoc_call">
+            
+              <b>adhoc_call</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-adhoc_call" name="method-i-adhoc_call" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates email body for adhoc email</p>
+
+<h3 id="method-i-adhoc_call-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-adhoc_call-label-returns-3A">returns:</h3>
+
+<p>A lambda</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-adhoc_call_source')" id="l_method-i-adhoc_call_source">show</a>
+                
+              </p>
+              <div id="method-i-adhoc_call_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 394</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_call</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">adhoc</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-adhoc_test">
+            
+              <b>adhoc_test</b>(subject_text, body_input_text)
+            
+            <a href="../classes/SendGridMail.html#method-i-adhoc_test" name="method-i-adhoc_test" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generate and send adhoc test email</p>
+
+<h3 id="method-i-adhoc_test-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:subject_text</code> The subject of the email put in by the admin</p>
+</li><li>
+<p><code>:body_input_text</code> The body of the email put in by the admin</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-adhoc_test_source')" id="l_method-i-adhoc_test_source">show</a>
+                
+              </p>
+              <div id="method-i-adhoc_test_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 62</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_test</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
+  <span class="ruby-identifier">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:adhoc_test</span>],
+             <span class="ruby-identifier">adhoc_test_call</span>,
+             <span class="ruby-identifier">adhoc_test_subj_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-adhoc_test_call">
+            
+              <b>adhoc_test_call</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-adhoc_test_call" name="method-i-adhoc_test_call" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates email body for adhoc test email</p>
+
+<h3 id="method-i-adhoc_test_call-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-adhoc_test_call-label-returns-3A">returns:</h3>
+
+<p>A lambda</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-adhoc_test_call_source')" id="l_method-i-adhoc_test_call_source">show</a>
+                
+              </p>
+              <div id="method-i-adhoc_test_call_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 407</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_test_call</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">adhoc_test</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-adhoc_test_subj_call">
+            
+              <b>adhoc_test_subj_call</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-adhoc_test_subj_call" name="method-i-adhoc_test_subj_call" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates email body for adhoc test subject</p>
+
+<h3 id="method-i-adhoc_test_subj_call-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-adhoc_test_subj_call-label-returns-3A">returns:</h3>
+
+<p>A lambda</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-adhoc_test_subj_call_source')" id="l_method-i-adhoc_test_subj_call_source">show</a>
+                
+              </p>
+              <div id="method-i-adhoc_test_subj_call_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 421</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_test_subj_call</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_adhoc_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-conf_insts_call">
+            
+              <b>conf_insts_call</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-conf_insts_call" name="method-i-conf_insts_call" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates email body for confirmation email</p>
+
+<h3 id="method-i-conf_insts_call-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-conf_insts_call-label-returns-3A">returns:</h3>
+
+<p>A lambda</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-conf_insts_call_source')" id="l_method-i-conf_insts_call_source">show</a>
+                
+              </p>
+              <div id="method-i-conf_insts_call_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 434</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">conf_insts_call</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">confirmation_instructions</span>(<span class="ruby-identifier">candidate_mailer_text</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-confirmation_instructions">
+            
+              <b>confirmation_instructions</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-confirmation_instructions" name="method-i-confirmation_instructions" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generate and send candidate user id confirmation email</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-confirmation_instructions_source')" id="l_method-i-confirmation_instructions_source">show</a>
+                
+              </p>
+              <div id="method-i-confirmation_instructions_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">confirmation_instructions</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">send_email</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.confirmation_instructions_subject&#39;</span>), <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:confirmation_instructions</span>],
+                    <span class="ruby-identifier">conf_insts_call</span>
+  ), <span class="ruby-ivar">@candidate_mailer_text</span>.<span class="ruby-identifier">token</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-convert_email">
+            
+              <b>convert_email</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-convert_email" name="method-i-convert_email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>convert illegal email to one of these in non-production</p>
+
+<h3 id="method-i-convert_email-label-return-3A">return:</h3>
+
+<p>Array of legal emails for non-production</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-convert_email_source')" id="l_method-i-convert_email_source">show</a>
+                
+              </p>
+              <div id="method-i-convert_email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">convert_email</span>
+  <span class="ruby-node">%W(paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-convert_emails">
+            
+              <b>convert_emails</b>(emails, used)
+            
+            <a href="../classes/SendGridMail.html#method-i-convert_emails" name="method-i-convert_emails" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>In non-production(test development or pipeline=staging) will convert
+illegal non-production email addresses to legal ones</p>
+
+<h3 id="method-i-convert_emails-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:emails</code> Array of email addresses. Can be nil or &#39;&#39;</p>
+</li><li>
+<p><code>:used</code> List of emai addresses alrady used for this email</p>
+</li></ul>
+
+<h3 id="method-i-convert_emails-label-return-3A">return:</h3>
+
+<p>In production - Array of passed in email addresses. else - Array of legal
+non-production email addresses</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-convert_emails_source')" id="l_method-i-convert_emails_source">show</a>
+                
+              </p>
+              <div id="method-i-convert_emails_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 194</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">convert_emails</span>(<span class="ruby-identifier">emails</span>, <span class="ruby-identifier">used</span>)
+  <span class="ruby-identifier">legal_used</span> = []
+  <span class="ruby-identifier">emails</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">em</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">legal_emails</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">em</span>
+      <span class="ruby-identifier">legal_used</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">em</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">emails</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">em</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">convert_if_not_production</span>(<span class="ruby-identifier">em</span>, <span class="ruby-identifier">used</span>, <span class="ruby-identifier">legal_used</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-convert_if_not_production">
+            
+              <b>convert_if_not_production</b>(email, used=[], legal_used = [])
+            
+            <a href="../classes/SendGridMail.html#method-i-convert_if_not_production" name="method-i-convert_if_not_production" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>In non-production(test development or pipeline=staging) will convert
+illegal non-production email address to legal one</p>
+
+<h3 id="method-i-convert_if_not_production-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:email</code> email address to be converted</p>
+</li><li>
+<p><code>:used</code>  Array of email addresses already used</p>
+</li><li>
+<p><code>:legal_used</code>  Array of legal email addresses.  If converted and
+in this array do not use.</p>
+</li></ul>
+
+<h3 id="method-i-convert_if_not_production-label-return-3A">return:</h3>
+
+<p>In production - email address passed in with &#39;&#39; converted to nil.
+else - email address if not legal.</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-convert_if_not_production_source')" id="l_method-i-convert_if_not_production_source">show</a>
+                
+              </p>
+              <div id="method-i-convert_if_not_production_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 220</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">convert_if_not_production</span>(<span class="ruby-identifier">email</span>, <span class="ruby-identifier">used</span>=[], <span class="ruby-identifier">legal_used</span> = [])
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">email</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">email</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">secrets</span>.<span class="ruby-identifier">pipeline</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;production&#39;</span>
+        <span class="ruby-identifier">email</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">legal_emails</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">email</span>)
+          <span class="ruby-identifier">email</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-ivar">@email_index</span> <span class="ruby-operator">+=</span> <span class="ruby-number">1</span>
+          <span class="ruby-identifier">em</span> = <span class="ruby-identifier">convert_email</span>[<span class="ruby-ivar">@email_index</span>]
+          <span class="ruby-keyword">while</span> (<span class="ruby-identifier">used</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">em</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">legal_used</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">em</span>) <span class="ruby-keyword">do</span>
+            <span class="ruby-ivar">@email_index</span> <span class="ruby-operator">+=</span> <span class="ruby-number">1</span>
+            <span class="ruby-identifier">em</span> = <span class="ruby-identifier">convert_email</span>[<span class="ruby-ivar">@email_index</span>]
+          <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">return</span> <span class="ruby-identifier">em</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Expand the email text making any necessary substitutions.</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:candidate&lt;/tt&gt; The candidate</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:subject_text&lt;/tt&gt; The subject of the email put in by the admin</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:body_input_text&lt;/tt&gt; The body of the email put in by the admin</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:delivery_call&lt;/tt&gt; Generates and expands the email body</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === return:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># In production - Array of passed in email addresses.</span>
+  <span class="ruby-comment"># else - Array of legal non-production email addresses</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">delivery_call</span>)
+    <span class="ruby-ivar">@candidate_mailer_text</span> = <span class="ruby-constant">CandidatesMailerText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">candidate</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">subject_text</span>), <span class="ruby-identifier">body_input</span><span class="ruby-operator">:</span> <span class="ruby-identifier">body_input_text</span>)
+
+    <span class="ruby-identifier">delivery</span> = <span class="ruby-identifier">delivery_call</span>.<span class="ruby-identifier">call</span>(<span class="ruby-ivar">@admin</span>, <span class="ruby-ivar">@candidate_mailer_text</span>)
+    <span class="ruby-identifier">text</span>(<span class="ruby-identifier">delivery</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Send the email to SendGrid, which will send the email</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:sg_mail&lt;/tt&gt; An instance of SendGrid::Email</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># The response from SendGrid</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">post_email</span>(<span class="ruby-identifier">sg_mail</span>)
+    <span class="ruby-identifier">sg</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">API</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">api_key</span><span class="ruby-operator">:</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">secrets</span>.<span class="ruby-identifier">email_key</span>, <span class="ruby-identifier">host</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;https://api.sendgrid.com&#39;</span>)
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-identifier">response</span> = <span class="ruby-identifier">sg</span>.<span class="ruby-identifier">client</span>.<span class="ruby-identifier">mail</span>.<span class="ruby-identifier">_</span>(<span class="ruby-string">&#39;send&#39;</span>).<span class="ruby-identifier">post</span>(<span class="ruby-identifier">request_body</span><span class="ruby-operator">:</span> <span class="ruby-identifier">sg_mail</span>.<span class="ruby-identifier">to_json</span>)
+    <span class="ruby-keyword">rescue</span> <span class="ruby-constant">SocketError</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">test?</span>
+        <span class="ruby-comment"># not connected to the internet - so just allow it to continue.</span>
+        <span class="ruby-keyword">return</span> <span class="ruby-constant">Response</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">OfflineResponse</span>.<span class="ruby-identifier">new</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">response</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates and sends the email</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:subject_text&lt;/tt&gt; The subject of the email put in by the admin</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:body_input_text&lt;/tt&gt; The body of the email put in by the admin</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:email_type&lt;/tt&gt; The type of email: adhoc, confirmation, etc.</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:delivery_call&lt;/tt&gt; Generates and expands the email body</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:_test_subject_&lt;/tt&gt; The subject of the email when it is a test email</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># The response from SendGrid</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">email_type</span>, <span class="ruby-identifier">delivery_call</span>, <span class="ruby-identifier">test_subject</span>=<span class="ruby-keyword">nil</span>)
+
+    <span class="ruby-identifier">response</span> = <span class="ruby-keyword">nil</span>
+
+    <span class="ruby-ivar">@candidates</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+
+      <span class="ruby-identifier">sg_mail</span> = <span class="ruby-identifier">create_mail</span>((<span class="ruby-identifier">test_subject</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">subject_text</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">test_subject</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">candidate</span>)), <span class="ruby-identifier">email_type</span>, <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)
+
+      <span class="ruby-identifier">create_personalization</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">sg_mail</span>, <span class="ruby-identifier">test_subject</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@admin</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
+
+      <span class="ruby-identifier">expanded_text</span> = <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">delivery_call</span>)
+
+      <span class="ruby-identifier">sg_mail</span>.<span class="ruby-identifier">add_content</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Content</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text/html&#39;</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">:</span> <span class="ruby-identifier">expanded_text</span>))
+
+      <span class="ruby-identifier">response</span> = <span class="ruby-identifier">post_email</span>(<span class="ruby-identifier">sg_mail</span>)
+
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status_code</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&#39;2&#39;</span>
+        <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Skipping sending #{email_type} message for #{candidate.account_name} because of a bad response&quot;</span>)
+        <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Status=#{response.status_code} body=#{response.body}&quot;</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">response</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates email body with expansion</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># * &lt;tt&gt;:delivery&lt;/tt&gt; SendGrid</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># The expanded email body</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">text</span>(<span class="ruby-identifier">delivery</span>)
+    <span class="ruby-identifier">message</span> = <span class="ruby-identifier">delivery</span>.<span class="ruby-identifier">message</span>
+    <span class="ruby-identifier">message</span>.<span class="ruby-identifier">body</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># TEST ONLY</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_adhoc</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
+
+    <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>,
+                <span class="ruby-identifier">adhoc_call</span>
+    )
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># TEST ONLY</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_at</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
+    <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>,
+                <span class="ruby-identifier">adhoc_test_call</span>
+    )
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># TEST ONLY</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_ci</span>(<span class="ruby-identifier">candidate</span>)
+    <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-string">&#39;StMM website for Confirmation Candidates - User Verification instructions&#39;</span>, <span class="ruby-string">&#39;&#39;</span>,
+                <span class="ruby-identifier">conf_insts_call</span>
+    )
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># TEST ONLY</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_rp</span>(<span class="ruby-identifier">candidate</span>)
+    <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-string">&#39;StMM website for Confirmation Candidates - Reset password instructions&#39;</span>, <span class="ruby-string">&#39;&#39;</span>,
+                <span class="ruby-identifier">reset_pass_call</span>
+    )
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># TEST ONLY</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_mmm</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
+    <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>,
+                <span class="ruby-identifier">mmm_call</span>
+    )
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">private</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates email body for adhoc email</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># A lambda</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_call</span>
+    <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">adhoc</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates email body for adhoc test email</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># A lambda</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_test_call</span>
+    <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">adhoc_test</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates email body for adhoc test subject</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># A lambda</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_test_subj_call</span>
+    <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_adhoc_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)}
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates email body for confirmation email</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># A lambda</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">conf_insts_call</span>
+    <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">confirmation_instructions</span>(<span class="ruby-identifier">candidate_mailer_text</span>)}
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates email body for monthly mass mailing</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># A lambda</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_call</span>
+    <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">monthly_reminder</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates email body for monthly mass test mailing</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># A lambda</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_test_call</span>
+    <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">monthly_reminder_test</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># Generates email body for monthly mass mailing test subject</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === Parameters:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># === returns:</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-comment"># A lambda</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_test_subj_call</span>
+    <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_monthly_mail_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)}
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">reset_pass_call</span>
+    <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">password_reset_message</span>(<span class="ruby-identifier">candidate_mailer_text</span>)}
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-create_mail">
+            
+              <b>create_mail</b>(subject, email_type, account_name)
+            
+            <a href="../classes/SendGridMail.html#method-i-create_mail" name="method-i-create_mail" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generate and email.</p>
+
+<p>category is used to distinguish emails in SendGrid application</p>
+
+<h3 id="method-i-create_mail-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:subject</code> The subject of the email put in by the admin</p>
+</li><li>
+<p><code>:email_type</code> The type of email: adhoc, confirmation, etc.</p>
+</li><li>
+<p><code>:account_name</code> User id of candidate</p>
+</li></ul>
+
+<h3 id="method-i-create_mail-label-Returns-3A">Returns:</h3>
+
+<p>SendGrid::Email</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-create_mail_source')" id="l_method-i-create_mail_source">show</a>
+                
+              </p>
+              <div id="method-i-create_mail_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 133</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">create_mail</span>(<span class="ruby-identifier">subject</span>, <span class="ruby-identifier">email_type</span>, <span class="ruby-identifier">account_name</span>)
+  <span class="ruby-identifier">mail</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Mail</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-comment"># If we are testing don&#39;t actuallly send just have SendGrid validate it.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">test?</span>
+    <span class="ruby-identifier">mail_settings</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">MailSettings</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">mail_settings</span>.<span class="ruby-identifier">sandbox_mode</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">SandBoxMode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">enable</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">mail_settings</span> = <span class="ruby-identifier">mail_settings</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">from</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Email</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">email</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;stmm.confirmation@kristoffs.com&#39;</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;St MM Confirmation&#39;</span>)
+  <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">subject</span> = <span class="ruby-identifier">subject</span>
+  <span class="ruby-identifier">cat_env</span> = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-identifier">cat_env</span> = <span class="ruby-string">&#39;test&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">test?</span>
+  <span class="ruby-identifier">cat_env</span> = <span class="ruby-string">&#39;development&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">development?</span>
+  <span class="ruby-identifier">cat_env</span> = <span class="ruby-string">&#39;production&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">production?</span>
+  <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">add_category</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Category</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">cat_env</span>))
+  <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">add_category</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Category</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">email_type</span>))
+  <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">add_category</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Category</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">account_name</span>))
+  <span class="ruby-identifier">mail</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-create_personalization">
+            
+              <b>create_personalization</b>(candidate, sg_mail, admin, *subs)
+            
+            <a href="../classes/SendGridMail.html#method-i-create_personalization" name="method-i-create_personalization" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Create personalizations</p>
+
+<h3 id="method-i-create_personalization-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> The candidate.</p>
+</li><li>
+<p><code>:sg_mail</code> An instance of SendGrid::Email</p>
+</li><li>
+<p><code>:admin</code> The admin logged in.  If sent then doing a test email
+(adhoc, monthly mass mailing)</p>
+</li><li>
+<p><code>:subs</code> Any substitutions that SendGrid can do.  This is
+currently not being used.</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-create_personalization_source')" id="l_method-i-create_personalization_source">show</a>
+                
+              </p>
+              <div id="method-i-create_personalization_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 163</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">create_personalization</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">sg_mail</span>, <span class="ruby-identifier">admin</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">subs</span>)
+  <span class="ruby-identifier">personalization</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Personalization</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">sheet</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-comment"># unless test email</span>
+    <span class="ruby-identifier">used</span> = [<span class="ruby-string">&#39;stmm.confirmation@kristoffs.com&#39;</span>]
+    <span class="ruby-identifier">converted_emails</span> = <span class="ruby-identifier">convert_emails</span>([<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">to_email</span>, <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">cc_email</span>, <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">cc_email_2</span>], <span class="ruby-identifier">used</span>)
+    <span class="ruby-identifier">personalization</span>.<span class="ruby-identifier">add_to</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Email</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">email</span><span class="ruby-operator">:</span> <span class="ruby-identifier">converted_emails</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{sheet.first_name} #{sheet.last_name}&quot;</span>))
+    <span class="ruby-identifier">personalization</span>.<span class="ruby-identifier">add_cc</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Email</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">email</span><span class="ruby-operator">:</span> <span class="ruby-identifier">converted_emails</span>[<span class="ruby-number">1</span>])) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">converted_emails</span>[<span class="ruby-number">1</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">personalization</span>.<span class="ruby-identifier">add_cc</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Email</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">email</span><span class="ruby-operator">:</span> <span class="ruby-identifier">converted_emails</span>[<span class="ruby-number">2</span>])) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">converted_emails</span>[<span class="ruby-number">2</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">personalization</span>.<span class="ruby-identifier">add_bcc</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Email</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">email</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;stmm.confirmation@kristoffs.com&#39;</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;St MM Confirmation&#39;</span>))
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">personalization</span>.<span class="ruby-identifier">add_to</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Email</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">email</span><span class="ruby-operator">:</span> <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">email</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;admin&#39;</span>))
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">subs</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">sub</span><span class="ruby-operator">|</span> <span class="ruby-identifier">personalization</span>.<span class="ruby-identifier">add_substitution</span>(<span class="ruby-identifier">sub</span>)}
+  <span class="ruby-identifier">sg_mail</span>.<span class="ruby-identifier">add_personalization</span>(<span class="ruby-identifier">personalization</span>)
+  <span class="ruby-identifier">personalization</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expand_text">
+            
+              <b>expand_text</b>(candidate, subject_text, body_input_text, delivery_call)
+            
+            <a href="../classes/SendGridMail.html#method-i-expand_text" name="method-i-expand_text" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Expand the email text making any necessary substitutions.</p>
+
+<h3 id="method-i-expand_text-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:candidate</code> The candidate</p>
+</li><li>
+<p><code>:subject_text</code> The subject of the email put in by the admin</p>
+</li><li>
+<p><code>:body_input_text</code> The body of the email put in by the admin</p>
+</li><li>
+<p><code>:delivery_call</code> Generates and expands the email body</p>
+</li></ul>
+
+<h3 id="method-i-expand_text-label-return-3A">return:</h3>
+
+<p>In production - Array of passed in email addresses. else - Array of legal
+non-production email addresses</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expand_text_source')" id="l_method-i-expand_text_source">show</a>
+                
+              </p>
+              <div id="method-i-expand_text_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 258</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">delivery_call</span>)
+  <span class="ruby-ivar">@candidate_mailer_text</span> = <span class="ruby-constant">CandidatesMailerText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">candidate</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">subject_text</span>), <span class="ruby-identifier">body_input</span><span class="ruby-operator">:</span> <span class="ruby-identifier">body_input_text</span>)
+
+  <span class="ruby-identifier">delivery</span> = <span class="ruby-identifier">delivery_call</span>.<span class="ruby-identifier">call</span>(<span class="ruby-ivar">@admin</span>, <span class="ruby-ivar">@candidate_mailer_text</span>)
+  <span class="ruby-identifier">text</span>(<span class="ruby-identifier">delivery</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expand_text_adhoc">
+            
+              <b>expand_text_adhoc</b>(candidate, subject_text, *body_input_text)
+            
+            <a href="../classes/SendGridMail.html#method-i-expand_text_adhoc" name="method-i-expand_text_adhoc" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>TEST ONLY</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expand_text_adhoc_source')" id="l_method-i-expand_text_adhoc_source">show</a>
+                
+              </p>
+              <div id="method-i-expand_text_adhoc_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 348</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_adhoc</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
+
+  <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>,
+              <span class="ruby-identifier">adhoc_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expand_text_at">
+            
+              <b>expand_text_at</b>(candidate, subject_text, body_input_text)
+            
+            <a href="../classes/SendGridMail.html#method-i-expand_text_at" name="method-i-expand_text_at" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>TEST ONLY</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expand_text_at_source')" id="l_method-i-expand_text_at_source">show</a>
+                
+              </p>
+              <div id="method-i-expand_text_at_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 356</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_at</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
+  <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>,
+              <span class="ruby-identifier">adhoc_test_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expand_text_ci">
+            
+              <b>expand_text_ci</b>(candidate)
+            
+            <a href="../classes/SendGridMail.html#method-i-expand_text_ci" name="method-i-expand_text_ci" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>TEST ONLY</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expand_text_ci_source')" id="l_method-i-expand_text_ci_source">show</a>
+                
+              </p>
+              <div id="method-i-expand_text_ci_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 363</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_ci</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-string">&#39;StMM website for Confirmation Candidates - User Verification instructions&#39;</span>, <span class="ruby-string">&#39;&#39;</span>,
+              <span class="ruby-identifier">conf_insts_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expand_text_mmm">
+            
+              <b>expand_text_mmm</b>(candidate, subject_text, *body_input_text)
+            
+            <a href="../classes/SendGridMail.html#method-i-expand_text_mmm" name="method-i-expand_text_mmm" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>TEST ONLY</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expand_text_mmm_source')" id="l_method-i-expand_text_mmm_source">show</a>
+                
+              </p>
+              <div id="method-i-expand_text_mmm_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 377</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_mmm</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
+  <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>,
+              <span class="ruby-identifier">mmm_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expand_text_rp">
+            
+              <b>expand_text_rp</b>(candidate)
+            
+            <a href="../classes/SendGridMail.html#method-i-expand_text_rp" name="method-i-expand_text_rp" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>TEST ONLY</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expand_text_rp_source')" id="l_method-i-expand_text_rp_source">show</a>
+                
+              </p>
+              <div id="method-i-expand_text_rp_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 370</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_rp</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-string">&#39;StMM website for Confirmation Candidates - Reset password instructions&#39;</span>, <span class="ruby-string">&#39;&#39;</span>,
+              <span class="ruby-identifier">reset_pass_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-legal_emails">
+            
+              <b>legal_emails</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-legal_emails" name="method-i-legal_emails" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>legal emails for non-production</p>
+
+<h3 id="method-i-legal_emails-label-return-3A">return:</h3>
+
+<p>Array of legal emails for non-production</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-legal_emails_source')" id="l_method-i-legal_emails_source">show</a>
+                
+              </p>
+              <div id="method-i-legal_emails_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 25</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">legal_emails</span>
+  <span class="ruby-node">%W(stmm.confirmation@kristoffs.com stmm.confirmationa@aol.com paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-mmm_call">
+            
+              <b>mmm_call</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-mmm_call" name="method-i-mmm_call" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates email body for monthly mass mailing</p>
+
+<h3 id="method-i-mmm_call-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-mmm_call-label-returns-3A">returns:</h3>
+
+<p>A lambda</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-mmm_call_source')" id="l_method-i-mmm_call_source">show</a>
+                
+              </p>
+              <div id="method-i-mmm_call_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 447</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_call</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">monthly_reminder</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-mmm_test_call">
+            
+              <b>mmm_test_call</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-mmm_test_call" name="method-i-mmm_test_call" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates email body for monthly mass test mailing</p>
+
+<h3 id="method-i-mmm_test_call-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-mmm_test_call-label-returns-3A">returns:</h3>
+
+<p>A lambda</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-mmm_test_call_source')" id="l_method-i-mmm_test_call_source">show</a>
+                
+              </p>
+              <div id="method-i-mmm_test_call_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 460</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_test_call</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">monthly_reminder_test</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-mmm_test_subj_call">
+            
+              <b>mmm_test_subj_call</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-mmm_test_subj_call" name="method-i-mmm_test_subj_call" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates email body for monthly mass mailing test subject</p>
+
+<h3 id="method-i-mmm_test_subj_call-label-Parameters-3A">Parameters:</h3>
+
+<h3 id="method-i-mmm_test_subj_call-label-returns-3A">returns:</h3>
+
+<p>A lambda</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-mmm_test_subj_call_source')" id="l_method-i-mmm_test_subj_call_source">show</a>
+                
+              </p>
+              <div id="method-i-mmm_test_subj_call_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 473</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_test_subj_call</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_monthly_mail_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-monthly_mass_mailing">
+            
+              <b>monthly_mass_mailing</b>(subject_text, *body_input_text)
+            
+            <a href="../classes/SendGridMail.html#method-i-monthly_mass_mailing" name="method-i-monthly_mass_mailing" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generate and send monthly reminder email</p>
+
+<h3 id="method-i-monthly_mass_mailing-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:subject_text</code> The subject of the email put in by the admin</p>
+</li><li>
+<p><code>:body_input_text</code> The body of the email put in by the admin</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-monthly_mass_mailing_source')" id="l_method-i-monthly_mass_mailing_source">show</a>
+                
+              </p>
+              <div id="method-i-monthly_mass_mailing_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 86</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_mass_mailing</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
+
+  <span class="ruby-identifier">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:monthly_mass_mailing</span>],
+             <span class="ruby-identifier">mmm_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-monthly_mass_mailing_test">
+            
+              <b>monthly_mass_mailing_test</b>(subject_text, *body_input_text)
+            
+            <a href="../classes/SendGridMail.html#method-i-monthly_mass_mailing_test" name="method-i-monthly_mass_mailing_test" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generate and send monthly reminder test email</p>
+
+<h3 id="method-i-monthly_mass_mailing_test-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:subject_text</code> The subject of the email put in by the admin</p>
+</li><li>
+<p><code>:body_input_text</code> The body of the email put in by the admin</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-monthly_mass_mailing_test_source')" id="l_method-i-monthly_mass_mailing_test_source">show</a>
+                
+              </p>
+              <div id="method-i-monthly_mass_mailing_test_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 101</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_mass_mailing_test</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
+
+  <span class="ruby-identifier">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:monthly_mass_mailing_test</span>],
+             <span class="ruby-identifier">mmm_test_call</span>,
+             <span class="ruby-identifier">mmm_test_subj_call</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-post_email">
+            
+              <b>post_email</b>(sg_mail)
+            
+            <a href="../classes/SendGridMail.html#method-i-post_email" name="method-i-post_email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Send the email to SendGrid, which will send the email</p>
+
+<h3 id="method-i-post_email-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:sg_mail</code> An instance of SendGrid::Email</p>
+</li></ul>
+
+<h3 id="method-i-post_email-label-returns-3A">returns:</h3>
+
+<p>The response from SendGrid</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-post_email_source')" id="l_method-i-post_email_source">show</a>
+                
+              </p>
+              <div id="method-i-post_email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 277</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">post_email</span>(<span class="ruby-identifier">sg_mail</span>)
+  <span class="ruby-identifier">sg</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">API</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">api_key</span><span class="ruby-operator">:</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">secrets</span>.<span class="ruby-identifier">email_key</span>, <span class="ruby-identifier">host</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;https://api.sendgrid.com&#39;</span>)
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">response</span> = <span class="ruby-identifier">sg</span>.<span class="ruby-identifier">client</span>.<span class="ruby-identifier">mail</span>.<span class="ruby-identifier">_</span>(<span class="ruby-string">&#39;send&#39;</span>).<span class="ruby-identifier">post</span>(<span class="ruby-identifier">request_body</span><span class="ruby-operator">:</span> <span class="ruby-identifier">sg_mail</span>.<span class="ruby-identifier">to_json</span>)
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">SocketError</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">test?</span>
+      <span class="ruby-comment"># not connected to the internet - so just allow it to continue.</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-constant">Response</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">OfflineResponse</span>.<span class="ruby-identifier">new</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">response</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-reset_pass_call">
+            
+              <b>reset_pass_call</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-reset_pass_call" name="method-i-reset_pass_call" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-reset_pass_call_source')" id="l_method-i-reset_pass_call_source">show</a>
+                
+              </p>
+              <div id="method-i-reset_pass_call_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 477</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">reset_pass_call</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">password_reset_message</span>(<span class="ruby-identifier">candidate_mailer_text</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-reset_password">
+            
+              <b>reset_password</b>()
+            
+            <a href="../classes/SendGridMail.html#method-i-reset_password" name="method-i-reset_password" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generate and send reset password email</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-reset_password_source')" id="l_method-i-reset_password_source">show</a>
+                
+              </p>
+              <div id="method-i-reset_password_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 112</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">reset_password</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">send_email</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.reset_password_subject&#39;</span>), <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:reset_password</span>],
+                    <span class="ruby-identifier">reset_pass_call</span>
+  ), <span class="ruby-ivar">@candidate_mailer_text</span>.<span class="ruby-identifier">token</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-send_email">
+            
+              <b>send_email</b>(subject_text, body_input_text, email_type, delivery_call, test_subject=nil)
+            
+            <a href="../classes/SendGridMail.html#method-i-send_email" name="method-i-send_email" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates and sends the email</p>
+
+<h3 id="method-i-send_email-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:subject_text</code> The subject of the email put in by the admin</p>
+</li><li>
+<p><code>:body_input_text</code> The body of the email put in by the admin</p>
+</li><li>
+<p><code>:email_type</code> The type of email: adhoc, confirmation, etc.</p>
+</li><li>
+<p><code>:delivery_call</code> Generates and expands the email body</p>
+</li><li>
+<p><code>:<em>test_subject</em></code> The subject of the email when it is a
+test email</p>
+</li></ul>
+
+<h3 id="method-i-send_email-label-returns-3A">returns:</h3>
+
+<p>The response from SendGrid</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-send_email_source')" id="l_method-i-send_email_source">show</a>
+                
+              </p>
+              <div id="method-i-send_email_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 306</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">email_type</span>, <span class="ruby-identifier">delivery_call</span>, <span class="ruby-identifier">test_subject</span>=<span class="ruby-keyword">nil</span>)
+
+  <span class="ruby-identifier">response</span> = <span class="ruby-keyword">nil</span>
+
+  <span class="ruby-ivar">@candidates</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+
+    <span class="ruby-identifier">sg_mail</span> = <span class="ruby-identifier">create_mail</span>((<span class="ruby-identifier">test_subject</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">subject_text</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">test_subject</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">candidate</span>)), <span class="ruby-identifier">email_type</span>, <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)
+
+    <span class="ruby-identifier">create_personalization</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">sg_mail</span>, <span class="ruby-identifier">test_subject</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@admin</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
+
+    <span class="ruby-identifier">expanded_text</span> = <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">delivery_call</span>)
+
+    <span class="ruby-identifier">sg_mail</span>.<span class="ruby-identifier">add_content</span>(<span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Content</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text/html&#39;</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">:</span> <span class="ruby-identifier">expanded_text</span>))
+
+    <span class="ruby-identifier">response</span> = <span class="ruby-identifier">post_email</span>(<span class="ruby-identifier">sg_mail</span>)
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status_code</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&#39;2&#39;</span>
+      <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Skipping sending #{email_type} message for #{candidate.account_name} because of a bad response&quot;</span>)
+      <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Status=#{response.status_code} body=#{response.body}&quot;</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">response</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-text">
+            
+              <b>text</b>(delivery)
+            
+            <a href="../classes/SendGridMail.html#method-i-text" name="method-i-text" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Generates email body with expansion</p>
+
+<h3 id="method-i-text-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:delivery</code> SendGrid</p>
+</li></ul>
+
+<h3 id="method-i-text-label-returns-3A">returns:</h3>
+
+<p>The expanded email body</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-text_source')" id="l_method-i-text_source">show</a>
+                
+              </p>
+              <div id="method-i-text_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 342</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">text</span>(<span class="ruby-identifier">delivery</span>)
+  <span class="ruby-identifier">message</span> = <span class="ruby-identifier">delivery</span>.<span class="ruby-identifier">message</span>
+  <span class="ruby-identifier">message</span>.<span class="ruby-identifier">body</span>.<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

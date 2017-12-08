@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Address</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            Address
+            
+                <span class="parent">&lt;
+                    
+                    ActiveRecord::Base
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/models/address_rb.html">app/models/address.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>Actve Record</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>G</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-get_basic_permitted_params">get_basic_permitted_params</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-get_basic_validatiion_params">get_basic_validatiion_params</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>V</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-validate_event_complete">validate_event_complete</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-get_basic_permitted_params">
+            
+              <b>get_basic_permitted_params</b>()
+            
+            <a href="../classes/Address.html#method-c-get_basic_permitted_params" name="method-c-get_basic_permitted_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable attributes</p>
+
+<h3 id="method-c-get_basic_permitted_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_basic_permitted_params_source')" id="l_method-c-get_basic_permitted_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_basic_permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/address.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_basic_permitted_params</span>
+  [<span class="ruby-value">:street_1</span>, <span class="ruby-value">:street_2</span>, <span class="ruby-value">:city</span>, <span class="ruby-value">:state</span>, <span class="ruby-value">:zip_code</span>, <span class="ruby-value">:id</span>]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-get_basic_validatiion_params">
+            
+              <b>get_basic_validatiion_params</b>()
+            
+            <a href="../classes/Address.html#method-c-get_basic_validatiion_params" name="method-c-get_basic_validatiion_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Required attributes</p>
+
+<h3 id="method-c-get_basic_validatiion_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-get_basic_validatiion_params_source')" id="l_method-c-get_basic_validatiion_params_source">show</a>
+                
+              </p>
+              <div id="method-c-get_basic_validatiion_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/address.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_basic_validatiion_params</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-constant">Address</span>.<span class="ruby-identifier">get_basic_permitted_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:street_2</span>)
+  <span class="ruby-identifier">params</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-validate_event_complete">
+            
+              <b>validate_event_complete</b>(options={})
+            
+            <a href="../classes/Address.html#method-i-validate_event_complete" name="method-i-validate_event_complete" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Validate if event is complete by adding validation errors to active record</p>
+
+<h3 id="method-i-validate_event_complete-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:<em>options</em></code></p>
+</li></ul>
+
+<h3 id="method-i-validate_event_complete-label-Return-3A">Return:</h3>
+
+<p>Boolean</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-validate_event_complete_source')" id="l_method-i-validate_event_complete_source">show</a>
+                
+              </p>
+              <div id="method-i-validate_event_complete_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/address.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_event_complete</span>(<span class="ruby-identifier">options</span>={})
+  <span class="ruby-constant">EventCompleteValidator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>).<span class="ruby-identifier">validate</span>(<span class="ruby-constant">Address</span>.<span class="ruby-identifier">get_basic_validatiion_params</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

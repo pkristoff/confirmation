@@ -1,3 +1,6 @@
+#
+# Admin for the candidates
+#
 class Admin < ActiveRecord::Base
 
   # Include default devise modules. Others available are:

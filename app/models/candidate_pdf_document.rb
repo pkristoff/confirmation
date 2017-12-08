@@ -1,6 +1,13 @@
 require 'RMagick'
 include Magick
 
+#
+# Generate PDF for candidate info
+#
+# === Parameters:
+#
+# * <tt>:candidate</tt> Candidate
+#
 class CandidatePDFDocument < Prawn::Document
 
   def initialize (candidate)
@@ -9,6 +16,12 @@ class CandidatePDFDocument < Prawn::Document
     do_document
   end
 
+  # Generate PDF document
+  #
+  # === Return:
+  #
+  #
+  #
   def do_document
 
     page_size = 'LETTER'
@@ -62,6 +75,8 @@ class CandidatePDFDocument < Prawn::Document
 
   end
 
+  # Generate Baptismal Certificate
+  #
   def baptismal_certificate
     bc = @candidate.baptismal_certificate
     define_grid_page
@@ -92,6 +107,8 @@ class CandidatePDFDocument < Prawn::Document
 
   end
 
+  # Generate Candidate sheet
+  #
   def candidate_sheet
     cs = @candidate.candidate_sheet
     define_grid_page
@@ -116,6 +133,8 @@ class CandidatePDFDocument < Prawn::Document
 
   end
 
+  # Generate Christian Ministry
+  #
   def christian_ministry
 
     cm = @candidate.christian_ministry
@@ -128,6 +147,8 @@ class CandidatePDFDocument < Prawn::Document
     grid_label_value([4, 0], "#{I18n.t('label.christian_ministry.helped_me')}:", cm.helped_me)
   end
 
+  # Generate confirmation name
+  #
   def confirmation_name
 
     cn = @candidate.pick_confirmation_name
@@ -138,6 +159,8 @@ class CandidatePDFDocument < Prawn::Document
 
   end
 
+  # Generate Covenant agreement
+  #
   def covenant_agreement
     signed = @candidate.signed_agreement
     define_grid_page(2, 10)
@@ -147,6 +170,8 @@ class CandidatePDFDocument < Prawn::Document
 
   end
 
+  # Generate retreat verification
+  #
   def retreat_verification
     rv = @candidate.retreat_verification
     define_grid_page(4, 10)
@@ -167,6 +192,8 @@ class CandidatePDFDocument < Prawn::Document
 
   end
 
+  # Generate Sponsor agreement
+  #
   def sponsor_agreement
     sa = @candidate.sponsor_agreement
     define_grid_page(2, 10)
@@ -176,6 +203,8 @@ class CandidatePDFDocument < Prawn::Document
 
   end
 
+  # Generate Sponsor covenant
+  #
   def sponsor_covenant
     sc = @candidate.sponsor_covenant
     define_grid_page(2)
@@ -192,6 +221,13 @@ class CandidatePDFDocument < Prawn::Document
     common_image(sc.scanned_eligibility, I18n.t('field_set.sponsor_covenant.sponsor_eligibility'))
   end
 
+  # Generate image
+  #
+  # === Parameters:
+  #
+  # * <tt>:scanned_image</tt> scanned image
+  # * <tt>:label</tt> label
+  #
   def common_image (scanned_image, label)
     start_new_page
     label_x = bounds.left
@@ -255,10 +291,25 @@ class CandidatePDFDocument < Prawn::Document
 
   end
 
+  # define page column and rows
+  #
+  # === Parameters:
+  #
+  # * <tt>_:columns_</tt> number of columns
+  # * <tt>_:rows_</tt> number of rows
+  #
   def define_grid_page(columns=4, rows=20)
     define_grid(columns: columns, rows: rows)
   end
 
+  # Generate address for page
+  #
+  # === Parameters:
+  #
+  # * <tt>:cell</tt> beginning cell
+  # * <tt>:label_base</tt> for looking up I18n info
+  # * <tt>:address_association</tt> address information
+  #
   def grid_address(cell, label_base, address_association)
     grid_label_value([cell[0], 0], "#{I18n.t(label_base + '.street_1')}:", address_association.street_1)
     grid_label_value([cell[0], 2], "#{I18n.t(label_base + '.street_2')}:", address_association.street_2)
@@ -267,12 +318,27 @@ class CandidatePDFDocument < Prawn::Document
     grid_label_value([cell[0]+2, 0], "#{I18n.t(label_base + '.zip_code')}:", address_association.zip_code)
   end
 
+  # Generate label-value for a cell
+  #
+  # === Parameters:
+  #
+  # * <tt>:cell</tt> cell
+  # * <tt>:label</tt> label
+  # * <tt>:value</tt> value
+  #
   def grid_label_value(cell, label, value)
     grid_label(cell, label)
     grid_value([cell[0], cell[1]+1], value)
 
   end
 
+  # Generate label for a cell
+  #
+  # === Parameters:
+  #
+  # * <tt>:cell</tt> cell
+  # * <tt>:label</tt> label
+  #
   def grid_label (cell, label)
     grid(cell[0], cell[1]).bounding_box do
       # move_down 20
@@ -280,6 +346,13 @@ class CandidatePDFDocument < Prawn::Document
     end
   end
 
+  # Generate value for a cell
+  #
+  # === Parameters:
+  #
+  # * <tt>:cell</tt> cell
+  # * <tt>:value</tt> value
+  #
   def grid_value (cell, value)
     val = if (value.is_a? TrueClass) || (value.is_a? FalseClass) || (value.is_a? Date)
             value.to_s
@@ -294,14 +367,22 @@ class CandidatePDFDocument < Prawn::Document
     end
   end
 
-  def page_header(event_name)
+  # Generate page header
+  #
+  # === Parameters:
+  #
+  # * <tt>:header_text</tt> text for header
+  #
+  def page_header(header_text)
     bounding_box [bounds.left, bounds.top], width: bounds.width do
       font 'Helvetica'
-      text event_name, align: :center, size: 25
+      text header_text, align: :center, size: 25
       stroke_horizontal_rule
     end
   end
 
+  # Generate title page
+  #
   def title_page
     bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height do
       bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height/3 do

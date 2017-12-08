@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CandidatesMailerText</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            CandidatesMailerText
+            
+                <span class="parent">&lt;
+                    
+                    <a href="Object.html">Object</a>
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/models/candidates_mailer_text_rb.html">app/models/candidates_mailer_text.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>Used to hold information input from client</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-awaiting_candidate_events">awaiting_candidate_events</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-coming_due_events">coming_due_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-completed_awaiting_events">completed_awaiting_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-completed_events">completed_events</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>L</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-late_events">late_events</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>N</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-new">new</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>body_text</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>candidate</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>closing_text</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>completed_awaiting_text</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>completed_text</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>from_text</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>pre_coming_due_text</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>pre_late_text</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>salutation_text</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>subject</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>token</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+      </table>
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-new">
+            
+              <b>new</b>(parms)
+            
+            <a href="../classes/CandidatesMailerText.html#method-c-new" name="method-c-new" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
+                
+              </p>
+              <div id="method-c-new_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer_text.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">parms</span>)
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-identifier">parms</span>[<span class="ruby-value">:candidate</span>]
+  <span class="ruby-ivar">@subject</span> = <span class="ruby-identifier">parms</span>[<span class="ruby-value">:subject</span>]
+  <span class="ruby-ivar">@body_text</span> = <span class="ruby-identifier">parms</span>[<span class="ruby-value">:body_input</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@body_text</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Hash</span>
+    <span class="ruby-ivar">@pre_late_text</span> = <span class="ruby-ivar">@body_text</span>[<span class="ruby-value">:pre_late_text</span>]
+    <span class="ruby-ivar">@pre_coming_due_text</span> = <span class="ruby-ivar">@body_text</span>[<span class="ruby-value">:pre_coming_due_text</span>]
+    <span class="ruby-ivar">@completed_awaiting_text</span> = <span class="ruby-ivar">@body_text</span>[<span class="ruby-value">:completed_awaiting_text</span>]
+    <span class="ruby-ivar">@completed_text</span> = <span class="ruby-ivar">@body_text</span>[<span class="ruby-value">:completed_text</span>]
+    <span class="ruby-ivar">@closing_text</span> = <span class="ruby-ivar">@body_text</span>[<span class="ruby-value">:closing_text</span>]
+    <span class="ruby-ivar">@salutation_text</span> = <span class="ruby-ivar">@body_text</span>[<span class="ruby-value">:salutation_text</span>]
+    <span class="ruby-ivar">@from_text</span> = <span class="ruby-ivar">@body_text</span>[<span class="ruby-value">:from_text</span>]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-awaiting_candidate_events">
+            
+              <b>awaiting_candidate_events</b>()
+            
+            <a href="../classes/CandidatesMailerText.html#method-i-awaiting_candidate_events" name="method-i-awaiting_candidate_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>awaiting candidate <a href="CandidateEvent.html">CandidateEvent</a></p>
+
+<h3 id="method-i-awaiting_candidate_events-label-Return-3A">Return:</h3>
+
+<p>Array: <a href="CandidateEvent.html">CandidateEvent</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-awaiting_candidate_events_source')" id="l_method-i-awaiting_candidate_events_source">show</a>
+                
+              </p>
+              <div id="method-i-awaiting_candidate_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer_text.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">awaiting_candidate_events</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_awaiting_candidate_events</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-coming_due_events">
+            
+              <b>coming_due_events</b>()
+            
+            <a href="../classes/CandidatesMailerText.html#method-i-coming_due_events" name="method-i-coming_due_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>coming due (due within 30 days) <a
+href="CandidateEvent.html">CandidateEvent</a></p>
+
+<h3 id="method-i-coming_due_events-label-Return-3A">Return:</h3>
+
+<p>Array: <a href="CandidateEvent.html">CandidateEvent</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-coming_due_events_source')" id="l_method-i-coming_due_events_source">show</a>
+                
+              </p>
+              <div id="method-i-coming_due_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer_text.rb, line 50</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">coming_due_events</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_coming_due_events</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-completed_awaiting_events">
+            
+              <b>completed_awaiting_events</b>()
+            
+            <a href="../classes/CandidatesMailerText.html#method-i-completed_awaiting_events" name="method-i-completed_awaiting_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>awaiting admin verification <a
+href="CandidateEvent.html">CandidateEvent</a></p>
+
+<h3 id="method-i-completed_awaiting_events-label-Return-3A">Return:</h3>
+
+<p>Array: <a href="CandidateEvent.html">CandidateEvent</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-completed_awaiting_events_source')" id="l_method-i-completed_awaiting_events_source">show</a>
+                
+              </p>
+              <div id="method-i-completed_awaiting_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer_text.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">completed_awaiting_events</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_awaiting_admin_events</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-completed_events">
+            
+              <b>completed_events</b>()
+            
+            <a href="../classes/CandidatesMailerText.html#method-i-completed_events" name="method-i-completed_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>completed <a href="CandidateEvent.html">CandidateEvent</a></p>
+
+<h3 id="method-i-completed_events-label-Return-3A">Return:</h3>
+
+<p>Array: <a href="CandidateEvent.html">CandidateEvent</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-completed_events_source')" id="l_method-i-completed_events_source">show</a>
+                
+              </p>
+              <div id="method-i-completed_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer_text.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">completed_events</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_completed</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-late_events">
+            
+              <b>late_events</b>()
+            
+            <a href="../classes/CandidatesMailerText.html#method-i-late_events" name="method-i-late_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>late <a href="CandidateEvent.html">CandidateEvent</a></p>
+
+<h3 id="method-i-late_events-label-Return-3A">Return:</h3>
+
+<p>Array: <a href="CandidateEvent.html">CandidateEvent</a></p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-late_events_source')" id="l_method-i-late_events_source">show</a>
+                
+              </p>
+              <div id="method-i-late_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer_text.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">late_events</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_late_events</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

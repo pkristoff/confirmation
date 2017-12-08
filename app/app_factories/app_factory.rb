@@ -1,19 +1,58 @@
+#
+# AppFactory
+#
 class AppFactory
 
+  #
+  # create a resource_class
+  #
+  # === Parameters:
+  #
+  # * <tt>:resource_class</tt> Candidate or Admin
+  #
+  # === return:
+  #
+  # New instance
+  #
   def self.create(resource_class)
     resource_class == Candidate ? create_candidate : create_admin
   end
 
+  #
+  # create a new Admin
+  #
+  # === Parameters:
+  #
+  # * <tt>:options</tt> options for a new Admin
+  #
+  # === return:
+  #
+  # New instance
+  #
   def self.create_admin(options={})
     Admin.new(options)
   end
 
+  #
+  # create a new Candidate and then add the candidate_events
+  #
+  # === return:
+  #
+  # New instance
+  #
   def self.create_candidate
     candidate = Candidate.new
     add_candidate_events(candidate)
     candidate
   end
 
+  #
+  # add candidate events to candidate based on ConfirmationEvents
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> options for a new Admin
+  #
   def self.add_candidate_events(candidate)
     raise 'Cannot add candidate_events because some already exist.' if candidate.candidate_events.size > 0
     ConfirmationEvent.all.each do |confirmation_event|
@@ -21,6 +60,13 @@ class AppFactory
     end
   end
 
+  #
+  # destroy candidate_event from candidates.
+  #
+  # === Parameters:
+  #
+  # * <tt>:event_name</tt> options for a new Admin
+  #
   def self.revert_confirmation_event(event_name)
     # puts "reverting: #{event_name}"
     Candidate.all.each do |candidate|
@@ -40,6 +86,17 @@ class AppFactory
     # puts "done reverting: #{event_name}"
   end
 
+  #
+  # create a new Admin
+  #
+  # === Parameters:
+  #
+  # * <tt>:options</tt> options for a new Admin
+  #
+  # === return:
+  #
+  # New instance
+  #
   def self.add_confirmation_event(event_name)
     raise('add_confirmation_event: event_name cannot be nil') if event_name.nil? || event_name.empty?
     # no longer an error so can migrate from a new db.
@@ -71,6 +128,16 @@ class AppFactory
     event
   end
 
+  # create or update ConfirmationEvent.  Update all candidates with new ConfirmationEvent
+  #
+  # === Parameters:
+  #
+  # * <tt>:event_name</tt> ConfirmationEvent name
+  #
+  # === return:
+  #
+  # CandidateEvent
+  #
   def self.add_confirmation_event_due_date(event_name)
     # puts 'starting event_name'
     new_confirmation_event = nil
@@ -95,18 +162,29 @@ class AppFactory
     event
   end
 
+  # create or find the Admin - reseting password.  Then create the seed
+  #
   def self.generate_seed
     Admin.find_or_create_by!(email: Rails.application.secrets.admin_email) do |admin|
       admin.name = Rails.application.secrets.admin_name
       admin.password = Rails.application.secrets.admin_password
       admin.password_confirmation = Rails.application.secrets.admin_password
     end
-    create_seed_candidate()
-
+    create_seed_candidate
   end
 
   private
 
+  # Create CandidateEvent based on confirmation_event
+  #
+  # === Parameters:
+  #
+  # * <tt>:confirmation_event</tt> ConfirmationEvent
+  #
+  # === return:
+  #
+  # CandidateEvent
+  #
   def self.create_candidate_event(confirmation_event)
     candidate_event = CandidateEvent.new
     candidate_event.verified = false
@@ -114,6 +192,12 @@ class AppFactory
     candidate_event
   end
 
+  # Create seed Candidate
+  #
+  # === return:
+  #
+  # Candidate: new instance
+  #
   def self.create_seed_candidate
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.password = Event::Other::INITIAL_PASSWORD
@@ -132,6 +216,12 @@ class AppFactory
     end
   end
 
+  # clear confirmation events and Create ConfirmationEvents
+  #
+  # === return:
+  #
+  # Array: ConfirmationEvent name
+  #
   def self.add_confirmation_events
     all_confirmation_event_names = ConfirmationEvent.all.map { |ce| ce.name }
     all_confirmation_event_names.each do |ce_name|
@@ -142,6 +232,12 @@ class AppFactory
     all_event_names
   end
 
+  # return a list of the I18n ConfirmationEvent names
+  #
+  # === return:
+  #
+  # CandidateEvent
+  #
   def self.all_i18n_confirmation_event_names
     [
         # matches 20160603111604_add_parent_information_meeting.rb
