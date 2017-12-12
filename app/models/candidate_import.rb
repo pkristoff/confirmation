@@ -379,9 +379,9 @@ class CandidateImport
 
   # Finds all the Address's that have been orphaned.
   def orphaned_addresses
-    Address.pluck(:id).select do |ar_id|
-      BaptismalCertificate.pluck(:church_address_id).select {|church_address_id| church_address_id === ar_id}.empty? &&
-          CandidateSheet.pluck(:address_id).select {|address_id| address_id === ar_id}.empty?
+    ids(Address).select do |ar_id|
+      ids(BaptismalCertificate).map{|bc_info| bc_info[1]}.select {|church_address_id| church_address_id === ar_id}.empty? &&
+          ids(CandidateSheet).map{|bc_info| bc_info[1]}.select {|address_id| address_id === ar_id}.empty?
     end
   end
 
