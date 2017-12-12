@@ -6,6 +6,7 @@
   <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Confirmation" %>">
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= render 'application/favicon' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -20,10 +21,10 @@
     <div id="sidebar-wrapper">
       <header>
         <% if admin_signed_in? %>
-            <p class="sidebar-header no-link">Admin: <%= "#{current_admin.name}" %></p>
+          <p class="sidebar-header no-link">Admin: <%= "#{current_admin.name}" %></p>
         <% end %>
         <% if candidate_signed_in? %>
-            <p class="sidebar-header no-link">Candidate: <%= "#{current_candidate.account_name}" %></p>
+          <p class="sidebar-header no-link">Candidate: <%= "#{current_candidate.account_name}" %></p>
         <% end %>
 
       </header>
@@ -40,7 +41,7 @@
         <div class="row">
           <div class="col-lg-12">
             <%= link_to '#', class: 'btn btn-default menu-toggle', id: "menu-toggle", onclick: 'confirmation_toggle().sidebar(event, this)', data: {name: 'show'} do %>
-                <span id="menu-toggle-span">&laquo;</span>
+              <span id="menu-toggle-span">&laquo;</span>
             <% end %>
             <%= yield %>
           </div>

@@ -46,7 +46,6 @@ Create a file in config named local_env.yml
 * EMAIL_PROVIDER_ADDRESS: ''
 * EMAIL_PROVIDER_USERNAME: ''
 * EMAIL_PROVIDER_PASSWORD: ''
-
 Problems? Issues?
 -----------
 
@@ -136,7 +135,12 @@ Time consuming bugs
     * incompatible character encodings: UTF-8 and ASCII-8BIT
     * app/controllers/candidate_imports_controller.rb:52:in `export_to_excel'
   * Solution:  I was putting biary image in worksheet.
-
+- Getting error in log - 
+  * ActionController::RoutingError (No route matches [GET] "/apple-touch-icon.png"): 
+  * Solution:
+     * install: https://github.com/RealFaviconGenerator/rails_real_favicon
+     * https://realfavicongenerator.net/favicon_result?file_id=p1c10406bt1t7r1c1mmts1pes18vb6#.Wi5pULQ-fOS
+     * select RoR
 
 Getting Started
 ---------------

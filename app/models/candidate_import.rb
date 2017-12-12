@@ -191,7 +191,7 @@ class CandidateImport
   # * <tt>:checked</tt> Array: of class already checked
   # * <tt>:do_not_destroy</tt> Array: of class not to destroy table entries.
   #
-  def clean_associations(clazz, checked=[], do_not_destroy=[Admin, ConfirmationEvent])
+  def clean_associations(clazz, checked = [], do_not_destroy = [Admin, ConfirmationEvent])
     unless (checked.include? clazz) || (do_not_destroy.include? clazz)
       checked << clazz
       begin
@@ -248,23 +248,24 @@ class CandidateImport
   # CandidateImport: self
   #
   def remove_orphaned_table_rows
+    cand_ids = ids(Candidate)
     removed = 0
-    orphaned_rows = orphaned_baptismal_certificates
+    orphaned_rows = orphaned_baptismal_certificates(cand_ids)
     removed = BaptismalCertificate.destroy(orphaned_rows) unless orphaned_rows.empty?
     removed = 0
-    orphaned_rows = orphaned_candidate_sheets
+    orphaned_rows = orphaned_candidate_sheets(cand_ids)
     removed = CandidateSheet.destroy(orphaned_rows) unless orphaned_rows.empty?
     removed = 0
-    orphaned_rows = orphaned_christian_ministry
+    orphaned_rows = orphaned_christian_ministry(cand_ids)
     removed = ChristianMinistry.destroy(orphaned_rows) unless orphaned_rows.empty?
     removed = 0
-    orphaned_rows = orphaned_pick_name
+    orphaned_rows = orphaned_pick_name(cand_ids)
     removed = PickConfirmationName.destroy(orphaned_rows) unless orphaned_rows.empty?
     removed = 0
-    orphaned_rows = orphaned_retreat_verification
+    orphaned_rows = orphaned_retreat_verification(cand_ids)
     removed = RetreatVerification.destroy(orphaned_rows) unless orphaned_rows.empty?
     removed = 0
-    orphaned_rows = orphaned_sponsor_covenant
+    orphaned_rows = orphaned_sponsor_covenant(cand_ids)
     removed = SponsorCovenant.destroy(orphaned_rows) unless orphaned_rows.empty?
     removed = 0
     orphaned_rows = orphaned_addresses
@@ -275,7 +276,71 @@ class CandidateImport
     removed = 0
     orphaned_rows = orphaned_to_do
     removed = ToDo.destroy(orphaned_rows) unless orphaned_rows.empty?
+
+    @cache = nil
     self
+  end
+
+  # get & cache ids of clazz
+  #
+  # === Parameters:
+  #
+  # * <tt>:clazz</tt> Class: class of interest
+  #
+  # === Return:
+  #
+  # Array: ids or Array of ids
+  #
+  def ids(clazz)
+    class_sym = clazz.name.to_sym
+    @cache = {} if @cache.nil?
+    ids = @cache[class_sym]
+    return ids unless ids.nil?
+    case class_sym
+      when :Candidate
+        ids = Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id,
+                              :pick_confirmation_name_id, :retreat_verification_id, :sponsor_covenant_id)
+      when :BaptismalCertificate
+        ids = BaptismalCertificate.pluck(:id, :church_address_id, :scanned_certificate_id)
+      when :CandidateSheet
+        ids = CandidateSheet.pluck(:id, :address_id)
+      when :RetreatVerification
+        ids = RetreatVerification.pluck(:id, :scanned_retreat_id)
+      when :SponsorCovenant
+        ids = SponsorCovenant.pluck(:id, :scanned_covenant_id, :scanned_eligibility_id)
+      when :ToDo
+        ids = ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id)
+      else
+        ids = clazz.pluck(:id)
+    end
+    @cache[class_sym] = ids
+    ids
+  end
+
+  # Orphaned ids for clazz
+  #
+  # === Parameters:
+  #
+  # * <tt>:clazz</tt> Class: class of interest
+  # * <tt>:used_ids</tt> Array: of ids - ids of clazz used by parent
+  # * <tt>:_offset_</tt>  If present used to offset the ids of clazz (i.e. clazz_id iss an array)
+  #
+  # === Return:
+  #
+  # Array: ids
+  #
+  def orphaned_ids(clazz, used_ids, offset = nil)
+    if offset.nil?
+      ans = ids(clazz).select {|bc_id| used_ids.select {|used_id| used_id === bc_id}.empty?}
+    else
+      ans = ids(clazz).select do |clazz_id|
+        used_ids.select do |used_id|
+          used_id === clazz_id[offset]
+        end.empty?
+      end
+      ans = ans.map {|x| x[offset]}
+    end
+    ans
   end
 
   # Walks through the associations searching for associations that are created but not associated with parent
@@ -287,12 +352,13 @@ class CandidateImport
   def add_orphaned_table_rows
 
     begin
-      self.orphaned_table_rows = {BaptismalCertificate: orphaned_baptismal_certificates}
-      self.orphaned_table_rows[:CandidateSheet] = orphaned_candidate_sheets
-      self.orphaned_table_rows[:ChristianMinistry] = orphaned_christian_ministry
-      self.orphaned_table_rows[:PickConfirmationName] = orphaned_pick_name
-      self.orphaned_table_rows[:RetreatVerification] = orphaned_retreat_verification
-      self.orphaned_table_rows[:SponsorCovenant] = orphaned_sponsor_covenant
+      cand_ids = ids(Candidate)
+      self.orphaned_table_rows = {BaptismalCertificate: orphaned_baptismal_certificates(cand_ids)}
+      self.orphaned_table_rows[:CandidateSheet] = orphaned_candidate_sheets(cand_ids)
+      self.orphaned_table_rows[:ChristianMinistry] = orphaned_christian_ministry(cand_ids)
+      self.orphaned_table_rows[:PickConfirmationName] = orphaned_pick_name(cand_ids)
+      self.orphaned_table_rows[:RetreatVerification] = orphaned_retreat_verification(cand_ids)
+      self.orphaned_table_rows[:SponsorCovenant] = orphaned_sponsor_covenant(cand_ids)
       self.orphaned_table_rows[:Address] = orphaned_addresses
       self.orphaned_table_rows[:ScannedImage] = orphaned_scanned_image
       self.orphaned_table_rows[:ToDo] = orphaned_to_do
@@ -320,50 +386,104 @@ class CandidateImport
   end
 
   # Finds all the BaptismalCertificate's that have been orphaned.
-  def orphaned_baptismal_certificates
-    BaptismalCertificate.pluck(:id).select {|ar_id| Candidate.pluck(:baptismal_certificate_id).select {|id| id === ar_id}.empty?}
-  end
-
-  # Finds all the CandidateSheet's that have been orphaned.
-  def orphaned_candidate_sheets
-    CandidateSheet.pluck(:id).select {|ar_id| Candidate.pluck(:candidate_sheet_id).select {|cs_id| cs_id === ar_id}.empty?}
+  #
+  # === Parameters:
+  #
+  # * <tt>:used_cand_ids</tt> Array:
+  #
+  # === Return:
+  #
+  # Array: ids
+  #
+  def orphaned_baptismal_certificates(used_cand_ids)
+    orphaned_ids(BaptismalCertificate, (used_cand_ids.map {|x| x[1]}), 0)
   end
 
   # Finds all the ChristianMinistry's that have been orphaned.
-  def orphaned_christian_ministry
-    ChristianMinistry.pluck(:id).select {|ar_id| Candidate.pluck(:christian_ministry_id).select {|cm_id| cm_id === ar_id}.empty?}
+  #
+  # === Parameters:
+  #
+  # * <tt>:used_cand_ids</tt> Array:
+  #
+  # === Return:
+  #
+  # Array: ids
+  #
+  def orphaned_christian_ministry(cand_ids)
+    orphaned_ids(ChristianMinistry, cand_ids.map {|x| x[3]})
+  end
+
+  # Finds all the CandidateSheet's that have been orphaned.
+  #
+  # === Parameters:
+  #
+  # * <tt>:used_cand_ids</tt> Array:
+  #
+  # === Return:
+  #
+  # Array: ids
+  #
+  def orphaned_candidate_sheets(cand_ids)
+    orphaned_ids(CandidateSheet, cand_ids.map {|x| x[2]}, 0)
   end
 
   # Finds all the PickConfirmationName's that have been orphaned.
-  def orphaned_pick_name
-    PickConfirmationName.pluck(:id).select {|ar_id| Candidate.pluck(:pick_confirmation_name_id).select {|pc_id| pc_id === ar_id}.empty?}
+  #
+  # === Parameters:
+  #
+  # * <tt>:used_cand_ids</tt> Array:
+  #
+  # === Return:
+  #
+  # Array: ids
+  #
+  def orphaned_pick_name(cand_ids)
+    orphaned_ids(PickConfirmationName, cand_ids.map {|x| x[4]})
   end
 
   # Finds all the RetreatVerification's that have been orphaned.
-  def orphaned_retreat_verification
-    RetreatVerification.pluck(:id).select {|ar_id| Candidate.pluck(:retreat_verification_id).select {|rv_id| rv_id === ar_id}.empty?}
+  #
+  # === Parameters:
+  #
+  # * <tt>:used_cand_ids</tt> Array:
+  #
+  # === Return:
+  #
+  # Array: ids
+  #
+  def orphaned_retreat_verification(cand_ids)
+    orphaned_ids(RetreatVerification, cand_ids.map {|x| x[5]}, 0)
+  end
+
+  # Finds all the SponsorCovenant's that have been orphaned.
+  #
+  # === Parameters:
+  #
+  # * <tt>:used_cand_ids</tt> Array:
+  #
+  # === Return:
+  #
+  # Array: ids
+  #
+  def orphaned_sponsor_covenant(cand_ids)
+    orphaned_ids(SponsorCovenant, cand_ids.map {|x| x[6]}, 0)
   end
 
   # Finds all the ScannedImage's that have been orphaned.
   def orphaned_scanned_image
-    ScannedImage.pluck(:id).select do |ar_id|
-      BaptismalCertificate.pluck(:scanned_certificate_id).select {|scanned_certificate_id| scanned_certificate_id === ar_id}.empty? &&
-          RetreatVerification.pluck(:scanned_retreat_id).select {|scanned_retreat_id| scanned_retreat_id === ar_id}.empty? &&
-          SponsorCovenant.pluck(:scanned_covenant_id).select {|scanned_covenant_id| scanned_covenant_id === ar_id}.empty? &&
-          SponsorCovenant.pluck(:scanned_eligibility_id).select {|scanned_eligibility_id| scanned_eligibility_id === ar_id}.empty?
+    ids(ScannedImage).select do |ar_id|
+      ids(BaptismalCertificate).map {|x| x[2]}.select {|scanned_certificate_id| scanned_certificate_id === ar_id}.empty? &&
+          ids(RetreatVerification).map {|x| x[1]}.select {|scanned_retreat_id| scanned_retreat_id === ar_id}.empty? &&
+          ids(SponsorCovenant).map {|x| x[1]}.select {|scanned_covenant_id| scanned_covenant_id === ar_id}.empty? &&
+          ids(SponsorCovenant).map {|x| x[2]}.select {|scanned_eligibility_id| scanned_eligibility_id === ar_id}.empty?
     end
-  end
-
-  # Finds all the SponsorCovenant's that have been orphaned.
-  def orphaned_sponsor_covenant
-    SponsorCovenant.pluck(:id).select {|ar_id| Candidate.pluck(:sponsor_covenant_id).select {|sc_id| sc_id === ar_id}.empty?}
   end
 
   # Finds all the ScannedImage's that have been orphaned.
   def orphaned_to_do
-    ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id).select do |todo_id, confirmation_event_id, candidate_event_id|
-      ConfirmationEvent.pluck(:id).select {|ce_id| confirmation_event_id === ce_id}.empty? &&
-          CandidateEvent.pluck(:id).select {|ce_id| candidate_event_id === ce_id}.empty?
+    ids(ToDo).select do |todo_id, confirmation_event_id, candidate_event_id|
+      ids(ConfirmationEvent).select {|ce_id| confirmation_event_id === ce_id}.empty? &&
+          ids(CandidateEvent).select {|ce_id| candidate_event_id === ce_id}.empty?
     end.map {|id, ce_id, cand_id| id}
   end
 
@@ -391,7 +511,7 @@ class CandidateImport
 
       end
     end
-    (0..get_confirmation_events_sorted.length-1).each do |index|
+    (0..get_confirmation_events_sorted.length - 1).each do |index|
       columns << "candidate_events.#{index}.completed_date"
       columns << "candidate_events.#{index}.verified"
     end
@@ -600,14 +720,14 @@ class CandidateImport
   # * <tt>:columns</tt> Array: column names
   # * <tt>:_prefix_</tt> String:  optional prefix to add to columns
   #
-  def get_columns (params, columns, prefix='')
+  def get_columns (params, columns, prefix = '')
     return columns if params.empty?
     params.each do |param|
       if param.is_a?(Hash)
         param.keys.each do |key|
           unless key === :candidate_events_attributes
             key_str = key.to_s
-            xxx = key_str[0, key_str.size-('_attributes'.size)]
+            xxx = key_str[0, key_str.size - ('_attributes'.size)]
             get_columns(param[key], columns, (prefix.empty? ? xxx : "#{prefix}.#{xxx}"))
           end
         end
@@ -811,7 +931,7 @@ class CandidateImport
       image = entry[:image]
       begin
 
-        File.open(export_filename, mode='wb') do |f|
+        File.open(export_filename, mode = 'wb') do |f|
           f.write image.content
         end
       rescue Exception => e
