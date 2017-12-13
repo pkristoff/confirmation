@@ -5,11 +5,11 @@ class BaptismalCertificate < ActiveRecord::Base
   belongs_to(:church_address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :church_address, allow_destroy: true
 
-  # scanned image of baptismal certificate
   belongs_to(:scanned_certificate, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_certificate, allow_destroy: true)
 
   after_initialize :build_associations, :if => :new_record?
+
 
   attr_accessor :certificate_picture
 
@@ -52,28 +52,8 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   def self.get_permitted_params
     BaptismalCertificate.get_basic_permitted_params.concat(
-        [church_address_attributes: BaptismalCertificate.get_church_address_permitted_params,
+        [church_address_attributes: Address.get_basic_permitted_params,
          scanned_certificate_attributes: ScannedImage.get_permitted_params])
-  end
-
-  # Editable church address attributes
-  #
-  # === Return:
-  #
-  # Array of attributes
-  #
-  def self.get_church_address_permitted_params
-    Address.get_basic_permitted_params
-  end
-
-  # Required church address attributes
-  #
-  # === Return:
-  #
-  # Array of attributes
-  #
-  def self.get_church_address_validation_params
-    Address.get_basic_validatiion_params
   end
 
   # Editable attributes
@@ -100,16 +80,6 @@ class BaptismalCertificate < ActiveRecord::Base
     params
   end
 
-  # associated confirmation event name
-  #
-  # === Return:
-  #
-  # String
-  #
-  def self.event_name
-    I18n.t('events.baptismal_certificate')
-  end
-
   # Validate if event is complete by adding validation errors to active record
   #
   # === Parameters:
@@ -126,10 +96,21 @@ class BaptismalCertificate < ActiveRecord::Base
     baptismal_certificate
   end
 
+  # associated confirmation event name
+  #
+  # === Return:
+  #
+  # String
+  #
+  def self.event_name
+    I18n.t('events.baptismal_certificate')
+  end
+
   # build church address
   #
   def build_associations
     church_address || create_church_address
+    # scanned_certificate is built on the fly.
   end
 
   # information to be verified by admin

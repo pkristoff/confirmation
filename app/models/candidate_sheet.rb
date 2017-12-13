@@ -1,9 +1,12 @@
+#
+# Basic information about candidate.
+#
 class CandidateSheet < ActiveRecord::Base
   belongs_to(:address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :address, allow_destroy: true
 
-  # before_create :build_associations
   after_initialize :build_associations, :if => :new_record?
+
   validate :validate_emails
   validates_presence_of(:first_name, :last_name)
 

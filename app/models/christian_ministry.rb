@@ -1,9 +1,7 @@
 #
-# Actve Record
+# Active Record
 #
 class ChristianMinistry < ActiveRecord::Base
-
-  attr_accessor :christian_ministry_picture
 
   # Validate if event is complete by adding validation errors to active record
   #
@@ -16,7 +14,8 @@ class ChristianMinistry < ActiveRecord::Base
   # Boolean
   #
   def validate_event_complete(options={})
-    EventCompleteValidator.new(self).validate(ChristianMinistry.get_permitted_params)
+    event_complete_validator = EventCompleteValidator.new(self)
+    event_complete_validator.validate(ChristianMinistry.get_permitted_params)
   end
 
   # Editable attributes
