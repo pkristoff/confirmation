@@ -74,7 +74,7 @@ describe 'layouts/_side_bar.html.erb' do
     it 'nav links layout for admin' do
       login_admin
 
-      @resource = FactoryGirl.create(:candidate)
+      @resource = FactoryBot.create(:candidate)
 
       render
 

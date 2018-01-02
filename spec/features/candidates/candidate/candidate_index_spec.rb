@@ -11,7 +11,7 @@ feature 'Candidate index page', :devise do
   end
 
   scenario 'candidate cannot see list of candidates' do
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     login_as(candidate, scope: :candidate)
     expect{dev_candidates_path}.to  raise_error(NameError)
   end

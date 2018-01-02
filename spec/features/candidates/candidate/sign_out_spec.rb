@@ -9,7 +9,7 @@ feature 'Sign out', :devise do
   #   When I sign out
   #   Then I see a signed out message
   scenario 'candidate signs out successfully' do
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
 
     signin_candidate(candidate.account_name, candidate.password)

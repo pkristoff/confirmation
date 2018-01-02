@@ -108,14 +108,14 @@ describe CandidateImport do
     it 'reset after adding in some candidates' do
 
       expect(Candidate.all.size).to eq(0)
-      FactoryGirl.create(:candidate, account_name: 'a1')
-      FactoryGirl.create(:candidate, account_name: 'a2')
-      FactoryGirl.create(:candidate, account_name: 'a3')
+      FactoryBot.create(:candidate, account_name: 'a1')
+      FactoryBot.create(:candidate, account_name: 'a2')
+      FactoryBot.create(:candidate, account_name: 'a3')
       expect(Candidate.all.size).to eq(3)
 
       expect(Admin.all.size).to eq(0)
-      FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
-      FactoryGirl.create(:admin, email: 'vicki@kristoffs.com', name: 'Vicki')
+      FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+      FactoryBot.create(:admin, email: 'vicki@kristoffs.com', name: 'Vicki')
       expect(Admin.all.size).to eq(2)
 
       CandidateImport.new.reset_database
@@ -225,8 +225,8 @@ describe CandidateImport do
     end
 
     it 'read in exported image' do
-      candidate = FactoryGirl.create(:candidate,
-                                     baptismal_certificate: FactoryGirl.create(:baptismal_certificate))
+      candidate = FactoryBot.create(:candidate,
+                                     baptismal_certificate: FactoryBot.create(:baptismal_certificate))
       add_baptismal_certificate_image(candidate)
 
       dir_name = 'temp'
@@ -302,13 +302,13 @@ describe CandidateImport do
 
     it 'reset after adding in some candidates' do
 
-      c1 = FactoryGirl.create(:candidate, account_name: 'c1')
+      c1 = FactoryBot.create(:candidate, account_name: 'c1')
       c1.candidate_sheet.parent_email_1 = 'test@example.com'
       c1.candidate_sheet.candidate_email = 'candiate@example.com'
-      c1.baptismal_certificate = FactoryGirl.create(:baptismal_certificate)
+      c1.baptismal_certificate = FactoryBot.create(:baptismal_certificate)
       c1.save
-      FactoryGirl.create(:candidate, account_name: 'c2')
-      FactoryGirl.create(:candidate, account_name: 'c3')
+      FactoryBot.create(:candidate, account_name: 'c2')
+      FactoryBot.create(:candidate, account_name: 'c3')
 
       AppFactory.add_confirmation_events
 
@@ -341,21 +341,24 @@ describe CandidateImport do
 
   end
 
+  describe 'orphaned associations errors' do
+    it 'login should not cause orphaned associations' do
+
+      c1 = FactoryBot.create(:candidate)
+      expect_no_orphaned_associations
+    end
+  end
+
   describe 'orphaned associations' do
     it 'No orphaned associations' do
 
-      c1 = FactoryGirl.create(:candidate)
-      candidate_import = CandidateImport.new
-      candidate_import.add_orphaned_table_rows
-      orphaned_table_rows = candidate_import.orphaned_table_rows
-      orphaned_table_rows.each do |key, orphan_ids|
-        expect(orphan_ids).to be_empty
-      end
+      c1 = FactoryBot.create(:candidate)
+      expect_no_orphaned_associations
     end
     it 'orphaned associations' do
       expected_orphans = get_expected_orphans
 
-      c1 = FactoryGirl.create(:candidate)
+      c1 = FactoryBot.create(:candidate)
       candidate_import = CandidateImport.new
       # create orphans
       expect_ophans(candidate_import, expected_orphans)
@@ -363,7 +366,7 @@ describe CandidateImport do
     it 'destroy orphaned associations' do
       expected_orphans = get_expected_orphans
 
-      c1 = FactoryGirl.create(:candidate)
+      c1 = FactoryBot.create(:candidate)
       candidate_import = CandidateImport.new
 
       expect_ophans(candidate_import, expected_orphans)
@@ -426,16 +429,16 @@ def get_expected_orphans
 
   {
       # Candidate associations
-      BaptismalCertificate: FactoryGirl.create(:baptismal_certificate, skip_address_replacement: true),
-      CandidateSheet: FactoryGirl.create(:candidate_sheet),
-      ChristianMinistry: FactoryGirl.create(:christian_ministry),
-      PickConfirmationName: FactoryGirl.create(:pick_confirmation_name),
-      RetreatVerification: FactoryGirl.create(:retreat_verification),
-      SponsorCovenant: FactoryGirl.create(:sponsor_covenant),
+      BaptismalCertificate: FactoryBot.create(:baptismal_certificate, skip_address_replacement: true),
+      CandidateSheet: FactoryBot.create(:candidate_sheet),
+      ChristianMinistry: FactoryBot.create(:christian_ministry),
+      PickConfirmationName: FactoryBot.create(:pick_confirmation_name),
+      RetreatVerification: FactoryBot.create(:retreat_verification),
+      SponsorCovenant: FactoryBot.create(:sponsor_covenant),
       # # other associations
-      ScannedImage: FactoryGirl.create(:scanned_image),
-      Address: FactoryGirl.create(:address),
-      ToDo: FactoryGirl.create(:to_do, confirmation_event_id: nil, candidate_event_id: nil)
+      ScannedImage: FactoryBot.create(:scanned_image),
+      Address: FactoryBot.create(:address),
+      ToDo: FactoryBot.create(:to_do, confirmation_event_id: nil, candidate_event_id: nil)
   }
 end
 
@@ -624,7 +627,7 @@ end
 
 describe 'start new year' do
   it 'should start a new year will clean out candidates and all its associations' do
-    FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+    FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
     AppFactory.add_confirmation_events
 
     expect(Admin.all.size).to eq(1)
@@ -647,7 +650,7 @@ describe 'start new year' do
     candidate_import = CandidateImport.new
     # candidate_import.load_zip_file(fixture_file_upload('export with images.zip'))
 
-    c0 = FactoryGirl.create(:candidate, add_candidate_events: false)
+    c0 = FactoryBot.create(:candidate, add_candidate_events: false)
     AppFactory.add_candidate_events(c0)
     c0.baptismal_certificate.scanned_certificate=create_scanned_image
     c0.sponsor_covenant.scanned_eligibility=create_scanned_image
@@ -655,11 +658,11 @@ describe 'start new year' do
     c0.retreat_verification.scanned_retreat=create_scanned_image
     c0.save
 
-    c1 = FactoryGirl.create(:candidate, account_name: 'c1', add_candidate_events: false)
+    c1 = FactoryBot.create(:candidate, account_name: 'c1', add_candidate_events: false)
     AppFactory.add_candidate_events(c1)
     c1.save
 
-    c2 = FactoryGirl.create(:candidate, account_name: 'c2', add_candidate_events: false)
+    c2 = FactoryBot.create(:candidate, account_name: 'c2', add_candidate_events: false)
     AppFactory.add_candidate_events(c2)
     c2.save
 
@@ -714,7 +717,7 @@ describe 'start new year' do
   end
 
   it 'start a new year will clean up dangling references the DB' do
-    FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+    FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
     AppFactory.add_confirmation_events
 
     expect(Admin.all.size).to eq(1)
@@ -735,27 +738,27 @@ describe 'start new year' do
     expect_table_rows(Candidate, cand_assoc)
 
     # create orphaned records - TODO: use get_association_classes
-    FactoryGirl.create(:address)
-    FactoryGirl.create(:baptismal_certificate)
-    FactoryGirl.create(:candidate_event)
-    FactoryGirl.create(:candidate_sheet)
-    FactoryGirl.create(:christian_ministry)
-    FactoryGirl.create(:pick_confirmation_name)
-    FactoryGirl.create(:retreat_verification)
-    FactoryGirl.create(:sponsor_covenant)
-    FactoryGirl.create(:to_do)
-    FactoryGirl.create(:scanned_image)
+    FactoryBot.create(:address)
+    FactoryBot.create(:baptismal_certificate)
+    FactoryBot.create(:candidate_event)
+    FactoryBot.create(:candidate_sheet)
+    FactoryBot.create(:christian_ministry)
+    FactoryBot.create(:pick_confirmation_name)
+    FactoryBot.create(:retreat_verification)
+    FactoryBot.create(:sponsor_covenant)
+    FactoryBot.create(:to_do)
+    FactoryBot.create(:scanned_image)
 
     candidate_import = CandidateImport.new
 
-    c0 = FactoryGirl.create(:candidate, add_candidate_events: false)
+    c0 = FactoryBot.create(:candidate, add_candidate_events: false)
     AppFactory.add_candidate_events(c0)
     c0.save
-    c1 = FactoryGirl.create(:candidate, account_name: 'c1', add_candidate_events: false)
+    c1 = FactoryBot.create(:candidate, account_name: 'c1', add_candidate_events: false)
     AppFactory.add_candidate_events(c1)
     c1.baptismal_certificate.scanned_certificate=create_scanned_image
     c1.save
-    c2 = FactoryGirl.create(:candidate, account_name: 'c2', add_candidate_events: false)
+    c2 = FactoryBot.create(:candidate, account_name: 'c2', add_candidate_events: false)
     AppFactory.add_candidate_events(c2)
     c2.save
 
@@ -763,7 +766,7 @@ describe 'start new year' do
     expect(ConfirmationEvent.all.size).to eq(9)
     expect(Candidate.all.size).to eq(3)
 
-    cand_assoc = {Address: 10,
+    cand_assoc = {Address: 9,
                   BaptismalCertificate: 4,
                   Candidate: 3,
                   CandidateEvent: 28,
@@ -1347,4 +1350,13 @@ def save_zip(candidate_import, uploaded_file_zip)
     puts "Errors:  #{candidate[1]}"
   end
   import_result
+end
+
+def expect_no_orphaned_associations
+  candidate_import = CandidateImport.new
+  candidate_import.add_orphaned_table_rows
+  orphaned_table_rows = candidate_import.orphaned_table_rows
+  orphaned_table_rows.each do |key, orphan_ids|
+    expect(orphan_ids).to be_empty
+  end
 end

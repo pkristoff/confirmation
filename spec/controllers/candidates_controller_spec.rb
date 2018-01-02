@@ -49,7 +49,7 @@ describe CandidatesController do
   end
 
   def create_candidate(prefix)
-    candidate = FactoryGirl.create(:candidate, account_name: prefix)
+    candidate = FactoryBot.create(:candidate, account_name: prefix)
     case prefix
       when 'c1'
         candidate.candidate_sheet.first_name = "c2first_name"
@@ -71,7 +71,7 @@ describe CandidatesController do
   describe 'show' do
 
     it 'show should show candidate.' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       get :show, {id: candidate.id}
       expect(response).to render_template('show')
       expect(controller.candidate).to eq(candidate)
@@ -82,7 +82,7 @@ describe CandidatesController do
 
   describe 'behaves like' do
     before(:each) do
-      @candidate = FactoryGirl.create(:candidate)
+      @candidate = FactoryBot.create(:candidate)
       @dev = ''
       @dev_registration = ''
     end

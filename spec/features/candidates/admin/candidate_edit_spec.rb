@@ -8,7 +8,7 @@ Warden.test_mode!
 feature 'Candidate edit', :devise do
 
   before(:each) do
-    @admin = FactoryGirl.create(:admin)
+    @admin = FactoryBot.create(:admin)
     login_as(@admin, scope: :admin)
   end
 
@@ -21,7 +21,7 @@ feature 'Candidate edit', :devise do
   #   When I change my email address
   #   Then I see an account updated message
   scenario 'candidate changes email address' do
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
 
     visit edit_candidate_path(candidate.id)

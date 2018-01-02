@@ -51,9 +51,9 @@ describe CandidateImportsController do
 
     it 'should remove all candidates, changes due date to today, and adds a seed candidate' do
       expect(Candidate.all.size).to eq(0)
-      FactoryGirl.create(:candidate, account_name: 'a1')
-      FactoryGirl.create(:candidate, account_name: 'a2')
-      FactoryGirl.create(:candidate, account_name: 'a3')
+      FactoryBot.create(:candidate, account_name: 'a1')
+      FactoryBot.create(:candidate, account_name: 'a2')
+      FactoryBot.create(:candidate, account_name: 'a3')
       expect(Candidate.all.size).to eq(3)
       login_admin
 
@@ -74,14 +74,14 @@ describe CandidateImportsController do
 
     it 'should reset database' do
       expect(Candidate.all.size).to eq(0)
-      FactoryGirl.create(:candidate, account_name: 'a1')
-      FactoryGirl.create(:candidate, account_name: 'a2')
-      FactoryGirl.create(:candidate, account_name: 'a3')
+      FactoryBot.create(:candidate, account_name: 'a1')
+      FactoryBot.create(:candidate, account_name: 'a2')
+      FactoryBot.create(:candidate, account_name: 'a3')
       expect(Candidate.all.size).to eq(3)
       login_admin
 
       expect(Admin.all.size).to eq(1)
-      FactoryGirl.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+      FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
       expect(Admin.all.size).to eq(2)
 
       post :reset_database
@@ -114,9 +114,9 @@ describe CandidateImportsController do
     it 'should download an excel spreadsheet.' do
       login_admin
 
-      FactoryGirl.create(:candidate, account_name: 'a1')
-      FactoryGirl.create(:candidate, account_name: 'a2')
-      FactoryGirl.create(:candidate, account_name: 'a3')
+      FactoryBot.create(:candidate, account_name: 'a1')
+      FactoryBot.create(:candidate, account_name: 'a2')
+      FactoryBot.create(:candidate, account_name: 'a3')
 
       post :export_to_excel, format: 'xlsx'
 

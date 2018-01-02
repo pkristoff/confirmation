@@ -16,10 +16,9 @@ feature 'Candidate delete', :devise do
   #   When I delete my account
   #   Then I should see an account deleted message
   scenario 'candidate can delete own account' do
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     login_as(candidate, :scope => :candidate)
     visit edit_candidate_registration_path(candidate)
-    expect(page).not_to have_content I18n.t('views.admins.cancel_my_account')
   end
 
 end

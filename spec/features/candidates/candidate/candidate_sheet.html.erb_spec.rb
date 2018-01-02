@@ -4,7 +4,7 @@ Warden.test_mode!
 feature 'Candidate sheet candidate', :devise do
 
   before(:each) do
-    @candidate = FactoryGirl.create(:candidate)
+    @candidate = FactoryBot.create(:candidate)
     login_as(@candidate, scope: :candidate)
 
     @path = dev_candidate_sheet_path(@candidate.id)

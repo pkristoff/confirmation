@@ -5,7 +5,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   before(:each) do
     @render_mail_text = true
 
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @candidate = Candidate.find(candidate.id)
     @candidate.candidate_sheet.candidate_email = 'xxx@yyy.com'

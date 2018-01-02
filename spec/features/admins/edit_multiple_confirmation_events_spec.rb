@@ -12,7 +12,7 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
     @candidates = [@candidate_1, @candidate_2]
 
     AppFactory.add_confirmation_events
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, :scope => :admin)
   end
 

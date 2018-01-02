@@ -4,8 +4,8 @@ Warden.test_mode!
 feature 'Candidate sheet admin', :devise do
 
   before(:each) do
-    @admin = FactoryGirl.create(:admin)
-    @candidate = FactoryGirl.create(:candidate)
+    @admin = FactoryBot.create(:admin)
+    @candidate = FactoryBot.create(:candidate)
     login_as(@admin, scope: :admin)
 
     @path = candidate_sheet_path(@candidate.id)

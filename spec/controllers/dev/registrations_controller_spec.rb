@@ -2,7 +2,7 @@ describe Dev::RegistrationsController do
 
   it 'should take you back to the home page' do
 
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
 
     get :event, id: candidate.id
 

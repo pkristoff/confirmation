@@ -11,8 +11,8 @@ describe RetreatVerification, type: :model do
 
     end
 
-    it 'FactoryGirl can retrieve a RetreatVerification\'s info' do
-      retreat_verification = FactoryGirl.create(:retreat_verification)
+    it 'FactoryBot can retrieve a RetreatVerification\'s info' do
+      retreat_verification = FactoryBot.create(:retreat_verification)
       expect(retreat_verification.where_held_retreat).to match 'Here'
 
     end
@@ -21,8 +21,8 @@ describe RetreatVerification, type: :model do
 
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value' do
-      candidate = FactoryGirl.create(:candidate)
-      verifiables = FactoryGirl.create(:retreat_verification).verifiable_info(candidate)
+      candidate = FactoryBot.create(:candidate)
+      verifiables = FactoryBot.create(:retreat_verification).verifiable_info(candidate)
       expected_verifiables = {}
       expect(verifiables).to eq(expected_verifiables)
     end

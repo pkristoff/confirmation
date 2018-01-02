@@ -16,7 +16,7 @@ feature 'Admin profile page', :devise do
   #   When I visit the admin profile page
   #   Then I see my own email address
   scenario 'admin sees own profile' do
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, :scope => :admin)
     visit admin_path(admin)
     expect(page).to have_content I18n.t('views.admins.admin')

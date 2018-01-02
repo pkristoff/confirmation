@@ -7,7 +7,7 @@ describe 'candidates/event.html.erb' do
 
     @resource_class = Candidate
 
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @resource = Candidate.find(candidate.id)
 

@@ -10,7 +10,7 @@ feature 'Candidate delete', :devise do
 
   before(:each) do
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
 
     candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')

@@ -5,7 +5,7 @@ describe BaptismalCertificate, type: :model do
   describe 'church_address' do
 
     it 'can retrieve a candiadate\'s address' do
-      baptismal_certificate = FactoryGirl.create(:baptismal_certificate)
+      baptismal_certificate = FactoryBot.create(:baptismal_certificate)
       expect(baptismal_certificate.birth_date.to_s).to match '1983-08-20'
       expect(baptismal_certificate.baptismal_date.to_s).to match '1983-10-20'
       expect(baptismal_certificate.church_name).to match 'St. Francis'
@@ -29,8 +29,8 @@ describe BaptismalCertificate, type: :model do
 
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value' do
-      candidate = FactoryGirl.create(:candidate, baptized_at_stmm: false)
-      verifiables = FactoryGirl.create(:baptismal_certificate).verifiable_info(candidate)
+      candidate = FactoryBot.create(:candidate, baptized_at_stmm: false)
+      verifiables = FactoryBot.create(:baptismal_certificate).verifiable_info(candidate)
       expected_verifiables = {
           Birthday: Date.parse('1983-08-20'),
           'Baptismal date': Date.parse('1983-10-20'),
@@ -48,8 +48,8 @@ describe BaptismalCertificate, type: :model do
   end
 
     it 'should return a hash of :attribute => value' do
-      candidate = FactoryGirl.create(:candidate, baptized_at_stmm: true)
-      verifiables = FactoryGirl.create(:baptismal_certificate).verifiable_info(candidate)
+      candidate = FactoryBot.create(:candidate, baptized_at_stmm: true)
+      verifiables = FactoryBot.create(:baptismal_certificate).verifiable_info(candidate)
       expected_verifiables = {
           Church: I18n.t('home_parish.name')
       }

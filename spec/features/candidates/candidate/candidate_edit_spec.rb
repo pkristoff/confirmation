@@ -8,7 +8,7 @@ Warden.test_mode!
 feature 'Candidate edit', :devise do
 
   before(:each) do
-    @candidate = FactoryGirl.create(:candidate)
+    @candidate = FactoryBot.create(:candidate)
     login_as(@candidate, scope: :candidate)
   end
 
@@ -46,7 +46,7 @@ feature 'Candidate edit', :devise do
   #   When I try to edit another candidate's profile
   #   Then I see my own 'edit profile' page
   scenario "candidate try to edit another candidate's profile will end up editing your own", :me do
-    other = FactoryGirl.create(:candidate, account_name: 'other')
+    other = FactoryBot.create(:candidate, account_name: 'other')
     other.candidate_sheet.parent_email_1 = 'other@test.com'
     visit edit_candidate_registration_path(other.id)
     expect(page).to have_content I18n.t('views.candidates.edit_candidate')

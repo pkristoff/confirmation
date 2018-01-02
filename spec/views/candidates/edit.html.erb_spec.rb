@@ -6,8 +6,7 @@ describe 'candidates/edit.html.erb' do
 
     @resource_class = Candidate
 
-    @resource = FactoryGirl.create(:candidate)
-    # assign(:candidate, FactoryGirl.create(:candidate))
+    @resource = FactoryBot.create(:candidate)
 
   end
 

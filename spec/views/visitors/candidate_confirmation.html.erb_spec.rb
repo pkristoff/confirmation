@@ -8,7 +8,7 @@ describe 'visitors/candidate_confirmation.html.erb' do
 
   it 'candidate is confirmed.' do
 
-    @candidate = FactoryGirl.create(:candidate)
+    @candidate = FactoryBot.create(:candidate)
     @errors = 'noerrors'
 
     render
@@ -20,7 +20,7 @@ describe 'visitors/candidate_confirmation.html.erb' do
 
   it 'candidate not confirmed.' do
 
-    @candidate = FactoryGirl.create(:candidate)
+    @candidate = FactoryBot.create(:candidate)
     @errors = 'this is an error message'
 
     render

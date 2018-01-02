@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ConfirmationEvent, type: :model do
   it 'basic creation' do
-    confirmation_event = FactoryGirl.create(:confirmation_event)
+    confirmation_event = FactoryBot.create(:confirmation_event)
     expect(confirmation_event.name).to eq('Going out to eat')
     expect(confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
     expect(confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
@@ -10,7 +10,7 @@ RSpec.describe ConfirmationEvent, type: :model do
   end
 
   it 'scrubbing instructions' do
-    confirmation_event = FactoryGirl.create(:confirmation_event,
+    confirmation_event = FactoryBot.create(:confirmation_event,
                                             instructions: 'ohai! <div>div is safe</div> <script>but script is not</script>')
     expect(confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
     expect(confirmation_event.chs_due_date.to_s).to eq('2016-05-24')

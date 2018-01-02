@@ -6,8 +6,8 @@ describe CandidateEvent, type: :model do
 
     it 'basic creation' do
 
-      confirmation_event = FactoryGirl.create(:confirmation_event)
-      candidate_event = FactoryGirl.create(:candidate_event,
+      confirmation_event = FactoryBot.create(:confirmation_event)
+      candidate_event = FactoryBot.create(:candidate_event,
                                            completed_date: '2016-05-23',
                                            verified: true,
                                            confirmation_event: confirmation_event)
@@ -26,12 +26,12 @@ describe CandidateEvent, type: :model do
 
     it 'two candidate_events same confirmation_event' do
 
-      confirmation_event = FactoryGirl.create(:confirmation_event)
-      candidate_event = FactoryGirl.create(:candidate_event,
+      confirmation_event = FactoryBot.create(:confirmation_event)
+      candidate_event = FactoryBot.create(:candidate_event,
                                            completed_date: '2016-05-23',
                                            verified: true,
                                            confirmation_event: confirmation_event)
-      candidate_event_2 = FactoryGirl.create(:candidate_event,
+      candidate_event_2 = FactoryBot.create(:candidate_event,
                                              completed_date: '2016-05-22',
                                              verified: false,
                                              confirmation_event: confirmation_event)
@@ -58,16 +58,16 @@ describe CandidateEvent, type: :model do
     end
     it 'two candidate_events with different confirmation_events' do
 
-      confirmation_event = FactoryGirl.create(:confirmation_event)
-      confirmation_event_2 = FactoryGirl.create(:confirmation_event,
+      confirmation_event = FactoryBot.create(:confirmation_event)
+      confirmation_event_2 = FactoryBot.create(:confirmation_event,
                                                 name: 'Staying home',
                                                 the_way_due_date: '2016-04-01',
                                                 chs_due_date: '2016-04-02')
-      candidate_event = FactoryGirl.create(:candidate_event,
+      candidate_event = FactoryBot.create(:candidate_event,
                                            completed_date: '2016-05-23',
                                            verified: true,
                                            confirmation_event: confirmation_event)
-      candidate_event_2 = FactoryGirl.create(:candidate_event,
+      candidate_event_2 = FactoryBot.create(:candidate_event,
                                              completed_date: '2016-05-22',
                                              verified: false,
                                              confirmation_event: confirmation_event_2)
@@ -107,9 +107,9 @@ describe CandidateEvent, type: :model do
     context 'confirmation event not started' do
       xxx += 1
       candidate = nil
-      candidate = FactoryGirl.create(:candidate, account_name: "foo_#{xxx}") unless Candidate.find_by_account_name("foo_#{xxx}")
+      candidate = FactoryBot.create(:candidate, account_name: "foo_#{xxx}") unless Candidate.find_by_account_name("foo_#{xxx}")
       candidate = Candidate.find_by_account_name("foo_#{xxx}") unless candidate
-      confirmation_event_not_started = FactoryGirl.create(:confirmation_event, the_way_due_date: '', chs_due_date: '')
+      confirmation_event_not_started = FactoryBot.create(:confirmation_event, the_way_due_date: '', chs_due_date: '')
       candidate_event = candidate.add_candidate_event(confirmation_event_not_started)
       candidate_event.completed_date = ''
       candidate_event.verified = false
@@ -126,9 +126,9 @@ describe CandidateEvent, type: :model do
     end
     context 'confirmation event started' do
       xxx += 1
-      candidate = FactoryGirl.create(:candidate, account_name: "baz_#{xxx}") unless Candidate.find_by_account_name("baz_#{xxx}")
+      candidate = FactoryBot.create(:candidate, account_name: "baz_#{xxx}") unless Candidate.find_by_account_name("baz_#{xxx}")
       candidate = Candidate.find_by_account_name("baz_#{xxx}") unless candidate
-      confirmation_event_started = FactoryGirl.create(:confirmation_event, the_way_due_date: '2016-04-01', chs_due_date: '2016-04-02')
+      confirmation_event_started = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-04-01', chs_due_date: '2016-04-02')
       context 'candidate has done nothing' do
         candidate.candidate_events.clear
         candidate_event = candidate.add_candidate_event(confirmation_event_started)
@@ -161,7 +161,7 @@ describe CandidateEvent, type: :model do
       context 'candidate has done the event awaiting admin approval' do
         xxx += 1
         candidate = nil
-        candidate = FactoryGirl.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by_account_name("bag_#{xxx}")
+        candidate = FactoryBot.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by_account_name("bag_#{xxx}")
         candidate = Candidate.find_by_account_name("bag_#{xxx}") unless candidate
         candidate.candidate_events.clear
         candidate_event = candidate.add_candidate_event(confirmation_event_started)
@@ -184,7 +184,7 @@ describe CandidateEvent, type: :model do
       context 'candidate has done the event and admin has approved' do
         xxx += 1
         candidate = nil
-        candidate = FactoryGirl.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by_account_name("bag_#{xxx}")
+        candidate = FactoryBot.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by_account_name("bag_#{xxx}")
         candidate = Candidate.find_by_account_name("bag_#{xxx}") unless candidate
         candidate.candidate_events.clear
         candidate_event = candidate.add_candidate_event(confirmation_event_started)
@@ -209,7 +209,7 @@ describe CandidateEvent, type: :model do
   describe 'route and candidate associations' do
 
     before(:each) do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       AppFactory.add_confirmation_events
       @candidate = Candidate.find(candidate.id)
       @candidate.save
@@ -225,7 +225,7 @@ describe CandidateEvent, type: :model do
 
   describe 'status' do
     before(:each) do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       event_key = I18n.t('events.sponsor_agreement')
       AppFactory.add_confirmation_event(event_key)
       @candidate = Candidate.find_by_account_name(candidate.account_name)
@@ -290,7 +290,7 @@ describe CandidateEvent, type: :model do
   describe 'mark_completed' do
 
     it 'validated event will be completed and verified.' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       event_key = I18n.t('events.baptismal_certificate')
       AppFactory.add_confirmation_event(event_key)
       candidate = Candidate.find_by_account_name(candidate.account_name)
@@ -312,7 +312,7 @@ describe CandidateEvent, type: :model do
     end
 
     it 'validated event will be uncompleted and unverified.' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       event_key = I18n.t('events.baptismal_certificate')
       AppFactory.add_confirmation_event(event_key)
       candidate = Candidate.find_by_account_name(candidate.account_name)
@@ -334,7 +334,7 @@ describe CandidateEvent, type: :model do
     end
 
     it 'validated event will be uncompleted and unverified.' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       event_key = I18n.t('events.baptismal_certificate')
       AppFactory.add_confirmation_event(event_key)
       candidate = Candidate.find_by_account_name(candidate.account_name)

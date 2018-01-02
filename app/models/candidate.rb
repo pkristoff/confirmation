@@ -153,12 +153,12 @@ class Candidate < ActiveRecord::Base
   end
 
   def build_associations
-    candidate_sheet || create_candidate_sheet
-    baptismal_certificate || create_baptismal_certificate
-    sponsor_covenant || create_sponsor_covenant
-    pick_confirmation_name || create_pick_confirmation_name
-    christian_ministry || create_christian_ministry
-    retreat_verification || create_retreat_verification
+    candidate_sheet || build_candidate_sheet
+    baptismal_certificate || build_baptismal_certificate
+    sponsor_covenant || build_sponsor_covenant
+    pick_confirmation_name || build_pick_confirmation_name
+    christian_ministry || build_christian_ministry
+    retreat_verification || build_retreat_verification
     true
   end
 

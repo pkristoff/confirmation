@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :baptismal_certificate do
     transient do
       skip_address_replacement false
@@ -16,7 +16,7 @@ FactoryGirl.define do
     after(:build) do |baptismal_certificate, evaluator|
       unless evaluator.skip_address_replacement
         # replace baptismal_certificate
-        baptismal_certificate.church_address = FactoryGirl.create(
+        baptismal_certificate.church_address = FactoryBot.create(
             :address,
             street_1: '1313 Magdalene Way',
             street_2: 'Apt. 456',
@@ -25,7 +25,7 @@ FactoryGirl.define do
             zip_code: '27502',
         )
       end
-      baptismal_certificate.scanned_certificate = FactoryGirl.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+      baptismal_certificate.scanned_certificate = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
     end
   end
 end

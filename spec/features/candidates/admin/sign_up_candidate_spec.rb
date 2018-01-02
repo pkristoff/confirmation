@@ -16,7 +16,7 @@ feature 'Sign Up', :devise do
   describe 'Sign in admin' do
 
     before(:each) do
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       signin_admin(admin.email, admin.password)
     end
 

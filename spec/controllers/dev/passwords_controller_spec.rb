@@ -2,7 +2,7 @@ describe Dev::PasswordsController do
 
   describe 'edit' do
     it 'should error if token has expired' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       token = 'xxx'
       candidate.confirmed_at=nil
       candidate.confirmation_token=token
@@ -18,7 +18,7 @@ describe Dev::PasswordsController do
     end
 
     it 'should bring up then the edit password pane if token ok' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       token = candidate.send_reset_password_instructions
       candidate.save
 
@@ -33,7 +33,7 @@ describe Dev::PasswordsController do
 
   describe 'update' do
     it 'should reset password' do
-      candidate = FactoryGirl.create(:candidate, should_confirm: true)
+      candidate = FactoryBot.create(:candidate, should_confirm: true)
       expect(candidate.account_confirmed?).to eq(true)
       token = candidate.send_reset_password_instructions
       candidate.save
@@ -49,7 +49,7 @@ describe Dev::PasswordsController do
     end
 
     it 'should reset password and confirm candidate account' do
-      candidate = FactoryGirl.create(:candidate, should_confirm: false)
+      candidate = FactoryBot.create(:candidate, should_confirm: false)
       expect(candidate.account_confirmed?).to eq(false)
       token = candidate.send_reset_password_instructions
       candidate.save

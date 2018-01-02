@@ -8,10 +8,10 @@ Warden.test_mode!
 feature 'Candidate event', :devise do
 
   before(:each) do
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @candidate = Candidate.find(candidate.id)
-    @admin = FactoryGirl.create(:admin)
+    @admin = FactoryBot.create(:admin)
     login_as(@admin, scope: :admin)
   end
 

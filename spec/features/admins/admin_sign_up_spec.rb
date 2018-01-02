@@ -28,7 +28,7 @@ feature 'Admin sign up', :devise do
   #   When i click sign up
   #   Then I am blocked from creating an admin
   scenario 'only an admin can sign up another admin' do
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     login_as(candidate, :scope => :candidate)
     referer = new_admin_session_path
     Capybara.current_session.driver.header 'Referer', referer
@@ -40,7 +40,7 @@ feature 'Admin sign up', :devise do
   describe 'Sign in admin' do
 
     before(:each) do
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       signin_admin(admin.email, admin.password)
     end
 

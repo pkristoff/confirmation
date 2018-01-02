@@ -5,7 +5,7 @@ describe SendGridMail, type: :model do
   describe 'monthly_reminder testing' do
 
     before(:each) do
-      @admin = FactoryGirl.create(:admin)
+      @admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by_account_name(candidate.account_name)
@@ -77,7 +77,7 @@ describe SendGridMail, type: :model do
   describe 'convert_if_not_production' do
 
     before(:each) do
-      @admin = FactoryGirl.create(:admin)
+      @admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by_account_name(candidate.account_name)

@@ -16,8 +16,8 @@ feature 'Admin delete', :devise do
   #   When I delete my account
   #   Then I should see an account deleted message
   scenario 'admin can delete own account' do
-    admin = FactoryGirl.create(:admin)
-    other = FactoryGirl.create(:admin, email: 'other@test.com', name: 'other')
+    admin = FactoryBot.create(:admin)
+    other = FactoryBot.create(:admin, email: 'other@test.com', name: 'other')
     expect(Admin.all.size).to eq(2)
     login_as(admin, :scope => :admin)
     visit admins_path()

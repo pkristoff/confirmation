@@ -10,7 +10,7 @@ feature 'Admin monthly mass mailing', :devise do
   end
 
   scenario 'admin has to select candidate before sending monthly email' do
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, :scope => :admin)
     visit monthly_mass_mailing_path
 
@@ -41,7 +41,7 @@ feature 'Admin monthly mass mailing', :devise do
     candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
     login_as(admin, :scope => :admin)
@@ -78,7 +78,7 @@ feature 'Admin monthly mass mailing', :devise do
     candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
     login_as(admin, :scope => :admin)
@@ -96,7 +96,7 @@ feature 'Admin monthly mass mailing', :devise do
   end
 
   scenario 'admin has to select candidate before sending test monthly email' do
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, :scope => :admin)
     visit monthly_mass_mailing_path
 
@@ -126,7 +126,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
     login_as(admin, :scope => :admin)
@@ -145,7 +145,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
     login_as(admin, :scope => :admin)

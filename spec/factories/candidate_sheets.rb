@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :candidate_sheet do
     first_name 'Sophia'
     middle_name 'Saraha'

@@ -16,7 +16,7 @@ feature 'Candidate profile page', :devise do
   #   When I visit the candidate profile page
   #   Then I see my own email address
   scenario 'candidate sees own profile' do
-    candidate = FactoryGirl.create(:candidate)
+    candidate = FactoryBot.create(:candidate)
     login_as(candidate, :scope => :candidate)
     visit dev_candidate_path(candidate)
     expect(page).to have_content 'Candidate'
@@ -28,8 +28,8 @@ feature 'Candidate profile page', :devise do
   #   When I visit another candidate's profile
   #   Then I see an 'access denied' message
   scenario "candidate cannot see another candidate's profile" do
-    me = FactoryGirl.create(:candidate)
-    other = FactoryGirl.create(:candidate, account_name: 'other')
+    me = FactoryBot.create(:candidate)
+    other = FactoryBot.create(:candidate, account_name: 'other')
     other.candidate_sheet.parent_email_1 = 'other@example.com'
     login_as(me, :scope => :candidate)
     Capybara.current_session.driver.header 'Referer', dev_candidate_path(me)

@@ -96,7 +96,7 @@ class CandidateSheet < ActiveRecord::Base
   # build address
   #
   def build_associations
-    address || create_address
+    address || build_address
   end
 
   # returns the parent_1's email - used by Factory Girl

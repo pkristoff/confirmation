@@ -2,12 +2,12 @@ describe ExportListsController do
 
   before(:each) do
 
-    c1 = FactoryGirl.create(:candidate, account_name: 'c1')
+    c1 = FactoryBot.create(:candidate, account_name: 'c1')
     c1.candidate_sheet.first_name = 'Paul'
     c1.candidate_sheet.last_name = 'Kristoff'
     c1.sponsor_covenant.sponsor_name = 'George'
     c1.save
-    c2 = FactoryGirl.create(:candidate, account_name: 'c2')
+    c2 = FactoryBot.create(:candidate, account_name: 'c2')
     c2.candidate_sheet.first_name = 'Vicki'
     c2.candidate_sheet.last_name = 'Kristoff'
     c2.sponsor_covenant.sponsor_name = 'Wilma'

@@ -6,8 +6,8 @@ require 'constants'
 feature 'Sign Agreement admin sign in', :devise do
 
   before(:each) do
-    @admin = FactoryGirl.create(:admin)
-    @candidate = FactoryGirl.create(:candidate)
+    @admin = FactoryBot.create(:admin)
+    @candidate = FactoryBot.create(:candidate)
     login_as(@admin, scope: :admin)
 
     @path = sign_agreement_path(@candidate.id)

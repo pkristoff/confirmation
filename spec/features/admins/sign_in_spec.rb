@@ -25,7 +25,7 @@ feature 'Sign in', :devise do
     #   When I sign in with a wrong email
     #   Then I see an invalid email message
     scenario 'admin cannot sign in with wrong email' do
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       signin_admin('invalid@email.com', admin.password)
       expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
     end
@@ -36,7 +36,7 @@ feature 'Sign in', :devise do
     #   When I sign in with a wrong password
     #   Then I see an invalid password message
     scenario 'admin cannot sign in with wrong password' do
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       signin_admin(admin.email, 'invalidpass')
       expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
     end
@@ -46,7 +46,7 @@ feature 'Sign in', :devise do
     #   When I sign in with valid credentials
     #   Then I see a success message
     scenario 'admin can sign in with valid credentials' do
-      FactoryGirl.create(:admin) do |admin|
+      FactoryBot.create(:admin) do |admin|
         signin_admin(admin.email, admin.password)
         expect_message(:flash_notice, I18n.t('devise.sessions.signed_in'))
       end

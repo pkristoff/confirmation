@@ -3,7 +3,7 @@ describe Dev::ConfirmationsController do
   describe 'show' do
 
     it 'should show an error message that the token is invalid' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       token = 'xxx'
       candidate.confirmed_at=nil
       candidate.confirmation_token=token
@@ -18,7 +18,7 @@ describe Dev::ConfirmationsController do
     end
 
     it 'should confirm the candidate and show a message on candidate_confirmation.html.erb' do
-      candidate = FactoryGirl.create(:candidate, should_confirm: false)
+      candidate = FactoryBot.create(:candidate, should_confirm: false)
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
 
@@ -33,7 +33,7 @@ describe Dev::ConfirmationsController do
     end
 
     it 'should fail confirmation because of expired token' do
-      candidate = FactoryGirl.create(:candidate, should_confirm: false)
+      candidate = FactoryBot.create(:candidate, should_confirm: false)
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
 

@@ -109,7 +109,7 @@ class BaptismalCertificate < ActiveRecord::Base
   # build church address
   #
   def build_associations
-    church_address || create_church_address
+    church_address || build_church_address
     # scanned_certificate is built on the fly.
   end
 

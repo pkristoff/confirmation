@@ -15,7 +15,7 @@ feature 'Other', :devise do
   describe 'Import Candidates' do
 
     scenario 'admin can import candidates via excel spreadsheet' do
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       login_as(admin, :scope => :admin)
       visit new_candidate_import_path
       attach_file :candidate_import_file, 'spec/fixtures/Small.xlsx'
@@ -24,14 +24,14 @@ feature 'Other', :devise do
     end
 
     scenario 'candidate cannot import candidates' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       login_as(candidate, :scope => :candidate)
       visit new_candidate_import_path
       expect_message(:flash_alert, I18n.t('devise.failure.unauthenticated'))
     end
 
     scenario 'admin can import candidates via excel spreadsheet' do
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       login_as(admin, :scope => :admin)
       visit new_candidate_import_path
       attach_file :candidate_import_file, 'spec/fixtures/Invalid.xlsx'
@@ -44,10 +44,10 @@ feature 'Other', :devise do
   describe 'Start new year' do
 
     scenario 'admin will start a new year, which will cleanup the DB' do
-      FactoryGirl.create(:candidate)
-      FactoryGirl.create(:candidate, account_name: 'a1')
+      FactoryBot.create(:candidate)
+      FactoryBot.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) #prove there are only 2
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       login_as(admin, :scope => :admin)
       visit new_candidate_import_path
       click_button I18n.t('views.imports.start_new_year')
@@ -66,11 +66,11 @@ feature 'Other', :devise do
   describe 'Reset the Database' do
 
     scenario 'admin can reset the database' do
-      FactoryGirl.create(:candidate)
-      FactoryGirl.create(:candidate, account_name: 'a1')
+      FactoryBot.create(:candidate)
+      FactoryBot.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) #prove there are only 2
-      FactoryGirl.create(:admin)
-      admin = FactoryGirl.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
+      FactoryBot.create(:admin)
+      admin = FactoryBot.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
       login_as(admin, :scope => :admin)
       expect(Admin.all.size).to eq(2) #prove there are only 2
       visit new_candidate_import_path
@@ -88,11 +88,11 @@ feature 'Other', :devise do
     xlsx_filename_zip = 'exported_candidates.zip'
 
     scenario 'admin can export to excel and read it back in.' do
-      FactoryGirl.create(:candidate)
-      FactoryGirl.create(:candidate, account_name: 'a1')
+      FactoryBot.create(:candidate)
+      FactoryBot.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) #prove there are only 2
-      FactoryGirl.create(:admin)
-      admin = FactoryGirl.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
+      FactoryBot.create(:admin)
+      admin = FactoryBot.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
       login_as(admin, :scope => :admin)
       expect(Admin.all.size).to eq(2) #prove there are only 2
       visit new_candidate_import_path
@@ -133,7 +133,7 @@ feature 'Other', :devise do
     scenario 'admin can see if confirmation event is missing' do
       setup_unknown_missing_events
 
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
 
@@ -163,7 +163,7 @@ feature 'Other', :devise do
     scenario 'admin gets message saying no missing events' do
       setup_unknown_missing_events
 
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
 
@@ -180,7 +180,7 @@ feature 'Other', :devise do
     scenario 'admin gets message saying no missing events' do
       setup_unknown_missing_events
 
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
 

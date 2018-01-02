@@ -117,7 +117,7 @@ module ViewsHelpers
   end
 
   def create_candidate(first_name, middle_name, last_name)
-    candidate = FactoryGirl.create(:candidate, account_name: "#{first_name.downcase}#{last_name.downcase}")
+    candidate = FactoryBot.create(:candidate, account_name: "#{first_name.downcase}#{last_name.downcase}")
     candidate.candidate_sheet.first_name = first_name
     candidate.candidate_sheet.middle_name = middle_name
     candidate.candidate_sheet.last_name = last_name

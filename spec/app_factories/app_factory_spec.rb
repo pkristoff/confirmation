@@ -29,7 +29,7 @@ describe AppFactory do
 
     context 'with a CandidateEvent' do
 
-      before(:each) { @confirmation_event = FactoryGirl.create :confirmation_event }
+      before(:each) { @confirmation_event = FactoryBot.create :confirmation_event }
 
       it 'should create an admin with email and name' do
         candidate = AppFactory.create_candidate

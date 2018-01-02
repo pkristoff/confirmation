@@ -3,8 +3,8 @@ describe 'admins/index.html.erb' do
 
   before(:each) do
 
-    @admin1 = FactoryGirl.create(:admin)
-    @admin2 = FactoryGirl.create(:admin, {
+    @admin1 = FactoryBot.create(:admin)
+    @admin2 = FactoryBot.create(:admin, {
         name: 'Other Admin',
         email: 'other@test.com'})
 

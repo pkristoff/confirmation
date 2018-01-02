@@ -6,7 +6,7 @@ require 'constants'
 feature 'Sponsor Agreement candidate', :devise do
 
   before(:each) do
-    @candidate = FactoryGirl.create(:candidate)
+    @candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
     login_as(@candidate, scope: :candidate)
 

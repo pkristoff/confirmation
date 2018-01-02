@@ -13,12 +13,12 @@ feature 'Candidate index page', :devise do
   end
 
   scenario 'admin can get list of candidates' do
-    FactoryGirl.create(:candidate, account_name: 'c1')
-    FactoryGirl.create(:candidate, account_name: 'c3')
-    FactoryGirl.create(:candidate, account_name: 'c2')
-    admin = FactoryGirl.create(:admin)
+    FactoryBot.create(:candidate, account_name: 'c1')
+    FactoryBot.create(:candidate, account_name: 'c3')
+    FactoryBot.create(:candidate, account_name: 'c2')
+    admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
-    # move after FactoryGirl create otherwise the events are not picked up.
+    # move after FactoryBot create otherwise the events are not picked up.
     AppFactory.add_confirmation_events
     c1 = Candidate.find_by_account_name('c1')
     c2 = Candidate.find_by_account_name('c2')

@@ -12,7 +12,7 @@ feature 'Admin events page', :devise do
   end
 
   scenario 'admin list of no events' do
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     visit edit_multiple_confirmation_events_path
 
@@ -21,7 +21,7 @@ feature 'Admin events page', :devise do
 
   scenario 'admin list of 1 events' do
     AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     visit edit_multiple_confirmation_events_path
 
@@ -36,7 +36,7 @@ feature 'Admin events page', :devise do
     info_event.instructions = '<p>CIS instructions</p>'
     info_event.save
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
 
     visit edit_multiple_confirmation_events_path
@@ -44,13 +44,11 @@ feature 'Admin events page', :devise do
     expect_form
 
     within_fieldset I18n.t('events.candidate_covenant_agreement') do
-      expect(page).not_to have_field(I18n.t('label.events.name'))
       expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_the_way_due_date][value='#{Date.today.to_s}']")
       expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_chs_due_date][value='#{Date.today.to_s}']")
       expect(page).to have_field(I18n.t('label.events.instructions'), text: '')
     end
     within_fieldset I18n.t('events.candidate_information_sheet') do
-      expect(page).not_to have_field(I18n.t('label.events.name'))
       expect(page).to have_selector("input[id=confirmation_events_#{info_event.id}_the_way_due_date][value='2016-10-02']")
       expect(page).to have_selector("input[id=confirmation_events_#{info_event.id}_chs_due_date][value='2016-10-29']")
       expect(page).to have_field(I18n.t('label.events.instructions'), text: '<p>CIS instructions</p>')

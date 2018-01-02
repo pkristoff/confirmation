@@ -3,7 +3,7 @@ describe 'admins/registrations/edit.html.erb' do
   before do
 
     @resource_class = Admin
-    @resource = FactoryGirl.create(:admin)
+    @resource = FactoryBot.create(:admin)
 
   end
   it 'Form layout' do

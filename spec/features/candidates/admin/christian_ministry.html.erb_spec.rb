@@ -6,8 +6,8 @@ require 'constants'
 feature 'Christian Ministry admin', :devise do
 
   before(:each) do
-    @admin = FactoryGirl.create(:admin)
-    @candidate = FactoryGirl.create(:candidate)
+    @admin = FactoryBot.create(:admin)
+    @candidate = FactoryBot.create(:candidate)
     login_as(@admin, scope: :admin)
 
     @path = christian_ministry_path(@candidate.id)

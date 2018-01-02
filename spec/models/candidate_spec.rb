@@ -4,7 +4,7 @@ describe Candidate do
   describe 'address' do
 
     it 'can retrieve a candiadate\'s address' do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
       expect(candidate.account_name).to match 'sophiaagusta'
       expect(candidate.candidate_sheet.parent_email_1).to match 'test@example.com'
 
@@ -149,7 +149,7 @@ describe Candidate do
     def setup_candidate(data)
       candidate = Candidate.new
       data.each do | candidate_data |
-        confirmation_event = FactoryGirl.create(
+        confirmation_event = FactoryBot.create(
             :confirmation_event,
             name: candidate_data[:name],
             the_way_due_date: (candidate_data[:the_way_due_date].nil? ? nil : Date.parse(candidate_data[:the_way_due_date])),
@@ -164,7 +164,7 @@ describe Candidate do
 
   describe 'delete associations' do
     it "should delete associations when deleted" do
-      candidate = FactoryGirl.create(:candidate)
+      candidate = FactoryBot.create(:candidate)
 
       expect_event_association(candidate.baptismal_certificate, 1)
       expect_event_association(candidate.candidate_sheet, 1)
@@ -287,19 +287,19 @@ describe Candidate do
 
   describe 'confirm_account' do
     it 'should confirm an unconfirmed account' do
-      candidate = FactoryGirl.create(:candidate, should_confirm: false)
+      candidate = FactoryBot.create(:candidate, should_confirm: false)
       expect(candidate.account_confirmed?).to eq(false)
       candidate.confirm_account
       expect(candidate.account_confirmed?).to eq(true)
     end
     it 'should confirm a confirmed account' do
-      candidate = FactoryGirl.create(:candidate, should_confirm: true)
+      candidate = FactoryBot.create(:candidate, should_confirm: true)
       expect(candidate.account_confirmed?).to eq(true)
       candidate.confirm_account
       expect(candidate.account_confirmed?).to eq(true)
     end
     it 'should confirm a confirmed account that started not confirmed' do
-      candidate = FactoryGirl.create(:candidate, should_confirm: false)
+      candidate = FactoryBot.create(:candidate, should_confirm: false)
       expect(candidate.account_confirmed?).to eq(false)
       candidate.confirm_account
       candidate.confirm_account
@@ -321,7 +321,7 @@ describe Candidate do
   end
 
   def create_candidate(account_name, first, last)
-    candidate = FactoryGirl.create(:candidate, account_name: account_name)
+    candidate = FactoryBot.create(:candidate, account_name: account_name)
     candidate.candidate_sheet.first_name = first
     candidate.candidate_sheet.last_name = last
     candidate.save

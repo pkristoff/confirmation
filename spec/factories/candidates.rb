@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :candidate do
     transient do
       should_confirm true
@@ -16,7 +16,7 @@ FactoryGirl.define do
       candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_the_way')
       # overwrite the already created address
       candidate.candidate_sheet.address.destroy unless candidate.candidate_sheet.address.nil?
-      candidate.candidate_sheet.address = FactoryGirl.create(:address)
+      candidate.candidate_sheet.address = FactoryBot.create(:address)
       if evaluator.add_candidate_events && candidate.candidate_events.size <= 0
         candidate.candidate_events = create_candidate_events
       end
@@ -25,15 +25,15 @@ FactoryGirl.define do
 end
 
 def create_candidate_events
-  confirmation_event_eat = ConfirmationEvent.find_by_name('Going out to eat') || FactoryGirl.create(:confirmation_event)
-  confirmation_event_home = ConfirmationEvent.find_by_name('Staying home') || FactoryGirl.create(:confirmation_event,
+  confirmation_event_eat = ConfirmationEvent.find_by_name('Going out to eat') || FactoryBot.create(:confirmation_event)
+  confirmation_event_home = ConfirmationEvent.find_by_name('Staying home') || FactoryBot.create(:confirmation_event,
                                                                                                  name: 'Staying home',
                                                                                                  the_way_due_date: '2016-04-30',
                                                                                                  chs_due_date: '2016-04-01',
                                                                                                  instructions: '<h3>Do this</h3><ul><li>one</li><li>two</li><li>three</li></ul></h3>')
-  [FactoryGirl.create(:candidate_event,
+  [FactoryBot.create(:candidate_event,
                       confirmation_event: confirmation_event_eat),
-   FactoryGirl.create(:candidate_event,
+   FactoryBot.create(:candidate_event,
                       completed_date: '2016-03-29',
                       verified: false,
                       confirmation_event: confirmation_event_home)

@@ -11,8 +11,8 @@ describe PickConfirmationName, type: :model do
 
     end
 
-    it 'FactoryGirl can retrieve a PickConfirmationName\'s info' do
-      pick_confirmation_name = FactoryGirl.create(:pick_confirmation_name)
+    it 'FactoryBot can retrieve a PickConfirmationName\'s info' do
+      pick_confirmation_name = FactoryBot.create(:pick_confirmation_name)
       expect(pick_confirmation_name.saint_name).to match 'George'
     end
 

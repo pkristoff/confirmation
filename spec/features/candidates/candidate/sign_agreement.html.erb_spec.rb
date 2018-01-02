@@ -6,7 +6,7 @@ require('constants')
 feature 'Sign Agreement candidate login in', :devise do
 
   before(:each) do
-    @candidate = FactoryGirl.create(:candidate)
+    @candidate = FactoryBot.create(:candidate)
     login_as(@candidate, scope: :candidate)
 
     @path = dev_sign_agreement_path(@candidate.id)

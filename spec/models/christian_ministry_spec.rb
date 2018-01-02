@@ -11,8 +11,8 @@ describe ChristianMinistry, type: :model do
 
     end
 
-    it 'FactoryGirl can retrieve a ChristianMinistry\'s info' do
-      christian_ministry = FactoryGirl.create(:christian_ministry)
+    it 'FactoryBot can retrieve a ChristianMinistry\'s info' do
+      christian_ministry = FactoryBot.create(:christian_ministry)
       expect(christian_ministry.what_service).to match 'Helped some helpless people'
 
     end

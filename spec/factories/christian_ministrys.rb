@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :christian_ministry do
     what_service 'Helped some helpless people'
     where_service 'At my house'

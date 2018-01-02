@@ -24,7 +24,7 @@ group :development do
   gem 'spring-commands-rspec'
 end
 group :development, :test do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails'
   gem 'rails_real_favicon'
@@ -39,7 +39,7 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-gem 'pg'
+gem 'pg', '=0.20'
 gem 'rails_12factor', group: :production
 gem 'puma'
 gem 'roo', '~> 2.4.0'

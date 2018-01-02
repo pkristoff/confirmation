@@ -3,7 +3,7 @@ describe 'candidates/show.html.erb' do
 
   before(:each) do
 
-    assign(:candidate, FactoryGirl.create(:candidate))
+    assign(:candidate, FactoryBot.create(:candidate))
 
   end
 

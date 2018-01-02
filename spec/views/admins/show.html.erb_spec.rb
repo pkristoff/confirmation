@@ -3,7 +3,7 @@ describe 'admins/show.html.erb' do
 
   before(:each) do
 
-    assign(:admin, FactoryGirl.create(:admin))
+    assign(:admin, FactoryBot.create(:admin))
 
   end
 

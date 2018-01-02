@@ -16,7 +16,7 @@ feature 'Admin edit', :devise do
   #   When I change my email address
   #   Then I see an account updated message
   scenario 'admin changes email address' do
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, :scope => :admin)
     visit edit_admin_registration_path(admin)
     fill_in I18n.t('views.admins.email'), :with => 'newemail@example.com'
@@ -31,8 +31,8 @@ feature 'Admin edit', :devise do
   #   When I try to edit another admin's profile
   #   Then I see my own 'edit profile' page
   scenario "admin cannot cannot edit another admin's profile", :me do
-    me = FactoryGirl.create(:admin)
-    other = FactoryGirl.create(:admin, name: 'other', email: 'other@example.com')
+    me = FactoryBot.create(:admin)
+    other = FactoryBot.create(:admin, name: 'other', email: 'other@example.com')
     login_as(me, :scope => :admin)
     visit edit_admin_registration_path(other)
     expect(page).to have_content 'Edit Admin'

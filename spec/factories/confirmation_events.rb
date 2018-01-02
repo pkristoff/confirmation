@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :confirmation_event do
     name "Going out to eat"
     the_way_due_date "2016-05-31"

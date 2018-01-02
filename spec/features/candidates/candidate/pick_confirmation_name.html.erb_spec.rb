@@ -6,8 +6,8 @@ require 'constants'
 feature 'Sponsor Covenant candidate', :devise do
 
   before(:each) do
-    @admin = FactoryGirl.create(:admin)
-    @candidate = FactoryGirl.create(:candidate)
+    @admin = FactoryBot.create(:admin)
+    @candidate = FactoryBot.create(:candidate)
     login_as(@admin, scope: :admin)
 
     @path = pick_confirmation_name_path(@candidate.id)

@@ -10,7 +10,7 @@ feature 'Admin monthly mass mailing', :devise do
   end
 
   scenario 'admin has to select candidate' do
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, :scope => :admin)
 
     visit adhoc_mailing_path
@@ -32,7 +32,7 @@ feature 'Admin monthly mass mailing', :devise do
     candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
     login_as(admin, :scope => :admin)
@@ -56,7 +56,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
     login_as(admin, :scope => :admin)
@@ -75,7 +75,7 @@ feature 'Admin monthly mass mailing', :devise do
   end
 
   scenario 'admin has to select candidate for adhoc test' do
-    admin = FactoryGirl.create(:admin)
+    admin = FactoryBot.create(:admin)
     login_as(admin, :scope => :admin)
 
     visit adhoc_mailing_path

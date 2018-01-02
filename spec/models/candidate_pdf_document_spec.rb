@@ -3,7 +3,7 @@ require 'rails_helper'
 describe CandidatePDFDocument, type: :model do
 
   before(:each) do
-    @candidate = FactoryGirl.create(:candidate)
+    @candidate = FactoryBot.create(:candidate)
     File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
       @candidate.baptismal_certificate.scanned_certificate =
           ScannedImage.new(

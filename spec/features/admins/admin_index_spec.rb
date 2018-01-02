@@ -16,8 +16,8 @@ feature 'Admin index page', :devise do
   #   When I visit the admin index page
   #   Then I see my own email address
   scenario 'admin sees own email address' do
-    admin = FactoryGirl.create(:admin)
-    other = FactoryGirl.create(:admin, email: 'other@test.com', name: 'other')
+    admin = FactoryBot.create(:admin)
+    other = FactoryBot.create(:admin, email: 'other@test.com', name: 'other')
     login_as(admin, scope: :admin)
     visit admins_path
 
