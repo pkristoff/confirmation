@@ -24,7 +24,7 @@ describe 'shared/sorting_candidate_selection' do
                                                     route: :mass_edit_candidates_event
                                                     }
 
-      @columns_select = candidate_events_columns
+      @columns_select = candidate_events_columns(@confirmation_event)
       expect_sorting_candidate_list(@columns_select,
                                     @candidates,
                                     rendered,

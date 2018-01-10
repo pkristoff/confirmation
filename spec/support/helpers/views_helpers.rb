@@ -66,7 +66,7 @@ module ViewsHelpers
     expect(rendered).to have_button(submit_button)
   end
 
-  def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, rendered_or_page, confirmation_event=nil)
+  def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, rendered_or_page, confirmation_event = nil)
 
     table_id = "table[id='candidate_list_table']"
     tr_header_id = "tr[id='candidate_list_header']"
@@ -77,7 +77,7 @@ module ViewsHelpers
     column_headers_in_order.each_with_index do |info, index|
       i18n_name = info[0]
       sort_enabled = info[1]
-      th_header_id = "candidate_list_header_th_#{index+1}"
+      th_header_id = "candidate_list_header_th_#{index + 1}"
       basic_th_css = "#{table_id} #{tr_header_id} [id='#{th_header_id}']"
       # expect headers
       if sort_enabled
@@ -182,9 +182,36 @@ module ViewsHelpers
     lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: candidate.account_confirmed?}
   end
 
+  def event_name_to_path (event_name, candidate_id)
+    case event_name
+      when I18n.t('events.candidate_covenant_agreement')
+        sign_agreement_path(candidate_id)
+      when I18n.t('events.candidate_information_sheet')
+        candidate_sheet_path(candidate_id)
+      when I18n.t('events.baptismal_certificate')
+        event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
+      when I18n.t('events.sponsor_covenant')
+        event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+      when I18n.t('events.confirmation_name')
+        pick_confirmation_name_path(candidate_id)
+      when I18n.t('events.sponsor_agreement')
+        sponsor_agreement_path(candidate_id)
+      when I18n.t('events.candidate_covenant_agreement')
+        sign_agreement_path(candidate_id)
+      when I18n.t('events.christian_ministry')
+        christian_ministry_path(candidate_id)
+      when I18n.t('events.retreat_verification')
+        event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
+      when I18n.t('events.parent_meeting')
+        event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by_name(event_name).id}")
+      else
+        "Unknown event_name: #{event_name}"
+    end
+  end
+
   def expect_event(event_name)
     lambda {|candidate, rendered, td_index|
-      expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{candidate.id}'] td[id=tr#{candidate.id}_td#{td_index}]",
+      expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{candidate.id}'] td[id=tr#{candidate.id}_td#{td_index}] a[href='#{event_name_to_path(event_name, candidate.id)}']",
                                    text: candidate.get_candidate_event(event_name).status)
     }
   end
@@ -209,31 +236,53 @@ module ViewsHelpers
     cols
   end
 
-  def candidate_events_columns
-    cols = common_columns
+  def candidate_events_columns(confirmation_event = nil)
+    if confirmation_event.nil?
+      cols = common_columns
+    else
+      cols = common_non_event_columns
+    end
     cols.insert(1,
                 [I18n.t('views.events.completed_date'), true, [:completed_date]],
-                [t('views.events.verified'), true, [:verified]])
+                [I18n.t('views.events.verified'), true, [:verified]])
+    unless confirmation_event.nil?
+      cols.append(
+          [confirmation_event.name, true, '', expect_event(confirmation_event.name)]
+      )
+    end
     cols
   end
 
   def confirmation_events_columns (confirmation_event_name)
-    cols = common_columns
+    cols = common_non_event_columns
     cols.insert(
         1,
         [I18n.t('views.events.completed_date'), true, [:candidate_event, confirmation_event_name, :completed_date]],
         [I18n.t('views.events.verified'), true, [:candidate_event, confirmation_event_name, :verified]]
     )
+    cols.append(
+        [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))]
+    )
     cols
   end
 
   def common_columns
+    columns = common_non_event_columns
+    columns.insert(columns.length-1, [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]])
+    columns.concat common_event_columns
+  end
+
+  def common_non_event_columns
     [
         [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
         [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
         [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-        [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]],
         [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
+    ]
+  end
+
+  def common_event_columns
+    [
         [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
         [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
         [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
