@@ -115,7 +115,7 @@
           <% when t('events.sponsor_covenant') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.sponsor_covenant'), attending)}", event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT) %></td>
           <% when t('events.confirmation_name') %>
-            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.confirmation_name'), attending)}", pick_confirmation_name_path(candidate_id) %></td>
+            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.confirmation_name'), attending)}", pick_confirmation_name_verify_path(candidate_id), id: "pick-#{candidate_id}" %></td>
           <% when t('events.sponsor_agreement') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.sponsor_agreement'), attending)}", sponsor_agreement_path(candidate_id) %></td>
           <% when t('events.christian_ministry') %>

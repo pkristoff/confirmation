@@ -120,6 +120,20 @@ class CommonCandidatesController < ApplicationController
     render :pick_confirmation_name unless render_called
   end
 
+  def pick_confirmation_name_verify
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+  end
+
+  def pick_confirmation_name_verify_update
+    @candidate = Candidate.find(params[:id])
+
+    render_called = event_with_picture_update_private(PickConfirmationName, true)
+
+    @resource = @candidate
+    render :pick_confirmation_name_verify unless render_called
+  end
+
   def sign_agreement
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
@@ -194,21 +208,54 @@ class CommonCandidatesController < ApplicationController
 
   private
 
-  def event_with_picture_update_private(clazz)
+  def event_with_picture_update_private(clazz, admin_verified = false)
     render_called = false
     event_name = clazz.event_name
     if @candidate.update_attributes(candidate_params)
       candidate_event = @candidate.get_candidate_event(event_name)
       candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
       if candidate_event.save
-        render_called = false
         # @resource = @candidate
-        flash['notice'] = I18n.t('messages.updated')
+        if admin_verified
+          render_called = admin_verified_private(candidate_event, event_name)
+        else
+          flash['notice'] = I18n.t('messages.updated')
+        end
       else
         flash['alert'] = "Save of #{event_name} failed"
       end
     else
       flash['alert'] = 'Update_attributes fails'
+    end
+    render_called
+  end
+
+  # attempts to set verify on CandidateEvent and render
+  # mass_edit_candidates_event
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate_event</tt> CandidateEvent
+  # * <tt>:event_name</tt> ConfirmationEvent name
+  #
+  # === Return:
+  #
+  # Boolean:  whether render was called
+  #
+  def admin_verified_private(candidate_event, event_name)
+    render_called = false
+    if @candidate.errors.any?
+      flash['notice'] = I18n.t('messages.updated_not_verified')
+    else
+      candidate_event.verified = true
+      if candidate_event.save
+        flash['notice'] = I18n.t('messages.updated_verified')
+        render_called = true
+        set_candidates(confirmation_event: candidate_event.confirmation_event)
+        render(:'admins/mass_edit_candidates_event')
+      else
+        flash['alert'] = "Save of #{event_name} failed"
+      end
     end
     render_called
   end

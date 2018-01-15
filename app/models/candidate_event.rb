@@ -256,23 +256,23 @@ class CandidateEvent < ActiveRecord::Base
     # TODO: maybe move to constants
     case name
       when I18n.t('events.baptismal_certificate')
-        :baptismal_certificate
+        Event::Route::BAPTISMAL_CERTIFICATE
       when I18n.t('events.candidate_covenant_agreement')
-        :candidate_covenant_agreement
+        Event::Other::CANDIDATE_COVENANT_AGREEMENT
       when I18n.t('events.candidate_information_sheet')
-        :candidate_information_sheet
+        Event::Other::CANDIDATE_INFORMATION_SHEET
       when I18n.t('events.christian_ministry')
-        :christian_ministry
+        Event::Route::CHRISTIAN_MINISTRY
       when I18n.t('events.confirmation_name')
-        :confirmation_name
+        Event::Route::CONFIRMATION_NAME
       when I18n.t('events.parent_meeting')
-        :parent_meeting
+        Event::Other::PARENT_INFORMATION_MEETING
       when I18n.t('events.sponsor_agreement')
-        :sponsor_agreement
+        Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
       when I18n.t('events.sponsor_covenant')
-        :sponsor_covenant
+        Event::Route::SPONSOR_COVENANT
       when I18n.t('events.retreat_verification')
-        :retreat_verification
+        Event::Route::RETREAT_VERIFICATION
       else
         raise "Unknown event to route: #{name}"
     end

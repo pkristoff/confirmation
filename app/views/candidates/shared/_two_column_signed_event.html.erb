@@ -12,7 +12,9 @@
   <div id="left-col" class="left_col">
 
     <%= render partial: "candidates/shared/#{shared_html_file}",
-               :locals => {path: path
+               :locals => {path: path,
+                           update_name: (path.include? '_verify') ? t('views.common.update_verify') : t('views.common.update'),
+                           id_postfix: (path.include? '_verify') ? '-verify' : ''
                } %>
 
 
@@ -22,7 +24,7 @@
                 id: "insturction-toggle",
                 onclick: 'confirmation_toggle().instructions(event)',
                 title: t('views.title.instruction_link') do %>
-        <span id="insturction-toggle-span" class="glyphicon glyphicon-minus"></span>
+      <span id="insturction-toggle-span" class="glyphicon glyphicon-minus"></span>
     <% end %>
     <div id="instructions" class="show-div" %>
       <%= sanitize(candidate_event.confirmation_event.instructions) unless candidate_event.nil? %>

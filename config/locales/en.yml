@@ -190,6 +190,8 @@ en:
     unknown_parameter_commit: 'Unknown Parameter value: %{commit} params: %{params}'
     update_candidate_event: Updated CandidateEvent! for candidates.
     updated: Updated
+    updated_not_verified: Updated and not Verified
+    updated_verified: Updated and Verified
   model:
     candidate:
       attending_catholic_high_school: Catholic High School
@@ -239,6 +241,7 @@ en:
       status: Status
       update: Update
       update_candidates_event: Update event for candidates
+      update_verify: Update & Verify
     events:
       chs_due_date: Catholic High School Due date
       completed_date: Completed date

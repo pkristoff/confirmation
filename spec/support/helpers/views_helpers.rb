@@ -66,56 +66,6 @@ module ViewsHelpers
     expect(rendered).to have_button(submit_button)
   end
 
-  def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, rendered_or_page, confirmation_event = nil)
-
-    table_id = "table[id='candidate_list_table']"
-    tr_header_id = "tr[id='candidate_list_header']"
-
-    expect(rendered_or_page).to have_css("#{table_id}")
-    expect(rendered_or_page).to have_css("#{table_id} #{tr_header_id}")
-
-    column_headers_in_order.each_with_index do |info, index|
-      i18n_name = info[0]
-      sort_enabled = info[1]
-      th_header_id = "candidate_list_header_th_#{index + 1}"
-      basic_th_css = "#{table_id} #{tr_header_id} [id='#{th_header_id}']"
-      # expect headers
-      if sort_enabled
-        expect(rendered_or_page).to have_css basic_th_css, text: i18n_name
-      else
-        expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false#{i18n_name === I18n.t('views.nav.edit') ? ' edit_column_header' : ''}']" unless i18n_name === I18n.t('label.candidate_event.select')
-        expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false select_column_header'] input[id='select_all_none_input']" if i18n_name === I18n.t('label.candidate_event.select')
-      end
-    end
-    expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size #  checkbox
-    #expect table cells
-    candidates_in_order.each_with_index do |candidate, tr_index|
-      tr_id = "tr[id='candidate_list_tr_#{candidate.id}']"
-      column_headers_in_order.each_with_index do |info, td_index|
-        td_index_adj = td_index
-        td_id = "td[id=tr#{candidate.id}_td#{td_index_adj}]"
-        text = nil
-        cell_access_path = info[2]
-        cell_expect_function = info[3]
-        if cell_access_path.empty?
-          cell_expect_function.call(candidate, rendered_or_page, td_index_adj)
-        elsif confirmation_event && (cell_access_path[0] === :completed_date or cell_access_path[0] === :verified)
-          text = candidate.get_candidate_event(confirmation_event.name).method(cell_access_path[0]).call
-          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: text
-        elsif cell_access_path[0] === :candidate_event
-          candidate_event = candidate.get_candidate_event(cell_access_path[1])
-          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: candidate_event.method(cell_access_path[2]).call
-        else
-          text = candidate.method(cell_access_path[0]).call if cell_access_path.size === 1
-          text = candidate.method(cell_access_path[0]).call.method(cell_access_path[1]).call if cell_access_path.size === 2
-          expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: text
-        end
-      end
-      expect(rendered_or_page).to have_css "#{table_id} #{tr_id} td", count: column_headers_in_order.size #  checkbox
-    end
-    expect(rendered_or_page).to have_css "#{table_id} tr", count: candidates_in_order.size + 1
-  end
-
   def create_candidate(first_name, middle_name, last_name)
     candidate = FactoryBot.create(:candidate, account_name: "#{first_name.downcase}#{last_name.downcase}")
     candidate.candidate_sheet.first_name = first_name
@@ -182,116 +132,11 @@ module ViewsHelpers
     lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: candidate.account_confirmed?}
   end
 
-  def event_name_to_path (event_name, candidate_id)
-    case event_name
-      when I18n.t('events.candidate_covenant_agreement')
-        sign_agreement_path(candidate_id)
-      when I18n.t('events.candidate_information_sheet')
-        candidate_sheet_path(candidate_id)
-      when I18n.t('events.baptismal_certificate')
-        event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
-      when I18n.t('events.sponsor_covenant')
-        event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
-      when I18n.t('events.confirmation_name')
-        pick_confirmation_name_path(candidate_id)
-      when I18n.t('events.sponsor_agreement')
-        sponsor_agreement_path(candidate_id)
-      when I18n.t('events.candidate_covenant_agreement')
-        sign_agreement_path(candidate_id)
-      when I18n.t('events.christian_ministry')
-        christian_ministry_path(candidate_id)
-      when I18n.t('events.retreat_verification')
-        event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
-      when I18n.t('events.parent_meeting')
-        event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by_name(event_name).id}")
-      else
-        "Unknown event_name: #{event_name}"
-    end
-  end
-
-  def expect_event(event_name)
-    lambda {|candidate, rendered, td_index|
-      expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{candidate.id}'] td[id=tr#{candidate.id}_td#{td_index}] a[href='#{event_name_to_path(event_name, candidate.id)}']",
-                                   text: candidate.get_candidate_event(event_name).status)
-    }
-  end
-
-  def expect_select_checkbox
-    lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}] input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]"}
-  end
-
   def setup_unknown_missing_events
     AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
       i18n_confirmation_name = I18n.t(i18n_name)
       AppFactory.add_confirmation_event(i18n_confirmation_name) unless i18n_name == 'events.sponsor_covenant'
     end
     AppFactory.add_confirmation_event('unknown event')
-  end
-
-  def candidates_columns
-    cols = common_columns
-    cols.insert(1, [I18n.t('views.nav.edit'), false, '', lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id='tr#{candidate.id}_td#{td_index}']"}])
-    cols << [I18n.t('views.candidates.account_confirmed'), true, '', expect_account_confirmed]
-    cols << [I18n.t('views.candidates.password_changed'), true, '', expect_password_changed]
-    cols
-  end
-
-  def candidate_events_columns(confirmation_event = nil)
-    if confirmation_event.nil?
-      cols = common_columns
-    else
-      cols = common_non_event_columns
-    end
-    cols.insert(1,
-                [I18n.t('views.events.completed_date'), true, [:completed_date]],
-                [I18n.t('views.events.verified'), true, [:verified]])
-    unless confirmation_event.nil?
-      cols.append(
-          [confirmation_event.name, true, '', expect_event(confirmation_event.name)]
-      )
-    end
-    cols
-  end
-
-  def confirmation_events_columns (confirmation_event_name)
-    cols = common_non_event_columns
-    cols.insert(
-        1,
-        [I18n.t('views.events.completed_date'), true, [:candidate_event, confirmation_event_name, :completed_date]],
-        [I18n.t('views.events.verified'), true, [:candidate_event, confirmation_event_name, :verified]]
-    )
-    cols.append(
-        [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))]
-    )
-    cols
-  end
-
-  def common_columns
-    columns = common_non_event_columns
-    columns.insert(columns.length-1, [I18n.t('label.candidate_sheet.grade'), true, [:candidate_sheet, :grade]])
-    columns.concat common_event_columns
-  end
-
-  def common_non_event_columns
-    [
-        [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
-        [I18n.t('label.candidate_sheet.last_name'), true, [:candidate_sheet, :last_name]],
-        [I18n.t('label.candidate_sheet.first_name'), true, [:candidate_sheet, :first_name]],
-        [I18n.t('label.candidate_sheet.attending'), true, [:candidate_sheet, :attending]],
-    ]
-  end
-
-  def common_event_columns
-    [
-        [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
-        [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
-        [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
-        [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
-        [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
-        [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
-        [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))],
-        [I18n.t('events.retreat_verification'), true, '', expect_event(I18n.t('events.retreat_verification'))],
-        [I18n.t('events.parent_meeting'), true, '', expect_event(I18n.t('events.parent_meeting'))]
-    ]
   end
 end

@@ -99,6 +99,9 @@ Rails.application.routes.draw do
     get 'pick_confirmation_name.:id', to: 'candidates#pick_confirmation_name', as: 'pick_confirmation_name'
     put 'pick_confirmation_name.:id', to: 'candidates#pick_confirmation_name_update', as: 'pick_confirmation_name_update'
 
+    get 'pick_confirmation_name_verify.:id', to: 'candidates#pick_confirmation_name_verify', as: 'pick_confirmation_name_verify'
+    put 'pick_confirmation_name_verify.:id', to: 'candidates#pick_confirmation_name_verify_update', as: 'pick_confirmation_name_verify_update'
+
     # event_with_picture
 
     get 'dev/event_with_picture/:id/:event_name', to: 'dev/candidates#event_with_picture', as: 'dev_event_with_picture'
