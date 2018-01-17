@@ -120,20 +120,6 @@ class CommonCandidatesController < ApplicationController
     render :pick_confirmation_name unless render_called
   end
 
-  def pick_confirmation_name_verify
-    @candidate = Candidate.find(params[:id])
-    @resource = @candidate
-  end
-
-  def pick_confirmation_name_verify_update
-    @candidate = Candidate.find(params[:id])
-
-    render_called = event_with_picture_update_private(PickConfirmationName, true)
-
-    @resource = @candidate
-    render :pick_confirmation_name_verify unless render_called
-  end
-
   def sign_agreement
     @candidate = Candidate.find(params[:id])
     @resource = @candidate

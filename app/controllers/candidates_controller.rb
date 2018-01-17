@@ -53,6 +53,31 @@ class CandidatesController < CommonCandidatesController
     end
   end
 
+  def christian_ministry_verify
+    @candidate = Candidate.find(params[:id])
+  end
+
+  def christian_ministry_verify_update
+    @candidate = Candidate.find(params[:id])
+
+    render_called = event_with_picture_update_private(ChristianMinistry, true)
+
+    render :christian_ministry_verify unless render_called
+
+  end
+
+  def pick_confirmation_name_verify
+    @candidate = Candidate.find(params[:id])
+  end
+
+  def pick_confirmation_name_verify_update
+    @candidate = Candidate.find(params[:id])
+
+    render_called = event_with_picture_update_private(PickConfirmationName, true)
+
+    render :pick_confirmation_name_verify unless render_called
+  end
+
   protected
 
   def resource_class

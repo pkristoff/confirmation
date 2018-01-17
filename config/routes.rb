@@ -77,6 +77,9 @@ Rails.application.routes.draw do
     get 'christian_ministry.:id', to: 'candidates#christian_ministry', as: 'christian_ministry'
     put 'christian_ministry.:id', to: 'candidates#christian_ministry_update', as: 'christian_ministry_update'
 
+    get 'christian_ministry_verify.:id', to: 'candidates#christian_ministry_verify', as: 'christian_ministry_verify'
+    put 'christian_ministry_verify.:id', to: 'candidates#christian_ministry_verify_update', as: 'christian_ministry_verify_update'
+
     # candidate sheet
 
     get 'dev/candidate_sheet.:id', to: 'dev/candidates#candidate_sheet', as: 'dev_candidate_sheet'

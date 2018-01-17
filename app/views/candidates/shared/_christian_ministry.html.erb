@@ -1,7 +1,7 @@
 <%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
 
     <div class="actions">
-      <%= f.submit t('views.common.update'), id: 'top-update' %>
+      <%= f.submit update_name, id: "top-update#{id_postfix}" %>
     </div>
     <%= f.fields_for :christian_ministry do |cm_fields| %>
 
@@ -26,7 +26,7 @@
     <% end %>
 
     <div class="actions">
-      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+      <%= f.submit update_name, id: "bottom-update#{id_postfix}" %>
     </div>
 
 <% end %>

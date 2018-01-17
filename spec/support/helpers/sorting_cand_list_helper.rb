@@ -23,7 +23,7 @@ module SortingCandListHelpers
     end
     expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size #  checkbox
     #expect table cells
-    candidates_in_order.each_with_index do |candidate, tr_index|
+    candidates_in_order.each do |candidate|
       tr_id = "tr[id='candidate_list_tr_#{candidate.id}']"
       column_headers_in_order.each_with_index do |info, td_index|
         td_index_adj = td_index
@@ -157,7 +157,7 @@ module SortingCandListHelpers
       when I18n.t('events.candidate_covenant_agreement')
         sign_agreement_path(candidate_id)
       when I18n.t('events.christian_ministry')
-        christian_ministry_path(candidate_id)
+        christian_ministry_verify_path(candidate_id)
       when I18n.t('events.retreat_verification')
         event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
       when I18n.t('events.parent_meeting')
@@ -265,8 +265,8 @@ module SortingCandListHelpers
         page,
         confirmation_event)
 
-    expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(Date.today) unless updated_message.nil?
-    expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).verified).to eq(true) unless updated_message.nil?
+    expect(candidate.get_candidate_event(confirmation_event.name).completed_date).to eq(Date.today) unless updated_message.nil?
+    expect(candidate.get_candidate_event(confirmation_event.name).verified).to eq(true) unless updated_message.nil?
   end
 
   def expect_pick_confirmation_name_form(candidate, path_str, dev, update_id, values = {})
@@ -286,9 +286,32 @@ module SortingCandListHelpers
 
     expect_field(I18n.t('label.confirmation_name.saint_name'), with_values ? saint_name : '')
 
-    expect(page).to have_button(@update_id)
+    expect(page).to have_button(update_id)
     expect_download_button(Event::Document::CONFIRMATION_NAME)
   end
+
+  def expect_christian_ministry_form(candidate, path_str, dev, update_id, values = {})
+
+    puts page.html
+
+    with_values = !(values[:what_service].nil? || values[:what_service].empty?)
+    with_values = with_values || !(values[:where_service].nil? || values[:where_service].empty?)
+    with_values = with_values || !(values[:when_service].nil? || values[:when_service].empty?)
+    with_values = with_values || !(values[:helped_me].nil? || values[:helped_me].empty?)
+
+    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev}#{path_str}.#{candidate.id}\"]")
+
+    expect_field(I18n.t('label.christian_ministry.what_service'), with_values ? values[:what_service] : '')
+    expect_field(I18n.t('label.christian_ministry.where_service'), with_values ? values[:where_service] : '')
+    expect_field(I18n.t('label.christian_ministry.when_service'), with_values ? values[:when_service] : '')
+    expect_field(I18n.t('label.christian_ministry.helped_me'), with_values ? values[:helped_me] : '')
+
+    expect(page).to have_button(update_id)
+    expect_download_button(Event::Document::CHRISTIAN_MINISTRY)
+  end
+
 private
   def expect_field (label, value)
     if value.nil? or value === ''

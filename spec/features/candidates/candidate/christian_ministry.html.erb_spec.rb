@@ -11,6 +11,10 @@ feature 'Christian Ministry  candidate', :devise do
     login_as(@admin, scope: :admin)
 
     @path = christian_ministry_path(@candidate.id)
+    @path_str = 'christian_ministry'
+    @update_id = 'top-update'
+    @updated_message = I18n.t('messages.updated')
+    @updated_failed_verification = I18n.t('messages.updated')
     @is_dev = true
   end
 

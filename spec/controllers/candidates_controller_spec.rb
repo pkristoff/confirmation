@@ -80,6 +80,173 @@ describe CandidatesController do
 
   end
 
+  describe 'pick_confirmation_name_verify' do
+
+    before(:each) do
+      c1 = create_candidate('c1')
+      @c1_id = c1.id
+      AppFactory.add_confirmation_event(I18n.t('events.confirmation_name'))
+    end
+
+    it 'should set @candidate' do
+
+      get :pick_confirmation_name_verify, id: @c1_id
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/pick_confirmation_name_verify')
+      expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
+    end
+
+    it 'should stay on pick_confirmation_name_verify, since it should not pass validation' do
+
+      put :pick_confirmation_name_verify_update,
+          id: @c1_id, candidate: {candidate_ids: []}
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/pick_confirmation_name_verify')
+      expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
+      expect(cand_event.completed_date).to eq(nil)
+      expect(cand_event.verified).to eq(false)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified' do
+
+      completed_date = Date.today-20
+      cand = Candidate.find(@c1_id)
+      cand.pick_confirmation_name.saint_name = 'george'
+      cand.save
+
+      cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
+      cand_event.completed_date = completed_date
+      cand.save
+
+      put :pick_confirmation_name_verify_update,
+          id: @c1_id, candidate: {candidate_ids: []}
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+      expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
+      expect(cand_event.completed_date).to eq(completed_date)
+      expect(cand_event.verified).to eq(true)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+
+      put :pick_confirmation_name_verify_update,
+          id: @c1_id,
+          candidate: {pick_confirmation_name_attributes: {saint_name: 'foo'}}
+
+      cand = Candidate.find(@c1_id)
+      expect(cand.pick_confirmation_name.saint_name).to eq('foo')
+
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+      expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}?candidate%5Bpick_confirmation_name_attributes%5D%5Bsaint_name%5D=foo")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
+      expect(cand_event.completed_date).to eq(Date.today)
+      expect(cand_event.verified).to eq(true)
+    end
+
+  end
+
+  describe 'christian_ministry_verify' do
+
+    before(:each) do
+      c1 = create_candidate('c1')
+      @c1_id = c1.id
+      AppFactory.add_confirmation_event(I18n.t('events.christian_ministry'))
+    end
+
+    it 'should set @candidate' do
+
+      get :christian_ministry_verify, id: @c1_id
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/christian_ministry_verify')
+      expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
+    end
+
+    it 'should stay on christian_ministry_verify, since it should not pass validation' do
+
+      put :christian_ministry_verify_update,
+          id: @c1_id, candidate: {candidate_ids: []}
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/christian_ministry_verify')
+      expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      expect(cand_event.completed_date).to eq(nil)
+      expect(cand_event.verified).to eq(false)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified' do
+
+      completed_date = Date.today-20
+      cand = Candidate.find(@c1_id)
+      cand.christian_ministry.what_service = 'xxx'
+      cand.christian_ministry.where_service = 'yyy'
+      cand.christian_ministry.when_service = 'zzz'
+      cand.christian_ministry.helped_me = 'eee'
+      cand.save
+
+      cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      cand_event.completed_date = completed_date
+      cand.save
+
+      put :christian_ministry_verify_update,
+          id: @c1_id, candidate: {candidate_ids: []}
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+      expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      expect(cand_event.completed_date).to eq(completed_date)
+      expect(cand_event.verified).to eq(true)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+
+      put :christian_ministry_verify_update,
+          id: @c1_id,
+          candidate: {christian_ministry_attributes:
+                          {what_service: 'ccc',
+                           where_service: 'bbb',
+                           when_service: 'aaa',
+                           helped_me: 'qqq'
+                          }
+          }
+
+      cand = Candidate.find(@c1_id)
+      expect(cand.christian_ministry.what_service).to eq('ccc')
+      expect(cand.christian_ministry.where_service).to eq('bbb')
+      expect(cand.christian_ministry.when_service).to eq('aaa')
+      expect(cand.christian_ministry.helped_me).to eq('qqq')
+
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+
+      expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}?candidate%5Bchristian_ministry_attributes%5D%5Bhelped_me%5D=qqq&candidate%5Bchristian_ministry_attributes%5D%5Bwhat_service%5D=ccc&candidate%5Bchristian_ministry_attributes%5D%5Bwhen_service%5D=aaa&candidate%5Bchristian_ministry_attributes%5D%5Bwhere_service%5D=bbb")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      expect(cand_event.completed_date).to eq(Date.today)
+      expect(cand_event.verified).to eq(true)
+    end
+
+  end
+
   describe 'behaves like' do
     before(:each) do
       @candidate = FactoryBot.create(:candidate)
