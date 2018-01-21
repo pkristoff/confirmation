@@ -2,7 +2,34 @@ require 'constants'
 
 class CommonCandidatesController < ApplicationController
 
+  attr_accessor :resource # for testing
+
+  def event_with_picture_verify
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+    event_name = params[:event_name]
+    render_event_with_picture(false, event_name, true)
+  end
+
+  def event_with_picture_verify_update
+    @is_verify = true
+    event_with_picture_update
+  end
+
+  def event_with_picture
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+    event_name = params[:event_name]
+    render_event_with_picture(false, event_name)
+  end
+
   def event_with_picture_update
+    if @is_verify.nil?
+    is_verify = false
+    else
+      is_verify = @is_verify
+    end
+
     render_called = false
     candidate_id = params[:id]
     event_name = params[:event_name]
@@ -16,7 +43,7 @@ class CommonCandidatesController < ApplicationController
           setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, :scanned_covenant_attributes, sponsor_covenant_params)
           setup_file_params(sponsor_covenant_params[:sponsor_eligibility_picture], sponsor_covenant, :scanned_eligibility_attributes, sponsor_covenant_params)
 
-          render_called = event_with_picture_update_private(SponsorCovenant)
+          render_called = event_with_picture_update_private(SponsorCovenant, is_verify)
 
         when Event::Route::BAPTISMAL_CERTIFICATE
           baptized_at_stmm = params[:candidate]['baptized_at_stmm'] == '1'
@@ -26,14 +53,14 @@ class CommonCandidatesController < ApplicationController
             setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, baptismal_certificate_params)
           end
 
-          render_called = event_with_picture_update_private(BaptismalCertificate)
+          render_called = event_with_picture_update_private(BaptismalCertificate, is_verify)
 
         when Event::Route::RETREAT_VERIFICATION
           retreat_verification = @candidate.retreat_verification
           retreat_verification_params = params[:candidate][:retreat_verification_attributes]
           setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, :scanned_retreat_attributes, retreat_verification_params)
 
-          render_called = event_with_picture_update_private(RetreatVerification)
+          render_called = event_with_picture_update_private(RetreatVerification, is_verify)
         else
           flash[:alert] = "Unknown event_name: #{event_name}"
       end
@@ -41,7 +68,7 @@ class CommonCandidatesController < ApplicationController
       flash[:alert] = I18n.t('messages.unknown_parameter', name: 'candidate')
     end
     @resource = @candidate
-    render_event_with_picture(render_called, event_name)
+    render_event_with_picture(render_called, event_name, is_verify)
 
   end
 
@@ -179,13 +206,6 @@ class CommonCandidatesController < ApplicationController
     render :sponsor_agreement
   end
 
-  def event_with_picture
-    @candidate = Candidate.find(params[:id])
-    @resource = @candidate
-    event_name = params[:event_name]
-    render_event_with_picture(false, event_name)
-  end
-
   def upload_sponsor_eligibility_image
     @candidate = Candidate.find(params[:id])
     scanned_image = @candidate.sponsor_covenant.scanned_eligibility
@@ -197,6 +217,7 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture_update_private(clazz, admin_verified = false)
     render_called = false
     event_name = clazz.event_name
+
     if @candidate.update_attributes(candidate_params)
       candidate_event = @candidate.get_candidate_event(event_name)
       candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
@@ -246,14 +267,15 @@ class CommonCandidatesController < ApplicationController
     render_called
   end
 
-  def render_event_with_picture(render_called, event_name)
+  def render_event_with_picture(render_called, event_name, is_verify=false)
     unless render_called
       @event_with_picture_name = event_name
       @is_dev = !is_admin?
 
       @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
       flash[:alert] = "Internal Error: unknown event: #{event_name}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?
-      render :event_with_picture
+      render :event_with_picture unless is_verify
+      render :event_with_picture_verify if is_verify
     end
   end
 

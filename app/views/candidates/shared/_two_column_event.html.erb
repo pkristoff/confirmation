@@ -16,10 +16,13 @@
 
     <%= render partial: "candidates/shared/#{event_with_picture_name}",
                :locals => {is_dev: is_dev,
+                           is_verify: is_verify,
                            candidate: candidate,
                            event_association: event_association,
                            candidate_event: candidate_event,
-                           download_doc: download_doc
+                           download_doc: download_doc,
+                           update_name: is_verify ? t('views.common.update_verify') : t('views.common.update'),
+                           id_postfix: is_verify ? '-verify' : ''
                } %>
 
 

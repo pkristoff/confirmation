@@ -113,6 +113,9 @@ Rails.application.routes.draw do
     get 'event_with_picture/:id/:event_name', to: 'candidates#event_with_picture', as: 'event_with_picture'
     put 'event_with_picture/:id/:event_name', to: 'candidates#event_with_picture_update', as: 'event_with_picture_update'
 
+    get 'event_with_picture_verify/:id/:event_name', to: 'candidates#event_with_picture_verify', as: 'event_with_picture_verify'
+    put 'event_with_picture_verify/:id/:event_name', to: 'candidates#event_with_picture_verify_update', as: 'event_with_picture_verify_update'
+
     get 'dev/show_event_with_picture.:id', to: 'dev/candidates#show_event_with_picture', as: 'dev_show_event_with_picture'
     get 'dev/event_with_picture_image/:id/:event_name', to: 'dev/candidates#event_with_picture_image', as: 'dev_event_with_picture_image'
 

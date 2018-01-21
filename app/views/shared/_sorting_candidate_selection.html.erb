@@ -111,9 +111,9 @@
           <% when t('events.candidate_information_sheet') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.candidate_information_sheet'), attending)}", candidate_sheet_path(candidate_id) %></td>
           <% when t('events.baptismal_certificate') %>
-            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.baptismal_certificate'), attending)}", event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE) %></td>
+            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.baptismal_certificate'), attending)}", event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE) %></td>
           <% when t('events.sponsor_covenant') %>
-            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.sponsor_covenant'), attending)}", event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT) %></td>
+            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.sponsor_covenant'), attending)}", event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT) %></td>
           <% when t('events.confirmation_name') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.confirmation_name'), attending)}", pick_confirmation_name_verify_path(candidate_id), id: "pick-#{candidate_id}" %></td>
           <% when t('events.sponsor_agreement') %>
@@ -121,7 +121,7 @@
           <% when t('events.christian_ministry') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.christian_ministry'), attending)}", christian_ministry_verify_path(candidate_id), id: "cma-#{candidate_id}"  %></td>
           <% when t('events.retreat_verification') %>
-            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.retreat_verification'), attending)}", event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION) %></td>
+            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.retreat_verification'), attending)}", event_with_picture_verify_path(candidate_id, Event::Route::RETREAT_VERIFICATION) %></td>
           <% when t('events.parent_meeting') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.parent_meeting'), attending)}", event_candidate_path(candidate_id, anchor: "event_id_#{candidate_info.conf_event_id(candidate_id, t('events.parent_meeting'))}") %></td>
           <% else %>

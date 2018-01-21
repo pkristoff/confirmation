@@ -147,9 +147,9 @@ module SortingCandListHelpers
       when I18n.t('events.candidate_information_sheet')
         candidate_sheet_path(candidate_id)
       when I18n.t('events.baptismal_certificate')
-        event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
+        event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
       when I18n.t('events.sponsor_covenant')
-        event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+        event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT)
       when I18n.t('events.confirmation_name')
         pick_confirmation_name_verify_path(candidate_id)
       when I18n.t('events.sponsor_agreement')
@@ -159,7 +159,7 @@ module SortingCandListHelpers
       when I18n.t('events.christian_ministry')
         christian_ministry_verify_path(candidate_id)
       when I18n.t('events.retreat_verification')
-        event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
+        event_with_picture_verify_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
       when I18n.t('events.parent_meeting')
         event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by_name(event_name).id}")
       else
@@ -291,8 +291,6 @@ module SortingCandListHelpers
   end
 
   def expect_christian_ministry_form(candidate, path_str, dev, update_id, values = {})
-
-    puts page.html
 
     with_values = !(values[:what_service].nil? || values[:what_service].empty?)
     with_values = with_values || !(values[:where_service].nil? || values[:where_service].empty?)

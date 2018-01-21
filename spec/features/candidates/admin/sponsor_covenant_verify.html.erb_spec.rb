@@ -3,7 +3,7 @@ Warden.test_mode!
 
 require 'constants'
 
-feature 'Baptismal Certificate admin', :devise do
+feature 'Sponsor Covenant admin verify', :devise do
 
   before(:each) do
     @is_dev = false
@@ -19,6 +19,6 @@ feature 'Baptismal Certificate admin', :devise do
     Warden.test_reset!
   end
 
-  it_behaves_like 'baptismal_certificate_html_erb'
+  it_behaves_like 'sponsor_covenant_html_erb'
 
 end

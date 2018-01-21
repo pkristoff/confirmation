@@ -1,10 +1,10 @@
 <% require 'constants' %>
 
-<%= form_for(candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(candidate.id, @event_with_picture_name) : event_with_picture_update_path(candidate.id, @event_with_picture_name), html: {method: :put}) do |f| %>
+<%= form_for(candidate, as: :candidate, url: is_dev ? dev_event_with_picture_update_path(candidate.id, @event_with_picture_name) : (is_verify ? event_with_picture_verify_update_path(candidate.id, @event_with_picture_name) : event_with_picture_update_path(candidate.id, @event_with_picture_name)), html: {method: :put}) do |f| %>
 
-    <div class="actions">
-      <%= f.submit t('views.common.update'), id: 'top-update' %>
-    </div>
+  <div class="actions">
+    <%= f.submit update_name, id: "top-update#{id_postfix}" %>
+  </div>
     <br/>
     <div class="field">
       <%= f.check_box :baptized_at_stmm, onclick: 'confirmation_toggle().toggle_top(\'#baptismal-certificate-top\')' %>
@@ -130,8 +130,8 @@
       <% end %>
     </div>
 
-    <div class="actions">
-      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
-    </div>
+  <div class="actions">
+    <%= f.submit update_name, id: "bottom-update#{id_postfix}" %>
+  </div>
 
 <% end %>

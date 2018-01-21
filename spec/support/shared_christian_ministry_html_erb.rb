@@ -162,14 +162,14 @@ shared_context 'christian_ministry_html_erb' do
     end
   end
 
-  def fill_in_form()
+  def fill_in_form
     fill_in(I18n.t('label.christian_ministry.what_service'), with: WHAT_SERVICE)
     fill_in(I18n.t('label.christian_ministry.where_service'), with: WHERE_SERVICE)
     fill_in(I18n.t('label.christian_ministry.when_service'), with: WHEN_SERVICE)
     fill_in(I18n.t('label.christian_ministry.helped_me'), with: HELPED_ME)
   end
 
-  def get_img_src_selector
+  def img_src_selector
     "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/christian_ministry\"]"
   end
 

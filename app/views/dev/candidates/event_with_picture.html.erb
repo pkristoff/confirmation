@@ -1,5 +1,6 @@
 <%= render partial: 'candidates/shared/two_column_event',
            :locals => {is_dev: @is_dev,
+                       is_verify: false,
                        candidate: @candidate,
                        candidate_event: @candidate_event,
                        event_association: @candidate.get_event_association(@event_with_picture_name),

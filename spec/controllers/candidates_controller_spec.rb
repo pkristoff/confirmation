@@ -29,8 +29,8 @@ describe CandidatesController do
     expect(response.status).to eq(200)
     # order not important js will do it
     expect(controller.candidate_info.size).to eq(3)
-    [c1,c2,c3].each_with_index do |candidate, index|
-      expect(controller.candidate_info[index].id ).to eq(candidate.id)
+    [c1, c2, c3].each_with_index do |candidate, index|
+      expect(controller.candidate_info[index].id).to eq(candidate.id)
     end
   end
 
@@ -43,8 +43,8 @@ describe CandidatesController do
     expect(response.status).to eq(200)
     # order not important js will do it
     expect(controller.candidate_info.size).to eq(3)
-    [c1,c2,c3].each_with_index do |candidate, index|
-      expect(controller.candidate_info[index].id ).to eq(candidate.id)
+    [c1, c2, c3].each_with_index do |candidate, index|
+      expect(controller.candidate_info[index].id).to eq(candidate.id)
     end
   end
 
@@ -115,7 +115,7 @@ describe CandidatesController do
 
     it 'should goes back to mass_edit_candidates_event, updating verified' do
 
-      completed_date = Date.today-20
+      completed_date = Date.today - 20
       cand = Candidate.find(@c1_id)
       cand.pick_confirmation_name.saint_name = 'george'
       cand.save
@@ -157,6 +157,127 @@ describe CandidatesController do
 
   end
 
+  describe 'event_with_picture_verify' do
+
+    before(:each) do
+      c1 = create_candidate('c1')
+      @c1_id = c1.id
+      AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
+      AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
+      AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
+    end
+
+    [
+        ['baptismal_certificate',
+         lambda do |candidate|
+           candidate.baptized_at_stmm = true
+         end,
+         lambda do |candidate|
+           {
+               baptized_at_stmm: 1,
+               id: candidate.id
+           }
+         end
+        ],
+        ['retreat_verification',
+         lambda do |candidate|
+           candidate.retreat_verification.retreat_held_at_stmm = true
+         end,
+         lambda do |candidate|
+           {
+               retreat_verification_attributes: {
+                   retreat_held_at_stmm: candidate.retreat_verification.retreat_held_at_stmm,
+                   id: candidate.retreat_verification.id
+               }
+           }
+         end
+        ],
+        ['sponsor_covenant', lambda do |candidate|
+          candidate.sponsor_covenant.sponsor_name = 'mmm'
+          candidate.sponsor_covenant.sponsor_attends_stmm = true
+          File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
+            candidate.sponsor_covenant.scanned_covenant =
+                candidate.sponsor_covenant.build_scanned_covenant(
+                    filename: 'Baptismal Certificate.pdf',
+                    content_type: 'application/pdf',
+                    content: f.read
+                )
+          end
+          # candidate.sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'WWW')
+        end,
+         lambda do |candidate|
+           {
+               sponsor_covenant_attributes: {
+                   sponsor_name: candidate.sponsor_covenant.sponsor_name,
+                   sponsor_attends_stmm: candidate.sponsor_covenant.sponsor_attends_stmm,
+                   id: candidate.sponsor_covenant.id
+               }
+           }
+         end
+        ]
+    ].each do |event_info|
+
+      event_name_key = event_info[0]
+      valid_setter = event_info[1]
+      generate_cand_parms = event_info[2]
+
+      it "should set @candidate: #{event_name_key}" do
+
+        get :event_with_picture_verify, id: @c1_id, event_name: event_name_key
+
+        cand = Candidate.find(@c1_id)
+        expect(controller.candidate).to eq(cand)
+        expect(response).to render_template('candidates/event_with_picture_verify')
+        expect(@request.fullpath).to eq("/event_with_picture_verify/#{cand.id}/#{event_name_key}")
+      end
+
+
+      it "should stay on event_with_picture_verify, since it should not pass validation: #{event_name_key}" do
+
+        put :event_with_picture_verify_update, id: @c1_id, event_name: event_name_key
+
+        cand = Candidate.find(@c1_id)
+        expect(controller.candidate).to eq(cand)
+        expect(response).to render_template('candidates/event_with_picture_verify')
+        expect(@request.fullpath).to eq("/event_with_picture_verify/#{cand.id}/#{event_name_key}")
+
+        cand_event = cand.get_candidate_event(I18n.t("events.#{event_name_key}"))
+        expect(cand_event.completed_date).to eq(nil)
+        expect(cand_event.verified).to eq(false)
+      end
+
+      it "should goes back to mass_edit_candidates_event, updating verified: #{event_name_key}" do
+
+        completed_date = Date.today - 20
+        cand = Candidate.find(@c1_id)
+        valid_setter.call(cand)
+        cand.save
+
+        cand_event = cand.get_candidate_event(I18n.t("events.#{event_name_key}"))
+        cand_event.completed_date = completed_date
+        cand.save
+
+        cand_parms = generate_cand_parms.call(cand)
+
+
+        put :event_with_picture_verify_update, id: @c1_id, event_name: event_name_key,
+            candidate: cand_parms
+
+        cand = Candidate.find(@c1_id)
+        expect(controller.candidate).to eq(cand)
+        expect(response).to render_template('admins/mass_edit_candidates_event')
+        expect(@request.fullpath).to include("/event_with_picture_verify/#{cand.id}/#{event_name_key}")
+
+        cand_event = cand.get_candidate_event(I18n.t("events.#{event_name_key}"))
+        expect(cand_event.completed_date).to eq(completed_date)
+        expect(cand_event.verified).to eq(true)
+      end
+
+    end
+
+  end
+
+
   describe 'christian_ministry_verify' do
 
     before(:each) do
@@ -192,7 +313,7 @@ describe CandidatesController do
 
     it 'should goes back to mass_edit_candidates_event, updating verified' do
 
-      completed_date = Date.today-20
+      completed_date = Date.today - 20
       cand = Candidate.find(@c1_id)
       cand.christian_ministry.what_service = 'xxx'
       cand.christian_ministry.where_service = 'yyy'
