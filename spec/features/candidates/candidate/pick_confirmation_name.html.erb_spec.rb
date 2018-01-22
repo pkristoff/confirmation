@@ -13,8 +13,9 @@ feature 'Pick confirmation name', :devise do
     @path = pick_confirmation_name_path(@candidate.id)
     @path_str = 'pick_confirmation_name'
     @update_id = 'top-update'
-    @updated_message = I18n.t('messages.updated')
-    @updated_failed_verification = I18n.t('messages.updated')
+    cand_name = 'Sophia Agusta'
+    @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+    @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
     @is_dev = true
   end
 

@@ -90,7 +90,7 @@ shared_context 'baptismal_certificate' do
         }
 
     expect(response.status).to eq(200)
-    expect(flash[:notice]).to eq(I18n.t('messages.updated'))
+    expect(flash[:notice]).to eq(I18n.t('messages.updated', cand_name: 'Sophia Agusta'))
   end
 
   def get_valid_parameters

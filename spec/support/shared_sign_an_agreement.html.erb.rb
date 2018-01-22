@@ -28,7 +28,7 @@ shared_context 'sign_an_agreement_html_erb' do
     check(@field_name)
     click_button('bottom-update')
 
-    expect_message(:flash_notice, I18n.t('messages.updated'))
+    expect_message(:flash_notice, I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"))
     expect(page).to have_selector('h2', text: @event_name)
   end
 
@@ -42,7 +42,7 @@ shared_context 'sign_an_agreement_html_erb' do
     uncheck(@field_name)
     click_button('bottom-update')
 
-    expect_message(:flash_notice, I18n.t('messages.updated'))
+    expect_message(:flash_notice, I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"))
     expect(page).to have_selector('h2', text: @event_name)
   end
 

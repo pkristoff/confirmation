@@ -189,9 +189,9 @@ en:
     unknown_parameter: 'Unknown Parameter: %{name}'
     unknown_parameter_commit: 'Unknown Parameter value: %{commit} params: %{params}'
     update_candidate_event: Updated CandidateEvent! for candidates.
-    updated: Updated
-    updated_not_verified: Updated and not Verified
-    updated_verified: Updated and Verified
+    updated: Updated for %{cand_name}
+    updated_not_verified: Updated and not Verified for %{cand_name}
+    updated_verified: Updated and Verified for %{cand_name}
   model:
     candidate:
       attending_catholic_high_school: Catholic High School

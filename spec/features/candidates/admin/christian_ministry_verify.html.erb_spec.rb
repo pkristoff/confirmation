@@ -13,8 +13,9 @@ feature 'Christian Ministry verify admin', :devise do
     @path = christian_ministry_verify_path(@candidate.id)
     @path_str = 'christian_ministry_verify'
     @update_id = 'top-update-verify'
-    @updated_message = I18n.t('messages.updated_verified')
-    @updated_failed_verification = I18n.t('messages.updated_not_verified')
+    cand_name = 'Sophia Agusta'
+    @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+    @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
     @is_dev = false
   end
 

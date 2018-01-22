@@ -8,7 +8,8 @@ shared_context 'pick_confirmation_name_html_erb' do
   before(:each) do
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by_account_name(@candidate.account_name)
-    @admin_verified = @updated_message === I18n.t('messages.updated_verified')
+    cand_name = 'Sophia Agusta'
+    @admin_verified = @updated_message === I18n.t('messages.updated_verified', cand_name: cand_name)
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do

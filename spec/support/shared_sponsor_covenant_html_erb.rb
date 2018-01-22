@@ -3,7 +3,7 @@ SPONSOR_CHURCH = 'St. George'
 
 SPONSOR_COVENANT_EVENT = I18n.t('events.sponsor_covenant')
 
-UPDATED_MESSAGE = I18n.t('messages.updated')
+UPDATED_MESSAGE = I18n.t('messages.updated', cand_name: 'Sophia Agusta')
 
 ATTENDS_STMM_LABEL = I18n.t('label.sponsor_covenant.sponsor_attends_stmm')
 COVENANT_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_covenant_picture')
@@ -108,7 +108,7 @@ shared_context 'sponsor_covenant_html_erb' do
     click_button @update_id
 
     candidate_db_update = Candidate.find(@candidate.id)
-    expect_sponsor_covenant_form(candidate_db_update.id, @dev, @path_str, expect_messages: [[:flash_notice, UPDATED_MESSAGE]])
+    expect_sponsor_covenant_form(candidate_db_update.id, @dev, @path_str, expect_messages: [[:flash_notice, @updated_message]])
     expect(candidate_db_update.sponsor_covenant).not_to eq(nil)
     expect(candidate_db_update.sponsor_covenant.sponsor_attends_stmm).to eq(false)
     expect(candidate_db_update.sponsor_covenant.scanned_eligibility.filename).to eq('Baptismal Certificate.png')

@@ -12,7 +12,8 @@ shared_context 'christian_ministry_html_erb' do
   before(:each) do
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by_account_name(@candidate.account_name)
-    @admin_verified = @updated_message === I18n.t('messages.updated_verified')
+    cand_name = 'Sophia Agusta'
+    @admin_verified = @updated_message === I18n.t('messages.updated_verified', cand_name: cand_name)
 
   end
 
@@ -70,7 +71,7 @@ shared_context 'christian_ministry_html_erb' do
     fill_in_form
     click_button @update_id
 
-    expect_message(:flash_notice, I18n.t('messages.updated'))
+    expect_message(:flash_notice, @updated_message)
     candidate = Candidate.find(@candidate.id)
 
 

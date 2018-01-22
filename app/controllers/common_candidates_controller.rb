@@ -186,7 +186,7 @@ class CommonCandidatesController < ApplicationController
     if candidate.update_attributes(candidate_params)
       @candidate = Candidate.find(params[:id])
       @resource = @candidate
-      flash['notice'] = I18n.t('messages.updated')
+      flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
       false
     else
       redirect_to :back, alert: I18n.t('messages.save_failed')
@@ -226,7 +226,7 @@ class CommonCandidatesController < ApplicationController
         if admin_verified
           render_called = admin_verified_private(candidate_event, event_name)
         else
-          flash['notice'] = I18n.t('messages.updated')
+          flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
         end
       else
         flash['alert'] = "Save of #{event_name} failed"
@@ -251,12 +251,13 @@ class CommonCandidatesController < ApplicationController
   #
   def admin_verified_private(candidate_event, event_name)
     render_called = false
+    cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
     if @candidate.errors.any?
-      flash['notice'] = I18n.t('messages.updated_not_verified')
+      flash['notice'] = I18n.t('messages.updated_not_verified', cand_name: cand_name)
     else
       candidate_event.verified = true
       if candidate_event.save
-        flash['notice'] = I18n.t('messages.updated_verified')
+        flash['notice'] = I18n.t('messages.updated_verified', cand_name: cand_name)
         render_called = true
         set_candidates(confirmation_event: candidate_event.confirmation_event)
         render(:'admins/mass_edit_candidates_event')
