@@ -53,6 +53,19 @@ class CandidatesController < CommonCandidatesController
     end
   end
 
+  def candidate_sheet_verify
+    @candidate = Candidate.find(params[:id])
+  end
+
+  def candidate_sheet_verify_update
+    @candidate = Candidate.find(params[:id])
+
+    render_called = event_with_picture_update_private(CandidateSheet, true)
+
+    render :candidate_sheet_verify unless render_called
+
+  end
+
   def christian_ministry_verify
     @candidate = Candidate.find(params[:id])
   end

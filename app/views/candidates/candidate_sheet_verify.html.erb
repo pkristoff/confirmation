@@ -1,7 +1,7 @@
 <%= render partial: 'candidates/shared/candidate_sheet',
-           :locals => {path: candidate_sheet_update_path(@candidate.id),
+           :locals => {path: candidate_sheet_verify_update_path(@candidate.id),
                        event_association: @candidate.candidate_sheet,
                        candidate_event: @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet')),
-                       update_name: I18n.t('views.common.update'),
-                       id_postfix: ''
+                       update_name: I18n.t('views.common.update_verify'),
+                       id_postfix: '-verify'
            } %>

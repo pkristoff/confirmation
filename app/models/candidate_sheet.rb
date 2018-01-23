@@ -7,7 +7,6 @@ class CandidateSheet < ActiveRecord::Base
 
   after_initialize :build_associations, :if => :new_record?
 
-  validate :validate_emails
   validates_presence_of(:first_name, :last_name)
 
   # Validate if event is complete by adding validation errors to active record
@@ -23,6 +22,7 @@ class CandidateSheet < ActiveRecord::Base
   def validate_event_complete(options={})
     event_complete_validator = EventCompleteValidator.new(self)
     event_complete_validator.validate(CandidateSheet.get_basic_validation_params)
+    validate_emails
     event_complete = !errors.any?
     address.validate_event_complete
     address.errors.full_messages.each do |msg|
@@ -141,7 +141,7 @@ class CandidateSheet < ActiveRecord::Base
 
   # Validate if email addrresses are either nil or a valid email syntax.
   #
-  def validate_emails()
+  def validate_emails
     unless candidate_email.nil? or candidate_email.empty?
       errors.add(:candidate_email, "is an invalid email: #{candidate_email}") unless validate_email(candidate_email)
     end

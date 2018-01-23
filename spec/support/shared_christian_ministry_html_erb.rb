@@ -71,7 +71,6 @@ shared_context 'christian_ministry_html_erb' do
     fill_in_form
     click_button @update_id
 
-    expect_message(:flash_notice, @updated_message)
     candidate = Candidate.find(@candidate.id)
 
 

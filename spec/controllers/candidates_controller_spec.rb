@@ -52,17 +52,17 @@ describe CandidatesController do
     candidate = FactoryBot.create(:candidate, account_name: prefix)
     case prefix
       when 'c1'
-        candidate.candidate_sheet.first_name = "c2first_name"
+        candidate.candidate_sheet.first_name = 'c2first_name'
         candidate.candidate_sheet.middle_name = 'c1middle_name'
-        candidate.candidate_sheet.last_name = "c3last_name"
+        candidate.candidate_sheet.last_name = 'c3last_name'
       when 'c2'
-        candidate.candidate_sheet.first_name = "c3first_name"
+        candidate.candidate_sheet.first_name = 'c3first_name'
         candidate.candidate_sheet.middle_name = 'c2middle_name'
-        candidate.candidate_sheet.last_name = "c1last_name"
+        candidate.candidate_sheet.last_name = 'c1last_name'
       when 'c3'
-        candidate.candidate_sheet.first_name = "c1first_name"
+        candidate.candidate_sheet.first_name = 'c1first_name'
         candidate.candidate_sheet.middle_name = 'c3middle_name'
-        candidate.candidate_sheet.last_name = "c2last_name"
+        candidate.candidate_sheet.last_name = 'c2last_name'
     end
     candidate.save
     candidate
@@ -362,6 +362,109 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}?candidate%5Bchristian_ministry_attributes%5D%5Bhelped_me%5D=qqq&candidate%5Bchristian_ministry_attributes%5D%5Bwhat_service%5D=ccc&candidate%5Bchristian_ministry_attributes%5D%5Bwhen_service%5D=aaa&candidate%5Bchristian_ministry_attributes%5D%5Bwhere_service%5D=bbb")
 
       cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      expect(cand_event.completed_date).to eq(Date.today)
+      expect(cand_event.verified).to eq(true)
+    end
+
+  end
+
+
+  describe 'candidate_sheet_verify' do
+
+    before(:each) do
+      c0 = candidate = FactoryBot.create(:candidate)
+      @c0_id = c0.id
+      AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
+    end
+
+    it 'should set @candidate' do
+
+      get :candidate_sheet_verify, id: @c0_id
+
+      cand = Candidate.find(@c0_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/candidate_sheet_verify')
+      expect(@request.fullpath).to eq("/candidate_sheet_verify.#{cand.id}")
+    end
+
+    it 'should stay on christian_ministry_verify, since it should not pass validation' do
+
+      cand = Candidate.find(@c0_id)
+      cand.candidate_sheet.candidate_email = 'm'
+      cand.save(validate: false)
+
+      put :candidate_sheet_verify_update,
+          id: @c0_id, candidate: {candidate_ids: []}
+
+      cand = Candidate.find(@c0_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/candidate_sheet_verify')
+      expect(@request.fullpath).to eq("/candidate_sheet_verify.#{cand.id}")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+      expect(cand_event.completed_date).to eq(nil)
+      expect(cand_event.verified).to eq(false)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified' do
+
+      completed_date = Date.today - 20
+      cand = Candidate.find(@c0_id)
+      cand.candidate_sheet.candidate_email = 'foo@kristoffs.com'
+      cand.save
+
+      cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+      cand_event.completed_date = completed_date
+      cand.save
+
+      put :candidate_sheet_verify_update,
+          id: @c0_id, candidate: {candidate_ids: []}
+
+      cand = Candidate.find(@c0_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+      expect(@request.fullpath).to eq("/candidate_sheet_verify.#{cand.id}")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+      expect(cand_event.completed_date).to eq(completed_date)
+      expect(cand_event.verified).to eq(true)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+
+      cand = Candidate.find(@c0_id)
+      cand.candidate_sheet.candidate_email = 'm'
+      cand.save(validate: false)
+
+      put :candidate_sheet_verify_update,
+          id: @c0_id,
+          candidate: {candidate_sheet_attributes:
+
+                          {first_name: 'Paul',
+                           middle_name: 'Richard',
+                           last_name: 'Foo',
+                           grade: 10,
+                           candidate_email: 'foo@bar.com',
+                           parent_email_1: 'baz@bar.com',
+                           attending: 'The Way',
+                           address_attributes: {
+                               street_1: 'the way way',
+                               city: 'wayville',
+                               state: 'WA',
+                               zip_code: '27502'
+                           }
+                          }
+          }
+
+      cand = Candidate.find(@c0_id)
+      expect(cand.candidate_sheet.candidate_email).to eq('foo@bar.com')
+
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+
+      expect(@request.fullpath.include?("/candidate_sheet_verify.#{cand.id}")).to eq(true)
+
+      cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
       expect(cand_event.completed_date).to eq(Date.today)
       expect(cand_event.verified).to eq(true)
     end

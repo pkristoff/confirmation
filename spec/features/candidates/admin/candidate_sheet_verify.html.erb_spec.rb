@@ -8,15 +8,14 @@ feature 'Candidate sheet admin', :devise do
     @candidate = FactoryBot.create(:candidate)
     login_as(@admin, scope: :admin)
 
-    @path = candidate_sheet_path(@candidate.id)
+    @path = candidate_sheet_verify_path(@candidate.id)
     @dev = ''
-
-    @admin_verified = false
-    @path_str = 'candidate_sheet'
-    @update_id = 'top-update'
+    @admin_verified = true
+    @path_str = 'candidate_sheet_verify'
+    @update_id = 'top-update-verify'
     cand_name = 'Sophia Agusta'
-    @updated_message = I18n.t('messages.updated', cand_name: cand_name)
-    @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+    @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
   end
 
   after(:each) do

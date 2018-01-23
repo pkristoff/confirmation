@@ -10,9 +10,9 @@
 
     <%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
 
-        <div class="actions">
-          <%= f.submit t('views.common.update'), id: 'top-update' %>
-        </div>
+      <div class="actions">
+        <%= f.submit update_name, id: "top-update#{id_postfix}" %>
+      </div>
 
         <%= f.fields_for :candidate_sheet do |cs_fields| %>
             <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
@@ -90,9 +90,9 @@
             <% end %>
         <% end %>
 
-        <div class="actions">
-          <%= f.submit t('views.common.update'), id: 'bottom-update' %>
-        </div>
+      <div class="actions">
+        <%= f.submit update_name, id: "bottom-update#{id_postfix}" %>
+      </div>
 
     <% end %>
 

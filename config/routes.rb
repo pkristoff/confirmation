@@ -88,6 +88,9 @@ Rails.application.routes.draw do
     get 'candidate_sheet.:id', to: 'candidates#candidate_sheet', as: 'candidate_sheet'
     put 'candidate_sheet.:id', to: 'candidates#candidate_sheet_update', as: 'candidate_sheet_update'
 
+    get 'candidate_sheet_verify.:id', to: 'candidates#candidate_sheet_verify', as: 'candidate_sheet_verify'
+    put 'candidate_sheet_verify.:id', to: 'candidates#candidate_sheet_verify_update', as: 'candidate_sheet_verify_update'
+
     # Baptismal Certificate
 
     # Sponsor covenant

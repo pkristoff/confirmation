@@ -9,6 +9,13 @@ feature 'Candidate sheet candidate', :devise do
 
     @path = dev_candidate_sheet_path(@candidate.id)
     @dev = 'dev/'
+
+    @admin_verified = false
+    @path_str = 'candidate_sheet'
+    @update_id = 'top-update'
+    cand_name = 'Sophia Agusta'
+    @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+    @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
   end
 
   after(:each) do

@@ -145,7 +145,7 @@ module SortingCandListHelpers
       when I18n.t('events.candidate_covenant_agreement')
         sign_agreement_path(candidate_id)
       when I18n.t('events.candidate_information_sheet')
-        candidate_sheet_path(candidate_id)
+        candidate_sheet_verify_path(candidate_id)
       when I18n.t('events.baptismal_certificate')
         event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
       when I18n.t('events.sponsor_covenant')
