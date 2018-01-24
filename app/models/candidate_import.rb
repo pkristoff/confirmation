@@ -380,8 +380,8 @@ class CandidateImport
   # Finds all the Address's that have been orphaned.
   def orphaned_addresses
     ids(Address).select do |ar_id|
-      ids(BaptismalCertificate).map{|bc_info| bc_info[1]}.select {|church_address_id| church_address_id === ar_id}.empty? &&
-          ids(CandidateSheet).map{|bc_info| bc_info[1]}.select {|address_id| address_id === ar_id}.empty?
+      ids(BaptismalCertificate).map {|bc_info| bc_info[1]}.select {|church_address_id| church_address_id === ar_id}.empty? &&
+          ids(CandidateSheet).map {|bc_info| bc_info[1]}.select {|address_id| address_id === ar_id}.empty?
     end
   end
 
@@ -1055,12 +1055,16 @@ class CandidateImport
   # Boolean:
   #
   def validate_and_save_import
-    if imported_candidates.map(&:valid?).all?
+    if imported_candidates.map do |cand|
+      cand.valid?
+      cand.candidate_sheet.validate_emails #no longer part of save
+      !cand.errors.any?
+    end.all?
       imported_candidates.each(&:save!)
       true
     else
       imported_candidates.each do |candidateImport|
-        candidateImport.errors.full_messages.each do |message|
+        candidateImport.candidate_sheet.errors.full_messages.each do |message|
           errors.add :base, "Row #{@candidate_to_row[candidateImport]}: #{message}"
         end
       end

@@ -36,7 +36,8 @@ feature 'Other', :devise do
       visit new_candidate_import_path
       attach_file :candidate_import_file, 'spec/fixtures/Invalid.xlsx'
       click_button 'Import'
-      expect_message(:error_explanation, '4 errors prohibited this import from completing: Row 2: Candidate sheet last name can\'t be blank Row 3: Candidate sheet first name can\'t be blank Row 5: Candidate sheet parent email 1 is an invalid email: @nc.rr.com Row 5: Candidate sheet parent email 2 is an invalid email: rannunz')
+
+      expect_message(:error_explanation, '4 errors prohibited this import from completing: Row 2: Last name can\'t be blank Row 3: First name can\'t be blank Row 5: Parent email 1 is an invalid email: @nc.rr.com Row 5: Parent email 2 is an invalid email: rannunz')
     end
 
   end

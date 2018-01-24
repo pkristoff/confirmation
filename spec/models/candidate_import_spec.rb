@@ -64,10 +64,10 @@ describe CandidateImport do
       candidate_import = CandidateImport.new
       expect(candidate_import.load_initial_file(uploaded_file)).to eq(false)
       error_messages = [
-          'Row 2: Candidate sheet last name can\'t be blank',
-          'Row 3: Candidate sheet first name can\'t be blank',
-          'Row 5: Candidate sheet parent email 1 is an invalid email: @nc.rr.com',
-          'Row 5: Candidate sheet parent email 2 is an invalid email: rannunz'
+          'Row 2: Last name can\'t be blank',
+          'Row 3: First name can\'t be blank',
+          'Row 5: Parent email 1 is an invalid email: @nc.rr.com',
+          'Row 5: Parent email 2 is an invalid email: rannunz'
       ]
       candidate_import.errors.each_with_index do |candidate, index|
         expect(candidate[1]).to eq(error_messages[index])
