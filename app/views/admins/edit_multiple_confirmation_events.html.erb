@@ -1,44 +1,49 @@
-<h2 ><%= t('views.nav.events') %></h2 >
+<h2><%= t('views.nav.events') %></h2>
 
 <%= form_tag update_multiple_confirmation_events_path method: :put do %>
-    <% @confirmation_events.each do |confirmation_event| %>
-        <%= fields_for "confirmation_events[]", confirmation_event do |f| %>
+  <% @confirmation_events.each do |confirmation_event| %>
+    <%= fields_for "confirmation_events[]", confirmation_event do |f| %>
 
-            <%= field_set_tag confirmation_event.name, class: 'fieldset' do %>
+      <%= field_set_tag confirmation_event.name, class: 'fieldset' do %>
 
-                <div class = "field" >
-                  <%= f.label :the_way_due_date, t('label.events.the_way_due_date') %><br />
-                  <%= f.date_field :the_way_due_date %>
-                </div >
+        <div id="two_column">
+          <div id="left-col" class="left_col field-inst">
+            <%= f.label :the_way_due_date, t('label.events.the_way_due_date') %>
+            <%= f.date_field :the_way_due_date %>
+          </div>
 
-                <div class = "field" >
-                  <%= f.label :chs_due_date, t('label.events.chs_due_date') %><br />
-                  <%= f.date_field :chs_due_date %>
-                </div >
+          <div id="right-col" class="right_col field-inst">
+            <%= f.label :chs_due_date, t('label.events.chs_due_date') %>
+            <%= f.date_field :chs_due_date %>
+          </div>
+        </div>
 
-                <div class = "field" >
-                  <%= f.label :instructions, t('label.events.instructions') %><br />
-                  <%= f.text_area :instructions, :class => "tinymce_#{confirmation_event.id}", :rows => 20, :cols => 120 %>
-                </div >
+        <% inst_area_id = "instruction-area-#{confirmation_event.id}" %>
+        <div class="field-inst">
+          <%= f.label :instructions, t('label.events.instructions'), onclick: "confirmation_toggle().instructionText('##{inst_area_id}')" %>
+          <span id='<%= inst_area_id %>' class="hide-div">
+            <%= f.text_area :instructions, class: "tinymce_#{confirmation_event.id}", rows: 20, cols: 120 %>
+          </span>
+        </div>
 
-                <div class = "actions" >
-                  <%= f.submit t('views.common.update'), {id: "update-#{confirmation_event.id}"} %>
-                  <%= f.submit t('views.common.update_candidates_event'), {name: "update[#{confirmation_event.id}]", id: "candidates-#{confirmation_event.id}"} %>
-                </div >
+        <div class="actions">
+          <%= f.submit t('views.common.update'), {id: "update-#{confirmation_event.id}"} %>
+          <%= f.submit t('views.common.update_candidates_event'), {name: "update[#{confirmation_event.id}]", id: "candidates-#{confirmation_event.id}"} %>
+        </div>
 
-            <% end %>
-        <% end %>
-
+      <% end %>
     <% end %>
+
+  <% end %>
 <% end %>
 
-<script type = "text/javascript" >
-  <% @confirmation_events.each do |confirmation_event| %>
-  tinyMCE.init({
-    selector: "textarea.tinymce_<%= confirmation_event.id %>",
-    toolbar: ["insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"],
-    plugins: "advlist,autolink,lists,link,image,charmap,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,contextmenu,paste,code"
+<script type="text/javascript">
+    <% @confirmation_events.each do |confirmation_event| %>
+    tinyMCE.init({
+        selector: "textarea.tinymce_<%= confirmation_event.id %>",
+        toolbar:  ["insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"],
+        plugins:  "advlist,autolink,lists,link,image,charmap,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,contextmenu,paste,code"
 
-  });
-  <% end %>
-</script >
+    });
+    <% end %>
+</script>
