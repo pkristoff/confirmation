@@ -25,7 +25,7 @@ class CommonCandidatesController < ApplicationController
 
   def event_with_picture_update
     if @is_verify.nil?
-    is_verify = false
+      is_verify = false
     else
       is_verify = @is_verify
     end
@@ -148,27 +148,41 @@ class CommonCandidatesController < ApplicationController
   end
 
   def sign_agreement
+    @is_verify = false
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
   end
 
   def sign_agreement_update
-    rendered_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement')
+    @candidate = Candidate.find(params[:id])
+    @is_verify = false
+    rendered_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'))
     unless rendered_called
-      @candidate = Candidate.find(params[:id])
+      # @candidate = Candidate.find(params[:id])
       @resource = @candidate
       render :sign_agreement
     end
   end
 
-  def agreement_update_private(event_name, signed_param_name)
-    candidate = Candidate.find(params[:id])
-    candidate_event = candidate.get_candidate_event(event_name)
+  def sign_agreement_verify
+    @is_verify = true
+    @candidate = Candidate.find(params[:id])
+  end
+
+  def sign_agreement_verify_update
+    @candidate = Candidate.find(params[:id])
+    @is_verify = true
+    render_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'), true)
+    render :sign_agreement_verify unless render_called
+  end
+
+  def agreement_update_private(event_name, signed_param_name, field_name, admin_verified = false)
+    candidate_event = @candidate.get_candidate_event(event_name)
     if params['candidate']
       # TODO move logic to association instance.
       if params['candidate'][signed_param_name] === '1'
-        candidate_event.completed_date = Date.today
-        candidate_event.verified = true
+        candidate_event.completed_date = Date.today if candidate_event.completed_date.nil?
+        candidate_event.verified = true unless candidate_event.verified
       else
         if params['candidate'][signed_param_name] === '0'
           candidate_event.completed_date = nil
@@ -182,12 +196,20 @@ class CommonCandidatesController < ApplicationController
       redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: 'candidate')
       return false
     end
-
-    if candidate.update_attributes(candidate_params)
-      @candidate = Candidate.find(params[:id])
-      @resource = @candidate
-      flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
-      false
+    render_called = false
+    if @candidate.update_attributes(candidate_params)
+      # Make up a validation error
+      @candidate.errors.add :base, I18n.t('messages.signed_agreement_val', field_name: field_name) if candidate_event.completed_date.nil?
+      if candidate_event.save
+        if admin_verified
+          render_called = admin_verified_private(candidate_event, event_name)
+        else
+          flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
+        end
+      else
+        flash['alert'] = "Save of #{event_name} failed"
+      end
+      render_called
     else
       redirect_to :back, alert: I18n.t('messages.save_failed')
       true
@@ -200,8 +222,8 @@ class CommonCandidatesController < ApplicationController
   end
 
   def sponsor_agreement_update
-    agreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement')
     @candidate = Candidate.find(params[:id])
+    agreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement', I18n.t('label.sponsor_agreement.sponsor_agreement'))
     @resource = @candidate
     render :sponsor_agreement
   end
@@ -268,7 +290,7 @@ class CommonCandidatesController < ApplicationController
     render_called
   end
 
-  def render_event_with_picture(render_called, event_name, is_verify=false)
+  def render_event_with_picture(render_called, event_name, is_verify = false)
     unless render_called
       @event_with_picture_name = event_name
       @is_dev = !is_admin?

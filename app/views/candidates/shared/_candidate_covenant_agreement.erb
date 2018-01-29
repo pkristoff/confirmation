@@ -1,8 +1,8 @@
 <%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
 
-    <div class = "actions" >
-      <%= f.submit t('views.common.update'), id: 'top-update' %>
-    </div >
+  <div class = "actions" >
+    <%= f.submit update_name, id: "top-update#{id_postfix}" %>
+  </div >
 
     <div xmlns = "http://www.w3.org/1999/html" xmlns = "http://www.w3.org/1999/html" >
       <p >I am committed to this year of preparation for Confirmation. I agree to attend all of the required sessions
@@ -28,8 +28,8 @@
       <%= f.label :signed_agreement, t('label.sign_agreement.signed_agreement') %>
     </div >
 
-    <div class = "actions" >
-      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
-    </div >
+  <div class = "actions" >
+    <%= f.submit update_name, id: "bottom-update#{id_postfix}" %>
+  </div >
 
 <% end %>

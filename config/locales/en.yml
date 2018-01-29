@@ -186,6 +186,7 @@ en:
     reset_password_message_sent: Reset password messages sent
     save_failed: Save failed
     select_excel_file: Please select a zipped excel file to upload.
+    signed_agreement_val: "%{field_name} needs to be checked"
     unknown_parameter: 'Unknown Parameter: %{name}'
     unknown_parameter_commit: 'Unknown Parameter value: %{commit} params: %{params}'
     update_candidate_event: Updated CandidateEvent! for candidates.

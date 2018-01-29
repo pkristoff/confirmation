@@ -143,7 +143,7 @@ module SortingCandListHelpers
   def event_name_to_path_verify (event_name, candidate_id)
     case event_name
       when I18n.t('events.candidate_covenant_agreement')
-        sign_agreement_path(candidate_id)
+        sign_agreement_verify_path(candidate_id)
       when I18n.t('events.candidate_information_sheet')
         candidate_sheet_verify_path(candidate_id)
       when I18n.t('events.baptismal_certificate')
@@ -153,7 +153,7 @@ module SortingCandListHelpers
       when I18n.t('events.confirmation_name')
         pick_confirmation_name_verify_path(candidate_id)
       when I18n.t('events.sponsor_agreement')
-        sponsor_agreement_path(candidate_id)
+        sponsor_agreement_verify_path(candidate_id)
       when I18n.t('events.candidate_covenant_agreement')
         sign_agreement_path(candidate_id)
       when I18n.t('events.christian_ministry')

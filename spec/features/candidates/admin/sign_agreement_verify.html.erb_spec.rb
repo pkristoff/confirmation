@@ -3,21 +3,21 @@ Warden.test_mode!
 
 require 'constants'
 
-feature 'Sign Agreement admin sign in', :devise do
+feature 'Sign Agreement Verify admin sign in', :devise do
 
   before(:each) do
     @admin = FactoryBot.create(:admin)
     @candidate = FactoryBot.create(:candidate)
     login_as(@admin, scope: :admin)
-    @path = sign_agreement_path(@candidate.id)
+    @is_verify = true
+    @path = sign_agreement_verify_path(@candidate.id)
     @dev = ''
-    @is_verify = false
 
-    @path_str = 'sign_agreement'
-    @update_id = 'top-update'
+    @path_str = 'sign_agreement_verify'
+    @update_id = 'top-update-verify'
     cand_name = 'Sophia Agusta'
-    @updated_message = I18n.t('messages.updated', cand_name: cand_name)
-    @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+    @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
 
     @event_name = I18n.t('events.candidate_covenant_agreement')
     @sign_agreement_setter = :signed_agreement=

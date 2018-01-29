@@ -91,6 +91,18 @@ class CandidatesController < CommonCandidatesController
     render :pick_confirmation_name_verify unless render_called
   end
 
+  def sponsor_agreement_verify
+    @is_verify = true
+    @candidate = Candidate.find(params[:id])
+  end
+
+  def sponsor_agreement_verify_update
+    @candidate = Candidate.find(params[:id])
+    render_called = agreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement', I18n.t('label.sponsor_agreement.sponsor_agreement'), true)
+    @is_verify = true
+    render :sponsor_agreement_verify unless render_called
+  end
+
   protected
 
   def resource_class

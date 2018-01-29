@@ -1,7 +1,7 @@
 <%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
 
     <div class = "actions" >
-      <%= f.submit t('views.common.update'), id: 'top-update' %>
+      <%= f.submit update_name, id: "top-update#{id_postfix}" %>
     </div >
 
     <h2>Conversation between Confirmation Sponsor & Candidate</h2>
@@ -32,7 +32,7 @@
     </div >
 
     <div class = "actions" >
-      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+      <%= f.submit update_name, id: "bottom-update#{id_postfix}" %>
     </div >
 
 <% end %>

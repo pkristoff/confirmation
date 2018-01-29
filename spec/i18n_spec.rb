@@ -9,7 +9,6 @@ RSpec.describe 'I18n' do
   # these keys are used even though this says otherwise.
   let(:used_keys) {%w(
         label.candidate_event.select
-        label.sponsor_agreement.sponsor_agreement
         views.admins.current_password
         views.admins.email
         views.candidates.account_name

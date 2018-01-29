@@ -107,7 +107,7 @@
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= attending %></td>
           <% case confirmation_event.name %>
           <% when t('events.candidate_covenant_agreement') %>
-            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.candidate_covenant_agreement'), attending)}", sign_agreement_path(candidate_id) %></td>
+            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.candidate_covenant_agreement'), attending)}", sign_agreement_verify_path(candidate_id) %></td>
           <% when t('events.candidate_information_sheet') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.candidate_information_sheet'), attending)}", candidate_sheet_verify_path(candidate_id) %></td>
           <% when t('events.baptismal_certificate') %>
@@ -117,7 +117,7 @@
           <% when t('events.confirmation_name') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.confirmation_name'), attending)}", pick_confirmation_name_verify_path(candidate_id), id: "pick-#{candidate_id}" %></td>
           <% when t('events.sponsor_agreement') %>
-            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.sponsor_agreement'), attending)}", sponsor_agreement_path(candidate_id) %></td>
+            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.sponsor_agreement'), attending)}", sponsor_agreement_verify_path(candidate_id) %></td>
           <% when t('events.christian_ministry') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.christian_ministry'), attending)}", christian_ministry_verify_path(candidate_id), id: "cma-#{candidate_id}" %></td>
           <% when t('events.retreat_verification') %>

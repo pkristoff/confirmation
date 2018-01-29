@@ -157,6 +157,163 @@ describe CandidatesController do
 
   end
 
+  describe 'sponsor_agreement_verify' do
+
+    before(:each) do
+      c1 = create_candidate('c1')
+      @c1_id = c1.id
+      AppFactory.add_confirmation_event(I18n.t('events.sponsor_agreement'))
+    end
+
+    it 'should set @candidate' do
+
+      get :sponsor_agreement_verify, id: @c1_id
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/sponsor_agreement_verify')
+      expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}")
+    end
+
+    it 'should stay on sponsor_agreement_verify, since it should not pass validation' do
+
+      put :sponsor_agreement_verify_update,
+          id: @c1_id, candidate: {sponsor_agreement: '0'}
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/sponsor_agreement_verify')
+      expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}?candidate%5Bsponsor_agreement%5D=0")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
+      expect(cand_event.completed_date).to eq(nil)
+      expect(cand_event.verified).to eq(false)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified' do
+
+      completed_date = Date.today - 20
+      cand = Candidate.find(@c1_id)
+      cand.sponsor_agreement = true
+      cand.save
+
+      cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
+      cand_event.completed_date = completed_date
+      cand_event.verified = false
+      cand.save
+
+      put :sponsor_agreement_verify_update,
+          id: @c1_id, candidate: {sponsor_agreement: '1'}
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+      expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}?candidate%5Bsponsor_agreement%5D=1")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
+      expect(cand_event.completed_date).to eq(completed_date)
+      expect(cand_event.verified).to eq(true)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+
+      put :sponsor_agreement_verify_update,
+          id: @c1_id,
+          candidate: {sponsor_agreement: '1'}
+
+      cand = Candidate.find(@c1_id)
+      expect(cand.sponsor_agreement).to eq(true)
+
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+      expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}?candidate%5Bsponsor_agreement%5D=1")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
+      expect(cand_event.completed_date).to eq(Date.today)
+      expect(cand_event.verified).to eq(true)
+    end
+
+  end
+
+  describe 'sign_agreement_verify' do
+
+    before(:each) do
+      c1 = create_candidate('c1')
+      @c1_id = c1.id
+      AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
+    end
+
+    it 'should set @candidate' do
+
+      get :sign_agreement_verify, id: @c1_id
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/sign_agreement_verify')
+      expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}")
+    end
+
+    it 'should stay on sign_agreement_verify, since it should not pass validation' do
+
+      put :sign_agreement_verify_update,
+          id: @c1_id, candidate: {signed_agreement: '0'}
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('candidates/sign_agreement_verify')
+      expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}?candidate%5Bsigned_agreement%5D=0")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+      expect(cand_event.completed_date).to eq(nil)
+      expect(cand_event.verified).to eq(false)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified' do
+
+      completed_date = Date.today - 20
+      cand = Candidate.find(@c1_id)
+      cand.signed_agreement = true
+      cand.save
+
+      cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+      cand_event.completed_date = completed_date
+      cand_event.verified = false
+      cand.save
+
+      put :sign_agreement_verify_update,
+          id: @c1_id, candidate: {signed_agreement: '1'}
+
+      cand = Candidate.find(@c1_id)
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+      expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}?candidate%5Bsigned_agreement%5D=1")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+      expect(cand_event.completed_date).to eq(completed_date)
+      expect(cand_event.verified).to eq(true)
+    end
+
+    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+
+      put :sign_agreement_verify_update,
+          id: @c1_id,
+          candidate: {signed_agreement: '1'}
+
+      cand = Candidate.find(@c1_id)
+      expect(cand.signed_agreement).to eq(true)
+
+      expect(controller.candidate).to eq(cand)
+      expect(response).to render_template('admins/mass_edit_candidates_event')
+      expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}?candidate%5Bsigned_agreement%5D=1")
+
+      cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+      expect(cand_event.completed_date).to eq(Date.today)
+      expect(cand_event.verified).to eq(true)
+    end
+
+  end
+
+
   describe 'event_with_picture_verify' do
 
     before(:each) do

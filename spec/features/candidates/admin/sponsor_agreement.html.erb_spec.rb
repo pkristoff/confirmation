@@ -14,6 +14,14 @@ feature 'Sponsor Agreement admin', :devise do
     @path = sponsor_agreement_path(@candidate.id)
     @dev = ''
     @event_name = I18n.t('events.sponsor_agreement')
+    @is_verify = false
+
+    @path_str = 'sponsor_agreement'
+    @update_id = 'top-update'
+    cand_name = 'Sophia Agusta'
+    @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+    @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+
     @sign_agreement_setter = :sponsor_agreement=
     @sign_agreement_getter = :sponsor_agreement
     @form_action = "form[id=edit_candidate][action=\"/#{@dev}sponsor_agreement.#{@candidate.id}\"]"
