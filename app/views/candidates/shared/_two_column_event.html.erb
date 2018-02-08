@@ -1,41 +1,49 @@
-<h2><%= candidate_event.name %></h2>
+<h2 id="heading">
+  <% if is_dev %>
+    <%= candidate_event.name %>
+  <% else %>
+    <% first = candidate.candidate_sheet.first_name %>
+    <% last = candidate.candidate_sheet.last_name %>
+    <%= "#{I18n.t('views.events.heading', event_name: candidate_event.name, first: first, last: last)}" %>
+  <% end %>
+</h2>
 
 <%= render partial: "candidates/shared/show_error_message",
-           :locals => {event_association: event_association
+           :locals => { event_association: event_association
            } %>
 
 <% unless download_doc.nil? %>
-    <div class = "actions" >
-      <%= button_to t('views.common.download'), download_doc, {method: :put} %>
-    </div >
+  <div class="actions">
+    <%= button_to t('views.common.download'), download_doc, { method: :put } %>
+  </div>
 <% end %>
 
 
-<div id = "two_column" >
-  <div id = "left-col" class = "left_col" >
+<div id="two_column">
+  <div id="left-col" class="left_col">
 
     <%= render partial: "candidates/shared/#{event_with_picture_name}",
-               :locals => {is_dev: is_dev,
-                           is_verify: is_verify,
-                           candidate: candidate,
-                           event_association: event_association,
-                           candidate_event: candidate_event,
-                           download_doc: download_doc,
-                           update_name: is_verify ? t('views.common.update_verify') : t('views.common.update'),
-                           id_postfix: is_verify ? '-verify' : ''
+               :locals => { is_dev: is_dev,
+                            is_verify: is_verify,
+                            candidate: candidate,
+                            event_association: event_association,
+                            candidate_event: candidate_event,
+                            download_doc: download_doc,
+                            update_name: is_verify ? t('views.common.update_verify') : t('views.common.update'),
+                            id_postfix: is_verify ? '-verify' : ''
                } %>
 
 
-  </div >
-  <div id = "right-col" class = "right_col" >
+  </div>
+  <div id="right-col" class="right_col">
     <%= link_to '#', class: 'btn btn-default',
                 id: "insturction-toggle",
                 onclick: 'confirmation_toggle().instructions(event)',
                 title: t('views.title.instruction_link') do %>
-        <span id = "insturction-toggle-span" class = "glyphicon glyphicon-minus" ></span >
+      <span id="insturction-toggle-span" class="glyphicon glyphicon-minus"></span>
     <% end %>
-    <div id = "instructions" class = "show-div" % >
+    <div id="instructions" class="show-div" %>
       <%= sanitize(candidate_event.confirmation_event.instructions) unless candidate_event.nil? %>
-    </div >
-  </div >
-</div >
+    </div>
+  </div>
+</div>

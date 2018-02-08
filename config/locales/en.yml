@@ -246,6 +246,7 @@ en:
     events:
       chs_due_date: Catholic High School Due date
       completed_date: Completed date
+      heading: "%{event_name} for %{first} %{last}"
       instructions: Instructions
       the_way_due_date: The Way Due date
       verified: Verified

@@ -3,5 +3,6 @@
                        event_association: @candidate,
                        shared_html_file: 'sponsor_agreement',
                        candidate_event: @candidate.get_candidate_event(I18n.t('events.sponsor_agreement')),
-                       download_doc: dev_download_document_path(@candidate.id, Event::Document::CONVERSATION_SPONSOR_CANDIDATE)
+                       download_doc: dev_download_document_path(@candidate.id, Event::Document::CONVERSATION_SPONSOR_CANDIDATE),
+                       is_dev: true
            } %>

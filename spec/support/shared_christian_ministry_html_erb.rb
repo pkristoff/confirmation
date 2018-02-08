@@ -11,17 +11,17 @@ shared_context 'christian_ministry_html_erb' do
 
   before(:each) do
     AppFactory.add_confirmation_events
-    @candidate = Candidate.find_by_account_name(@candidate.account_name)
+    @cand_id = @candidate.id
     cand_name = 'Sophia Agusta'
     @admin_verified = @updated_message === I18n.t('messages.updated_verified', cand_name: cand_name)
-
+    @dev_path = @is_dev ? 'dev/' : ''
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
     update_christian_ministry(false)
     visit @path
 
-    expect_christian_ministry_form(@candidate, @path_str, @dev, @update_id,
+    expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id,
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '')
   end
@@ -35,7 +35,7 @@ shared_context 'christian_ministry_html_erb' do
     fill_in_form
     click_button @update_id
 
-    candidate = Candidate.find(@candidate.id)
+    candidate = Candidate.find(@cand_id)
 
     if @admin_verified
 
@@ -43,7 +43,7 @@ shared_context 'christian_ministry_html_erb' do
 
     else
 
-      expect_christian_ministry_form(candidate, @path_str, @dev, @update_id,
+      expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id,
                                      what_service: WHAT_SERVICE, where_service: WHERE_SERVICE,
                                      when_service: WHEN_SERVICE, helped_me: HELPED_ME,
                                      expect_messages: [[:flash_notice, @updated_message]]
@@ -54,8 +54,8 @@ shared_context 'christian_ministry_html_erb' do
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
 
     visit @path
-    candidate = Candidate.find(@candidate.id)
-    expect_christian_ministry_form(candidate, @path_str, @dev, @update_id,
+
+    expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id,
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME)
 
@@ -71,16 +71,16 @@ shared_context 'christian_ministry_html_erb' do
     fill_in_form
     click_button @update_id
 
-    candidate = Candidate.find(@candidate.id)
 
 
+    candidate = Candidate.find(@cand_id)
     if @admin_verified
 
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by_name(I18n.t('events.christian_ministry')), candidate, @updated_message)
 
     else
 
-      expect_christian_ministry_form(candidate, @path_str, @dev, @update_id,
+      expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id,
                                      what_service: WHAT_SERVICE, where_service: WHERE_SERVICE,
                                      when_service: WHEN_SERVICE, helped_me: HELPED_ME,
                                      expect_messages: [[:flash_notice, @updated_message]]
@@ -91,8 +91,7 @@ shared_context 'christian_ministry_html_erb' do
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
 
     visit @path
-    candidate = Candidate.find(@candidate.id)
-    expect_christian_ministry_form(candidate, @path_str, @dev, @update_id,
+    expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id,
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME)
 
@@ -100,7 +99,7 @@ shared_context 'christian_ministry_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
-    candidate = Candidate.find(@candidate.id)
+    candidate = Candidate.find(@cand_id)
     candidate.save
     update_christian_ministry(false)
 
@@ -109,8 +108,7 @@ shared_context 'christian_ministry_html_erb' do
 
     click_button @update_id
 
-    candidate = Candidate.find(@candidate.id)
-    expect_christian_ministry_form(candidate, @path_str, @dev, @update_id,
+    expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id,
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '',
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
@@ -118,12 +116,12 @@ shared_context 'christian_ministry_html_erb' do
                                    ]
     )
 
+    candidate = Candidate.find(@cand_id)
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(nil)
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(false)
 
     visit @path
-    candidate = Candidate.find(@candidate.id)
-    expect_christian_ministry_form(candidate, @path_str, @dev, @update_id,
+    expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id,
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '')
 
@@ -142,8 +140,7 @@ shared_context 'christian_ministry_html_erb' do
     fill_in(I18n.t('label.christian_ministry.what_service'), with: nil)
     click_button @update_id
 
-    candidate = Candidate.find(@candidate.id)
-    expect_christian_ministry_form(candidate, @path_str, @dev, @update_id,
+    expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id,
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME,
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
@@ -170,7 +167,7 @@ shared_context 'christian_ministry_html_erb' do
   end
 
   def img_src_selector
-    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/christian_ministry\"]"
+    "img[src=\"/#{@dev_path}event_with_picture_image/#{@cand_id}/christian_ministry\"]"
   end
 
   def update_christian_ministry(with_values)

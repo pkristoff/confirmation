@@ -8,14 +8,16 @@ shared_context 'pick_confirmation_name_html_erb' do
   before(:each) do
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by_account_name(@candidate.account_name)
+    @cand_id = @candidate.id
     cand_name = 'Sophia Agusta'
     @admin_verified = @updated_message === I18n.t('messages.updated_verified', cand_name: cand_name)
+    @dev_path = @is_dev ? 'dev/' : ''
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
     update_pick_confirmation_name(false)
     visit @path
-    expect_pick_confirmation_name_form(@candidate, @path_str, @dev, @update_id, expect_messages: [])
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, expect_messages: [])
   end
 
   scenario 'admin logs in and selects a candidate, fills in template' do
@@ -33,8 +35,8 @@ shared_context 'pick_confirmation_name_html_erb' do
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name')), Candidate.find(@candidate.id), @updated_message)
 
     else
-      candidate = Candidate.find(@candidate.id)
-      expect_pick_confirmation_name_form(candidate, @path_str, @dev, @update_id, saint_name: '', expect_messages: [[:flash_notice, @updated_message]])
+      candidate = Candidate.find(@cand_id)
+      expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, saint_name: '', expect_messages: [[:flash_notice, @updated_message]])
       expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
 
       expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(Date.today)
@@ -52,7 +54,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
 
-    expect_pick_confirmation_name_form(candidate, @path_str, @dev, @update_id, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
                                                                     [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Saint name can\'t be blank']]
     ])
 
@@ -71,7 +73,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
       expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
 
-      expect_pick_confirmation_name_form(candidate, @path_str, @dev, @update_id, saint_name: SAINT_NAME, expect_messages: [[:flash_notice, @updated_failed_verification]])
+      expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, saint_name: SAINT_NAME, expect_messages: [[:flash_notice, @updated_failed_verification]])
 
     end
 
@@ -80,12 +82,14 @@ shared_context 'pick_confirmation_name_html_erb' do
   scenario 'admin logs in and selects a candidate, fills in template, except saint_name' do
 
     update_pick_confirmation_name(false)
+
     visit @path
     fill_in_form
     fill_in('Saint name', with: nil)
     click_button @update_id
+
     candidate = Candidate.find(@candidate.id)
-    expect_pick_confirmation_name_form(candidate, @path_str, @dev, @update_id, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
                                                                     [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Saint name can\'t be blank']
     ])
 

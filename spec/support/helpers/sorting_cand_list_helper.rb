@@ -269,7 +269,7 @@ module SortingCandListHelpers
     expect(candidate.get_candidate_event(confirmation_event.name).verified).to eq(true) unless updated_message.nil?
   end
 
-  def expect_pick_confirmation_name_form(candidate, path_str, dev, update_id, values = {})
+  def expect_pick_confirmation_name_form(cand_id, path_str, dev_path, update_id, values = {})
 
     with_values = !(values[:saint_name].nil? || values[:saint_name].empty?)
 
@@ -280,17 +280,31 @@ module SortingCandListHelpers
     end
 
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
-    # expect_message(:flash_notice, values[:updated_message]) unless values[:updated_message].nil?
 
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev}#{path_str}.#{candidate.id}\"]")
+    cand = Candidate.find(cand_id)
+    expect_heading(cand, dev_path.empty?, I18n.t('events.confirmation_name'))
+
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 
     expect_field(I18n.t('label.confirmation_name.saint_name'), with_values ? saint_name : '')
 
     expect(page).to have_button(update_id)
-    expect_download_button(Event::Document::CONFIRMATION_NAME)
+    expect_download_button(Event::Document::CONFIRMATION_NAME, cand_id, dev_path)
   end
 
-  def expect_christian_ministry_form(candidate, path_str, dev, update_id, values = {})
+  def expect_heading(cand, isDev, event_name)
+    first = cand.candidate_sheet.first_name
+    last = cand.candidate_sheet.last_name
+
+    if isDev
+      expect(page).to have_selector("h2[id=heading]", text: "#{I18n.t('views.events.heading', event_name: event_name, first: first, last: last)}")
+    else
+      expect(page).to have_selector("h2[id=heading]", text: "#{event_name}")
+      expect(page).not_to have_selector("h2[id=heading]", text: "#{I18n.t('views.events.heading', event_name: event_name, first: first, last: last)}")
+    end
+  end
+
+  def expect_christian_ministry_form(cand_id, path_str, dev_path, update_id, values = {})
 
     with_values = !(values[:what_service].nil? || values[:what_service].empty?)
     with_values = with_values || !(values[:where_service].nil? || values[:where_service].empty?)
@@ -299,7 +313,10 @@ module SortingCandListHelpers
 
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev}#{path_str}.#{candidate.id}\"]")
+    cand = Candidate.find(cand_id)
+    expect_heading(cand, dev_path.empty?, I18n.t('events.christian_ministry'))
+
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 
     expect_field(I18n.t('label.christian_ministry.what_service'), with_values ? values[:what_service] : '')
     expect_field(I18n.t('label.christian_ministry.where_service'), with_values ? values[:where_service] : '')
@@ -307,7 +324,7 @@ module SortingCandListHelpers
     expect_field(I18n.t('label.christian_ministry.helped_me'), with_values ? values[:helped_me] : '')
 
     expect(page).to have_button(update_id)
-    expect_download_button(Event::Document::CHRISTIAN_MINISTRY)
+    expect_download_button(Event::Document::CHRISTIAN_MINISTRY, cand_id, dev_path)
   end
 
 private

@@ -8,9 +8,9 @@ feature 'Pick confirmation name', :devise do
   before(:each) do
     @admin = FactoryBot.create(:admin)
     @candidate = FactoryBot.create(:candidate)
-    login_as(@admin, scope: :admin)
+    login_as(@candidate, scope: :candidate)
 
-    @path = pick_confirmation_name_path(@candidate.id)
+    @path = dev_pick_confirmation_name_path(@candidate.id)
     @path_str = 'pick_confirmation_name'
     @update_id = 'top-update'
     cand_name = 'Sophia Agusta'

@@ -181,9 +181,12 @@ shared_context 'retreat_verification_html_erb' do
                                            end_date: END_DATE
                                        })
 
-    candidate = Candidate.find(cand_id)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{candidate.id}/retreat_verification\"]")
+
+    cand = Candidate.find(cand_id)
+    expect_heading(cand, dev_path.empty?, I18n.t('events.retreat_verification'))
+
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/retreat_verification\"]")
 
     expect_field(I18n.t('label.retreat_verification.retreat_verification_picture'), nil)
 
@@ -195,7 +198,7 @@ shared_context 'retreat_verification_html_erb' do
     expect_image_upload('retreat_verification', 'retreat_verification_picture', I18n.t('label.retreat_verification.retreat_verification_picture'))
 
     expect(page).to have_button(@update_id)
-    expect_download_button(Event::Document::RETREAT_VERIFICATION)
+    expect_download_button(Event::Document::RETREAT_VERIFICATION, cand_id, dev_path)
   end
 
   def expect_field (label, value)

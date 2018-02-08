@@ -8,7 +8,7 @@ feature 'Sponsor Agreement verify admin', :devise do
   before(:each) do
     @admin = FactoryBot.create(:admin)
     @candidate = FactoryBot.create(:candidate)
-    @confirmation_event = AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
+    @confirmation_event = AppFactory.add_confirmation_event(I18n.t('events.sponsor_agreement'))
     login_as(@admin, scope: :admin)
 
     @path = sponsor_agreement_verify_path(@candidate.id)

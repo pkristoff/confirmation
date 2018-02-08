@@ -14,7 +14,7 @@ SPONSOR_NAME_LABEL = I18n.t('label.sponsor_covenant.sponsor_name')
 shared_context 'sponsor_covenant_html_erb' do
 
   before(:each) do
-    event_with_picture_setup(Event::Route::SPONSOR_COVENANT)
+    event_with_picture_setup(Event::Route::SPONSOR_COVENANT, @is_verify)
     AppFactory.add_confirmation_events
   end
 
@@ -185,13 +185,16 @@ shared_context 'sponsor_covenant_html_erb' do
   end
 
   def expect_sponsor_covenant_form(cand_id, dev_path, path_str, values = {sponsor_name: SPONSOR_NAME})
-    candidate = Candidate.find(cand_id)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
-    visibility = candidate.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div'
+
+    cand = Candidate.find(cand_id)
+    expect_heading(cand, dev_path.empty?, I18n.t('events.sponsor_covenant'))
+
+    visibility = cand.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div'
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/sponsor_covenant\"]")
     expect(page).to have_selector("div[id=sponsor-covenant-top][class=\"#{visibility}\"]")
 
-    if candidate.sponsor_covenant.sponsor_attends_stmm
+    if cand.sponsor_covenant.sponsor_attends_stmm
       expect(page).to have_checked_field(ATTENDS_STMM_LABEL)
     else
       expect(page).not_to have_checked_field(ATTENDS_STMM_LABEL)
@@ -199,10 +202,10 @@ shared_context 'sponsor_covenant_html_erb' do
 
     expect_field(COVENANT_PICTURE_LABEL, nil)
 
-    expect_field(SPONSOR_NAME_LABEL, candidate.sponsor_covenant.sponsor_attends_stmm ? nil : values[:sponsor_name])
+    expect_field(SPONSOR_NAME_LABEL, cand.sponsor_covenant.sponsor_attends_stmm ? nil : values[:sponsor_name])
 
     expect(page).to have_button(@update_id)
-    expect_download_button(Event::Route::SPONSOR_COVENANT)
+    expect_download_button(Event::Route::SPONSOR_COVENANT, cand_id, dev_path)
   end
 
   def expect_field (label, value)

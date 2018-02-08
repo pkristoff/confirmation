@@ -62,8 +62,8 @@ def event_with_picture_setup(route, is_verify=false)
   end
 end
 
-def expect_download_button(name)
-  expect(page).to have_selector("form[action=\"/#{@dev}download_document/#{@candidate.id}/.#{name}\"]")
+def expect_download_button(name, cand_id, dev_path)
+  expect(page).to have_selector("form[action=\"/#{dev_path}download_document/#{cand_id}/.#{name}\"]")
   expect(page).to have_button(I18n.t('views.common.download'))
 end
 

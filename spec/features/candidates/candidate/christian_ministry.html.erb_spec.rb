@@ -8,9 +8,9 @@ feature 'Christian Ministry  candidate', :devise do
   before(:each) do
     @admin = FactoryBot.create(:admin)
     @candidate = FactoryBot.create(:candidate)
-    login_as(@admin, scope: :admin)
+    login_as(@candidate, scope: :candidate)
 
-    @path = christian_ministry_path(@candidate.id)
+    @path = dev_christian_ministry_path(@candidate.id)
     @path_str = 'christian_ministry'
     @update_id = 'top-update'
     cand_name = 'Sophia Agusta'

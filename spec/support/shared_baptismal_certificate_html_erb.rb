@@ -218,34 +218,38 @@ shared_context 'baptismal_certificate_html_erb' do
                                       street_1: '')
   end
 
-  def expect_baptismal_certificate_form(cand_id, dev, path_str, button_name, baptized_at_stmm,
+  def expect_baptismal_certificate_form(cand_id, dev_path, path_str, button_name, baptized_at_stmm,
                                         values = {
-                                            birth_date: baptized_at_stmm ? nil : BIRTH_DATE,
-                                            baptismal_date: baptized_at_stmm ? nil : BAPTISMAL_DATE,
+                                          birth_date: baptized_at_stmm ? nil : BIRTH_DATE,
+                                          baptismal_date: baptized_at_stmm ? nil : BAPTISMAL_DATE,
 
-                                            church_name: baptized_at_stmm ? nil : CHURCH_NAME,
-                                            street_1: baptized_at_stmm ? nil : STREET_1,
-                                            street_2: baptized_at_stmm ? nil : STREET_2,
-                                            city: baptized_at_stmm ? nil : CITY,
-                                            state: baptized_at_stmm ? nil : STATE,
-                                            zip_code: baptized_at_stmm ? nil : ZIP_CODE,
+                                          church_name: baptized_at_stmm ? nil : CHURCH_NAME,
+                                          street_1: baptized_at_stmm ? nil : STREET_1,
+                                          street_2: baptized_at_stmm ? nil : STREET_2,
+                                          city: baptized_at_stmm ? nil : CITY,
+                                          state: baptized_at_stmm ? nil : STATE,
+                                          zip_code: baptized_at_stmm ? nil : ZIP_CODE,
 
-                                            father_first: baptized_at_stmm ? nil : FATHER_FIRST,
-                                            father_middle: baptized_at_stmm ? nil : FATHER_MIDDLE,
-                                            father_last: baptized_at_stmm ? nil : LAST_NAME,
+                                          father_first: baptized_at_stmm ? nil : FATHER_FIRST,
+                                          father_middle: baptized_at_stmm ? nil : FATHER_MIDDLE,
+                                          father_last: baptized_at_stmm ? nil : LAST_NAME,
 
-                                            mother_first: baptized_at_stmm ? nil : MOTHER_FIRST,
-                                            mother_middle: baptized_at_stmm ? nil : MOTHER_MIDDLE,
-                                            mother_maiden: baptized_at_stmm ? nil : MOTHER_MAIDEN,
-                                            mother_last: baptized_at_stmm ? nil : LAST_NAME
+                                          mother_first: baptized_at_stmm ? nil : MOTHER_FIRST,
+                                          mother_middle: baptized_at_stmm ? nil : MOTHER_MIDDLE,
+                                          mother_maiden: baptized_at_stmm ? nil : MOTHER_MAIDEN,
+                                          mother_last: baptized_at_stmm ? nil : LAST_NAME
                                         })
 
     # street_1 = values[:street_1].nil? ? STREET_1 : values[:street_1]
 
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
+    cand = Candidate.find(cand_id)
+
+    expect_heading(cand, dev_path.empty?, I18n.t('events.baptismal_certificate'))
+
     visibility = baptized_at_stmm ? 'hide-div' : 'show-div'
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev}#{path_str}/#{cand_id}/baptismal_certificate\"]")
+    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/baptismal_certificate\"]")
     expect(page).to have_selector("div[id=baptismal-certificate-top][class=\"#{visibility}\"]")
 
     if baptized_at_stmm
@@ -279,7 +283,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
 
     expect(page).to have_button(button_name)
-    expect_download_button(Event::Document::BAPTISMAL_CERTIFICATE)
+    expect_download_button(Event::Document::BAPTISMAL_CERTIFICATE, cand_id, dev_path)
   end
 
   def expect_field (label, value)

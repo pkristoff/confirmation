@@ -13,6 +13,7 @@ shared_context 'candidate_sheet_html_erb' do
     cand.save(validate: false)
 
     visit @path
+
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id)
 
     click_button(@update_id)
@@ -71,13 +72,13 @@ shared_context 'candidate_sheet_html_erb' do
 
   def expect_candidate_sheet_form(cand_id, path_str, dev_path, update_id, values = {})
 
+    cand = Candidate.find(cand_id)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-    expect(page).to have_selector('h2', text: I18n.t('events.candidate_information_sheet'))
+    expect_heading(cand, dev_path.empty?, I18n.t('events.candidate_information_sheet'))
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 
-    cand = Candidate.find(cand_id)
     candidate_sheet = cand.candidate_sheet
     expect(page).to have_field(I18n.t('label.candidate_sheet.first_name'), with: candidate_sheet.first_name, type: 'text')
     expect(page).to have_field(I18n.t('label.candidate_sheet.middle_name'), with: candidate_sheet.middle_name, type: 'text')
