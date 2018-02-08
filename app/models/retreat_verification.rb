@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 #
-# Actve Record
+# Active Record
 #
 class RetreatVerification < ActiveRecord::Base
-
   belongs_to(:scanned_retreat, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_retreat, allow_destroy: true)
 
@@ -14,16 +15,15 @@ class RetreatVerification < ActiveRecord::Base
   #
   # * <tt>:_options_</tt>
   #
-  def validate_event_complete(options={})
-      event_complete_validator = EventCompleteValidator.new(self, !retreat_held_at_stmm)
-      event_complete_validator.validate([], RetreatVerification.get_basic_validation_params)
-      # event_complete_validator = EventCompleteValidator.new(self).validate(RetreatVerification.get_basic_validation_params)
-          # convert empty picture attributes to something the user can understand
-      found = false
-      found |= (!errors.delete(:scanned_retreat).nil?)
-      if found
-        errors[:base] << 'Scanned retreat verification can\'t be blank'
-      end
+  def validate_event_complete(options = {})
+    event_complete_validator = EventCompleteValidator.new(self, !retreat_held_at_stmm)
+    event_complete_validator.validate([], RetreatVerification.get_basic_validation_params)
+    # event_complete_validator = EventCompleteValidator.new(self).validate(RetreatVerification.get_basic_validation_params)
+    # convert empty picture attributes to something the user can understand
+    found = false
+    found |= !errors.delete(:scanned_retreat).nil?
+
+    errors[:base] << 'Scanned retreat verification can\'t be blank' if found
   end
 
   # Editable attributes
@@ -32,7 +32,7 @@ class RetreatVerification < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def RetreatVerification.get_permitted_params
+  def self.get_permitted_params
     RetreatVerification.get_basic_permitted_params.concat([scanned_retreat_attributes: ScannedImage.get_permitted_params])
   end
 
@@ -42,8 +42,8 @@ class RetreatVerification < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def RetreatVerification.get_basic_permitted_params
-    [:retreat_held_at_stmm, :start_date, :end_date, :who_held_retreat, :where_held_retreat, :retreat_verification_picture, :scanned_retreat, :id]
+  def self.get_basic_permitted_params
+    %i[retreat_held_at_stmm start_date end_date who_held_retreat where_held_retreat retreat_verification_picture scanned_retreat id]
   end
 
   # Required attributes
@@ -52,8 +52,8 @@ class RetreatVerification < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def RetreatVerification.get_basic_validation_params
-    params = self.get_basic_permitted_params
+  def self.get_basic_validation_params
+    params = get_basic_permitted_params
     params.delete(:retreat_held_at_stmm)
     params.delete(:retreat_verification_picture)
     params

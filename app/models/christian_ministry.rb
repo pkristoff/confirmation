@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 #
 # Active Record
 #
 class ChristianMinistry < ActiveRecord::Base
-
   # Validate if event is complete by adding validation errors to active record
   #
   # === Parameters:
@@ -13,7 +14,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # Boolean
   #
-  def validate_event_complete(options={})
+  def validate_event_complete(options = {})
     event_complete_validator = EventCompleteValidator.new(self)
     event_complete_validator.validate(ChristianMinistry.get_permitted_params)
   end
@@ -25,7 +26,7 @@ class ChristianMinistry < ActiveRecord::Base
   # Array of attributes
   #
   def self.get_permitted_params
-    [:what_service, :where_service, :when_service, :helped_me, :id]
+    %i[what_service where_service when_service helped_me id]
   end
 
   # associated confirmation event name
@@ -67,5 +68,4 @@ class ChristianMinistry < ActiveRecord::Base
   def verifiable_info(candidate)
     {}
   end
-
 end

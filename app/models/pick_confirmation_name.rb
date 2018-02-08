@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 #
-# Actve Record
+# Active Record
 #
 class PickConfirmationName < ActiveRecord::Base
-
   # Validate if event is complete by adding validation errors to active record
   #
   # === Parameters:
   #
   # * <tt>:_options_</tt>
   #
-  def validate_event_complete(options={})
+  def validate_event_complete(options = {})
     EventCompleteValidator.new(self).validate(PickConfirmationName.get_permitted_params)
   end
 
@@ -20,7 +21,7 @@ class PickConfirmationName < ActiveRecord::Base
   # Array of attributes
   #
   def self.get_permitted_params
-    [:saint_name, :id]
+    %i[saint_name id]
   end
 
   # associated confirmation event name
@@ -60,8 +61,6 @@ class PickConfirmationName < ActiveRecord::Base
   # Hash of information to be verified
   #
   def verifiable_info(candidate)
-    {'Confirmation name': saint_name
-    }
+    { 'Confirmation name': saint_name }
   end
-
 end

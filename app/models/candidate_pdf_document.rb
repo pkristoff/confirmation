@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'RMagick'
-include Magick
 
 #
 # Generate PDF for candidate info
@@ -9,8 +10,9 @@ include Magick
 # * <tt>:candidate</tt> Candidate
 #
 class CandidatePDFDocument < Prawn::Document
+  include Magick
 
-  def initialize (candidate)
+  def initialize(candidate)
     super()
     @candidate = candidate
     do_document
@@ -23,7 +25,6 @@ class CandidatePDFDocument < Prawn::Document
   #
   #
   def do_document
-
     page_size = 'LETTER'
     page_layout = :landscape
 
@@ -65,14 +66,13 @@ class CandidatePDFDocument < Prawn::Document
       section(I18n.t('label.sidebar.retreat_verification'), destination: 8)
     end
     page_number_string = 'page <page> of <total>'
-    page_number_options = {at: [bounds.right - 150, 0],
-                           width: 150,
-                           align: :right,
-                           start_count_at: 1,
-                           page_filter: lambda {|pg| pg > 1},
-                           color: '007700'}
+    page_number_options = { at: [bounds.right - 150, 0],
+                            width: 150,
+                            align: :right,
+                            start_count_at: 1,
+                            page_filter: ->(pg) { pg > 1 },
+                            color: '007700' }
     number_pages page_number_string, page_number_options
-
   end
 
   # Generate Baptismal Certificate
@@ -87,7 +87,7 @@ class CandidatePDFDocument < Prawn::Document
     else
       grid_label_value([1, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
       grid_label_value([1, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
-      #Church
+      # Church
       grid_label_value([2, 1], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.church_name')}:", bc.church_name)
       grid_address([3, 0], 'label.baptismal_certificate.baptismal_certificate.church_address', bc.church_address)
       # father
@@ -104,7 +104,6 @@ class CandidatePDFDocument < Prawn::Document
     end
 
     common_image(bc.scanned_certificate, I18n.t('field_set.baptismal_certificate.scan'))
-
   end
 
   # Generate Candidate sheet
@@ -114,29 +113,27 @@ class CandidatePDFDocument < Prawn::Document
     define_grid_page
     page_header(I18n.t('label.sidebar.candidate_information_sheet'))
 
-    #name
+    # name
     grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", cs.first_name)
     grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.last_name')}:", cs.last_name)
 
-    #grade attending
+    # grade attending
     grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.grade')}:", cs.grade.to_s)
     grid_label_value([2, 2], "#{I18n.t('label.candidate_sheet.attending')}:", cs.attending)
 
-    #email
+    # email
     grid_label_value([3, 0], "#{I18n.t('label.candidate_sheet.candidate_email')}:", cs.candidate_email)
     grid_label_value([3, 2], "#{I18n.t('label.candidate_sheet.parent_email_1')}:", cs.parent_email_1)
     grid_label_value([4, 0], "#{I18n.t('label.candidate_sheet.parent_email_2')}:", cs.parent_email_2)
 
-    #address
-    grid_label([5, 0], "#{'Address'}")
+    # address
+    grid_label([5, 0], 'Address')
     grid_address([6, 0], 'label.candidate_sheet.address', cs.address)
-
   end
 
   # Generate Christian Ministry
   #
   def christian_ministry
-
     cm = @candidate.christian_ministry
     define_grid_page(2, 10)
     page_header(I18n.t('label.sidebar.christian_ministry'))
@@ -150,13 +147,11 @@ class CandidatePDFDocument < Prawn::Document
   # Generate confirmation name
   #
   def confirmation_name
-
     cn = @candidate.pick_confirmation_name
     define_grid_page(2, 10)
     page_header(I18n.t('label.sidebar.confirmation_name'))
 
     grid_label_value([1, 0], I18n.t('label.confirmation_name.saint_name'), cn.saint_name)
-
   end
 
   # Generate Covenant agreement
@@ -167,7 +162,6 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.candidate_covenant_agreement'))
 
     grid_label_value([1, 0], 'Agreed to Candidate Covenant', signed)
-
   end
 
   # Generate retreat verification
@@ -179,17 +173,15 @@ class CandidatePDFDocument < Prawn::Document
 
     grid_label_value([1, 0], "#{I18n.t('label.retreat_verification.retreat_held_at_stmm')}:", rv.retreat_held_at_stmm)
 
-    unless rv.retreat_held_at_stmm
+    return if rv.retreat_held_at_stmm
 
-      grid_label_value([2, 0], "#{I18n.t('label.retreat_verification.start_date')}:", rv.start_date)
-      grid_label_value([2, 2], "#{I18n.t('label.retreat_verification.end_date')}:", rv.end_date)
+    grid_label_value([2, 0], "#{I18n.t('label.retreat_verification.start_date')}:", rv.start_date)
+    grid_label_value([2, 2], "#{I18n.t('label.retreat_verification.end_date')}:", rv.end_date)
 
-      grid_label_value([3, 0], "#{I18n.t('label.retreat_verification.who_held_retreat')}:", rv.who_held_retreat)
-      grid_label_value([4, 0], "#{I18n.t('label.retreat_verification.where_held_retreat')}:", rv.where_held_retreat)
+    grid_label_value([3, 0], "#{I18n.t('label.retreat_verification.who_held_retreat')}:", rv.who_held_retreat)
+    grid_label_value([4, 0], "#{I18n.t('label.retreat_verification.where_held_retreat')}:", rv.where_held_retreat)
 
-      common_image(rv.scanned_retreat, I18n.t('label.retreat_verification.retreat_verification_picture'))
-    end
-
+    common_image(rv.scanned_retreat, I18n.t('label.retreat_verification.retreat_verification_picture'))
   end
 
   # Generate Sponsor agreement
@@ -200,7 +192,6 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.sponsor_agreement'))
 
     grid_label_value([1, 0], 'Agreed to having the conversation with sponsor', sa)
-
   end
 
   # Generate Sponsor covenant
@@ -228,67 +219,63 @@ class CandidatePDFDocument < Prawn::Document
   # * <tt>:scanned_image</tt> scanned image
   # * <tt>:label</tt> label
   #
-  def common_image (scanned_image, label)
+  def common_image(scanned_image, label)
     start_new_page
     label_x = bounds.left
     label_y = bounds.top
-    label_width = bounds.width-20
+    label_width = bounds.width - 20
     label_height = 20
 
     image_x = bounds.left
-    image_y = bounds.top-25
-    image_width = bounds.width-20
-    image_height = bounds.height-20
+    image_y = bounds.top - 25
+    image_width = bounds.width - 20
+    image_height = bounds.height - 20
 
     bounding_box([label_x, label_y], width: label_width, height: label_height) do
       text label, align: :center, valign: :center
     end
     if scanned_image.nil?
-      bounding_box([image_x, image_y], width: image_width, height: bounds.height-25) do
+      bounding_box([image_x, image_y], width: image_width, height: bounds.height - 25) do
         text '<No Image Provided>', align: :center, valign: :center
         # stroke_bounds
       end
-    else
       # convert pdf to jpg which Prawn handles.
-      if scanned_image.content_type === 'application/pdf'
-        pdf_file_path = "tmp/#{scanned_image.filename}"
-        jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
-        File.open(pdf_file_path, 'wb') do |f|
-          f.write(scanned_image.content)
-        end
-        begin
+    elsif scanned_image.content_type == 'application/pdf'
+      pdf_file_path = "tmp/#{scanned_image.filename}"
+      jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
+      File.open(pdf_file_path, 'wb') do |f|
+        f.write(scanned_image.content)
+      end
+      begin
+        pdf = Magick::ImageList.new(pdf_file_path)
 
-          pdf = Magick::ImageList.new(pdf_file_path)
+        pdf.each_with_index do |page_img, i|
+          page_img.write jpg_file_path
 
-          pdf.each_with_index do |page_img, i|
-            page_img.write jpg_file_path
-
-            bounding_box([image_x, image_y], width: image_width, height: image_height) do
-              # stroke_bounds
-              image jpg_file_path, width: image_width, height: image_height
-            end
-          end
-        ensure
-          File.delete(pdf_file_path) if File.exists?(pdf_file_path)
-          File.delete(jpg_file_path) if File.exists?(jpg_file_path)
-        end
-      else
-        file_path = "tmp/#{scanned_image.filename}"
-        File.open(file_path, 'wb') do |f|
-          f.write(scanned_image.content)
-        end
-        begin
-          # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
           bounding_box([image_x, image_y], width: image_width, height: image_height) do
             # stroke_bounds
-            image file_path, width: image_width, height: image_height
+            image jpg_file_path, width: image_width, height: image_height
           end
-        ensure
-          File.delete(file_path) if File.exists?(file_path)
         end
+      ensure
+        File.delete(pdf_file_path) if File.exists?(pdf_file_path)
+        File.delete(jpg_file_path) if File.exists?(jpg_file_path)
+      end
+    else
+      file_path = "tmp/#{scanned_image.filename}"
+      File.open(file_path, 'wb') do |f|
+        f.write(scanned_image.content)
+      end
+      begin
+        # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
+        bounding_box([image_x, image_y], width: image_width, height: image_height) do
+          # stroke_bounds
+          image file_path, width: image_width, height: image_height
+        end
+      ensure
+        File.delete(file_path) if File.exists?(file_path)
       end
     end
-
   end
 
   # define page column and rows
@@ -298,7 +285,7 @@ class CandidatePDFDocument < Prawn::Document
   # * <tt>_:columns_</tt> number of columns
   # * <tt>_:rows_</tt> number of rows
   #
-  def define_grid_page(columns=4, rows=20)
+  def define_grid_page(columns = 4, rows = 20)
     define_grid(columns: columns, rows: rows)
   end
 
@@ -313,9 +300,9 @@ class CandidatePDFDocument < Prawn::Document
   def grid_address(cell, label_base, address_association)
     grid_label_value([cell[0], 0], "#{I18n.t(label_base + '.street_1')}:", address_association.street_1)
     grid_label_value([cell[0], 2], "#{I18n.t(label_base + '.street_2')}:", address_association.street_2)
-    grid_label_value([cell[0]+1, 0], "#{I18n.t(label_base + '.city')}:", address_association.city)
-    grid_label_value([cell[0]+1, 2], "#{I18n.t(label_base + '.state')}:", address_association.state)
-    grid_label_value([cell[0]+2, 0], "#{I18n.t(label_base + '.zip_code')}:", address_association.zip_code)
+    grid_label_value([cell[0] + 1, 0], "#{I18n.t(label_base + '.city')}:", address_association.city)
+    grid_label_value([cell[0] + 1, 2], "#{I18n.t(label_base + '.state')}:", address_association.state)
+    grid_label_value([cell[0] + 2, 0], "#{I18n.t(label_base + '.zip_code')}:", address_association.zip_code)
   end
 
   # Generate label-value for a cell
@@ -328,8 +315,7 @@ class CandidatePDFDocument < Prawn::Document
   #
   def grid_label_value(cell, label, value)
     grid_label(cell, label)
-    grid_value([cell[0], cell[1]+1], value)
-
+    grid_value([cell[0], cell[1] + 1], value)
   end
 
   # Generate label for a cell
@@ -339,10 +325,10 @@ class CandidatePDFDocument < Prawn::Document
   # * <tt>:cell</tt> cell
   # * <tt>:label</tt> label
   #
-  def grid_label (cell, label)
+  def grid_label(cell, label)
     grid(cell[0], cell[1]).bounding_box do
       # move_down 20
-      font('Courier') {text "<b>#{label}</b>", inline_format: true}
+      font('Courier') { text "<b>#{label}</b>", inline_format: true }
     end
   end
 
@@ -353,10 +339,10 @@ class CandidatePDFDocument < Prawn::Document
   # * <tt>:cell</tt> cell
   # * <tt>:value</tt> value
   #
-  def grid_value (cell, value)
+  def grid_value(cell, value)
     val = if (value.is_a? TrueClass) || (value.is_a? FalseClass) || (value.is_a? Date)
             value.to_s
-          elsif value.nil? or value.empty?
+          elsif value.nil? || value.empty?
             '<no value>'
           else
             value
@@ -385,13 +371,13 @@ class CandidatePDFDocument < Prawn::Document
   #
   def title_page
     bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height do
-      bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height/3 do
+      bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height / 3 do
         text 'Confirmation booklet', size: 30, style: :bold, align: :center, valign: :bottom
       end
-      bounding_box [bounds.left, bounds.top-(bounds.height/3)], width: bounds.width, height: bounds.height/3 do
+      bounding_box [bounds.left, bounds.top - (bounds.height / 3)], width: bounds.width, height: bounds.height / 3 do
         text 'for', size: 30, style: :bold, align: :center, valign: :center
       end
-      bounding_box [bounds.left, bounds.top-((bounds.height*2)/3)], width: bounds.width, height: bounds.height/3 do
+      bounding_box [bounds.left, bounds.top - ((bounds.height * 2) / 3)], width: bounds.width, height: bounds.height / 3 do
         text "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}", size: 30, style: :bold, align: :center, valign: :top
       end
     end

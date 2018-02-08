@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 require 'prawn'
 require 'sendgrid-ruby'
-include SendGrid
 
+#
+# Handles Admin tasks
+#
 class AdminsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   attr_accessor :admins, :confirmation_events, :candidate_info # for testing
 
   before_action :authenticate_admin!
-
 
   # These should only be looked up once
   DELETE = I18n.t('views.common.delete')
@@ -32,18 +35,16 @@ class AdminsController < ApplicationController
   end
 
   def adhoc_mailing_update
-
-    expected_params = {mail: [:subject, :body_input],
-                       candidate: [:candidate_ids]
-    }
-    missing_params = expected_params.select {|expected_param, sub_params| params[expected_param].nil?}
+    expected_params = { mail: %i[subject body_input],
+                        candidate: [:candidate_ids] }
+    missing_params = expected_params.select { |expected_param, _sub_params| params[expected_param].nil? }
     unless missing_params.empty?
       return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
     end
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
-    candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
+    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     mail_param = params[:mail]
     subject_text = mail_param[:subject]
@@ -56,28 +57,28 @@ class AdminsController < ApplicationController
     begin
       send_grid_mail = SendGridMail.new(current_admin, candidates)
       case params[:commit]
-        when t('email.adhoc_mail')
+      when t('email.adhoc_mail')
 
-          flash_message = t('messages.adhoc_mailing_progress')
-          response = send_grid_mail.adhoc(subject_text, body_input_text)
+        flash_message = t('messages.adhoc_mailing_progress')
+        response = send_grid_mail.adhoc(subject_text, body_input_text)
 
-        when t('email.test_adhoc_mail')
+      when t('email.test_adhoc_mail')
 
-          flash_message = t('messages.adhoc_mailing_test_sent')
-          response = send_grid_mail.adhoc_test(subject_text, body_input_text)
+        flash_message = t('messages.adhoc_mailing_test_sent')
+        response = send_grid_mail.adhoc_test(subject_text, body_input_text)
 
-        else
+      else
 
-          return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
+        return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
 
       end
 
-      if response.status_code[0] === '2'
+      if response.status_code[0] == '2'
         flash[:notice] = flash_message
       else
         flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
       end
-    rescue Exception => e
+    rescue StandardError => e
       # puts "adhoc_mailing_update message=#{e.message} backtrace=#{e.backtrace[0...5]}"
       flash[:alert] = "message=#{e.message} backtrace=#{e.backtrace[0...5]}"
       Rails.logger.error("message=#{e.message} backtrace=#{e.backtrace[0...5]}")
@@ -85,7 +86,6 @@ class AdminsController < ApplicationController
 
     setup_adhoc_render(body_input_text, subject_text)
     render :adhoc_mailing, mail: mail_param
-
   end
 
   def edit_multiple_confirmation_events
@@ -106,13 +106,13 @@ class AdminsController < ApplicationController
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
-    candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
+    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
     if candidates.empty?
       set_candidates(confirmation_event: confirmation_event)
       flash[:notice] = t('messages.no_candidate_selected')
       return render :mass_edit_candidates_event
     end
-    params[:confirmation_event_attributes] = {id: confirmation_event.id}
+    params[:confirmation_event_attributes] = { id: confirmation_event.id }
     candidates.each do |candidate|
       candidate_event = candidate.get_candidate_event(confirmation_event.name)
 
@@ -130,82 +130,81 @@ class AdminsController < ApplicationController
   end
 
   def mass_edit_candidates_update
-
     candidate_param = params[:candidate]
     candidate_ids = candidate_param ? candidate_param[:candidate_ids] : []
     params.delete(:candidate) if candidate_param
     candidates = []
-    candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
+    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     if candidates.empty?
       redirect_to :back, alert: t('messages.no_candidate_selected')
     else
       case params[:commit]
-        when AdminsController::DELETE
-          candidates.each(&:destroy)
-          flash[:notice] = t('messages.candidates_deleted')
-          set_candidates
-          render 'candidates/index'
-        when AdminsController::GENERATE_PDF
-          if candidates.size > 1
-            redirect_to :back, notice: t('messages.generate_pdf_error')
-          else
-            doc_name = 'tmp/temp.pdf'
-            pdf = CandidatePDFDocument.new(candidates.first)
-            send_data pdf.render,
-                      filename: doc_name,
-                      type: 'application/pdf'
-          end
-        when AdminsController::EMAIL
-          setup_monthly_mailing_render_default(candidate_ids)
-          render :monthly_mass_mailing
-        when AdminsController::RESET_PASSWORD
-          # This only sends the password reset instructions, the
-          # password is not changed. (Recipient has to click link
-          # in email and follow instructions to actually change
-          # the password).
-          send_grid_mail = SendGridMail.new(current_admin, candidates)
-          response, token = send_grid_mail.reset_password
-          if response.nil? && Rails.env.test?
-            # not connected to the internet
-            flash[:notice] = I18n.t('messages.reset_password_message_sent')
-          elsif response.status_code[0] === '2'
-            flash[:notice] = I18n.t('messages.reset_password_message_sent')
-          else
-            flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
-          end
-          redirect_to :back
-        when AdminsController::INITIAL_EMAIL
-          # This only sends the password reset instructions, the
-          # password is not changed. (Recipient has to click link
-          # in email and follow instructions to actually change
-          # the password).
-          send_grid_mail = SendGridMail.new(current_admin, candidates)
-          response, token = send_grid_mail.confirmation_instructions
-          if response.nil? && Rails.env.test?
-            # not connected to the internet
-            flash[:notice] = t('messages.initial_email_sent')
-          elsif response.status_code[0] === '2'
-            flash[:notice] = t('messages.initial_email_sent')
-          else
-            flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
-          end
-          redirect_to :back, notice: t('messages.initial_email_sent')
-        when AdminsController::CONFIRM_ACCOUNT
-          confirmed = 0
-          candidates.each do |candidate|
-            if candidate.account_confirmed?
-              Rails.logger.info("Candidate account already confirmed: #{candidate.account_name}")
-            else
-              candidate.confirm_account
-              candidate.save
-              confirmed += 1
-              Rails.logger.info("Candidate account confirmed: #{candidate.account_name}")
-            end
-          end
-          redirect_to :back, notice: t('messages.account_confirmed', number_confirmed: confirmed, number_not_confirmed: candidates.size-confirmed)
+      when AdminsController::DELETE
+        candidates.each(&:destroy)
+        flash[:notice] = t('messages.candidates_deleted')
+        set_candidates
+        render 'candidates/index'
+      when AdminsController::GENERATE_PDF
+        if candidates.size > 1
+          redirect_to :back, notice: t('messages.generate_pdf_error')
         else
-          redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
+          doc_name = 'tmp/temp.pdf'
+          pdf = CandidatePDFDocument.new(candidates.first)
+          send_data pdf.render,
+                    filename: doc_name,
+                    type: 'application/pdf'
+        end
+      when AdminsController::EMAIL
+        setup_monthly_mailing_render_default(candidate_ids)
+        render :monthly_mass_mailing
+      when AdminsController::RESET_PASSWORD
+        # This only sends the password reset instructions, the
+        # password is not changed. (Recipient has to click link
+        # in email and follow instructions to actually change
+        # the password).
+        send_grid_mail = SendGridMail.new(current_admin, candidates)
+        response, _token = send_grid_mail.reset_password
+        if response.nil? && Rails.env.test?
+          # not connected to the internet
+          flash[:notice] = I18n.t('messages.reset_password_message_sent')
+        elsif response.status_code[0] == '2'
+          flash[:notice] = I18n.t('messages.reset_password_message_sent')
+        else
+          flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
+        end
+        redirect_to :back
+      when AdminsController::INITIAL_EMAIL
+        # This only sends the password reset instructions, the
+        # password is not changed. (Recipient has to click link
+        # in email and follow instructions to actually change
+        # the password).
+        send_grid_mail = SendGridMail.new(current_admin, candidates)
+        response, _token = send_grid_mail.confirmation_instructions
+        if response.nil? && Rails.env.test?
+          # not connected to the internet
+          flash[:notice] = t('messages.initial_email_sent')
+        elsif response.status_code[0] == '2'
+          flash[:notice] = t('messages.initial_email_sent')
+        else
+          flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
+        end
+        redirect_to :back, notice: t('messages.initial_email_sent')
+      when AdminsController::CONFIRM_ACCOUNT
+        confirmed = 0
+        candidates.each do |candidate|
+          if candidate.account_confirmed?
+            Rails.logger.info("Candidate account already confirmed: #{candidate.account_name}")
+          else
+            candidate.confirm_account
+            candidate.save
+            confirmed += 1
+            Rails.logger.info("Candidate account confirmed: #{candidate.account_name}")
+          end
+        end
+        redirect_to :back, notice: t('messages.account_confirmed', number_confirmed: confirmed, number_not_confirmed: candidates.size - confirmed)
+      else
+        redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
       end
     end
   end
@@ -234,8 +233,7 @@ class AdminsController < ApplicationController
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text)
   end
 
-  def setup_monthly_mailing_render_default(selected_ids=[])
-
+  def setup_monthly_mailing_render_default(selected_ids = [])
     subject = t('email.subject_initial_text')
     pre_late_input = t('email.late_initial_text')
     pre_coming_due_input = t('email.coming_due_initial_text')
@@ -249,11 +247,9 @@ class AdminsController < ApplicationController
   end
 
   def monthly_mass_mailing_update
-
-    expected_params = {mail: [:subject, :pre_late_input, :pre_coming_due_input, :completed_input, :salutation_text, :closing_text, :from_text],
-                       candidate: [:candidate_ids]
-    }
-    missing_params = expected_params.select {|expected_param, sub_params| params[expected_param].nil?}
+    expected_params = { mail: %i[subject pre_late_input pre_coming_due_input completed_input salutation_text closing_text from_text],
+                        candidate: [:candidate_ids] }
+    missing_params = expected_params.select { |expected_param, _sub_params| params[expected_param].nil? }
     unless missing_params.empty?
       return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
     end
@@ -270,28 +266,28 @@ class AdminsController < ApplicationController
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
-    candidate_ids.each {|id| candidates << Candidate.find(id) unless id.empty?}
+    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     if candidates.empty?
       return redirect_back(t('messages.no_candidate_selected'), mail_param)
     end
 
     case params[:commit]
-      when t('email.monthly_mail')
+    when t('email.monthly_mail')
 
-        is_test_mail = false
+      is_test_mail = false
 
-        flash_message = t('messages.monthly_mailing_progress')
+      flash_message = t('messages.monthly_mailing_progress')
 
-      when t('email.test_monthly_mail')
+    when t('email.test_monthly_mail')
 
-        is_test_mail = true
+      is_test_mail = true
 
-        flash_message = t('messages.monthly_mailing_test_sent')
+      flash_message = t('messages.monthly_mailing_test_sent')
 
-      else
+    else
 
-        return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
+      return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
 
     end
 
@@ -299,19 +295,23 @@ class AdminsController < ApplicationController
     send_grid_mail = SendGridMail.new(current_admin, candidates)
 
     if is_test_mail
-      send_grid_mail.monthly_mass_mailing_test(mail_param[:subject], pre_late_text: mail_param[:pre_late_input],
+      send_grid_mail.monthly_mass_mailing_test(mail_param[:subject],
+                                               pre_late_text: mail_param[:pre_late_input],
                                                pre_coming_due_text: mail_param[:pre_coming_due_input],
                                                completed_awaiting_text: mail_param[:completed_awaiting_input],
                                                completed_text: mail_param[:completed_input],
                                                closing_text: mail_param[:closing_text],
-                                               salutation_text: mail_param[:salutation_text], from_text: mail_param[:from_text])
+                                               salutation_text: mail_param[:salutation_text],
+                                               from_text: mail_param[:from_text])
     else
-      send_grid_mail.monthly_mass_mailing(mail_param[:subject], pre_late_text: mail_param[:pre_late_input],
+      send_grid_mail.monthly_mass_mailing(mail_param[:subject],
+                                          pre_late_text: mail_param[:pre_late_input],
                                           pre_coming_due_text: mail_param[:pre_coming_due_input],
                                           completed_awaiting_text: mail_param[:completed_awaiting_input],
                                           completed_text: mail_param[:completed_input],
                                           closing_text: mail_param[:closing_text],
-                                          salutation_text: mail_param[:salutation_text], from_text: mail_param[:from_text])
+                                          salutation_text: mail_param[:salutation_text],
+                                          from_text: mail_param[:from_text])
     end
 
     flash[:notice] = flash_message
@@ -321,7 +321,6 @@ class AdminsController < ApplicationController
     setup_monthly_mailing_render(subject_text, pre_late_input, pre_coming_due_input, completed_awaiting_input,
                                  completed_input, closing_text, salutation_text, from_text)
     render :monthly_mass_mailing
-
   end
 
   def show
@@ -329,8 +328,8 @@ class AdminsController < ApplicationController
   end
 
   def update_multiple_confirmation_events
-    if params[:commit] === t('views.common.update')
-      confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject {|p| p.errors.empty?}
+    if params[:commit] == t('views.common.update')
+      confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject { |p| p.errors.empty? }
       if confirmation_events.empty?
         flash[:notice] = t('messages.confirmation_events_updated')
       else
@@ -338,7 +337,7 @@ class AdminsController < ApplicationController
       end
       set_confirmation_events
       render :edit_multiple_confirmation_events
-    elsif params[:update].size === 1 && (params[:update][params[:update].keys[0]] === t('views.common.update_candidates_event'))
+    elsif params[:update].size == 1 && (params[:update][params[:update].keys[0]] == t('views.common.update_candidates_event'))
 
       confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
 
@@ -349,12 +348,10 @@ class AdminsController < ApplicationController
       set_confirmation_events
       render :edit_multiple_confirmation_events
     end
-
   end
 
-
   def setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input,
-                                   closing_text, salutation_text, from_text, selected_ids=[])
+                                   closing_text, salutation_text, from_text, selected_ids = [])
     @subject = subject
     @pre_late_input = pre_late_input
     @pre_coming_due_input = pre_coming_due_input
@@ -373,19 +370,19 @@ class AdminsController < ApplicationController
   end
 
   def redirect_back(flash_message, mail_params)
-
-    # get a URI object for referring url
-    referrer_url = URI.parse(request.referrer) rescue URI.parse(some_default_url)
-    # need to have a default in case referrer is not given
-
+    begin
+      # get a URI object for referring url
+      referrer_url = URI.parse(request.referrer)
+    rescue StandardError
+      URI.parse(some_default_url)
+      # need to have a default in case referrer is not given
+    end
 
     # append the query string to the  referrer url
-    referrer_url.query = Rack::Utils.parse_nested_query(referrer_url.query).
-        # referrer_url.query returns the existing query string => "f=b"
-        # Rack::Utils.parse_nested_query converts query string to hash => {f: "b"}
-        merge({mail: mail_params}).
-        # merge appends or overwrites the new parameter  => {f: "b", cp: :foo'}
-        to_query
+    # referrer_url.query returns the existing query string => "f=b"
+    # Rack::Utils.parse_nested_query converts query string to hash => {f: "b"}
+    # merge appends or overwrites the new parameter  => {f: "b", cp: :foo'}
+    referrer_url.query = Rack::Utils.parse_nested_query(referrer_url.query).merge(mail: mail_params).to_query
     # to_query converts hash back to query string => "f=b&cp=foo"
 
     flash[:alert] = flash_message
@@ -402,19 +399,16 @@ class AdminsController < ApplicationController
         else
           -1
         end
+      elsif ce2.the_way_due_date.nil?
+        1
       else
-        if ce2.the_way_due_date.nil?
-          1
+        due_date = ce1.the_way_due_date <=> ce2.the_way_due_date
+        if due_date.zero?
+          ce1.name <=> ce2.name
         else
-          due_date = ce1.the_way_due_date <=> ce2.the_way_due_date
-          if due_date == 0
-            ce1.name <=> ce2.name
-          else
-            due_date
-          end
+          due_date
         end
       end
     end
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Candidate specific of a ConfirmationEvent
 #
@@ -18,7 +20,7 @@ class CandidateEvent < ActiveRecord::Base
   # Date
   #
   def due_date
-    if self.candidate.candidate_sheet.attending === 'The Way'
+    if candidate.candidate_sheet.attending == 'The Way'
       confirmation_event.the_way_due_date
     else
       confirmation_event.chs_due_date
@@ -91,7 +93,7 @@ class CandidateEvent < ActiveRecord::Base
   # Boolean
   #
   def self.awaiting_candidate?(due_date, completed_date)
-    CandidateEvent.started?(due_date) and completed_date.nil?
+    CandidateEvent.started?(due_date) && completed_date.nil?
   end
 
   # Is the candidate event waiting verification from admin
@@ -116,7 +118,7 @@ class CandidateEvent < ActiveRecord::Base
   # Boolean
   #
   def self.awaiting_admin?(due_date, completed_date, verified)
-    CandidateEvent.started?(due_date) and !completed_date.nil? and !verified
+    CandidateEvent.started?(due_date) && !completed_date.nil? && !verified
   end
 
   # Is the candidate event coming due within the next 30 days.
@@ -142,7 +144,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   def self.coming_due?(due_date, completed_date)
     today = Date.today
-    CandidateEvent.awaiting_candidate?(due_date, completed_date) and (due_date >= today) and (due_date < today+30)
+    CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date >= today) && (due_date < today + 30)
   end
 
   def completed?
@@ -161,7 +163,7 @@ class CandidateEvent < ActiveRecord::Base
   # Boolean
   #
   def self.completed?(due_date, verified)
-    CandidateEvent.started?(due_date) and verified
+    CandidateEvent.started?(due_date) && verified
   end
 
   # Is the candidate event past due.
@@ -186,7 +188,7 @@ class CandidateEvent < ActiveRecord::Base
   # Boolean
   #
   def self.late?(due_date, completed_date)
-    CandidateEvent.awaiting_candidate?(due_date, completed_date) and (due_date < Date.today)
+    CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date < Date.today)
   end
 
   # What is the status of this event.
@@ -201,14 +203,14 @@ class CandidateEvent < ActiveRecord::Base
   #
   # String
   #
-  def self.status(due_date, completed_date,verified)
-    return I18n.t('status.not_started') unless self.started?(due_date)
-    return I18n.t('status.coming_due') if self.coming_due?(due_date, completed_date)
-    return I18n.t('status.late') if self.late?(due_date, completed_date)
-    return I18n.t('status.awaiting_candidate') if self.awaiting_candidate?(due_date, completed_date)
-    return I18n.t('status.awaiting_admin') if self.awaiting_admin?(due_date, completed_date, verified)
-    return I18n.t('status.verified') if self.completed?(due_date, verified)
-    raise("Unknown candidate_event status")
+  def self.status(due_date, completed_date, verified)
+    return I18n.t('status.not_started') unless started?(due_date)
+    return I18n.t('status.coming_due') if coming_due?(due_date, completed_date)
+    return I18n.t('status.late') if late?(due_date, completed_date)
+    return I18n.t('status.awaiting_candidate') if awaiting_candidate?(due_date, completed_date)
+    return I18n.t('status.awaiting_admin') if awaiting_admin?(due_date, completed_date, verified)
+    return I18n.t('status.verified') if completed?(due_date, verified)
+    raise('Unknown candidate_event status')
   end
 
   # What is the status of this event.
@@ -255,26 +257,26 @@ class CandidateEvent < ActiveRecord::Base
   def route
     # TODO: maybe move to constants
     case name
-      when I18n.t('events.baptismal_certificate')
-        Event::Route::BAPTISMAL_CERTIFICATE
-      when I18n.t('events.candidate_covenant_agreement')
-        Event::Other::CANDIDATE_COVENANT_AGREEMENT
-      when I18n.t('events.candidate_information_sheet')
-        Event::Other::CANDIDATE_INFORMATION_SHEET
-      when I18n.t('events.christian_ministry')
-        Event::Route::CHRISTIAN_MINISTRY
-      when I18n.t('events.confirmation_name')
-        Event::Route::CONFIRMATION_NAME
-      when I18n.t('events.parent_meeting')
-        Event::Other::PARENT_INFORMATION_MEETING
-      when I18n.t('events.sponsor_agreement')
-        Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
-      when I18n.t('events.sponsor_covenant')
-        Event::Route::SPONSOR_COVENANT
-      when I18n.t('events.retreat_verification')
-        Event::Route::RETREAT_VERIFICATION
-      else
-        raise "Unknown event to route: #{name}"
+    when I18n.t('events.baptismal_certificate')
+      Event::Route::BAPTISMAL_CERTIFICATE
+    when I18n.t('events.candidate_covenant_agreement')
+      Event::Other::CANDIDATE_COVENANT_AGREEMENT
+    when I18n.t('events.candidate_information_sheet')
+      Event::Other::CANDIDATE_INFORMATION_SHEET
+    when I18n.t('events.christian_ministry')
+      Event::Route::CHRISTIAN_MINISTRY
+    when I18n.t('events.confirmation_name')
+      Event::Route::CONFIRMATION_NAME
+    when I18n.t('events.parent_meeting')
+      Event::Other::PARENT_INFORMATION_MEETING
+    when I18n.t('events.sponsor_agreement')
+      Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
+    when I18n.t('events.sponsor_covenant')
+      Event::Route::SPONSOR_COVENANT
+    when I18n.t('events.retreat_verification')
+      Event::Route::RETREAT_VERIFICATION
+    else
+      raise "Unknown event to route: #{name}"
     end
   end
 
@@ -288,18 +290,17 @@ class CandidateEvent < ActiveRecord::Base
   #
   def mark_completed(validated, cand_assoc_class)
     if validated
-      if self.completed_date.nil?
+      if completed_date.nil?
         self.completed_date = Date.today
         # automatically mark verified when completed.
         # TODO: move to association class
-        self.verified = ['CandidateSheet', 'ChristianMinistry'].include?(cand_assoc_class.to_s)
+        self.verified = %w[CandidateSheet ChristianMinistry].include?(cand_assoc_class.to_s)
       end
     else
-      unless self.completed_date.nil?
+      unless completed_date.nil?
         self.completed_date = nil
         self.verified = false
       end
     end
   end
-
 end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 #
-# Actve Record
+# Active Record
 #
 class ScannedImage < ActiveRecord::Base
   belongs_to(:retreat_verification)
@@ -13,6 +15,6 @@ class ScannedImage < ActiveRecord::Base
   # Array of attributes
   #
   def self.get_permitted_params
-    [:filename, :content_type, :content, :id]
+    %i[filename content_type content id]
   end
 end

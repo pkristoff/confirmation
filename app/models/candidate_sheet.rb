@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Basic information about candidate.
 #
@@ -5,7 +7,7 @@ class CandidateSheet < ActiveRecord::Base
   belongs_to(:address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :address, allow_destroy: true
 
-  after_initialize :build_associations, :if => :new_record?
+  after_initialize :build_associations, if: :new_record?
 
   validates_presence_of(:first_name, :last_name)
 
@@ -19,11 +21,11 @@ class CandidateSheet < ActiveRecord::Base
   #
   # Boolean
   #
-  def validate_event_complete(options={})
+  def validate_event_complete(options = {})
     event_complete_validator = EventCompleteValidator.new(self)
     event_complete_validator.validate(CandidateSheet.get_basic_validation_params)
     validate_emails
-    event_complete = !errors.any?
+    event_complete = errors.none?
     address.validate_event_complete
     address.errors.full_messages.each do |msg|
       errors[:base] << msg
@@ -49,7 +51,7 @@ class CandidateSheet < ActiveRecord::Base
   # Array of attributes
   #
   def self.get_basic_permitted_params
-    [:first_name, :middle_name, :last_name, :candidate_email, :parent_email_1, :parent_email_2, :grade, :attending, :id]
+    %i[first_name middle_name last_name candidate_email parent_email_1 parent_email_2 grade attending id]
   end
 
   # Required attributes
@@ -116,7 +118,7 @@ class CandidateSheet < ActiveRecord::Base
   # * <tt>:value</tt> String: nil or email address
   #
   def email=(value)
-    parent_email_1= value
+    parent_email_1 = value
   end
 
   # returns false - used by Factory Girl
@@ -142,15 +144,9 @@ class CandidateSheet < ActiveRecord::Base
   # Validate if email addrresses are either nil or a valid email syntax.
   #
   def validate_emails
-    unless candidate_email.nil? or candidate_email.empty?
-      errors.add(:candidate_email, "is an invalid email: #{candidate_email}") unless validate_email(candidate_email)
-    end
-    unless parent_email_1.nil? or parent_email_1.empty?
-      errors.add(:parent_email_1, "is an invalid email: #{parent_email_1}") unless validate_email(parent_email_1)
-    end
-    unless parent_email_2.nil? or parent_email_2.empty?
-      errors.add(:parent_email_2, "is an invalid email: #{parent_email_2}") unless validate_email(parent_email_2)
-    end
+      errors.add(:candidate_email, "is an invalid email: #{candidate_email}") unless candidate_email.nil? || candidate_email.empty? || validate_email(candidate_email)
+      errors.add(:parent_email_1, "is an invalid email: #{parent_email_1}") unless parent_email_1.nil? || parent_email_1.empty? || validate_email(parent_email_1)
+      errors.add(:parent_email_2, "is an invalid email: #{parent_email_2}") unless parent_email_2.nil? || parent_email_2.empty? || validate_email(parent_email_2)
   end
 
   # Validate if value is a valid email addrress.
@@ -171,14 +167,13 @@ class CandidateSheet < ActiveRecord::Base
   #
   def verifiable_info(candidate)
     # TODO: come up with prettier names
-    {name: "#{first_name} #{last_name}",
-     grade: grade,
-     street_1: address.street_1,
-     street_2: address.street_2,
-     city: address.city,
-     state: address.state,
-     zipcode: address.zip_code
-    }
+    { name: "#{first_name} #{last_name}",
+      grade: grade,
+      street_1: address.street_1,
+      street_2: address.street_2,
+      city: address.city,
+      state: address.state,
+      zipcode: address.zip_code }
   end
 
   # Attempts to guarentee that there is always a 'to' email
@@ -192,8 +187,8 @@ class CandidateSheet < ActiveRecord::Base
   # String: email address or nil
   #
   def to_email
-    return candidate_email unless (candidate_email.nil? || candidate_email.empty?)
-    return parent_email_1 unless (parent_email_1.nil? || parent_email_1.empty?)
+    return candidate_email unless candidate_email.nil? || candidate_email.empty?
+    return parent_email_1 unless parent_email_1.nil? || parent_email_1.empty?
     parent_email_2
   end
 
@@ -208,10 +203,10 @@ class CandidateSheet < ActiveRecord::Base
   #
   def cc_email
     if candidate_email.nil? || candidate_email.empty?
-      return parent_email_2 unless (parent_email_1.nil? || parent_email_1.empty?)
+      return parent_email_2 unless parent_email_1.nil? || parent_email_1.empty?
       ''
     else
-      return parent_email_1 unless (parent_email_1.nil? || parent_email_1.empty?)
+      return parent_email_1 unless parent_email_1.nil? || parent_email_1.empty?
       parent_email_2
     end
   end
@@ -228,5 +223,4 @@ class CandidateSheet < ActiveRecord::Base
     return parent_email_2 unless (candidate_email.nil? || candidate_email.empty?) || (parent_email_1.nil? || parent_email_1.empty?)
     ''
   end
-
 end

@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 #
 # Used to hold information input from client
 #
 class CandidatesMailerText
-
   attr_accessor :candidate
 
   attr_accessor :subject
@@ -20,15 +21,16 @@ class CandidatesMailerText
     @candidate = parms[:candidate]
     @subject = parms[:subject]
     @body_text = parms[:body_input]
-    if @body_text.is_a? Hash
-      @pre_late_text = @body_text[:pre_late_text]
-      @pre_coming_due_text = @body_text[:pre_coming_due_text]
-      @completed_awaiting_text = @body_text[:completed_awaiting_text]
-      @completed_text = @body_text[:completed_text]
-      @closing_text = @body_text[:closing_text]
-      @salutation_text = @body_text[:salutation_text]
-      @from_text = @body_text[:from_text]
-    end
+
+    return unless @body_text.is_a? Hash
+
+    @pre_late_text = @body_text[:pre_late_text]
+    @pre_coming_due_text = @body_text[:pre_coming_due_text]
+    @completed_awaiting_text = @body_text[:completed_awaiting_text]
+    @completed_text = @body_text[:completed_text]
+    @closing_text = @body_text[:closing_text]
+    @salutation_text = @body_text[:salutation_text]
+    @from_text = @body_text[:from_text]
   end
 
   # late CandidateEvent
@@ -80,5 +82,4 @@ class CandidatesMailerText
   def completed_events
     candidate.get_completed
   end
-
 end

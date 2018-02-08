@@ -28,6 +28,7 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails'
   gem 'rails_real_favicon'
+  gem 'rubocop', require: false
 end
 group :production do
   gem 'unicorn'

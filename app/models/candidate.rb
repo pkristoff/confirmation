@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'constants'
 
 #
 # Person being confirmed
 #
 class Candidate < ActiveRecord::Base
-# TODO: Remove address - this should be gone.
+  # TODO: Remove address - this should be gone.
   belongs_to(:address, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:address, allow_destroy: true)
 
@@ -29,19 +31,19 @@ class Candidate < ActiveRecord::Base
   belongs_to(:retreat_verification, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:retreat_verification, allow_destroy: true)
 
-  after_initialize :build_associations, :if => :new_record?
+  after_initialize :build_associations, if: :new_record?
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :authentication_keys => [:account_name],
-         :reset_password_keys => [:account_name]
+         authentication_keys: [:account_name],
+         reset_password_keys: [:account_name]
 
   validates :account_name,
-            :presence => true,
-            :uniqueness => {
-                :case_sensitive => false
+            presence: true,
+            uniqueness: {
+              case_sensitive: false
             }
   #
   # turn off sending verify instructions until admin sends it.
@@ -68,40 +70,34 @@ class Candidate < ActiveRecord::Base
         else
           -1
         end
-      else
-        if ce2.due_date.nil?
-          1
-        else
-          # due_dates filled in.
-          if ce1.completed_date.nil?
-            if ce2.completed_date.nil?
-              # if neither completed then the first to come
-              # due is first
-              due_date = ce1.due_date <=> ce2.due_date
-              if due_date == 0
-                ce1.name <=> ce2.name
-              else
-                due_date
-              end
-            else
-              # non completed goes on top.
-              -1
-            end
+      elsif ce2.due_date.nil?
+        1
+      elsif ce1.completed_date.nil?
+        # due_dates filled in.
+        if ce2.completed_date.nil?
+          # if neither completed then the first to come
+          # due is first
+          due_date = ce1.due_date <=> ce2.due_date
+          if due_date.zero?
+            ce1.name <=> ce2.name
           else
-            # non completed goes on top.
-            if ce2.completed_date.nil?
-              1
-            else
-              # if both are completed then the first to come
-              # due is on top
-              due_date = ce1.due_date <=> ce2.due_date
-              if due_date == 0
-                ce1.name <=> ce2.name
-              else
-                due_date
-              end
-            end
+            due_date
           end
+        else
+          # non completed goes on top.
+          -1
+        end
+      elsif ce2.completed_date.nil?
+        # non completed goes on top.
+        1
+      else
+        # if both are completed then the first to come
+        # due is on top
+        due_date = ce1.due_date <=> ce2.due_date
+        if due_date.zero?
+          ce1.name <=> ce2.name
+        else
+          due_date
         end
       end
     end
@@ -133,7 +129,7 @@ class Candidate < ActiveRecord::Base
   #
   # candidate_event
   #
-  def add_candidate_event (confirmation_event)
+  def add_candidate_event(confirmation_event)
     candidate_event = AppFactory.create_candidate_event(confirmation_event)
     candidate_events << candidate_event
     candidate_event.candidate = self
@@ -147,7 +143,7 @@ class Candidate < ActiveRecord::Base
   # Array of attributes
   #
   def self.candidate_params
-    params = attribute_names.collect { |e| e.to_sym } & [:account_name, :password]
+    params = attribute_names.collect(&:to_sym) & %i[account_name password]
     params = params << :password
     params
   end
@@ -177,8 +173,7 @@ class Candidate < ActiveRecord::Base
      pick_confirmation_name_attributes: PickConfirmationName.get_permitted_params,
      christian_ministry_attributes: ChristianMinistry.get_permitted_params,
      candidate_events_attributes: CandidateEvent.get_permitted_params,
-     retreat_verification_attributes: RetreatVerification.get_permitted_params
-    ]
+     retreat_verification_attributes: RetreatVerification.get_permitted_params]
   end
 
   # Validate if association_class event is complete by adding validation errors to active record
@@ -191,7 +186,7 @@ class Candidate < ActiveRecord::Base
   #
   # christian_ministry with validation errors
   #
-  def validate_event_complete (association_class)
+  def validate_event_complete(association_class)
     complete = true
     association = association_class.validate_event_complete(self)
     association.errors.full_messages.each do |msg|
@@ -229,7 +224,7 @@ class Candidate < ActiveRecord::Base
   # email address String
   #
   def email
-    "#{candidate_sheet.candidate_email}"
+    candidate_sheet.candidate_email.to_s
   end
 
   # sets canidates email to value - used by Factory Girl
@@ -303,7 +298,6 @@ class Candidate < ActiveRecord::Base
   # Candidate whose password was changed
   #
   def self.reset_password_by_token(resource_params)
-
     candidate = super(resource_params)
     if candidate.errors.empty? && !candidate.account_confirmed?
       candidate.skip_confirmation!
@@ -321,8 +315,8 @@ class Candidate < ActiveRecord::Base
   #
   # Boolean
   #
-  def get_candidate_event (event_name)
-    event = candidate_events.find { |candidate_event| candidate_event.name === event_name }
+  def get_candidate_event(event_name)
+    event = candidate_events.find { |candidate_event| candidate_event.name == event_name }
     if event.nil?
       puts "Could not find event: #{event_name}"
       candidate_events.find { |candidate_event| puts candidate_event.name }
@@ -341,24 +335,24 @@ class Candidate < ActiveRecord::Base
   #
   # christian_ministry with validation errors
   #
-  def get_event_association (event_route_name)
+  def get_event_association(event_route_name)
     case event_route_name.to_sym
-      when Event::Route::BAPTISMAL_CERTIFICATE
-        baptismal_certificate
-      when Event::Route::CHRISTIAN_MINISTRY
-        christian_ministry
-      when Event::Route::CONFIRMATION_NAME
-        pick_confirmation_name
-      when Event::Route::SPONSOR_COVENANT
-        sponsor_covenant
-      when Event::Route::RETREAT_VERIFICATION
-        retreat_verification
-      when Event::Other::CANDIDATE_INFORMATION_SHEET
-        candidate_sheet
-      when Event::Other::PARENT_INFORMATION_MEETING, Event::Other::ATTEND_RETREAT, Event::Other::CANDIDATE_COVENANT_AGREEMENT, Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
-        self
-      else
-        raise "Unknown event association: #{event_route_name}"
+    when Event::Route::BAPTISMAL_CERTIFICATE
+      baptismal_certificate
+    when Event::Route::CHRISTIAN_MINISTRY
+      christian_ministry
+    when Event::Route::CONFIRMATION_NAME
+      pick_confirmation_name
+    when Event::Route::SPONSOR_COVENANT
+      sponsor_covenant
+    when Event::Route::RETREAT_VERIFICATION
+      retreat_verification
+    when Event::Other::CANDIDATE_INFORMATION_SHEET
+      candidate_sheet
+    when Event::Other::PARENT_INFORMATION_MEETING, Event::Other::ATTEND_RETREAT, Event::Other::CANDIDATE_COVENANT_AGREEMENT, Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
+      self
+    else
+      raise "Unknown event association: #{event_route_name}"
     end
   end
 
@@ -383,9 +377,7 @@ class Candidate < ActiveRecord::Base
   # Array of completed candidate events
   #
   def get_completed
-    candidate_events.select do |candidate_event|
-      candidate_event.completed?
-    end
+    candidate_events.select(&:completed?)
   end
 
   # returns array of coming due events
@@ -395,9 +387,7 @@ class Candidate < ActiveRecord::Base
   # Array of coming due candidate events
   #
   def get_coming_due_events
-    candidate_events.select do |candidate_event|
-      candidate_event.coming_due?
-    end
+    candidate_events.select(&:coming_due?)
   end
 
   # returns array of 'awaiting candidate' events
@@ -407,9 +397,7 @@ class Candidate < ActiveRecord::Base
   # Array of 'awaiting candidate' candidate events
   #
   def get_awaiting_candidate_events
-    candidate_events.select do |candidate_event|
-      candidate_event.awaiting_candidate?
-    end
+    candidate_events.select(&:awaiting_candidate?)
   end
 
   # returns array of awaiting admin events
@@ -419,9 +407,7 @@ class Candidate < ActiveRecord::Base
   # Array of awaiting admin candidate events
   #
   def get_awaiting_admin_events
-    candidate_events.select do |candidate_event|
-      candidate_event.awaiting_admin?
-    end
+    candidate_events.select(&:awaiting_admin?)
   end
 
   # returns array of late events
@@ -431,9 +417,7 @@ class Candidate < ActiveRecord::Base
   # Array of late candidate events
   #
   def get_late_events
-    candidate_events.select do |candidate_event|
-      candidate_event.late?
-    end
+    candidate_events.select(&:late?)
   end
 
   # external verification
@@ -545,5 +529,4 @@ class Candidate < ActiveRecord::Base
     candidate_mailer_text.token = token
     devise_mailer.confirmation_instructions(self, token)
   end
-
 end

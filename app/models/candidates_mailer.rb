@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 #
 # Used to send(expand) emails
 #
 class CandidatesMailer < ActionMailer::Base
-
   default from: 'stmm.confirmation@kristoffs.com'
   default reply_to: 'stmm.confirmation@kristoffs.com'
 
@@ -18,16 +19,15 @@ class CandidatesMailer < ActionMailer::Base
   #
   # String:  expanded body text
   #
-  def adhoc(admin, candidateMailerText)
-    setup_message_info(candidateMailerText)
+  def adhoc(admin, candidate_mailer_text)
+    setup_message_info(candidate_mailer_text)
 
     mail(
-        to: "#{candidateMailerText.candidate.candidate_sheet.candidate_email}, #{candidateMailerText.candidate.candidate_sheet.parent_email_1}, #{candidateMailerText.candidate.candidate_sheet.parent_email_2}",
-        subject: candidateMailerText.subject
+      to: "#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}",
+      subject: candidate_mailer_text.subject
     ) do |format|
       format.html
     end
-
   end
 
   # generate email body for adhoc message - send email to admin.
@@ -48,11 +48,9 @@ class CandidatesMailer < ActionMailer::Base
     @subject = candidate_mailer_text.subject
 
     mail(to: admin.email.to_s,
-         subject: I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate_mailer_text.candidate.account_name)
-    ) do |format|
+         subject: I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate_mailer_text.candidate.account_name)) do |format|
       format.html
     end
-
   end
 
   # generate email body for reminder message -
@@ -67,16 +65,15 @@ class CandidatesMailer < ActionMailer::Base
   #
   # String:  expanded body text
   #
-  def monthly_reminder(admin, candidateMailerText)
-    setup_message_info(candidateMailerText)
+  def monthly_reminder(admin, candidate_mailer_text)
+    setup_message_info(candidate_mailer_text)
 
     mail(
-        to: "#{candidateMailerText.candidate.candidate_sheet.candidate_email}, #{candidateMailerText.candidate.candidate_sheet.parent_email_1}, #{candidateMailerText.candidate.candidate_sheet.parent_email_2}",
-        subject: candidateMailerText.subject
+      to: "#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}",
+      subject: candidate_mailer_text.subject
     ) do |format|
       format.html
     end
-
   end
 
   # generate email body for reminder message - sent to admin
@@ -98,11 +95,9 @@ class CandidatesMailer < ActionMailer::Base
     @subject = candidate_mailer_text.subject
 
     mail(to: admin.email.to_s,
-         subject: I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate_mailer_text.candidate.account_name)
-    ) do |format|
+         subject: I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate_mailer_text.candidate.account_name)) do |format|
       format.html
     end
-
   end
 
   # Set @candidate_mailer_text
@@ -114,5 +109,4 @@ class CandidatesMailer < ActionMailer::Base
   def setup_message_info(candidate_mailer_text)
     @candidate_mailer_text = candidate_mailer_text
   end
-
 end

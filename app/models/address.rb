@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 #
-# Actve Record
+# Active Record
 #
 class Address < ActiveRecord::Base
-
   # Editable attributes
   #
   # === Return:
@@ -10,7 +11,7 @@ class Address < ActiveRecord::Base
   # Array of attributes
   #
   def self.get_basic_permitted_params
-    [:street_1, :street_2, :city, :state, :zip_code, :id]
+    %i[street_1 street_2 city state zip_code id]
   end
 
   # Required attributes
@@ -35,8 +36,7 @@ class Address < ActiveRecord::Base
   #
   # Boolean
   #
-  def validate_event_complete(options={})
+  def validate_event_complete(options = {})
     EventCompleteValidator.new(self).validate(Address.get_basic_validatiion_params)
   end
-
 end

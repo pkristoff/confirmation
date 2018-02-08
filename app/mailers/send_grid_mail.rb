@@ -9,6 +9,7 @@ require 'constants'
 # * <tt>:candidates</tt> Array of candidates who are being emailed
 #
 class SendGridMail
+  include SendGrid
 
   def initialize(admin, candidates)
     @admin = admin

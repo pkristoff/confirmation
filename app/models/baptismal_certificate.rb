@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 #
-# Actve Record
+# Active Record
 #
 class BaptismalCertificate < ActiveRecord::Base
   belongs_to(:church_address, class_name: 'Address', validate: true, dependent: :destroy)
@@ -8,8 +10,7 @@ class BaptismalCertificate < ActiveRecord::Base
   belongs_to(:scanned_certificate, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_certificate, allow_destroy: true)
 
-  after_initialize :build_associations, :if => :new_record?
-
+  after_initialize :build_associations, if: :new_record?
 
   attr_accessor :certificate_picture
 
@@ -23,7 +24,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # Boolean
   #
-  def validate_event_complete(options={})
+  def validate_event_complete(options = {})
     baptized_at_stmm = options[:baptized_at_stmm]
     event_complete = true
     event_complete_validator = EventCompleteValidator.new(self, !baptized_at_stmm)
@@ -35,9 +36,9 @@ class BaptismalCertificate < ActiveRecord::Base
         event_complete = false
       end
       found = false
-      found |= (!errors.delete(:scanned_certificate).nil?)
+      found |= !errors.delete(:scanned_certificate).nil?
       if found
-        errors[:base] << 'Scanned baptismal certificate can\'t be blank' #TODO I18n
+        errors[:base] << 'Scanned baptismal certificate can\'t be blank' # TODO: I18n
         event_complete = false
       end
     end
@@ -52,8 +53,9 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   def self.get_permitted_params
     BaptismalCertificate.get_basic_permitted_params.concat(
-        [church_address_attributes: Address.get_basic_permitted_params,
-         scanned_certificate_attributes: ScannedImage.get_permitted_params])
+      [church_address_attributes: Address.get_basic_permitted_params,
+       scanned_certificate_attributes: ScannedImage.get_permitted_params]
+    )
   end
 
   # Editable attributes
@@ -63,9 +65,9 @@ class BaptismalCertificate < ActiveRecord::Base
   # Array of attributes
   #
   def self.get_basic_permitted_params
-    [:birth_date, :baptismal_date, :church_name, :father_first, :father_middle, :father_last,
-     :mother_first, :mother_middle, :mother_maiden, :mother_last, :certificate_picture,
-     :scanned_certificate, :id]
+    %I[birth_date baptismal_date church_name father_first father_middle father_last
+       mother_first mother_middle mother_maiden mother_last certificate_picture
+       scanned_certificate id]
   end
 
   # Required attributes
@@ -126,22 +128,21 @@ class BaptismalCertificate < ActiveRecord::Base
   def verifiable_info(candidate)
     if candidate.baptized_at_stmm
       {
-          Church: I18n.t('home_parish.name')
+        Church: I18n.t('home_parish.name')
       }
     else
       {
-          Birthday: birth_date,
-          'Baptismal date': baptismal_date,
-          'Father\'s name': "#{father_first} #{father_middle} #{father_last}",
-          'Mother\'s name': "#{mother_first} #{mother_middle} #{mother_maiden} #{mother_last}",
-          Church: church_name,
-          Street: church_address.street_1,
-          'Street 2': church_address.street_2,
-          City: church_address.city,
-          State: church_address.state,
-          'Zip Code': church_address.zip_code
+        Birthday: birth_date,
+        'Baptismal date': baptismal_date,
+        'Father\'s name': "#{father_first} #{father_middle} #{father_last}",
+        'Mother\'s name': "#{mother_first} #{mother_middle} #{mother_maiden} #{mother_last}",
+        Church: church_name,
+        Street: church_address.street_1,
+        'Street 2': church_address.street_2,
+        City: church_address.city,
+        State: church_address.state,
+        'Zip Code': church_address.zip_code
       }
     end
   end
-
 end
