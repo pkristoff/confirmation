@@ -10,8 +10,8 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # * <tt>:_options_</tt>
   #
-  def validate_event_complete(options = {})
-    EventCompleteValidator.new(self).validate(PickConfirmationName.get_permitted_params)
+  def validate_event_complete(_options = {})
+    EventCompleteValidator.new(self).validate(PickConfirmationName.permitted_params)
   end
 
   # Editable attributes
@@ -20,7 +20,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_permitted_params
+  def self.permitted_params
     %i[saint_name id]
   end
 
@@ -60,7 +60,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # Hash of information to be verified
   #
-  def verifiable_info(candidate)
+  def verifiable_info(_candidate)
     { 'Confirmation name': saint_name }
   end
 end

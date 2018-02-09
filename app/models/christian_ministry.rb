@@ -14,9 +14,9 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # Boolean
   #
-  def validate_event_complete(options = {})
+  def validate_event_complete(_options = {})
     event_complete_validator = EventCompleteValidator.new(self)
-    event_complete_validator.validate(ChristianMinistry.get_permitted_params)
+    event_complete_validator.validate(ChristianMinistry.permitted_params)
   end
 
   # Editable attributes
@@ -25,7 +25,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_permitted_params
+  def self.permitted_params
     %i[what_service where_service when_service helped_me id]
   end
 
@@ -65,7 +65,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # Hash of information to be verified
   #
-  def verifiable_info(candidate)
+  def verifiable_info(_candidate)
     {}
   end
 end

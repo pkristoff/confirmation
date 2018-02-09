@@ -19,7 +19,7 @@ class CandidatesMailer < ActionMailer::Base
   #
   # String:  expanded body text
   #
-  def adhoc(admin, candidate_mailer_text)
+  def adhoc(_admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
 
     mail(
@@ -65,7 +65,7 @@ class CandidatesMailer < ActionMailer::Base
   #
   # String:  expanded body text
   #
-  def monthly_reminder(admin, candidate_mailer_text)
+  def monthly_reminder(_admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
 
     mail(

@@ -88,7 +88,7 @@ class CandidateImport
   #
   def add_missing_events(missing_events)
     missing_events.each do |event_name|
-      confirmation_event = ConfirmationEvent.find_by_name(event_name)
+      confirmation_event = ConfirmationEvent.find_by(name: event_name)
       AppFactory.add_confirmation_event(event_name) if confirmation_event.nil?
       raise "Attempting to candidate_event named: #{event_name} that already exists.s" unless confirmation_event.nil?
     end
@@ -108,7 +108,7 @@ class CandidateImport
       confirmation_event_name = I18n.t(i18n_key)
       unknowns_index = unknowns.index(confirmation_event_name)
       unknowns.slice!(unknowns_index) unless unknowns_index.nil?
-      confirmation_event = ConfirmationEvent.find_by_name(confirmation_event_name)
+      confirmation_event = ConfirmationEvent.find_by(name: confirmation_event_name)
       if confirmation_event.nil?
         missing_confirmation_events.push(confirmation_event_name)
       else
@@ -173,7 +173,7 @@ class CandidateImport
     clean_associations(Candidate)
     AppFactory.create_seed_candidate
     today = Date.today
-    ConfirmationEvent.all.each do |ce|
+    ConfirmationEvent.find_each do |ce|
       ce.chs_due_date = today
       ce.the_way_due_date = today
       ce.save
@@ -195,7 +195,7 @@ class CandidateImport
     checked << clazz
     begin
       clazz.destroy_all
-    rescue Exception => e
+    rescue StandardError => e
       Rails.logger.info "cleaning association error when destroying #{clazz}"
       Rails.logger.info e.message
       Rails.logger.info e.backtrace.inspect
@@ -212,7 +212,7 @@ class CandidateImport
 
     remove_all_confirmation_events
 
-    Admin.all.each(&:delete)
+    Admin.find_each(&:delete)
 
     AppFactory.add_confirmation_events
 
@@ -244,33 +244,24 @@ class CandidateImport
   #
   def remove_orphaned_table_rows
     cand_ids = ids(Candidate)
-    removed = 0
     orphaned_rows = orphaned_baptismal_certificates(cand_ids)
-    removed = BaptismalCertificate.destroy(orphaned_rows) unless orphaned_rows.empty?
-    removed = 0
+    BaptismalCertificate.destroy(orphaned_rows) unless orphaned_rows.empty?
     orphaned_rows = orphaned_candidate_sheets(cand_ids)
-    removed = CandidateSheet.destroy(orphaned_rows) unless orphaned_rows.empty?
-    removed = 0
+    CandidateSheet.destroy(orphaned_rows) unless orphaned_rows.empty?
     orphaned_rows = orphaned_christian_ministry(cand_ids)
-    removed = ChristianMinistry.destroy(orphaned_rows) unless orphaned_rows.empty?
-    removed = 0
+    ChristianMinistry.destroy(orphaned_rows) unless orphaned_rows.empty?
     orphaned_rows = orphaned_pick_name(cand_ids)
-    removed = PickConfirmationName.destroy(orphaned_rows) unless orphaned_rows.empty?
-    removed = 0
+    PickConfirmationName.destroy(orphaned_rows) unless orphaned_rows.empty?
     orphaned_rows = orphaned_retreat_verification(cand_ids)
-    removed = RetreatVerification.destroy(orphaned_rows) unless orphaned_rows.empty?
-    removed = 0
+    RetreatVerification.destroy(orphaned_rows) unless orphaned_rows.empty?
     orphaned_rows = orphaned_sponsor_covenant(cand_ids)
-    removed = SponsorCovenant.destroy(orphaned_rows) unless orphaned_rows.empty?
-    removed = 0
+    SponsorCovenant.destroy(orphaned_rows) unless orphaned_rows.empty?
     orphaned_rows = orphaned_addresses
-    removed = Address.destroy(orphaned_rows) unless orphaned_rows.empty?
-    removed = 0
+    Address.destroy(orphaned_rows) unless orphaned_rows.empty?
     orphaned_rows = orphaned_scanned_image
-    removed = ScannedImage.destroy(orphaned_rows) unless orphaned_rows.empty?
-    removed = 0
+    ScannedImage.destroy(orphaned_rows) unless orphaned_rows.empty?
     orphaned_rows = orphaned_to_do
-    removed = ToDo.destroy(orphaned_rows) unless orphaned_rows.empty?
+    ToDo.destroy(orphaned_rows) unless orphaned_rows.empty?
 
     @cache = nil
     self
@@ -291,23 +282,23 @@ class CandidateImport
     @cache = {} if @cache.nil?
     ids = @cache[class_sym]
     return ids unless ids.nil?
-    case class_sym
-    when :Candidate
-      ids = Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id,
+    ids = case class_sym
+          when :Candidate
+            Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id,
                             :pick_confirmation_name_id, :retreat_verification_id, :sponsor_covenant_id)
-    when :BaptismalCertificate
-      ids = BaptismalCertificate.pluck(:id, :church_address_id, :scanned_certificate_id)
-    when :CandidateSheet
-      ids = CandidateSheet.pluck(:id, :address_id)
-    when :RetreatVerification
-      ids = RetreatVerification.pluck(:id, :scanned_retreat_id)
-    when :SponsorCovenant
-      ids = SponsorCovenant.pluck(:id, :scanned_covenant_id, :scanned_eligibility_id)
-    when :ToDo
-      ids = ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id)
-    else
-      ids = clazz.pluck(:id)
-    end
+          when :BaptismalCertificate
+            BaptismalCertificate.pluck(:id, :church_address_id, :scanned_certificate_id)
+          when :CandidateSheet
+            CandidateSheet.pluck(:id, :address_id)
+          when :RetreatVerification
+            RetreatVerification.pluck(:id, :scanned_retreat_id)
+          when :SponsorCovenant
+            SponsorCovenant.pluck(:id, :scanned_covenant_id, :scanned_eligibility_id)
+          when :ToDo
+            ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id)
+          else
+            clazz.pluck(:id)
+          end
     @cache[class_sym] = ids
     ids
   end
@@ -356,13 +347,11 @@ class CandidateImport
       orphaned_table_rows[:Address] = orphaned_addresses
       orphaned_table_rows[:ScannedImage] = orphaned_scanned_image
       orphaned_table_rows[:ToDo] = orphaned_to_do
-    rescue Exception => e
+    rescue StandardError => e
       Rails.logger.info 'error while looking for orphans'
       Rails.logger.info e.message
       Rails.logger.info e.backtrace.inspect
-      %i[BaptismalCertificate CandidateSheet ChristianMinistry PickConfirmationName RetreatVerification
-         SponsorCovenant Address ScannedImage ToDo].each do
-        [key]
+      %i[BaptismalCertificate CandidateSheet ChristianMinistry PickConfirmationName RetreatVerification ¬SponsorCovenant Address ScannedImage ToDo].each do |key|
         orphaned_table_rows[key] = [:error] unless orphaned_table_rows[key]
       end
     end
@@ -473,11 +462,11 @@ class CandidateImport
 
   # Finds all the ScannedImage's that have been orphaned.
   def orphaned_to_do
-    orphaned = ids(ToDo).select do |todo_id, confirmation_event_id, candidate_event_id|
+    orphaned = ids(ToDo).select do |_todo_id, confirmation_event_id, candidate_event_id|
       ids(ConfirmationEvent).select { |ce_id| confirmation_event_id == ce_id }.empty? &&
         ids(CandidateEvent).select { |ce_id| candidate_event_id == ce_id }.empty?
     end
-    orphaned.map { |id, ce_id, cand_id| id }
+    orphaned.map { |id, _ce_id, _cand_id| id }
   end
 
   # test only
@@ -492,14 +481,14 @@ class CandidateImport
   # CandidateImport: self
   #
   def xlsx_columns
-    params = Candidate.get_permitted_params
+    params = Candidate.permitted_params
     columns = []
     get_columns(params, columns)
     columns.delete(:password)
     columns.delete(:password_confirmation)
     ['baptismal_certificate.scanned_certificate', 'retreat_verification.scanned_retreat',
      'sponsor_covenant.scanned_eligibility', 'sponsor_covenant.scanned_covenant'].each do |base|
-      ScannedImage.get_permitted_params.each do |not_exported|
+      ScannedImage.permitted_params.each do |not_exported|
         columns.delete("#{base}.#{not_exported}")
       end
     end
@@ -543,7 +532,7 @@ class CandidateImport
   end
 
   def content_type(type)
-    return type if type.nil? || type.empty?
+    return type if type.blank?
     type.split('/')[1]
   end
 
@@ -600,7 +589,7 @@ class CandidateImport
       sheet.add_row confirmation_event_columns
       confirmation_events_sorted.each_with_index do |confirmation_event, index|
         # puts "Event: #{confirmation_event.name} index:#{index}"
-        sheet.add_row (confirmation_event_columns.map do |col|
+        sheet.add_row(confirmation_event_columns.map do |col|
           if col == 'index'
             index
           else
@@ -643,7 +632,7 @@ class CandidateImport
       Candidate.order(:account_name).each do |candidate|
         Rails.logger.info "xxx create_xlsx_package processing candidate:#{candidate.account_name}"
         events = confirmation_events_sorted
-        sheet.add_row (candidate_columns.map do |col|
+        sheet.add_row(candidate_columns.map do |col|
           if image_columns.include?(col)
             Rails.logger.info "   xxx create_xlsx_package Image:#{candidate.account_name} #{col}"
             certificate_image_column(candidate, col, dir, images)
@@ -726,7 +715,7 @@ class CandidateImport
         end
       else
         # no need to save id because it will get a new id when filed in.
-        columns << (prefix.empty? ? param.to_s : "#{prefix}.#{param.to_s}") unless param == :id
+        columns << (prefix.empty? ? param.to_s : "#{prefix}.#{param}") unless param == :id
       end
     end
   end
@@ -800,7 +789,7 @@ class CandidateImport
     (2..spreadsheet.last_row).each do |i|
       row = sheet.row(i)
 
-      candidate = Candidate.find_by_account_name(row[account_name_index]) || AppFactory.create_candidate
+      candidate = Candidate.find_by(account_name: row[account_name_index]) || AppFactory.create_candidate
       events = candidate_events_in_order(candidate)
       row.each_with_index do |cell, index|
         column_name_split = header_row[index].split('.')
@@ -879,7 +868,7 @@ class CandidateImport
     name_index = header_row.find_index { |cell| cell == 'name' }
     (2..spreadsheet.last_row).each do |i|
       row = sheet.row(i)
-      confirmation_event = ConfirmationEvent.find_by_name(row[name_index]) || AppFactory.add_confirmation_event(row[name_index])
+      confirmation_event = ConfirmationEvent.find_by(name: row[name_index]) || AppFactory.add_confirmation_event(row[name_index])
       row.each_with_index do |cell, index|
         column_name_split = header_row[index].split('.')
         next if cell.nil?
@@ -920,10 +909,10 @@ class CandidateImport
       export_filename = entry[:export_filename]
       image = entry[:image]
       begin
-        File.open(export_filename, mode = 'wb') do |f|
+        File.open(export_filename, 'wb') do |f|
           f.write image.content
         end
-      rescue Exception => e
+      rescue StandardError => e
         Rails.logger.info "Exception opening file for image: #{export_filename}"
         Rails.logger.info "Error message #{e.message}"
         Rails.logger.info e.backtrace.inspect
@@ -989,14 +978,14 @@ class CandidateImport
         params[:candidate][:account_name] = account_name
         params[:candidate][:password] = Event::Other::INITIAL_PASSWORD
 
-        candidate = Candidate.find_by_account_name(account_name) || ::AppFactory.create_candidate
-        candidate.update_attributes(params.require(:candidate).permit(Candidate.get_permitted_params))
+        candidate = Candidate.find_by(account_name: account_name) || ::AppFactory.create_candidate
+        candidate.update_attributes(params.require(:candidate).permit(Candidate.permitted_params))
         candidates.push(candidate)
         @candidate_to_row[candidate] = i
       end
       candidates
     else
-      raise "Unknown spread sheet columns: #{header_row.to_s}"
+      raise "Unknown spread sheet columns: #{header_row}"
     end
   end
 
@@ -1028,7 +1017,7 @@ class CandidateImport
 
   # Removes all ConfirmationEvent
   def remove_all_confirmation_events
-    ConfirmationEvent.all.each &:delete
+    ConfirmationEvent.find_each(&:delete)
   end
 
   # Make sure all candidates are valid before saving.

@@ -33,9 +33,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # String
   #
-  def instructions
-    confirmation_event.instructions
-  end
+  delegate :instructions, to: :confirmation_event
 
   # Shortcut to name of the confirmation event
   #
@@ -43,9 +41,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # Boolean
   #
-  def name
-    confirmation_event.name
-  end
+  delegate :name, to: :confirmation_event
 
   # Has the event been started
   #
@@ -229,9 +225,9 @@ class CandidateEvent < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_permitted_params
+  def self.permitted_params
     [:id, :completed_date, :verified,
-     confirmation_event_attributes: ConfirmationEvent.get_permitted_params]
+     confirmation_event_attributes: ConfirmationEvent.permitted_params]
   end
 
   # information to be verified by admin

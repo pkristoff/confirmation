@@ -25,8 +25,6 @@ class CandidatePDFDocument < Prawn::Document
   #
   #
   def do_document
-    page_size = 'LETTER'
-    page_layout = :landscape
 
     title_page
     start_new_page
@@ -91,12 +89,12 @@ class CandidatePDFDocument < Prawn::Document
       grid_label_value([2, 1], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.church_name')}:", bc.church_name)
       grid_address([3, 0], 'label.baptismal_certificate.baptismal_certificate.church_address', bc.church_address)
       # father
-      grid_label([6, 0], "#{'Father'}:")
+      grid_label([6, 0], 'Father:')
       grid_label_value([7, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_first')}:", bc.father_first)
       grid_label_value([8, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle')}:", bc.father_middle)
       grid_label_value([9, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_last')}:", bc.father_last)
       # mother
-      grid_label([6, 2], "#{'Mother'}:")
+      grid_label([6, 2], 'Mother:')
       grid_label_value([7, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first')}:", bc.mother_first)
       grid_label_value([8, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle')}:", bc.mother_middle)
       grid_label_value([9, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden')}:", bc.mother_maiden)
@@ -249,7 +247,7 @@ class CandidatePDFDocument < Prawn::Document
       begin
         pdf = Magick::ImageList.new(pdf_file_path)
 
-        pdf.each_with_index do |page_img, i|
+        pdf.each do |page_img|
           page_img.write jpg_file_path
 
           bounding_box([image_x, image_y], width: image_width, height: image_height) do
@@ -258,8 +256,8 @@ class CandidatePDFDocument < Prawn::Document
           end
         end
       ensure
-        File.delete(pdf_file_path) if File.exists?(pdf_file_path)
-        File.delete(jpg_file_path) if File.exists?(jpg_file_path)
+        File.delete(pdf_file_path) if File.exist?(pdf_file_path)
+        File.delete(jpg_file_path) if File.exist?(jpg_file_path)
       end
     else
       file_path = "tmp/#{scanned_image.filename}"
@@ -273,7 +271,7 @@ class CandidatePDFDocument < Prawn::Document
           image file_path, width: image_width, height: image_height
         end
       ensure
-        File.delete(file_path) if File.exists?(file_path)
+        File.delete(file_path) if File.exist?(file_path)
       end
     end
   end
@@ -342,10 +340,8 @@ class CandidatePDFDocument < Prawn::Document
   def grid_value(cell, value)
     val = if (value.is_a? TrueClass) || (value.is_a? FalseClass) || (value.is_a? Date)
             value.to_s
-          elsif value.nil? || value.empty?
-            '<no value>'
           else
-            value
+            value.presence || '<no value>'
           end
     grid(cell[0], cell[1]).bounding_box do
       # move_down 20

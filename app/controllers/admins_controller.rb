@@ -116,11 +116,11 @@ class AdminsController < ApplicationController
     candidates.each do |candidate|
       candidate_event = candidate.get_candidate_event(confirmation_event.name)
 
-      if candidate_event.update_attributes(params.permit(CandidateEvent.get_permitted_params))
-        flash[:notice] = t('messages.update_candidate_event', account_name: candidate.account_name)
-      else
-        flash[:notice] = t('messages.not_all_confirmation_events_updated', account_name: candidate.account_name)
-      end
+      flash[:notice] = if candidate_event.update_attributes(params.permit(CandidateEvent.permitted_params))
+                         t('messages.update_candidate_event', account_name: candidate.account_name)
+                       else
+                         t('messages.not_all_confirmation_events_updated', account_name: candidate.account_name)
+                       end
     end
 
     set_candidates(confirmation_event: confirmation_event)
@@ -372,7 +372,7 @@ class AdminsController < ApplicationController
   def redirect_back(flash_message, mail_params)
     begin
       # get a URI object for referring url
-      referrer_url = URI.parse(request.referrer)
+      referrer_url = URI.parse(request.referer)
     rescue StandardError
       URI.parse(some_default_url)
       # need to have a default in case referrer is not given

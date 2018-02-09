@@ -28,7 +28,7 @@ class BaptismalCertificate < ActiveRecord::Base
     baptized_at_stmm = options[:baptized_at_stmm]
     event_complete = true
     event_complete_validator = EventCompleteValidator.new(self, !baptized_at_stmm)
-    event_complete_validator.validate([], BaptismalCertificate.get_basic_validation_params)
+    event_complete_validator.validate([], BaptismalCertificate.basic_validation_params)
     unless baptized_at_stmm
       church_address.validate_event_complete
       church_address.errors.full_messages.each do |msg|
@@ -51,10 +51,10 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_permitted_params
-    BaptismalCertificate.get_basic_permitted_params.concat(
-      [church_address_attributes: Address.get_basic_permitted_params,
-       scanned_certificate_attributes: ScannedImage.get_permitted_params]
+  def self.permitted_params
+    BaptismalCertificate.basic_permitted_params.concat(
+      [church_address_attributes: Address.basic_permitted_params,
+       scanned_certificate_attributes: ScannedImage.permitted_params]
     )
   end
 
@@ -64,7 +64,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_basic_permitted_params
+  def self.basic_permitted_params
     %I[birth_date baptismal_date church_name father_first father_middle father_last
        mother_first mother_middle mother_maiden mother_last certificate_picture
        scanned_certificate id]
@@ -76,8 +76,8 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_basic_validation_params
-    params = BaptismalCertificate.get_basic_permitted_params
+  def self.basic_validation_params
+    params = BaptismalCertificate.basic_permitted_params
     params.delete(:certificate_picture)
     params
   end

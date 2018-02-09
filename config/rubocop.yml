@@ -1,0 +1,46 @@
+#
+# This file is called via the .rubocop.yml "inherit_from: config/rubocop.yml"
+#
+
+Bundler:
+  Enabled: false
+Gemspec:
+  Enabled: false
+Layout:
+  Enabled: true
+Lint:
+  Enabled: true
+Metrics:
+  Enabled: false
+Naming:
+  Enabled: true
+Performance:
+  Enabled: true
+Rails:
+  Enabled: true
+  # too dangerous to do right now. Plus it seems to be a rails 5 feature
+Rails/ApplicationRecord:
+  Enabled: false
+  # too dangerous to do right now.
+Rails/InverseOf:
+  Enabled: false
+  # too dangerous to do right now.
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+  # Could not figure out how to replace where: where(['lower(account_name) = :value', conditions]).first
+Rails/FindBy:
+  Enabled: false
+  # too dangerous to do right now.  Using Time.zone.today instead of Date.today
+Rails/Date:
+  Enabled: false
+  # presence :column does not exise
+Rails/Validation:
+  Enabled: false
+Security:
+  Enabled: false
+Style:
+  Enabled: true
+  # could not figure out how to use with method mail(...) do ...
+  # all examples use enumerators like map, each
+Style/SymbolProc:
+  Enabled: false

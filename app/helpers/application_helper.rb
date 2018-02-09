@@ -14,7 +14,7 @@ module ApplicationHelper
 
   # private - test only
   def sort_column(sort_column)
-    columns = CandidateSheet.get_permitted_params.map {|attr| "candidate_sheet.#{attr}"}
+    columns = CandidateSheet.permitted_params.map {|attr| "candidate_sheet.#{attr}"}
     columns << 'account_name'
     columns << 'completed_date'
     columns.include?(sort_column) ? sort_column : 'account_name'

@@ -16,7 +16,7 @@ class ConfirmationEvent < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_permitted_params
+  def self.permitted_params
     %i[id name the_way_due_date instructions chs_due_date]
   end
 

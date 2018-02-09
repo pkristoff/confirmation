@@ -14,7 +14,7 @@ class ScannedImage < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_permitted_params
+  def self.permitted_params
     %i[filename content_type content id]
   end
 end

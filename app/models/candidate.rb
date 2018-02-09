@@ -164,16 +164,16 @@ class Candidate < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_permitted_params
+  def self.permitted_params
     [:account_name, :password, :password_confirmation,
      :signed_agreement, :baptized_at_stmm, :sponsor_agreement,
-     candidate_sheet_attributes: CandidateSheet.get_permitted_params,
-     baptismal_certificate_attributes: BaptismalCertificate.get_permitted_params,
-     sponsor_covenant_attributes: SponsorCovenant.get_permitted_params,
-     pick_confirmation_name_attributes: PickConfirmationName.get_permitted_params,
-     christian_ministry_attributes: ChristianMinistry.get_permitted_params,
-     candidate_events_attributes: CandidateEvent.get_permitted_params,
-     retreat_verification_attributes: RetreatVerification.get_permitted_params]
+     candidate_sheet_attributes: CandidateSheet.permitted_params,
+     baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
+     sponsor_covenant_attributes: SponsorCovenant.permitted_params,
+     pick_confirmation_name_attributes: PickConfirmationName.permitted_params,
+     christian_ministry_attributes: ChristianMinistry.permitted_params,
+     candidate_events_attributes: CandidateEvent.permitted_params,
+     retreat_verification_attributes: RetreatVerification.permitted_params]
   end
 
   # Validate if association_class event is complete by adding validation errors to active record
@@ -318,8 +318,8 @@ class Candidate < ActiveRecord::Base
   def get_candidate_event(event_name)
     event = candidate_events.find { |candidate_event| candidate_event.name == event_name }
     if event.nil?
-      puts "Could not find event: #{event_name}"
-      candidate_events.find { |candidate_event| puts candidate_event.name }
+      Rails.logger.info("Could not find event: #{event_name}")
+      candidate_events.find { |candidate_event| Rails.logger.info candidate_event.name }
       raise "Unknown candidate_event named: #{event_name}"
     end
     event
@@ -366,7 +366,7 @@ class Candidate < ActiveRecord::Base
   #
   # Hash of information to be verified
   #
-  def verifiable_info(candidate)
+  def verifiable_info(_candidate)
     {}
   end
 
@@ -376,7 +376,7 @@ class Candidate < ActiveRecord::Base
   #
   # Array of completed candidate events
   #
-  def get_completed
+  def completed
     candidate_events.select(&:completed?)
   end
 
@@ -386,7 +386,7 @@ class Candidate < ActiveRecord::Base
   #
   # Array of coming due candidate events
   #
-  def get_coming_due_events
+  def coming_due_events
     candidate_events.select(&:coming_due?)
   end
 
@@ -396,7 +396,7 @@ class Candidate < ActiveRecord::Base
   #
   # Array of 'awaiting candidate' candidate events
   #
-  def get_awaiting_candidate_events
+  def awaiting_candidate_events
     candidate_events.select(&:awaiting_candidate?)
   end
 
@@ -406,7 +406,7 @@ class Candidate < ActiveRecord::Base
   #
   # Array of awaiting admin candidate events
   #
-  def get_awaiting_admin_events
+  def awaiting_admin_events
     candidate_events.select(&:awaiting_admin?)
   end
 
@@ -416,7 +416,7 @@ class Candidate < ActiveRecord::Base
   #
   # Array of late candidate events
   #
-  def get_late_events
+  def late_events
     candidate_events.select(&:late?)
   end
 
@@ -480,7 +480,7 @@ class Candidate < ActiveRecord::Base
   #
   # Boolean
   #
-  def self.events_external_verification?(candidate)
+  def self.events_external_verification?(_candidate)
     true
   end
 
@@ -494,7 +494,7 @@ class Candidate < ActiveRecord::Base
   #
   def send_reset_password_instructions
     send_grid_mail = SendGridMail.new(nil, [self])
-    response, token = send_grid_mail.reset_password
+    _response, token = send_grid_mail.reset_password
     token
   end
 

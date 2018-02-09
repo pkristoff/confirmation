@@ -18,9 +18,9 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # * <tt>:_options_</tt>
   #
-  def validate_event_complete(options = {})
+  def validate_event_complete(_options = {})
     event_complete_validator = EventCompleteValidator.new(self, !sponsor_attends_stmm)
-    event_complete_validator.validate(SponsorCovenant.get_attends_stmm_validation_params, SponsorCovenant.get_not_attends_stmm_params)
+    event_complete_validator.validate(SponsorCovenant.attends_stmm_validation_params, SponsorCovenant.not_attends_stmm_params)
 
     # convert empty picture attributes to something the user can understand
     found = false
@@ -39,11 +39,11 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_permitted_params
-    SponsorCovenant.get_attends_stmm_params.concat(
-      SponsorCovenant.get_not_attends_stmm_params.concat(
-        [scanned_eligibility_attributes: ScannedImage.get_permitted_params,
-         scanned_covenant_attributes: ScannedImage.get_permitted_params]
+  def self.permitted_params
+    SponsorCovenant.attends_stmm_params.concat(
+      SponsorCovenant.not_attends_stmm_params.concat(
+        [scanned_eligibility_attributes: ScannedImage.permitted_params,
+         scanned_covenant_attributes: ScannedImage.permitted_params]
       )
     ) << :sponsor_eligibility_picture
   end
@@ -54,7 +54,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_basic_permitted_params
+  def self.basic_permitted_params
     %i[sponsor_name sponsor_attends_stmm sponsor_church scanned_covenant scanned_eligibility id]
   end
 
@@ -64,8 +64,8 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_attends_stmm_params
-    params = get_basic_permitted_params
+  def self.attends_stmm_params
+    params = basic_permitted_params
     params.delete(:sponsor_church)
     params.delete(:scanned_eligibility)
     params
@@ -77,8 +77,8 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_attends_stmm_validation_params
-    params = SponsorCovenant.get_attends_stmm_params
+  def self.attends_stmm_validation_params
+    params = SponsorCovenant.attends_stmm_params
     params.delete(:sponsor_attends_stmm)
     params
   end
@@ -89,8 +89,8 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # Array of attributes
   #
-  def self.get_not_attends_stmm_params
-    params = get_basic_permitted_params
+  def self.not_attends_stmm_params
+    params = basic_permitted_params
     params.delete(:sponsor_name)
     params.delete(:scanned_covenant)
     params.delete(:sponsor_attends_stmm)
@@ -133,8 +133,8 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # Hash of information to be verified
   #
-  def verifiable_info(candidate)
-    info = { 'Sponsor name': sponsor_name,
-             'Sponsor attends': (sponsor_attends_stmm ? 'St. Mary Magdalene' : sponsor_church) }
+  def verifiable_info(_candidate)
+    { 'Sponsor name': sponsor_name,
+      'Sponsor attends': (sponsor_attends_stmm ? 'St. Mary Magdalene' : sponsor_church) }
   end
 end

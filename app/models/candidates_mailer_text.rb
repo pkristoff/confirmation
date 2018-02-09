@@ -39,9 +39,7 @@ class CandidatesMailerText
   #
   # Array: CandidateEvent
   #
-  def late_events
-    candidate.get_late_events
-  end
+  delegate :late_events, to: :candidate
 
   # coming due (due within 30 days) CandidateEvent
   #
@@ -49,9 +47,7 @@ class CandidatesMailerText
   #
   # Array: CandidateEvent
   #
-  def coming_due_events
-    candidate.get_coming_due_events
-  end
+  delegate :coming_due_events, to: :candidate
 
   # awaiting candidate CandidateEvent
   #
@@ -59,9 +55,7 @@ class CandidatesMailerText
   #
   # Array: CandidateEvent
   #
-  def awaiting_candidate_events
-    candidate.get_awaiting_candidate_events
-  end
+  delegate :awaiting_candidate_events, to: :candidate
 
   # awaiting admin verification CandidateEvent
   #
@@ -70,7 +64,7 @@ class CandidatesMailerText
   # Array: CandidateEvent
   #
   def completed_awaiting_events
-    candidate.get_awaiting_admin_events
+    candidate.awaiting_admin_events
   end
 
   # completed CandidateEvent
@@ -80,6 +74,6 @@ class CandidatesMailerText
   # Array: CandidateEvent
   #
   def completed_events
-    candidate.get_completed
+    candidate.completed
   end
 end

@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   end
 
   def candidate_permitted_params
-    Candidate.get_permitted_params
+    Candidate.permitted_params
   end
 
   def after_sign_in_path_for(resource)
