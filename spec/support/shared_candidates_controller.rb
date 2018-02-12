@@ -1,11 +1,11 @@
-shared_context 'baptismal_certificate' do
+# frozen_string_literal: true
 
+shared_context 'baptismal_certificate' do
   before(:each) do
     AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
   end
 
   it 'should show baptismal_certificate for the candidate.' do
-
     expect(@candidate.baptismal_certificate).not_to eq(nil)
 
     put :event_with_picture, id: @candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE
@@ -18,28 +18,30 @@ shared_context 'baptismal_certificate' do
   end
 
   it 'show should update the candidate baptismal_certificate info and update Candidate event.' do
-
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE, candidate: {baptized_at_stmm: '1'}
+    put :event_with_picture_update,
+        id: candidate.id,
+        event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+        candidate: { baptismal_certificate_attributes: { baptized_at_stmm: '1', show_empty_radio: 1 } }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(response.status).to eq(200)
-    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=1")
+    expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate?candidate%5Bbaptismal_certificate_attributes%5D%5Bbaptized_at_stmm%5D=1&candidate%5Bbaptismal_certificate_attributes%5D%5Bshow_empty_radio%5D=1")
     expect(candidate.baptized_at_stmm).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
   end
 
   it 'show should illegal parameter.' do
-
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
+    expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
 
     put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE
 
@@ -55,14 +57,15 @@ shared_context 'baptismal_certificate' do
   end
 
   it 'should show illegal parameter.' do
-
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE,
-        candidate: {baptized_at_stmm: '0',
-                    baptismal_certificate_attributes: {}, }
+    put :event_with_picture_update,
+        id: candidate.id,
+        event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+        candidate: { baptized_at_stmm: '0',
+                     baptismal_certificate_attributes: {} }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
@@ -79,48 +82,45 @@ shared_context 'baptismal_certificate' do
   end
 
   it 'User fills in all info and updates' do
-
     candidate = Candidate.find(@candidate.id)
 
-    valid_parameters = get_valid_parameters
+    valid_parameters = valid_parameters
     valid_parameters[:certificate_picture] = fixture_file_upload('Baptismal Certificate.png', 'image/png')
-    put :event_with_picture_update, id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE,
-        candidate: {baptized_at_stmm: '0',
-                    baptismal_certificate_attributes: valid_parameters
-        }
+    put :event_with_picture_update,
+        id: candidate.id,
+        event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+        candidate: { baptized_at_stmm: '0',
+                     baptismal_certificate_attributes: valid_parameters }
 
     expect(response.status).to eq(200)
     expect(flash[:notice]).to eq(I18n.t('messages.updated', cand_name: 'Sophia Agusta'))
   end
 
-  def get_valid_parameters
+  def valid_parameters
     {
-        birth_date: '2000-07-01',
-        baptismal_date: '2000-09-27',
-        church_name: 'St. Paul',
-        church_address_attributes: {
-            street_1: 'St. Paul Way',
-            street_2: 'Apt. 5',
-            city: 'Holy Smoke',
-            state: 'KS',
-            zip_code: '55555',
-        },
-        father_first: 'Moses',
-        father_middle: 'Cane',
-        father_last: 'Abel',
-        mother_first: 'Mary',
-        mother_middle: 'Middle',
-        mother_maiden: 'Maiden',
-        mother_last: 'Maiden'
+      birth_date: '2000-07-01',
+      baptismal_date: '2000-09-27',
+      church_name: 'St. Paul',
+      church_address_attributes: {
+        street_1: 'St. Paul Way',
+        street_2: 'Apt. 5',
+        city: 'Holy Smoke',
+        state: 'KS',
+        zip_code: '55555'
+      },
+      father_first: 'Moses',
+      father_middle: 'Cane',
+      father_last: 'Abel',
+      mother_first: 'Mary',
+      mother_middle: 'Middle',
+      mother_maiden: 'Maiden',
+      mother_last: 'Maiden'
     }
   end
-
 end
 
 shared_context 'sign_agreement' do
-
   it 'should show sign_agreement for the candidate.' do
-
     get :sign_agreement, id: @candidate.id
 
     expect(response).to render_template('sign_agreement')
@@ -129,14 +129,13 @@ shared_context 'sign_agreement' do
   end
 
   it 'show should update the candidate to signing the confirmation agreement and update Candidate event.' do
-
     AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :sign_agreement_update, id: candidate.id, candidate: {signed_agreement: 1}
+    put :sign_agreement_update, id: candidate.id, candidate: { signed_agreement: 1 }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
@@ -146,13 +145,10 @@ shared_context 'sign_agreement' do
     expect(candidate.signed_agreement).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
   end
-
 end
 
 shared_context 'sponsor_agreement' do
-
   it 'should show sponsor_agreement for the candidate.' do
-
     get :sponsor_agreement, id: @candidate.id
 
     expect(response).to render_template('sponsor_agreement')
@@ -161,14 +157,13 @@ shared_context 'sponsor_agreement' do
   end
 
   it 'show should update the candidate to signing the sponsor agreement and update Candidate event.' do
-
     AppFactory.add_confirmation_event(I18n.t('events.sponsor_agreement'))
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :sponsor_agreement_update, id: candidate.id, candidate: {sponsor_agreement: 1}
+    put :sponsor_agreement_update, id: candidate.id, candidate: { sponsor_agreement: 1 }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
@@ -178,13 +173,10 @@ shared_context 'sponsor_agreement' do
     expect(candidate.sponsor_agreement).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
   end
-
 end
 
 shared_context 'candidate_information_sheet' do
-
   it 'should show candidate_information_sheet for the candidate.' do
-
     get :candidate_sheet, id: @candidate.id
 
     expect(response).to render_template('candidate_sheet')
@@ -193,30 +185,29 @@ shared_context 'candidate_information_sheet' do
   end
 
   it 'show should update the candidate to fill out candidate sheet and update Candidate event.' do
-
     AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
     expect(candidate_event.completed_date).to eq(nil)
 
-    put :candidate_sheet_update, id: candidate.id,
+    put :candidate_sheet_update,
+        id: candidate.id,
         candidate: {
-            candidate_sheet_attributes:
-                {first_name: 'Paul',
-                 middle_name: 'Richard',
-                 last_name: 'Foo',
-                 grade: 10,
-                 candidate_email: 'foo@bar.com',
-                 parent_email_1: 'baz@bar.com',
-                 attending: 'The Way',
-                 address_attributes: {
-                     street_1: 'the way way',
-                     city: 'wayville',
-                     state: 'WA',
-                     zip_code: '27502'
-                 }
-                }
+          candidate_sheet_attributes:
+            { first_name: 'Paul',
+              middle_name: 'Richard',
+              last_name: 'Foo',
+              grade: 10,
+              candidate_email: 'foo@bar.com',
+              parent_email_1: 'baz@bar.com',
+              attending: 'The Way',
+              address_attributes: {
+                street_1: 'the way way',
+                city: 'wayville',
+                state: 'WA',
+                zip_code: '27502'
+              } }
         }
 
     candidate = Candidate.find(@candidate.id)
@@ -227,5 +218,4 @@ shared_context 'candidate_information_sheet' do
     expect(candidate.candidate_sheet.address.city).to eq('wayville')
     expect(candidate_event.completed_date).to eq(Date.today)
   end
-
 end

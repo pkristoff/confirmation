@@ -85,6 +85,7 @@ en:
     baptismal_certificate:
       baptismal_certificate:
         baptismal_date: Baptismal date
+        baptized_at_stmm: I was Baptized at Saint Mary Magdalene
         birth_date: Birth date
         certificate_picture: Baptismal certificate
         church_address:
@@ -97,11 +98,11 @@ en:
         father_first: Father first
         father_last: Father last
         father_middle: Father middle
+        first_comm_at_stmm: I received First Communion at Saint Mary Magdalene
         mother_first: Mother first
         mother_last: Mother last
         mother_maiden: Mother maiden
         mother_middle: Mother middle
-      baptized_at_stmm: I was baptized at Saint Mary Magdalene
     candidate_event:
       select: Select
     candidate_sheet:

@@ -33,8 +33,11 @@ Rails/FindBy:
   # too dangerous to do right now.  Using Time.zone.today instead of Date.today
 Rails/Date:
   Enabled: false
-  # presence :column does not exise
+  # presence :column does not exist
 Rails/Validation:
+  Enabled: false
+  # this is a Rails 5 thing
+Rails/HttpPositionalArguments:
   Enabled: false
 Security:
   Enabled: false

@@ -10,7 +10,7 @@
     <%= f.fields_for :retreat_verification do |rv_fields| %>
 
         <div class="field">
-          <%= rv_fields.check_box :retreat_held_at_stmm, onclick: 'confirmation_toggle().toggle_top(\'#retreat_verification-top\')' %>
+          <%= rv_fields.check_box :retreat_held_at_stmm, onclick: 'confirmation_toggle().toggle_top(\'#retreat_verification-top\', \'toggle\')' %>
           <%= rv_fields.label :retreat_held_at_stmm, t('label.retreat_verification.retreat_held_at_stmm') %>
         </div>
 

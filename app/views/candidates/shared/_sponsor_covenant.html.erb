@@ -29,7 +29,7 @@
         <%= field_set_tag t('field_set.sponsor_covenant.sponsor_eligibility'), class: 'fieldset' do %>
             <div class="fieldset-div">
               <div class="field">
-                <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\');' %>
+                <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\', \'toggle\');' %>
                 <%= sc_fields.label :sponsor_attends_stmm, t('label.sponsor_covenant.sponsor_attends_stmm') %>
               </div>
 

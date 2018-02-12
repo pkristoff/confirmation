@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170924095611) do
+ActiveRecord::Schema.define(version: 20180209181803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,10 +57,13 @@ ActiveRecord::Schema.define(version: 20170924095611) do
     t.string   "mother_middle"
     t.string   "mother_maiden"
     t.string   "mother_last"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.integer  "church_address_id"
     t.integer  "scanned_certificate_id"
+    t.boolean  "first_comm_at_stmm",     default: false, null: false
+    t.boolean  "baptized_at_stmm",       default: false, null: false
+    t.integer  "show_empty_radio",       default: 0,     null: false
   end
 
   add_index "baptismal_certificates", ["church_address_id"], name: "index_baptismal_certificates_on_church_address_id", using: :btree
@@ -106,7 +109,6 @@ ActiveRecord::Schema.define(version: 20170924095611) do
     t.datetime "updated_at",                                null: false
     t.string   "account_name",              default: "",    null: false
     t.boolean  "signed_agreement",          default: false, null: false
-    t.boolean  "baptized_at_stmm",          default: false, null: false
     t.integer  "baptismal_certificate_id"
     t.integer  "sponsor_covenant_id"
     t.integer  "pick_confirmation_name_id"

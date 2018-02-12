@@ -53,14 +53,16 @@ textarea {
 }
 
 #left-col {
-  float:left;
-  width:50%;
+  float: left;
+  width: 50%;
 }
+
 #right-col {
-  float:right;
-  width:50%;
+  float: right;
+  width: 50%;
 }
-#insturction-toggle{
+
+#insturction-toggle {
   float: right;
 }
 
@@ -78,6 +80,11 @@ textarea {
   padding-bottom: 20px;
 }
 
+.field_with_errors{
+  display: inline;
+}
+
+
 .field {
   padding-bottom: 20px;
 }
@@ -88,12 +95,12 @@ textarea {
 
 label[for=total_selected] {
   clear: both;
-  float:left;
+  float: left;
   margin-right: 15px;
 }
 
 input[id=total_selected] {
-  float:left;
+  float: left;
   background: transparent;
   width: 10%;
 }

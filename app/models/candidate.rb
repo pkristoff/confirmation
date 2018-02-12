@@ -166,7 +166,7 @@ class Candidate < ActiveRecord::Base
   #
   def self.permitted_params
     [:account_name, :password, :password_confirmation,
-     :signed_agreement, :baptized_at_stmm, :sponsor_agreement,
+     :signed_agreement, :sponsor_agreement,
      candidate_sheet_attributes: CandidateSheet.permitted_params,
      baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
      sponsor_covenant_attributes: SponsorCovenant.permitted_params,
@@ -529,4 +529,21 @@ class Candidate < ActiveRecord::Base
     candidate_mailer_text.token = token
     devise_mailer.confirmation_instructions(self, token)
   end
+
+
+  # delegate call to baptismal_certificate where it has been migrated
+  #
+  # === Return:
+  #
+  # Boolean
+  #
+  delegate :baptized_at_stmm, to: :baptismal_certificate
+
+  # delegate call to baptismal_certificate where it has been migrated
+  #
+  # === Parameters:
+  #
+  # * <tt>:boolean</tt> whether baptized at stmm
+  #
+  delegate :baptized_at_stmm=, to: :baptismal_certificate
 end

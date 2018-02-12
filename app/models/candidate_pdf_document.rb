@@ -25,7 +25,6 @@ class CandidatePDFDocument < Prawn::Document
   #
   #
   def do_document
-
     title_page
     start_new_page
 

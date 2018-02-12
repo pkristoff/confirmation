@@ -24,10 +24,35 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # Boolean
   #
-  def validate_event_complete(options = {})
-    baptized_at_stmm = options[:baptized_at_stmm]
+  def validate_event_complete(_options = {})
+    # 0: user has never saved this thus when baptized_at_stmm will not show yes or no as selected
+    # 1: user has saved a selection for baptized_at_stmm but not for first_comm_at_stmm
+    # 2: user has made changes to to both
+    case show_empty_radio
+    when 0
+      errors[:base] << 'I was Baptized at Saint Mary Magdalene should be checked.' # TODO: I18n
+      false
+    when 1
+      return true if baptized_at_stmm
+      errors[:base] << 'I received First Communion at Saint Mary Magdalene should be checked.' # TODO: I18n
+      false
+    when 2
+      return true if first_comm_at_stmm
+      validate_other_info
+    else
+      raise("Unknown show_empty_radio value: #{show_empty_radio}")
+    end
+  end
+
+  # This validates all the information needed when St. MM does not have the baptismal certificate
+  #
+  # === Return:
+  #
+  # Boolean - whether the event can be marked complete.
+  #
+  def validate_other_info
     event_complete = true
-    event_complete_validator = EventCompleteValidator.new(self, !baptized_at_stmm)
+    event_complete_validator = EventCompleteValidator.new(self, !first_comm_at_stmm)
     event_complete_validator.validate([], BaptismalCertificate.basic_validation_params)
     unless baptized_at_stmm
       church_address.validate_event_complete
@@ -67,7 +92,7 @@ class BaptismalCertificate < ActiveRecord::Base
   def self.basic_permitted_params
     %I[birth_date baptismal_date church_name father_first father_middle father_last
        mother_first mother_middle mother_maiden mother_last certificate_picture
-       scanned_certificate id]
+       scanned_certificate id baptized_at_stmm first_comm_at_stmm show_empty_radio]
   end
 
   # Required attributes
@@ -79,6 +104,8 @@ class BaptismalCertificate < ActiveRecord::Base
   def self.basic_validation_params
     params = BaptismalCertificate.basic_permitted_params
     params.delete(:certificate_picture)
+    params.delete(:baptized_at_stmm)
+    params.delete(:first_comm_at_stmm)
     params
   end
 
@@ -94,7 +121,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   def self.validate_event_complete(candidate)
     baptismal_certificate = candidate.baptismal_certificate
-    baptismal_certificate.validate_event_complete(baptized_at_stmm: candidate.baptized_at_stmm)
+    baptismal_certificate.validate_event_complete
     baptismal_certificate
   end
 
@@ -144,5 +171,39 @@ class BaptismalCertificate < ActiveRecord::Base
         'Zip Code': church_address.zip_code
       }
     end
+  end
+
+  # UI stuff
+
+  def baptized_at_stmm_show_yes
+    chosen_baptized_at_stmm? && baptized_at_stmm
+  end
+
+  def baptized_at_stmm_show_no
+    chosen_baptized_at_stmm? && !baptized_at_stmm
+  end
+
+  def first_comm_at_stmm_show_yes
+    first_comm_show && first_comm_at_stmm
+  end
+
+  def first_comm_at_stmm_show_no
+    first_comm_show && !first_comm_at_stmm
+  end
+
+  def first_comm_show
+    has_chosen_baptized_at_stmm && !baptized_at_stmm
+  end
+
+  def chosen_baptized_at_stmm?
+    show_empty_radio.positive?
+  end
+
+  def chosen_first_comm_at_stmm?
+    show_empty_radio > 1
+  end
+
+  def info_show
+    chosen_first_comm_at_stmm? && !first_comm_at_stmm
   end
 end
