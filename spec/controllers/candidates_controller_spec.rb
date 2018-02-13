@@ -307,7 +307,7 @@ describe CandidatesController do
     [
       ['baptismal_certificate',
        lambda do |candidate|
-         candidate.baptized_at_stmm = true
+         candidate.baptismal_certificate.baptized_at_stmm = true
        end,
        lambda do |candidate|
          {

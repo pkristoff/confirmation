@@ -79,8 +79,10 @@ class CandidatePDFDocument < Prawn::Document
     define_grid_page
     page_header(I18n.t('label.sidebar.baptismal_certificate'))
 
-    if @candidate.baptized_at_stmm
+    if @candidate.baptismal_certificate.baptized_at_stmm
       text 'Baptized at St. Mary Magdalene'
+    elsif @candidate.baptismal_certificate.first_comm_at_stmm
+      text 'Received First Communion at St. Mary Magdalene'
     else
       grid_label_value([1, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
       grid_label_value([1, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
@@ -112,6 +114,7 @@ class CandidatePDFDocument < Prawn::Document
 
     # name
     grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", cs.first_name)
+    grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.middle_name')}:", cs.middle_name)
     grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.last_name')}:", cs.last_name)
 
     # grade attending

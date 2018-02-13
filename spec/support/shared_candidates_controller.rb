@@ -32,7 +32,7 @@ shared_context 'baptismal_certificate' do
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate?candidate%5Bbaptismal_certificate_attributes%5D%5Bbaptized_at_stmm%5D=1&candidate%5Bbaptismal_certificate_attributes%5D%5Bshow_empty_radio%5D=1")
-    expect(candidate.baptized_at_stmm).to eq(true)
+    expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
   end
 
@@ -49,7 +49,7 @@ shared_context 'baptismal_certificate' do
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
-    expect(candidate.baptized_at_stmm).to eq(false)
+    expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
     expect(candidate_event.completed_date).to eq(nil)
 
     expect(response).to render_template('candidates/event_with_picture')
@@ -73,7 +73,7 @@ shared_context 'baptismal_certificate' do
 
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate?candidate%5Bbaptized_at_stmm%5D=0")
-    expect(candidate.baptized_at_stmm).to eq(false)
+    expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate_event.completed_date.to_s).to eq('')
 

@@ -38,7 +38,7 @@ describe ExportListsController do
   end
 
   it 'should return a xlxs Baptized attachment' do
-    @c1.baptized_at_stmm = true
+    @c1.baptismal_certificate.baptized_at_stmm = true
     @c1.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date = Date.today
     @c1.save
 

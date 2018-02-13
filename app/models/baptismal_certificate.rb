@@ -153,7 +153,7 @@ class BaptismalCertificate < ActiveRecord::Base
   # Hash of information to be verified
   #
   def verifiable_info(candidate)
-    if candidate.baptized_at_stmm
+    if candidate.baptismal_certificate.baptized_at_stmm || candidate.baptismal_certificate.first_comm_at_stmm
       {
         Church: I18n.t('home_parish.name')
       }

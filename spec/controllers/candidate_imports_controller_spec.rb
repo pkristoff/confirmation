@@ -118,7 +118,7 @@ describe CandidateImportsController do
       FactoryBot.create(:candidate, account_name: 'a2')
       FactoryBot.create(:candidate, account_name: 'a3')
 
-      post :export_to_excel, format: 'xlsx'
+      post :export_to_excel, commit: I18n.t('views.imports.excel'), format: 'xlsx'
 
       expect(controller.headers['Content-Transfer-Encoding']).to eq('binary')
       expect(response.header['Content-Type']).to eq('application/zip')

@@ -25,6 +25,8 @@ class AddColumnFirstCommAtStmm < ActiveRecord::Migration
           end
         end
       end
+      Rails.logger.info("  baptized_at_stmm=#{bc.baptized_at_stmm}")
+      Rails.logger.info("  first_comm_at_stmm=#{bc.first_comm_at_stmm}")
       Rails.logger.info("  show_empty_radio=#{bc.show_empty_radio}")
       cand.save(validate: false)
     end

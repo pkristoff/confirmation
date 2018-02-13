@@ -25,10 +25,11 @@
 <section id="export">
   <h2><%= t('views.imports.candidates_export') %></h2>
   <p>
-    Export current data to a zipped excel spreadsheet.
+    Export current data to a zipped excel spreadsheet with scanned pictures or an excel spreadsheet without scanned pictures
   </p>
   <%= form_for @candidate_import, url: candidate_imports_export_to_excel_path(format: 'xlsx') do |f| %>
 
+      <div class="buttons"><%= f.submit t('views.imports.excel_no_pict') %></div>
       <div class="buttons"><%= f.submit t('views.imports.excel') %></div>
 
   <% end %>

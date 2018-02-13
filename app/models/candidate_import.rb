@@ -229,8 +229,8 @@ class CandidateImport
   #
   # Package: package
   #
-  def to_xlsx(dir)
-    p = create_xlsx_package(dir)
+  def to_xlsx(dir, with_pictures = true)
+    p = create_xlsx_package(dir, with_pictures)
     # the Package will be generated with a shared string table
     p.use_shared_strings = true
     p
@@ -611,7 +611,7 @@ class CandidateImport
   #
   # Axlsx::Package:
   #
-  def create_xlsx_package(dir)
+  def create_xlsx_package(dir, with_pictures)
     image_columns =
       %w[
         baptismal_certificate.scanned_certificate retreat_verification.scanned_retreat sponsor_covenant.scanned_eligibility sponsor_covenant.scanned_covenant
@@ -648,7 +648,7 @@ class CandidateImport
           end
         end)
       end
-      write_export_images(images)
+      write_export_images(images) if with_pictures
     end
     p
   end

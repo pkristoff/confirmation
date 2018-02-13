@@ -29,7 +29,8 @@ describe BaptismalCertificate, type: :model do
 
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value' do
-      candidate = FactoryBot.create(:candidate, baptized_at_stmm: false)
+      candidate = FactoryBot.create(:candidate)
+      candidate.baptismal_certificate.baptized_at_stmm = false
       verifiables = FactoryBot.create(:baptismal_certificate).verifiable_info(candidate)
       expected_verifiables = {
         Birthday: Date.parse('1983-08-20'),
@@ -48,7 +49,8 @@ describe BaptismalCertificate, type: :model do
   end
 
   it 'should return a hash of :attribute => value' do
-    candidate = FactoryBot.create(:candidate, baptized_at_stmm: true)
+    candidate = FactoryBot.create(:candidate)
+    candidate.baptismal_certificate.baptized_at_stmm = true
     verifiables = FactoryBot.create(:baptismal_certificate).verifiable_info(candidate)
     expected_verifiables = {
       Church: I18n.t('home_parish.name')

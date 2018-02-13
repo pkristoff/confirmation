@@ -88,6 +88,22 @@ This application requires:
 * tinymc - editig gem
 
 
+Postgres Production
+---------------
+
+https://dashboard.heroku.com/apps
+
+Productiion: https://lit-earth-34236.herokuapp.com/
+Staging:  https://confirmation-staging.herokuapp.com/
+
+Copy production db to staging
+- heroku pg:copy your-app::DATABASE_URL DATABASE_URL -a yourapp-staging
+- https://stackoverflow.com/questions/10673630/how-do-i-transfer-production-database-to-staging-on-heroku-using-pgbackups-gett/24005476#30495448
+
+Production => local
+- heroku pg:backups:download --app lit-earth-34236
+- pg_restore --verbose --clean --no-acl --no-owner -h localhost -U paulkristoff -d confirmation_development 20180213.dump > restore.log
+
 Postgres local
 ---------------
 Install postgres

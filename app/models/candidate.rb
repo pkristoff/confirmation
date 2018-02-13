@@ -435,7 +435,7 @@ class Candidate < ActiveRecord::Base
   def self.baptismal_external_verification?(candidate)
     # TODO: use awaiting_admin?
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
-    candidate.baptized_at_stmm && candidate_event.completed_date && !candidate_event.verified
+    (candidate.baptismal_certificate.baptized_at_stmm || candidate.baptismal_certificate.first_comm_at_stmm) && candidate_event.completed_date && !candidate_event.verified
   end
 
   # retreat needs admin verification
@@ -529,20 +529,4 @@ class Candidate < ActiveRecord::Base
     candidate_mailer_text.token = token
     devise_mailer.confirmation_instructions(self, token)
   end
-
-  # delegate call to baptismal_certificate where it has been migrated
-  #
-  # === Return:
-  #
-  # Boolean
-  #
-  delegate :baptized_at_stmm, to: :baptismal_certificate
-
-  # delegate call to baptismal_certificate where it has been migrated
-  #
-  # === Parameters:
-  #
-  # * <tt>:boolean</tt> whether baptized at stmm
-  #
-  delegate :baptized_at_stmm=, to: :baptismal_certificate
 end

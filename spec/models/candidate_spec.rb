@@ -34,7 +34,8 @@ describe Candidate do
 
     it 'baptized_at_stmm' do
       candidate = AppFactory.create_candidate
-      expect(candidate.baptized_at_stmm).to eq(false)
+      expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
+      expect(candidate.baptismal_certificate.first_comm_at_stmm).to eq(false)
     end
 
   end
@@ -193,30 +194,40 @@ describe Candidate do
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
       c2 = create_candidate('c2', 'Vicki', 'Kristoff')
       c3 = create_candidate('c3', 'Karen', 'Kristoff')
+      c4 = create_candidate('c4', 'aaa', 'Kristoff')
 
       AppFactory.add_confirmation_events
 
       @c1 = Candidate.find_by_account_name(c1.account_name)
       @c2 = Candidate.find_by_account_name(c2.account_name)
       @c3 = Candidate.find_by_account_name(c3.account_name)
+      @c4 = Candidate.find_by_account_name(c4.account_name)
     end
 
     it "baptismal_external_verification?" do
       event_key = I18n.t('events.baptismal_certificate')
       today = Date.today
-      @c1.baptized_at_stmm = false
+      @c1.baptismal_certificate.baptized_at_stmm = false
+      @c1.baptismal_certificate.first_comm_at_stmm = false
       @c1.get_candidate_event(event_key).completed_date = today
       @c1.save
-      @c2.baptized_at_stmm = true
+      @c2.baptismal_certificate.baptized_at_stmm = true
+      @c2.baptismal_certificate.first_comm_at_stmm = false
       @c2.get_candidate_event(event_key).completed_date = today
       @c2.save
-      @c3.baptized_at_stmm = true
+      @c3.baptismal_certificate.baptized_at_stmm = true
+      @c3.baptismal_certificate.first_comm_at_stmm = false
       @c3.get_candidate_event(event_key).completed_date = nil
       @c3.save
+      @c4.baptismal_certificate.baptized_at_stmm = false
+      @c4.baptismal_certificate.first_comm_at_stmm = true
+      @c4.get_candidate_event(event_key).completed_date = today
+      @c4.save
 
       expect(Candidate.baptismal_external_verification?(@c1)).to eq(false)
       expect(Candidate.baptismal_external_verification?(@c2)).to eq(true)
       expect(Candidate.baptismal_external_verification?(@c3)).to eq(nil)
+      expect(Candidate.baptismal_external_verification?(@c4)).to eq(true)
 
     end
 

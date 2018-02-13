@@ -8,10 +8,10 @@ class CandidateImportsController < ApplicationController
 
   def orphaned_table_rows
     case params[:commit]
-      when t('views.imports.check_orphaned_table_rows')
-        @candidate_import = CandidateImport.new.add_orphaned_table_rows
-      when t('views.imports.remove_orphaned_table_rows')
-        @candidate_import = CandidateImport.new.remove_orphaned_table_rows
+    when t('views.imports.check_orphaned_table_rows')
+      @candidate_import = CandidateImport.new.add_orphaned_table_rows
+    when t('views.imports.remove_orphaned_table_rows')
+      @candidate_import = CandidateImport.new.remove_orphaned_table_rows
     end
   end
 
@@ -52,32 +52,40 @@ class CandidateImportsController < ApplicationController
   def export_to_excel
 
     dir = 'xlsx_export'
+    with_pictures = params[:commit] == t('views.imports.excel')
 
     delete_dir(dir)
 
-    begin
-      Dir.mkdir(dir)
+    if with_pictures
 
-      CandidateImport.new.to_xlsx(dir).serialize("#{dir}/export.xlsx", true)
+      begin
+        Dir.mkdir(dir)
 
-      zip_filename = 'xlsx_export.zip'
-      temp_file = Tempfile.new(zip_filename)
-      Zip::OutputStream.open(temp_file) { |zos| zos }
-      Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
-        # zip.add(dir, dir)
-        Dir.foreach(dir) do |filename|
-          zip.add(filename, File.join(dir, filename)) unless File.directory?("#{dir}/#{filename}") || filename === zip_filename
-          # File.delete("#{dir}/#{filename}") unless File.directory?("#{dir}/#{filename}")
+        CandidateImport.new.to_xlsx(dir).serialize("#{dir}/export.xlsx", true)
+
+        zip_filename = 'xlsx_export.zip'
+        temp_file = Tempfile.new(zip_filename)
+        Zip::OutputStream.open(temp_file) { |zos| zos }
+        Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
+          # zip.add(dir, dir)
+          Dir.foreach(dir) do |filename|
+            zip.add(filename, File.join(dir, filename)) unless File.directory?("#{dir}/#{filename}") || filename === zip_filename
+            # File.delete("#{dir}/#{filename}") unless File.directory?("#{dir}/#{filename}")
+          end
         end
-      end
-      zip_data = File.read(temp_file.path)
-      send_data(zip_data, type:'application/zip', filename: zip_filename)
+        zip_data = File.read(temp_file.path)
+        send_data(zip_data, type: 'application/zip', filename: zip_filename)
 
-      # send_file(, type: 'application/zip', x_sendfile: true, disposition: 'attachment')
-    ensure
-      temp_file.close unless temp_file.nil?
-      temp_file.unlink unless temp_file.nil?
-      delete_dir(dir)
+          # send_file(, type: 'application/zip', x_sendfile: true, disposition: 'attachment')
+      ensure
+        temp_file.close unless temp_file.nil?
+        temp_file.unlink unless temp_file.nil?
+        delete_dir(dir)
+      end
+    else
+      # No need to create & delete dir
+      p = CandidateImport.new.to_xlsx(dir, with_pictures)
+      send_data p.to_stream.read, type: 'application/xlsx', filename: 'export_no_pict.xlsx'
     end
   end
 
