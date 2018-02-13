@@ -192,7 +192,7 @@ class BaptismalCertificate < ActiveRecord::Base
   end
 
   def first_comm_show
-    has_chosen_baptized_at_stmm && !baptized_at_stmm
+    chosen_baptized_at_stmm? && !baptized_at_stmm
   end
 
   def chosen_baptized_at_stmm?

@@ -124,7 +124,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -164,7 +164,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -183,7 +183,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, true, true, true, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, true, true, true, expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -208,7 +208,7 @@ shared_context 'baptismal_certificate_html_erb' do
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false,
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, "Your changes were saved!! 11 empty fields need to be filled in on the form to be verfied: Birth date can't be blank Baptismal date can't be blank Church name can't be blank Father first can't be blank Father middle can't be blank Father last can't be blank Mother first can't be blank Mother middle can't be blank Mother maiden can't be blank Mother last can't be blank Street 1 can't be blank"]])
 
@@ -225,7 +225,7 @@ shared_context 'baptismal_certificate_html_erb' do
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate, @updated_message)
 
     else
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
     end
 
     expect_db(1, 9, 1)
@@ -235,7 +235,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false)
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false)
 
     expect_db(1, 9, 1) # make sure DB does not increase in size.
   end
@@ -251,8 +251,7 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in_form(false) # no picture
     click_button @update_id
 
-    candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false,
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Scanned baptismal certificate can\'t be blank']]])
 
@@ -266,7 +265,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false, expect_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false, expect_messages: [[:flash_notice, @updated_message]])
 
       expect(candidate.baptized_at_stmm).to eq(false)
       expect(candidate.baptismal_certificate).not_to eq(nil)
@@ -276,7 +275,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false)
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false)
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template, except street_1' do
@@ -292,7 +291,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect(page).to have_selector(img_src_selector)
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, candidate.baptized_at_stmm, false, false, false,
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Street 1 can\'t be blank']],
                                       street_1: '')

@@ -84,13 +84,13 @@ shared_context 'baptismal_certificate' do
   it 'User fills in all info and updates' do
     candidate = Candidate.find(@candidate.id)
 
-    valid_parameters = valid_parameters
-    valid_parameters[:certificate_picture] = fixture_file_upload('Baptismal Certificate.png', 'image/png')
+    vps = valid_parameters
+    vps[:certificate_picture] = fixture_file_upload('Baptismal Certificate.png', 'image/png')
     put :event_with_picture_update,
         id: candidate.id,
         event_name: Event::Route::BAPTISMAL_CERTIFICATE,
         candidate: { baptized_at_stmm: '0',
-                     baptismal_certificate_attributes: valid_parameters }
+                     baptismal_certificate_attributes: vps }
 
     expect(response.status).to eq(200)
     expect(flash[:notice]).to eq(I18n.t('messages.updated', cand_name: 'Sophia Agusta'))

@@ -530,7 +530,6 @@ class Candidate < ActiveRecord::Base
     devise_mailer.confirmation_instructions(self, token)
   end
 
-
   # delegate call to baptismal_certificate where it has been migrated
   #
   # === Return:
