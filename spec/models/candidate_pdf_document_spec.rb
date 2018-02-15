@@ -4,6 +4,7 @@ describe CandidatePDFDocument, type: :model do
 
   before(:each) do
     @candidate = FactoryBot.create(:candidate)
+    AppFactory.add_confirmation_events
     File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
       @candidate.baptismal_certificate.scanned_certificate =
           ScannedImage.new(

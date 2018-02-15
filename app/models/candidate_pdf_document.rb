@@ -15,16 +15,21 @@ class CandidatePDFDocument < Prawn::Document
   def initialize(candidate)
     super()
     @candidate = candidate
+    @verified = false
     do_document
+  end
+
+  # walk through the events making sure they have all been validated
+  #
+  def process_events
+    event = @candidate.candidate_events.select { |ev| ev.completed_date.nil? || !ev.verified? }
+    @verified = event.nil?
   end
 
   # Generate PDF document
   #
-  # === Return:
-  #
-  #
-  #
   def do_document
+    process_events
     title_page
     start_new_page
 
@@ -77,29 +82,30 @@ class CandidatePDFDocument < Prawn::Document
   def baptismal_certificate
     bc = @candidate.baptismal_certificate
     define_grid_page
-    page_header(I18n.t('label.sidebar.baptismal_certificate'))
+    page_header(I18n.t('label.sidebar.baptismal_certificate'), [0, 0], [0, 3])
+    common_event(@candidate.get_candidate_event(I18n.t('events.baptismal_certificate')), [1, 0], [1, 3])
 
     if @candidate.baptismal_certificate.baptized_at_stmm
       text 'Baptized at St. Mary Magdalene'
     elsif @candidate.baptismal_certificate.first_comm_at_stmm
       text 'Received First Communion at St. Mary Magdalene'
     else
-      grid_label_value([1, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
-      grid_label_value([1, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
+      grid_label_value([2, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
+      grid_label_value([2, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
       # Church
-      grid_label_value([2, 1], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.church_name')}:", bc.church_name)
-      grid_address([3, 0], 'label.baptismal_certificate.baptismal_certificate.church_address', bc.church_address)
+      grid_label_value([3, 1], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.church_name')}:", bc.church_name)
+      grid_address([4, 0], 'label.baptismal_certificate.baptismal_certificate.church_address', bc.church_address)
       # father
-      grid_label([6, 0], 'Father:')
-      grid_label_value([7, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_first')}:", bc.father_first)
-      grid_label_value([8, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle')}:", bc.father_middle)
-      grid_label_value([9, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_last')}:", bc.father_last)
+      grid_label([7, 0], [7, 0], 'Father:')
+      grid_label_value([8, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_first')}:", bc.father_first)
+      grid_label_value([9, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle')}:", bc.father_middle)
+      grid_label_value([10, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_last')}:", bc.father_last)
       # mother
-      grid_label([6, 2], 'Mother:')
-      grid_label_value([7, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first')}:", bc.mother_first)
-      grid_label_value([8, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle')}:", bc.mother_middle)
-      grid_label_value([9, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden')}:", bc.mother_maiden)
-      grid_label_value([10, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last')}:", bc.mother_last)
+      grid_label([7, 2], [7, 2], 'Mother:')
+      grid_label_value([8, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first')}:", bc.mother_first)
+      grid_label_value([9, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle')}:", bc.mother_middle)
+      grid_label_value([10, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden')}:", bc.mother_maiden)
+      grid_label_value([11, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last')}:", bc.mother_last)
     end
 
     common_image(bc.scanned_certificate, I18n.t('field_set.baptismal_certificate.scan'))
@@ -110,76 +116,81 @@ class CandidatePDFDocument < Prawn::Document
   def candidate_sheet
     cs = @candidate.candidate_sheet
     define_grid_page
-    page_header(I18n.t('label.sidebar.candidate_information_sheet'))
+    page_header(I18n.t('label.sidebar.candidate_information_sheet'), [0, 0], [0, 3])
+    common_event(@candidate.get_candidate_event(I18n.t('events.candidate_information_sheet')), [1, 0], [1, 3])
 
     # name
-    grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", cs.first_name)
-    grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.middle_name')}:", cs.middle_name)
-    grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.last_name')}:", cs.last_name)
+    grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", cs.first_name)
+    grid_label_value([2, 2], "#{I18n.t('label.candidate_sheet.middle_name')}:", cs.middle_name)
+    grid_label_value([3, 0], "#{I18n.t('label.candidate_sheet.last_name')}:", cs.last_name)
 
     # grade attending
-    grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.grade')}:", cs.grade.to_s)
-    grid_label_value([2, 2], "#{I18n.t('label.candidate_sheet.attending')}:", cs.attending)
+    grid_label_value([4, 0], "#{I18n.t('label.candidate_sheet.grade')}:", cs.grade.to_s)
+    grid_label_value([4, 2], "#{I18n.t('label.candidate_sheet.attending')}:", cs.attending)
 
     # email
-    grid_label_value([3, 0], "#{I18n.t('label.candidate_sheet.candidate_email')}:", cs.candidate_email)
-    grid_label_value([3, 2], "#{I18n.t('label.candidate_sheet.parent_email_1')}:", cs.parent_email_1)
-    grid_label_value([4, 0], "#{I18n.t('label.candidate_sheet.parent_email_2')}:", cs.parent_email_2)
+    grid_label_value([5, 0], "#{I18n.t('label.candidate_sheet.candidate_email')}:", cs.candidate_email)
+    grid_label_value([5, 2], "#{I18n.t('label.candidate_sheet.parent_email_1')}:", cs.parent_email_1)
+    grid_label_value([6, 0], "#{I18n.t('label.candidate_sheet.parent_email_2')}:", cs.parent_email_2)
 
     # address
-    grid_label([5, 0], 'Address')
-    grid_address([6, 0], 'label.candidate_sheet.address', cs.address)
+    grid_label([7, 0], [7, 0], 'Address')
+    grid_address([8, 0], 'label.candidate_sheet.address', cs.address)
   end
 
   # Generate Christian Ministry
   #
   def christian_ministry
     cm = @candidate.christian_ministry
-    define_grid_page(2, 10)
-    page_header(I18n.t('label.sidebar.christian_ministry'))
+    define_grid_page
+    page_header(I18n.t('label.sidebar.christian_ministry'), [0, 0], [0, 3])
+    common_event(@candidate.get_candidate_event(I18n.t('events.christian_ministry')), [1, 0], [1, 3])
 
-    grid_label_value([1, 0], "#{I18n.t('label.christian_ministry.what_service')}:", cm.what_service)
-    grid_label_value([2, 0], "#{I18n.t('label.christian_ministry.where_service')}:", cm.where_service)
-    grid_label_value([3, 0], "#{I18n.t('label.christian_ministry.when_service')}:", cm.when_service)
-    grid_label_value([4, 0], "#{I18n.t('label.christian_ministry.helped_me')}:", cm.helped_me)
+    grid_label_value2([2, 0], "#{I18n.t('label.christian_ministry.what_service')}:", cm.what_service)
+    grid_label_value2([3, 0], "#{I18n.t('label.christian_ministry.where_service')}:", cm.where_service)
+    grid_label_value2([4, 0], "#{I18n.t('label.christian_ministry.when_service')}:", cm.when_service)
+    grid_label_value2([5, 0], "#{I18n.t('label.christian_ministry.helped_me')}:", cm.helped_me)
   end
 
   # Generate confirmation name
   #
   def confirmation_name
     cn = @candidate.pick_confirmation_name
-    define_grid_page(2, 10)
-    page_header(I18n.t('label.sidebar.confirmation_name'))
+    define_grid_page
+    page_header(I18n.t('label.sidebar.confirmation_name'), [0, 0], [0, 3])
+    common_event(@candidate.get_candidate_event(I18n.t('events.confirmation_name')), [1, 0], [1, 3])
 
-    grid_label_value([1, 0], I18n.t('label.confirmation_name.saint_name'), cn.saint_name)
+    grid_label_value2([2, 0], I18n.t('label.confirmation_name.saint_name'), cn.saint_name)
   end
 
   # Generate Covenant agreement
   #
   def covenant_agreement
     signed = @candidate.signed_agreement
-    define_grid_page(2, 10)
-    page_header(I18n.t('label.sidebar.candidate_covenant_agreement'))
+    define_grid_page
+    page_header(I18n.t('label.sidebar.candidate_covenant_agreement'), [0, 0], [0, 3])
+    common_event(@candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement')), [1, 0], [1, 3])
 
-    grid_label_value([1, 0], 'Agreed to Candidate Covenant', signed)
+    grid_label_value2([2, 0], 'Agreed to Candidate Covenant', signed)
   end
 
   # Generate retreat verification
   #
   def retreat_verification
     rv = @candidate.retreat_verification
-    define_grid_page(4, 10)
-    page_header(I18n.t('label.sidebar.retreat_verification'))
+    define_grid_page
+    page_header(I18n.t('label.sidebar.retreat_verification'), [0, 0], [0, 3])
+    common_event(@candidate.get_candidate_event(I18n.t('events.retreat_verification')), [1, 0], [1, 3])
 
-    grid_label_value([1, 0], "#{I18n.t('label.retreat_verification.retreat_held_at_stmm')}:", rv.retreat_held_at_stmm)
+    grid_label_value2([2, 0], "#{I18n.t('label.retreat_verification.retreat_held_at_stmm')}:", rv.retreat_held_at_stmm)
 
     return if rv.retreat_held_at_stmm
 
-    grid_label_value([2, 0], "#{I18n.t('label.retreat_verification.start_date')}:", rv.start_date)
-    grid_label_value([2, 2], "#{I18n.t('label.retreat_verification.end_date')}:", rv.end_date)
+    grid_label_value2([3, 0], "#{I18n.t('label.retreat_verification.start_date')}:", rv.start_date)
+    grid_label_value2([4, 0], "#{I18n.t('label.retreat_verification.end_date')}:", rv.end_date)
 
-    grid_label_value([3, 0], "#{I18n.t('label.retreat_verification.who_held_retreat')}:", rv.who_held_retreat)
-    grid_label_value([4, 0], "#{I18n.t('label.retreat_verification.where_held_retreat')}:", rv.where_held_retreat)
+    grid_label_value2([5, 0], "#{I18n.t('label.retreat_verification.who_held_retreat')}:", rv.who_held_retreat)
+    grid_label_value2([6, 0], "#{I18n.t('label.retreat_verification.where_held_retreat')}:", rv.where_held_retreat)
 
     common_image(rv.scanned_retreat, I18n.t('label.retreat_verification.retreat_verification_picture'))
   end
@@ -188,24 +199,26 @@ class CandidatePDFDocument < Prawn::Document
   #
   def sponsor_agreement
     sa = @candidate.sponsor_agreement
-    define_grid_page(2, 10)
-    page_header(I18n.t('label.sidebar.sponsor_agreement'))
+    define_grid_page
+    page_header(I18n.t('label.sidebar.sponsor_agreement'), [0, 0], [0, 3])
+    common_event(@candidate.get_candidate_event(I18n.t('events.sponsor_covenant')), [1, 0], [1, 3])
 
-    grid_label_value([1, 0], 'Agreed to having the conversation with sponsor', sa)
+    grid_label_value2([2, 0], 'Agreed to having the conversation with sponsor', sa)
   end
 
   # Generate Sponsor covenant
   #
   def sponsor_covenant
     sc = @candidate.sponsor_covenant
-    define_grid_page(2)
-    page_header(I18n.t('label.sidebar.sponsor_covenant'))
+    define_grid_page
+    page_header(I18n.t('label.sidebar.sponsor_covenant'), [0, 0], [0, 3])
+    common_event(@candidate.get_candidate_event(I18n.t('events.sponsor_covenant')), [1, 0], [1, 3])
 
-    grid_label_value([1, 0], "#{I18n.t('label.sponsor_covenant.sponsor_name')}:", sc.sponsor_name)
-    grid_label_value([2, 0], "#{I18n.t('label.sponsor_covenant.sponsor_attends_stmm')}:", sc.sponsor_attends_stmm)
+    grid_label_value2([2, 0], "#{I18n.t('label.sponsor_covenant.sponsor_name')}:", sc.sponsor_name)
+    grid_label_value2([3, 0], "#{I18n.t('label.sponsor_covenant.sponsor_attends_stmm')}:", sc.sponsor_attends_stmm)
 
     unless sc.sponsor_attends_stmm
-      grid_label_value([3, 0], "#{I18n.t('label.sponsor_covenant.sponsor_church')}:", sc.sponsor_church)
+      grid_label_value([4, 0], "#{I18n.t('label.sponsor_covenant.sponsor_church')}:", sc.sponsor_church)
       common_image(sc.scanned_covenant, I18n.t('field_set.sponsor_covenant.sponsor_covenant'))
     end
 
@@ -314,19 +327,33 @@ class CandidatePDFDocument < Prawn::Document
   # * <tt>:value</tt> value
   #
   def grid_label_value(cell, label, value)
-    grid_label(cell, label)
-    grid_value([cell[0], cell[1] + 1], value)
+    grid_label(cell, cell, label)
+    grid_value([cell[0], cell[1] + 1], [cell[0], cell[1] + 1], value)
+  end
+
+  # Generate label-value for a cell for cell width 2
+  #
+  # === Parameters:
+  #
+  # * <tt>:cell</tt> cell
+  # * <tt>:label</tt> label
+  # * <tt>:value</tt> value
+  #
+  def grid_label_value2(cell, label, value)
+    grid_label(cell, [cell[0], cell[1] + 1], label)
+    grid_value([cell[0], cell[1] + 2], [cell[0], cell[1] + 3], value)
   end
 
   # Generate label for a cell
   #
   # === Parameters:
   #
-  # * <tt>:cell</tt> cell
+  # * <tt>:cell1</tt> start point
+  # * <tt>:cell2</tt> end point
   # * <tt>:label</tt> label
   #
-  def grid_label(cell, label)
-    grid(cell[0], cell[1]).bounding_box do
+  def grid_label(cell, cell2, label)
+    grid(cell, cell2).bounding_box do
       # move_down 20
       font('Courier') { text "<b>#{label}</b>", inline_format: true }
     end
@@ -336,16 +363,17 @@ class CandidatePDFDocument < Prawn::Document
   #
   # === Parameters:
   #
-  # * <tt>:cell</tt> cell
+  # * <tt>:cell1</tt> start point
+  # * <tt>:cell2</tt> end point
   # * <tt>:value</tt> value
   #
-  def grid_value(cell, value)
+  def grid_value(cell, cell2, value)
     val = if (value.is_a? TrueClass) || (value.is_a? FalseClass) || (value.is_a? Date)
             value.to_s
           else
             value.presence || '<no value>'
           end
-    grid(cell[0], cell[1]).bounding_box do
+    grid(cell, cell2).bounding_box do
       # move_down 20
       text val
     end
@@ -356,11 +384,46 @@ class CandidatePDFDocument < Prawn::Document
   # === Parameters:
   #
   # * <tt>:header_text</tt> text for header
+  # * <tt>:cell1</tt> start point
+  # * <tt>:cell2</tt> end point
   #
-  def page_header(header_text)
-    bounding_box [bounds.left, bounds.top], width: bounds.width do
+  def page_header(header_text, cell1, cell2)
+    grid(cell1, cell2).bounding_box do
       font 'Helvetica'
       text header_text, align: :center, size: 25
+      stroke_horizontal_rule
+    end
+  end
+
+  #
+  # Output the event information
+  #
+  # ====== Parameters:
+  # * <tt>:event</tt> CandidateEvent
+  # * <tt>:cell1</tt> start point
+  # * <tt>:cell2</tt> end point
+  #
+  def common_event(event, cell1, cell2)
+    completed_color = event.completed_date.nil? ? 'ff0000' : '000000'
+    verified_color = event.verified ? '000000' : 'ff0000'
+
+    grid(cell1, cell2).bounding_box do
+      font 'Courier'
+      valign = :top
+      align = :left
+      w = bounds.width / 4
+      bounding_box [bounds.left, bounds.top], width: w do
+        text '<b>Completed Date:</b>', inline_format: true, align: align, valign: valign, color: completed_color
+      end
+      bounding_box [bounds.left + w, bounds.top], width: w do
+        text event.completed_date.to_s, inline_format: true, align: align, valign: valign, color: completed_color
+      end
+      bounding_box [bounds.left + (2 * w), bounds.top], width: w do
+        text '<b>Admin Verified:</b>', inline_format: true, align: align, valign: valign, color: verified_color
+      end
+      bounding_box [bounds.left + (3 * w), bounds.top], width: w do
+        text event.verified.to_s, inline_format: true, align: align, valign: valign, color: verified_color
+      end
       stroke_horizontal_rule
     end
   end
@@ -378,6 +441,13 @@ class CandidatePDFDocument < Prawn::Document
       bounding_box [bounds.left, bounds.top - ((bounds.height * 2) / 3)], width: bounds.width, height: bounds.height / 3 do
         text "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}", size: 30, style: :bold, align: :center, valign: :top
       end
+    end
+    bounding_box [bounds.left, bounds.bottom + 25], width: bounds.width do
+      font 'Helvetica'
+      stroke_horizontal_rule
+      move_down(5)
+      text 'Complete', size: 16 if @verified
+      text 'Not Complete', size: 16, color: 'ff0000' unless @verified
     end
   end
 end
