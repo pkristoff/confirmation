@@ -19,6 +19,7 @@
           <li><%= link_to I18n.t('views.nav.other'), new_candidate_import_path %></li>
           <li class="no-link"> Export</li>
           <% export_info= [
+              [I18n.t('views.nav.export_confirmation_name'), export_lists_confirmation_name_path, I18n.t('views.nav.export_confirmation_name')],
               [I18n.t('views.nav.export_attend_retreat_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_retreat_path, I18n.t('views.nav.export_attend_retreat_title', home_parish: I18n.t('home_parish.nick_name'))],
               [I18n.t('views.nav.export_baptized_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_baptism_path, I18n.t('views.nav.export_baptized_at_stmm_title', home_parish: I18n.t('home_parish.nick_name'))],
               [I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_sponsor_path, I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name'))],

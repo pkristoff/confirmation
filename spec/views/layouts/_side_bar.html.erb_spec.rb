@@ -19,6 +19,7 @@ describe 'layouts/_side_bar.html.erb' do
     ]
 
     @admin_export_link_names_in_order = [
+        [I18n.t('views.nav.export_confirmation_name'), '/export_lists/confirmation_name'],
         [I18n.t('views.nav.export_attend_retreat_title', home_parish: I18n.t('home_parish.nick_name')), '/export_lists/retreat'],
         [I18n.t('views.nav.export_baptized_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), '/export_lists/baptism'],
         [I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), '/export_lists/sponsor'],

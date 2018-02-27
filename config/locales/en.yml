@@ -279,10 +279,11 @@ en:
       edit_account: Edit account
       email: Email
       events: Events
-      export_attend_retreat_title: Export Retreat at %{home_parish}
-      export_baptized_at_stmm_title: Export Baptized at %{home_parish}
-      export_candidate_event_status_title: Export Candidate Events Status
-      export_sponsor_at_stmm_title: Export Sponsor at %{home_parish}
+      export_attend_retreat_title: Retreat at %{home_parish}
+      export_baptized_at_stmm_title: Baptized at %{home_parish}
+      export_candidate_event_status_title: Candidate Events Status
+      export_confirmation_name: Confirmation Names
+      export_sponsor_at_stmm_title: Sponsor at %{home_parish}
       monthly_mass_mailing: Monthly Mailing
       other: Other
       toggle_navigation: Toggle navigation

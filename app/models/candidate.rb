@@ -454,6 +454,24 @@ class Candidate < ActiveRecord::Base
     candidate.retreat_verification.retreat_held_at_stmm && candidate_event.completed_date && !candidate_event.verified
   end
 
+  # confirmation name needs admin verification
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of this association
+  #
+  # === Return:
+  #
+  # Boolean
+  #
+  def self.confirmation_name_external_verification?(candidate)
+    # TODO: use awaiting_admin?
+    candidate_event = candidate.get_candidate_event(I18n.t('events.confirmation_name'))
+    candidate.pick_confirmation_name.saint_name &&
+      candidate_event.completed_date &&
+      !candidate_event.verified
+  end
+
   # sponsor needs admin verification
   #
   # === Parameters:
