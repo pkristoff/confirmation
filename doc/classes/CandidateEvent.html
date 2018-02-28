@@ -78,12 +78,12 @@ href="ConfirmationEvent.html">ConfirmationEvent</a></p>
             
               
               <li>
-                <a href="#method-i-awaiting_candidate-3F">awaiting_candidate?</a>,
+                <a href="#method-c-awaiting_candidate-3F">awaiting_candidate?</a>,
               </li>
             
               
               <li>
-                <a href="#method-c-awaiting_candidate-3F">awaiting_candidate?</a>
+                <a href="#method-i-awaiting_candidate-3F">awaiting_candidate?</a>
               </li>
             
           </ul>
@@ -95,22 +95,22 @@ href="ConfirmationEvent.html">ConfirmationEvent</a></p>
             
               
               <li>
-                <a href="#method-c-coming_due-3F">coming_due?</a>,
-              </li>
-            
-              
-              <li>
                 <a href="#method-i-coming_due-3F">coming_due?</a>,
               </li>
             
               
               <li>
-                <a href="#method-i-completed-3F">completed?</a>,
+                <a href="#method-c-coming_due-3F">coming_due?</a>,
               </li>
             
               
               <li>
-                <a href="#method-c-completed-3F">completed?</a>
+                <a href="#method-c-completed-3F">completed?</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-completed-3F">completed?</a>
               </li>
             
           </ul>
@@ -123,30 +123,6 @@ href="ConfirmationEvent.html">ConfirmationEvent</a></p>
               
               <li>
                 <a href="#method-i-due_date">due_date</a>
-              </li>
-            
-          </ul>
-        </dd>
-      
-        <dt>G</dt>
-        <dd>
-          <ul>
-            
-              
-              <li>
-                <a href="#method-c-get_permitted_params">get_permitted_params</a>
-              </li>
-            
-          </ul>
-        </dd>
-      
-        <dt>I</dt>
-        <dd>
-          <ul>
-            
-              
-              <li>
-                <a href="#method-i-instructions">instructions</a>
               </li>
             
           </ul>
@@ -181,13 +157,13 @@ href="ConfirmationEvent.html">ConfirmationEvent</a></p>
           </ul>
         </dd>
       
-        <dt>N</dt>
+        <dt>P</dt>
         <dd>
           <ul>
             
               
               <li>
-                <a href="#method-i-name">name</a>
+                <a href="#method-c-permitted_params">permitted_params</a>
               </li>
             
           </ul>
@@ -310,9 +286,9 @@ started.</p>
                 
               </p>
               <div id="method-c-awaiting_admin-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 118</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 116</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">awaiting_admin?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
-  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">verified</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">verified</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -360,9 +336,9 @@ started.</p>
                 
               </p>
               <div id="method-c-awaiting_candidate-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 93</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 91</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
-  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -410,10 +386,10 @@ started.</p>
                 
               </p>
               <div id="method-c-coming_due-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 143</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 141</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">coming_due?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
   <span class="ruby-identifier">today</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
-  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>) <span class="ruby-keyword">and</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">today</span>) <span class="ruby-keyword">and</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">today</span><span class="ruby-operator">+</span><span class="ruby-number">30</span>)
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">today</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">today</span> <span class="ruby-operator">+</span> <span class="ruby-number">30</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -461,51 +437,9 @@ started.</p>
                 
               </p>
               <div id="method-c-completed-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 163</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 161</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">completed?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">verified</span>)
-  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-keyword">and</span> <span class="ruby-identifier">verified</span>
-<span class="ruby-keyword">end</span></pre>
-              </div>
-            </div>
-            
-          </div>
-        
-        <div class="method">
-          <div class="title method-title" id="method-c-get_permitted_params">
-            
-              <b>get_permitted_params</b>()
-            
-            <a href="../classes/CandidateEvent.html#method-c-get_permitted_params" name="method-c-get_permitted_params" class="permalink">Link</a>
-          </div>
-
-          
-            <div class="description">
-              <p>Editable attributes</p>
-
-<h3 id="method-c-get_permitted_params-label-Return-3A">Return:</h3>
-
-<p>Array of attributes</p>
-            </div>
-          
-
-          
-
-          
-
-          
-            
-            <div class="sourcecode">
-              
-              <p class="source-link">
-                Source:
-                <a href="javascript:toggleSource('method-c-get_permitted_params_source')" id="l_method-c-get_permitted_params_source">show</a>
-                
-              </p>
-              <div id="method-c-get_permitted_params_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 230</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_permitted_params</span>
-  [<span class="ruby-value">:id</span>, <span class="ruby-value">:completed_date</span>, <span class="ruby-value">:verified</span>,
-   <span class="ruby-identifier">confirmation_event_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">get_permitted_params</span>]
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">verified</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -553,9 +487,51 @@ started.</p>
                 
               </p>
               <div id="method-c-late-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 188</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 186</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">late?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
-  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>) <span class="ruby-keyword">and</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>)
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-permitted_params">
+            
+              <b>permitted_params</b>()
+            
+            <a href="../classes/CandidateEvent.html#method-c-permitted_params" name="method-c-permitted_params" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Editable attributes</p>
+
+<h3 id="method-c-permitted_params-label-Return-3A">Return:</h3>
+
+<p>Array of attributes</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-permitted_params_source')" id="l_method-c-permitted_params_source">show</a>
+                
+              </p>
+              <div id="method-c-permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 228</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">permitted_params</span>
+  [<span class="ruby-value">:id</span>, <span class="ruby-value">:completed_date</span>, <span class="ruby-value">:verified</span>,
+   <span class="ruby-identifier">confirmation_event_attributes</span><span class="ruby-operator">:</span> <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">permitted_params</span>]
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -601,7 +577,7 @@ started.</p>
                 
               </p>
               <div id="method-c-started-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 68</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>)
   <span class="ruby-operator">!</span><span class="ruby-identifier">due_date</span>.<span class="ruby-identifier">nil?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -613,7 +589,7 @@ started.</p>
         <div class="method">
           <div class="title method-title" id="method-c-status">
             
-              <b>status</b>(due_date, completed_date,verified)
+              <b>status</b>(due_date, completed_date, verified)
             
             <a href="../classes/CandidateEvent.html#method-c-status" name="method-c-status" class="permalink">Link</a>
           </div>
@@ -653,15 +629,15 @@ started.</p>
                 
               </p>
               <div id="method-c-status_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 204</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">status</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>,<span class="ruby-identifier">verified</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.not_started&#39;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.coming_due&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">coming_due?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.late&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">late?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.awaiting_candidate&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.awaiting_admin&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">awaiting_admin?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.verified&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">completed?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">verified</span>)
-  <span class="ruby-identifier">raise</span>(<span class="ruby-string">&quot;Unknown candidate_event status&quot;</span>)
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 202</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">status</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.not_started&#39;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.coming_due&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">coming_due?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.late&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">late?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.awaiting_candidate&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.awaiting_admin&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">awaiting_admin?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.verified&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">completed?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">verified</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-string">&#39;Unknown candidate_event status&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -702,7 +678,7 @@ started.</p>
                 
               </p>
               <div id="method-i-awaiting_admin-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 102</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 100</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">awaiting_admin?</span>
   <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_admin?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -743,7 +719,7 @@ started.</p>
                 
               </p>
               <div id="method-i-awaiting_candidate-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 78</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">awaiting_candidate?</span>
   <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -784,7 +760,7 @@ started.</p>
                 
               </p>
               <div id="method-i-coming_due-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 128</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 126</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">coming_due?</span>
   <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">coming_due?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -821,7 +797,7 @@ started.</p>
                 
               </p>
               <div id="method-i-completed-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 148</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 146</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">completed?</span>
   <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">completed?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">verified</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -862,54 +838,13 @@ started.</p>
                 
               </p>
               <div id="method-i-due_date_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 20</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">due_date</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">attending</span> <span class="ruby-operator">===</span> <span class="ruby-string">&#39;The Way&#39;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">attending</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;The Way&#39;</span>
     <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">the_way_due_date</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">chs_due_date</span>
   <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-              </div>
-            </div>
-            
-          </div>
-        
-        <div class="method">
-          <div class="title method-title" id="method-i-instructions">
-            
-              <b>instructions</b>()
-            
-            <a href="../classes/CandidateEvent.html#method-i-instructions" name="method-i-instructions" class="permalink">Link</a>
-          </div>
-
-          
-            <div class="description">
-              <p>Shortcut to instructions of the confirmation event</p>
-
-<h3 id="method-i-instructions-label-Return-3A">Return:</h3>
-
-<p>String</p>
-            </div>
-          
-
-          
-
-          
-
-          
-            
-            <div class="sourcecode">
-              
-              <p class="source-link">
-                Source:
-                <a href="javascript:toggleSource('method-i-instructions_source')" id="l_method-i-instructions_source">show</a>
-                
-              </p>
-              <div id="method-i-instructions_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 34</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">instructions</span>
-  <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">instructions</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -948,7 +883,7 @@ started.</p>
                 
               </p>
               <div id="method-i-late-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 173</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 171</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">late?</span>
   <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">late?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -994,62 +929,21 @@ being marked complete</p>
                 
               </p>
               <div id="method-i-mark_completed_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 289</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 287</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mark_completed</span>(<span class="ruby-identifier">validated</span>, <span class="ruby-identifier">cand_assoc_class</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">validated</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-keyword">self</span>.<span class="ruby-identifier">completed_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
       <span class="ruby-comment"># automatically mark verified when completed.</span>
       <span class="ruby-comment"># TODO: move to association class</span>
-      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">verified</span> = [<span class="ruby-string">&#39;CandidateSheet&#39;</span>, <span class="ruby-string">&#39;ChristianMinistry&#39;</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">cand_assoc_class</span>.<span class="ruby-identifier">to_s</span>)
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">verified</span> = <span class="ruby-node">%w[CandidateSheet ChristianMinistry]</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">cand_assoc_class</span>.<span class="ruby-identifier">to_s</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-keyword">self</span>.<span class="ruby-identifier">completed_date</span> = <span class="ruby-keyword">nil</span>
       <span class="ruby-keyword">self</span>.<span class="ruby-identifier">verified</span> = <span class="ruby-keyword">false</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-              </div>
-            </div>
-            
-          </div>
-        
-        <div class="method">
-          <div class="title method-title" id="method-i-name">
-            
-              <b>name</b>()
-            
-            <a href="../classes/CandidateEvent.html#method-i-name" name="method-i-name" class="permalink">Link</a>
-          </div>
-
-          
-            <div class="description">
-              <p>Shortcut to name of the confirmation event</p>
-
-<h3 id="method-i-name-label-Return-3A">Return:</h3>
-
-<p>Boolean</p>
-            </div>
-          
-
-          
-
-          
-
-          
-            
-            <div class="sourcecode">
-              
-              <p class="source-link">
-                Source:
-                <a href="javascript:toggleSource('method-i-name_source')" id="l_method-i-name_source">show</a>
-                
-              </p>
-              <div id="method-i-name_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 44</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">name</span>
-  <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1088,30 +982,30 @@ being marked complete</p>
                 
               </p>
               <div id="method-i-route_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 255</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 253</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">route</span>
   <span class="ruby-comment"># TODO: maybe move to constants</span>
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">name</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>)
-      <span class="ruby-value">:baptismal_certificate</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)
-      <span class="ruby-value">:candidate_covenant_agreement</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>)
-      <span class="ruby-value">:candidate_information_sheet</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>)
-      <span class="ruby-value">:christian_ministry</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>)
-      <span class="ruby-value">:confirmation_name</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.parent_meeting&#39;</span>)
-      <span class="ruby-value">:parent_meeting</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_agreement&#39;</span>)
-      <span class="ruby-value">:sponsor_agreement</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)
-      <span class="ruby-value">:sponsor_covenant</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>)
-      <span class="ruby-value">:retreat_verification</span>
-    <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown event to route: #{name}&quot;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">CANDIDATE_COVENANT_AGREEMENT</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">CANDIDATE_INFORMATION_SHEET</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">CHRISTIAN_MINISTRY</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRMATION_NAME</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.parent_meeting&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">PARENT_INFORMATION_MEETING</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_agreement&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_AND_CANDIDATE_CONVERSATION</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown event to route: #{name}&quot;</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -1151,7 +1045,7 @@ being marked complete</p>
                 
               </p>
               <div id="method-i-started-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 54</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">started?</span>
   <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1192,7 +1086,7 @@ being marked complete</p>
                 
               </p>
               <div id="method-i-status_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 220</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 218</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">status</span>
   <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">status</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1238,7 +1132,7 @@ being marked complete</p>
                 
               </p>
               <div id="method-i-verifiable_info_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 245</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 243</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verifiable_info</span>
   <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_event_association</span>(<span class="ruby-identifier">route</span>).<span class="ruby-identifier">verifiable_info</span>(<span class="ruby-identifier">candidate</span>)
 <span class="ruby-keyword">end</span></pre>

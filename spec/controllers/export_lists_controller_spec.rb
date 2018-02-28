@@ -20,7 +20,7 @@ describe ExportListsController do
   end
 
   it 'should create an xlsx' do
-    package = controller.create_xlsx([@c1, @c2], 'foo')
+    package = controller.create_xlsx([], [@c1, @c2], [], [], 'foo')
 
     expect(package.core.creator).to eq('Admin')
     check_workbook(package)
@@ -29,7 +29,7 @@ describe ExportListsController do
   it 'should create an xlsx with extra columns' do
     column_name = I18n.t('label.sponsor_covenant.sponsor_name')
 
-    package = controller.create_xlsx([@c1, @c2], 'foo', [column_name], [->(candidate) { candidate.sponsor_covenant.sponsor_name }])
+    package = controller.create_xlsx([], [@c1, @c2], [], [], 'foo', [column_name], [->(candidate) { candidate.sponsor_covenant.sponsor_name }])
 
     expect(package.core.creator).to eq('Admin')
     check_workbook(package, column_name, %w[George Wilma])
@@ -40,7 +40,9 @@ describe ExportListsController do
     @c1.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date = Date.today
     @c1.save
 
-    expect_send_data([@c1], 'Baptized', 'baptized.xlsx', :baptism)
+    expect_send_data([@c1], [], [], [@c2], 'Baptized', 'baptized.xlsx', :baptism,
+                     ExportListsController::BAPTISM_COLUMNS,
+                     ExportListsController::BAPTISM_VALUES)
   end
 
   it 'should return a xlxs retreat attachment' do
@@ -48,7 +50,9 @@ describe ExportListsController do
     @c1.get_candidate_event(I18n.t('events.retreat_verification')).completed_date = Date.today
     @c1.save
 
-    expect_send_data([@c1], 'Retreat', 'retreat.xlsx', :retreat)
+    expect_send_data([@c1], [], [], [@c2], 'Retreat', 'retreat.xlsx', :retreat,
+                     ExportListsController::RETREAT_COLUMNS,
+                     ExportListsController::RETREAT_VALUES)
   end
 
   it 'should return a xlxs confirmation name attachment' do
@@ -56,9 +60,9 @@ describe ExportListsController do
     @c1.get_candidate_event(I18n.t('events.confirmation_name')).completed_date = Date.today
     @c1.save
 
-    expect_send_data([@c1], 'Confirmation Names', 'confirmation_name.xlsx', :confirmation_name,
-                     [I18n.t('label.confirmation_name.saint_name')],
-                     [->(candidate) { candidate.pick_confirmation_name.saint_name }])
+    expect_send_data([], [@c1], [], [@c2], 'Confirmation Names', 'confirmation_name.xlsx', :confirmation_name,
+                     ExportListsController::CONFIRMATION_NAME_NAMES,
+                     ExportListsController::CONFIRMATION_NAME_VALUES)
   end
 
   it 'should return a xlxs sponsor attachment' do
@@ -66,17 +70,15 @@ describe ExportListsController do
     @c1.get_candidate_event(I18n.t('events.sponsor_covenant')).completed_date = Date.today
     @c1.save
 
-    expect_send_data([@c1], 'Sponsor', 'sponsor.xlsx', :sponsor,
-                     [I18n.t('label.sponsor_covenant.sponsor_name')],
-                     [->(candidate) { candidate.sponsor_covenant.sponsor_name }])
+    expect_send_data([@c1], [], [], [@c2], 'Sponsor', 'sponsor.xlsx', :sponsor,
+                     ExportListsController::SPONSOR_COLUMNS,
+                     ExportListsController::SPONSOR_VALUES)
   end
 
   it 'should return a xlxs event attachment' do
-    expect_send_data([@c1, @c2], 'Events', 'events.xlsx', :events,
-                     [I18n.t('events.retreat_verification'), I18n.t('events.baptismal_certificate'), I18n.t('events.candidate_covenant_agreement'),
-                      I18n.t('events.candidate_information_sheet'), I18n.t('events.christian_ministry'), I18n.t('events.confirmation_name'),
-                      I18n.t('events.parent_meeting'), I18n.t('events.sponsor_covenant'), I18n.t('events.sponsor_agreement')],
-                     [expected_value_function(I18n.t('status.coming_due')), expected_value_function(I18n.t('status.coming_due')), expected_value_function(I18n.t('status.coming_due')), expected_value_function(I18n.t('status.coming_due')), expected_value_function(I18n.t('status.coming_due')), expected_value_function(I18n.t('status.coming_due')), expected_value_function(I18n.t('status.coming_due')), expected_value_function(I18n.t('status.coming_due')), expected_value_function(I18n.t('status.coming_due'))])
+    expect_send_data([], [@c1, @c2], [], [], 'Events', 'events.xlsx', :events,
+                     ExportListsController.event_columns,
+                     ExportListsController.event_values)
   end
 end
 
@@ -86,9 +88,11 @@ end
 
 def check_workbook(package, extra_colum = nil, column_values = nil)
   package.workbook do |wb|
-    expect(wb.worksheets.size).to eq(1)
-    ws = wb.worksheets.first
-    expect(ws.name).to eq('foo')
+    expect(wb.worksheets.size).to eq(4)
+    ['Ext Verify', 'Verify', 'Verified', 'Not Complete'].each_with_index do |str, i|
+      expect(wb.worksheets[i].name).to eq("foo #{str}")
+    end
+    ws = wb.worksheets.second
     expect(ws.rows.size).to eq(3)
     # header
     header = ws.rows.first
@@ -112,14 +116,14 @@ def check_workbook(package, extra_colum = nil, column_values = nil)
   end
 end
 
-def expect_send_data(candidates, sheet_name, filename, route, extra_columns = [], functs = [])
-  xlsx = controller.create_xlsx(candidates, sheet_name, extra_columns, functs)
+def expect_send_data(external, to_be_verified, verified, not_complete, pre_title, filename, route, extra_columns = [], functs = [])
+  xlsx = controller.create_xlsx(external, to_be_verified, verified, not_complete, pre_title, extra_columns, functs)
   xlxs_data = xlsx.to_stream.read
   xlxs_options = { type: 'application/xlsx', filename: filename }
 
-  expect(controller).to receive(:send_data).with(xlxs_data, xlxs_options) {
+  expect(controller).to receive(:send_data).with(xlxs_data, xlxs_options) do
     controller.render nothing: true # to prevent a 'missing template' error
-  }
+  end
 
   get route
 end

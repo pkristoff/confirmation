@@ -133,7 +133,7 @@
         <div class="method">
           <div class="title method-title" id="method-i-adhoc">
             
-              <b>adhoc</b>(admin, candidateMailerText)
+              <b>adhoc</b>(_admin, candidate_mailer_text)
             
             <a href="../classes/CandidatesMailer.html#method-i-adhoc" name="method-i-adhoc" class="permalink">Link</a>
           </div>
@@ -169,17 +169,16 @@
                 
               </p>
               <div id="method-i-adhoc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidates_mailer.rb, line 21</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidateMailerText</span>)
-  <span class="ruby-identifier">setup_message_info</span>(<span class="ruby-identifier">candidateMailerText</span>)
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc</span>(<span class="ruby-identifier">_admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)
+  <span class="ruby-identifier">setup_message_info</span>(<span class="ruby-identifier">candidate_mailer_text</span>)
 
   <span class="ruby-identifier">mail</span>(
-      <span class="ruby-identifier">to</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{candidateMailerText.candidate.candidate_sheet.candidate_email}, #{candidateMailerText.candidate.candidate_sheet.parent_email_1}, #{candidateMailerText.candidate.candidate_sheet.parent_email_2}&quot;</span>,
-      <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidateMailerText</span>.<span class="ruby-identifier">subject</span>
+    <span class="ruby-identifier">to</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}&quot;</span>,
+    <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">subject</span>
   ) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
   <span class="ruby-keyword">end</span>
-
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -233,11 +232,9 @@ email addresses &amp; subject</p>
   <span class="ruby-ivar">@subject</span> = <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">subject</span>
 
   <span class="ruby-identifier">mail</span>(<span class="ruby-identifier">to</span><span class="ruby-operator">:</span> <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">email</span>.<span class="ruby-identifier">to_s</span>,
-       <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_adhoc_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)
-  ) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+       <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_adhoc_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
   <span class="ruby-keyword">end</span>
-
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -247,7 +244,7 @@ email addresses &amp; subject</p>
         <div class="method">
           <div class="title method-title" id="method-i-monthly_reminder">
             
-              <b>monthly_reminder</b>(admin, candidateMailerText)
+              <b>monthly_reminder</b>(_admin, candidate_mailer_text)
             
             <a href="../classes/CandidatesMailer.html#method-i-monthly_reminder" name="method-i-monthly_reminder" class="permalink">Link</a>
           </div>
@@ -284,17 +281,16 @@ are completed, late, &amp; not late</p>
                 
               </p>
               <div id="method-i-monthly_reminder_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidates_mailer.rb, line 70</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_reminder</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidateMailerText</span>)
-  <span class="ruby-identifier">setup_message_info</span>(<span class="ruby-identifier">candidateMailerText</span>)
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer.rb, line 68</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_reminder</span>(<span class="ruby-identifier">_admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)
+  <span class="ruby-identifier">setup_message_info</span>(<span class="ruby-identifier">candidate_mailer_text</span>)
 
   <span class="ruby-identifier">mail</span>(
-      <span class="ruby-identifier">to</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{candidateMailerText.candidate.candidate_sheet.candidate_email}, #{candidateMailerText.candidate.candidate_sheet.parent_email_1}, #{candidateMailerText.candidate.candidate_sheet.parent_email_2}&quot;</span>,
-      <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidateMailerText</span>.<span class="ruby-identifier">subject</span>
+    <span class="ruby-identifier">to</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}&quot;</span>,
+    <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">subject</span>
   ) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
   <span class="ruby-keyword">end</span>
-
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -342,18 +338,16 @@ email addresses &amp; subject</p>
                 
               </p>
               <div id="method-i-monthly_reminder_test_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidates_mailer.rb, line 95</span>
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer.rb, line 92</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_reminder_test</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)
   <span class="ruby-identifier">setup_message_info</span>(<span class="ruby-identifier">candidate_mailer_text</span>)
 
   <span class="ruby-ivar">@subject</span> = <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">subject</span>
 
   <span class="ruby-identifier">mail</span>(<span class="ruby-identifier">to</span><span class="ruby-operator">:</span> <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">email</span>.<span class="ruby-identifier">to_s</span>,
-       <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_monthly_mail_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)
-  ) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+       <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_monthly_mail_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
   <span class="ruby-keyword">end</span>
-
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -393,7 +387,7 @@ email addresses &amp; subject</p>
                 
               </p>
               <div id="method-i-setup_message_info_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidates_mailer.rb, line 114</span>
+                <pre><span class="ruby-comment"># File app/models/candidates_mailer.rb, line 109</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">setup_message_info</span>(<span class="ruby-identifier">candidate_mailer_text</span>)
   <span class="ruby-ivar">@candidate_mailer_text</span> = <span class="ruby-identifier">candidate_mailer_text</span>
 <span class="ruby-keyword">end</span></pre>

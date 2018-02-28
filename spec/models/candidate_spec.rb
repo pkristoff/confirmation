@@ -224,11 +224,30 @@ describe Candidate do
       @c4.get_candidate_event(event_key).completed_date = today
       @c4.save
 
-      expect(Candidate.baptismal_external_verification?(@c1)).to eq(false)
-      expect(Candidate.baptismal_external_verification?(@c2)).to eq(true)
-      expect(Candidate.baptismal_external_verification?(@c3)).to eq(nil)
-      expect(Candidate.baptismal_external_verification?(@c4)).to eq(true)
+      expect_external_verification(Candidate.baptismal_external_verification, [@c2, @c4], [@c1], [], [@c3])
+    end
 
+    it "confirmation_name_external_verification" do
+      event_key = I18n.t('events.confirmation_name')
+      today = Date.today
+      @c1.pick_confirmation_name.saint_name = 'xxx'
+      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.save
+      @c2.pick_confirmation_name.saint_name = 'xxx'
+      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).verified = true
+      @c2.save
+      @c3.pick_confirmation_name.saint_name = nil
+      @c3.save
+
+      expect_external_verification(Candidate.confirmation_name_external_verification, [], [@c1], [@c2], [@c3, @c4])
+    end
+
+    def expect_external_verification(actual, external, to_be_verified, verified, not_complete )
+      expect(actual[0]).to eq(external)
+      expect(actual[1]).to eq(to_be_verified)
+      expect(actual[2]).to eq(verified)
+      expect(actual[3]).to eq(not_complete)
     end
 
     it "retreat_external_verification??" do
@@ -244,10 +263,7 @@ describe Candidate do
       @c3.get_candidate_event(event_key).completed_date = nil
       @c3.save
 
-      expect(Candidate.retreat_external_verification?(@c1)).to eq(false)
-      expect(Candidate.retreat_external_verification?(@c2)).to eq(true)
-      expect(Candidate.retreat_external_verification?(@c3)).to eq(nil)
-
+      expect_external_verification(Candidate.retreat_external_verification, [@c2], [@c1], [], [@c3, @c4])
     end
 
     it "sponsor_external_verification?" do
@@ -263,10 +279,7 @@ describe Candidate do
       @c3.get_candidate_event(event_key).completed_date = nil
       @c3.save
 
-      expect(Candidate.sponsor_external_verification?(@c1)).to eq(false)
-      expect(Candidate.sponsor_external_verification?(@c2)).to eq(true)
-      expect(Candidate.sponsor_external_verification?(@c3)).to eq(nil)
-
+      expect_external_verification(Candidate.sponsor_external_verification, [@c2], [@c1], [], [@c3, @c4])
     end
   end
 

@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>ExportListsController</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            ExportListsController
+            
+                <span class="parent">&lt;
+                    
+                    <a href="ApplicationController.html">ApplicationController</a>
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/controllers/export_lists_controller_rb.html">app/controllers/export_lists_controller.rb</a></li>
+            
+            <li><a href="../files/spec/controllers/export_lists_controller_spec_rb.html">spec/controllers/export_lists_controller_spec.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>Handles exporting to excel spread sheets.</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-add_wb">add_wb</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>B</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-baptism">baptism</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-candidate_event_state">candidate_event_state</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-confirmation_name">confirmation_name</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-create_xlsx">create_xlsx</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-event_columns">event_columns</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-c-event_values">event_values</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-events">events</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>R</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-retreat">retreat</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-sponsor">sponsor</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+      <!-- Section constants -->
+      <div class="sectiontitle">Constants</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class="attr-name">BAPTISM_COLUMNS</td>
+            <td>=</td>
+            <td class="attr-value">[I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.baptized_at_stmm&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.first_comm_at_stmm&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.birth_date&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.baptismal_date&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_first&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_middle&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_last&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_first&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_middle&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_maiden&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_last&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.street_1&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.street_2&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.city&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.state&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.zip_code&#39;),
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.certificate_picture&#39;)].freeze</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">BAPTISM_VALUES</td>
+            <td>=</td>
+            <td class="attr-value">[-&gt;(candidate) { candidate.baptismal_certificate.baptized_at_stmm },
+-&gt;(candidate) { candidate.baptismal_certificate.first_comm_at_stmm },
+-&gt;(candidate) { candidate.baptismal_certificate.birth_date },
+-&gt;(candidate) { candidate.baptismal_certificate.baptismal_date },
+-&gt;(candidate) { candidate.baptismal_certificate.father_first },
+-&gt;(candidate) { candidate.baptismal_certificate.father_middle },
+-&gt;(candidate) { candidate.baptismal_certificate.father_last },
+-&gt;(candidate) { candidate.baptismal_certificate.mother_first },
+-&gt;(candidate) { candidate.baptismal_certificate.mother_middle },
+-&gt;(candidate) { candidate.baptismal_certificate.mother_maiden },
+-&gt;(candidate) { candidate.baptismal_certificate.mother_last },
+-&gt;(candidate) { candidate.baptismal_certificate.church_address.street_1 },
+-&gt;(candidate) { candidate.baptismal_certificate.church_address.street_2 },
+-&gt;(candidate) { candidate.baptismal_certificate.church_address.city },
+-&gt;(candidate) { candidate.baptismal_certificate.church_address.state },
+-&gt;(candidate) { candidate.baptismal_certificate.church_address.zip_code },
+-&gt;(candidate) { !candidate.baptismal_certificate.certificate_picture.nil? }].freeze</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">CONFIRMATION_NAME_NAMES</td>
+            <td>=</td>
+            <td class="attr-value">[I18n.t(&#39;label.confirmation_name.saint_name&#39;)].freeze</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">CONFIRMATION_NAME_VALUES</td>
+            <td>=</td>
+            <td class="attr-value">[-&gt;(candidate) { candidate.pick_confirmation_name.saint_name }].freeze</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">RETREAT_COLUMNS</td>
+            <td>=</td>
+            <td class="attr-value">[I18n.t(&#39;label.retreat_verification.retreat_held_at_stmm&#39;),
+I18n.t(&#39;label.retreat_verification.start_date&#39;),
+I18n.t(&#39;label.retreat_verification.end_date&#39;),
+I18n.t(&#39;label.retreat_verification.who_held_retreat&#39;),
+I18n.t(&#39;label.retreat_verification.where_held_retreat&#39;)].freeze</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">RETREAT_VALUES</td>
+            <td>=</td>
+            <td class="attr-value">[-&gt;(candidate) { candidate.retreat_verification.retreat_held_at_stmm },
+-&gt;(candidate) { candidate.retreat_verification.start_date },
+-&gt;(candidate) { candidate.retreat_verification.end_date },
+-&gt;(candidate) { candidate.retreat_verification.who_held_retreat },
+-&gt;(candidate) { candidate.retreat_verification.where_held_retreat }].freeze</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">SPONSOR_COLUMNS</td>
+            <td>=</td>
+            <td class="attr-value">[I18n.t(&#39;label.sponsor_covenant.sponsor_attends_stmm&#39;),
+I18n.t(&#39;label.sponsor_covenant.sponsor_name&#39;),
+I18n.t(&#39;label.sponsor_covenant.sponsor_church&#39;),
+I18n.t(&#39;label.sponsor_covenant.sponsor_eligibility_picture&#39;)].freeze</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">SPONSOR_VALUES</td>
+            <td>=</td>
+            <td class="attr-value">[-&gt;(candidate) { candidate.sponsor_covenant.sponsor_attends_stmm },
+-&gt;(candidate) { candidate.sponsor_covenant.sponsor_name },
+-&gt;(candidate) { candidate.sponsor_covenant.sponsor_church },
+-&gt;(candidate) { !candidate.sponsor_covenant.scanned_eligibility.nil? }].freeze</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+      </table>
+    
+
+
+    
+
+
+    <!-- Methods -->
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-candidate_event_state">
+            
+              <b>candidate_event_state</b>(event_name)
+            
+            <a href="../classes/ExportListsController.html#method-c-candidate_event_state" name="method-c-candidate_event_state" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>returns lambda which when called with candidate will return the <a
+href="CandidateEvent.html">CandidateEvent</a> status of event_name</p>
+
+<h3 id="method-c-candidate_event_state-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:event_name</code> name of event</p>
+</li></ul>
+
+<h3 id="method-c-candidate_event_state-label-Return-3A">Return:</h3>
+
+<p>Lambda - when called with candidate will return the <a
+href="CandidateEvent.html">CandidateEvent</a> status</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-candidate_event_state_source')" id="l_method-c-candidate_event_state_source">show</a>
+                
+              </p>
+              <div id="method-c-candidate_event_state_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 169</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">candidate_event_state</span>(<span class="ruby-identifier">event_name</span>)
+  <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">candidate</span>) { <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">event_name</span>).<span class="ruby-identifier">status</span> }
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-event_columns">
+            
+              <b>event_columns</b>()
+            
+            <a href="../classes/ExportListsController.html#method-c-event_columns" name="method-c-event_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-event_columns_source')" id="l_method-c-event_columns_source">show</a>
+                
+              </p>
+              <div id="method-c-event_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">event_columns</span>
+  <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:name</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">name</span> }
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-c-event_values">
+            
+              <b>event_values</b>()
+            
+            <a href="../classes/ExportListsController.html#method-c-event_values" name="method-c-event_values" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-c-event_values_source')" id="l_method-c-event_values_source">show</a>
+                
+              </p>
+              <div id="method-c-event_values_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 139</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">event_values</span>
+  <span class="ruby-constant">ExportListsController</span>.<span class="ruby-identifier">event_columns</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event_name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_event_state</span>(<span class="ruby-identifier">candidate_event_name</span>) }
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-add_wb">
+            
+              <b>add_wb</b>(wb, candidates, title, extra_columns, value_lambdas)
+            
+            <a href="../classes/ExportListsController.html#method-i-add_wb" name="method-i-add_wb" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-add_wb_source')" id="l_method-i-add_wb_source">show</a>
+                
+              </p>
+              <div id="method-i-add_wb_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 199</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">candidates</span>, <span class="ruby-identifier">title</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">add_worksheet</span>(<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">title</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">headers</span> = [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_sheet.first_name&#39;</span>), <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_sheet.last_name&#39;</span>)]
+    <span class="ruby-identifier">extra_columns</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">extra_column</span><span class="ruby-operator">|</span> <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">extra_column</span>) }
+    <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">headers</span>)
+    <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+      <span class="ruby-comment"># puts &quot;#{title}: #{candidate.account_name}&quot;</span>
+      <span class="ruby-identifier">values</span> = [<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">first_name</span>,
+                <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">last_name</span>]
+      <span class="ruby-identifier">value_lambdas</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value_lambda</span><span class="ruby-operator">|</span> <span class="ruby-identifier">values</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">value_lambda</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">candidate</span>)) }
+      <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">values</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-baptism">
+            
+              <b>baptism</b>()
+            
+            <a href="../classes/ExportListsController.html#method-i-baptism" name="method-i-baptism" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>downloads spreadsheet for event baptism per candidate</p>
+
+<h3 id="method-i-baptism-label-Return-3A">Return:</h3>
+
+<p>send_data for spreadsheet</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-baptism_source')" id="l_method-i-baptism_source">show</a>
+                
+              </p>
+              <div id="method-i-baptism_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 51</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">baptism</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">baptismal_external_verification</span>
+
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Baptized&#39;</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISM_COLUMNS</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISM_VALUES</span>)
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;baptized.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-confirmation_name">
+            
+              <b>confirmation_name</b>()
+            
+            <a href="../classes/ExportListsController.html#method-i-confirmation_name" name="method-i-confirmation_name" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>downloads spreadsheet for event confirmation name per candidate</p>
+
+<h3 id="method-i-confirmation_name-label-Return-3A">Return:</h3>
+
+<p>send_data for spreadsheet</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-confirmation_name_source')" id="l_method-i-confirmation_name_source">show</a>
+                
+              </p>
+              <div id="method-i-confirmation_name_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">confirmation_name</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">confirmation_name_external_verification</span>
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Confirmation Names&#39;</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRMATION_NAME_NAMES</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRMATION_NAME_VALUES</span>)
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;confirmation_name.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-create_xlsx">
+            
+              <b>create_xlsx</b>(external_verify, verify, verified, not_complete, pre_title, extra_columns = [], value_lambdas = [])
+            
+            <a href="../classes/ExportListsController.html#method-i-create_xlsx" name="method-i-create_xlsx" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>creates spreadsheet with four worksheets showing event information</p>
+
+<h3 id="method-i-create_xlsx-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:external_verify</code> List of candidates needing verification
+outside of system</p>
+</li><li>
+<p><code>:verify</code> List of candidates needing verification by admin</p>
+</li><li>
+<p><code>:verified</code> List of candidates already verified</p>
+</li><li>
+<p><code>:not_complete</code> List of candidates needing more work</p>
+</li><li>
+<p><code>:pre_title</code> prefix for worksheet name</p>
+</li><li>
+<p><code>:extra_columns</code> list of columns to be shown</p>
+</li><li>
+<p><code>:value_lambdas</code> list of values for extra_columns</p>
+</li></ul>
+
+<h3 id="method-i-create_xlsx-label-Return-3A">Return:</h3>
+
+<p>Axlsx::Package</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-create_xlsx_source')" id="l_method-i-create_xlsx_source">show</a>
+                
+              </p>
+              <div id="method-i-create_xlsx_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 189</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">create_xlsx</span>(<span class="ruby-identifier">external_verify</span>, <span class="ruby-identifier">verify</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-identifier">pre_title</span>, <span class="ruby-identifier">extra_columns</span> = [], <span class="ruby-identifier">value_lambdas</span> = [])
+  <span class="ruby-identifier">p</span> = <span class="ruby-constant">Axlsx</span><span class="ruby-operator">::</span><span class="ruby-constant">Package</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">author</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;Admin&#39;</span>)
+  <span class="ruby-identifier">wb</span> = <span class="ruby-identifier">p</span>.<span class="ruby-identifier">workbook</span>
+  <span class="ruby-identifier">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">external_verify</span>, <span class="ruby-node">&quot;#{pre_title} Ext Verify&quot;</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">verify</span>, <span class="ruby-node">&quot;#{pre_title} Verify&quot;</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-node">&quot;#{pre_title} Verified&quot;</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-node">&quot;#{pre_title} Not Complete&quot;</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">p</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-events">
+            
+              <b>events</b>()
+            
+            <a href="../classes/ExportListsController.html#method-i-events" name="method-i-events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>downloads spreadsheet for event status per candidate</p>
+
+<h3 id="method-i-events-label-Return-3A">Return:</h3>
+
+<p>send_data for spreadsheet</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-events_source')" id="l_method-i-events_source">show</a>
+                
+              </p>
+              <div id="method-i-events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">events</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">events_external_verification</span>
+
+  <span class="ruby-identifier">confirmation_event_names</span> = <span class="ruby-constant">ExportListsController</span>.<span class="ruby-identifier">event_columns</span>
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Events&#39;</span>,
+                  <span class="ruby-identifier">confirmation_event_names</span>,
+                  <span class="ruby-identifier">confirmation_event_names</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event_name</span><span class="ruby-operator">|</span> <span class="ruby-constant">ExportListsController</span>.<span class="ruby-identifier">candidate_event_state</span>(<span class="ruby-identifier">candidate_event_name</span>) })
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;events.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-retreat">
+            
+              <b>retreat</b>()
+            
+            <a href="../classes/ExportListsController.html#method-i-retreat" name="method-i-retreat" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>downloads spreadsheet for event retreat per candidate</p>
+
+<h3 id="method-i-retreat-label-Return-3A">Return:</h3>
+
+<p>send_data for spreadsheet</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-retreat_source')" id="l_method-i-retreat_source">show</a>
+                
+              </p>
+              <div id="method-i-retreat_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">retreat</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">retreat_external_verification</span>
+
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Retreat&#39;</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_COLUMNS</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VALUES</span>)
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;retreat.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sponsor">
+            
+              <b>sponsor</b>()
+            
+            <a href="../classes/ExportListsController.html#method-i-sponsor" name="method-i-sponsor" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>downloads spreadsheet for event sponsor per candidate</p>
+
+<h3 id="method-i-sponsor-label-Return-3A">Return:</h3>
+
+<p>send_data for spreadsheet</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sponsor_source')" id="l_method-i-sponsor_source">show</a>
+                
+              </p>
+              <div id="method-i-sponsor_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 127</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sponsor</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">sponsor_external_verification</span>
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Sponsor&#39;</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COLUMNS</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_VALUES</span>)
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;sponsor.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

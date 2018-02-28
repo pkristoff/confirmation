@@ -61,13 +61,13 @@
     <div class="sectiontitle">Methods</div>
     <dl class="methods">
       
-        <dt>G</dt>
+        <dt>P</dt>
         <dd>
           <ul>
             
               
               <li>
-                <a href="#method-c-get_permitted_params">get_permitted_params</a>
+                <a href="#method-c-permitted_params">permitted_params</a>
               </li>
             
           </ul>
@@ -97,18 +97,18 @@
       <div class="sectiontitle">Class Public methods</div>
       
         <div class="method">
-          <div class="title method-title" id="method-c-get_permitted_params">
+          <div class="title method-title" id="method-c-permitted_params">
             
-              <b>get_permitted_params</b>()
+              <b>permitted_params</b>()
             
-            <a href="../classes/ConfirmationEvent.html#method-c-get_permitted_params" name="method-c-get_permitted_params" class="permalink">Link</a>
+            <a href="../classes/ConfirmationEvent.html#method-c-permitted_params" name="method-c-permitted_params" class="permalink">Link</a>
           </div>
 
           
             <div class="description">
               <p>Editable attributes</p>
 
-<h3 id="method-c-get_permitted_params-label-Return-3A">Return:</h3>
+<h3 id="method-c-permitted_params-label-Return-3A">Return:</h3>
 
 <p>Array of attributes</p>
             </div>
@@ -124,13 +124,13 @@
               
               <p class="source-link">
                 Source:
-                <a href="javascript:toggleSource('method-c-get_permitted_params_source')" id="l_method-c-get_permitted_params_source">show</a>
+                <a href="javascript:toggleSource('method-c-permitted_params_source')" id="l_method-c-permitted_params_source">show</a>
                 
               </p>
-              <div id="method-c-get_permitted_params_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/confirmation_event.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_permitted_params</span>
-  [<span class="ruby-value">:id</span>, <span class="ruby-value">:name</span>, <span class="ruby-value">:the_way_due_date</span>, <span class="ruby-value">:instructions</span>, <span class="ruby-value">:chs_due_date</span>]
+              <div id="method-c-permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/confirmation_event.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">permitted_params</span>
+  <span class="ruby-operator">%</span>[<span class="ruby-identifier">id</span> <span class="ruby-identifier">name</span> <span class="ruby-identifier">the_way_due_date</span> <span class="ruby-identifier">instructions</span> <span class="ruby-identifier">chs_due_date</span>]
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>

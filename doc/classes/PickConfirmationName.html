@@ -40,7 +40,7 @@
   
     <div class="description">
       
-<p>Actve Record</p>
+<p>Active Record</p>
 
     </div>
   
@@ -73,13 +73,13 @@
           </ul>
         </dd>
       
-        <dt>G</dt>
+        <dt>P</dt>
         <dd>
           <ul>
             
               
               <li>
-                <a href="#method-c-get_permitted_params">get_permitted_params</a>
+                <a href="#method-c-permitted_params">permitted_params</a>
               </li>
             
           </ul>
@@ -162,7 +162,7 @@
                 
               </p>
               <div id="method-c-event_name_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 32</span>
+                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">event_name</span>
   <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -172,18 +172,18 @@
           </div>
         
         <div class="method">
-          <div class="title method-title" id="method-c-get_permitted_params">
+          <div class="title method-title" id="method-c-permitted_params">
             
-              <b>get_permitted_params</b>()
+              <b>permitted_params</b>()
             
-            <a href="../classes/PickConfirmationName.html#method-c-get_permitted_params" name="method-c-get_permitted_params" class="permalink">Link</a>
+            <a href="../classes/PickConfirmationName.html#method-c-permitted_params" name="method-c-permitted_params" class="permalink">Link</a>
           </div>
 
           
             <div class="description">
               <p>Editable attributes</p>
 
-<h3 id="method-c-get_permitted_params-label-Return-3A">Return:</h3>
+<h3 id="method-c-permitted_params-label-Return-3A">Return:</h3>
 
 <p>Array of attributes</p>
             </div>
@@ -199,13 +199,13 @@
               
               <p class="source-link">
                 Source:
-                <a href="javascript:toggleSource('method-c-get_permitted_params_source')" id="l_method-c-get_permitted_params_source">show</a>
+                <a href="javascript:toggleSource('method-c-permitted_params_source')" id="l_method-c-permitted_params_source">show</a>
                 
               </p>
-              <div id="method-c-get_permitted_params_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 22</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_permitted_params</span>
-  [<span class="ruby-value">:saint_name</span>, <span class="ruby-value">:id</span>]
+              <div id="method-c-permitted_params_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 23</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">permitted_params</span>
+  <span class="ruby-operator">%</span>[<span class="ruby-identifier">saint_name</span> <span class="ruby-identifier">id</span>]
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -250,7 +250,7 @@ record</p>
                 
               </p>
               <div id="method-c-validate_event_complete_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 46</span>
+                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">validate_event_complete</span>(<span class="ruby-identifier">candidate</span>)
   <span class="ruby-identifier">pick_confirmation_name</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">pick_confirmation_name</span>
   <span class="ruby-identifier">pick_confirmation_name</span>.<span class="ruby-identifier">validate_event_complete</span>
@@ -266,7 +266,7 @@ record</p>
         <div class="method">
           <div class="title method-title" id="method-i-validate_event_complete">
             
-              <b>validate_event_complete</b>(options={})
+              <b>validate_event_complete</b>(_options = {})
             
             <a href="../classes/PickConfirmationName.html#method-i-validate_event_complete" name="method-i-validate_event_complete" class="permalink">Link</a>
           </div>
@@ -296,9 +296,9 @@ record</p>
                 
               </p>
               <div id="method-i-validate_event_complete_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 12</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_event_complete</span>(<span class="ruby-identifier">options</span>={})
-  <span class="ruby-constant">EventCompleteValidator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>).<span class="ruby-identifier">validate</span>(<span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">get_permitted_params</span>)
+                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_event_complete</span>(<span class="ruby-identifier">_options</span> = {})
+  <span class="ruby-constant">EventCompleteValidator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>).<span class="ruby-identifier">validate</span>(<span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">permitted_params</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -308,7 +308,7 @@ record</p>
         <div class="method">
           <div class="title method-title" id="method-i-verifiable_info">
             
-              <b>verifiable_info</b>(candidate)
+              <b>verifiable_info</b>(_candidate)
             
             <a href="../classes/PickConfirmationName.html#method-i-verifiable_info" name="method-i-verifiable_info" class="permalink">Link</a>
           </div>
@@ -342,10 +342,9 @@ record</p>
                 
               </p>
               <div id="method-i-verifiable_info_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 62</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verifiable_info</span>(<span class="ruby-identifier">candidate</span>)
-  {<span class="ruby-string">&#39;Confirmation name&#39;</span><span class="ruby-operator">:</span> <span class="ruby-identifier">saint_name</span>
-  }
+                <pre><span class="ruby-comment"># File app/models/pick_confirmation_name.rb, line 63</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verifiable_info</span>(<span class="ruby-identifier">_candidate</span>)
+  { <span class="ruby-string">&#39;Confirmation name&#39;</span><span class="ruby-operator">:</span> <span class="ruby-identifier">saint_name</span> }
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>

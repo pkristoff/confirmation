@@ -432,10 +432,8 @@ class Candidate < ActiveRecord::Base
   #
   # Boolean
   #
-  def self.baptismal_external_verification?(candidate)
-    # TODO: use awaiting_admin?
-    candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
-    (candidate.baptismal_certificate.baptized_at_stmm || candidate.baptismal_certificate.first_comm_at_stmm) && candidate_event.completed_date && !candidate_event.verified
+  def self.baptismal_external_verification
+    external_verification(I18n.t('events.baptismal_certificate'), ->(candidate) { candidate.baptismal_certificate.baptized_at_stmm || candidate.baptismal_certificate.first_comm_at_stmm })
   end
 
   # retreat needs admin verification
@@ -448,10 +446,8 @@ class Candidate < ActiveRecord::Base
   #
   # Boolean
   #
-  def self.retreat_external_verification?(candidate)
-    # TODO: use awaiting_admin?
-    candidate_event = candidate.get_candidate_event(I18n.t('events.retreat_verification'))
-    candidate.retreat_verification.retreat_held_at_stmm && candidate_event.completed_date && !candidate_event.verified
+  def self.retreat_external_verification
+    external_verification(I18n.t('events.retreat_verification'), ->(candidate) { candidate.retreat_verification.retreat_held_at_stmm })
   end
 
   # confirmation name needs admin verification
@@ -464,12 +460,34 @@ class Candidate < ActiveRecord::Base
   #
   # Boolean
   #
-  def self.confirmation_name_external_verification?(candidate)
-    # TODO: use awaiting_admin?
-    candidate_event = candidate.get_candidate_event(I18n.t('events.confirmation_name'))
-    candidate.pick_confirmation_name.saint_name &&
-      candidate_event.completed_date &&
-      !candidate_event.verified
+  def self.confirmation_name_external_verification
+    external_verification(I18n.t('events.confirmation_name'))
+  end
+
+  def self.external_verification(candidate_event_name, external_verification = ->(_candidate) { false })
+    external = []
+    to_be_verified = []
+    verified = []
+    not_complete = []
+    Candidate.order(:account_name).each do |candidate|
+      candidate_event = candidate.get_candidate_event(candidate_event_name)
+      if candidate_event.verified
+        # puts "#{candidate.account_name} verified"
+        verified.push(candidate)
+      elsif candidate_event.completed_date
+        if external_verification.call(candidate)
+          # puts "#{candidate.account_name} external"
+          external.push(candidate)
+        else
+          # puts "#{candidate.account_name} to be verified"
+          to_be_verified.push(candidate)
+        end
+      else
+        # puts "#{candidate.account_name} not complete"
+        not_complete.push(candidate)
+      end
+    end
+    [external, to_be_verified, verified, not_complete]
   end
 
   # sponsor needs admin verification
@@ -482,10 +500,8 @@ class Candidate < ActiveRecord::Base
   #
   # Boolean
   #
-  def self.sponsor_external_verification?(candidate)
-    # TODO: use awaiting_admin?
-    candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_covenant'))
-    candidate.sponsor_covenant.sponsor_attends_stmm && candidate_event.completed_date && !candidate_event.verified
+  def self.sponsor_external_verification
+    external_verification(I18n.t('events.sponsor_covenant'), ->(candidate) { candidate.sponsor_covenant.sponsor_attends_stmm })
   end
 
   # candidate events needs admin verification
@@ -498,8 +514,8 @@ class Candidate < ActiveRecord::Base
   #
   # Boolean
   #
-  def self.events_external_verification?(_candidate)
-    true
+  def self.events_external_verification
+    [[], Candidate.order(:account_name), [], []]
   end
 
   # This comes via devise/password_controller

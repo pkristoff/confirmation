@@ -304,6 +304,18 @@
   
 
   
+    <!-- Includes -->
+    <div class="sectiontitle">Included Modules</div>
+    <ul>
+      
+        <li>
+          
+            SendGrid
+          
+        </li>
+      
+    </ul>
+  
 
 
 
@@ -351,7 +363,7 @@
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 13</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidates</span>)
   <span class="ruby-ivar">@admin</span> = <span class="ruby-identifier">admin</span>
   <span class="ruby-ivar">@candidates</span> = <span class="ruby-identifier">candidates</span>
@@ -399,7 +411,7 @@
                 
               </p>
               <div id="method-i-adhoc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 47</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
 
   <span class="ruby-identifier">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:adhoc</span>],
@@ -445,7 +457,7 @@
                 
               </p>
               <div id="method-i-adhoc_call_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 394</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 395</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_call</span>
   <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">adhoc</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
 <span class="ruby-keyword">end</span></pre>
@@ -489,7 +501,7 @@
                 
               </p>
               <div id="method-i-adhoc_test_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 62</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_test</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
   <span class="ruby-identifier">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:adhoc_test</span>],
              <span class="ruby-identifier">adhoc_test_call</span>,
@@ -535,7 +547,7 @@
                 
               </p>
               <div id="method-i-adhoc_test_call_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 407</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 408</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_test_call</span>
   <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">adhoc_test</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
 <span class="ruby-keyword">end</span></pre>
@@ -578,7 +590,7 @@
                 
               </p>
               <div id="method-i-adhoc_test_subj_call_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 421</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 422</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_test_subj_call</span>
   <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_adhoc_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)}
 <span class="ruby-keyword">end</span></pre>
@@ -621,7 +633,7 @@
                 
               </p>
               <div id="method-i-conf_insts_call_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 434</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 435</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">conf_insts_call</span>
   <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">confirmation_instructions</span>(<span class="ruby-identifier">candidate_mailer_text</span>)}
 <span class="ruby-keyword">end</span></pre>
@@ -658,7 +670,7 @@
                 
               </p>
               <div id="method-i-confirmation_instructions_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 72</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">confirmation_instructions</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">send_email</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.confirmation_instructions_subject&#39;</span>), <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:confirmation_instructions</span>],
                     <span class="ruby-identifier">conf_insts_call</span>
@@ -701,7 +713,7 @@
                 
               </p>
               <div id="method-i-convert_email_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 35</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">convert_email</span>
   <span class="ruby-node">%W(paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)</span>
 <span class="ruby-keyword">end</span></pre>
@@ -751,7 +763,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-convert_emails_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 194</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 195</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">convert_emails</span>(<span class="ruby-identifier">emails</span>, <span class="ruby-identifier">used</span>)
   <span class="ruby-identifier">legal_used</span> = []
   <span class="ruby-identifier">emails</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">em</span><span class="ruby-operator">|</span>
@@ -812,7 +824,7 @@ else - email address if not legal.</p>
                 
               </p>
               <div id="method-i-convert_if_not_production_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 220</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 221</span>
   <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">convert_if_not_production</span>(<span class="ruby-identifier">email</span>, <span class="ruby-identifier">used</span>=[], <span class="ruby-identifier">legal_used</span> = [])
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">email</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">email</span>.<span class="ruby-identifier">empty?</span>
       <span class="ruby-keyword">nil</span>
@@ -1123,7 +1135,7 @@ else - email address if not legal.</p>
                 
               </p>
               <div id="method-i-create_mail_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 133</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 134</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">create_mail</span>(<span class="ruby-identifier">subject</span>, <span class="ruby-identifier">email_type</span>, <span class="ruby-identifier">account_name</span>)
   <span class="ruby-identifier">mail</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Mail</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-comment"># If we are testing don&#39;t actuallly send just have SendGrid validate it.</span>
@@ -1189,7 +1201,7 @@ currently not being used.</p>
                 
               </p>
               <div id="method-i-create_personalization_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 163</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 164</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">create_personalization</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">sg_mail</span>, <span class="ruby-identifier">admin</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">subs</span>)
   <span class="ruby-identifier">personalization</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">Personalization</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">sheet</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>
@@ -1256,7 +1268,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-expand_text_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 258</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 259</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">delivery_call</span>)
   <span class="ruby-ivar">@candidate_mailer_text</span> = <span class="ruby-constant">CandidatesMailerText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">candidate</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">subject_text</span>), <span class="ruby-identifier">body_input</span><span class="ruby-operator">:</span> <span class="ruby-identifier">body_input_text</span>)
 
@@ -1296,7 +1308,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-expand_text_adhoc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 348</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 349</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_adhoc</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
 
   <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>,
@@ -1336,7 +1348,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-expand_text_at_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 356</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 357</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_at</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
   <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>,
               <span class="ruby-identifier">adhoc_test_call</span>
@@ -1375,7 +1387,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-expand_text_ci_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 363</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 364</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_ci</span>(<span class="ruby-identifier">candidate</span>)
   <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-string">&#39;StMM website for Confirmation Candidates - User Verification instructions&#39;</span>, <span class="ruby-string">&#39;&#39;</span>,
               <span class="ruby-identifier">conf_insts_call</span>
@@ -1414,7 +1426,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-expand_text_mmm_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 377</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 378</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_mmm</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
   <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>,
               <span class="ruby-identifier">mmm_call</span>
@@ -1453,7 +1465,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-expand_text_rp_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 370</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 371</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expand_text_rp</span>(<span class="ruby-identifier">candidate</span>)
   <span class="ruby-identifier">expand_text</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-string">&#39;StMM website for Confirmation Candidates - Reset password instructions&#39;</span>, <span class="ruby-string">&#39;&#39;</span>,
               <span class="ruby-identifier">reset_pass_call</span>
@@ -1496,7 +1508,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-legal_emails_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 25</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">legal_emails</span>
   <span class="ruby-node">%W(stmm.confirmation@kristoffs.com stmm.confirmationa@aol.com paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1539,7 +1551,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-mmm_call_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 447</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 448</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_call</span>
   <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">monthly_reminder</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
 <span class="ruby-keyword">end</span></pre>
@@ -1582,7 +1594,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-mmm_test_call_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 460</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 461</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_test_call</span>
   <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-constant">CandidatesMailer</span>.<span class="ruby-identifier">monthly_reminder_test</span>(<span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span>)}
 <span class="ruby-keyword">end</span></pre>
@@ -1625,7 +1637,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-mmm_test_subj_call_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 473</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 474</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mmm_test_subj_call</span>
   <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_monthly_mail_subject_initial_text&#39;</span>, <span class="ruby-identifier">candidate_account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)}
 <span class="ruby-keyword">end</span></pre>
@@ -1669,7 +1681,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-monthly_mass_mailing_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 86</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 87</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_mass_mailing</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
 
   <span class="ruby-identifier">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:monthly_mass_mailing</span>],
@@ -1716,7 +1728,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-monthly_mass_mailing_test_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 101</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 102</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_mass_mailing_test</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>)
 
   <span class="ruby-identifier">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">body_input_text</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:monthly_mass_mailing_test</span>],
@@ -1766,7 +1778,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-post_email_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 277</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 278</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">post_email</span>(<span class="ruby-identifier">sg_mail</span>)
   <span class="ruby-identifier">sg</span> = <span class="ruby-constant">SendGrid</span><span class="ruby-operator">::</span><span class="ruby-constant">API</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">api_key</span><span class="ruby-operator">:</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">secrets</span>.<span class="ruby-identifier">email_key</span>, <span class="ruby-identifier">host</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;https://api.sendgrid.com&#39;</span>)
   <span class="ruby-keyword">begin</span>
@@ -1812,7 +1824,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-reset_pass_call_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 477</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 478</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">reset_pass_call</span>
   <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">admin</span>, <span class="ruby-identifier">candidate_mailer_text</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_mailer_text</span>.<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">password_reset_message</span>(<span class="ruby-identifier">candidate_mailer_text</span>)}
 <span class="ruby-keyword">end</span></pre>
@@ -1849,7 +1861,7 @@ non-production email addresses</p>
                 
               </p>
               <div id="method-i-reset_password_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 112</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 113</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">reset_password</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">send_email</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.reset_password_subject&#39;</span>), <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-constant">EmailStuff</span><span class="ruby-operator">::</span><span class="ruby-constant">TYPES</span>[<span class="ruby-value">:reset_password</span>],
                     <span class="ruby-identifier">reset_pass_call</span>
@@ -1906,7 +1918,7 @@ test email</p>
                 
               </p>
               <div id="method-i-send_email_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 306</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 307</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">send_email</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">email_type</span>, <span class="ruby-identifier">delivery_call</span>, <span class="ruby-identifier">test_subject</span>=<span class="ruby-keyword">nil</span>)
 
   <span class="ruby-identifier">response</span> = <span class="ruby-keyword">nil</span>
@@ -1972,7 +1984,7 @@ test email</p>
                 
               </p>
               <div id="method-i-text_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 342</span>
+                <pre><span class="ruby-comment"># File app/mailers/send_grid_mail.rb, line 343</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">text</span>(<span class="ruby-identifier">delivery</span>)
   <span class="ruby-identifier">message</span> = <span class="ruby-identifier">delivery</span>.<span class="ruby-identifier">message</span>
   <span class="ruby-identifier">message</span>.<span class="ruby-identifier">body</span>.<span class="ruby-identifier">to_s</span>

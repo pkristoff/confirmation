@@ -94,6 +94,11 @@
             
               
               <li>
+                <a href="#method-i-common_event">common_event</a>,
+              </li>
+            
+              
+              <li>
                 <a href="#method-i-common_image">common_image</a>,
               </li>
             
@@ -148,6 +153,11 @@
             
               
               <li>
+                <a href="#method-i-grid_label_value2">grid_label_value2</a>,
+              </li>
+            
+              
+              <li>
                 <a href="#method-i-grid_value">grid_value</a>
               </li>
             
@@ -172,7 +182,12 @@
             
               
               <li>
-                <a href="#method-i-page_header">page_header</a>
+                <a href="#method-i-page_header">page_header</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-process_events">process_events</a>
               </li>
             
           </ul>
@@ -223,6 +238,18 @@
   
 
   
+    <!-- Includes -->
+    <div class="sectiontitle">Included Modules</div>
+    <ul>
+      
+        <li>
+          
+            Magick
+          
+        </li>
+      
+    </ul>
+  
 
 
 
@@ -270,10 +297,11 @@
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 13</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span> (<span class="ruby-identifier">candidate</span>)
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 15</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">candidate</span>)
   <span class="ruby-keyword">super</span>()
   <span class="ruby-ivar">@candidate</span> = <span class="ruby-identifier">candidate</span>
+  <span class="ruby-ivar">@verified</span> = <span class="ruby-keyword">false</span>
   <span class="ruby-identifier">do_document</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -311,35 +339,37 @@
                 
               </p>
               <div id="method-i-baptismal_certificate_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 80</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 82</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">baptismal_certificate</span>
   <span class="ruby-identifier">bc</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>
   <span class="ruby-identifier">define_grid_page</span>
-  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.baptismal_certificate&#39;</span>))
+  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.baptismal_certificate&#39;</span>), [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">0</span>, <span class="ruby-number">3</span>])
+  <span class="ruby-identifier">common_event</span>(<span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>)), [<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">1</span>, <span class="ruby-number">3</span>])
 
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">baptized_at_stmm</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">baptized_at_stmm</span>
     <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;Baptized at St. Mary Magdalene&#39;</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">first_comm_at_stmm</span>
+    <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;Received First Communion at St. Mary Magdalene&#39;</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.birth_date&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">birth_date</span>.<span class="ruby-identifier">to_s</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.baptismal_date&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">baptismal_date</span>.<span class="ruby-identifier">to_s</span>)
-    <span class="ruby-comment">#Church</span>
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">1</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_name&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">church_name</span>)
-    <span class="ruby-identifier">grid_address</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;label.baptismal_certificate.baptismal_certificate.church_address&#39;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">church_address</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.birth_date&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">birth_date</span>.<span class="ruby-identifier">to_s</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.baptismal_date&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">baptismal_date</span>.<span class="ruby-identifier">to_s</span>)
+    <span class="ruby-comment"># Church</span>
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">3</span>, <span class="ruby-number">1</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_name&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">church_name</span>)
+    <span class="ruby-identifier">grid_address</span>([<span class="ruby-number">4</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;label.baptismal_certificate.baptismal_certificate.church_address&#39;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">church_address</span>)
     <span class="ruby-comment"># father</span>
-    <span class="ruby-identifier">grid_label</span>([<span class="ruby-number">6</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{&#39;Father&#39;}:&quot;</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">7</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_first&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">father_first</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">8</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_middle&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">father_middle</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">9</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_last&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">father_last</span>)
+    <span class="ruby-identifier">grid_label</span>([<span class="ruby-number">7</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">7</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;Father:&#39;</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">8</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_first&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">father_first</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">9</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_middle&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">father_middle</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">10</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_last&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">father_last</span>)
     <span class="ruby-comment"># mother</span>
-    <span class="ruby-identifier">grid_label</span>([<span class="ruby-number">6</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{&#39;Mother&#39;}:&quot;</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">7</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_first&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">mother_first</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">8</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_middle&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">mother_middle</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">9</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_maiden&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">mother_maiden</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">10</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_last&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">mother_last</span>)
+    <span class="ruby-identifier">grid_label</span>([<span class="ruby-number">7</span>, <span class="ruby-number">2</span>], [<span class="ruby-number">7</span>, <span class="ruby-number">2</span>], <span class="ruby-string">&#39;Mother:&#39;</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">8</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_first&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">mother_first</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">9</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_middle&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">mother_middle</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">10</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_maiden&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">mother_maiden</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">11</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_last&#39;)}:&quot;</span>, <span class="ruby-identifier">bc</span>.<span class="ruby-identifier">mother_last</span>)
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-identifier">common_image</span>(<span class="ruby-identifier">bc</span>.<span class="ruby-identifier">scanned_certificate</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;field_set.baptismal_certificate.scan&#39;</span>))
-
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -374,29 +404,30 @@
                 
               </p>
               <div id="method-i-candidate_sheet_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 112</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 116</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">candidate_sheet</span>
   <span class="ruby-identifier">cs</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">candidate_sheet</span>
   <span class="ruby-identifier">define_grid_page</span>
-  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.candidate_information_sheet&#39;</span>))
+  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.candidate_information_sheet&#39;</span>), [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">0</span>, <span class="ruby-number">3</span>])
+  <span class="ruby-identifier">common_event</span>(<span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>)), [<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">1</span>, <span class="ruby-number">3</span>])
 
-  <span class="ruby-comment">#name</span>
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.first_name&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">first_name</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.last_name&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">last_name</span>)
+  <span class="ruby-comment"># name</span>
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.first_name&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">first_name</span>)
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.middle_name&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">middle_name</span>)
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.last_name&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">last_name</span>)
 
-  <span class="ruby-comment">#grade attending</span>
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.grade&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">grade</span>.<span class="ruby-identifier">to_s</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.attending&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">attending</span>)
+  <span class="ruby-comment"># grade attending</span>
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">4</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.grade&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">grade</span>.<span class="ruby-identifier">to_s</span>)
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">4</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.attending&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">attending</span>)
 
-  <span class="ruby-comment">#email</span>
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.candidate_email&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">candidate_email</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">3</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.parent_email_1&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">parent_email_1</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">4</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.parent_email_2&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">parent_email_2</span>)
+  <span class="ruby-comment"># email</span>
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">5</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.candidate_email&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">candidate_email</span>)
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">5</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.parent_email_1&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">parent_email_1</span>)
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">6</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.candidate_sheet.parent_email_2&#39;)}:&quot;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">parent_email_2</span>)
 
-  <span class="ruby-comment">#address</span>
-  <span class="ruby-identifier">grid_label</span>([<span class="ruby-number">5</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{&#39;Address&#39;}&quot;</span>)
-  <span class="ruby-identifier">grid_address</span>([<span class="ruby-number">6</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;label.candidate_sheet.address&#39;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">address</span>)
-
+  <span class="ruby-comment"># address</span>
+  <span class="ruby-identifier">grid_label</span>([<span class="ruby-number">7</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">7</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;Address&#39;</span>)
+  <span class="ruby-identifier">grid_address</span>([<span class="ruby-number">8</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;label.candidate_sheet.address&#39;</span>, <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">address</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -431,17 +462,84 @@
                 
               </p>
               <div id="method-i-christian_ministry_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 138</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 143</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">christian_ministry</span>
-
   <span class="ruby-identifier">cm</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">christian_ministry</span>
-  <span class="ruby-identifier">define_grid_page</span>(<span class="ruby-number">2</span>, <span class="ruby-number">10</span>)
-  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.christian_ministry&#39;</span>))
+  <span class="ruby-identifier">define_grid_page</span>
+  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.christian_ministry&#39;</span>), [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">0</span>, <span class="ruby-number">3</span>])
+  <span class="ruby-identifier">common_event</span>(<span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>)), [<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">1</span>, <span class="ruby-number">3</span>])
 
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.christian_ministry.what_service&#39;)}:&quot;</span>, <span class="ruby-identifier">cm</span>.<span class="ruby-identifier">what_service</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.christian_ministry.where_service&#39;)}:&quot;</span>, <span class="ruby-identifier">cm</span>.<span class="ruby-identifier">where_service</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.christian_ministry.when_service&#39;)}:&quot;</span>, <span class="ruby-identifier">cm</span>.<span class="ruby-identifier">when_service</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">4</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.christian_ministry.helped_me&#39;)}:&quot;</span>, <span class="ruby-identifier">cm</span>.<span class="ruby-identifier">helped_me</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.christian_ministry.what_service&#39;)}:&quot;</span>, <span class="ruby-identifier">cm</span>.<span class="ruby-identifier">what_service</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.christian_ministry.where_service&#39;)}:&quot;</span>, <span class="ruby-identifier">cm</span>.<span class="ruby-identifier">where_service</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">4</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.christian_ministry.when_service&#39;)}:&quot;</span>, <span class="ruby-identifier">cm</span>.<span class="ruby-identifier">when_service</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">5</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.christian_ministry.helped_me&#39;)}:&quot;</span>, <span class="ruby-identifier">cm</span>.<span class="ruby-identifier">helped_me</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-common_event">
+            
+              <b>common_event</b>(event, cell1, cell2)
+            
+            <a href="../classes/CandidatePDFDocument.html#method-i-common_event" name="method-i-common_event" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Output the event information</p>
+
+<h6 id="method-i-common_event-label-Parameters-3A">Parameters:</h6>
+<ul><li>
+<p><code>:event</code> <a href="CandidateEvent.html">CandidateEvent</a></p>
+</li><li>
+<p><code>:cell1</code> start point</p>
+</li><li>
+<p><code>:cell2</code> end point</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-common_event_source')" id="l_method-i-common_event_source">show</a>
+                
+              </p>
+              <div id="method-i-common_event_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 406</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">common_event</span>(<span class="ruby-identifier">event</span>, <span class="ruby-identifier">cell1</span>, <span class="ruby-identifier">cell2</span>)
+  <span class="ruby-identifier">completed_color</span> = <span class="ruby-identifier">event</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;ff0000&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;000000&#39;</span>
+  <span class="ruby-identifier">verified_color</span> = <span class="ruby-identifier">event</span>.<span class="ruby-identifier">verified</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;000000&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;ff0000&#39;</span>
+
+  <span class="ruby-identifier">grid</span>(<span class="ruby-identifier">cell1</span>, <span class="ruby-identifier">cell2</span>).<span class="ruby-identifier">bounding_box</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">font</span> <span class="ruby-string">&#39;Courier&#39;</span>
+    <span class="ruby-identifier">valign</span> = <span class="ruby-value">:top</span>
+    <span class="ruby-identifier">align</span> = <span class="ruby-value">:left</span>
+    <span class="ruby-identifier">w</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span> <span class="ruby-operator">/</span> <span class="ruby-number">4</span>
+    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">w</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;&lt;b&gt;Completed Date:&lt;/b&gt;&#39;</span>, <span class="ruby-identifier">inline_format</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-identifier">align</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-identifier">valign</span>, <span class="ruby-identifier">color</span><span class="ruby-operator">:</span> <span class="ruby-identifier">completed_color</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">w</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">w</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">text</span> <span class="ruby-identifier">event</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">inline_format</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-identifier">align</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-identifier">valign</span>, <span class="ruby-identifier">color</span><span class="ruby-operator">:</span> <span class="ruby-identifier">completed_color</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> (<span class="ruby-number">2</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">w</span>), <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">w</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;&lt;b&gt;Admin Verified:&lt;/b&gt;&#39;</span>, <span class="ruby-identifier">inline_format</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-identifier">align</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-identifier">valign</span>, <span class="ruby-identifier">color</span><span class="ruby-operator">:</span> <span class="ruby-identifier">verified_color</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span> <span class="ruby-operator">+</span> (<span class="ruby-number">3</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">w</span>), <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">w</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">text</span> <span class="ruby-identifier">event</span>.<span class="ruby-identifier">verified</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">inline_format</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-identifier">align</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-identifier">valign</span>, <span class="ruby-identifier">color</span><span class="ruby-operator">:</span> <span class="ruby-identifier">verified_color</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">stroke_horizontal_rule</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -483,68 +581,64 @@
                 
               </p>
               <div id="method-i-common_image_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 231</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">common_image</span> (<span class="ruby-identifier">scanned_image</span>, <span class="ruby-identifier">label</span>)
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 235</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">common_image</span>(<span class="ruby-identifier">scanned_image</span>, <span class="ruby-identifier">label</span>)
   <span class="ruby-identifier">start_new_page</span>
   <span class="ruby-identifier">label_x</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>
   <span class="ruby-identifier">label_y</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>
-  <span class="ruby-identifier">label_width</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span><span class="ruby-operator">-</span><span class="ruby-number">20</span>
+  <span class="ruby-identifier">label_width</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span> <span class="ruby-operator">-</span> <span class="ruby-number">20</span>
   <span class="ruby-identifier">label_height</span> = <span class="ruby-number">20</span>
 
   <span class="ruby-identifier">image_x</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>
-  <span class="ruby-identifier">image_y</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span><span class="ruby-operator">-</span><span class="ruby-number">25</span>
-  <span class="ruby-identifier">image_width</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span><span class="ruby-operator">-</span><span class="ruby-number">20</span>
-  <span class="ruby-identifier">image_height</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span><span class="ruby-operator">-</span><span class="ruby-number">20</span>
+  <span class="ruby-identifier">image_y</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span> <span class="ruby-operator">-</span> <span class="ruby-number">25</span>
+  <span class="ruby-identifier">image_width</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span> <span class="ruby-operator">-</span> <span class="ruby-number">20</span>
+  <span class="ruby-identifier">image_height</span> = <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">-</span> <span class="ruby-number">20</span>
 
   <span class="ruby-identifier">bounding_box</span>([<span class="ruby-identifier">label_x</span>, <span class="ruby-identifier">label_y</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">label_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">label_height</span>) <span class="ruby-keyword">do</span>
     <span class="ruby-identifier">text</span> <span class="ruby-identifier">label</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">nil?</span>
-    <span class="ruby-identifier">bounding_box</span>([<span class="ruby-identifier">image_x</span>, <span class="ruby-identifier">image_y</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span><span class="ruby-operator">-</span><span class="ruby-number">25</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">bounding_box</span>([<span class="ruby-identifier">image_x</span>, <span class="ruby-identifier">image_y</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">-</span> <span class="ruby-number">25</span>) <span class="ruby-keyword">do</span>
       <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;&lt;No Image Provided&gt;&#39;</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>
       <span class="ruby-comment"># stroke_bounds</span>
     <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">else</span>
     <span class="ruby-comment"># convert pdf to jpg which Prawn handles.</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">content_type</span> <span class="ruby-operator">===</span> <span class="ruby-string">&#39;application/pdf&#39;</span>
-      <span class="ruby-identifier">pdf_file_path</span> = <span class="ruby-node">&quot;tmp/#{scanned_image.filename}&quot;</span>
-      <span class="ruby-identifier">jpg_file_path</span> = <span class="ruby-identifier">pdf_file_path</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;.pdf&#39;</span>, <span class="ruby-string">&#39;.jpg&#39;</span>)
-      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">pdf_file_path</span>, <span class="ruby-string">&#39;wb&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">content</span>)
-      <span class="ruby-keyword">end</span>
-      <span class="ruby-keyword">begin</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">content_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;application/pdf&#39;</span>
+    <span class="ruby-identifier">pdf_file_path</span> = <span class="ruby-node">&quot;tmp/#{scanned_image.filename}&quot;</span>
+    <span class="ruby-identifier">jpg_file_path</span> = <span class="ruby-identifier">pdf_file_path</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;.pdf&#39;</span>, <span class="ruby-string">&#39;.jpg&#39;</span>)
+    <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">pdf_file_path</span>, <span class="ruby-string">&#39;wb&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">content</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-identifier">pdf</span> = <span class="ruby-constant">Magick</span><span class="ruby-operator">::</span><span class="ruby-constant">ImageList</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">pdf_file_path</span>)
 
-        <span class="ruby-identifier">pdf</span> = <span class="ruby-constant">Magick</span><span class="ruby-operator">::</span><span class="ruby-constant">ImageList</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">pdf_file_path</span>)
+      <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">page_img</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">page_img</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">jpg_file_path</span>
 
-        <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">page_img</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-          <span class="ruby-identifier">page_img</span>.<span class="ruby-identifier">write</span> <span class="ruby-identifier">jpg_file_path</span>
-
-          <span class="ruby-identifier">bounding_box</span>([<span class="ruby-identifier">image_x</span>, <span class="ruby-identifier">image_y</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_height</span>) <span class="ruby-keyword">do</span>
-            <span class="ruby-comment"># stroke_bounds</span>
-            <span class="ruby-identifier">image</span> <span class="ruby-identifier">jpg_file_path</span>, <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_height</span>
-          <span class="ruby-keyword">end</span>
-        <span class="ruby-keyword">end</span>
-      <span class="ruby-keyword">ensure</span>
-        <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">pdf_file_path</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">pdf_file_path</span>)
-        <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">jpg_file_path</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">jpg_file_path</span>)
-      <span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">file_path</span> = <span class="ruby-node">&quot;tmp/#{scanned_image.filename}&quot;</span>
-      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-string">&#39;wb&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">content</span>)
-      <span class="ruby-keyword">end</span>
-      <span class="ruby-keyword">begin</span>
-        <span class="ruby-comment"># bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)</span>
         <span class="ruby-identifier">bounding_box</span>([<span class="ruby-identifier">image_x</span>, <span class="ruby-identifier">image_y</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_height</span>) <span class="ruby-keyword">do</span>
           <span class="ruby-comment"># stroke_bounds</span>
-          <span class="ruby-identifier">image</span> <span class="ruby-identifier">file_path</span>, <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_height</span>
+          <span class="ruby-identifier">image</span> <span class="ruby-identifier">jpg_file_path</span>, <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_height</span>
         <span class="ruby-keyword">end</span>
-      <span class="ruby-keyword">ensure</span>
-        <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">file_path</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">file_path</span>)
       <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">ensure</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">pdf_file_path</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">pdf_file_path</span>)
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">jpg_file_path</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">jpg_file_path</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">file_path</span> = <span class="ruby-node">&quot;tmp/#{scanned_image.filename}&quot;</span>
+    <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-string">&#39;wb&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">content</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-comment"># bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)</span>
+      <span class="ruby-identifier">bounding_box</span>([<span class="ruby-identifier">image_x</span>, <span class="ruby-identifier">image_y</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_height</span>) <span class="ruby-keyword">do</span>
+        <span class="ruby-comment"># stroke_bounds</span>
+        <span class="ruby-identifier">image</span> <span class="ruby-identifier">file_path</span>, <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">image_height</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">ensure</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">file_path</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">file_path</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -579,15 +673,14 @@
                 
               </p>
               <div id="method-i-confirmation_name_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 152</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 157</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">confirmation_name</span>
-
   <span class="ruby-identifier">cn</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">pick_confirmation_name</span>
-  <span class="ruby-identifier">define_grid_page</span>(<span class="ruby-number">2</span>, <span class="ruby-number">10</span>)
-  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.confirmation_name&#39;</span>))
+  <span class="ruby-identifier">define_grid_page</span>
+  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.confirmation_name&#39;</span>), [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">0</span>, <span class="ruby-number">3</span>])
+  <span class="ruby-identifier">common_event</span>(<span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>)), [<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">1</span>, <span class="ruby-number">3</span>])
 
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.confirmation_name.saint_name&#39;</span>), <span class="ruby-identifier">cn</span>.<span class="ruby-identifier">saint_name</span>)
-
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.confirmation_name.saint_name&#39;</span>), <span class="ruby-identifier">cn</span>.<span class="ruby-identifier">saint_name</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -622,14 +715,14 @@
                 
               </p>
               <div id="method-i-covenant_agreement_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 164</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 168</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">covenant_agreement</span>
   <span class="ruby-identifier">signed</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">signed_agreement</span>
-  <span class="ruby-identifier">define_grid_page</span>(<span class="ruby-number">2</span>, <span class="ruby-number">10</span>)
-  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.candidate_covenant_agreement&#39;</span>))
+  <span class="ruby-identifier">define_grid_page</span>
+  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.candidate_covenant_agreement&#39;</span>), [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">0</span>, <span class="ruby-number">3</span>])
+  <span class="ruby-identifier">common_event</span>(<span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)), [<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">1</span>, <span class="ruby-number">3</span>])
 
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;Agreed to Candidate Covenant&#39;</span>, <span class="ruby-identifier">signed</span>)
-
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;Agreed to Candidate Covenant&#39;</span>, <span class="ruby-identifier">signed</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -639,7 +732,7 @@
         <div class="method">
           <div class="title method-title" id="method-i-define_grid_page">
             
-              <b>define_grid_page</b>(columns=4, rows=20)
+              <b>define_grid_page</b>(columns = 4, rows = 20)
             
             <a href="../classes/CandidatePDFDocument.html#method-i-define_grid_page" name="method-i-define_grid_page" class="permalink">Link</a>
           </div>
@@ -672,7 +765,7 @@
               </p>
               <div id="method-i-define_grid_page_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 301</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">define_grid_page</span>(<span class="ruby-identifier">columns</span>=<span class="ruby-number">4</span>, <span class="ruby-identifier">rows</span>=<span class="ruby-number">20</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">define_grid_page</span>(<span class="ruby-identifier">columns</span> = <span class="ruby-number">4</span>, <span class="ruby-identifier">rows</span> = <span class="ruby-number">20</span>)
   <span class="ruby-identifier">define_grid</span>(<span class="ruby-identifier">columns</span><span class="ruby-operator">:</span> <span class="ruby-identifier">columns</span>, <span class="ruby-identifier">rows</span><span class="ruby-operator">:</span> <span class="ruby-identifier">rows</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -691,8 +784,6 @@
           
             <div class="description">
               <p>Generate PDF document</p>
-
-<h3 id="method-i-do_document-label-Return-3A">Return:</h3>
             </div>
           
 
@@ -710,12 +801,9 @@
                 
               </p>
               <div id="method-i-do_document_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 25</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">do_document</span>
-
-  <span class="ruby-identifier">page_size</span> = <span class="ruby-string">&#39;LETTER&#39;</span>
-  <span class="ruby-identifier">page_layout</span> = <span class="ruby-value">:landscape</span>
-
+  <span class="ruby-identifier">process_events</span>
   <span class="ruby-identifier">title_page</span>
   <span class="ruby-identifier">start_new_page</span>
 
@@ -754,14 +842,13 @@
     <span class="ruby-identifier">section</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.retreat_verification&#39;</span>), <span class="ruby-identifier">destination</span><span class="ruby-operator">:</span> <span class="ruby-number">8</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">page_number_string</span> = <span class="ruby-string">&#39;page &lt;page&gt; of &lt;total&gt;&#39;</span>
-  <span class="ruby-identifier">page_number_options</span> = {<span class="ruby-identifier">at</span><span class="ruby-operator">:</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">right</span> <span class="ruby-operator">-</span> <span class="ruby-number">150</span>, <span class="ruby-number">0</span>],
-                         <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-number">150</span>,
-                         <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-value">:right</span>,
-                         <span class="ruby-identifier">start_count_at</span><span class="ruby-operator">:</span> <span class="ruby-number">1</span>,
-                         <span class="ruby-identifier">page_filter</span><span class="ruby-operator">:</span> <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">pg</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pg</span> <span class="ruby-operator">&gt;</span> <span class="ruby-number">1</span>},
-                         <span class="ruby-identifier">color</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;007700&#39;</span>}
+  <span class="ruby-identifier">page_number_options</span> = { <span class="ruby-identifier">at</span><span class="ruby-operator">:</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">right</span> <span class="ruby-operator">-</span> <span class="ruby-number">150</span>, <span class="ruby-number">0</span>],
+                          <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-number">150</span>,
+                          <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-value">:right</span>,
+                          <span class="ruby-identifier">start_count_at</span><span class="ruby-operator">:</span> <span class="ruby-number">1</span>,
+                          <span class="ruby-identifier">page_filter</span><span class="ruby-operator">:</span> <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">pg</span>) { <span class="ruby-identifier">pg</span> <span class="ruby-operator">&gt;</span> <span class="ruby-number">1</span> },
+                          <span class="ruby-identifier">color</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;007700&#39;</span> }
   <span class="ruby-identifier">number_pages</span> <span class="ruby-identifier">page_number_string</span>, <span class="ruby-identifier">page_number_options</span>
-
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -809,9 +896,9 @@
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">grid_address</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">label_base</span>, <span class="ruby-identifier">address_association</span>)
   <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(label_base + &#39;.street_1&#39;)}:&quot;</span>, <span class="ruby-identifier">address_association</span>.<span class="ruby-identifier">street_1</span>)
   <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(label_base + &#39;.street_2&#39;)}:&quot;</span>, <span class="ruby-identifier">address_association</span>.<span class="ruby-identifier">street_2</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>]<span class="ruby-operator">+</span><span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(label_base + &#39;.city&#39;)}:&quot;</span>, <span class="ruby-identifier">address_association</span>.<span class="ruby-identifier">city</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>]<span class="ruby-operator">+</span><span class="ruby-number">1</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(label_base + &#39;.state&#39;)}:&quot;</span>, <span class="ruby-identifier">address_association</span>.<span class="ruby-identifier">state</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>]<span class="ruby-operator">+</span><span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(label_base + &#39;.zip_code&#39;)}:&quot;</span>, <span class="ruby-identifier">address_association</span>.<span class="ruby-identifier">zip_code</span>)
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">+</span> <span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(label_base + &#39;.city&#39;)}:&quot;</span>, <span class="ruby-identifier">address_association</span>.<span class="ruby-identifier">city</span>)
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">+</span> <span class="ruby-number">1</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(label_base + &#39;.state&#39;)}:&quot;</span>, <span class="ruby-identifier">address_association</span>.<span class="ruby-identifier">state</span>)
+  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">+</span> <span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(label_base + &#39;.zip_code&#39;)}:&quot;</span>, <span class="ruby-identifier">address_association</span>.<span class="ruby-identifier">zip_code</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -821,7 +908,7 @@
         <div class="method">
           <div class="title method-title" id="method-i-grid_label">
             
-              <b>grid_label</b>(cell, label)
+              <b>grid_label</b>(cell, cell2, label)
             
             <a href="../classes/CandidatePDFDocument.html#method-i-grid_label" name="method-i-grid_label" class="permalink">Link</a>
           </div>
@@ -832,7 +919,9 @@
 
 <h3 id="method-i-grid_label-label-Parameters-3A">Parameters:</h3>
 <ul><li>
-<p><code>:cell</code> cell</p>
+<p><code>:cell1</code> start point</p>
+</li><li>
+<p><code>:cell2</code> end point</p>
 </li><li>
 <p><code>:label</code> label</p>
 </li></ul>
@@ -853,11 +942,11 @@
                 
               </p>
               <div id="method-i-grid_label_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 342</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">grid_label</span> (<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">label</span>)
-  <span class="ruby-identifier">grid</span>(<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">cell</span>[<span class="ruby-number">1</span>]).<span class="ruby-identifier">bounding_box</span> <span class="ruby-keyword">do</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 355</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">grid_label</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">cell2</span>, <span class="ruby-identifier">label</span>)
+  <span class="ruby-identifier">grid</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">cell2</span>).<span class="ruby-identifier">bounding_box</span> <span class="ruby-keyword">do</span>
     <span class="ruby-comment"># move_down 20</span>
-    <span class="ruby-identifier">font</span>(<span class="ruby-string">&#39;Courier&#39;</span>) {<span class="ruby-identifier">text</span> <span class="ruby-node">&quot;&lt;b&gt;#{label}&lt;/b&gt;&quot;</span>, <span class="ruby-identifier">inline_format</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>}
+    <span class="ruby-identifier">font</span>(<span class="ruby-string">&#39;Courier&#39;</span>) { <span class="ruby-identifier">text</span> <span class="ruby-node">&quot;&lt;b&gt;#{label}&lt;/b&gt;&quot;</span>, <span class="ruby-identifier">inline_format</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span> }
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -904,9 +993,55 @@
               <div id="method-i-grid_label_value_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 329</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">grid_label_value</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">label</span>, <span class="ruby-identifier">value</span>)
-  <span class="ruby-identifier">grid_label</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">label</span>)
-  <span class="ruby-identifier">grid_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">cell</span>[<span class="ruby-number">1</span>]<span class="ruby-operator">+</span><span class="ruby-number">1</span>], <span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">grid_label</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">cell</span>, <span class="ruby-identifier">label</span>)
+  <span class="ruby-identifier">grid_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">cell</span>[<span class="ruby-number">1</span>] <span class="ruby-operator">+</span> <span class="ruby-number">1</span>], [<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">cell</span>[<span class="ruby-number">1</span>] <span class="ruby-operator">+</span> <span class="ruby-number">1</span>], <span class="ruby-identifier">value</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-grid_label_value2">
+            
+              <b>grid_label_value2</b>(cell, label, value)
+            
+            <a href="../classes/CandidatePDFDocument.html#method-i-grid_label_value2" name="method-i-grid_label_value2" class="permalink">Link</a>
+          </div>
 
+          
+            <div class="description">
+              <p>Generate label-value for a cell for cell width 2</p>
+
+<h3 id="method-i-grid_label_value2-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:cell</code> cell</p>
+</li><li>
+<p><code>:label</code> label</p>
+</li><li>
+<p><code>:value</code> value</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-grid_label_value2_source')" id="l_method-i-grid_label_value2_source">show</a>
+                
+              </p>
+              <div id="method-i-grid_label_value2_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 342</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">grid_label_value2</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">label</span>, <span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">grid_label</span>(<span class="ruby-identifier">cell</span>, [<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">cell</span>[<span class="ruby-number">1</span>] <span class="ruby-operator">+</span> <span class="ruby-number">1</span>], <span class="ruby-identifier">label</span>)
+  <span class="ruby-identifier">grid_value</span>([<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">cell</span>[<span class="ruby-number">1</span>] <span class="ruby-operator">+</span> <span class="ruby-number">2</span>], [<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">cell</span>[<span class="ruby-number">1</span>] <span class="ruby-operator">+</span> <span class="ruby-number">3</span>], <span class="ruby-identifier">value</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -916,7 +1051,7 @@
         <div class="method">
           <div class="title method-title" id="method-i-grid_value">
             
-              <b>grid_value</b>(cell, value)
+              <b>grid_value</b>(cell, cell2, value)
             
             <a href="../classes/CandidatePDFDocument.html#method-i-grid_value" name="method-i-grid_value" class="permalink">Link</a>
           </div>
@@ -927,7 +1062,9 @@
 
 <h3 id="method-i-grid_value-label-Parameters-3A">Parameters:</h3>
 <ul><li>
-<p><code>:cell</code> cell</p>
+<p><code>:cell1</code> start point</p>
+</li><li>
+<p><code>:cell2</code> end point</p>
 </li><li>
 <p><code>:value</code> value</p>
 </li></ul>
@@ -948,16 +1085,14 @@
                 
               </p>
               <div id="method-i-grid_value_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 356</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">grid_value</span> (<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">value</span>)
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 370</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">grid_value</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">cell2</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">val</span> = <span class="ruby-keyword">if</span> (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">TrueClass</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">FalseClass</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Date</span>)
           <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>
-        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span>
-          <span class="ruby-string">&#39;&lt;no value&gt;&#39;</span>
         <span class="ruby-keyword">else</span>
-          <span class="ruby-identifier">value</span>
+          <span class="ruby-identifier">value</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;&lt;no value&gt;&#39;</span>
         <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">grid</span>(<span class="ruby-identifier">cell</span>[<span class="ruby-number">0</span>], <span class="ruby-identifier">cell</span>[<span class="ruby-number">1</span>]).<span class="ruby-identifier">bounding_box</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">grid</span>(<span class="ruby-identifier">cell</span>, <span class="ruby-identifier">cell2</span>).<span class="ruby-identifier">bounding_box</span> <span class="ruby-keyword">do</span>
     <span class="ruby-comment"># move_down 20</span>
     <span class="ruby-identifier">text</span> <span class="ruby-identifier">val</span>
   <span class="ruby-keyword">end</span>
@@ -970,7 +1105,7 @@
         <div class="method">
           <div class="title method-title" id="method-i-page_header">
             
-              <b>page_header</b>(header_text)
+              <b>page_header</b>(header_text, cell1, cell2)
             
             <a href="../classes/CandidatePDFDocument.html#method-i-page_header" name="method-i-page_header" class="permalink">Link</a>
           </div>
@@ -982,6 +1117,10 @@
 <h3 id="method-i-page_header-label-Parameters-3A">Parameters:</h3>
 <ul><li>
 <p><code>:header_text</code> text for header</p>
+</li><li>
+<p><code>:cell1</code> start point</p>
+</li><li>
+<p><code>:cell2</code> end point</p>
 </li></ul>
             </div>
           
@@ -1000,13 +1139,51 @@
                 
               </p>
               <div id="method-i-page_header_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 376</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">page_header</span>(<span class="ruby-identifier">header_text</span>)
-  <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span> <span class="ruby-keyword">do</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 390</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">page_header</span>(<span class="ruby-identifier">header_text</span>, <span class="ruby-identifier">cell1</span>, <span class="ruby-identifier">cell2</span>)
+  <span class="ruby-identifier">grid</span>(<span class="ruby-identifier">cell1</span>, <span class="ruby-identifier">cell2</span>).<span class="ruby-identifier">bounding_box</span> <span class="ruby-keyword">do</span>
     <span class="ruby-identifier">font</span> <span class="ruby-string">&#39;Helvetica&#39;</span>
     <span class="ruby-identifier">text</span> <span class="ruby-identifier">header_text</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>, <span class="ruby-identifier">size</span><span class="ruby-operator">:</span> <span class="ruby-number">25</span>
     <span class="ruby-identifier">stroke_horizontal_rule</span>
   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-process_events">
+            
+              <b>process_events</b>()
+            
+            <a href="../classes/CandidatePDFDocument.html#method-i-process_events" name="method-i-process_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>walk through the events making sure they have all been validated</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-process_events_source')" id="l_method-i-process_events_source">show</a>
+                
+              </p>
+              <div id="method-i-process_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 24</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">process_events</span>
+  <span class="ruby-identifier">event</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ev</span><span class="ruby-operator">|</span> <span class="ruby-identifier">ev</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">ev</span>.<span class="ruby-identifier">verified?</span> }
+  <span class="ruby-ivar">@verified</span> = <span class="ruby-identifier">event</span>.<span class="ruby-identifier">nil?</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1041,25 +1218,24 @@
                 
               </p>
               <div id="method-i-retreat_verification_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 175</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 179</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">retreat_verification</span>
   <span class="ruby-identifier">rv</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">retreat_verification</span>
-  <span class="ruby-identifier">define_grid_page</span>(<span class="ruby-number">4</span>, <span class="ruby-number">10</span>)
-  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.retreat_verification&#39;</span>))
+  <span class="ruby-identifier">define_grid_page</span>
+  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.retreat_verification&#39;</span>), [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">0</span>, <span class="ruby-number">3</span>])
+  <span class="ruby-identifier">common_event</span>(<span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>)), [<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">1</span>, <span class="ruby-number">3</span>])
 
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.retreat_held_at_stmm&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">retreat_held_at_stmm</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.retreat_held_at_stmm&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">retreat_held_at_stmm</span>)
 
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">retreat_held_at_stmm</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">retreat_held_at_stmm</span>
 
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.start_date&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">start_date</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">2</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.end_date&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">end_date</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.start_date&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">start_date</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">4</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.end_date&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">end_date</span>)
 
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.who_held_retreat&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">who_held_retreat</span>)
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">4</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.where_held_retreat&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">where_held_retreat</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">5</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.who_held_retreat&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">who_held_retreat</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">6</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.retreat_verification.where_held_retreat&#39;)}:&quot;</span>, <span class="ruby-identifier">rv</span>.<span class="ruby-identifier">where_held_retreat</span>)
 
-    <span class="ruby-identifier">common_image</span>(<span class="ruby-identifier">rv</span>.<span class="ruby-identifier">scanned_retreat</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.retreat_verification.retreat_verification_picture&#39;</span>))
-  <span class="ruby-keyword">end</span>
-
+  <span class="ruby-identifier">common_image</span>(<span class="ruby-identifier">rv</span>.<span class="ruby-identifier">scanned_retreat</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.retreat_verification.retreat_verification_picture&#39;</span>))
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1094,14 +1270,14 @@
                 
               </p>
               <div id="method-i-sponsor_agreement_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 197</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 200</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sponsor_agreement</span>
   <span class="ruby-identifier">sa</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">sponsor_agreement</span>
-  <span class="ruby-identifier">define_grid_page</span>(<span class="ruby-number">2</span>, <span class="ruby-number">10</span>)
-  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.sponsor_agreement&#39;</span>))
+  <span class="ruby-identifier">define_grid_page</span>
+  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.sponsor_agreement&#39;</span>), [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">0</span>, <span class="ruby-number">3</span>])
+  <span class="ruby-identifier">common_event</span>(<span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)), [<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">1</span>, <span class="ruby-number">3</span>])
 
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;Agreed to having the conversation with sponsor&#39;</span>, <span class="ruby-identifier">sa</span>)
-
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-string">&#39;Agreed to having the conversation with sponsor&#39;</span>, <span class="ruby-identifier">sa</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1136,17 +1312,18 @@
                 
               </p>
               <div id="method-i-sponsor_covenant_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 208</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 211</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sponsor_covenant</span>
   <span class="ruby-identifier">sc</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">sponsor_covenant</span>
-  <span class="ruby-identifier">define_grid_page</span>(<span class="ruby-number">2</span>)
-  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.sponsor_covenant&#39;</span>))
+  <span class="ruby-identifier">define_grid_page</span>
+  <span class="ruby-identifier">page_header</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sidebar.sponsor_covenant&#39;</span>), [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">0</span>, <span class="ruby-number">3</span>])
+  <span class="ruby-identifier">common_event</span>(<span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)), [<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], [<span class="ruby-number">1</span>, <span class="ruby-number">3</span>])
 
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">1</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.sponsor_covenant.sponsor_name&#39;)}:&quot;</span>, <span class="ruby-identifier">sc</span>.<span class="ruby-identifier">sponsor_name</span>)
-  <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.sponsor_covenant.sponsor_attends_stmm&#39;)}:&quot;</span>, <span class="ruby-identifier">sc</span>.<span class="ruby-identifier">sponsor_attends_stmm</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">2</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.sponsor_covenant.sponsor_name&#39;)}:&quot;</span>, <span class="ruby-identifier">sc</span>.<span class="ruby-identifier">sponsor_name</span>)
+  <span class="ruby-identifier">grid_label_value2</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.sponsor_covenant.sponsor_attends_stmm&#39;)}:&quot;</span>, <span class="ruby-identifier">sc</span>.<span class="ruby-identifier">sponsor_attends_stmm</span>)
 
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">sc</span>.<span class="ruby-identifier">sponsor_attends_stmm</span>
-    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">3</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.sponsor_covenant.sponsor_church&#39;)}:&quot;</span>, <span class="ruby-identifier">sc</span>.<span class="ruby-identifier">sponsor_church</span>)
+    <span class="ruby-identifier">grid_label_value</span>([<span class="ruby-number">4</span>, <span class="ruby-number">0</span>], <span class="ruby-node">&quot;#{I18n.t(&#39;label.sponsor_covenant.sponsor_church&#39;)}:&quot;</span>, <span class="ruby-identifier">sc</span>.<span class="ruby-identifier">sponsor_church</span>)
     <span class="ruby-identifier">common_image</span>(<span class="ruby-identifier">sc</span>.<span class="ruby-identifier">scanned_covenant</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;field_set.sponsor_covenant.sponsor_covenant&#39;</span>))
   <span class="ruby-keyword">end</span>
 
@@ -1185,18 +1362,25 @@
                 
               </p>
               <div id="method-i-title_page_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 386</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_pdf_document.rb, line 433</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">title_page</span>
   <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span><span class="ruby-operator">/</span><span class="ruby-number">3</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">/</span> <span class="ruby-number">3</span> <span class="ruby-keyword">do</span>
       <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;Confirmation booklet&#39;</span>, <span class="ruby-identifier">size</span><span class="ruby-operator">:</span> <span class="ruby-number">30</span>, <span class="ruby-identifier">style</span><span class="ruby-operator">:</span> <span class="ruby-value">:bold</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-value">:bottom</span>
     <span class="ruby-keyword">end</span>
-    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span><span class="ruby-operator">-</span>(<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span><span class="ruby-operator">/</span><span class="ruby-number">3</span>)], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span><span class="ruby-operator">/</span><span class="ruby-number">3</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">/</span> <span class="ruby-number">3</span>)], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">/</span> <span class="ruby-number">3</span> <span class="ruby-keyword">do</span>
       <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;for&#39;</span>, <span class="ruby-identifier">size</span><span class="ruby-operator">:</span> <span class="ruby-number">30</span>, <span class="ruby-identifier">style</span><span class="ruby-operator">:</span> <span class="ruby-value">:bold</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>
     <span class="ruby-keyword">end</span>
-    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span><span class="ruby-operator">-</span>((<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span><span class="ruby-operator">*</span><span class="ruby-number">2</span>)<span class="ruby-operator">/</span><span class="ruby-number">3</span>)], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span><span class="ruby-operator">/</span><span class="ruby-number">3</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">top</span> <span class="ruby-operator">-</span> ((<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">*</span> <span class="ruby-number">2</span>) <span class="ruby-operator">/</span> <span class="ruby-number">3</span>)], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span>, <span class="ruby-identifier">height</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">height</span> <span class="ruby-operator">/</span> <span class="ruby-number">3</span> <span class="ruby-keyword">do</span>
       <span class="ruby-identifier">text</span> <span class="ruby-node">&quot;#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}&quot;</span>, <span class="ruby-identifier">size</span><span class="ruby-operator">:</span> <span class="ruby-number">30</span>, <span class="ruby-identifier">style</span><span class="ruby-operator">:</span> <span class="ruby-value">:bold</span>, <span class="ruby-identifier">align</span><span class="ruby-operator">:</span> <span class="ruby-value">:center</span>, <span class="ruby-identifier">valign</span><span class="ruby-operator">:</span> <span class="ruby-value">:top</span>
     <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">bounding_box</span> [<span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">left</span>, <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">bottom</span> <span class="ruby-operator">+</span> <span class="ruby-number">25</span>], <span class="ruby-identifier">width</span><span class="ruby-operator">:</span> <span class="ruby-identifier">bounds</span>.<span class="ruby-identifier">width</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">font</span> <span class="ruby-string">&#39;Helvetica&#39;</span>
+    <span class="ruby-identifier">stroke_horizontal_rule</span>
+    <span class="ruby-identifier">move_down</span>(<span class="ruby-number">5</span>)
+    <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;Complete&#39;</span>, <span class="ruby-identifier">size</span><span class="ruby-operator">:</span> <span class="ruby-number">16</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@verified</span>
+    <span class="ruby-identifier">text</span> <span class="ruby-string">&#39;Not Complete&#39;</span>, <span class="ruby-identifier">size</span><span class="ruby-operator">:</span> <span class="ruby-number">16</span>, <span class="ruby-identifier">color</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;ff0000&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@verified</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
               </div>

@@ -40,7 +40,7 @@
   
     <div class="description">
       
-<p>Actve Record</p>
+<p>Active Record</p>
 
     </div>
   
@@ -73,13 +73,13 @@
           </ul>
         </dd>
       
-        <dt>G</dt>
+        <dt>P</dt>
         <dd>
           <ul>
             
               
               <li>
-                <a href="#method-c-get_permitted_params">get_permitted_params</a>
+                <a href="#method-c-permitted_params">permitted_params</a>
               </li>
             
           </ul>
@@ -123,20 +123,6 @@
     
 
 
-    
-      <!-- Section attributes -->
-      <div class="sectiontitle">Attributes</div>
-      <table border='0' cellpadding='5'>
-        
-          <tr valign='top'>
-            <td class='attr-rw'>
-              [RW]
-            </td>
-            <td class='attr-name'>christian_ministry_picture</td>
-            <td class='attr-desc'></td>
-          </tr>
-        
-      </table>
     
 
 
@@ -186,18 +172,18 @@
           </div>
         
         <div class="method">
-          <div class="title method-title" id="method-c-get_permitted_params">
+          <div class="title method-title" id="method-c-permitted_params">
             
-              <b>get_permitted_params</b>()
+              <b>permitted_params</b>()
             
-            <a href="../classes/ChristianMinistry.html#method-c-get_permitted_params" name="method-c-get_permitted_params" class="permalink">Link</a>
+            <a href="../classes/ChristianMinistry.html#method-c-permitted_params" name="method-c-permitted_params" class="permalink">Link</a>
           </div>
 
           
             <div class="description">
               <p>Editable attributes</p>
 
-<h3 id="method-c-get_permitted_params-label-Return-3A">Return:</h3>
+<h3 id="method-c-permitted_params-label-Return-3A">Return:</h3>
 
 <p>Array of attributes</p>
             </div>
@@ -213,13 +199,13 @@
               
               <p class="source-link">
                 Source:
-                <a href="javascript:toggleSource('method-c-get_permitted_params_source')" id="l_method-c-get_permitted_params_source">show</a>
+                <a href="javascript:toggleSource('method-c-permitted_params_source')" id="l_method-c-permitted_params_source">show</a>
                 
               </p>
-              <div id="method-c-get_permitted_params_source" class="dyn-source">
+              <div id="method-c-permitted_params_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File app/models/christian_ministry.rb, line 28</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">get_permitted_params</span>
-  [<span class="ruby-value">:what_service</span>, <span class="ruby-value">:where_service</span>, <span class="ruby-value">:when_service</span>, <span class="ruby-value">:helped_me</span>, <span class="ruby-value">:id</span>]
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">permitted_params</span>
+  <span class="ruby-operator">%</span>[<span class="ruby-identifier">what_service</span> <span class="ruby-identifier">where_service</span> <span class="ruby-identifier">when_service</span> <span class="ruby-identifier">helped_me</span> <span class="ruby-identifier">id</span>]
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -279,7 +265,7 @@
         <div class="method">
           <div class="title method-title" id="method-i-validate_event_complete">
             
-              <b>validate_event_complete</b>(options={})
+              <b>validate_event_complete</b>(_options = {})
             
             <a href="../classes/ChristianMinistry.html#method-i-validate_event_complete" name="method-i-validate_event_complete" class="permalink">Link</a>
           </div>
@@ -313,9 +299,10 @@
                 
               </p>
               <div id="method-i-validate_event_complete_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/christian_ministry.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_event_complete</span>(<span class="ruby-identifier">options</span>={})
-  <span class="ruby-constant">EventCompleteValidator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>).<span class="ruby-identifier">validate</span>(<span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">get_permitted_params</span>)
+                <pre><span class="ruby-comment"># File app/models/christian_ministry.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">validate_event_complete</span>(<span class="ruby-identifier">_options</span> = {})
+  <span class="ruby-identifier">event_complete_validator</span> = <span class="ruby-constant">EventCompleteValidator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>)
+  <span class="ruby-identifier">event_complete_validator</span>.<span class="ruby-identifier">validate</span>(<span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">permitted_params</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -325,7 +312,7 @@
         <div class="method">
           <div class="title method-title" id="method-i-verifiable_info">
             
-              <b>verifiable_info</b>(candidate)
+              <b>verifiable_info</b>(_candidate)
             
             <a href="../classes/ChristianMinistry.html#method-i-verifiable_info" name="method-i-verifiable_info" class="permalink">Link</a>
           </div>
@@ -360,7 +347,7 @@
               </p>
               <div id="method-i-verifiable_info_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File app/models/christian_ministry.rb, line 68</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verifiable_info</span>(<span class="ruby-identifier">candidate</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">verifiable_info</span>(<span class="ruby-identifier">_candidate</span>)
   {}
 <span class="ruby-keyword">end</span></pre>
               </div>

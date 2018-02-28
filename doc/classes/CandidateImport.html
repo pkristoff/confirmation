@@ -101,6 +101,11 @@
             
               
               <li>
+                <a href="#method-i-ids">ids</a>,
+              </li>
+            
+              
+              <li>
                 <a href="#method-c-image_filename_import">image_filename_import</a>,
               </li>
             
@@ -163,6 +168,11 @@
               
               <li>
                 <a href="#method-i-orphaned_christian_ministry">orphaned_christian_ministry</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_ids">orphaned_ids</a>,
               </li>
             
               
@@ -419,7 +429,7 @@
                 
               </p>
               <div id="method-c-image_filename_import_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 72</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 74</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">image_filename_import</span>(<span class="ruby-identifier">file_path</span>)
   <span class="ruby-identifier">filename</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file_path</span>)
   <span class="ruby-identifier">filename</span>
@@ -473,7 +483,7 @@ href="ScannedImage.html">ScannedImage</a> accessor.</p>
                 
               </p>
               <div id="method-c-image_filepath_export_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 57</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">image_filepath_export</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">dir</span>, <span class="ruby-identifier">image_column</span>, <span class="ruby-identifier">image</span>)
   <span class="ruby-identifier">file_basename</span> = <span class="ruby-identifier">image</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">image</span>.<span class="ruby-identifier">filename</span>)
   <span class="ruby-node">&quot;#{dir}/#{candidate.account_name}_#{image_column}_#{file_basename}&quot;</span>
@@ -520,9 +530,9 @@ href="ScannedImage.html">ScannedImage</a> accessor.</p>
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 31</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">attributes</span> = {})
-  <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{name}=&quot;</span>, <span class="ruby-identifier">value</span>)}
+  <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{name}=&quot;</span>, <span class="ruby-identifier">value</span>) }
   <span class="ruby-ivar">@worksheet_conf_event_name</span> = <span class="ruby-string">&#39;Confirmation Events&#39;</span>
   <span class="ruby-ivar">@worksheet_name</span> = <span class="ruby-string">&#39;Candidates with events&#39;</span>
   <span class="ruby-comment"># check_events</span>
@@ -577,15 +587,12 @@ href="ScannedImage.html">ScannedImage</a> accessor.</p>
                 
               </p>
               <div id="method-i-add_missing_events_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 87</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">add_missing_events</span> (<span class="ruby-identifier">missing_events</span>)
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 89</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">add_missing_events</span>(<span class="ruby-identifier">missing_events</span>)
   <span class="ruby-identifier">missing_events</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">event_name</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_by_name</span>(<span class="ruby-identifier">event_name</span>)
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
-      <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_event</span>(<span class="ruby-identifier">event_name</span>)
-    <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Attempting to candidate_event named: #{event_name} that already exists.s&quot;</span>
-    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">event_name</span>)
+    <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_event</span>(<span class="ruby-identifier">event_name</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Attempting to candidate_event named: #{event_name} that already exists.s&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">check_events</span>
 <span class="ruby-keyword">end</span></pre>
@@ -627,29 +634,25 @@ but not associated with parent</p>
                 
               </p>
               <div id="method-i-add_orphaned_table_rows_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 287</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 338</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">add_orphaned_table_rows</span>
-
   <span class="ruby-keyword">begin</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span> = {<span class="ruby-constant">BaptismalCertificate</span><span class="ruby-operator">:</span> <span class="ruby-identifier">orphaned_baptismal_certificates</span>}
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:CandidateSheet</span>] = <span class="ruby-identifier">orphaned_candidate_sheets</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ChristianMinistry</span>] = <span class="ruby-identifier">orphaned_christian_ministry</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:PickConfirmationName</span>] = <span class="ruby-identifier">orphaned_pick_name</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:RetreatVerification</span>] = <span class="ruby-identifier">orphaned_retreat_verification</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:SponsorCovenant</span>] = <span class="ruby-identifier">orphaned_sponsor_covenant</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:Address</span>] = <span class="ruby-identifier">orphaned_addresses</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ScannedImage</span>] = <span class="ruby-identifier">orphaned_scanned_image</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ToDo</span>] = <span class="ruby-identifier">orphaned_to_do</span>
-  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-identifier">cand_ids</span> = <span class="ruby-identifier">ids</span>(<span class="ruby-constant">Candidate</span>)
+    <span class="ruby-identifier">orphaned_table_rows</span> = { <span class="ruby-constant">BaptismalCertificate</span><span class="ruby-operator">:</span> <span class="ruby-identifier">orphaned_baptismal_certificates</span>(<span class="ruby-identifier">cand_ids</span>) }
+    <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:CandidateSheet</span>] = <span class="ruby-identifier">orphaned_candidate_sheets</span>(<span class="ruby-identifier">cand_ids</span>)
+    <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ChristianMinistry</span>] = <span class="ruby-identifier">orphaned_christian_ministry</span>(<span class="ruby-identifier">cand_ids</span>)
+    <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:PickConfirmationName</span>] = <span class="ruby-identifier">orphaned_pick_name</span>(<span class="ruby-identifier">cand_ids</span>)
+    <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:RetreatVerification</span>] = <span class="ruby-identifier">orphaned_retreat_verification</span>(<span class="ruby-identifier">cand_ids</span>)
+    <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:SponsorCovenant</span>] = <span class="ruby-identifier">orphaned_sponsor_covenant</span>(<span class="ruby-identifier">cand_ids</span>)
+    <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:Address</span>] = <span class="ruby-identifier">orphaned_addresses</span>
+    <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ScannedImage</span>] = <span class="ruby-identifier">orphaned_scanned_image</span>
+    <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-value">:ToDo</span>] = <span class="ruby-identifier">orphaned_to_do</span>
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
     <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&#39;error while looking for orphans&#39;</span>
     <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
     <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">inspect</span>
-    [<span class="ruby-value">:BaptismalCertificate</span>, <span class="ruby-value">:CandidateSheet</span>, <span class="ruby-value">:ChristianMinistry</span>, <span class="ruby-value">:PickConfirmationName</span>, <span class="ruby-value">:RetreatVerification</span>,
-     <span class="ruby-value">:SponsorCovenant</span>, <span class="ruby-value">:Address</span>, <span class="ruby-value">:ScannedImage</span>, <span class="ruby-value">:ToDo</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span>
-      [<span class="ruby-identifier">key</span>]
-      <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-identifier">key</span>]
-        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-identifier">key</span>] = [<span class="ruby-value">:error</span>]
-      <span class="ruby-keyword">end</span>
+    <span class="ruby-operator">%</span>[<span class="ruby-constant">BaptismalCertificate</span> <span class="ruby-constant">CandidateSheet</span> <span class="ruby-constant">ChristianMinistry</span> <span class="ruby-constant">PickConfirmationName</span> <span class="ruby-constant">RetreatVerification</span> <span class="ruby-identifier">¬SponsorCovenant</span> <span class="ruby-constant">Address</span> <span class="ruby-constant">ScannedImage</span> <span class="ruby-constant">ToDo</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-identifier">key</span>] = [<span class="ruby-value">:error</span>] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_table_rows</span>[<span class="ruby-identifier">key</span>]
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">self</span>
@@ -693,15 +696,15 @@ href="CandidateImport.html#attribute-i-unknown_confirmation_events">#unknown_con
                 
               </p>
               <div id="method-i-check_events_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 105</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 104</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">check_events</span>
   <span class="ruby-identifier">all_in_confirmation_event_names</span> = <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">all_i18n_confirmation_event_names</span>
-  <span class="ruby-identifier">unknowns</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ce</span><span class="ruby-operator">|</span> <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">name</span>}
+  <span class="ruby-identifier">unknowns</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:name</span>)
   <span class="ruby-identifier">all_in_confirmation_event_names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i18n_key</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">confirmation_event_name</span> = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-identifier">i18n_key</span>)
     <span class="ruby-identifier">unknowns_index</span> = <span class="ruby-identifier">unknowns</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">confirmation_event_name</span>)
     <span class="ruby-identifier">unknowns</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-identifier">unknowns_index</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">unknowns_index</span>.<span class="ruby-identifier">nil?</span>
-    <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_by_name</span>(<span class="ruby-identifier">confirmation_event_name</span>)
+    <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">confirmation_event_name</span>)
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-identifier">missing_confirmation_events</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">confirmation_event_name</span>)
     <span class="ruby-keyword">else</span>
@@ -721,7 +724,7 @@ href="CandidateImport.html#attribute-i-unknown_confirmation_events">#unknown_con
         <div class="method">
           <div class="title method-title" id="method-i-clean_associations">
             
-              <b>clean_associations</b>(clazz, checked=[], do_not_destroy=[Admin, ConfirmationEvent])
+              <b>clean_associations</b>(clazz, checked = [], do_not_destroy = [Admin, ConfirmationEvent])
             
             <a href="../classes/CandidateImport.html#method-i-clean_associations" name="method-i-clean_associations" class="permalink">Link</a>
           </div>
@@ -755,21 +758,88 @@ href="CandidateImport.html#attribute-i-unknown_confirmation_events">#unknown_con
                 
               </p>
               <div id="method-i-clean_associations_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 194</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">clean_associations</span>(<span class="ruby-identifier">clazz</span>, <span class="ruby-identifier">checked</span>=[], <span class="ruby-identifier">do_not_destroy</span>=[<span class="ruby-constant">Admin</span>, <span class="ruby-constant">ConfirmationEvent</span>])
-  <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">checked</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">clazz</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">do_not_destroy</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">clazz</span>)
-    <span class="ruby-identifier">checked</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">clazz</span>
-    <span class="ruby-keyword">begin</span>
-      <span class="ruby-identifier">clazz</span>.<span class="ruby-identifier">destroy_all</span>
-    <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
-      <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;cleaning association error when destroying #{clazz}&quot;</span>
-      <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
-      <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">inspect</span>
-    <span class="ruby-keyword">end</span>
-    <span class="ruby-identifier">clazz</span>.<span class="ruby-identifier">reflect_on_all_associations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">assoc</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">clean_associations</span>(<span class="ruby-identifier">assoc</span>.<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">checked</span>)
-    <span class="ruby-keyword">end</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 193</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">clean_associations</span>(<span class="ruby-identifier">clazz</span>, <span class="ruby-identifier">checked</span> = [], <span class="ruby-identifier">do_not_destroy</span> = [<span class="ruby-constant">Admin</span>, <span class="ruby-constant">ConfirmationEvent</span>])
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">checked</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">clazz</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">do_not_destroy</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">clazz</span>)
+  <span class="ruby-identifier">checked</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">clazz</span>
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">clazz</span>.<span class="ruby-identifier">destroy_all</span>
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;cleaning association error when destroying #{clazz}&quot;</span>
+    <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
+    <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">inspect</span>
   <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">clazz</span>.<span class="ruby-identifier">reflect_on_all_associations</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">assoc</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">clean_associations</span>(<span class="ruby-identifier">assoc</span>.<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">checked</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-ids">
+            
+              <b>ids</b>(clazz)
+            
+            <a href="../classes/CandidateImport.html#method-i-ids" name="method-i-ids" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>get &amp; cache ids of clazz</p>
+
+<h3 id="method-i-ids-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:clazz</code> Class: class of interest</p>
+</li></ul>
+
+<h3 id="method-i-ids-label-Return-3A">Return:</h3>
+
+<p>Array: ids or Array of ids</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-ids_source')" id="l_method-i-ids_source">show</a>
+                
+              </p>
+              <div id="method-i-ids_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 280</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">ids</span>(<span class="ruby-identifier">clazz</span>)
+  <span class="ruby-identifier">class_sym</span> = <span class="ruby-identifier">clazz</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
+  <span class="ruby-ivar">@cache</span> = {} <span class="ruby-keyword">if</span> <span class="ruby-ivar">@cache</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-identifier">ids</span> = <span class="ruby-ivar">@cache</span>[<span class="ruby-identifier">class_sym</span>]
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">ids</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">ids</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-identifier">ids</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">class_sym</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">:Candidate</span>
+          <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:baptismal_certificate_id</span>, <span class="ruby-value">:candidate_sheet_id</span>, <span class="ruby-value">:christian_ministry_id</span>,
+                          <span class="ruby-value">:pick_confirmation_name_id</span>, <span class="ruby-value">:retreat_verification_id</span>, <span class="ruby-value">:sponsor_covenant_id</span>)
+        <span class="ruby-keyword">when</span> <span class="ruby-value">:BaptismalCertificate</span>
+          <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:church_address_id</span>, <span class="ruby-value">:scanned_certificate_id</span>)
+        <span class="ruby-keyword">when</span> <span class="ruby-value">:CandidateSheet</span>
+          <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:address_id</span>)
+        <span class="ruby-keyword">when</span> <span class="ruby-value">:RetreatVerification</span>
+          <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:scanned_retreat_id</span>)
+        <span class="ruby-keyword">when</span> <span class="ruby-value">:SponsorCovenant</span>
+          <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:scanned_covenant_id</span>, <span class="ruby-value">:scanned_eligibility_id</span>)
+        <span class="ruby-keyword">when</span> <span class="ruby-value">:ToDo</span>
+          <span class="ruby-constant">ToDo</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:confirmation_event_id</span>, <span class="ruby-value">:candidate_event_id</span>)
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">clazz</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>)
+        <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@cache</span>[<span class="ruby-identifier">class_sym</span>] = <span class="ruby-identifier">ids</span>
+  <span class="ruby-identifier">ids</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -814,7 +884,7 @@ multiple times</p>
                 
               </p>
               <div id="method-i-load_initial_file_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 135</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 134</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">load_initial_file</span>(<span class="ruby-identifier">file</span>)
   <span class="ruby-ivar">@uploaded_file</span> = <span class="ruby-identifier">file</span>
   <span class="ruby-ivar">@imported_candidates</span> = <span class="ruby-identifier">load_imported_candidates</span>
@@ -864,7 +934,7 @@ multiple times</p>
                 
               </p>
               <div id="method-i-load_zip_file_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 153</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">load_zip_file</span>(<span class="ruby-identifier">file</span>)
   <span class="ruby-ivar">@uploaded_zip_file</span> = <span class="ruby-identifier">file</span>
   <span class="ruby-ivar">@imported_candidates</span> = <span class="ruby-identifier">load_imported_candidates</span>
@@ -905,11 +975,11 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_addresses_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 315</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 362</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_addresses</span>
-  <span class="ruby-constant">Address</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span>
-    <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:church_address_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">church_address_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">church_address_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
-        <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:address_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">address_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">address_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">ids</span>(<span class="ruby-constant">Address</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">ids</span>(<span class="ruby-constant">BaptismalCertificate</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">bc_info</span><span class="ruby-operator">|</span> <span class="ruby-identifier">bc_info</span>[<span class="ruby-number">1</span>] }.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">church_address_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">church_address_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ar_id</span> }.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+      <span class="ruby-identifier">ids</span>(<span class="ruby-constant">CandidateSheet</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">bc_info</span><span class="ruby-operator">|</span> <span class="ruby-identifier">bc_info</span>[<span class="ruby-number">1</span>] }.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">address_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">address_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ar_id</span> }.<span class="ruby-identifier">empty?</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -920,7 +990,7 @@ multiple times</p>
         <div class="method">
           <div class="title method-title" id="method-i-orphaned_baptismal_certificates">
             
-              <b>orphaned_baptismal_certificates</b>()
+              <b>orphaned_baptismal_certificates</b>(used_cand_ids)
             
             <a href="../classes/CandidateImport.html#method-i-orphaned_baptismal_certificates" name="method-i-orphaned_baptismal_certificates" class="permalink">Link</a>
           </div>
@@ -928,6 +998,15 @@ multiple times</p>
           
             <div class="description">
               <p>Finds all the BaptismalCertificate&#39;s that have been orphaned.</p>
+
+<h3 id="method-i-orphaned_baptismal_certificates-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:used_cand_ids</code> Array:</p>
+</li></ul>
+
+<h3 id="method-i-orphaned_baptismal_certificates-label-Return-3A">Return:</h3>
+
+<p>Array: ids</p>
             </div>
           
 
@@ -945,9 +1024,9 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_baptismal_certificates_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 323</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_baptismal_certificates</span>
-  <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:baptismal_certificate_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 379</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_baptismal_certificates</span>(<span class="ruby-identifier">used_cand_ids</span>)
+  <span class="ruby-identifier">orphaned_ids</span>(<span class="ruby-constant">BaptismalCertificate</span>, (<span class="ruby-identifier">used_cand_ids</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">1</span>] }), <span class="ruby-number">0</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -957,7 +1036,7 @@ multiple times</p>
         <div class="method">
           <div class="title method-title" id="method-i-orphaned_candidate_sheets">
             
-              <b>orphaned_candidate_sheets</b>()
+              <b>orphaned_candidate_sheets</b>(cand_ids)
             
             <a href="../classes/CandidateImport.html#method-i-orphaned_candidate_sheets" name="method-i-orphaned_candidate_sheets" class="permalink">Link</a>
           </div>
@@ -965,6 +1044,15 @@ multiple times</p>
           
             <div class="description">
               <p>Finds all the CandidateSheet&#39;s that have been orphaned.</p>
+
+<h3 id="method-i-orphaned_candidate_sheets-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:used_cand_ids</code> Array:</p>
+</li></ul>
+
+<h3 id="method-i-orphaned_candidate_sheets-label-Return-3A">Return:</h3>
+
+<p>Array: ids</p>
             </div>
           
 
@@ -982,9 +1070,9 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_candidate_sheets_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 328</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_candidate_sheets</span>
-  <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:candidate_sheet_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">cs_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">cs_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 407</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_candidate_sheets</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-identifier">orphaned_ids</span>(<span class="ruby-constant">CandidateSheet</span>, <span class="ruby-identifier">cand_ids</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">2</span>] }, <span class="ruby-number">0</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -994,7 +1082,7 @@ multiple times</p>
         <div class="method">
           <div class="title method-title" id="method-i-orphaned_christian_ministry">
             
-              <b>orphaned_christian_ministry</b>()
+              <b>orphaned_christian_ministry</b>(cand_ids)
             
             <a href="../classes/CandidateImport.html#method-i-orphaned_christian_ministry" name="method-i-orphaned_christian_ministry" class="permalink">Link</a>
           </div>
@@ -1002,6 +1090,15 @@ multiple times</p>
           
             <div class="description">
               <p>Finds all the ChristianMinistry&#39;s that have been orphaned.</p>
+
+<h3 id="method-i-orphaned_christian_ministry-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:used_cand_ids</code> Array:</p>
+</li></ul>
+
+<h3 id="method-i-orphaned_christian_ministry-label-Return-3A">Return:</h3>
+
+<p>Array: ids</p>
             </div>
           
 
@@ -1019,9 +1116,70 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_christian_ministry_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 333</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_christian_ministry</span>
-  <span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:christian_ministry_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">cm_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">cm_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 393</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_christian_ministry</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-identifier">orphaned_ids</span>(<span class="ruby-constant">ChristianMinistry</span>, <span class="ruby-identifier">cand_ids</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">3</span>] })
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_ids">
+            
+              <b>orphaned_ids</b>(clazz, used_ids, offset = nil)
+            
+            <a href="../classes/CandidateImport.html#method-i-orphaned_ids" name="method-i-orphaned_ids" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Orphaned ids for clazz</p>
+
+<h3 id="method-i-orphaned_ids-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:clazz</code> Class: class of interest</p>
+</li><li>
+<p><code>:used_ids</code> Array: of ids - ids of clazz used by parent</p>
+</li><li>
+<p><code>:<em>offset</em></code>  If present used to offset the ids of clazz
+(i.e. clazz_id iss an array)</p>
+</li></ul>
+
+<h3 id="method-i-orphaned_ids-label-Return-3A">Return:</h3>
+
+<p>Array: ids</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_ids_source')" id="l_method-i-orphaned_ids_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_ids_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 318</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_ids</span>(<span class="ruby-identifier">clazz</span>, <span class="ruby-identifier">used_ids</span>, <span class="ruby-identifier">offset</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">offset</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">ans</span> = <span class="ruby-identifier">ids</span>(<span class="ruby-identifier">clazz</span>).<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">bc_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">used_ids</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">used_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">used_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">bc_id</span> }.<span class="ruby-identifier">empty?</span> }
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">ans</span> = <span class="ruby-identifier">ids</span>(<span class="ruby-identifier">clazz</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">clazz_id</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">used_ids</span>.<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">used_id</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">used_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">clazz_id</span>[<span class="ruby-identifier">offset</span>]
+      <span class="ruby-keyword">end</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">ans</span> = <span class="ruby-identifier">ans</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-identifier">offset</span>] }
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">ans</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1031,7 +1189,7 @@ multiple times</p>
         <div class="method">
           <div class="title method-title" id="method-i-orphaned_pick_name">
             
-              <b>orphaned_pick_name</b>()
+              <b>orphaned_pick_name</b>(cand_ids)
             
             <a href="../classes/CandidateImport.html#method-i-orphaned_pick_name" name="method-i-orphaned_pick_name" class="permalink">Link</a>
           </div>
@@ -1039,6 +1197,15 @@ multiple times</p>
           
             <div class="description">
               <p>Finds all the PickConfirmationName&#39;s that have been orphaned.</p>
+
+<h3 id="method-i-orphaned_pick_name-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:used_cand_ids</code> Array:</p>
+</li></ul>
+
+<h3 id="method-i-orphaned_pick_name-label-Return-3A">Return:</h3>
+
+<p>Array: ids</p>
             </div>
           
 
@@ -1056,9 +1223,9 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_pick_name_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 338</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_pick_name</span>
-  <span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:pick_confirmation_name_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">pc_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pc_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 421</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_pick_name</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-identifier">orphaned_ids</span>(<span class="ruby-constant">PickConfirmationName</span>, <span class="ruby-identifier">cand_ids</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">4</span>] })
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1068,7 +1235,7 @@ multiple times</p>
         <div class="method">
           <div class="title method-title" id="method-i-orphaned_retreat_verification">
             
-              <b>orphaned_retreat_verification</b>()
+              <b>orphaned_retreat_verification</b>(cand_ids)
             
             <a href="../classes/CandidateImport.html#method-i-orphaned_retreat_verification" name="method-i-orphaned_retreat_verification" class="permalink">Link</a>
           </div>
@@ -1076,6 +1243,15 @@ multiple times</p>
           
             <div class="description">
               <p>Finds all the RetreatVerification&#39;s that have been orphaned.</p>
+
+<h3 id="method-i-orphaned_retreat_verification-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:used_cand_ids</code> Array:</p>
+</li></ul>
+
+<h3 id="method-i-orphaned_retreat_verification-label-Return-3A">Return:</h3>
+
+<p>Array: ids</p>
             </div>
           
 
@@ -1093,9 +1269,9 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_retreat_verification_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 343</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_retreat_verification</span>
-  <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:retreat_verification_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">rv_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">rv_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 435</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_retreat_verification</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-identifier">orphaned_ids</span>(<span class="ruby-constant">RetreatVerification</span>, <span class="ruby-identifier">cand_ids</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">5</span>] }, <span class="ruby-number">0</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1130,13 +1306,13 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_scanned_image_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 348</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 454</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_scanned_image</span>
-  <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span>
-    <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:scanned_certificate_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">scanned_certificate_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_certificate_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
-        <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:scanned_retreat_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">scanned_retreat_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_retreat_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
-        <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:scanned_covenant_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">scanned_covenant_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_covenant_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
-        <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:scanned_eligibility_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">scanned_eligibility_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_eligibility_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">ids</span>(<span class="ruby-constant">ScannedImage</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">ids</span>(<span class="ruby-constant">BaptismalCertificate</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">2</span>] }.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">scanned_certificate_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_certificate_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ar_id</span> }.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+      <span class="ruby-identifier">ids</span>(<span class="ruby-constant">RetreatVerification</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">1</span>] }.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">scanned_retreat_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_retreat_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ar_id</span> }.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+      <span class="ruby-identifier">ids</span>(<span class="ruby-constant">SponsorCovenant</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">1</span>] }.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">scanned_covenant_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_covenant_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ar_id</span> }.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+      <span class="ruby-identifier">ids</span>(<span class="ruby-constant">SponsorCovenant</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">2</span>] }.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">scanned_eligibility_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">scanned_eligibility_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ar_id</span> }.<span class="ruby-identifier">empty?</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -1147,7 +1323,7 @@ multiple times</p>
         <div class="method">
           <div class="title method-title" id="method-i-orphaned_sponsor_covenant">
             
-              <b>orphaned_sponsor_covenant</b>()
+              <b>orphaned_sponsor_covenant</b>(cand_ids)
             
             <a href="../classes/CandidateImport.html#method-i-orphaned_sponsor_covenant" name="method-i-orphaned_sponsor_covenant" class="permalink">Link</a>
           </div>
@@ -1155,6 +1331,15 @@ multiple times</p>
           
             <div class="description">
               <p>Finds all the SponsorCovenant&#39;s that have been orphaned.</p>
+
+<h3 id="method-i-orphaned_sponsor_covenant-label-Parameters-3A">Parameters:</h3>
+<ul><li>
+<p><code>:used_cand_ids</code> Array:</p>
+</li></ul>
+
+<h3 id="method-i-orphaned_sponsor_covenant-label-Return-3A">Return:</h3>
+
+<p>Array: ids</p>
             </div>
           
 
@@ -1172,9 +1357,9 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_sponsor_covenant_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 358</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_sponsor_covenant</span>
-  <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ar_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:sponsor_covenant_id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">sc_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">sc_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ar_id</span>}.<span class="ruby-identifier">empty?</span>}
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 449</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_sponsor_covenant</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-identifier">orphaned_ids</span>(<span class="ruby-constant">SponsorCovenant</span>, <span class="ruby-identifier">cand_ids</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-number">6</span>] }, <span class="ruby-number">0</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1209,12 +1394,13 @@ multiple times</p>
                 
               </p>
               <div id="method-i-orphaned_to_do_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 363</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 464</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_to_do</span>
-  <span class="ruby-constant">ToDo</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>, <span class="ruby-value">:confirmation_event_id</span>, <span class="ruby-value">:candidate_event_id</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">todo_id</span>, <span class="ruby-identifier">confirmation_event_id</span>, <span class="ruby-identifier">candidate_event_id</span><span class="ruby-operator">|</span>
-    <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ce_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">confirmation_event_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ce_id</span>}.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
-        <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">select</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">ce_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_event_id</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">ce_id</span>}.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-keyword">end</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">id</span>, <span class="ruby-identifier">ce_id</span>, <span class="ruby-identifier">cand_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">id</span>}
+  <span class="ruby-identifier">orphaned</span> = <span class="ruby-identifier">ids</span>(<span class="ruby-constant">ToDo</span>).<span class="ruby-identifier">select</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">_todo_id</span>, <span class="ruby-identifier">confirmation_event_id</span>, <span class="ruby-identifier">candidate_event_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">ids</span>(<span class="ruby-constant">ConfirmationEvent</span>).<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ce_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">confirmation_event_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ce_id</span> }.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span>
+      <span class="ruby-identifier">ids</span>(<span class="ruby-constant">CandidateEvent</span>).<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ce_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_event_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ce_id</span> }.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">orphaned</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">id</span>, <span class="ruby-identifier">_ce_id</span>, <span class="ruby-identifier">_cand_id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">id</span> }
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -1253,7 +1439,7 @@ multiple times</p>
                 
               </p>
               <div id="method-i-persisted-3F_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 167</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 166</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">persisted?</span>
   <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1294,35 +1480,29 @@ multiple times</p>
                 
               </p>
               <div id="method-i-remove_orphaned_table_rows_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 250</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 245</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">remove_orphaned_table_rows</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
-  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_baptismal_certificates</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
-  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_candidate_sheets</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
-  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_christian_ministry</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
-  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_pick_name</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
-  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_retreat_verification</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
-  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_sponsor_covenant</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-identifier">cand_ids</span> = <span class="ruby-identifier">ids</span>(<span class="ruby-constant">Candidate</span>)
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_baptismal_certificates</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_candidate_sheets</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_christian_ministry</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_pick_name</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_retreat_verification</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_sponsor_covenant</span>(<span class="ruby-identifier">cand_ids</span>)
+  <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
   <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_addresses</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">Address</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-constant">Address</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
   <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_scanned_image</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-number">0</span>
+  <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
   <span class="ruby-identifier">orphaned_rows</span> = <span class="ruby-identifier">orphaned_to_do</span>
-  <span class="ruby-identifier">removed</span> = <span class="ruby-constant">ToDo</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-constant">ToDo</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">orphaned_rows</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">orphaned_rows</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-ivar">@cache</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -1359,16 +1539,13 @@ the candidate vickikristoff</p>
                 
               </p>
               <div id="method-i-reset_database_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 212</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 210</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">reset_database</span>
-
   <span class="ruby-identifier">start_new_year</span>
 
   <span class="ruby-identifier">remove_all_confirmation_events</span>
 
-  <span class="ruby-constant">Admin</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">admin</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">delete</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">Admin</span>.<span class="ruby-identifier">find_each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:delete</span>)
 
   <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_events</span>
 
@@ -1407,12 +1584,12 @@ the candidate vickikristoff</p>
                 
               </p>
               <div id="method-i-start_new_year_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 173</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 172</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">start_new_year</span>
   <span class="ruby-identifier">clean_associations</span>(<span class="ruby-constant">Candidate</span>)
   <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">create_seed_candidate</span>
   <span class="ruby-identifier">today</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
-  <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ce</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ce</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">chs_due_date</span> = <span class="ruby-identifier">today</span>
     <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">the_way_due_date</span> = <span class="ruby-identifier">today</span>
     <span class="ruby-identifier">ce</span>.<span class="ruby-identifier">save</span>
@@ -1428,7 +1605,7 @@ the candidate vickikristoff</p>
         <div class="method">
           <div class="title method-title" id="method-i-to_xlsx">
             
-              <b>to_xlsx</b>(dir)
+              <b>to_xlsx</b>(dir, with_pictures = true)
             
             <a href="../classes/CandidateImport.html#method-i-to_xlsx" name="method-i-to_xlsx" class="permalink">Link</a>
           </div>
@@ -1462,9 +1639,9 @@ the candidate vickikristoff</p>
                 
               </p>
               <div id="method-i-to_xlsx_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 237</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">to_xlsx</span>(<span class="ruby-identifier">dir</span>)
-  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx_package</span>(<span class="ruby-identifier">dir</span>)
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 232</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">to_xlsx</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">with_pictures</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx_package</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">with_pictures</span>)
   <span class="ruby-comment"># the Package will be generated with a shared string table</span>
   <span class="ruby-identifier">p</span>.<span class="ruby-identifier">use_shared_strings</span> = <span class="ruby-keyword">true</span>
   <span class="ruby-identifier">p</span>
@@ -1511,21 +1688,20 @@ the candidate vickikristoff</p>
                 
               </p>
               <div id="method-i-xlsx_columns_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 381</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 483</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">xlsx_columns</span>
-  <span class="ruby-identifier">params</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">get_permitted_params</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">permitted_params</span>
   <span class="ruby-identifier">columns</span> = []
   <span class="ruby-identifier">get_columns</span>(<span class="ruby-identifier">params</span>, <span class="ruby-identifier">columns</span>)
   <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:password</span>)
   <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:password_confirmation</span>)
   [<span class="ruby-string">&#39;baptismal_certificate.scanned_certificate&#39;</span>, <span class="ruby-string">&#39;retreat_verification.scanned_retreat&#39;</span>,
    <span class="ruby-string">&#39;sponsor_covenant.scanned_eligibility&#39;</span>, <span class="ruby-string">&#39;sponsor_covenant.scanned_covenant&#39;</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">base</span><span class="ruby-operator">|</span>
-    <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">get_permitted_params</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">not_exported</span><span class="ruby-operator">|</span>
+    <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">permitted_params</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">not_exported</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-node">&quot;#{base}.#{not_exported}&quot;</span>)
-
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  (<span class="ruby-number">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">get_confirmation_events_sorted</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">-</span><span class="ruby-number">1</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+  (<span class="ruby-number">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">confirmation_events_sorted</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">-</span> <span class="ruby-number">1</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">columns</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;candidate_events.#{index}.completed_date&quot;</span>
     <span class="ruby-identifier">columns</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;candidate_events.#{index}.verified&quot;</span>
   <span class="ruby-keyword">end</span>
@@ -1568,9 +1744,9 @@ the candidate vickikristoff</p>
                 
               </p>
               <div id="method-i-xlsx_conf_event_columns_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 409</span>
+                <pre><span class="ruby-comment"># File app/models/candidate_import.rb, line 510</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">xlsx_conf_event_columns</span>
-  <span class="ruby-node">%w{name index the_way_due_date chs_due_date instructions}</span>
+  <span class="ruby-node">%w[name index the_way_due_date chs_due_date instructions]</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
