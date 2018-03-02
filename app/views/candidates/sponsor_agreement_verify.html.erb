@@ -6,5 +6,6 @@
                        shared_html_file: 'sponsor_agreement',
                        candidate_event: @candidate.get_candidate_event(I18n.t('events.sponsor_agreement')),
                        download_doc: download_document_path(@candidate.id, Event::Document::CONVERSATION_SPONSOR_CANDIDATE),
-                       is_dev: false
+                       is_dev: false,
+                       is_verify: true
            } %>

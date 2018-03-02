@@ -23,7 +23,7 @@ class CandidatePDFDocument < Prawn::Document
   #
   def process_events
     event = @candidate.candidate_events.select { |ev| ev.completed_date.nil? || !ev.verified? }
-    @verified = event.nil?
+    @verified = event.empty?
   end
 
   # Generate PDF document

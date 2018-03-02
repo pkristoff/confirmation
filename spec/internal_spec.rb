@@ -2,30 +2,54 @@
 
 describe 'Internal' do
 
-  it 'should pass controllers' do
-    expect(system 'rubocop app/controllers/admins_controller.rb').to eq(true)
-    expect(system 'rubocop app/controllers/export_lists_controller.rb').to eq(true)
+  describe 'app' do
+
+    it 'should pass controllers' do
+      expect(system 'rubocop app/controllers/admins_controller.rb').to eq(true)
+      expect(system 'rubocop app/controllers/export_lists_controller.rb').to eq(true)
+      expect(system 'rubocop app/controllers/candidates_controller.rb').to eq(true)
+    end
+
+    it 'should pass app helpers' do
+      expect(system 'rubocop app/helpers/constants.rb').to eq(true)
+    end
+
+    it 'should pass models' do
+      expect(system 'rubocop app/models').to eq(true)
+    end
   end
 
-  it 'should pass models' do
-    expect(system 'rubocop app/models').to eq(true)
+  describe 'db' do
+    it 'should pass migration' do
+      expect(system 'rubocop db/migrate/20180209181803_add_column_first_comm_at_stmm.rb').to eq(true)
+    end
   end
 
-  it 'should pass migration' do
-    expect(system 'rubocop db/migrate/20180209181803_add_column_first_comm_at_stmm.rb').to eq(true)
+  describe 'spec' do
+    it 'should pass controller spec' do
+      expect(system 'rubocop spec/controllers/candidates_controller_spec.rb').to eq(true)
+      expect(system 'rubocop spec/controllers/export_lists_controller_spec.rb').to eq(true)
+    end
+
+    it 'should pass support spec' do
+      expect(system 'rubocop spec/support').to eq(true)
+    end
+
+    it 'should pass features spec' do
+      expect(system 'rubocop spec/features/candidates/admin/mass_edit/candidate_events/christian_ministry.html.erb_spec.rb').to eq(true)
+      expect(system 'rubocop spec/features/candidates/admin/mass_edit/candidate_events/pick_confirmation_name.html.erb_spec.rb').to eq(true)
+    end
+
+    it 'should pass views visitors spec' do
+      expect(system 'rubocop spec/views/visitors/about.html.erb_spec.rb').to eq(true)
+    end
   end
 
-  it 'should pass controller spec' do
-    expect(system 'rubocop spec/controllers/candidates_controller_spec.rb').to eq(true)
-    expect(system 'rubocop spec/controllers/export_lists_controller_spec.rb').to eq(true)
+  describe 'initializers' do
+    it 'should pass initializers' do
+      expect(system 'rubocop config/initializers/version.rb').to eq(true)
+    end
   end
-
-  it 'should pass support spec' do
-    expect(system 'rubocop spec/support/shared_baptismal_certificate_html_erb.rb').to eq(true)
-    expect(system 'rubocop spec/support/shared_candidates_controller.rb').to eq(true)
-    expect(system 'rubocop spec/controllers/export_lists_controller_spec.rb').to eq(true)
-  end
-
   # it 'should pass views' do
   #   expect(system 'rubocop app/views/candidates/shared').to eq(true)
   # end

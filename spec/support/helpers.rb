@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 require 'support/helpers/session_helpers'
 RSpec.configure do |config|
   config.include Features::SessionHelpers
 end
 
-def expect_messages(messages, rendered_page=page)
-
-  ids = messages.map {|mp| mp[0]}
-  [:flash_alert, :flash_notice, :error_explanation].each do |my_id|
+def expect_messages(messages, rendered_page = page)
+  ids = messages.map { |mp| mp[0] }
+  %i[flash_alert flash_notice error_explanation].each do |my_id|
     unless ids.include? my_id
       expect(rendered_page).not_to have_selector("div[id=#{my_id}]")
     end
@@ -14,7 +15,7 @@ def expect_messages(messages, rendered_page=page)
   messages.each do |message_pair|
     id = message_pair[0]
     message = message_pair[1]
-    if id == :error_explanation and message.is_a? Array
+    if id == :error_explanation && message.is_a?(Array)
       expect(rendered_page).to have_selector("div[id=#{id}] h2", text: message[0])
       2..message.size do |i|
         expect(rendered_page).to have_selector("div[id=#{id}] li", text: message[i])
@@ -25,13 +26,13 @@ def expect_messages(messages, rendered_page=page)
   end
 end
 
-def expect_message(id, message, rendered_page=page)
-  [:flash_alert, :flash_notice, :error_explanation].each do |my_id|
+def expect_message(id, message, rendered_page = page)
+  %i[flash_alert flash_notice error_explanation].each do |my_id|
     unless my_id == id
       expect(rendered_page).not_to have_selector("div[id=#{my_id}]")
     end
   end
-  if id == :error_explanation and message.is_a? Array
+  if (id == :error_explanation) && message.is_a?(Array)
     expect(rendered_page).to have_selector("div[id=#{id}] h2", text: message[0])
     2..message.size do |i|
       expect(rendered_page).to have_selector("div[id=#{id}] li", text: message[i])
@@ -41,8 +42,7 @@ def expect_message(id, message, rendered_page=page)
   end
 end
 
-def event_with_picture_setup(route, is_verify=false)
-
+def event_with_picture_setup(route, is_verify = false)
   @candidate = FactoryBot.create(:candidate, add_candidate_events: false)
   # AppFactory.add_confirmation_event(event_name) unless event_name.nil?
   if @is_dev
@@ -53,11 +53,7 @@ def event_with_picture_setup(route, is_verify=false)
   else
     login_as(FactoryBot.create(:admin), scope: :admin)
 
-    if is_verify
-      @path = event_with_picture_verify_path(@candidate.id, route)
-    else
-      @path = event_with_picture_path(@candidate.id, route)
-    end
+    @path = is_verify ? event_with_picture_verify_path(@candidate.id, route) : event_with_picture_path(@candidate.id, route)
     @dev = ''
   end
 end
@@ -68,11 +64,10 @@ def expect_download_button(name, cand_id, dev_path)
 end
 
 def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
-
-  page_or_rendered = (self.respond_to?(:page) ? page : rendered)
+  page_or_rendered = respond_to?(:page) ? page : rendered
   # puts (self.respond_to?(:page) ? page.html : rendered)
 
-  if id_css === 'fieldset'
+  if id_css == 'fieldset'
     name_selector = "fieldset[id=event_id_#{confirmation_event_id}]"
     verified_selector = "candidate_candidate_events_attributes_#{index}_verified"
     completed_selector = "candidate_candidate_events_attributes_#{index}_completed_date"
@@ -80,48 +75,42 @@ def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date,
     name_selector = "div[id=candidate_event_#{confirmation_event_id}_header]"
     verified_selector = "div[id=candidate_event_#{confirmation_event_id}_verified]"
     completed_selector = "div[id=candidate_event_#{confirmation_event_id}_completed_date]"
-    if completed_date.empty?
-      completed_text = "#{I18n.t('views.events.completed_date')}:#{completed_date}"
-    else
-      completed_text = "#{I18n.t('views.events.completed_date')}: #{completed_date}"
-    end
+    completed_text = completed_date.empty? ? "#{I18n.t('views.events.completed_date')}:#{completed_date}" : "#{I18n.t('views.events.completed_date')}: #{completed_date}"
   end
 
   expect(page_or_rendered).to have_selector(name_selector, text: name)
   if the_way_due_date.nil?
-    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: "#{I18n.t('views.events.the_way_due_date')}")
-    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: "#{the_way_due_date}")
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: "#{I18n.t('views.events.chs_due_date')}")
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: "#{chs_due_date}")
+    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: I18n.t('views.events.the_way_due_date'))
+    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: the_way_due_date.to_s)
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: I18n.t('views.events.chs_due_date'))
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: chs_due_date.to_s)
   else
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: "#{I18n.t('views.events.the_way_due_date')}")
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: "#{the_way_due_date}")
-    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: "#{I18n.t('views.events.chs_due_date')}")
-    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: "#{chs_due_date}")
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: I18n.t('views.events.the_way_due_date'))
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: the_way_due_date.to_s)
+    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: I18n.t('views.events.chs_due_date'))
+    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: chs_due_date.to_s)
   end
   # expect(page_or_rendered).to have_selector("div[id=candidate_event_#{index}_instructions]", text: "#{I18n.t('views.events.instructions')}: #{instructions}")
   expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_instructions]", text: "#{I18n.t('views.events.instructions')}:")
-  expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_instructions]", text: "#{instructions}")
+  expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_instructions]", text: "#{instructions}:")
 
   if verified
-    expect(page_or_rendered).to have_field(verified_selector, checked: true) if id_css === 'fieldset'
-  else
-    expect(page_or_rendered).to have_field(verified_selector, unchecked: true) if id_css === 'fieldset'
+    expect(page_or_rendered).to have_field(verified_selector, checked: true) if id_css == 'fieldset'
+  elsif id_css == 'fieldset'
+    expect(page_or_rendered).to have_field(verified_selector, unchecked: true)
   end
-  expect(page_or_rendered).to have_selector(verified_selector, text: "#{I18n.t('views.events.verified')}: #{verified}") unless id_css === 'fieldset'
+  expect(page_or_rendered).to have_selector(verified_selector, text: "#{I18n.t('views.events.verified')}: #{verified}") unless id_css == 'fieldset'
 
   if completed_date.empty?
-    expect(page_or_rendered).to have_field(completed_selector) if id_css === 'fieldset'
-  else
-    expect(page_or_rendered).to have_field(completed_selector, with: completed_date.strip) if id_css === 'fieldset'
+    expect(page_or_rendered).to have_field(completed_selector) if id_css == 'fieldset'
+  elsif id_css == 'fieldset'
+    expect(page_or_rendered).to have_field(completed_selector, with: completed_date.strip)
   end
-  expect(page_or_rendered).to have_selector(completed_selector, text: completed_text) unless id_css === 'fieldset'
+  expect(page_or_rendered).to have_selector(completed_selector, text: completed_text) unless id_css == 'fieldset'
 end
 
 def expect_image_upload(key, picture_column, label)
-
   expect(page).to have_css("div[id=file-type-message_#{picture_column}]", text: I18n.t('views.common.image_upload_file_types'))
   expect(page).to have_css("input[id=candidate_#{key}_attributes_#{picture_column}][type=file][accept='#{SideBar::IMAGE_FILE_TYPES}']")
   expect(page).to have_css("label[for=candidate_#{key}_attributes_#{picture_column}]", text: label)
-
 end

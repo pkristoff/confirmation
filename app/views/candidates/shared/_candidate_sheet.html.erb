@@ -1,29 +1,6 @@
-<% candidate = @candidate %>
-
-<h2 id="heading">
-  <% if is_dev %>
-    <%= candidate_event.name %>
-  <% else %>
-    <% first = candidate.candidate_sheet.first_name %>
-    <% last = candidate.candidate_sheet.last_name %>
-    <%= "#{I18n.t('views.events.heading', event_name: candidate_event.name, first: first, last: last)}" %>
-  <% end %>
-</h2>
 
 
-<%= render partial: "candidates/shared/show_error_message",
-           :locals => {event_association: event_association
-                       } %>
 
-
-<div id="two_column">
-  <div id="left-col" class="left_col">
-
-    <%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
-
-      <div class="actions">
-        <%= f.submit update_name, id: "top-update#{id_postfix}" %>
-      </div>
 
         <%= f.fields_for :candidate_sheet do |cs_fields| %>
             <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
@@ -100,23 +77,3 @@
                 </div>
             <% end %>
         <% end %>
-
-      <div class="actions">
-        <%= f.submit update_name, id: "bottom-update#{id_postfix}" %>
-      </div>
-
-    <% end %>
-
-  </div>
-  <div id="right-col" class="right_col">
-    <%= link_to '#', class: 'btn btn-default',
-                id: "insturction-toggle",
-                onclick: 'confirmation_toggle().instructions(event)',
-                title: t('views.title.instruction_link') do %>
-        <span id="insturction-toggle-span" class="glyphicon glyphicon-minus"></span>
-    <% end %>
-    <div id="instructions" class="show-div" %>
-      <%= sanitize candidate_event.confirmation_event.instructions %>
-    </div>
-  </div>
-</div>

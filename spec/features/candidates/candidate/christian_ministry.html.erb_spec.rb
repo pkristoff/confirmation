@@ -17,6 +17,7 @@ feature 'Christian Ministry  candidate', :devise do
     @updated_message = I18n.t('messages.updated', cand_name: cand_name)
     @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
     @is_dev = true
+    @is_verify = false
   end
 
   after(:each) do

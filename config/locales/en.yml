@@ -193,6 +193,7 @@ en:
     update_candidate_event: Updated CandidateEvent! for candidates.
     updated: Updated for %{cand_name}
     updated_not_verified: Updated and not Verified for %{cand_name}
+    updated_unverified: Event Unverified for %{cand_name}
     updated_verified: Updated and Verified for %{cand_name}
   model:
     candidate:
@@ -241,6 +242,7 @@ en:
       password_confirmation: Password confirmation
       reset_password: Reset Password
       status: Status
+      un_verify: Unverify
       update: Update
       update_candidates_event: Update event for candidates
       update_verify: Update & Verify

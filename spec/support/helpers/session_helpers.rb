@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Features
   module SessionHelpers
     def sign_up_candidate_with(account_name, first_name, middle_name, last_name, email, password, confirmation)
@@ -8,7 +10,7 @@ module Features
       fill_in I18n.t('views.candidates.last_name'), with: last_name
       fill_in I18n.t('views.candidates.parent_email_1'), with: email
       fill_in I18n.t('views.common.password'), with: password
-      fill_in I18n.t('views.common.password_confirmation'), :with => confirmation
+      fill_in I18n.t('views.common.password_confirmation'), with: confirmation
       click_button I18n.t('views.top_bar.sign_up')
     end
 
@@ -23,7 +25,7 @@ module Features
       visit new_admin_registration_path
       fill_in I18n.t('views.common.email'), with: email
       fill_in I18n.t('views.common.password'), with: password
-      fill_in 'Password confirmation', :with => confirmation
+      fill_in 'Password confirmation', with: confirmation
       click_button I18n.t('views.top_bar.sign_up')
     end
 

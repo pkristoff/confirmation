@@ -1,10 +1,10 @@
-# require_relative "helpers/views_helpers.rb"
-include ViewsHelpers
-
-include Warden::Test::Helpers
-Warden.test_mode!
+# frozen_string_literal: true
 
 feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event', :devise do
+  include ViewsHelpers
+
+  include Warden::Test::Helpers
+  Warden.test_mode!
 
   before(:each) do
     @update_id = 'top-update-verify'
@@ -12,11 +12,11 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     @dev = ''
 
     admin = FactoryBot.create(:admin)
-    login_as(admin, :scope => :admin)
+    login_as(admin, scope: :admin)
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @cand_id = candidate.id
-    @confirmation_event = ConfirmationEvent.find_by_name(I18n.t('events.confirmation_name'))
+    @confirmation_event = ConfirmationEvent.find_by(name: I18n.t('events.confirmation_name'))
   end
 
   after(:each) do
@@ -35,14 +35,13 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
 
     click_link("pick-#{@cand_id}")
-    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id)
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
 
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                                                                                 [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Saint name can\'t be blank']
-    ])
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
+                                                                                                                            [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Saint name can\'t be blank']])
     candidate_event = candidate.get_candidate_event(I18n.t('events.confirmation_name'))
     expect(candidate_event.completed_date).to eq(nil)
     expect(candidate_event.verified).to eq(false)
@@ -67,9 +66,9 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
   scenario 'admin' do
     completed_date = Date.today - 1
     candidate = Candidate.find(@cand_id)
-    candidate.pick_confirmation_name.saint_name='Paul'
+    candidate.pick_confirmation_name.saint_name = 'Paul'
     candidate_event = candidate.get_candidate_event(@confirmation_event.name)
-    candidate_event.completed_date= completed_date
+    candidate_event.completed_date = completed_date
     expect(candidate_event.awaiting_admin?).to be(true)
     candidate.save
 
@@ -78,7 +77,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     # puts page.html
     click_link("pick-#{@cand_id}")
     # puts page.html
-    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id)
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
 
     click_button @update_id
 
@@ -88,6 +87,5 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     expect(candidate_event.completed?).to be(true)
     expect(candidate_event.completed_date).to eq(completed_date)
     expect(candidate_event.verified).to eq(true)
-    end
-
+  end
 end

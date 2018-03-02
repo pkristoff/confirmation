@@ -1,8 +1,13 @@
-<%= render partial: 'candidates/shared/candidate_sheet',
+<% require 'constants' %>
+
+<%= render partial: 'candidates/shared/two_column_signed_event',
            :locals => {path: candidate_sheet_verify_update_path(@candidate.id),
                        event_association: @candidate.candidate_sheet,
+                       shared_html_file: 'candidate_sheet',
                        candidate_event: @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet')),
+                       download_doc: download_document_path(@candidate.id, Event::Document::CANDIDATE_INFORMATION_SHEET),
                        update_name: I18n.t('views.common.update_verify'),
                        id_postfix: '-verify',
-                       is_dev: false
+                       is_dev: false,
+                       is_verify: true
            } %>

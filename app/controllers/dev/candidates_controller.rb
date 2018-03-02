@@ -35,7 +35,7 @@ module Dev
       end
     end
 
-    def is_admin?
+    def admin?
       false
     end
 

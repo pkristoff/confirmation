@@ -6,5 +6,6 @@
                        shared_html_file: 'christian_ministry',
                        candidate_event: @candidate.get_candidate_event(I18n.t('events.christian_ministry')),
                        download_doc: dev_download_document_path(@candidate.id, Event::Document::CHRISTIAN_MINISTRY),
-                       is_dev: true
+                       is_dev: true,
+                       is_verify: false
            } %>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Event
   module Other
     PARENT_INFORMATION_MEETING = :parent_meeting
@@ -20,17 +22,17 @@ module Event
     SPONSOR_COVENANT_UPDATE = :sponsor_covenant_update
 
     UPDATE_MAPPING = {
-        baptismal_certificate_update: BAPTISMAL_CERTIFICATE_UPDATE,
-        christian_ministry: CHRISTIAN_MINISTRY_UPDATE,
-        confirmation_name: CONFIRMATION_NAME_UPDATE,
-        retreat_verification: RETREAT_VERIFICATION,
-        sponsor_covenant: SPONSOR_COVENANT_UPDATE
-    }
+      baptismal_certificate_update: BAPTISMAL_CERTIFICATE_UPDATE,
+      christian_ministry: CHRISTIAN_MINISTRY_UPDATE,
+      confirmation_name: CONFIRMATION_NAME_UPDATE,
+      retreat_verification: RETREAT_VERIFICATION,
+      sponsor_covenant: SPONSOR_COVENANT_UPDATE
+    }.freeze
   end
   module Document
-
     BAPTISMAL_CERTIFICATE = Event::Route::BAPTISMAL_CERTIFICATE
     CANDIDATE_CHECKLIST = :candidate_checklist
+    CANDIDATE_INFORMATION_SHEET = :information_sheet
     CANDIDATE_COVENANT = :candidate_covenant
     CHRISTIAN_MINISTRY = Event::Route::CHRISTIAN_MINISTRY
     CONFIRMATION_NAME = Event::Route::CONFIRMATION_NAME
@@ -39,16 +41,16 @@ module Event
     SPONSOR_COVENANT = Event::Route::SPONSOR_COVENANT
 
     MAPPING = {
-        candidate_checklist: '2. Check List.pdf', # complete
-        candidate_covenant: '4. Candidate Covenant Form.pdf', # complete
-        information_sheet: '5. Information Sheet.pdf', # complete
-        baptismal_certificate: '6. Baptismal Certificate.pdf', # complete
-        sponsor_covenant: '7. Sponsor Covenant & Eligibility.pdf', # complete
-        conversation_sponsor_candidate: '7. Sponsor Covenant & Eligibility.pdf',
-        christian_ministry: '8. Christian Ministry Awareness.pdf',
-        confirmation_name: '9. Choosing a Confirmation Name.pdf', # complete
-        retreat_verification: '10. Retreat Verification.pdf' # complete
-    }
+      candidate_checklist: '2. Check List.pdf', # complete
+      candidate_covenant: '4. Candidate Covenant Form.pdf', # complete
+      information_sheet: '5. Information Sheet.pdf', # complete
+      baptismal_certificate: '6. Baptismal Certificate.pdf', # complete
+      sponsor_covenant: '7. Sponsor Covenant & Eligibility.pdf', # complete
+      conversation_sponsor_candidate: '7. Sponsor Covenant & Eligibility.pdf',
+      christian_ministry: '8. Christian Ministry Awareness.pdf',
+      confirmation_name: '9. Choosing a Confirmation Name.pdf', # complete
+      retreat_verification: '10. Retreat Verification.pdf' # complete
+    }.freeze
   end
 end
 module SideBar
@@ -57,11 +59,11 @@ module SideBar
 end
 module EmailStuff
   TYPES = {
-      adhoc: :adhoc,
-      adhoc_test: :adhoc_test,
-      confirmation_instructions: :confirmation_instructions,
-      monthly_mass_mailing: :monthly_mass_mailing,
-      monthly_mass_mailing_test: :monthly_mass_mailing_test,
-      reset_password: :reset_password
-  }
+    adhoc: :adhoc,
+    adhoc_test: :adhoc_test,
+    confirmation_instructions: :confirmation_instructions,
+    monthly_mass_mailing: :monthly_mass_mailing,
+    monthly_mass_mailing_test: :monthly_mass_mailing_test,
+    reset_password: :reset_password
+  }.freeze
 end

@@ -29,7 +29,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, true, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 0nothing else showing' do
@@ -40,7 +40,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, true, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 0nothing else showing' do
@@ -51,7 +51,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, true, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showung - no check showing' do
@@ -62,7 +62,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, false, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true)
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showung - yes check' do
@@ -74,7 +74,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, false, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true)
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showung - no check' do
@@ -86,7 +86,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, false, false, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true)
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, first communion showing' do
@@ -98,7 +98,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, false, false, false)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false)
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template' do
@@ -111,7 +111,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_db(1, 9, 0)
 
     visit @path
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, false, false, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true)
     fill_in_form
 
     click_button @update_id
@@ -124,7 +124,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -164,7 +164,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -183,7 +183,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, true, true, true, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true, expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -208,7 +208,7 @@ shared_context 'baptismal_certificate_html_erb' do
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false,
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, "Your changes were saved!! 11 empty fields need to be filled in on the form to be verfied: Birth date can't be blank Baptismal date can't be blank Church name can't be blank Father first can't be blank Father middle can't be blank Father last can't be blank Mother first can't be blank Mother middle can't be blank Mother maiden can't be blank Mother last can't be blank Street 1 can't be blank"]])
 
@@ -225,7 +225,7 @@ shared_context 'baptismal_certificate_html_erb' do
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate, @updated_message)
 
     else
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
     end
 
     expect_db(1, 9, 1)
@@ -235,7 +235,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false)
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false)
 
     expect_db(1, 9, 1) # make sure DB does not increase in size.
   end
@@ -251,7 +251,7 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in_form(false) # no picture
     click_button @update_id
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, false, false, false,
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Scanned baptismal certificate can\'t be blank']]])
 
@@ -265,7 +265,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false, expect_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expect_messages: [[:flash_notice, @updated_message]])
 
       expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
       expect(candidate.baptismal_certificate).not_to eq(nil)
@@ -275,29 +275,38 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false)
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false)
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template, except street_1' do
-    @candidate.baptismal_certificate.baptized_at_stmm = false
-    @candidate.baptismal_certificate.first_comm_at_stmm = false
-    @candidate.baptismal_certificate.show_empty_radio = 2
+  scenario 'admin un-verifies a verified baptized event' do
+    expect(@is_verify == true || @is_verify == false).to eq(true)
+
+    @candidate.baptismal_certificate.baptized_at_stmm = true
+    @candidate.baptismal_certificate.show_empty_radio = 1
+    event_name = I18n.t('events.baptismal_certificate')
+    @candidate.get_candidate_event(event_name).completed_date = Date.today
+    @candidate.get_candidate_event(event_name).verified = true
     @candidate.save
-    update_baptismal_certificate(false)
-    visit @path
-    fill_in_form
-    fill_in('Street 1', with: nil)
-    click_button @update_id
 
-    expect(page).to have_selector(img_src_selector)
+    visit @path
+
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
+
+    expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if @is_verify
+    click_button 'bottom-unverify' if @is_verify
+
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, false, false, false,
-                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                        [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Street 1 can\'t be blank']],
-                                      street_1: '')
+    if @is_verify
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+    else
+      expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
+    end
+
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 
-  def expect_baptismal_certificate_form(cand_id, dev_path, path_str, button_name, hide_first_comm, hide_baptismal_certificate, dont_show_values,
+  def expect_baptismal_certificate_form(cand_id, dev_path, path_str, button_name, is_verify, hide_first_comm, hide_baptismal_certificate, dont_show_values,
                                         values = {
                                           birth_date: dont_show_values ? nil : BIRTH_DATE,
                                           baptismal_date: dont_show_values ? nil : BAPTISMAL_DATE,
@@ -395,6 +404,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
 
     expect(page).to have_button(button_name)
+    expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
     expect_download_button(Event::Document::BAPTISMAL_CERTIFICATE, cand_id, dev_path)
   end
 

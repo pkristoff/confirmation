@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DeviseHelpersAdmin
   def resource_name
     :admin

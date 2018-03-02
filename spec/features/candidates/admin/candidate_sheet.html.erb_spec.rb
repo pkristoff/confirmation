@@ -17,6 +17,7 @@ feature 'Candidate sheet admin', :devise do
     cand_name = 'Sophia Agusta'
     @updated_message = I18n.t('messages.updated', cand_name: cand_name)
     @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    @is_verify = false
   end
 
   after(:each) do

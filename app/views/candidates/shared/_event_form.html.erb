@@ -1,0 +1,28 @@
+<%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
+
+  <div class="actions">
+    <%= f.submit update_name, id: "top-update#{id_postfix}" %>
+    <% if is_verify %>
+      <%= f.submit t('views.common.un_verify'), id: "top-unverify" %>
+    <% end %>
+  </div>
+
+  <%= render partial: "candidates/shared/#{shared_html_file}",
+             :locals => {
+                 f: f,
+                 # pictures
+                 candidate: is_event_with_picture ? candidate : nil,
+                 is_dev: is_dev,
+                 event_association: is_event_with_picture ? event_association : nil
+             } %>
+
+
+  <div class="actions">
+    <%= f.submit update_name, id: "bottom-update#{id_postfix}" %>
+    <% if is_verify %>
+      <%= f.submit t('views.common.un_verify'), id: 'bottom-unverify' %>
+    <% end %>
+  </div>
+
+<% end %>
+

@@ -21,14 +21,18 @@
 <div id="two_column">
   <div id="left-col" class="left_col">
 
-    <%= render partial: "candidates/shared/#{shared_html_file}",
+    <%= render partial: 'candidates/shared/event_form',
                :locals => {path: path,
-                           update_name: (path.include? '_verify') ? t('views.common.update_verify') : t('views.common.update'),
-                           id_postfix: (path.include? '_verify') ? '-verify' : ''
+                           update_name: is_verify ? t('views.common.update_verify') : t('views.common.update'),
+                           id_postfix: is_verify ? '-verify' : '',
+                           is_verify: is_verify,
+                           shared_html_file: shared_html_file,
+                           is_event_with_picture: false,
+                           is_dev: is_dev
                } %>
 
-
   </div>
+
   <div id="right-col" class="right_col">
     <%= link_to '#', class: 'btn btn-default',
                 id: "insturction-toggle",

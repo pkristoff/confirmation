@@ -1,5 +1,6 @@
-module ViewsHelpers
+# frozen_string_literal: true
 
+module ViewsHelpers
   LATE_INITIAL_TEXT = I18n.t('email.late_initial_text')
   COMING_DUE_INITIAL_TEXT = I18n.t('email.coming_due_initial_text')
   COMPLETE_AWAITING_INITIAL_TEXT = I18n.t('email.completed_awaiting_initial_text')
@@ -12,11 +13,10 @@ module ViewsHelpers
   REPLY_TO_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
 
   def expect_edit_and_new_view(rendered, candidate, action, submit_button, is_candidate_signed_in, is_new)
-
     form_id = is_new ? 'new_candidate' : 'edit_candidate'
 
     # this matches the partial: candidates/shared/edit_and_new_candidate
-    is_candidate_signed_in_and_not_new = (is_candidate_signed_in and !is_new)
+    is_candidate_signed_in_and_not_new = (is_candidate_signed_in && !is_new)
 
     expect(rendered).to have_selector("form[id=#{form_id}][action=\"#{action}\"]")
 
@@ -43,7 +43,7 @@ module ViewsHelpers
       expect(rendered).to have_field('Grade', type: 'number')
     end
 
-    if candidate and candidate.candidate_sheet.attending == I18n.t('views.candidates.attending_catholic_high_school')
+    if candidate&.candidate_sheet&.attending == I18n.t('views.candidates.attending_catholic_high_school')
       expect(rendered).to have_checked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
       expect(rendered).to have_unchecked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
     else
@@ -125,11 +125,11 @@ module ViewsHelpers
   end
 
   def expect_password_changed
-    lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: 'true'}
+    ->(candidate, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: 'true' }
   end
 
   def expect_account_confirmed
-    lambda {|candidate, rendered, td_index| expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: candidate.account_confirmed?}
+    ->(candidate, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: candidate.account_confirmed? }
   end
 
   def setup_unknown_missing_events

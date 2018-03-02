@@ -17,6 +17,7 @@ feature 'Christian Ministry verify admin', :devise do
     @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
     @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
     @is_dev = false
+    @is_verify = true
   end
 
   after(:each) do
