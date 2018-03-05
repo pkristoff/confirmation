@@ -240,6 +240,8 @@ en:
       name: Name
       password: Password
       password_confirmation: Password confirmation
+      remove_image: Remove scanned image
+      replace_image: Replace scanned image
       reset_password: Reset Password
       status: Status
       un_verify: Unverify

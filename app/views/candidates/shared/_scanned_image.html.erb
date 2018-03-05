@@ -1,23 +1,27 @@
-
 <%= field_set_tag fieldset_text, class: 'fieldset' do %>
-    <div class="fieldset-div">
-      <div id="file-type-message_<%= field %>"> <%= t('views.common.image_upload_file_types') %> </div>
-      <%= scanned_image_field %>
-      <%= scanned_image_label %>
+  <div class="fieldset-div">
+    <div id="file-type-message_<%= field %>"> <%= t('views.common.image_upload_file_types') %> </div>
+    <%= scanned_image_field %>
+    <%= scanned_image_label %>
 
-      <% unless scanned_image.nil? %>
-          <div>
-            <% if ['application/pdf'].include? scanned_image.content_type  %>
-                <object data="<%= url_for_image %>"
-                        type="<%= scanned_image.content_type %>"
-                        width="600" height=783"
-                        alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>" ></object>
-            <% else %>
-                <img src="<%= url_for_image %>"
-                     alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>"/>
-            <% end %>
-          </div>
-      <% end %>
-    </div>
+    <% unless scanned_image.nil? %>
+      <div>
+        <%= button_tag(t('views.common.remove_image'), class: "show-div",id: "remove-#{field}", type: 'button', onClick: "confirmation_toggle().remove_scanned_image('#{remove_id}', '#{field}');" ) %>
+        <%= button_tag(t('views.common.replace_image'), class: "hide-div", id: "replace-#{field}", type: 'button', onClick: "confirmation_toggle().replace_scanned_image('#{remove_id}', '#{field}');" ) %>
+        <%= remove_field %>
+      </div>
+      <div id="scanned-image-<%= field %>" class="show-div">
+        <% if ['application/pdf'].include? scanned_image.content_type %>
+          <object data="<%= url_for_image %>"
+                  type="<%= scanned_image.content_type %>"
+                  width="600" height=783"
+                  alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>"></object>
+        <% else %>
+          <img src="<%= url_for_image %>"
+               alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>"/>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 
 <% end %>

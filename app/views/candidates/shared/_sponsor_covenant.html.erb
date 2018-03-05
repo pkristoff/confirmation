@@ -14,8 +14,10 @@
 
                              fieldset_text: '',
                              field: :sponsor_covenant_picture,
+                             remove_id: :candidate_sponsor_covenant_attributes_remove_sponsor_covenant_picture,
+                             remove_field: sc_fields.hidden_field(:remove_sponsor_covenant_picture, value: ''),
                              scanned_image: event_association.scanned_covenant,
-                             scanned_image_field: sc_fields.file_field(:sponsor_covenant_picture, accept: SideBar::IMAGE_FILE_TYPES),
+                             scanned_image_field: sc_fields.file_field(:sponsor_covenant_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_sponsor_covenant_attributes_remove_sponsor_covenant_picture', 'sponsor_covenant_picture');"),
                              scanned_image_label: sc_fields.label(:sponsor_covenant_picture, t('label.sponsor_covenant.sponsor_covenant_picture')),
                          } %>
             </div>
@@ -40,8 +42,10 @@
 
                                fieldset_text: '',
                                field: :sponsor_eligibility_picture,
+                               remove_id: :candidate_sponsor_covenant_attributes_remove_sponsor_eligibility_picture,
+                               remove_field: sc_fields.hidden_field(:remove_sponsor_eligibility_picture, value: ''),
                                scanned_image: event_association.scanned_eligibility,
-                               scanned_image_field: sc_fields.file_field(:sponsor_eligibility_picture, accept: SideBar::IMAGE_FILE_TYPES),
+                               scanned_image_field: sc_fields.file_field(:sponsor_eligibility_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_sponsor_covenant_attributes_remove_sponsor_eligibility_picture', 'sponsor_eligibility_picture');"),
                                scanned_image_label: sc_fields.label(:sponsor_eligibility_picture, t('label.sponsor_covenant.sponsor_eligibility_picture')),
                            } %>
 

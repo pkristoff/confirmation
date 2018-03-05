@@ -1,4 +1,4 @@
-<%= form_for(@candidate, as: :candidate, url: path, html: {method: :put}) do |f| %>
+<%= form_for(@candidate, as: :candidate, url: path, html: {method: :put,  autocomplete: "on"}) do |f| %>
 
   <div class="actions">
     <%= f.submit update_name, id: "top-update#{id_postfix}" %>

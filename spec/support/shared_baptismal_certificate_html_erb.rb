@@ -403,17 +403,13 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
 
-    expect(page).to have_button(button_name)
+    expect(page).to have_button(button_name, count: 2)
+    remove_count = cand.baptismal_certificate.scanned_certificate.nil? ? 0 : 1
+    expect_remove_button('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture') unless cand.baptismal_certificate.scanned_certificate.nil?
+    expect(page).to have_button(I18n.t('views.common.remove_image'), count: remove_count)
+    expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
     expect_download_button(Event::Document::BAPTISMAL_CERTIFICATE, cand_id, dev_path)
-  end
-
-  def expect_field(label, value)
-    if value.nil? || value == ''
-      expect(page).to have_field(label)
-    else
-      expect(page).to have_field(label, with: value)
-    end
   end
 
   def fill_in_form(attach_file = true)

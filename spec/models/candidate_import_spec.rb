@@ -7,10 +7,10 @@ describe CandidateImport do
   before(:each) do
 
     @image_column_mappings = {
-        baptismal_certificate: 'baptismal_certificate.scanned_certificate',
-        retreat_verification: 'retreat_verification.scanned_retreat',
-        sponsor_eligibility: 'sponsor_covenant.scanned_eligibility',
-        sponsor_covenant: 'sponsor_covenant.scanned_covenant'
+      baptismal_certificate: 'baptismal_certificate.scanned_certificate',
+      retreat_verification: 'retreat_verification.scanned_retreat',
+      sponsor_eligibility: 'sponsor_covenant.scanned_eligibility',
+      sponsor_covenant: 'sponsor_covenant.scanned_covenant'
     }
   end
 
@@ -32,9 +32,9 @@ describe CandidateImport do
 
       expect_db(85, 9, 0)
 
-      the_way_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way')}
+      the_way_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way') }
       expect(the_way_candidates.size).to eq(83)
-      chs_candidates = Candidate.all.select {|c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school')}
+      chs_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school') }
       expect(chs_candidates.size).to eq(2)
 
       the_way_candidate = Candidate.find_by_account_name('dawannie')
@@ -64,10 +64,10 @@ describe CandidateImport do
       candidate_import = CandidateImport.new
       expect(candidate_import.load_initial_file(uploaded_file)).to eq(false)
       error_messages = [
-          'Row 2: Last name can\'t be blank',
-          'Row 3: First name can\'t be blank',
-          'Row 5: Parent email 1 is an invalid email: @nc.rr.com',
-          'Row 5: Parent email 2 is an invalid email: rannunz'
+        'Row 2: Last name can\'t be blank',
+        'Row 3: First name can\'t be blank',
+        'Row 5: Parent email 1 is an invalid email: @nc.rr.com',
+        'Row 5: Parent email 2 is an invalid email: rannunz'
       ]
       candidate_import.errors.each_with_index do |candidate, index|
         expect(candidate[1]).to eq(error_messages[index])
@@ -226,7 +226,7 @@ describe CandidateImport do
 
     it 'read in exported image' do
       candidate = FactoryBot.create(:candidate,
-                                     baptismal_certificate: FactoryBot.create(:baptismal_certificate))
+                                    baptismal_certificate: FactoryBot.create(:baptismal_certificate))
       add_baptismal_certificate_image(candidate)
 
       dir_name = 'temp'
@@ -428,17 +428,17 @@ end
 def get_expected_orphans
 
   {
-      # Candidate associations
-      BaptismalCertificate: FactoryBot.create(:baptismal_certificate, skip_address_replacement: true),
-      CandidateSheet: FactoryBot.create(:candidate_sheet),
-      ChristianMinistry: FactoryBot.create(:christian_ministry),
-      PickConfirmationName: FactoryBot.create(:pick_confirmation_name),
-      RetreatVerification: FactoryBot.create(:retreat_verification),
-      SponsorCovenant: FactoryBot.create(:sponsor_covenant),
-      # # other associations
-      ScannedImage: FactoryBot.create(:scanned_image),
-      Address: FactoryBot.create(:address),
-      ToDo: FactoryBot.create(:to_do, confirmation_event_id: nil, candidate_event_id: nil)
+    # Candidate associations
+    BaptismalCertificate: FactoryBot.create(:baptismal_certificate, skip_address_replacement: true),
+    CandidateSheet: FactoryBot.create(:candidate_sheet),
+    ChristianMinistry: FactoryBot.create(:christian_ministry),
+    PickConfirmationName: FactoryBot.create(:pick_confirmation_name),
+    RetreatVerification: FactoryBot.create(:retreat_verification),
+    SponsorCovenant: FactoryBot.create(:sponsor_covenant),
+    # # other associations
+    ScannedImage: FactoryBot.create(:scanned_image),
+    Address: FactoryBot.create(:address),
+    ToDo: FactoryBot.create(:to_do, confirmation_event_id: nil, candidate_event_id: nil)
   }
 end
 
@@ -462,7 +462,7 @@ def expect_initial_conf_events
   expect_confirmation_event(I18n.t('events.sponsor_agreement'), today, today)
 
   if ConfirmationEvent.all.size != 9
-    ConfirmationEvent.all.each {|x| puts x.name}
+    ConfirmationEvent.all.each { |x| puts x.name }
     expect(ConfirmationEvent.all.size).to eq(9), '"Wrong number of Confirmation Events" '
   end
 end
@@ -494,49 +494,49 @@ describe 'combinations' do
     expect_initial_conf_events
     expect(Candidate.all.size).to eq(6) # vicki + 3 old import + 2 new from update
     expect_candidate(
-        account_name: 'corganmakenzie',
-        candidate_sheet: {
-            first_name: 'Makenzie',
-            last_name: 'Corgan',
-            grade: 10,
-            attending: I18n.t('model.candidate.attending_catholic_high_school')
-        }
+      account_name: 'corganmakenzie',
+      candidate_sheet: {
+        first_name: 'Makenzie',
+        last_name: 'Corgan',
+        grade: 10,
+        attending: I18n.t('model.candidate.attending_catholic_high_school')
+      }
     )
     expect_candidate(
-        account_name: 'barrerocarlos',
-        candidate_sheet: {
-            first_name: 'Carlos',
-            last_name: 'Barrero',
-            grade: 11,
-            attending: I18n.t('model.candidate.attending_the_way')
-        }
+      account_name: 'barrerocarlos',
+      candidate_sheet: {
+        first_name: 'Carlos',
+        last_name: 'Barrero',
+        grade: 11,
+        attending: I18n.t('model.candidate.attending_the_way')
+      }
     )
     expect_candidate(
-        account_name: 'agiusjulia',
-        candidate_sheet: {
-            first_name: 'Julia',
-            last_name: 'Agius',
-            grade: 10,
-            attending: I18n.t('model.candidate.attending_the_way')
-        }
+      account_name: 'agiusjulia',
+      candidate_sheet: {
+        first_name: 'Julia',
+        last_name: 'Agius',
+        grade: 10,
+        attending: I18n.t('model.candidate.attending_the_way')
+      }
     )
     expect_candidate(
-        account_name: 'brixeynoah',
-        candidate_sheet: {
-            first_name: 'Noah',
-            last_name: 'Brixey',
-            grade: 11,
-            attending: I18n.t('model.candidate.attending_catholic_high_school')
-        }
+      account_name: 'brixeynoah',
+      candidate_sheet: {
+        first_name: 'Noah',
+        last_name: 'Brixey',
+        grade: 11,
+        attending: I18n.t('model.candidate.attending_catholic_high_school')
+      }
     )
     expect_candidate(
-        account_name: 'baronemaddy',
-        candidate_sheet: {
-            first_name: 'Maddy',
-            last_name: 'Barone',
-            grade: 10,
-            attending: I18n.t('model.candidate.attending_catholic_high_school')
-        }
+      account_name: 'baronemaddy',
+      candidate_sheet: {
+        first_name: 'Maddy',
+        last_name: 'Barone',
+        grade: 10,
+        attending: I18n.t('model.candidate.attending_catholic_high_school')
+      }
     )
   end
 end
@@ -632,18 +632,18 @@ describe 'start new year' do
 
     expect(Admin.all.size).to eq(1)
 
-    cand_assoc = {Address: 0,
-                  BaptismalCertificate: 0,
-                  Candidate: 0,
-                  CandidateEvent: 0,
-                  CandidateSheet: 0,
-                  ChristianMinistry: 0,
-                  ConfirmationEvent: 9,
-                  PickConfirmationName: 0,
-                  RetreatVerification: 0,
-                  SponsorCovenant: 0,
-                  ScannedImage: 0,
-                  ToDo: 0}
+    cand_assoc = { Address: 0,
+                   BaptismalCertificate: 0,
+                   Candidate: 0,
+                   CandidateEvent: 0,
+                   CandidateSheet: 0,
+                   ChristianMinistry: 0,
+                   ConfirmationEvent: 9,
+                   PickConfirmationName: 0,
+                   RetreatVerification: 0,
+                   SponsorCovenant: 0,
+                   ScannedImage: 0,
+                   ToDo: 0 }
 
     expect_table_rows(Candidate, cand_assoc)
 
@@ -652,10 +652,10 @@ describe 'start new year' do
 
     c0 = FactoryBot.create(:candidate, add_candidate_events: false)
     AppFactory.add_candidate_events(c0)
-    c0.baptismal_certificate.scanned_certificate=create_scanned_image
-    c0.sponsor_covenant.scanned_eligibility=create_scanned_image
-    c0.sponsor_covenant.scanned_covenant=create_scanned_image
-    c0.retreat_verification.scanned_retreat=create_scanned_image
+    c0.baptismal_certificate.scanned_certificate = create_scanned_image
+    c0.sponsor_covenant.scanned_eligibility = create_scanned_image
+    c0.sponsor_covenant.scanned_covenant = create_scanned_image
+    c0.retreat_verification.scanned_retreat = create_scanned_image
     c0.save
 
     c1 = FactoryBot.create(:candidate, account_name: 'c1', add_candidate_events: false)
@@ -668,18 +668,18 @@ describe 'start new year' do
 
     expect(Admin.all.size).to eq(1)
 
-    cand_assoc = {Address: 6,
-                  BaptismalCertificate: 3,
-                  Candidate: 3,
-                  CandidateEvent: 27,
-                  CandidateSheet: 3,
-                  ChristianMinistry: 3,
-                  ConfirmationEvent: 9,
-                  PickConfirmationName: 3,
-                  RetreatVerification: 3,
-                  SponsorCovenant: 3,
-                  ScannedImage: 4,
-                  ToDo: 27}
+    cand_assoc = { Address: 6,
+                   BaptismalCertificate: 3,
+                   Candidate: 3,
+                   CandidateEvent: 27,
+                   CandidateSheet: 3,
+                   ChristianMinistry: 3,
+                   ConfirmationEvent: 9,
+                   PickConfirmationName: 3,
+                   RetreatVerification: 3,
+                   SponsorCovenant: 3,
+                   ScannedImage: 4,
+                   ToDo: 27 }
 
     expect_table_rows(Candidate, cand_assoc)
 
@@ -687,18 +687,18 @@ describe 'start new year' do
 
     expect(Admin.all.size).to eq(1)
 
-    cand_assoc = {Address: 2,
-                  BaptismalCertificate: 1,
-                  Candidate: 1,
-                  CandidateEvent: 9,
-                  CandidateSheet: 1,
-                  ChristianMinistry: 1,
-                  ConfirmationEvent: 9,
-                  PickConfirmationName: 1,
-                  RetreatVerification: 1,
-                  SponsorCovenant: 1,
-                  ScannedImage: 0,
-                  ToDo: 9}
+    cand_assoc = { Address: 2,
+                   BaptismalCertificate: 1,
+                   Candidate: 1,
+                   CandidateEvent: 9,
+                   CandidateSheet: 1,
+                   ChristianMinistry: 1,
+                   ConfirmationEvent: 9,
+                   PickConfirmationName: 1,
+                   RetreatVerification: 1,
+                   SponsorCovenant: 1,
+                   ScannedImage: 0,
+                   ToDo: 9 }
 
     expect_table_rows(Candidate, cand_assoc)
   end
@@ -709,9 +709,9 @@ describe 'start new year' do
       content = f.read
     end
     ScannedImage.new(
-        filename: 'actions.png',
-        content_type: 'image/png',
-        content: content
+      filename: 'actions.png',
+      content_type: 'image/png',
+      content: content
     )
 
   end
@@ -722,18 +722,18 @@ describe 'start new year' do
 
     expect(Admin.all.size).to eq(1)
 
-    cand_assoc = {Address: 0,
-                  BaptismalCertificate: 0,
-                  Candidate: 0,
-                  CandidateEvent: 0,
-                  CandidateSheet: 0,
-                  ChristianMinistry: 0,
-                  ConfirmationEvent: 9,
-                  PickConfirmationName: 0,
-                  RetreatVerification: 0,
-                  SponsorCovenant: 0,
-                  ScannedImage: 0,
-                  ToDo: 0}
+    cand_assoc = { Address: 0,
+                   BaptismalCertificate: 0,
+                   Candidate: 0,
+                   CandidateEvent: 0,
+                   CandidateSheet: 0,
+                   ChristianMinistry: 0,
+                   ConfirmationEvent: 9,
+                   PickConfirmationName: 0,
+                   RetreatVerification: 0,
+                   SponsorCovenant: 0,
+                   ScannedImage: 0,
+                   ToDo: 0 }
 
     expect_table_rows(Candidate, cand_assoc)
 
@@ -756,7 +756,7 @@ describe 'start new year' do
     c0.save
     c1 = FactoryBot.create(:candidate, account_name: 'c1', add_candidate_events: false)
     AppFactory.add_candidate_events(c1)
-    c1.baptismal_certificate.scanned_certificate=create_scanned_image
+    c1.baptismal_certificate.scanned_certificate = create_scanned_image
     c1.save
     c2 = FactoryBot.create(:candidate, account_name: 'c2', add_candidate_events: false)
     AppFactory.add_candidate_events(c2)
@@ -766,18 +766,18 @@ describe 'start new year' do
     expect(ConfirmationEvent.all.size).to eq(9)
     expect(Candidate.all.size).to eq(3)
 
-    cand_assoc = {Address: 9,
-                  BaptismalCertificate: 4,
-                  Candidate: 3,
-                  CandidateEvent: 28,
-                  CandidateSheet: 4,
-                  ChristianMinistry: 4,
-                  ConfirmationEvent: 9,
-                  PickConfirmationName: 4,
-                  RetreatVerification: 4,
-                  SponsorCovenant: 4,
-                  ScannedImage: 4,
-                  ToDo: 28}
+    cand_assoc = { Address: 9,
+                   BaptismalCertificate: 4,
+                   Candidate: 3,
+                   CandidateEvent: 28,
+                   CandidateSheet: 4,
+                   ChristianMinistry: 4,
+                   ConfirmationEvent: 9,
+                   PickConfirmationName: 4,
+                   RetreatVerification: 4,
+                   SponsorCovenant: 4,
+                   ScannedImage: 4,
+                   ToDo: 28 }
 
     expect_table_rows(Candidate, cand_assoc)
 
@@ -787,18 +787,18 @@ describe 'start new year' do
     expect(ConfirmationEvent.all.size).to eq(9)
     expect(Candidate.all.size).to eq(1) #vickikristoff the seed
 
-    cand_assoc = {Address: 2,
-                  BaptismalCertificate: 1,
-                  Candidate: 1,
-                  CandidateEvent: 9,
-                  CandidateSheet: 1,
-                  ChristianMinistry: 1,
-                  ConfirmationEvent: 9,
-                  PickConfirmationName: 1,
-                  RetreatVerification: 1,
-                  SponsorCovenant: 1,
-                  ScannedImage: 0,
-                  ToDo: 9}
+    cand_assoc = { Address: 2,
+                   BaptismalCertificate: 1,
+                   Candidate: 1,
+                   CandidateEvent: 9,
+                   CandidateSheet: 1,
+                   ChristianMinistry: 1,
+                   ConfirmationEvent: 9,
+                   PickConfirmationName: 1,
+                   RetreatVerification: 1,
+                   SponsorCovenant: 1,
+                   ScannedImage: 0,
+                   ToDo: 9 }
 
     expect_table_rows(Candidate, cand_assoc)
   end
@@ -883,7 +883,7 @@ def expect_candidates(ws, candidate_import)
   c1_row = ws.rows[1]
   c2_row = ws.rows[2]
   c3_row = ws.rows[3]
-  (1..ws.rows.size-1).each do |i|
+  (1..ws.rows.size - 1).each do |i|
     account_name = ws.rows[i].cells[find_cell_offset(header_row, 'account_name')].value
     # puts account_name
     c1_row = ws.rows[i] if account_name === 'c1'
@@ -940,8 +940,7 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.1.completed_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.1.verified')].value).to eq(0)
 
-  # TODO: add other 31 tests
-  expect(c1_row.size).to eq(74)
+  expect(c1_row.size).to eq(71)
 
   expect(c2_row.cells[0].value).to eq('c2')
 
@@ -954,8 +953,12 @@ def expect_candidates_empty(ws, candidate_import)
     # puts "#{index}:#{header_row.cells[index].value}"
     expect(header_row.cells[index].value).to eq(column_name)
   end
+  trans_col = CandidateImport.transient_columns
+  header_row.cells.each do |cell|
+    expect(trans_col.include? cell.value).to eq(false), "Should not find transient column: #{cell.value}"
+  end
   c1_row = ws.rows[1]
-  (1..ws.rows.size-1).each do |i|
+  (1..ws.rows.size - 1).each do |i|
     account_name = ws.rows[i].cells[find_cell_offset(header_row, 'account_name')].value
     # puts account_name
     c1_row = ws.rows[i] if account_name === 'c1'
@@ -1002,11 +1005,11 @@ def expect_candidates_empty(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.where_held_retreat')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.scanned_retreat')].value).to eq(nil)
 
-  (0..ConfirmationEvent.all.length-1).each do |index|
+  (0..ConfirmationEvent.all.length - 1).each do |index|
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(74)
+  expect(c1_row.size).to eq(71)
 end
 
 def expect_confirmation_events_empty(ws, candidate_import)
@@ -1016,11 +1019,11 @@ def expect_confirmation_events_empty(ws, candidate_import)
     expect(header_row.cells[index].value).to eq(column_name)
   end
   events_in_order = ConfirmationEvent.order(:name)
-  expect(ws.rows.size).to eq(events_in_order.size+1)
+  expect(ws.rows.size).to eq(events_in_order.size + 1)
 
   events_in_order.each_with_index do |event, index|
 
-    row = ws.rows[index+1]
+    row = ws.rows[index + 1]
     expect(row.cells.size).to eq(5)
     # puts row.cells[0].value
     expect(row.cells[0].value).to eq(event.name)
@@ -1039,11 +1042,11 @@ def expect_confirmation_events(ws, candidate_import)
     expect(header_row.cells[index].value).to eq(column_name)
   end
   events_in_order = ConfirmationEvent.order(:name)
-  expect(ws.rows.size).to eq(events_in_order.size+1)
+  expect(ws.rows.size).to eq(events_in_order.size + 1)
 
   events_in_order.each_with_index do |confirmation_event, index|
 
-    row = ws.rows[index+1]
+    row = ws.rows[index + 1]
     expect(row.cells.size).to eq(5)
     # puts row.cells[0].value
     expect(row.cells[0].value).to eq(confirmation_event.name)
@@ -1067,7 +1070,7 @@ def expect_import_with_events
   expect_confirmation_event(I18n.t('events.christian_ministry'), '2017-01-31', '2017-01-22')
 
   if ConfirmationEvent.all.size != 9
-    ConfirmationEvent.all.each {|x| puts x.name}
+    ConfirmationEvent.all.each { |x| puts x.name }
   end
 
   expect(ConfirmationEvent.all.size).to eq(9)
@@ -1096,7 +1099,7 @@ def expect_keys(obj, attributes)
   end
 end
 
-def expect_table_rows(clazz, expected_sizes, checked=[], do_not_include=[Admin])
+def expect_table_rows(clazz, expected_sizes, checked = [], do_not_include = [Admin])
   top = checked === []
   class_sym = clazz.to_s.to_sym
   unless checked.include?(class_sym) || do_not_include.include?(clazz)
@@ -1136,184 +1139,184 @@ end
 
 def get_foo_bar
   {
-      account_name: 'foobar',
-      candidate_sheet: {
-          first_name: 'foo',
-          middle_name: 'baz',
-          last_name: 'bar',
-          candidate_email: '',
-          parent_email_1: 'foo@bar.com',
-          parent_email_2: '',
-          grade: 10,
-          attending: I18n.t('model.candidate.attending_the_way'),
-          address: {
-              street_1: '',
-              street_2: 'street 2',
-              city: 'Clarksville',
-              state: 'IN',
-              zip_code: '47129'
-          },
+    account_name: 'foobar',
+    candidate_sheet: {
+      first_name: 'foo',
+      middle_name: 'baz',
+      last_name: 'bar',
+      candidate_email: '',
+      parent_email_1: 'foo@bar.com',
+      parent_email_2: '',
+      grade: 10,
+      attending: I18n.t('model.candidate.attending_the_way'),
+      address: {
+        street_1: '',
+        street_2: 'street 2',
+        city: 'Clarksville',
+        state: 'IN',
+        zip_code: '47129'
       },
-      candidate_events_sorted: [
-          {completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
-           name: I18n.t('events.candidate_information_sheet'),
-           due_date: '2016-02-29',
-           verified: false},
-          {completed_date: '', # Attend Retreat 5/31/16
-           name: I18n.t('events.retreat_verification'),
-           due_date: '2016-05-31',
-           verified: false},
-          {completed_date: '', # Parent Information Meeting 6/30/16
-           name: I18n.t('events.parent_meeting'),
-           due_date: '2016-06-30',
-           verified: false},
-          {completed_date: '', # Sign Agreement 7/31/2016
-           name: I18n.t('events.candidate_covenant_agreement'),
-           due_date: '2016-07-31',
-           verified: false},
-          {completed_date: '', # Baptismal Certificate 8/31/16
-           name: I18n.t('events.baptismal_certificate'),
-           due_date: '2016-08-31',
-           verified: false},
-          {completed_date: '', # Christian Ministry Awareness 1/31/17
-           name: I18n.t('events.christian_ministry'),
-           due_date: '2017-01-31',
-           verified: false},
-          {completed_date: '2017-01-01', # Sponsor Covenant 10/31/16
-           name: I18n.t('events.sponsor_covenant'),
-           due_date: '2016-10-31',
-           verified: false},
-          {completed_date: '2016-12-25', # Confirmation Name
-           name: I18n.t('events.confirmation_name'),
-           due_date: '2016-11-30',
-           verified: true},
-          {completed_date: '2017-01-25', # Sponsor Agreement 12/31/2016
-           name: I18n.t('events.sponsor_agreement'),
-           due_date: '2016-12-31',
-           verified: false}
-      ]
+    },
+    candidate_events_sorted: [
+      { completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
+        name: I18n.t('events.candidate_information_sheet'),
+        due_date: '2016-02-29',
+        verified: false },
+      { completed_date: '', # Attend Retreat 5/31/16
+        name: I18n.t('events.retreat_verification'),
+        due_date: '2016-05-31',
+        verified: false },
+      { completed_date: '', # Parent Information Meeting 6/30/16
+        name: I18n.t('events.parent_meeting'),
+        due_date: '2016-06-30',
+        verified: false },
+      { completed_date: '', # Sign Agreement 7/31/2016
+        name: I18n.t('events.candidate_covenant_agreement'),
+        due_date: '2016-07-31',
+        verified: false },
+      { completed_date: '', # Baptismal Certificate 8/31/16
+        name: I18n.t('events.baptismal_certificate'),
+        due_date: '2016-08-31',
+        verified: false },
+      { completed_date: '', # Christian Ministry Awareness 1/31/17
+        name: I18n.t('events.christian_ministry'),
+        due_date: '2017-01-31',
+        verified: false },
+      { completed_date: '2017-01-01', # Sponsor Covenant 10/31/16
+        name: I18n.t('events.sponsor_covenant'),
+        due_date: '2016-10-31',
+        verified: false },
+      { completed_date: '2016-12-25', # Confirmation Name
+        name: I18n.t('events.confirmation_name'),
+        due_date: '2016-11-30',
+        verified: true },
+      { completed_date: '2017-01-25', # Sponsor Agreement 12/31/2016
+        name: I18n.t('events.sponsor_agreement'),
+        due_date: '2016-12-31',
+        verified: false }
+    ]
   }
 end
 
 def get_paul_kristoff
   {
-      account_name: 'paulkristoff',
-      candidate_sheet: {
-          first_name: 'Paul',
-          middle_name: 'Richard',
-          last_name: 'Kristoff',
-          candidate_email: 'paul@kristoffs.com',
-          parent_email_1: 'vicki@kristoffs.com',
-          parent_email_2: 'vicki@kristoffs.com',
-          grade: 9,
-          attending: I18n.t('model.candidate.attending_the_way'),
-          address: {
-              street_1: '2116 Frissell Ave',
-              street_2: '',
-              city: 'Cary',
-              state: 'NC',
-              zip_code: '27555'
-          },
+    account_name: 'paulkristoff',
+    candidate_sheet: {
+      first_name: 'Paul',
+      middle_name: 'Richard',
+      last_name: 'Kristoff',
+      candidate_email: 'paul@kristoffs.com',
+      parent_email_1: 'vicki@kristoffs.com',
+      parent_email_2: 'vicki@kristoffs.com',
+      grade: 9,
+      attending: I18n.t('model.candidate.attending_the_way'),
+      address: {
+        street_1: '2116 Frissell Ave',
+        street_2: '',
+        city: 'Cary',
+        state: 'NC',
+        zip_code: '27555'
       },
-      candidate_events_sorted: [
-          {completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
-           name: I18n.t('events.candidate_information_sheet'),
-           due_date: '2016-02-29',
-           verified: false},
-          {completed_date: '', # Sign Agreement 7/31/16
-           name: I18n.t('events.candidate_covenant_agreement'),
-           due_date: '2016-07-31',
-           verified: false},
-          {completed_date: '', #  Baptismal Certificate 8/31/16
-           name: I18n.t('events.baptismal_certificate'),
-           due_date: '2016-08-31',
-           verified: false},
-          {completed_date: '', # Sponsor Covenant 10/31/16
-           name: I18n.t('events.sponsor_covenant'),
-           due_date: '2016-10-31',
-           verified: false},
-          {completed_date: '', # Confirmation Name
-           name: I18n.t('events.confirmation_name'),
-           due_date: '2016-11-30',
-           verified: false},
-          {completed_date: '', # Sponsor Agreement 12/31/2016
-           name: I18n.t('events.sponsor_agreement'),
-           due_date: '2016-12-31',
-           verified: false},
-          {completed_date: '', # Christian Ministry Awareness 1/31/17
-           name: I18n.t('events.christian_ministry'),
-           due_date: '2017-01-31',
-           verified: false},
-          {name: I18n.t('events.retreat_verification'),
-           completed_date: '2016-05-02', # Attend Retreat 5/31/16
-           due_date: '2016-05-31',
-           verified: true},
-          {name: I18n.t('events.parent_meeting'),
-           completed_date: '2016-07-07', # Parent Information Meeting 6/30/16
-           due_date: '2016-06-30',
-           verified: false}
-      ]
+    },
+    candidate_events_sorted: [
+      { completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
+        name: I18n.t('events.candidate_information_sheet'),
+        due_date: '2016-02-29',
+        verified: false },
+      { completed_date: '', # Sign Agreement 7/31/16
+        name: I18n.t('events.candidate_covenant_agreement'),
+        due_date: '2016-07-31',
+        verified: false },
+      { completed_date: '', #  Baptismal Certificate 8/31/16
+        name: I18n.t('events.baptismal_certificate'),
+        due_date: '2016-08-31',
+        verified: false },
+      { completed_date: '', # Sponsor Covenant 10/31/16
+        name: I18n.t('events.sponsor_covenant'),
+        due_date: '2016-10-31',
+        verified: false },
+      { completed_date: '', # Confirmation Name
+        name: I18n.t('events.confirmation_name'),
+        due_date: '2016-11-30',
+        verified: false },
+      { completed_date: '', # Sponsor Agreement 12/31/2016
+        name: I18n.t('events.sponsor_agreement'),
+        due_date: '2016-12-31',
+        verified: false },
+      { completed_date: '', # Christian Ministry Awareness 1/31/17
+        name: I18n.t('events.christian_ministry'),
+        due_date: '2017-01-31',
+        verified: false },
+      { name: I18n.t('events.retreat_verification'),
+        completed_date: '2016-05-02', # Attend Retreat 5/31/16
+        due_date: '2016-05-31',
+        verified: true },
+      { name: I18n.t('events.parent_meeting'),
+        completed_date: '2016-07-07', # Parent Information Meeting 6/30/16
+        due_date: '2016-06-30',
+        verified: false }
+    ]
   }
 end
 
 def get_vicki_kristoff
   {
-      account_name: 'vickikristoff',
-      candidate_sheet: {
-          first_name: 'Vicki',
-          middle_name: 'Anne',
-          last_name: 'Kristoff',
-          candidate_email: 'vicki@kristoffs.com',
-          parent_email_1: 'paul@kristoffs.com',
-          parent_email_2: 'paul@kristoffs.com',
-          grade: 12,
-          attending: I18n.t('model.candidate.attending_catholic_high_school'),
-          address: {
-              street_1: '2120 Frissell Ave',
-              street_2: '',
-              city: 'Apex',
-              state: 'NC',
-              zip_code: '27502'
-          },
+    account_name: 'vickikristoff',
+    candidate_sheet: {
+      first_name: 'Vicki',
+      middle_name: 'Anne',
+      last_name: 'Kristoff',
+      candidate_email: 'vicki@kristoffs.com',
+      parent_email_1: 'paul@kristoffs.com',
+      parent_email_2: 'paul@kristoffs.com',
+      grade: 12,
+      attending: I18n.t('model.candidate.attending_catholic_high_school'),
+      address: {
+        street_1: '2120 Frissell Ave',
+        street_2: '',
+        city: 'Apex',
+        state: 'NC',
+        zip_code: '27502'
       },
-      candidate_events_sorted: [
-          {completed_date: '', # Fill Out Candidate Information Sheet
-           name: I18n.t('events.candidate_information_sheet'),
-           due_date: '2016-02-16',
-           verified: false},
-          {completed_date: '', # Attend Retreat
-           name: I18n.t('events.retreat_verification'),
-           due_date: '2016-05-03',
-           verified: false},
-          {completed_date: '', # Parent Information Meeting
-           name: I18n.t('events.parent_meeting'),
-           due_date: '2016-06-03',
-           verified: false},
-          {completed_date: '', # Baptismal Certificate
-           name: I18n.t('events.baptismal_certificate'),
-           due_date: '2016-08-12',
-           verified: false},
-          {completed_date: '', # Sponsor Covenant
-           name: I18n.t('events.sponsor_covenant'),
-           due_date: '2016-10-15',
-           verified: false},
-          {completed_date: '', # Confirmation Name
-           name: I18n.t('events.confirmation_name'),
-           due_date: '2016-11-20',
-           verified: false},
-          {completed_date: '', # Sponsor Agreement 12/15/2016
-           name: I18n.t('events.sponsor_agreement'),
-           due_date: '2016-12-15',
-           verified: false},
-          {completed_date: '', # Christian Ministry Awareness 1/31/17
-           name: I18n.t('events.christian_ministry'),
-           due_date: '2017-01-22',
-           verified: false},
-          {completed_date: '2016-06-06', # Sign Agreement
-           name: I18n.t('events.candidate_covenant_agreement'),
-           due_date: '2016-07-13',
-           verified: true}
-      ]
+    },
+    candidate_events_sorted: [
+      { completed_date: '', # Fill Out Candidate Information Sheet
+        name: I18n.t('events.candidate_information_sheet'),
+        due_date: '2016-02-16',
+        verified: false },
+      { completed_date: '', # Attend Retreat
+        name: I18n.t('events.retreat_verification'),
+        due_date: '2016-05-03',
+        verified: false },
+      { completed_date: '', # Parent Information Meeting
+        name: I18n.t('events.parent_meeting'),
+        due_date: '2016-06-03',
+        verified: false },
+      { completed_date: '', # Baptismal Certificate
+        name: I18n.t('events.baptismal_certificate'),
+        due_date: '2016-08-12',
+        verified: false },
+      { completed_date: '', # Sponsor Covenant
+        name: I18n.t('events.sponsor_covenant'),
+        due_date: '2016-10-15',
+        verified: false },
+      { completed_date: '', # Confirmation Name
+        name: I18n.t('events.confirmation_name'),
+        due_date: '2016-11-20',
+        verified: false },
+      { completed_date: '', # Sponsor Agreement 12/15/2016
+        name: I18n.t('events.sponsor_agreement'),
+        due_date: '2016-12-15',
+        verified: false },
+      { completed_date: '', # Christian Ministry Awareness 1/31/17
+        name: I18n.t('events.christian_ministry'),
+        due_date: '2017-01-22',
+        verified: false },
+      { completed_date: '2016-06-06', # Sign Agreement
+        name: I18n.t('events.candidate_covenant_agreement'),
+        due_date: '2016-07-13',
+        verified: true }
+    ]
   }
 end
 

@@ -10,7 +10,7 @@ class SponsorCovenant < ActiveRecord::Base
   belongs_to(:scanned_covenant, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_covenant, allow_destroy: true)
 
-  attr_accessor :sponsor_eligibility_picture
+  attr_accessor :sponsor_eligibility_picture, :remove_sponsor_eligibility_picture, :remove_sponsor_covenant_picture
 
   # Validate if event is complete by adding validation errors to active record
   #
@@ -45,7 +45,7 @@ class SponsorCovenant < ActiveRecord::Base
         [scanned_eligibility_attributes: ScannedImage.permitted_params,
          scanned_covenant_attributes: ScannedImage.permitted_params]
       )
-    ) << :sponsor_eligibility_picture
+    ) << :sponsor_eligibility_picture << :remove_sponsor_eligibility_picture << :remove_sponsor_covenant_picture
   end
 
   # Editable attributes
@@ -80,6 +80,8 @@ class SponsorCovenant < ActiveRecord::Base
   def self.attends_stmm_validation_params
     params = SponsorCovenant.attends_stmm_params
     params.delete(:sponsor_attends_stmm)
+    params.delete(:remove_sponsor_eligibility_picture)
+    params.delete(:remove_sponsor_covenant_picture)
     params
   end
 
@@ -94,6 +96,8 @@ class SponsorCovenant < ActiveRecord::Base
     params.delete(:sponsor_name)
     params.delete(:scanned_covenant)
     params.delete(:sponsor_attends_stmm)
+    params.delete(:remove_sponsor_eligibility_picture)
+    params.delete(:remove_sponsor_covenant_picture)
     params
   end
 

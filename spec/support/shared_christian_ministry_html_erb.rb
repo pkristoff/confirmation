@@ -177,14 +177,6 @@ shared_context 'christian_ministry_html_erb' do
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 
-  def expect_field(label, value)
-    if value.blank?
-      expect(page).to have_field(label)
-    else
-      expect(page).to have_field(label, with: value)
-    end
-  end
-
   def fill_in_form
     fill_in(I18n.t('label.christian_ministry.what_service'), with: WHAT_SERVICE)
     fill_in(I18n.t('label.christian_ministry.where_service'), with: WHERE_SERVICE)

@@ -7,7 +7,7 @@ class RetreatVerification < ActiveRecord::Base
   belongs_to(:scanned_retreat, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_retreat, allow_destroy: true)
 
-  attr_accessor :retreat_verification_picture
+  attr_accessor :retreat_verification_picture, :remove_retreat_verification_picture
 
   # Validate if event is complete by adding validation errors to active record
   #
@@ -43,7 +43,7 @@ class RetreatVerification < ActiveRecord::Base
   # Array of attributes
   #
   def self.basic_permitted_params
-    %i[retreat_held_at_stmm start_date end_date who_held_retreat where_held_retreat retreat_verification_picture scanned_retreat id]
+    %i[retreat_held_at_stmm start_date end_date who_held_retreat where_held_retreat retreat_verification_picture remove_retreat_verification_picture scanned_retreat id]
   end
 
   # Required attributes
@@ -56,6 +56,7 @@ class RetreatVerification < ActiveRecord::Base
     params = basic_permitted_params
     params.delete(:retreat_held_at_stmm)
     params.delete(:retreat_verification_picture)
+    params.delete(:remove_retreat_verification_picture)
     params
   end
 

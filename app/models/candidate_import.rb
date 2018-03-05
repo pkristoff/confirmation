@@ -20,6 +20,21 @@ class CandidateImport
   attr_accessor :orphaned_table_rows
   attr_accessor :candidate_missing_associations
 
+  def self.image_columns
+    %w[
+      baptismal_certificate.scanned_certificate retreat_verification.scanned_retreat sponsor_covenant.scanned_eligibility sponsor_covenant.scanned_covenant
+    ]
+  end
+
+  def self.transient_columns
+    %w[
+      baptismal_certificate.certificate_picture baptismal_certificate.remove_certificate_picture
+      retreat_verification.retreat_verification_picture retreat_verification.remove_retreat_verification_picture
+      sponsor_covenant.sponsor_eligibility_picture sponsor_covenant.sponsor_covenant_picture
+      sponsor_covenant.remove_sponsor_eligibility_picture sponsor_covenant.remove_sponsor_covenant_picture
+    ]
+  end
+
   # initialize new instance
   #
   # === Parameters:
@@ -612,14 +627,6 @@ class CandidateImport
   # Axlsx::Package:
   #
   def create_xlsx_package(dir, with_pictures)
-    image_columns =
-      %w[
-        baptismal_certificate.scanned_certificate retreat_verification.scanned_retreat sponsor_covenant.scanned_eligibility sponsor_covenant.scanned_covenant
-      ]
-    transient_columns =
-      %w[
-        baptismal_certificate.certificate_picture retreat_verification.retreat_verification_picture sponsor_covenant.sponsor_eligibility_picture sponsor_covenant.sponsor_covenant_picture
-      ]
     # http://www.rubydoc.info/github/randym/axlsx/Axlsx/Workbook:use_shared_strings
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
@@ -633,10 +640,10 @@ class CandidateImport
         Rails.logger.info "xxx create_xlsx_package processing candidate:#{candidate.account_name}"
         events = confirmation_events_sorted
         sheet.add_row(candidate_columns.map do |col|
-          if image_columns.include?(col)
+          if CandidateImport.image_columns.include?(col)
             Rails.logger.info "   xxx create_xlsx_package Image:#{candidate.account_name} #{col}"
             certificate_image_column(candidate, col, dir, images)
-          elsif transient_columns.include?(col)
+          elsif CandidateImport.transient_columns.include?(col)
             # don't put these out in the spreadsheet they are associated with getting images to the server.
             Rails.logger.info "   xxx create_xlsx_package Transient:#{candidate.account_name} #{col}"
           else
@@ -715,7 +722,8 @@ class CandidateImport
         end
       else
         # no need to save id because it will get a new id when filed in.
-        columns << (prefix.empty? ? param.to_s : "#{prefix}.#{param}") unless param == :id
+        parameter = prefix.empty? ? param.to_s : "#{prefix}.#{param}"
+        columns << parameter unless param == :id || CandidateImport.transient_columns.include?(parameter)
       end
     end
   end

@@ -40,27 +40,27 @@
             <div class="field">
               <%= address_fields.label :street_1, t('label.baptismal_certificate.baptismal_certificate.church_address.street_1') %>
               <br/>
-              <%= address_fields.text_field :street_1 %>
+              <%= address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
             </div>
             <div class="field">
               <%= address_fields.label :street_2, t('label.baptismal_certificate.baptismal_certificate.church_address.street_2') %>
               <br/>
-              <%= address_fields.text_field :street_2 %>
+              <%= address_fields.text_field :street_2, autocomplete: 'address-line2' %>
             </div>
             <div class="field">
               <%= address_fields.label :city, t('label.baptismal_certificate.baptismal_certificate.church_address.city') %>
               <br/>
-              <%= address_fields.text_field :city %>
+              <%= address_fields.text_field :city, autocomplete: 'address-level2' %>
             </div>
             <div class="field">
               <%= address_fields.label :state, t('label.baptismal_certificate.baptismal_certificate.church_address.state') %>
               <br/>
-              <%= address_fields.text_field :state %>
+              <%= address_fields.text_field :state, autocomplete: 'address-level1' %>
             </div>
             <div class="field">
               <%= address_fields.label :zip_code, t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code') %>
               <br/>
-              <%= address_fields.text_field :zip_code %>
+              <%= address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
             </div>
           <% end %>
         </div>
@@ -71,19 +71,19 @@
           <div class="field">
             <%= bc_fields.label :father_first, t('label.baptismal_certificate.baptismal_certificate.father_first') %>
             <br/>
-            <%= bc_fields.text_field :father_first %>
+            <%= bc_fields.text_field :father_first, autocomplete: 'given-name' %>
           </div>
 
           <div class="field">
             <%= bc_fields.label :father_middle, t('label.baptismal_certificate.baptismal_certificate.father_middle') %>
             <br/>
-            <%= bc_fields.text_field :father_middle %>
+            <%= bc_fields.text_field :father_middle, autocomplete: 'addition-name' %>
           </div>
 
           <div class="field">
             <%= bc_fields.label :father_last, t('label.baptismal_certificate.baptismal_certificate.father_last') %>
             <br/>
-            <%= bc_fields.text_field :father_last %>
+            <%= bc_fields.text_field :father_last, autocomplete: 'family-name' %>
           </div>
         </div>
       <% end %>
@@ -93,25 +93,25 @@
           <div class="field">
             <%= bc_fields.label :mother_first, t('label.baptismal_certificate.baptismal_certificate.mother_first') %>
             <br/>
-            <%= bc_fields.text_field :mother_first %>
+            <%= bc_fields.text_field :mother_first, autocomplete: 'given-name' %>
           </div>
 
           <div class="field">
             <%= bc_fields.label :mother_middle, t('label.baptismal_certificate.baptismal_certificate.mother_middle') %>
             <br/>
-            <%= bc_fields.text_field :mother_middle %>
+            <%= bc_fields.text_field :mother_middle, autocomplete: 'addition-name' %>
           </div>
 
           <div class="field">
             <%= bc_fields.label :mother_maiden, t('label.baptismal_certificate.baptismal_certificate.mother_maiden') %>
             <br/>
-            <%= bc_fields.text_field :mother_maiden %>
+            <%= bc_fields.text_field :mother_maiden, autocomplete: 'addition-name' %>
           </div>
 
           <div class="field">
             <%= bc_fields.label :mother_last, t('label.baptismal_certificate.baptismal_certificate.mother_last') %>
             <br/>
-            <%= bc_fields.text_field :mother_last %>
+            <%= bc_fields.text_field :mother_last, autocomplete: 'family-name' %>
           </div>
         </div>
       <% end %>
@@ -123,8 +123,10 @@
 
                      fieldset_text: t('field_set.baptismal_certificate.scan'),
                      field: :certificate_picture,
+                     remove_id: :candidate_baptismal_certificate_attributes_remove_certificate_picture,
+                     remove_field: bc_fields.hidden_field(:remove_certificate_picture, value: ''),
                      scanned_image: event_association.scanned_certificate,
-                     scanned_image_field: bc_fields.file_field(:certificate_picture, accept: SideBar::IMAGE_FILE_TYPES),
+                     scanned_image_field: bc_fields.file_field(:certificate_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture');"),
                      scanned_image_label: bc_fields.label(:certificate_picture, t('label.baptismal_certificate.baptismal_certificate.certificate_picture')),
                  } %>
 

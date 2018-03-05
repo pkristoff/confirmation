@@ -199,16 +199,20 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_field(SPONSOR_NAME_LABEL, cand.sponsor_covenant.sponsor_attends_stmm ? nil : values[:sponsor_name])
 
     expect(page).to have_button(@update_id)
+
+    remove_count = if cand.sponsor_covenant.scanned_covenant.nil?
+                     0 if cand.sponsor_covenant.scanned_eligibility.nil?
+                     1 unless cand.sponsor_covenant.scanned_eligibility.nil?
+                   else
+                     1 if cand.sponsor_covenant.scanned_eligibility.nil?
+                     2 unless cand.sponsor_covenant.scanned_eligibility.nil?
+                   end
+    expect_remove_button('candidate_sponsor_covenant_attributes_remove_sponsor_covenant_picture', 'sponsor_covenant_picture') unless cand.sponsor_covenant.scanned_covenant.nil?
+    expect_remove_button('candidate_sponsor_covenant_attributes_remove_sponsor_eligibility_picture', 'sponsor_eligibility_picture') unless cand.sponsor_covenant.scanned_eligibility.nil?
+    expect(page).to have_button(I18n.t('views.common.remove_image'), count: remove_count)
+    expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
     expect_download_button(Event::Route::SPONSOR_COVENANT, cand_id, dev_path)
-  end
-
-  def expect_field(label, value)
-    if value.blank?
-      expect(page).to have_field(label)
-    else
-      expect(page).to have_field(label, with: value)
-    end
   end
 
   def fill_in_form(covenant_attach_file = true, eligibility_attach_file = true)

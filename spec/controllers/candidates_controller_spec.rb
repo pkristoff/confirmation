@@ -606,5 +606,13 @@ describe CandidatesController do
     describe 'baptismal_certificate' do
       it_behaves_like 'baptismal_certificate'
     end
+
+    describe 'sponsor_covenant' do
+      it_behaves_like 'sponsor_covenant'
+    end
+
+    describe 'retreat_verification' do
+      it_behaves_like 'retreat_verification'
+    end
   end
 end

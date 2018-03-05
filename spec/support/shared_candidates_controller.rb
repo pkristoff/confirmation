@@ -84,7 +84,7 @@ shared_context 'baptismal_certificate' do
   it 'User fills in all info and updates' do
     candidate = Candidate.find(@candidate.id)
 
-    vps = valid_parameters
+    vps = valid_parameters_bc(candidate.baptismal_certificate.id)
     vps[:certificate_picture] = fixture_file_upload('Baptismal Certificate.png', 'image/png')
     put :event_with_picture_update,
         id: candidate.id,
@@ -96,7 +96,61 @@ shared_context 'baptismal_certificate' do
     expect(flash[:notice]).to eq(I18n.t('messages.updated', cand_name: 'Sophia Agusta'))
   end
 
-  def valid_parameters
+  [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
+    it "Admin removes baptismal picture and undoes events completed state.  commit = #{commit_value}" do
+      candidate = Candidate.find(@candidate.id)
+      baptismal_certificate = make_valid_bc(candidate)
+
+      update_event(candidate, Date.today, false, I18n.t('events.baptismal_certificate'))
+      candidate.save
+
+      expect(baptismal_certificate.scanned_certificate).to_not be_nil
+
+      cand_bc_params = valid_parameters_bc(baptismal_certificate.id)
+
+      put :event_with_picture_update,
+          id: candidate.id,
+          commit: commit_value,
+          event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+          candidate: { baptismal_certificate_attributes: cand_bc_params }
+
+      candidate = Candidate.find(@candidate.id)
+      baptismal_certificate = candidate.baptismal_certificate
+      expect(baptismal_certificate.scanned_certificate).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(baptismal_certificate.scanned_certificate).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
+      expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(Date.today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.verified).to be(false)
+    end
+
+    it 'Admin removes baptismal picture and undoes events completed state and verified state' do
+      candidate = Candidate.find(@candidate.id)
+      baptismal_certificate = make_valid_bc(candidate)
+
+      update_event(candidate, Date.today, true, I18n.t('events.baptismal_certificate'))
+      candidate.save
+
+      expect(baptismal_certificate.scanned_certificate).to_not be_nil
+
+      cand_bc_params = valid_parameters_bc(baptismal_certificate.id)
+
+      put :event_with_picture_update,
+          id: candidate.id,
+          event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+          candidate: { baptismal_certificate_attributes: cand_bc_params }
+
+      candidate = Candidate.find(@candidate.id)
+      baptismal_certificate = candidate.baptismal_certificate
+      expect(baptismal_certificate.scanned_certificate).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(baptismal_certificate.scanned_certificate).to be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
+      expect(candidate_event.completed_date).to be_nil
+      expect(candidate_event.verified).to be(false)
+    end
+  end
+
+  def valid_parameters_bc(id)
     {
       birth_date: '2000-07-01',
       baptismal_date: '2000-09-27',
@@ -114,8 +168,31 @@ shared_context 'baptismal_certificate' do
       mother_first: 'Mary',
       mother_middle: 'Middle',
       mother_maiden: 'Maiden',
-      mother_last: 'Maiden'
+      mother_last: 'Maiden',
+      remove_certificate_picture: 'Remove',
+      id: id.to_s
     }
+  end
+
+  def make_valid_bc(candidate)
+    baptismal_certificate = candidate.baptismal_certificate
+    baptismal_certificate.baptized_at_stmm = false
+    baptismal_certificate.birth_date = Date.today
+    baptismal_certificate.baptismal_date = Date.today
+    baptismal_certificate.church_name = 'St. me'
+    baptismal_certificate.father_first = 'Paul'
+    baptismal_certificate.father_middle = 'R'
+    baptismal_certificate.father_last = 'K'
+    baptismal_certificate.mother_first = 'Vicki'
+    baptismal_certificate.mother_middle = 'A'
+    baptismal_certificate.mother_maiden = 'K'
+    baptismal_certificate.mother_last = 'K'
+    baptismal_certificate.church_address.street_1 = 'street_1'
+    baptismal_certificate.church_address.city = 'city'
+    baptismal_certificate.church_address.state = 'state'
+    baptismal_certificate.church_address.zip_code = '99999'
+    baptismal_certificate.scanned_certificate = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+    baptismal_certificate
   end
 end
 
@@ -144,6 +221,213 @@ shared_context 'sign_agreement' do
     expect(@request.fullpath).to eq("/#{@dev}sign_agreement.#{candidate.id}?candidate%5Bsigned_agreement%5D=1")
     expect(candidate.signed_agreement).to eq(true)
     expect(candidate_event.completed_date).to eq(Date.today)
+  end
+end
+
+shared_context 'retreat_verification' do
+  before(:each) do
+    AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
+  end
+
+  [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
+    it "Admin removes retreat verification picture and undoes events completed state.  commit = #{commit_value}" do
+      candidate = Candidate.find(@candidate.id)
+      retreat_verification = make_valid_rv(candidate)
+
+      update_event(candidate, Date.today, false, I18n.t('events.retreat_verification'))
+      candidate.save
+
+      expect(retreat_verification.scanned_retreat).to_not be_nil
+
+      cand_rv_params = valid_parameters_rv(retreat_verification.id)
+
+      put :event_with_picture_update,
+          id: candidate.id,
+          commit: commit_value,
+          event_name: Event::Route::RETREAT_VERIFICATION,
+          candidate: { retreat_verification_attributes: cand_rv_params }
+
+      candidate = Candidate.find(@candidate.id)
+      retreat_verification = candidate.retreat_verification
+      expect(retreat_verification.scanned_retreat).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(retreat_verification.scanned_retreat).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(I18n.t('events.retreat_verification'))
+      expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(Date.today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.verified).to be(false)
+    end
+
+    it "Admin removes retreat picture and undoes events completed state and verified state.  commit = #{commit_value}" do
+      candidate = Candidate.find(@candidate.id)
+      retreat_verification = make_valid_rv(candidate)
+
+      update_event(candidate, Date.today, true, I18n.t('events.retreat_verification'))
+      candidate.save
+
+      expect(retreat_verification.scanned_retreat).to_not be_nil
+
+      cand_bc_params = valid_parameters_rv(retreat_verification.id)
+
+      put :event_with_picture_update,
+          id: candidate.id,
+          event_name: Event::Route::RETREAT_VERIFICATION,
+          candidate: { retreat_verification_attributes: cand_bc_params }
+
+      candidate = Candidate.find(@candidate.id)
+      retreat_verification = candidate.retreat_verification
+      expect(retreat_verification.scanned_retreat).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(retreat_verification.scanned_retreat).to be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(I18n.t('events.retreat_verification'))
+      expect(candidate_event.completed_date).to be_nil
+      expect(candidate_event.verified).to be(false)
+    end
+  end
+
+  def valid_parameters_rv(id)
+    {
+      retreat_held_at_stmm: '0',
+      start_date: Date.today.to_s,
+      end_date: Date.today.to_s,
+      who_held_retreat: 'c',
+      where_held_retreat: 'St. Paul',
+      remove_retreat_verification_picture: 'Remove',
+      id: id.to_s
+    }
+  end
+
+  def make_valid_rv(candidate)
+    retreat_verification = candidate.retreat_verification
+    retreat_verification.retreat_held_at_stmm = false
+    retreat_verification.start_date = Date.today
+    retreat_verification.end_date = Date.today
+    retreat_verification.who_held_retreat = 'St. Paul'
+    retreat_verification.where_held_retreat = 'St. Paul'
+    retreat_verification.scanned_retreat = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+    retreat_verification
+  end
+end
+
+shared_context 'sponsor_covenant' do
+
+  before(:each) do
+    AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
+  end
+  [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
+    it "Admin removes sponsor covenant picture and undoes events completed state.  commit = #{commit_value}" do
+      candidate = Candidate.find(@candidate.id)
+      sponsor_covenant = make_valid_sc(candidate)
+
+      update_event(candidate, Date.today, false, I18n.t('events.sponsor_covenant'))
+      candidate.save
+
+      expect(sponsor_covenant.scanned_covenant).to_not be_nil
+
+      cand_sc_params = valid_parameters_sc(sponsor_covenant.id)
+
+      put :event_with_picture_update,
+          id: candidate.id,
+          commit: commit_value,
+          event_name: Event::Route::SPONSOR_COVENANT,
+          candidate: { sponsor_covenant_attributes: cand_sc_params }
+
+      candidate = Candidate.find(@candidate.id)
+      sponsor_covenant = candidate.sponsor_covenant
+      expect(sponsor_covenant.scanned_covenant).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_covenant.scanned_covenant).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_covenant'))
+      expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(Date.today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.verified).to be(false)
+    end
+
+    it 'Admin removes sponsor covenant picture and undoes events completed state and verified state' do
+      candidate = Candidate.find(@candidate.id)
+      sponsor_covenant = make_valid_sc(candidate)
+
+      update_event(candidate, Date.today, true, I18n.t('events.sponsor_covenant'))
+      candidate.save
+
+      expect(sponsor_covenant.scanned_covenant).to_not be_nil
+
+      cand_sc_params = valid_parameters_sc(sponsor_covenant.id)
+
+      put :event_with_picture_update,
+          id: candidate.id,
+          event_name: Event::Route::SPONSOR_COVENANT,
+          candidate: { sponsor_covenant_attributes: cand_sc_params }
+
+      candidate = Candidate.find(@candidate.id)
+      sponsor_covenant = candidate.sponsor_covenant
+      expect(sponsor_covenant.scanned_covenant).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_covenant.scanned_covenant).to be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_covenant'))
+      expect(candidate_event.completed_date).to be_nil
+      expect(candidate_event.verified).to be(false)
+    end
+    it "Admin removes sponsor eligibility picture and undoes events completed state.  commit = #{commit_value}" do
+      candidate = Candidate.find(@candidate.id)
+      sponsor_covenant = make_valid_sc_eligibility(candidate)
+
+      update_event(candidate, Date.today, false, I18n.t('events.sponsor_covenant'))
+      candidate.save
+
+      cand_sc_params = valid_parameters_sc_eligibility(sponsor_covenant.id)
+
+      put :event_with_picture_update,
+          id: candidate.id,
+          commit: commit_value,
+          event_name: Event::Route::SPONSOR_COVENANT,
+          candidate: { sponsor_covenant_attributes: cand_sc_params }
+
+      candidate = Candidate.find(@candidate.id)
+      sponsor_covenant = candidate.sponsor_covenant
+      expect(sponsor_covenant.scanned_covenant).to_not be_nil
+      expect(sponsor_covenant.scanned_eligibility).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_covenant.scanned_eligibility).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_covenant'))
+      expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(Date.today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.verified).to be(false)
+    end
+  end
+
+  def valid_parameters_sc(id)
+    {
+      sponsor_name: '1',
+      sponsor_attends_stmm: '1',
+      remove_sponsor_covenant_picture: 'Remove',
+      remove_sponsor_eligibility_picture: '',
+      id: id.to_s
+    }
+  end
+
+  def valid_parameters_sc_eligibility(id)
+    {
+      sponsor_name: 'youyoou',
+      sponsor_attends_stmm: '0',
+      sponsor_church: 'St. youyou',
+      remove_sponsor_covenant_picture: '',
+      remove_sponsor_eligibility_picture: 'Remove',
+      id: id.to_s
+    }
+  end
+
+  def make_valid_sc(candidate)
+    sponsor_covenant = candidate.sponsor_covenant
+    sponsor_covenant.sponsor_attends_stmm = true
+    sponsor_covenant.sponsor_name = 'meme'
+    sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+    sponsor_covenant
+  end
+
+  def make_valid_sc_eligibility(candidate)
+    sponsor_covenant = candidate.sponsor_covenant
+    sponsor_covenant.sponsor_attends_stmm = false
+    sponsor_covenant.sponsor_name = 'meme'
+    sponsor_covenant.sponsor_church = 'St. meme'
+    sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'lll')
+    sponsor_covenant.scanned_eligibility = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+    sponsor_covenant
   end
 end
 
@@ -218,4 +502,10 @@ shared_context 'candidate_information_sheet' do
     expect(candidate.candidate_sheet.address.city).to eq('wayville')
     expect(candidate_event.completed_date).to eq(Date.today)
   end
+end
+
+def update_event(candidate, completed_date, verified, event_name)
+  candidate_event = candidate.get_candidate_event(event_name)
+  candidate_event.completed_date = completed_date
+  candidate_event.verified = verified
 end

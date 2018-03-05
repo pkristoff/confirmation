@@ -254,14 +254,4 @@ module SortingCandListHelpers
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
     expect_download_button(Event::Document::CHRISTIAN_MINISTRY, cand_id, dev_path)
   end
-
-  private
-
-  def expect_field(label, value)
-    if value.nil? || value == ''
-      expect(page).to have_field(label)
-    else
-      expect(page).to have_field(label, with: value)
-    end
-  end
 end

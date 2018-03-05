@@ -34,19 +34,23 @@ class CommonCandidatesController < ApplicationController
 
     return admin_unverified_private(@candidate, candidate_event) if is_unverify
 
-    if @is_verify.nil?
-      is_verify = false
-    else
-      is_verify = @is_verify
-    end
+    is_verify = @is_verify.nil? ? false : @is_verify
     render_called = false
     if params['candidate']
       case event_name.to_sym
       when Event::Route::SPONSOR_COVENANT
         sponsor_covenant = @candidate.sponsor_covenant
         sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
-        setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, :scanned_covenant_attributes, sponsor_covenant_params)
-        setup_file_params(sponsor_covenant_params[:sponsor_eligibility_picture], sponsor_covenant, :scanned_eligibility_attributes, sponsor_covenant_params)
+        if sponsor_covenant_params[:remove_sponsor_covenant_picture] == 'Remove'
+          sponsor_covenant.scanned_covenant = nil
+          else
+          setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, :scanned_covenant_attributes, sponsor_covenant_params)
+        end
+        if sponsor_covenant_params[:remove_sponsor_eligibility_picture] == 'Remove'
+          sponsor_covenant.scanned_eligibility = nil
+          else
+          setup_file_params(sponsor_covenant_params[:sponsor_eligibility_picture], sponsor_covenant, :scanned_eligibility_attributes, sponsor_covenant_params)
+        end
 
         render_called = event_with_picture_update_private(SponsorCovenant, is_verify)
 
@@ -55,6 +59,9 @@ class CommonCandidatesController < ApplicationController
         baptismal_certificate = @candidate.baptismal_certificate
         unless baptized_at_stmm
           baptismal_certificate_params = params[:candidate][:baptismal_certificate_attributes]
+          if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
+            baptismal_certificate.scanned_certificate = nil
+          end
           setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, baptismal_certificate_params)
         end
 
@@ -63,6 +70,9 @@ class CommonCandidatesController < ApplicationController
       when Event::Route::RETREAT_VERIFICATION
         retreat_verification = @candidate.retreat_verification
         retreat_verification_params = params[:candidate][:retreat_verification_attributes]
+        if retreat_verification_params[:remove_retreat_verification_picture] == 'Remove'
+          retreat_verification.scanned_retreat = nil
+        end
         setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, :scanned_retreat_attributes, retreat_verification_params)
 
         render_called = event_with_picture_update_private(RetreatVerification, is_verify)
@@ -377,7 +387,6 @@ class CommonCandidatesController < ApplicationController
     ensure
       File.delete(pdf_file_path) if File.exists?(pdf_file_path)
       File.delete(jpg_file_path) if File.exists?(jpg_file_path)
-
     end
   end
 

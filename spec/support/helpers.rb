@@ -114,3 +114,17 @@ def expect_image_upload(key, picture_column, label)
   expect(page).to have_css("input[id=candidate_#{key}_attributes_#{picture_column}][type=file][accept='#{SideBar::IMAGE_FILE_TYPES}']")
   expect(page).to have_css("label[for=candidate_#{key}_attributes_#{picture_column}]", text: label)
 end
+
+def expect_remove_button(hidden_id, field)
+  expect(page).to have_selector("button[type=button][id=remove-#{field}][class=show-div]", text: I18n.t('views.common.remove_image'))
+  expect(page).to have_selector("button[type=button][id=replace-#{field}][class=hide-div]", text: I18n.t('views.common.replace_image'))
+  expect(page).to have_selector("input[type=hidden][id=#{hidden_id}][value='']", visible: false)
+end
+
+def expect_field(label, value)
+  if value.blank?
+    expect(page).to have_field(label)
+  else
+    expect(page).to have_field(label, with: value)
+  end
+end

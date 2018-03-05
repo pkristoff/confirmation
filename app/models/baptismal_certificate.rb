@@ -12,7 +12,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   after_initialize :build_associations, if: :new_record?
 
-  attr_accessor :certificate_picture
+  attr_accessor :certificate_picture, :remove_certificate_picture
 
   # Validate if event is complete by adding validation errors to active record
   #
@@ -91,7 +91,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   def self.basic_permitted_params
     %I[birth_date baptismal_date church_name father_first father_middle father_last
-       mother_first mother_middle mother_maiden mother_last certificate_picture
+       mother_first mother_middle mother_maiden mother_last certificate_picture remove_certificate_picture
        scanned_certificate id baptized_at_stmm first_comm_at_stmm show_empty_radio]
   end
 
@@ -104,6 +104,7 @@ class BaptismalCertificate < ActiveRecord::Base
   def self.basic_validation_params
     params = BaptismalCertificate.basic_permitted_params
     params.delete(:certificate_picture)
+    params.delete(:remove_certificate_picture)
     params.delete(:baptized_at_stmm)
     params.delete(:first_comm_at_stmm)
     params
