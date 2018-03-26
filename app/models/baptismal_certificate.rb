@@ -205,6 +205,6 @@ class BaptismalCertificate < ActiveRecord::Base
   end
 
   def info_show
-    chosen_first_comm_at_stmm? && !first_comm_at_stmm
+    chosen_baptized_at_stmm? && !baptized_at_stmm
   end
 end

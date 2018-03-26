@@ -32,7 +32,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
   end
 
-  scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 0nothing else showing' do
+  scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 0 nothing else showing' do
     @candidate.baptismal_certificate.baptized_at_stmm = true
     @candidate.baptismal_certificate.show_empty_radio = 0
     @candidate.save
@@ -43,7 +43,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
   end
 
-  scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 0nothing else showing' do
+  scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 0 nothing else showing' do
     @candidate.baptismal_certificate.baptized_at_stmm = true
     @candidate.baptismal_certificate.show_empty_radio = 1
     @candidate.save
@@ -54,7 +54,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
   end
 
-  scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showung - no check showing' do
+  scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showing - no check showing' do
     @candidate.baptismal_certificate.baptized_at_stmm = false
     @candidate.baptismal_certificate.show_empty_radio = 1
     @candidate.save
@@ -62,10 +62,10 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true)
   end
 
-  scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showung - yes check' do
+  scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showing - yes check' do
     @candidate.baptismal_certificate.baptized_at_stmm = false
     @candidate.baptismal_certificate.first_comm_at_stmm = true
     @candidate.baptismal_certificate.show_empty_radio = 2
@@ -74,7 +74,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true)
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showung - no check' do

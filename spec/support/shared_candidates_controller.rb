@@ -308,7 +308,6 @@ shared_context 'retreat_verification' do
 end
 
 shared_context 'sponsor_covenant' do
-
   before(:each) do
     AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
   end

@@ -161,16 +161,25 @@ describe BaptismalCertificate, type: :model do
         expect(baptismal_certificate.first_comm_show).to eq(false)
       end
     end
+    
     describe 'info_show' do
 
-      it 'should not show: true' do
+      it 'should show: true' do
+        baptismal_certificate = FactoryBot.create(:baptismal_certificate)
+        baptismal_certificate.baptized_at_stmm = true
+        baptismal_certificate.show_empty_radio = 1
+
+        expect(baptismal_certificate.info_show).to eq(false)
+      end
+
+      it 'should show: true' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
         baptismal_certificate.baptized_at_stmm = false
         baptismal_certificate.show_empty_radio = 1
 
         baptismal_certificate.first_comm_at_stmm = true
 
-        expect(baptismal_certificate.info_show).to eq(false)
+        expect(baptismal_certificate.info_show).to eq(true)
       end
 
       it 'should show: false' do

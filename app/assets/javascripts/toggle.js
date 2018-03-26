@@ -147,7 +147,7 @@ confirmation_toggle = function () {
     }
 
     function first_comm_yes() {
-        toggle_top( '#baptismal-certificate-top', 'hide' );
+        toggle_top( '#baptismal-certificate-top', 'show' );
         update_show_empty_radio( 'first_comm' );
     }
 
