@@ -62,7 +62,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true)
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = true, show_empty_radio = 1 fc showing - yes check' do
@@ -238,6 +238,23 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false)
 
     expect_db(1, 9, 1) # make sure DB does not increase in size.
+  end
+
+  scenario 'admin logs in and selects a candidate, checks no for baptized_at_stmm and updates' do
+    @candidate.baptismal_certificate.baptized_at_stmm = false
+    @candidate.baptismal_certificate.first_comm_at_stmm = false
+    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.save
+    update_baptismal_certificate(false)
+
+    visit @path
+
+    click_button @update_id
+
+    candidate = Candidate.find(@candidate.id)
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true,
+                                      expect_messages: [[:flash_notice, @updated_failed_verification],
+                                                        [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: I received First Communion at Saint Mary Magdalene should be checked.']])
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds non-picture data, updates, adds picture, updates - everything is saved' do

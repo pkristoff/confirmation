@@ -185,11 +185,11 @@ class BaptismalCertificate < ActiveRecord::Base
   end
 
   def first_comm_at_stmm_show_yes
-    first_comm_show && first_comm_at_stmm
+    chosen_first_comm_at_stmm? && first_comm_at_stmm
   end
 
   def first_comm_at_stmm_show_no
-    first_comm_show && !first_comm_at_stmm
+    chosen_first_comm_at_stmm? && !first_comm_at_stmm
   end
 
   def first_comm_show
@@ -205,6 +205,6 @@ class BaptismalCertificate < ActiveRecord::Base
   end
 
   def info_show
-    chosen_baptized_at_stmm? && !baptized_at_stmm
+    chosen_first_comm_at_stmm? && !baptized_at_stmm
   end
 end
