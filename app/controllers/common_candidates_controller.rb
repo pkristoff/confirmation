@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require 'constants'
 
+#
+# Handles CommonCandidate tasks
+#
 class CommonCandidatesController < ApplicationController
-
   attr_accessor :resource # for testing
 
   def event_with_picture_verify
@@ -43,12 +47,12 @@ class CommonCandidatesController < ApplicationController
         sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
         if sponsor_covenant_params[:remove_sponsor_covenant_picture] == 'Remove'
           sponsor_covenant.scanned_covenant = nil
-          else
+        else
           setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, :scanned_covenant_attributes, sponsor_covenant_params)
         end
         if sponsor_covenant_params[:remove_sponsor_eligibility_picture] == 'Remove'
           sponsor_covenant.scanned_eligibility = nil
-          else
+        else
           setup_file_params(sponsor_covenant_params[:sponsor_eligibility_picture], sponsor_covenant, :scanned_eligibility_attributes, sponsor_covenant_params)
         end
 
@@ -84,7 +88,6 @@ class CommonCandidatesController < ApplicationController
     end
     @resource = @candidate
     render_event_with_picture(render_called, event_name, is_verify)
-
   end
 
   def candidate_sheet
@@ -99,7 +102,6 @@ class CommonCandidatesController < ApplicationController
 
     @resource = @candidate
     render :candidate_sheet unless render_called
-
   end
 
   def christian_ministry
@@ -114,7 +116,6 @@ class CommonCandidatesController < ApplicationController
 
     @resource = @candidate
     render :christian_ministry unless render_called
-
   end
 
   def download_document
@@ -126,7 +127,6 @@ class CommonCandidatesController < ApplicationController
     ensure
       pdf.close
     end
-
   end
 
   def event_with_picture_image
@@ -172,11 +172,9 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     @is_verify = false
     rendered_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'))
-    unless rendered_called
-      # @candidate = Candidate.find(params[:id])
-      @resource = @candidate
-      render :sign_agreement
-    end
+    return if rendered_called
+    @resource = @candidate
+    render :sign_agreement
   end
 
   def sign_agreement_verify
@@ -188,9 +186,8 @@ class CommonCandidatesController < ApplicationController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = params[:event_name]
     @candidate = Candidate.find(candidate_id)
-    candidate_event = @candidate.get_candidate_event(I18n.t("events.candidate_covenant_agreement"))
+    candidate_event = @candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
 
     return admin_unverified_private(@candidate, candidate_event) if is_unverify
 
@@ -203,18 +200,16 @@ class CommonCandidatesController < ApplicationController
   def agreement_update_private(event_name, signed_param_name, field_name, admin_verified = false)
     candidate_event = @candidate.get_candidate_event(event_name)
     if params['candidate']
-      # TODO move logic to association instance.
-      if params['candidate'][signed_param_name] === '1'
+      # TODO: move logic to association instance.
+      if params['candidate'][signed_param_name] == '1'
         candidate_event.completed_date = Date.today if candidate_event.completed_date.nil?
         candidate_event.verified = true unless candidate_event.verified
+      elsif params['candidate'][signed_param_name] == '0'
+        candidate_event.completed_date = nil
+        candidate_event.verified = false
       else
-        if params['candidate'][signed_param_name] === '0'
-          candidate_event.completed_date = nil
-          candidate_event.verified = false
-        else
-          redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate'][signed_param_name]: %{params['candidate'][signed_param_name]")
-          return false
-        end
+        redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate'][signed_param_name]: %{params['candidate'][signed_param_name]")
+        return false
       end
     else
       redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: 'candidate')
@@ -305,7 +300,7 @@ class CommonCandidatesController < ApplicationController
       if candidate_event.save
         flash['notice'] = I18n.t('messages.updated_verified', cand_name: cand_name)
         render_called = true
-        set_candidates(confirmation_event: candidate_event.confirmation_event)
+        candidates_info(confirmation_event: candidate_event.confirmation_event)
         render(:'admins/mass_edit_candidates_event')
       else
         flash['alert'] = "Save of #{event_name} failed"
@@ -331,7 +326,7 @@ class CommonCandidatesController < ApplicationController
     candidate_event.verified = false
     if candidate_event.save
       flash['notice'] = I18n.t('messages.updated_unverified', cand_name: cand_name)
-      set_candidates(confirmation_event: candidate_event.confirmation_event)
+      candidates_info(confirmation_event: candidate_event.confirmation_event)
       render(:'admins/mass_edit_candidates_event')
     else
       redirect_to :back, alert: I18n.t('messages.save_failed')
@@ -339,19 +334,18 @@ class CommonCandidatesController < ApplicationController
   end
 
   def render_event_with_picture(render_called, event_name, is_verify = false)
-    unless render_called
-      @event_with_picture_name = event_name
-      @is_dev = !admin?
+    return if render_called
+    @event_with_picture_name = event_name
+    @is_dev = !admin?
 
-      @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
-      flash[:alert] = "Internal Error: unknown event: #{event_name}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?
-      render :event_with_picture unless is_verify
-      render :event_with_picture_verify if is_verify
-    end
+    @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
+    flash[:alert] = "Internal Error: unknown event: #{event_name}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?
+    render :event_with_picture unless is_verify
+    render :event_with_picture_verify if is_verify
   end
 
   def send_image(scanned_image)
-    if scanned_image.content_type === 'image/octet-stream'
+    if scanned_image.content_type == 'image/octet-stream'
       send_octet(scanned_image)
     else
       conts = scanned_image.content
@@ -370,10 +364,9 @@ class CommonCandidatesController < ApplicationController
       f.write(scanned_image.content)
     end
     begin
-
       pdf = Magick::ImageList.new(pdf_file_path)
 
-      pdf.each_with_index do |page_img, i|
+      pdf.each do |page_img|
         page_img.write jpg_file_path
       end
       conts = nil
@@ -385,13 +378,12 @@ class CommonCandidatesController < ApplicationController
                 type: 'image/jpg',
                 disposition: 'inline'
     ensure
-      File.delete(pdf_file_path) if File.exists?(pdf_file_path)
-      File.delete(jpg_file_path) if File.exists?(jpg_file_path)
+      File.delete(pdf_file_path) if File.exist?(pdf_file_path)
+      File.delete(jpg_file_path) if File.exist?(jpg_file_path)
     end
   end
 
   def setup_file_params(file, association, scanned_image_attributes, association_params)
-
     scanned_filename = nil
     scanned_content_type = nil
     scanned_content = nil
@@ -428,14 +420,12 @@ class CommonCandidatesController < ApplicationController
     else
       raise "Unknown scanned_image_attributes #{scanned_image_attributes}"
     end
-    unless scanned_filename.nil?
-      picture_params = ActionController::Parameters.new
-      association_params[scanned_image_attributes] = picture_params
-      picture_params[:filename] = scanned_filename
-      picture_params[:content_type] = scanned_content_type
-      picture_params[:content] = scanned_content
-      picture_params[:id] = scanned_image_id unless scanned_image_id.nil?
-    end
+    return if scanned_filename.nil?
+    picture_params = ActionController::Parameters.new
+    association_params[scanned_image_attributes] = picture_params
+    picture_params[:filename] = scanned_filename
+    picture_params[:content_type] = scanned_content_type
+    picture_params[:content] = scanned_content
+    picture_params[:id] = scanned_image_id unless scanned_image_id.nil?
   end
-
 end

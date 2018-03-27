@@ -31,7 +31,7 @@ class CandidatesController < CommonCandidatesController
   end
 
   def index
-    set_candidates
+    candidates_info
   end
 
   def admin?

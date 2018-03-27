@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 module Dev
   # Used when candidate is signed in (as opposed to admin, who has authority to do the same thing).
   class CandidatesController < CommonCandidatesController
-
     # CANDIDATE ONLY
 
     helper DeviseHelper
 
     # make the following methods available in the view.
-    helpers = %w(resource scope_name resource_name signed_in_resource
-               resource_class resource_params devise_mapping)
+    helpers = %w[resource scope_name resource_name signed_in_resource
+                 resource_class resource_params devise_mapping]
     helper_method(*helpers)
 
     # used for testing only
@@ -30,9 +31,7 @@ module Dev
 
     # Should never be called
     def index
-      unless admin_signed_in?
-        redirect_to :back, alert: 'Please login as admin to see list of candidates.'
-      end
+      redirect_to :back, alert: 'Please login as admin to see list of candidates.' unless admin_signed_in?
     end
 
     def admin?
@@ -42,10 +41,7 @@ module Dev
     # Should never be called
     def show
       @candidate = Candidate.find(params[:id])
-      unless @candidate == current_candidate
-        redirect_to :back, alert: I18n.t('messages.accessed_denied')
-      end
+      redirect_to :back, alert: I18n.t('messages.accessed_denied') unless @candidate == current_candidate
     end
-
   end
 end

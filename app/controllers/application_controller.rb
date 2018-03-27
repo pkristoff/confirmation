@@ -1,7 +1,11 @@
-include ApplicationHelper
+# frozen_string_literal: true
 
+#
+# Handles Common Application tasks
+#
 class ApplicationController < ActionController::Base
-  before_filter :configure_permitted_parameters, if: :devise_controller?
+  include ApplicationHelper
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -10,22 +14,21 @@ class ApplicationController < ActionController::Base
   # map  from candidate_event status to css class
   # it should match candidate_event.status
   def event_class(candidate_event)
-
     case candidate_event.status
-      when I18n.t('status.not_started')
-        'event-unitialized'
-      when I18n.t('status.coming_due')
-        'event-coming-due'
-      when I18n.t('status.late')
-        'event-late'
-      when I18n.t('status.awaiting_candidate')
-        'event-awaiting-candidate'
-      when I18n.t('status.awaiting_admin')
-        'event-awaiting-verification'
-      when I18n.t('status.verified')
-        'event-completed'
-      else
-        raise("Unknown candidate_event status = #{candidate_event.status}")
+    when I18n.t('status.not_started')
+      'event-unitialized'
+    when I18n.t('status.coming_due')
+      'event-coming-due'
+    when I18n.t('status.late')
+      'event-late'
+    when I18n.t('status.awaiting_candidate')
+      'event-awaiting-candidate'
+    when I18n.t('status.awaiting_admin')
+      'event-awaiting-verification'
+    when I18n.t('status.verified')
+      'event-completed'
+    else
+      raise("Unknown candidate_event status = #{candidate_event.status}")
     end
   end
 
@@ -61,9 +64,10 @@ class ApplicationController < ActionController::Base
   def sponsor_eligibility_file_params
     params.require(:candidate).permit(sponsor_covenant_attributes: [:scanned_eligibility])
   end
-#TODO Remove?
+
+  # TODO: Remove?
   def pick_confirmation_name_file_params
-    params.require(:candidate).permit(pick_confirmation_name_attributes: [:pick_confirmation_name_filename, :pick_confirmation_name_content_type, :pick_confirmation_name_file_contents])
+    params.require(:candidate).permit(pick_confirmation_name_attributes: %i[pick_confirmation_name_filename pick_confirmation_name_content_type pick_confirmation_name_file_contents])
   end
 
   def candidate_permitted_params
@@ -72,19 +76,17 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     stored_location_for(resource) ||
-        if resource.is_a?(Candidate)
-          if candidate_signed_in?
-            event_candidate_registration_url(resource.id)
-          else
-            candidate_url(resource.id)
-          end
+      if resource.is_a?(Candidate)
+        if candidate_signed_in?
+          event_candidate_registration_url(resource.id)
         else
-          if admin_signed_in?
-            admin_path(resource.id)
-          else
-            super
-          end
+          candidate_url(resource.id)
         end
+      elsif admin_signed_in?
+        admin_path(resource.id)
+      else
+        super
+      end
   end
 
   # sets info for _sorting_candidate_selection.html.erb
@@ -94,8 +96,8 @@ class ApplicationController < ActionController::Base
   # * <tt>_selected_candidate_ids_</tt> Array of initially selected candidates
   # * <tt>_confirmation_event_</tt> Confirmation event used for mass update of candidate event for candidates.
   #
-  def set_candidates(args = {})
-    args = {confirmation_event: nil, selected_candidate_ids: []}.merge(args)
+  def candidates_info(args = {})
+    args = { confirmation_event: nil, selected_candidate_ids: [] }.merge(args)
     @confirmation_event = args[:confirmation_event]
     @selected_candidate_ids = args[:selected_candidate_ids]
     ce_id = @confirmation_event.nil? ? nil : @confirmation_event.id

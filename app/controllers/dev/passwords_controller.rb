@@ -1,6 +1,10 @@
-module Dev
-  class PasswordsController < Devise::PasswordsController
+# frozen_string_literal: true
 
+module Dev
+  #
+  # Handles Password tasks
+  #
+  class PasswordsController < Devise::PasswordsController
     def edit
       original_token = params[:reset_password_token]
       candidate = candidate_from_token(original_token)
@@ -24,24 +28,20 @@ module Dev
     end
 
     def respond_with(*args)
-      if args.size > 0
-        candidate = args[0]
-        parms = resource_params
-        if candidate.respond_to?(:account_confirmed?) && candidate.account_confirmed? && !parms['was_confirmed']
-          flash[:notice] = t('messages.password.reset_and_confirmed', name: candidate.account_name)
-        else
-          Rails.logger.info("respond_with either candidate=#{candidate} is not a candidate or !parms['was_confirmed']=#{!parms['was_confirmed']}")
-        end
+      raise('PasswordsController.respond_with called with no args') if args.empty?
+      candidate = args[0]
+      parms = resource_params
+      if candidate.respond_to?(:account_confirmed?) && candidate.account_confirmed? && !parms['was_confirmed']
+        flash[:notice] = t('messages.password.reset_and_confirmed', name: candidate.account_name)
       else
-        raise('PasswordsController.respond_with called with no args')
+        Rails.logger.info("respond_with either candidate=#{candidate} is not a candidate or !parms['was_confirmed']=#{!parms['was_confirmed']}")
       end
       super
     end
 
     def candidate_from_token(original_token)
       reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
-      candidate = Candidate.find_by_reset_password_token(reset_password_token)
+      Candidate.find_by(reset_password_token: reset_password_token)
     end
-
   end
 end

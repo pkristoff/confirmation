@@ -1,9 +1,11 @@
-module Dev
-  class RegistrationsController < Devise::RegistrationsController
+# frozen_string_literal: true
 
+module Dev
+  #
+  # Handles Registration tasks
+  #
+  class RegistrationsController < Devise::RegistrationsController
     before_action :authenticate_candidate!
-    # skip_before_filter :require_no_authentication, only: [:new, :create, :destroy, :event]
-    # prepend_before_filter :require_no_authentication, :only => [ :new, :create ]
 
     def create
       redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin'))
@@ -17,7 +19,7 @@ module Dev
       redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_candidate'))
     end
 
-    def after_update_path_for(resource_or_scope)
+    def after_update_path_for(_resource_or_scope)
       dev_candidate_path(current_candidate.id)
     end
 
@@ -25,16 +27,13 @@ module Dev
       Devise.mappings[:candidate]
     end
 
-    def build_resource (hash=nil)
+    def build_resource(hash = nil)
       candidate = super(hash)
       AppFactory.add_candidate_events(candidate)
     end
 
     def event
-      unless candidate_signed_in?
-        redirect_to root_path, alert: I18n.t('devise.failure.timeout')
-      end
+      redirect_to root_path, alert: I18n.t('devise.failure.timeout') unless candidate_signed_in?
     end
-
   end
 end

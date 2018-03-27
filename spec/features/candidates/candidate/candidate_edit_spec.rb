@@ -26,7 +26,7 @@ feature 'Candidate edit', :devise do
     fill_in 'Parent email 1', :with => 'newemail@example.com'
     fill_in I18n.t('views.admins.current_password'), :with => @candidate.password
     click_button I18n.t('views.common.update')
-    expect_message(:flash_notice, I18n.t('devise.registrations.updated'))
+    expect_message(:'flash_notice', I18n.t('devise.registrations.updated'))
   end
 
   # Scenario: Candidate must supply password to make changes

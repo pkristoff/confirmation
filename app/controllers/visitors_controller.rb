@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+#
+# Handles Admin tasks
+#
 class VisitorsController < ApplicationController
   def index
     if candidate_signed_in?
@@ -9,7 +14,7 @@ class VisitorsController < ApplicationController
   end
 
   def candidate_confirmation
-    @candidate = (params[:id].to_i.equal?('-1'.to_i)) ? Candidate.create : Candidate.find(params[:id])
+    @candidate = params[:id].to_i.equal?('-1'.to_i) ? Candidate.create : Candidate.find(params[:id])
     @errors = params[:errors]
     sign_out current_admin if admin_signed_in?
   end

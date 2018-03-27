@@ -5,9 +5,7 @@ describe 'Internal' do
   describe 'app' do
 
     it 'should pass controllers' do
-      expect(system 'rubocop app/controllers/admins_controller.rb').to eq(true)
-      expect(system 'rubocop app/controllers/export_lists_controller.rb').to eq(true)
-      expect(system 'rubocop app/controllers/candidates_controller.rb').to eq(true)
+      expect(system 'rubocop app/controllers/').to eq(true)
     end
 
     it 'should pass app helpers' do
@@ -50,7 +48,4 @@ describe 'Internal' do
       expect(system 'rubocop config/initializers/version.rb').to eq(true)
     end
   end
-  # it 'should pass views' do
-  #   expect(system 'rubocop app/views/candidates/shared').to eq(true)
-  # end
 end

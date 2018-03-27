@@ -139,4 +139,23 @@ module ViewsHelpers
     end
     AppFactory.add_confirmation_event('unknown event')
   end
+
+  def expect_db(candidate_size, conf_event_size, image_size)
+    expect(ConfirmationEvent.all.size).to eq(conf_event_size), "ConfirmationEvent size #{ConfirmationEvent.all.size} did not meet expected #{conf_event_size}"
+
+    expect(Candidate.all.size).to eq(candidate_size), "Candidate size #{Candidate.all.size} did not meet expected #{candidate_size}"
+
+    expect(BaptismalCertificate.all.size).to eq(candidate_size), "BaptismalCertificate size #{BaptismalCertificate.all.size} did not meet expected #{candidate_size}"
+    expect(CandidateSheet.all.size).to eq(candidate_size), "CandidateSheet size #{CandidateSheet.all.size} did not meet expected #{candidate_size}"
+    expect(ChristianMinistry.all.size).to eq(candidate_size), "ChristianMinistry size #{ChristianMinistry.all.size} did not meet expected #{candidate_size}"
+    expect(PickConfirmationName.all.size).to eq(candidate_size), "PickConfirmationName size #{PickConfirmationName.all.size} did not meet expected #{candidate_size}"
+    expect(RetreatVerification.all.size).to eq(candidate_size), "RetreatVerification size #{RetreatVerification.all.size} did not meet expected #{candidate_size}"
+    expect(SponsorCovenant.all.size).to eq(candidate_size), "SponsorCovenant size #{SponsorCovenant.all.size} did not meet expected #{candidate_size}"
+
+    expect(Address.all.size).to eq(candidate_size * 2), "Address size #{Address.all.size} did not meet expected #{candidate_size * 2}"
+    expect(CandidateEvent.all.size).to eq(candidate_size * conf_event_size), "CandidateEvent size #{CandidateEvent.all.size} did not meet expected #{candidate_size * conf_event_size}"
+    expect(ToDo.all.size).to eq(CandidateEvent.all.size), "ToDo size #{ToDo.all.size} did not meet expected #{CandidateEvent.all.size}"
+
+    expect(ScannedImage.all.size).to eq(image_size), "ScannedImages size #{ScannedImage.all.size} did not meet expected #{image_size}"
+  end
 end

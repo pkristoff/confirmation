@@ -1,7 +1,10 @@
-include FileHelper
+# frozen_string_literal: true
 
+#
+# Handles CandidateImport tasks
+#
 class CandidateImportsController < ApplicationController
-
+  include FileHelper
   before_action :authenticate_admin!
 
   attr_accessor :candidate_import
@@ -22,17 +25,15 @@ class CandidateImportsController < ApplicationController
       else
         @candidate_import = CandidateImport.new.add_missing_events(params[:candidate_import][:missing].split(':'))
       end
-      @candidate_import = CandidateImport.new.check_events
-    else
-      @candidate_import = CandidateImport.new.check_events
     end
+    @candidate_import ||= CandidateImport.new.check_events
   end
 
   def create
     import_file_param = params[:candidate_import]
     if import_file_param.nil?
       redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')
-    elsif File.extname(import_file_param.values.first.original_filename) === '.zip'
+    elsif File.extname(import_file_param.values.first.original_filename) == '.zip'
       @candidate_import = CandidateImport.new(uploaded_zip_file: import_file_param.values.first)
       if @candidate_import.load_zip_file(import_file_param.values.first)
         redirect_to root_url, notice: I18n.t('messages.import_successful')
@@ -50,7 +51,6 @@ class CandidateImportsController < ApplicationController
   end
 
   def export_to_excel
-
     dir = 'xlsx_export'
     with_pictures = params[:commit] == t('views.imports.excel')
 
@@ -69,17 +69,14 @@ class CandidateImportsController < ApplicationController
         Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
           # zip.add(dir, dir)
           Dir.foreach(dir) do |filename|
-            zip.add(filename, File.join(dir, filename)) unless File.directory?("#{dir}/#{filename}") || filename === zip_filename
-            # File.delete("#{dir}/#{filename}") unless File.directory?("#{dir}/#{filename}")
+            zip.add(filename, File.join(dir, filename)) unless File.directory?("#{dir}/#{filename}") || filename == zip_filename
           end
         end
         zip_data = File.read(temp_file.path)
         send_data(zip_data, type: 'application/zip', filename: zip_filename)
-
-          # send_file(, type: 'application/zip', x_sendfile: true, disposition: 'attachment')
       ensure
-        temp_file.close unless temp_file.nil?
-        temp_file.unlink unless temp_file.nil?
+        temp_file&.close
+        temp_file&.unlink
         delete_dir(dir)
       end
     else
@@ -101,6 +98,6 @@ class CandidateImportsController < ApplicationController
   end
 
   def new
-    @candidate_import = @candidate_import ? @candidate_import : CandidateImport.new
+    @candidate_import ||= CandidateImport.new
   end
 end
