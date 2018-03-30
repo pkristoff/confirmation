@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # This was created in an attempt to keep DB objects from being created to generate
 # the sorting_candidate_selection pane.
@@ -11,7 +13,7 @@
 # * <tt>:candidate_event</tt> The candiate event information (verified, completion_date) being editied in mass_edit_candidates_event.html.erb
 #
 class PluckCan
-  def initialize(cand_info, cand_event_info, candidate_event=nil)
+  def initialize(cand_info, cand_event_info, candidate_event = nil)
     @cand_info = cand_info
     @cand_event_info = cand_event_info
     @candidate_event = candidate_event
@@ -29,12 +31,10 @@ class PluckCan
   #
   def self.pluck_candidates(confirmation_event_id = nil)
     candidate_events = pluck_cand_events
-    Candidate.joins(:candidate_sheet).
-        pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending).map do |cand_info|
+    Candidate.joins(:candidate_sheet).pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending).map do |cand_info|
       candidate_id = cand_info[0]
-      event = nil
       event = candidate_events[candidate_id].find do |cand_event_for_cand|
-        cand_event_for_cand[1] === confirmation_event_id
+        cand_event_for_cand[1] == confirmation_event_id
       end
       PluckCan.new(cand_info, candidate_events, event)
     end
@@ -48,10 +48,9 @@ class PluckCan
   #
   # Array of candidate_event information
   #
-  def self.pluck_cand_events()
+  def self.pluck_cand_events
     cand_event_info = {}
-    ToDo.joins(:confirmation_event, :candidate_event).
-        pluck(:candidate_id, :confirmation_event_id, :candidate_event_id, :name, :verified, :completed_date, :the_way_due_date, :chs_due_date).each do |info|
+    ToDo.joins(:confirmation_event, :candidate_event).pluck(:candidate_id, :confirmation_event_id, :candidate_event_id, :name, :verified, :completed_date, :the_way_due_date, :chs_due_date).each do |info|
       cand_info = cand_event_info[info[0]]
       if cand_info.nil?
         cand_info = []
@@ -70,14 +69,13 @@ class PluckCan
   # * <tt>:event_name</tt> Name of caandidate event.
   # * <tt>:attending</tt> The way or catholic hs.
   #
-  def status(cand_id, event_name, attending)
+  def status(cand_id, event_name, _attending)
     event_info = @cand_event_info[cand_id].find do |cand_event_for_cand|
-      cand_event_for_cand[3] === event_name
+      cand_event_for_cand[3] == event_name
     end
-    CandidateEvent.status((I18n.t('model.candidate.attending_the_way') === attending) ? event_info[6] : event_info[6],
+    CandidateEvent.status(event_info[6],
                           event_info[5],
-                          event_info[4]
-    )
+                          event_info[4])
   end
 
   # Get Confirmation event id.
@@ -89,7 +87,7 @@ class PluckCan
   #
   def conf_event_id(cand_id, event_name)
     event_info = @cand_event_info[cand_id].find do |cand_event_for_cand|
-      cand_event_for_cand[3] === event_name
+      cand_event_for_cand[3] == event_name
     end
     event_info[1]
   end

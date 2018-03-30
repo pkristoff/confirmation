@@ -9,7 +9,7 @@ describe 'Internal' do
     end
 
     it 'should pass app helpers' do
-      expect(system 'rubocop app/helpers/constants.rb').to eq(true)
+      expect(system 'rubocop app/helpers/').to eq(true)
     end
 
     it 'should pass models' do
