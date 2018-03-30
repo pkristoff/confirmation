@@ -25,8 +25,7 @@ describe 'Internal' do
 
   describe 'spec' do
     it 'should pass controller spec' do
-      expect(system 'rubocop spec/controllers/candidates_controller_spec.rb').to eq(true)
-      expect(system 'rubocop spec/controllers/export_lists_controller_spec.rb').to eq(true)
+      expect(system 'rubocop spec/controllers').to eq(true)
     end
 
     it 'should pass support spec' do

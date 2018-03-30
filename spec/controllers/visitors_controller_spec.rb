@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 
 describe VisitorsController do
-
   it 'should NOT have a current_candidate' do
     expect(subject.current_candidate).to eq(nil)
   end
@@ -11,7 +11,6 @@ describe VisitorsController do
   end
 
   describe 'Login as candidate' do
-
     before(:each) do
       @candidate = login_candidate
     end
@@ -24,11 +23,9 @@ describe VisitorsController do
       get :index
       expect(response).to redirect_to("http://test.host/show/#{@candidate.id}")
     end
-
   end
 
   describe 'Login as admin' do
-
     before(:each) do
       @admin = login_admin
     end
@@ -41,6 +38,5 @@ describe VisitorsController do
       get :index
       expect(response).to redirect_to("http://test.host/admins/#{@admin.id}")
     end
-
   end
 end

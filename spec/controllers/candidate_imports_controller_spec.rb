@@ -1,7 +1,7 @@
+# frozen_string_literal: true
+
 describe CandidateImportsController do
-
   describe 'new' do
-
     it 'should fail authentication' do
       login_candidate
       get :new
@@ -16,11 +16,9 @@ describe CandidateImportsController do
       expect(response.status).to eq(200)
       expect(controller.candidate_import).not_to eq(nil)
     end
-
   end
 
   describe 'create' do
-
     it 'should fail authentication' do
       login_candidate
       get :create
@@ -48,7 +46,6 @@ describe CandidateImportsController do
   end
 
   describe 'start_new_year' do
-
     it 'should remove all candidates, changes due date to today, and adds a seed candidate' do
       expect(Candidate.all.size).to eq(0)
       FactoryBot.create(:candidate, account_name: 'a1')
@@ -60,7 +57,7 @@ describe CandidateImportsController do
       post :start_new_year
 
       expect(response).to redirect_to(root_url)
-      expect(Candidate.find_by_account_name('vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
+      expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
       expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
       expect(ConfirmationEvent.all.size).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
@@ -71,7 +68,6 @@ describe CandidateImportsController do
   end
 
   describe 'reset_database' do
-
     it 'should reset database' do
       expect(Candidate.all.size).to eq(0)
       FactoryBot.create(:candidate, account_name: 'a1')
@@ -104,13 +100,10 @@ describe CandidateImportsController do
       expect_event_association(candidate.sponsor_covenant)
 
       expect(Admin.all.size).to eq(1)
-
     end
-
   end
 
   describe 'export_to_excel' do
-
     it 'should download an excel spreadsheet.' do
       login_admin
 
@@ -123,10 +116,7 @@ describe CandidateImportsController do
       expect(controller.headers['Content-Transfer-Encoding']).to eq('binary')
       expect(response.header['Content-Type']).to eq('application/zip')
       expect(response.status).to eq(200)
-
     end
-
-
   end
 
   def expect_event_association(assoc_from_candidate)
@@ -134,5 +124,4 @@ describe CandidateImportsController do
     expect(event_assoc.size).to eq(1)
     expect(assoc_from_candidate).to eq(event_assoc.first)
   end
-
 end
