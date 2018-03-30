@@ -12,6 +12,10 @@ describe 'Internal' do
       expect(system 'rubocop app/helpers/').to eq(true)
     end
 
+    it 'should pass mailers' do
+      expect(system 'rubocop app/mailers').to eq(true)
+    end
+
     it 'should pass models' do
       expect(system 'rubocop app/models').to eq(true)
     end

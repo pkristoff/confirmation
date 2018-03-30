@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'constants'
 
 #
@@ -24,7 +26,7 @@ class SendGridMail
   # Array of legal emails for non-production
   #
   def legal_emails
-    %W(stmm.confirmation@kristoffs.com stmm.confirmationa@aol.com paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)
+    %w[stmm.confirmation@kristoffs.com stmm.confirmationa@aol.com paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com]
   end
 
   # convert illegal email to one of these in non-production
@@ -34,7 +36,7 @@ class SendGridMail
   # Array of legal emails for non-production
   #
   def convert_email
-    %W(paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com)
+    %w[paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com]
   end
 
   #
@@ -46,10 +48,10 @@ class SendGridMail
   # * <tt>:body_input_text</tt> The body of the email puy in by the admin
   #
   def adhoc(subject_text, body_input_text)
-
-    send_email(subject_text, body_input_text, EmailStuff::TYPES[:adhoc],
-               adhoc_call
-    )
+    send_email(subject_text,
+               body_input_text,
+               EmailStuff::TYPES[:adhoc],
+               adhoc_call)
   end
 
   #
@@ -63,17 +65,16 @@ class SendGridMail
   def adhoc_test(subject_text, body_input_text)
     send_email(subject_text, body_input_text, EmailStuff::TYPES[:adhoc_test],
                adhoc_test_call,
-               adhoc_test_subj_call
-    )
+               adhoc_test_subj_call)
   end
 
   #
   # Generate and send candidate user id confirmation email
   #
   def confirmation_instructions
-    return send_email(I18n.t('email.confirmation_instructions_subject'), '', EmailStuff::TYPES[:confirmation_instructions],
-                      conf_insts_call
-    ), @candidate_mailer_text.token
+    [send_email(I18n.t('email.confirmation_instructions_subject'), '', EmailStuff::TYPES[:confirmation_instructions],
+                conf_insts_call),
+     @candidate_mailer_text.token]
   end
 
   #
@@ -85,10 +86,8 @@ class SendGridMail
   # * <tt>:body_input_text</tt> The body of the email put in by the admin
   #
   def monthly_mass_mailing(subject_text, *body_input_text)
-
     send_email(subject_text, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing],
-               mmm_call
-    )
+               mmm_call)
   end
 
   #
@@ -100,20 +99,18 @@ class SendGridMail
   # * <tt>:body_input_text</tt> The body of the email put in by the admin
   #
   def monthly_mass_mailing_test(subject_text, *body_input_text)
-
     send_email(subject_text, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing_test],
                mmm_test_call,
-               mmm_test_subj_call
-    )
+               mmm_test_subj_call)
   end
 
   #
   # Generate and send reset password email
   #
   def reset_password
-    return send_email(I18n.t('email.reset_password_subject'), '', EmailStuff::TYPES[:reset_password],
-                      reset_pass_call
-    ), @candidate_mailer_text.token
+    [send_email(I18n.t('email.reset_password_subject'), '', EmailStuff::TYPES[:reset_password],
+                reset_pass_call),
+     @candidate_mailer_text.token]
   end
 
   #
@@ -174,7 +171,7 @@ class SendGridMail
     else
       personalization.add_to(SendGrid::Email.new(email: admin.email, name: 'admin'))
     end
-    subs.each {|sub| personalization.add_substitution(sub)}
+    subs.each { |sub| personalization.add_substitution(sub) }
     sg_mail.add_personalization(personalization)
     personalization
   end
@@ -195,9 +192,7 @@ class SendGridMail
   def convert_emails(emails, used)
     legal_used = []
     emails.each do |em|
-      if legal_emails.include? em
-        legal_used << em
-      end
+      legal_used << em if legal_emails.include? em
     end
     emails.map do |em|
       convert_if_not_production(em, used, legal_used)
@@ -218,25 +213,21 @@ class SendGridMail
   # In production - email address passed in with '' converted to nil.
   # else - email address if not legal.
   #
-  def convert_if_not_production(email, used=[], legal_used = [])
-    if email.nil? || email.empty?
+  def convert_if_not_production(email, used = [], legal_used = [])
+    if email.blank?
       nil
+    elsif Rails.application.secrets.pipeline == 'production'
+      email
+    elsif legal_emails.include?(email)
+      email
     else
-      if Rails.application.secrets.pipeline == 'production'
-        email
-      else
-        if legal_emails.include?(email)
-          email
-        else
-          @email_index += 1
-          em = convert_email[@email_index]
-          while (used.include? em) || (legal_used.include? em) do
-            @email_index += 1
-            em = convert_email[@email_index]
-          end
-          return em
-        end
+      @email_index += 1
+      em = convert_email[@email_index]
+      while (used.include? em) || (legal_used.include? em)
+        @email_index += 1
+        em = convert_email[@email_index]
       end
+      em
     end
   end
 
@@ -257,7 +248,7 @@ class SendGridMail
   # else - Array of legal non-production email addresses
   #
   def expand_text(candidate, subject_text, body_input_text, delivery_call)
-    @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: (subject_text), body_input: body_input_text)
+    @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: subject_text, body_input: body_input_text)
 
     delivery = delivery_call.call(@admin, @candidate_mailer_text)
     text(delivery)
@@ -304,12 +295,10 @@ class SendGridMail
   #
   # The response from SendGrid
   #
-  def send_email(subject_text, body_input_text, email_type, delivery_call, test_subject=nil)
-
+  def send_email(subject_text, body_input_text, email_type, delivery_call, test_subject = nil)
     response = nil
 
-    @candidates.each_with_index do |candidate, index|
-
+    @candidates.each do |candidate|
       sg_mail = create_mail((test_subject.nil? ? subject_text : test_subject.call(candidate)), email_type, candidate.account_name)
 
       create_personalization(candidate, sg_mail, test_subject ? @admin : nil)
@@ -347,38 +336,32 @@ class SendGridMail
 
   # TEST ONLY
   def expand_text_adhoc(candidate, subject_text, *body_input_text)
-
     expand_text(candidate, subject_text, *body_input_text,
-                adhoc_call
-    )
+                adhoc_call)
   end
 
   # TEST ONLY
   def expand_text_at(candidate, subject_text, body_input_text)
     expand_text(candidate, subject_text, body_input_text,
-                adhoc_test_call
-    )
+                adhoc_test_call)
   end
 
   # TEST ONLY
   def expand_text_ci(candidate)
     expand_text(candidate, 'StMM website for Confirmation Candidates - User Verification instructions', '',
-                conf_insts_call
-    )
+                conf_insts_call)
   end
 
   # TEST ONLY
   def expand_text_rp(candidate)
     expand_text(candidate, 'StMM website for Confirmation Candidates - Reset password instructions', '',
-                reset_pass_call
-    )
+                reset_pass_call)
   end
 
   # TEST ONLY
   def expand_text_mmm(candidate, subject_text, *body_input_text)
     expand_text(candidate, subject_text, *body_input_text,
-                mmm_call
-    )
+                mmm_call)
   end
 
   private
@@ -393,7 +376,7 @@ class SendGridMail
   # A lambda
   #
   def adhoc_call
-    lambda {|admin, candidate_mailer_text| CandidatesMailer.adhoc(admin, candidate_mailer_text)}
+    ->(admin, candidate_mailer_text) { CandidatesMailer.adhoc(admin, candidate_mailer_text) }
   end
 
   #
@@ -406,7 +389,7 @@ class SendGridMail
   # A lambda
   #
   def adhoc_test_call
-    lambda {|admin, candidate_mailer_text| CandidatesMailer.adhoc_test(admin, candidate_mailer_text)}
+    ->(admin, candidate_mailer_text) { CandidatesMailer.adhoc_test(admin, candidate_mailer_text) }
   end
 
   #
@@ -420,7 +403,7 @@ class SendGridMail
   # A lambda
   #
   def adhoc_test_subj_call
-    lambda {|candidate| I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate.account_name)}
+    ->(candidate) { I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate.account_name) }
   end
 
   #
@@ -433,7 +416,7 @@ class SendGridMail
   # A lambda
   #
   def conf_insts_call
-    lambda {|admin, candidate_mailer_text| candidate_mailer_text.candidate.confirmation_instructions(candidate_mailer_text)}
+    ->(_admin, candidate_mailer_text) { candidate_mailer_text.candidate.confirmation_instructions(candidate_mailer_text) }
   end
 
   #
@@ -446,7 +429,7 @@ class SendGridMail
   # A lambda
   #
   def mmm_call
-    lambda {|admin, candidate_mailer_text| CandidatesMailer.monthly_reminder(admin, candidate_mailer_text)}
+    ->(admin, candidate_mailer_text) { CandidatesMailer.monthly_reminder(admin, candidate_mailer_text) }
   end
 
   #
@@ -459,7 +442,7 @@ class SendGridMail
   # A lambda
   #
   def mmm_test_call
-    lambda {|admin, candidate_mailer_text| CandidatesMailer.monthly_reminder_test(admin, candidate_mailer_text)}
+    ->(admin, candidate_mailer_text) { CandidatesMailer.monthly_reminder_test(admin, candidate_mailer_text) }
   end
 
   #
@@ -472,13 +455,12 @@ class SendGridMail
   # A lambda
   #
   def mmm_test_subj_call
-    lambda {|candidate| I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate.account_name)}
+    ->(candidate) { I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate.account_name) }
   end
 
   def reset_pass_call
-    lambda {|admin, candidate_mailer_text| candidate_mailer_text.candidate.password_reset_message(candidate_mailer_text)}
+    ->(_admin, candidate_mailer_text) { candidate_mailer_text.candidate.password_reset_message(candidate_mailer_text) }
   end
-
 end
 
 #
@@ -486,9 +468,7 @@ end
 #
 class OfflineResponse
   def initialize
-    unless Rails.env.test?
-      raise RuntimteError.new('Not in test mode')
-    end
+    raise(RuntimteError, 'Not in test mode') unless Rails.env.test?
   end
 
   def code
