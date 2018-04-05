@@ -1,4 +1,5 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Candidate profile page
@@ -6,6 +7,7 @@ Warden.test_mode!
 #   I want to visit my candidate profile page
 #   So I can see my personal account data
 feature 'Candidate profile page', :devise do
+  include Warden::Test::Helpers
 
   after(:each) do
     Warden.test_reset!
@@ -27,5 +29,4 @@ feature 'Candidate profile page', :devise do
     expect(page).to have_content 'Candidate'
     expect(page).to have_content candidate2.account_name
   end
-
 end

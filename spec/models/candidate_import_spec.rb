@@ -18,7 +18,7 @@ describe CandidateImport do
 
     it 'import initial spreadsheet from coordinator will update database' do
 
-      all_event_names = AppFactory.add_confirmation_events
+      every_event_names = AppFactory.add_confirmation_events
 
       uploaded_file = fixture_file_upload('Confirmation 2018 Group The Way test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       candidate_import = CandidateImport.new
@@ -37,7 +37,7 @@ describe CandidateImport do
       chs_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school') }
       expect(chs_candidates.size).to eq(2)
 
-      the_way_candidate = Candidate.find_by_account_name('dawannie')
+      the_way_candidate = Candidate.find_by(account_name: 'dawannie')
       expect(the_way_candidate.candidate_sheet.first_name).to eq('Annie')
       expect(the_way_candidate.candidate_sheet.last_name).to eq('Daw')
       expect(the_way_candidate.candidate_sheet.grade).to eq(10)
@@ -46,7 +46,7 @@ describe CandidateImport do
       expect(the_way_candidate.candidate_sheet.parent_email_2).to eq('')
       expect(the_way_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_the_way'))
 
-      chs_candidate = Candidate.find_by_account_name('clavijoabbie')
+      chs_candidate = Candidate.find_by(account_name: 'clavijoabbie')
       expect(chs_candidate.candidate_sheet.first_name).to eq('Abbie')
       expect(chs_candidate.candidate_sheet.last_name).to eq('Clavijo')
       expect(chs_candidate.candidate_sheet.grade).to eq(10)
@@ -55,7 +55,7 @@ describe CandidateImport do
       expect(chs_candidate.candidate_sheet.parent_email_2).to eq('stmm-confirmation@kristoffs.com')
       expect(chs_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_catholic_high_school'))
 
-      expect(the_way_candidates[0].candidate_events.size).to eq(all_event_names.size)
+      expect(the_way_candidates[0].candidate_events.size).to eq(every_event_names.size)
 
     end
 
@@ -121,7 +121,7 @@ describe CandidateImport do
       CandidateImport.new.reset_database
 
       expect(Candidate.all.size).to eq(1)
-      expect(Candidate.find_by_account_name('vickikristoff')).not_to eq(nil)
+      expect(Candidate.find_by(account_name: 'vickikristoff')).not_to eq(nil)
       expect(Admin.all.size).to eq(1)
       expect(Admin.find_by_email('stmm.confirmation@kristoffs.com')).not_to eq(nil)
 
@@ -241,13 +241,13 @@ describe CandidateImport do
         uploaded_file = Rack::Test::UploadedFile.new(xlsx_path, 'image/png', true)
         CandidateImport.new.reset_database
 
-        expect(Candidate.find_by_account_name(candidate.account_name)).to eq(nil)
+        expect(Candidate.find_by(account_name: candidate.account_name)).to eq(nil)
 
         candidate_import = CandidateImport.new
         save_result = candidate_import.load_initial_file(uploaded_file)
         expect(save_result).to eq(true)
 
-        candidate = Candidate.find_by_account_name(candidate.account_name)
+        candidate = Candidate.find_by(account_name: candidate.account_name)
         expect(candidate).not_to eq(nil)
         baptismal_certificate = candidate.baptismal_certificate
         expect(baptismal_certificate).not_to eq(nil)
@@ -443,7 +443,7 @@ def get_expected_orphans
 end
 
 def expect_confirmation_event(event_name, way_date, chs_date)
-  confirmation_event = ConfirmationEvent.find_by_name(event_name)
+  confirmation_event = ConfirmationEvent.find_by(name: event_name)
   expect(confirmation_event.the_way_due_date.to_s).to eq(way_date)
   expect(confirmation_event.chs_due_date.to_s).to eq(chs_date)
 end
@@ -565,7 +565,7 @@ describe 'check_events' do
 
     candidate_import.add_missing_events([sponsor_covenant_event_name])
 
-    expect(ConfirmationEvent.find_by_name(sponsor_covenant_event_name).name).to eq(sponsor_covenant_event_name)
+    expect(ConfirmationEvent.find_by(name: sponsor_covenant_event_name).name).to eq(sponsor_covenant_event_name)
 
     expect(candidate_import.missing_confirmation_events.length).to be(0)
     expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_names.length)
@@ -588,7 +588,7 @@ describe 'image_filename' do
   end
 
   it 'should concat a file path for the scanned in file' do
-    candidate = Candidate.find_by_account_name('vickikristoff')
+    candidate = Candidate.find_by(account_name: 'vickikristoff')
     expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_certificate', candidate.baptismal_certificate.scanned_certificate)).to eq('temp_dir/vickikristoff_scanned_certificate_actions.png')
     expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_retreat', candidate.retreat_verification.scanned_retreat)).to eq('temp_dir/vickikristoff_scanned_retreat_actions.png')
     expect(CandidateImport.image_filepath_export(candidate, 'temp_dir', 'scanned_eligibility', candidate.sponsor_covenant.scanned_eligibility)).to eq('temp_dir/vickikristoff_scanned_eligibility_actions.png')
@@ -596,7 +596,7 @@ describe 'image_filename' do
   end
 
   it 'should handle filename being nil.' do
-    candidate = Candidate.find_by_account_name('vickikristoff')
+    candidate = Candidate.find_by(account_name: 'vickikristoff')
     candidate.baptismal_certificate.scanned_certificate = nil
     candidate.retreat_verification.scanned_retreat = nil
     candidate.sponsor_covenant.scanned_eligibility = nil
@@ -608,7 +608,7 @@ describe 'image_filename' do
   end
 
   it 'should concat a file path for the scanned in file removing unnecessary directories from the filename' do
-    candidate = Candidate.find_by_account_name('vickikristoff')
+    candidate = Candidate.find_by(account_name: 'vickikristoff')
     candidate.baptismal_certificate.scanned_certificate = ScannedImage.new(filename: 'foo/actions.png')
     candidate.retreat_verification.scanned_retreat = ScannedImage.new(filename: 'foo/actions.png')
     candidate.sponsor_covenant.scanned_eligibility = ScannedImage.new(filename: 'foo/actions.png')
@@ -854,7 +854,7 @@ def add_sponsor_eligibility_image(candidate)
 end
 
 def expect_candidate (values)
-  candidate = Candidate.find_by_account_name(values[:account_name])
+  candidate = Candidate.find_by(account_name: values[:account_name])
   values.keys.each do |key|
     value = values[key]
     if value.is_a? Hash
@@ -871,7 +871,7 @@ def expect_candidate (values)
       expect(candidate.send(key)).to eq(value)
     end
   end
-  expect(candidate.candidate_events.size).to eq(get_all_event_names.size)
+  expect(candidate.candidate_events.size).to eq(all_event_names.size)
 end
 
 def expect_candidates(ws, candidate_import)
@@ -1075,7 +1075,7 @@ def expect_import_with_events
 
   expect(ConfirmationEvent.all.size).to eq(9)
 
-  confirmation_event_2 = ConfirmationEvent.find_by_name('Attend Retreat')
+  confirmation_event_2 = ConfirmationEvent.find_by(name: 'Attend Retreat')
   expect(confirmation_event_2.the_way_due_date.to_s).to eq('2016-05-31')
   expect(confirmation_event_2.chs_due_date.to_s).to eq('2016-05-03')
   expect(confirmation_event_2.instructions).to eq("<h1>a heading</h1>\n<ul>\n<li>step 1</li>\n<li>step 2</li>\n</ul>\n<p> </p>\n<p> </p>")
@@ -1128,7 +1128,7 @@ def find_cell_offset (header_row, column_name)
   index
 end
 
-def get_all_event_names
+def all_event_names
   config = YAML.load_file('config/locales/en.yml')
   all_events_names = []
   config['en']['events'].each do |event_name_entry|

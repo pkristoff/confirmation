@@ -1,9 +1,11 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 require 'constants'
 
 feature 'Sponsor Covenant admin', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     @is_dev = false
@@ -21,5 +23,4 @@ feature 'Sponsor Covenant admin', :devise do
   end
 
   it_behaves_like 'sponsor_covenant_html_erb'
-
 end

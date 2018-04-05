@@ -1,4 +1,5 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Candidate edit
@@ -6,6 +7,7 @@ Warden.test_mode!
 #   I want to edit my candidate profile
 #   So I can change my email address
 feature 'Candidate event', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     candidate = FactoryBot.create(:candidate)
@@ -39,11 +41,8 @@ feature 'Candidate event', :devise do
   end
 
   def expect_confirmation_events(is_chs)
-
-    ConfirmationEvent.all.each_with_index  do |ce,index|
-      expect_candidate_event(index+3, ce.id, ce.name, (is_chs ? nil : ce.the_way_due_date), (is_chs ? ce.chs_due_date : nil), ce.instructions, false, '', 'div')
-
+    ConfirmationEvent.all.each_with_index do |ce, index|
+      expect_candidate_event(index + 3, ce.id, ce.name, (is_chs ? nil : ce.the_way_due_date), (is_chs ? ce.chs_due_date : nil), ce.instructions, false, '', 'div')
     end
   end
-
 end

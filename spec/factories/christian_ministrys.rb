@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :christian_ministry do
     what_service 'Helped some helpless people'

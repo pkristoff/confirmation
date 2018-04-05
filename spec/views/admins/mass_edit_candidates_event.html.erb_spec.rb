@@ -4,9 +4,9 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
 
   before(:each) do
 
-    @candidate_1 = Candidate.find_by_account_name(create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
-    @candidate_2 = Candidate.find_by_account_name(create_candidate('Paul', 'Richard', 'Kristoff').account_name)
-    @candidates = [@candidate_1, @candidate_2]
+    @candidate1 = Candidate.find_by(account_name: create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
+    @candidate2 = Candidate.find_by(account_name: create_candidate('Paul', 'Richard', 'Kristoff').account_name)
+    @candidates = [@candidate1, @candidate2]
     AppFactory.add_confirmation_events
 
 
@@ -16,7 +16,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
 
 
     it "display the list of candidates for #{confirmation_event_name}" do
-      @confirmation_event = ConfirmationEvent.find_by_name(I18n.t(confirmation_event_name))
+      @confirmation_event = ConfirmationEvent.find_by(name: I18n.t(confirmation_event_name))
       @candidate_info = PluckCan.pluck_candidates(@confirmation_event.id)
 
       render

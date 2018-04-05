@@ -598,9 +598,9 @@ class CandidateImport
   #
   # * <tt>:wb</tt> Workbook: excel workbook.
   #
-  def create_confirmation_event(wb)
+  def create_confirmation_event(wbk)
     confirmation_event_columns = xlsx_conf_event_columns
-    wb.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
+    wbk.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
       sheet.add_row confirmation_event_columns
       confirmation_events_sorted.each_with_index do |confirmation_event, index|
         # puts "Event: #{confirmation_event.name} index:#{index}"
@@ -987,7 +987,7 @@ class CandidateImport
         params[:candidate][:password] = Event::Other::INITIAL_PASSWORD
 
         candidate = Candidate.find_by(account_name: account_name) || ::AppFactory.create_candidate
-        candidate.update_attributes(params.require(:candidate).permit(Candidate.permitted_params))
+        candidate.update(params.require(:candidate).permit(Candidate.permitted_params))
         candidates.push(candidate)
         @candidate_to_row[candidate] = i
       end

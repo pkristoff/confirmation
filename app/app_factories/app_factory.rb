@@ -100,7 +100,7 @@ class AppFactory
   def self.add_confirmation_event(event_name)
     raise('add_confirmation_event: event_name cannot be nil') if event_name.nil? || event_name.empty?
     # no longer an error so can migrate from a new db.
-    if ConfirmationEvent.find_by_name(event_name)
+    if ConfirmationEvent.find_by(name: event_name)
       # puts("add_confirmation_event: event_name already defined: #{event_name}")
       AppFactory.revert_confirmation_event(event_name)
     end
@@ -227,9 +227,9 @@ class AppFactory
     all_confirmation_event_names.each do |ce_name|
       AppFactory.revert_confirmation_event(ce_name)
     end
-    all_event_names = all_i18n_confirmation_event_names
-    all_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
-    all_event_names
+    every_event_names = all_i18n_confirmation_event_names
+    every_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
+    every_event_names
   end
 
   # return a list of the I18n ConfirmationEvent names

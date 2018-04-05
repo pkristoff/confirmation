@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 # Feature: Sign out
 #   As a candidate
 #   I want to sign out
 #   So I can protect my account from unauthorized access
 feature 'Sign out', :devise do
-
   # Scenario: Candidate signs out successfully
   #   Given I am signed in
   #   When I sign out
@@ -15,7 +16,4 @@ feature 'Sign out', :devise do
     click_link I18n.t('views.top_bar.sign_out')
     expect_message(:flash_notice, I18n.t('devise.sessions.signed_out'))
   end
-
 end
-
-

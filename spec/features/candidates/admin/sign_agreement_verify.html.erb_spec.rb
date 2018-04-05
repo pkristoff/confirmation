@@ -1,9 +1,11 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 require 'constants'
 
 feature 'Sign Agreement Verify admin sign in', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     @admin = FactoryBot.create(:admin)
@@ -32,5 +34,4 @@ feature 'Sign Agreement Verify admin sign in', :devise do
   end
 
   it_behaves_like 'sign_an_agreement_html_erb'
-
 end

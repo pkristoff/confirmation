@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 describe AppFactory do
-
   context 'creating an admin' do
-
     it 'should create an empty admin' do
       admin = AppFactory.create_admin
       expect(admin.email).to eq('')
@@ -15,11 +15,9 @@ describe AppFactory do
       expect(admin.email).to eq('foo@bar.com')
       expect(admin.name).to eq('george')
     end
-
   end
 
   context 'creating a candidate' do
-
     it 'should create an empty candidate' do
       candidate = AppFactory.create_candidate
       expect(candidate.account_name).to eq('')
@@ -28,7 +26,6 @@ describe AppFactory do
     end
 
     context 'with a CandidateEvent' do
-
       before(:each) { @confirmation_event = FactoryBot.create :confirmation_event }
 
       it 'should create an admin with email and name' do
@@ -37,11 +34,9 @@ describe AppFactory do
         expect(candidate.candidate_events[0].confirmation_event).to eq(@confirmation_event)
       end
     end
-
   end
 
   context 'create' do
-
     it 'should create an Admin' do
       admin = AppFactory.create(Admin)
       expect(admin.class).to eq(Admin)
@@ -51,11 +46,9 @@ describe AppFactory do
       candidate = AppFactory.create(Candidate)
       expect(candidate.class).to eq(Candidate)
     end
-
   end
 
   context 'confirmation events' do
-
     it 'should create a confirmation_event, an admin and a candidate' do
       AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
       AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
@@ -77,7 +70,6 @@ describe AppFactory do
       expect(candidate.candidate_events_sorted[1].name).to eq(I18n.t('events.candidate_covenant_agreement'))
       expect(candidate.candidate_events_sorted[2].name).to eq(I18n.t('events.parent_meeting'))
       expect(candidate.candidate_events_sorted[3].name).to eq(I18n.t('events.sponsor_agreement'))
-
     end
 
     it 'should create 2 confirmation_event, an admin and a candidate then remove retreat_weekend event' do
@@ -94,7 +86,6 @@ describe AppFactory do
       expect(candidate.account_name).to eq('vickikristoff')
       expect(candidate.candidate_events.size).to eq(1)
       expect(candidate.candidate_events[0].name).to eq(I18n.t('events.parent_meeting'))
-
     end
 
     it 'should create 2 confirmation_event, an admin and a candidate then remove parent_meeting event' do
@@ -111,27 +102,24 @@ describe AppFactory do
       expect(candidate.account_name).to eq('vickikristoff')
       expect(candidate.candidate_events.size).to eq(1)
       expect(candidate.candidate_events[0].name).to eq(I18n.t('events.retreat_verification'))
-
     end
 
     it 'should add all confirmation events' do
-      all_events_names = get_all_event_names
+      every_event_names = all_event_names
       AppFactory.add_confirmation_events
-      all_events_names.each do |event_name|
-        expect(ConfirmationEvent.find_by_name(I18n.t(event_name))).not_to eq(nil)
+      every_event_names.each do |event_name|
+        expect(ConfirmationEvent.find_by(name: I18n.t(event_name))).not_to eq(nil)
       end
-      expect(ConfirmationEvent.all.size).to eq(all_events_names.size)
+      expect(ConfirmationEvent.all.size).to eq(all_event_names.size)
     end
-
   end
 
-
-  def get_all_event_names
+  def all_event_names
     config = YAML.load_file('config/locales/en.yml')
-    all_events_names = []
+    every_event_names = []
     config['en']['events'].each do |event_name_entry|
-      all_events_names << "events.#{event_name_entry[0]}"
+      every_event_names << "events.#{event_name_entry[0]}"
     end
-    all_events_names
+    every_event_names
   end
 end

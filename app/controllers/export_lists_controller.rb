@@ -196,8 +196,8 @@ class ExportListsController < ApplicationController
     p
   end
 
-  def add_wb(wb, candidates, title, extra_columns, value_lambdas)
-    wb.add_worksheet(name: title) do |sheet|
+  def add_wb(wbk, candidates, title, extra_columns, value_lambdas)
+    wbk.add_worksheet(name: title) do |sheet|
       headers = [I18n.t('label.candidate_sheet.first_name'), I18n.t('label.candidate_sheet.last_name')]
       extra_columns.each { |extra_column| headers.push(extra_column) }
       sheet.add_row(headers)

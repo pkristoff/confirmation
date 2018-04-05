@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 # Feature: Sign in
 #   As a admin
 #   I want to sign in
 #   So I can visit protected areas of the site
 feature 'Sign in', :devise do
-
-  context "I do not exist as an Admin" do
-
+  context 'I do not exist as an Admin' do
     # Scenario: Admin cannot sign in if not registered
     #   Given I do not exist as a admin
     #   When I sign in with valid credentials
@@ -14,11 +14,9 @@ feature 'Sign in', :devise do
       signin_admin('test@example.com', 'please123')
       expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
     end
-
   end
 
-  context "I exist as an Admin" do
-
+  context 'I exist as an Admin' do
     # Scenario: Admin cannot sign in with wrong email
     #   Given I exist as a admin
     #   And I am not signed in
@@ -52,5 +50,4 @@ feature 'Sign in', :devise do
       end
     end
   end
-
 end

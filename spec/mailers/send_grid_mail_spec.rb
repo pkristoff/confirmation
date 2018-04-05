@@ -1,14 +1,13 @@
-include ViewsHelpers
+# frozen_string_literal: true
 
 describe SendGridMail, type: :model do
-
+  include ViewsHelpers
   describe 'monthly_reminder testing' do
-
     before(:each) do
       @admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
-      @candidate = Candidate.find_by_account_name(candidate.account_name)
+      @candidate = Candidate.find_by(account_name: candidate.account_name)
     end
 
     it 'should expand the adhoc email for candidate' do
@@ -46,7 +45,8 @@ describe SendGridMail, type: :model do
 
     it 'should expand the monthly reminder email for candidate' do
       send_grid_mail = SendGridMail.new(@admin, [@candidate])
-      text = send_grid_mail.expand_text_mmm(@candidate, SUBJECT, pre_late_text: LATE_INITIAL_TEXT,
+      text = send_grid_mail.expand_text_mmm(@candidate, SUBJECT,
+                                            pre_late_text: LATE_INITIAL_TEXT,
                                             pre_coming_due_text: COMING_DUE_INITIAL_TEXT,
                                             completed_awaiting_text: COMPLETE_AWAITING_INITIAL_TEXT,
                                             completed_text: COMPLETE_INITIAL_TEXT, closing_text: CLOSING_INITIAL_TEXT,
@@ -71,16 +71,14 @@ describe SendGridMail, type: :model do
       expect_basic_candidate_info(body, @candidate)
       expect_basic_admin_info(body, 'Reset%20password%20instructions')
     end
-
   end
 
   describe 'convert_if_not_production' do
-
     before(:each) do
       @admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
-      @candidate = Candidate.find_by_account_name(candidate.account_name)
+      @candidate = Candidate.find_by(account_name: candidate.account_name)
     end
 
     it 'should return nil' do
@@ -109,7 +107,7 @@ describe SendGridMail, type: :model do
       it 'should return local email when multiple emails when PIPELINE=nil for convert_emails' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
-        expect(send_grid_mail.convert_emails(%w(prk1@test.com prk2@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul@kristoffs.com paul.kristoff@kristoffs.com))
+        expect(send_grid_mail.convert_emails(%w[prk1@test.com prk2@test.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[paul@kristoffs.com paul.kristoff@kristoffs.com])
       end
 
       it 'should return local email when multiple emails and one local when PIPELINE=nil' do
@@ -121,7 +119,7 @@ describe SendGridMail, type: :model do
       it 'should return local email when multiple emails and one local when PIPELINE=nil for convert_emails' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
-        expect(send_grid_mail.convert_emails(%w(paul@kristoffs.com prk2@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul@kristoffs.com paul.kristoff@kristoffs.com))
+        expect(send_grid_mail.convert_emails(%w[paul@kristoffs.com prk2@test.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[paul@kristoffs.com paul.kristoff@kristoffs.com])
       end
 
       it 'should return local email when multiple emails and one local when PIPELINE=nil' do
@@ -133,7 +131,7 @@ describe SendGridMail, type: :model do
       it 'should return local email when multiple emails and one local when PIPELINE=nil for convert_emails' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
-        expect(send_grid_mail.convert_emails(%w(paul.kristoff@kristoffs.com prk2@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul.kristoff@kristoffs.com paul@kristoffs.com))
+        expect(send_grid_mail.convert_emails(%w[paul.kristoff@kristoffs.com prk2@test.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[paul.kristoff@kristoffs.com paul@kristoffs.com])
       end
 
       it 'should return local email when PIPELINE=staging' do
@@ -156,7 +154,7 @@ describe SendGridMail, type: :model do
       it 'should return local email when multiple emails when PIPELINE=staging for convert_emails' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
-        expect(send_grid_mail.convert_emails(%w(paul@kristoffs.com prk2@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul@kristoffs.com paul.kristoff@kristoffs.com))
+        expect(send_grid_mail.convert_emails(%w[paul@kristoffs.com prk2@test.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[paul@kristoffs.com paul.kristoff@kristoffs.com])
       end
 
       it 'should return local email when multiple emails when PIPELINE=staging' do
@@ -169,7 +167,7 @@ describe SendGridMail, type: :model do
       it 'should return local email when multiple emails when PIPELINE=staging' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
-        expect(send_grid_mail.convert_emails(%w(camping@kristoffs.com paul@kristoffs.com medical@kristoffs.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul.kristoff@kristoffs.com paul@kristoffs.com retail@kristoffs.com))
+        expect(send_grid_mail.convert_emails(%w[camping@kristoffs.com paul@kristoffs.com medical@kristoffs.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[paul.kristoff@kristoffs.com paul@kristoffs.com retail@kristoffs.com])
       end
 
       it 'should return local email when multiple emails when PIPELINE=staging' do
@@ -183,7 +181,7 @@ describe SendGridMail, type: :model do
       it 'should return local email when multiple emails when PIPELINE=staging for convert_emails' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
-        expect(send_grid_mail.convert_emails(%w(prk1@test.com retail@kristoffs.com prk2@test.com prk3@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(paul@kristoffs.com retail@kristoffs.com paul.kristoff@kristoffs.com justfaith@kristoffs.com))
+        expect(send_grid_mail.convert_emails(%w[prk1@test.com retail@kristoffs.com prk2@test.com prk3@test.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[paul@kristoffs.com retail@kristoffs.com paul.kristoff@kristoffs.com justfaith@kristoffs.com])
       end
 
       it 'should return unchanged email when PIPELINE=production' do
@@ -194,7 +192,7 @@ describe SendGridMail, type: :model do
       it 'should return unchanged email when PIPELINE=production for convert_emails' do
         Rails.application.secrets.pipeline = 'production'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
-        expect(send_grid_mail.convert_emails(%w(prk@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(prk@test.com))
+        expect(send_grid_mail.convert_emails(%w[prk@test.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[prk@test.com])
       end
 
       it 'should return nil when PIPELINE=production' do
@@ -217,23 +215,21 @@ describe SendGridMail, type: :model do
       it 'should return unchanged emails when multiple emails when PIPELINE=production for convert_emails' do
         Rails.application.secrets.pipeline = 'production'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
-        expect(send_grid_mail.convert_emails(%w(prk1@test.com retail@test.com), ['stmm.confirmation@kristoffs.com'])).to eq(%w(prk1@test.com retail@test.com))
+        expect(send_grid_mail.convert_emails(%w[prk1@test.com retail@test.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[prk1@test.com retail@test.com])
       end
     end
   end
-
 
   def expect_basic_admin_info(body, subject)
     expect(body).to have_css('p[id=admin-info]', text: 'Vicki Kristoff')
     expect(body).to have_css('p[id=admin-info]', text: I18n.t('views.top_bar.contact_admin_mail_text'))
     expect(body).to have_css("a[id=admin-email][href='#{I18n.t('views.top_bar.contact_admin_mail', subject: subject)}']", text: I18n.t('views.top_bar.contact_admin_mail_text'))
-    expect(body).to have_css("p[id=admin-info]", text: I18n.t('views.top_bar.contact_admin_phone'))
+    expect(body).to have_css('p[id=admin-info]', text: I18n.t('views.top_bar.contact_admin_phone'))
   end
 
   def expect_basic_candidate_info(body, candidate)
     expect(body).to have_css('p[id=home-link]', text: I18n.t('email.website_name'))
     expect(body).to have_css("p[id=home-link] a[href='http://localhost:3000/']", text: I18n.t('email.website_name'))
-    expect(body).to have_css("p[id=account-name]", text: candidate.account_name)
+    expect(body).to have_css('p[id=account-name]', text: candidate.account_name)
   end
-
 end

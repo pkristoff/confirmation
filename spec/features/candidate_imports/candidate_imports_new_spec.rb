@@ -1,5 +1,5 @@
-include ViewsHelpers
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Candidate delete
@@ -7,16 +7,17 @@ Warden.test_mode!
 #   I want to delete my admin profile
 #   So I can close my account
 feature 'Other', :devise do
+  include ViewsHelpers
+  include Warden::Test::Helpers
 
   after(:each) do
     Warden.test_reset!
   end
 
   describe 'Import Candidates' do
-
     scenario 'admin can import candidates via excel spreadsheet' do
       admin = FactoryBot.create(:admin)
-      login_as(admin, :scope => :admin)
+      login_as(admin, scope: :admin)
       visit new_candidate_import_path
       attach_file :candidate_import_file, 'spec/fixtures/Small.xlsx'
       click_button I18n.t('views.imports.import')
@@ -25,35 +26,33 @@ feature 'Other', :devise do
 
     scenario 'candidate cannot import candidates' do
       candidate = FactoryBot.create(:candidate)
-      login_as(candidate, :scope => :candidate)
+      login_as(candidate, scope: :candidate)
       visit new_candidate_import_path
       expect_message(:flash_alert, I18n.t('devise.failure.unauthenticated'))
     end
 
     scenario 'admin can import candidates via excel spreadsheet' do
       admin = FactoryBot.create(:admin)
-      login_as(admin, :scope => :admin)
+      login_as(admin, scope: :admin)
       visit new_candidate_import_path
       attach_file :candidate_import_file, 'spec/fixtures/Invalid.xlsx'
       click_button 'Import'
 
       expect_message(:error_explanation, '4 errors prohibited this import from completing: Row 2: Last name can\'t be blank Row 3: First name can\'t be blank Row 5: Parent email 1 is an invalid email: @nc.rr.com Row 5: Parent email 2 is an invalid email: rannunz')
     end
-
   end
 
   describe 'Start new year' do
-
     scenario 'admin will start a new year, which will cleanup the DB' do
       FactoryBot.create(:candidate)
       FactoryBot.create(:candidate, account_name: 'a1')
-      expect(Candidate.all.size).to eq(2) #prove there are only 2
+      expect(Candidate.all.size).to eq(2) # prove there are only 2
       admin = FactoryBot.create(:admin)
-      login_as(admin, :scope => :admin)
+      login_as(admin, scope: :admin)
       visit new_candidate_import_path
       click_button I18n.t('views.imports.start_new_year')
       expect_message(:flash_notice, I18n.t('messages.candidates_removed'))
-      expect(Candidate.find_by_account_name('vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
+      expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
       expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
       expect(ConfirmationEvent.all.size).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
@@ -61,50 +60,45 @@ feature 'Other', :devise do
         expect(ce.the_way_due_date).to eq(Date.today)
       end
     end
-
   end
 
   describe 'Reset the Database' do
-
     scenario 'admin can reset the database' do
       FactoryBot.create(:candidate)
       FactoryBot.create(:candidate, account_name: 'a1')
-      expect(Candidate.all.size).to eq(2) #prove there are only 2
+      expect(Candidate.all.size).to eq(2) # prove there are only 2
       FactoryBot.create(:admin)
       admin = FactoryBot.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
-      login_as(admin, :scope => :admin)
-      expect(Admin.all.size).to eq(2) #prove there are only 2
+      login_as(admin, scope: :admin)
+      expect(Admin.all.size).to eq(2) # prove there are only 2
       visit new_candidate_import_path
       click_button I18n.t('views.imports.reset_database')
       expect_message(:flash_notice, I18n.t('messages.database_reset'))
       expect(Candidate.all.size).to eq(1)
       expect(Admin.all.size).to eq(1)
     end
-
   end
 
   describe 'Export to excel' do
-
     xlsx_filename = 'exported_candidates.xlsx'
     xlsx_filename_zip = 'exported_candidates.zip'
 
     scenario 'admin can export to excel and read it back in.' do
       FactoryBot.create(:candidate)
       FactoryBot.create(:candidate, account_name: 'a1')
-      expect(Candidate.all.size).to eq(2) #prove there are only 2
+      expect(Candidate.all.size).to eq(2) # prove there are only 2
       FactoryBot.create(:admin)
       admin = FactoryBot.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
-      login_as(admin, :scope => :admin)
-      expect(Admin.all.size).to eq(2) #prove there are only 2
+      login_as(admin, scope: :admin)
+      expect(Admin.all.size).to eq(2) # prove there are only 2
       visit new_candidate_import_path
       click_button I18n.t('views.imports.excel')
 
       File.open(xlsx_filename_zip, 'w') { |f| f.write(page.html) }
       begin
-
         visit new_candidate_import_path
         click_button I18n.t('views.imports.start_new_year')
-        expect(Candidate.find_by_account_name('vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
+        expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
         expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
         expect(ConfirmationEvent.all.size).not_to eq(0)
         ConfirmationEvent.all.each do |ce|
@@ -120,12 +114,10 @@ feature 'Other', :devise do
         File.delete xlsx_filename if File.exist? xlsx_filename
         File.delete xlsx_filename_zip if File.exist? xlsx_filename_zip
       end
-
     end
-
   end
-  describe 'Check Events' do
 
+  describe 'Check Events' do
     # Scenario: Admin sees confirmation events that are missing, unknown, & found
     #   Given Admin is signed in
     #   When I visit the Other page
@@ -193,7 +185,5 @@ feature 'Other', :devise do
       expect(page.html).to have_selector('section[id=check_events] ul[id=found_confirmation_events] li', count: 9)
       expect(page.html).to have_selector('section[id=check_events] ul[id=unknown_confirmation_events] li', text: 'unknown event')
     end
-
   end
 end
-

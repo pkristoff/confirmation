@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 # Feature: Sign up
 #   As a visitor
 #   I want to sign up
 #   So I can visit protected areas of the site
 feature 'Sign Up', :devise do
-
   # Scenario: Visitor cannot sign up without logging in
   #   Given I am not signed in
   #   When I sign up with a valid email address and password
@@ -14,7 +15,6 @@ feature 'Sign Up', :devise do
   end
 
   describe 'Sign in admin' do
-
     before(:each) do
       admin = FactoryBot.create(:admin)
       signin_admin(admin.email, admin.password)
@@ -28,7 +28,5 @@ feature 'Sign Up', :devise do
       visit new_candidate_path
       expect(page).to have_selector('p', text: 'This has been turned off')
     end
-
   end
-
 end

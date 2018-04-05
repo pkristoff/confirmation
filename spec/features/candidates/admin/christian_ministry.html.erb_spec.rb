@@ -1,9 +1,11 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 require 'constants'
 
 feature 'Christian Ministry admin', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     @admin = FactoryBot.create(:admin)
@@ -25,5 +27,4 @@ feature 'Christian Ministry admin', :devise do
   end
 
   it_behaves_like 'christian_ministry_html_erb'
-
 end

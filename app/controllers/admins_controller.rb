@@ -116,7 +116,7 @@ class AdminsController < ApplicationController
     candidates.each do |candidate|
       candidate_event = candidate.get_candidate_event(confirmation_event.name)
 
-      flash[:notice] = if candidate_event.update_attributes(params.permit(CandidateEvent.permitted_params))
+      flash[:notice] = if candidate_event.update(params.permit(CandidateEvent.permitted_params))
                          t('messages.update_candidate_event', account_name: candidate.account_name)
                        else
                          t('messages.not_all_confirmation_events_updated', account_name: candidate.account_name)

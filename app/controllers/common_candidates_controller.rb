@@ -216,7 +216,7 @@ class CommonCandidatesController < ApplicationController
       return false
     end
     render_called = false
-    if @candidate.update_attributes(candidate_params)
+    if @candidate.update(candidate_params)
       # Make up a validation error
       @candidate.errors.add :base, I18n.t('messages.signed_agreement_val', field_name: field_name) if candidate_event.completed_date.nil?
       if candidate_event.save
@@ -259,7 +259,7 @@ class CommonCandidatesController < ApplicationController
     render_called = false
     event_name = clazz.event_name
 
-    if @candidate.update_attributes(candidate_params)
+    if @candidate.update(candidate_params)
       candidate_event = @candidate.get_candidate_event(event_name)
       candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
       if candidate_event.save

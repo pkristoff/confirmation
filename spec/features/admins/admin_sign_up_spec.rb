@@ -1,4 +1,5 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Admin edit
@@ -6,6 +7,7 @@ Warden.test_mode!
 #   I want to edit my admin profile
 #   So I can change my email address
 feature 'Admin sign up', :devise do
+  include Warden::Test::Helpers
 
   after(:each) do
     Warden.test_reset!
@@ -29,7 +31,7 @@ feature 'Admin sign up', :devise do
   #   Then I am blocked from creating an admin
   scenario 'only an admin can sign up another admin' do
     candidate = FactoryBot.create(:candidate)
-    login_as(candidate, :scope => :candidate)
+    login_as(candidate, scope: :candidate)
     referer = new_admin_session_path
     Capybara.current_session.driver.header 'Referer', referer
     visit new_admin_registration_path # click Sign up admin
@@ -38,7 +40,6 @@ feature 'Admin sign up', :devise do
   end
 
   describe 'Sign in admin' do
-
     before(:each) do
       admin = FactoryBot.create(:admin)
       signin_admin(admin.email, admin.password)
@@ -50,7 +51,7 @@ feature 'Admin sign up', :devise do
     #   Then I am not blocked because i am logged in
     scenario 'admin can sign up another admin' do
       visit new_admin_registration_path # click Sign up admin
-        expect(page).to have_selector('p', text: 'This is turned off')
+      expect(page).to have_selector('p', text: 'This is turned off')
     end
 
     # Scenario: Visitor cannot sign up - ony admin can create a new candidate
@@ -63,9 +64,9 @@ feature 'Admin sign up', :devise do
     #   expect(page).to have_selector('h3', text: 'Admin')
     #   expect(page).to have_selector('p', text: 'Name: Admin Candidate')
     #   expect(page).to have_selector('p', text: 'Email: test@example.com')
-      # sign_up_admin_with('test1@example.com', 'please123', 'please123')
-      # txts = [I18n.t('devise.registrations.signed_up'), I18n.t('devise.registrations.signed_up_but_unconfirmed')]
-      # expect_message :flash_notice, /.*#{txts[0]}.*|.*#{txts[1]}.*/
+    # sign_up_admin_with('test1@example.com', 'please123', 'please123')
+    # txts = [I18n.t('devise.registrations.signed_up'), I18n.t('devise.registrations.signed_up_but_unconfirmed')]
+    # expect_message :flash_notice, /.*#{txts[0]}.*|.*#{txts[1]}.*/
     # end
 
     # Scenario: Visitor cannot sign up with invalid email address
@@ -113,13 +114,12 @@ feature 'Admin sign up', :devise do
     #   expect_message :error_explanation, 'Password confirmation doesn\'t match'
     # end
 
-
     # Scenario: admin can create another admin
     #   Given I am signed in (me)
     #   admin clicks admin sign up
     #   admin fills in fields
     #   Then I see list of admins including me & new admin
-    scenario "admin can NOT create another admin", :me do
+    scenario 'admin can NOT create another admin', :me do
       visit new_admin_registration_path # click Sign up admin
       expect(page).to have_selector('p', text: 'This is turned off')
     end

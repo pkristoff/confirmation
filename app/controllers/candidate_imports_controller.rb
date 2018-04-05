@@ -27,6 +27,7 @@ class CandidateImportsController < ApplicationController
       end
     end
     @candidate_import ||= CandidateImport.new.check_events
+    nil
   end
 
   def create
@@ -99,5 +100,6 @@ class CandidateImportsController < ApplicationController
 
   def new
     @candidate_import ||= CandidateImport.new
+    nil
   end
 end

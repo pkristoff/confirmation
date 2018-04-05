@@ -7,7 +7,7 @@ describe CandidatesMailer, type: :model do
     before(:each) do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
-      @candidate = Candidate.find_by_account_name(candidate.account_name)
+      @candidate = Candidate.find_by(account_name: candidate.account_name)
       @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT,
                                        body_input: {pre_late_text: LATE_INITIAL_TEXT,
                                                     pre_coming_due_text: COMING_DUE_INITIAL_TEXT,
@@ -78,7 +78,7 @@ describe CandidatesMailer, type: :model do
     before(:each) do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
-      @candidate = Candidate.find_by_account_name(candidate.account_name)
+      @candidate = Candidate.find_by(account_name: candidate.account_name)
       @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, body_input: 'some body')
 
     end

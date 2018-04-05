@@ -1,6 +1,6 @@
 class RenameFillOutCandidateInformationSheet < ActiveRecord::Migration
   def up
-    event = ConfirmationEvent.find_by_name('Fill Out Candidate Information Sheet')
+    event = ConfirmationEvent.find_by(name: 'Fill Out Candidate Information Sheet')
     unless event.nil?
       event.name='Candidate Information Sheet'
       event.save
@@ -8,7 +8,7 @@ class RenameFillOutCandidateInformationSheet < ActiveRecord::Migration
   end
 
   def down
-    event = ConfirmationEvent.find_by_name('Candidate Information Sheet')
+    event = ConfirmationEvent.find_by(name: 'Candidate Information Sheet')
     unless event.nil?
       event.name='Fill Out Candidate Information Sheet'
       event.save

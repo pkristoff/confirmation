@@ -1,4 +1,5 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Admin index page
@@ -6,6 +7,7 @@ Warden.test_mode!
 #   I want to see a list of admins
 #   So I can see who has registered
 feature 'Admin events page', :devise do
+  include Warden::Test::Helpers
 
   after(:each) do
     Warden.test_reset!
@@ -44,8 +46,8 @@ feature 'Admin events page', :devise do
     expect_form
 
     within_fieldset I18n.t('events.candidate_covenant_agreement') do
-      expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_the_way_due_date][value='#{Date.today.to_s}']")
-      expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_chs_due_date][value='#{Date.today.to_s}']")
+      expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_the_way_due_date][value='#{Date.today}']")
+      expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_chs_due_date][value='#{Date.today}']")
       expect(page).to have_field(I18n.t('label.events.instructions'), text: '')
     end
     within_fieldset I18n.t('events.candidate_information_sheet') do
@@ -58,5 +60,4 @@ feature 'Admin events page', :devise do
   def expect_form
     expect(page).to have_selector('form[action="/update_multiple_confirmation_events?method=put"]', count: 1)
   end
-
 end

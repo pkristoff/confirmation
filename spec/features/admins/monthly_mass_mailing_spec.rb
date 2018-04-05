@@ -1,9 +1,10 @@
-include ViewsHelpers
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
-
 feature 'Admin monthly mass mailing', :devise do
+  include ViewsHelpers
+  include Warden::Test::Helpers
 
   after(:each) do
     Warden.test_reset!
@@ -11,7 +12,7 @@ feature 'Admin monthly mass mailing', :devise do
 
   scenario 'admin has to select candidate before sending monthly email' do
     admin = FactoryBot.create(:admin)
-    login_as(admin, :scope => :admin)
+    login_as(admin, scope: :admin)
     visit monthly_mass_mailing_path
 
     fill_in I18n.t('email.subject_label'), with: 'The subject'
@@ -33,18 +34,16 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
     expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
-
   end
 
   scenario 'admin can send email to multiple candidates' do
-
-    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
-    candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
+    candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
     admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
-    login_as(admin, :scope => :admin)
+    login_as(admin, scope: :admin)
 
     visit monthly_mass_mailing_path
 
@@ -57,8 +56,8 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.salutation_text_label'), with: 'The salutation_text'
     fill_in I18n.t('email.from_text_label'), with: 'The from_text'
 
-    check("candidate_candidate_ids_#{candidate_1.id}")
-    check("candidate_candidate_ids_#{candidate_2.id}")
+    check("candidate_candidate_ids_#{candidate1.id}")
+    check("candidate_candidate_ids_#{candidate2.id}")
 
     click_button('top-update')
 
@@ -71,33 +70,31 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
     expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
-
   end
-  scenario 'admin can send email to multiple candidates with default values' do
 
-    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
-    candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
+  scenario 'admin can send email to multiple candidates with default values' do
+    candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
     admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
-    login_as(admin, :scope => :admin)
+    login_as(admin, scope: :admin)
 
     visit monthly_mass_mailing_path
 
-    check("candidate_candidate_ids_#{candidate_1.id}")
-    check("candidate_candidate_ids_#{candidate_2.id}")
+    check("candidate_candidate_ids_#{candidate1.id}")
+    check("candidate_candidate_ids_#{candidate2.id}")
 
     click_button('top-update')
 
     expect_message(:flash_notice, I18n.t('messages.monthly_mailing_progress'))
     expect_default_values
-
   end
 
   scenario 'admin has to select candidate before sending test monthly email' do
     admin = FactoryBot.create(:admin)
-    login_as(admin, :scope => :admin)
+    login_as(admin, scope: :admin)
     visit monthly_mass_mailing_path
 
     fill_in I18n.t('email.subject_label'), with: 'The subject'
@@ -119,36 +116,32 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
     expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
-
   end
 
   scenario 'admin can send test email to a candidate with default values' do
-
-    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
     admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
-    login_as(admin, :scope => :admin)
+    login_as(admin, scope: :admin)
 
     visit monthly_mass_mailing_path
 
-    check("candidate_candidate_ids_#{candidate_1.id}")
+    check("candidate_candidate_ids_#{candidate1.id}")
     click_button('top-test')
 
     expect_message(:flash_notice, I18n.t('messages.monthly_mailing_test_sent'))
     expect_default_values
-
   end
 
   scenario 'admin can send test email to a candidate' do
-
-    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
     admin = FactoryBot.create(:admin)
     AppFactory.add_confirmation_events
 
-    login_as(admin, :scope => :admin)
+    login_as(admin, scope: :admin)
 
     visit monthly_mass_mailing_path
 
@@ -160,7 +153,7 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.closing_text_label'), with: 'The closing_text'
     fill_in I18n.t('email.salutation_text_label'), with: 'The salutation_text'
     fill_in I18n.t('email.from_text_label'), with: 'The from_text'
-    check("candidate_candidate_ids_#{candidate_1.id}")
+    check("candidate_candidate_ids_#{candidate1.id}")
     click_button('top-test')
 
     expect_message(:flash_notice, I18n.t('messages.monthly_mailing_test_sent'))
@@ -171,11 +164,9 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
     expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
-
   end
 
   def expect_default_values
-
     expect(page).to have_field(I18n.t('email.subject_label'), with: I18n.t('email.subject_initial_text'))
     expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: I18n.t('email.late_initial_text'))
     expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: I18n.t('email.coming_due_initial_text'))
@@ -184,11 +175,5 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: I18n.t('email.closing_initial_text'))
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: I18n.t('email.salutation_initial_text'))
     expect(page).to have_css('textarea[id=mail_from_text]', text: /.*Vicki Kristoff.*|.*stmm.confirmation@kristoffs.com.*|.*919-249-5629.*/)
-
   end
-
 end
-
-
-
-

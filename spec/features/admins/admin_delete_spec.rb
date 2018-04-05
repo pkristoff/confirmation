@@ -1,4 +1,5 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Candidate delete
@@ -6,6 +7,7 @@ Warden.test_mode!
 #   I want to delete my admin profile
 #   So I can close my account
 feature 'Admin delete', :devise do
+  include Warden::Test::Helpers
 
   after(:each) do
     Warden.test_reset!
@@ -19,16 +21,11 @@ feature 'Admin delete', :devise do
     admin = FactoryBot.create(:admin)
     other = FactoryBot.create(:admin, email: 'other@test.com', name: 'other')
     expect(Admin.all.size).to eq(2)
-    login_as(admin, :scope => :admin)
-    visit admins_path()
+    login_as(admin, scope: :admin)
+    visit admins_path
     click_link "delete_#{other.id}"
     expect_message(:flash_notice, I18n.t('devise.registrations.destroyed'))
 
     expect(Admin.all.size).to eq(1)
   end
-
 end
-
-
-
-

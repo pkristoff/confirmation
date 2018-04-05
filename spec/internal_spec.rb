@@ -19,6 +19,10 @@ describe 'Internal' do
     it 'should pass models' do
       expect(system 'rubocop app/models').to eq(true)
     end
+
+    it 'should pass  views' do
+      expect(system 'rubocop app/views').to eq(true)
+    end
   end
 
   describe 'db' do
@@ -28,8 +32,28 @@ describe 'Internal' do
   end
 
   describe 'spec' do
+    it 'should pass app_factories spec' do
+      expect(system 'rubocop spec/app_factories').to eq(true)
+    end
+
     it 'should pass controller spec' do
       expect(system 'rubocop spec/controllers').to eq(true)
+    end
+
+    it 'should pass factories spec' do
+      expect(system 'rubocop spec/factories').to eq(true)
+    end
+
+    it 'should pass features spec' do
+      expect(system 'rubocop spec/features').to eq(true)
+    end
+
+    it 'should pass fixture spec' do
+      expect(system 'rubocop spec/fixtures').to eq(true)
+    end
+
+    it 'should pass mailers spec' do
+      expect(system 'rubocop spec/mailers').to eq(true)
     end
 
     it 'should pass support spec' do

@@ -48,9 +48,7 @@ class Candidate < ActiveRecord::Base
   #
   # turn off sending verify instructions until admin sends it.
   #
-  def send_on_create_confirmation_instructions
-    #
-  end
+  def send_on_create_confirmation_instructions() end
 
   # Sorts candidate events in priorty order (to be cmpleted first)
   #

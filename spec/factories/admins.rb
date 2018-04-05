@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :admin, class: Admin do
     name 'Admin Candidate'

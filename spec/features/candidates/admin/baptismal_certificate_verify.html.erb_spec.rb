@@ -1,9 +1,11 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 require 'constants'
 
 feature 'Baptismal Certificate admin Verify', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     @is_dev = false
@@ -21,5 +23,4 @@ feature 'Baptismal Certificate admin Verify', :devise do
   end
 
   it_behaves_like 'baptismal_certificate_html_erb'
-
 end

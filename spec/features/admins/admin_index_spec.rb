@@ -1,4 +1,5 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Admin index page
@@ -6,7 +7,7 @@ Warden.test_mode!
 #   I want to see a list of admins
 #   So I can see who has registered
 feature 'Admin index page', :devise do
-
+  include Warden::Test::Helpers
   after(:each) do
     Warden.test_reset!
   end
@@ -31,5 +32,4 @@ feature 'Admin index page', :devise do
     expect(page).to have_link("edit_#{admin.id}", text: admin.name)
     expect(page).to have_selector("td[id='email_#{admin.id}']", text: admin.email)
   end
-
 end

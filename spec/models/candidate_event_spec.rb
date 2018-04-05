@@ -107,8 +107,8 @@ describe CandidateEvent, type: :model do
     context 'confirmation event not started' do
       xxx += 1
       candidate = nil
-      candidate = FactoryBot.create(:candidate, account_name: "foo_#{xxx}") unless Candidate.find_by_account_name("foo_#{xxx}")
-      candidate = Candidate.find_by_account_name("foo_#{xxx}") unless candidate
+      candidate = FactoryBot.create(:candidate, account_name: "foo_#{xxx}") unless Candidate.find_by(account_name: "foo_#{xxx}")
+      candidate = Candidate.find_by(account_name: "foo_#{xxx}") unless candidate
       confirmation_event_not_started = FactoryBot.create(:confirmation_event, the_way_due_date: '', chs_due_date: '')
       candidate_event = candidate.add_candidate_event(confirmation_event_not_started)
       candidate_event.completed_date = ''
@@ -126,8 +126,8 @@ describe CandidateEvent, type: :model do
     end
     context 'confirmation event started' do
       xxx += 1
-      candidate = FactoryBot.create(:candidate, account_name: "baz_#{xxx}") unless Candidate.find_by_account_name("baz_#{xxx}")
-      candidate = Candidate.find_by_account_name("baz_#{xxx}") unless candidate
+      candidate = FactoryBot.create(:candidate, account_name: "baz_#{xxx}") unless Candidate.find_by(account_name: "baz_#{xxx}")
+      candidate = Candidate.find_by(account_name: "baz_#{xxx}") unless candidate
       confirmation_event_started = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-04-01', chs_due_date: '2016-04-02')
       context 'candidate has done nothing' do
         candidate.candidate_events.clear
@@ -161,8 +161,8 @@ describe CandidateEvent, type: :model do
       context 'candidate has done the event awaiting admin approval' do
         xxx += 1
         candidate = nil
-        candidate = FactoryBot.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by_account_name("bag_#{xxx}")
-        candidate = Candidate.find_by_account_name("bag_#{xxx}") unless candidate
+        candidate = FactoryBot.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by(account_name: "bag_#{xxx}")
+        candidate = Candidate.find_by(account_name: "bag_#{xxx}") unless candidate
         candidate.candidate_events.clear
         candidate_event = candidate.add_candidate_event(confirmation_event_started)
         candidate_event.completed_date = '2016-03-29'
@@ -184,8 +184,8 @@ describe CandidateEvent, type: :model do
       context 'candidate has done the event and admin has approved' do
         xxx += 1
         candidate = nil
-        candidate = FactoryBot.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by_account_name("bag_#{xxx}")
-        candidate = Candidate.find_by_account_name("bag_#{xxx}") unless candidate
+        candidate = FactoryBot.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by(account_name: "bag_#{xxx}")
+        candidate = Candidate.find_by(account_name: "bag_#{xxx}") unless candidate
         candidate.candidate_events.clear
         candidate_event = candidate.add_candidate_event(confirmation_event_started)
         candidate_event.completed_date = '2016-03-29'
@@ -228,7 +228,7 @@ describe CandidateEvent, type: :model do
       candidate = FactoryBot.create(:candidate)
       event_key = I18n.t('events.sponsor_agreement')
       AppFactory.add_confirmation_event(event_key)
-      @candidate = Candidate.find_by_account_name(candidate.account_name)
+      @candidate = Candidate.find_by(account_name: candidate.account_name)
       @candidate_event = @candidate.get_candidate_event(event_key)
     end
 
@@ -293,7 +293,7 @@ describe CandidateEvent, type: :model do
       candidate = FactoryBot.create(:candidate)
       event_key = I18n.t('events.baptismal_certificate')
       AppFactory.add_confirmation_event(event_key)
-      candidate = Candidate.find_by_account_name(candidate.account_name)
+      candidate = Candidate.find_by(account_name: candidate.account_name)
       candidate_event = candidate.get_candidate_event(event_key)
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
@@ -315,7 +315,7 @@ describe CandidateEvent, type: :model do
       candidate = FactoryBot.create(:candidate)
       event_key = I18n.t('events.baptismal_certificate')
       AppFactory.add_confirmation_event(event_key)
-      candidate = Candidate.find_by_account_name(candidate.account_name)
+      candidate = Candidate.find_by(account_name: candidate.account_name)
       candidate_event = candidate.get_candidate_event(event_key)
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
@@ -337,7 +337,7 @@ describe CandidateEvent, type: :model do
       candidate = FactoryBot.create(:candidate)
       event_key = I18n.t('events.baptismal_certificate')
       AppFactory.add_confirmation_event(event_key)
-      candidate = Candidate.find_by_account_name(candidate.account_name)
+      candidate = Candidate.find_by(account_name: candidate.account_name)
       candidate_event = candidate.get_candidate_event(event_key)
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],

@@ -1,9 +1,11 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 require 'constants'
 
 feature 'Sponsor Agreement dev candidate', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     @candidate = FactoryBot.create(:candidate)
@@ -34,9 +36,7 @@ feature 'Sponsor Agreement dev candidate', :devise do
     Warden.test_reset!
   end
 
-  #dev
+  # dev
 
   it_behaves_like 'sign_an_agreement_html_erb'
-
 end
-

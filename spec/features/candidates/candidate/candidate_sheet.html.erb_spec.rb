@@ -1,7 +1,9 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 feature 'Candidate sheet candidate', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     @candidate = FactoryBot.create(:candidate)
@@ -24,5 +26,4 @@ feature 'Candidate sheet candidate', :devise do
   end
 
   it_behaves_like 'candidate_sheet_html_erb'
-
 end

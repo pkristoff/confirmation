@@ -1,4 +1,5 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Candidate edit
@@ -6,6 +7,7 @@ Warden.test_mode!
 #   I want to edit my candidate profile
 #   So I can change my email address
 feature 'Candidate edit', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     @candidate = FactoryBot.create(:candidate)
@@ -23,10 +25,10 @@ feature 'Candidate edit', :devise do
   scenario 'candidate changes email address' do
     visit edit_candidate_registration_path(@candidate.id) # views/candidates/registrations/edit.html.erb
     # /dev/candidates - put registration_path(resource_name)
-    fill_in 'Parent email 1', :with => 'newemail@example.com'
-    fill_in I18n.t('views.admins.current_password'), :with => @candidate.password
+    fill_in 'Parent email 1', with: 'newemail@example.com'
+    fill_in I18n.t('views.admins.current_password'), with: @candidate.password
     click_button I18n.t('views.common.update')
-    expect_message(:'flash_notice', I18n.t('devise.registrations.updated'))
+    expect_message(:flash_notice, I18n.t('devise.registrations.updated'))
   end
 
   # Scenario: Candidate must supply password to make changes
@@ -36,7 +38,7 @@ feature 'Candidate edit', :devise do
   scenario 'candidate changes email address' do
     visit edit_candidate_registration_path(@candidate.id) # views/candidates/registrations/edit.html.erb
     # /dev/candidates - put registration_path(resource_name)
-    fill_in 'Parent email 1', :with => 'newemail@example.com'
+    fill_in 'Parent email 1', with: 'newemail@example.com'
     click_button I18n.t('views.common.update')
     expect_message(:error_explanation, "#{I18n.t('errors.messages.not_saved.one', resource: :candidate)} Current password can\'t be blank")
   end
@@ -52,5 +54,4 @@ feature 'Candidate edit', :devise do
     expect(page).to have_content I18n.t('views.candidates.edit_candidate')
     expect(page).to have_field('Parent email 1', with: @candidate.candidate_sheet.parent_email_1)
   end
-
 end

@@ -1,4 +1,5 @@
-include Warden::Test::Helpers
+# frozen_string_literal: true
+
 Warden.test_mode!
 
 # Feature: Candidate edit
@@ -6,6 +7,7 @@ Warden.test_mode!
 #   I want to edit my candidate profile
 #   So I can change my email address
 feature 'Candidate edit', :devise do
+  include Warden::Test::Helpers
 
   before(:each) do
     @admin = FactoryBot.create(:admin)
@@ -25,10 +27,8 @@ feature 'Candidate edit', :devise do
     AppFactory.add_confirmation_events
 
     visit edit_candidate_path(candidate.id)
-    fill_in 'Parent email 1', :with => 'newemail@example.com'
+    fill_in 'Parent email 1', with: 'newemail@example.com'
     click_button I18n.t('views.common.update')
     expect_message(:flash_notice, I18n.t('messages.candidate_updated', name: 'sophiaagusta'))
-
   end
-
 end

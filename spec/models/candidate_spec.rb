@@ -198,10 +198,10 @@ describe Candidate do
 
       AppFactory.add_confirmation_events
 
-      @c1 = Candidate.find_by_account_name(c1.account_name)
-      @c2 = Candidate.find_by_account_name(c2.account_name)
-      @c3 = Candidate.find_by_account_name(c3.account_name)
-      @c4 = Candidate.find_by_account_name(c4.account_name)
+      @c1 = Candidate.find_by(account_name: c1.account_name)
+      @c2 = Candidate.find_by(account_name: c2.account_name)
+      @c3 = Candidate.find_by(account_name: c3.account_name)
+      @c4 = Candidate.find_by(account_name: c4.account_name)
     end
 
     it "baptismal_external_verification?" do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :baptismal_certificate do
     transient do
@@ -17,12 +19,12 @@ FactoryBot.define do
       unless evaluator.skip_address_replacement
         # replace baptismal_certificate
         baptismal_certificate.church_address = FactoryBot.create(
-            :address,
-            street_1: '1313 Magdalene Way',
-            street_2: 'Apt. 456',
-            city: 'Apex',
-            state: 'NC',
-            zip_code: '27502',
+          :address,
+          street_1: '1313 Magdalene Way',
+          street_2: 'Apt. 456',
+          city: 'Apex',
+          state: 'NC',
+          zip_code: '27502'
         )
       end
       baptismal_certificate.scanned_certificate = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')

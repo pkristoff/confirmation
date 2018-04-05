@@ -4,14 +4,14 @@ describe 'shared/sorting_candidate_selection' do
 
   before(:each) do
 
-    @candidate_1 = Candidate.find_by_account_name(create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
-    @candidate_2 = Candidate.find_by_account_name(create_candidate('Paul', 'Richard', 'Kristoff').account_name)
-    @candidates = [@candidate_1, @candidate_2]
+    @candidate1 = Candidate.find_by(account_name: create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
+    @candidate2 = Candidate.find_by(account_name: create_candidate('Paul', 'Richard', 'Kristoff').account_name)
+    @candidates = [@candidate1, @candidate2]
     AppFactory.add_confirmation_events
 
     @table_id = "table[id='candidate_list_table']"
 
-    @confirmation_event = ConfirmationEvent.find_by_name(I18n.t('events.candidate_covenant_agreement'))
+    @confirmation_event = ConfirmationEvent.find_by(name: I18n.t('events.candidate_covenant_agreement'))
     @candidate_info = PluckCan.pluck_candidates(@confirmation_event.id)
   end
 

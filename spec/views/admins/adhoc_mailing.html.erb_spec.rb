@@ -4,14 +4,14 @@ describe 'admins/adhoc_mailing.html.erb' do
 
   before(:each) do
 
-    candidate_1 = create_candidate('Vicki', 'Anne', 'Kristoff')
-    candidate_2 = create_candidate('Paul', 'Richard', 'Kristoff')
+    candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
     AppFactory.add_confirmation_events
 
     # have re-lookup candidates because local a diff instance
-    @candidates = [Candidate.find_by_account_name(candidate_1.account_name),
-                   Candidate.find_by_account_name(candidate_2.account_name)]
+    @candidates = [Candidate.find_by(account_name: candidate1.account_name),
+                   Candidate.find_by(account_name: candidate2.account_name)]
     @candidate_info = PluckCan.pluck_candidates
 
   end
