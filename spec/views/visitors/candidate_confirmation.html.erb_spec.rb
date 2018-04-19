@@ -1,13 +1,7 @@
+# frozen_string_literal: true
 
 describe 'visitors/candidate_confirmation.html.erb' do
-
-  before(:each) do
-
-
-  end
-
   it 'candidate is confirmed.' do
-
     @candidate = FactoryBot.create(:candidate)
     @errors = 'noerrors'
 
@@ -19,7 +13,6 @@ describe 'visitors/candidate_confirmation.html.erb' do
   end
 
   it 'candidate not confirmed.' do
-
     @candidate = FactoryBot.create(:candidate)
     @errors = 'this is an error message'
 
@@ -28,6 +21,4 @@ describe 'visitors/candidate_confirmation.html.erb' do
     expect(rendered).to have_selector('div[id=confirm-failed] p', count: 1)
     expect(rendered).to have_selector('div[id=confirm-failed] p', text: @errors)
   end
-
-  private
 end

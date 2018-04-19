@@ -14,6 +14,7 @@ SPONSOR_CHURCH_LABEL = I18n.t('label.sponsor_covenant.sponsor_church')
 SPONSOR_NAME_LABEL = I18n.t('label.sponsor_covenant.sponsor_name')
 
 shared_context 'sponsor_covenant_html_erb' do
+  include ViewsHelpers
   before(:each) do
     event_with_picture_setup(Event::Route::SPONSOR_COVENANT, @is_verify)
     AppFactory.add_confirmation_events

@@ -1,12 +1,12 @@
-include DeviseHelpers
+# frozen_string_literal: true
+
 describe 'admins/sessions/new.html.erb' do
+  include DeviseHelpers
   before do
-
     @resource_class = Admin
-
   end
-  it 'Form layout' do
 
+  it 'Form layout' do
     render
 
     expect(rendered).to have_selector('h2', text: I18n.t('views.top_bar.sign_in', name: 'admin'))
@@ -17,6 +17,5 @@ describe 'admins/sessions/new.html.erb' do
     expect(rendered).to have_field(I18n.t('views.common.password'), type: 'password')
     expect(rendered).to have_unchecked_field('Remember me')
     expect(rendered).to have_button(I18n.t('views.top_bar.sign_in', name: 'admin'))
-
   end
 end

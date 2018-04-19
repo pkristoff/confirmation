@@ -3,7 +3,7 @@
 <% if event_association && event_association.errors.any? %>
     <div id="error_explanation">
       <% err_count = event_association.errors.count %>
-        <h2>Your changes were saved!! <%= pluralize(err_count, 'empty field') %> need<%=(err_count === 1 ? 's' : '') %> to be filled in on the form to be verfied:</h2>
+        <h2>Your changes were saved!! <%= pluralize(err_count, 'empty field') %> need<%=(err_count == 1 ? 's' : '') %> to be filled in on the form to be verfied:</h2>
       <ul>
         <% event_association.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>

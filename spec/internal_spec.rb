@@ -52,21 +52,24 @@ describe 'Internal' do
       expect(system 'rubocop spec/fixtures').to eq(true)
     end
 
+    it 'should pass models spec' do
+      expect(system 'rubocop spec/models').to eq(true)
+    end
+
     it 'should pass mailers spec' do
       expect(system 'rubocop spec/mailers').to eq(true)
+    end
+
+    it 'should pass model spec' do
+      expect(system 'rubocop spec/models').to eq(true)
     end
 
     it 'should pass support spec' do
       expect(system 'rubocop spec/support').to eq(true)
     end
 
-    it 'should pass features spec' do
-      expect(system 'rubocop spec/features/candidates/admin/mass_edit/candidate_events/christian_ministry.html.erb_spec.rb').to eq(true)
-      expect(system 'rubocop spec/features/candidates/admin/mass_edit/candidate_events/pick_confirmation_name.html.erb_spec.rb').to eq(true)
-    end
-
     it 'should pass views visitors spec' do
-      expect(system 'rubocop spec/views/visitors/about.html.erb_spec.rb').to eq(true)
+      expect(system 'rubocop spec/views').to eq(true)
     end
   end
 

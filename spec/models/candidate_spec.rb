@@ -1,8 +1,8 @@
-include ActionDispatch::TestProcess
+# frozen_string_literal: true
+
 describe Candidate do
-
+  include ActionDispatch::TestProcess
   describe 'address' do
-
     it 'can retrieve a candiadate\'s address' do
       candidate = FactoryBot.create(:candidate)
       expect(candidate.account_name).to match 'sophiaagusta'
@@ -15,7 +15,6 @@ describe Candidate do
       expect(candidate.candidate_sheet.address.zip_code).to match '27502'
 
       expect(candidate.candidate_events.size).to eq 2
-
     end
 
     it 'can retrieve a new candiadate\'s address' do
@@ -37,108 +36,105 @@ describe Candidate do
       expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
       expect(candidate.baptismal_certificate.first_comm_at_stmm).to eq(false)
     end
-
   end
 
   describe 'candidate_events_sorted' do
     before(:each) do
       @candidates_with_data = [
-          {candidate: setup_candidate(
-              []),
-           result: []
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil}
-              ]),
-           result: %w(a)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil},
-                  {name: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil}
-              ]),
-           result: %w(a b)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil},
-                  {name: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil}
-              ]),
-           result: %w(b a)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil},
-                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil}
-              ]),
-           result: %w(a b)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil},
-                  {name: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil}
-              ]),
-           result: %w(a b)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil},
-                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil}
-              ]),
-           result: %w(b a)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05'},
-                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil}
-              ]),
-           result: %w(b a)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil},
-                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05'}
-              ]),
-           result: %w(a b)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_datechs_due_date: '2016-05-01', completed_date: '2016-05-06'},
-                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05'}
-              ]),
-           result: %w(a b)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-06'},
-                  {name: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-05'}
-              ]),
-           result: %w(a b)
-          },
-          {candidate: setup_candidate(
-              [
-                  {name: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-06'},
-                  {name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05'}
-              ]),
-           result: %w(b a)
-          }
+        { candidate: setup_candidate(
+          []
+        ),
+          result: [] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+          ]
+        ),
+          result: %w[a] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil },
+            { name: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+          ]
+        ),
+          result: %w[a b] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
+            { name: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+          ]
+        ),
+          result: %w[b a] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
+            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+          ]
+        ),
+          result: %w[a b] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
+            { name: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil }
+          ]
+        ),
+          result: %w[a b] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil },
+            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+          ]
+        ),
+          result: %w[b a] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' },
+            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+          ]
+        ),
+          result: %w[b a] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
+            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+          ]
+        ),
+          result: %w[a b] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-01', chs_due_datechs_due_date: '2016-05-01', completed_date: '2016-05-06' },
+            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+          ]
+        ),
+          result: %w[a b] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-06' },
+            { name: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-05' }
+          ]
+        ),
+          result: %w[a b] },
+        { candidate: setup_candidate(
+          [
+            { name: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-06' },
+            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+          ]
+        ),
+          result: %w[b a] }
       ]
+    end
+
+    it 'two candidate_event with all nil' do
+      @candidates_with_data.each do |data|
+        candidate = data[:candidate]
+        result = data[:result]
+        expect(candidate.candidate_events.size).to eq(result.size)
+
+        candidate_events_sorted = candidate.candidate_events_sorted
+
+        expect(candidate_events_sorted.size).to eq(result.size)
+        result.each_with_index { |expected_name, index| expect(candidate_events_sorted[index].name).to eq(expected_name) }
       end
-
-      it 'two candidate_event with all nil' do
-        @candidates_with_data.each do | data |
-          candidate = data[:candidate]
-          result = data[:result]
-          expect(candidate.candidate_events.size).to eq(result.size)
-
-          candidate_events_sorted = candidate.candidate_events_sorted
-
-          expect(candidate_events_sorted.size).to eq(result.size)
-          result.each_with_index { |expected_name, index | expect(candidate_events_sorted[index].name).to eq(expected_name) }
-
-        end
-
     end
 
     it 'should create sponsor_covenant and pick_confirmation_name' do
@@ -149,12 +145,12 @@ describe Candidate do
 
     def setup_candidate(data)
       candidate = Candidate.new
-      data.each do | candidate_data |
+      data.each do |candidate_data|
         confirmation_event = FactoryBot.create(
-            :confirmation_event,
-            name: candidate_data[:name],
-            the_way_due_date: (candidate_data[:the_way_due_date].nil? ? nil : Date.parse(candidate_data[:the_way_due_date])),
-            chs_due_date: (candidate_data[:chs_due_date].nil? ? nil : Date.parse(candidate_data[:chs_due_date]))
+          :confirmation_event,
+          name: candidate_data[:name],
+          the_way_due_date: (candidate_data[:the_way_due_date].nil? ? nil : Date.parse(candidate_data[:the_way_due_date])),
+          chs_due_date: (candidate_data[:chs_due_date].nil? ? nil : Date.parse(candidate_data[:chs_due_date]))
         )
         candidate_event = candidate.add_candidate_event(confirmation_event)
         candidate_event.completed_date = candidate_data[:completed_date]
@@ -164,7 +160,7 @@ describe Candidate do
   end
 
   describe 'delete associations' do
-    it "should delete associations when deleted" do
+    it 'should delete associations when deleted' do
       candidate = FactoryBot.create(:candidate)
 
       expect_event_association(candidate.baptismal_certificate, 1)
@@ -188,9 +184,7 @@ describe Candidate do
   end
 
   describe 'external verification' do
-
     before(:each) do
-
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
       c2 = create_candidate('c2', 'Vicki', 'Kristoff')
       c3 = create_candidate('c3', 'Karen', 'Kristoff')
@@ -204,7 +198,7 @@ describe Candidate do
       @c4 = Candidate.find_by(account_name: c4.account_name)
     end
 
-    it "baptismal_external_verification?" do
+    it 'baptismal_external_verification?' do
       event_key = I18n.t('events.baptismal_certificate')
       today = Date.today
       @c1.baptismal_certificate.baptized_at_stmm = false
@@ -227,7 +221,7 @@ describe Candidate do
       expect_external_verification(Candidate.baptismal_external_verification, [@c2, @c4], [@c1], [], [@c3])
     end
 
-    it "confirmation_name_external_verification" do
+    it 'confirmation_name_external_verification' do
       event_key = I18n.t('events.confirmation_name')
       today = Date.today
       @c1.pick_confirmation_name.saint_name = 'xxx'
@@ -243,14 +237,14 @@ describe Candidate do
       expect_external_verification(Candidate.confirmation_name_external_verification, [], [@c1], [@c2], [@c3, @c4])
     end
 
-    def expect_external_verification(actual, external, to_be_verified, verified, not_complete )
+    def expect_external_verification(actual, external, to_be_verified, verified, not_complete)
       expect(actual[0]).to eq(external)
       expect(actual[1]).to eq(to_be_verified)
       expect(actual[2]).to eq(verified)
       expect(actual[3]).to eq(not_complete)
     end
 
-    it "retreat_external_verification??" do
+    it 'retreat_external_verification??' do
       event_key = I18n.t('events.retreat_verification')
       today = Date.today
       @c1.retreat_verification.retreat_held_at_stmm = false
@@ -266,7 +260,7 @@ describe Candidate do
       expect_external_verification(Candidate.retreat_external_verification, [@c2], [@c1], [], [@c3, @c4])
     end
 
-    it "sponsor_external_verification?" do
+    it 'sponsor_external_verification?' do
       event_key = I18n.t('events.sponsor_covenant')
       today = Date.today
       @c1.sponsor_covenant.sponsor_attends_stmm = false
@@ -284,29 +278,24 @@ describe Candidate do
   end
 
   describe 'password' do
-
     it 'should return false if password is not initial password' do
-
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
       c1.password = 'abcdefghij'
       expect(c1.password_changed?).to eq(true)
     end
 
     it 'should return false if password is initial password' do
-
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
       c1.password = Event::Other::INITIAL_PASSWORD
       expect(c1.password_changed?).to eq(false)
     end
 
     it 'should return true if password is changed back to initial password' do
-
       c1 = create_candidate('c1', 'Paul', 'Kristoff')
       c1.password = 'abcdefghij'
       expect(c1.password_changed?).to eq(true)
       c1.password = Event::Other::INITIAL_PASSWORD
     end
-
   end
 
   describe 'confirm_account' do
@@ -339,8 +328,8 @@ describe Candidate do
       text = delivery.message.body.to_s
 
       expect(text).not_to eq(nil)
-      expect(text.include? 'Hello c1!').to eq(true)
-      expect(text.include? 'Your Username is: c1').to eq(true)
+      expect(text.include?('Hello c1!')).to eq(true)
+      expect(text.include?('Your Username is: c1')).to eq(true)
     end
   end
 
@@ -355,7 +344,6 @@ describe Candidate do
   def expect_event_association(assoc_from_candidate, size)
     event_assoc = assoc_from_candidate.class.all
     expect(event_assoc.size).to eq(size)
-    expect(assoc_from_candidate).to eq(event_assoc.first) if size === 1
+    expect(assoc_from_candidate).to eq(event_assoc.first) if size == 1
   end
-
 end

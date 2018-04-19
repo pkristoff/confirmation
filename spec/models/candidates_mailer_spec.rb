@@ -1,24 +1,22 @@
-include ViewsHelpers
+# frozen_string_literal: true
 
 describe CandidatesMailer, type: :model do
-
+  include ViewsHelpers
   describe 'monthly_reminder testing' do
-
     before(:each) do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT,
-                                       body_input: {pre_late_text: LATE_INITIAL_TEXT,
-                                                    pre_coming_due_text: COMING_DUE_INITIAL_TEXT,
-                                                    completed_awaiting_text: COMPLETE_AWAITING_INITIAL_TEXT,
-                                                    completed_text: COMPLETE_INITIAL_TEXT, closing_text: CLOSING_INITIAL_TEXT,
-                                                    salutation_text: SALUTATION_INITIAL_TEXT, from_text: FROM_EMAIL_TEXT})
-
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: ViewsHelpers::SUBJECT,
+                                       body_input: { pre_late_text: ViewsHelpers::LATE_INITIAL_TEXT,
+                                                     pre_coming_due_text: ViewsHelpers::COMING_DUE_INITIAL_TEXT,
+                                                     completed_awaiting_text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT,
+                                                     completed_text: ViewsHelpers::COMPLETE_INITIAL_TEXT, closing_text: ViewsHelpers::CLOSING_INITIAL_TEXT,
+                                                     salutation_text: ViewsHelpers::SALUTATION_INITIAL_TEXT, from_text: ViewsHelpers::FROM_EMAIL_TEXT })
     end
+
     describe 'monthly_reminder' do
       it 'should create a mail form' do
-
         admin = AppFactory.create_admin(email: 'candidate@example.com')
 
         coming_due_values = @candidate.candidate_events.map do |ce|
@@ -27,24 +25,22 @@ describe CandidatesMailer, type: :model do
 
         mail = CandidatesMailer.monthly_reminder(admin, @text)
         expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email, @candidate.candidate_sheet.parent_email_1])
-        expect(mail.from).to eq([FROM_EMAIL])
-        expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
-        expect(mail.subject).to eq(SUBJECT)
+        expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
+        expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
+        expect(mail.subject).to eq(ViewsHelpers::SUBJECT)
 
         body = Capybara.string(mail.body.encoded)
 
         expect_view(body, [], coming_due_values, [], [])
 
-        expect(body).to have_css('p[id=past_due_text][ style="white-space: pre-line;"]', text: LATE_INITIAL_TEXT)
-        expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre-line;"]', text: COMING_DUE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=past_due_text][ style="white-space: pre-line;"]', text: ViewsHelpers::LATE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre-line;"]', text: ViewsHelpers::COMING_DUE_INITIAL_TEXT)
         expect_closing(body)
-
       end
     end
 
     describe 'monthly_reminder_test' do
       it 'should create a mail form' do
-
         admin = AppFactory.create_admin(email: 'candidate@example.com')
 
         coming_due_values = @candidate.candidate_events.map do |ce|
@@ -53,8 +49,8 @@ describe CandidatesMailer, type: :model do
 
         mail = CandidatesMailer.monthly_reminder_test(admin, @text)
         expect(mail.to).to eq([admin.email])
-        expect(mail.from).to eq([FROM_EMAIL])
-        expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
+        expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
+        expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
         expect(mail.subject).to eq(I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
@@ -63,54 +59,48 @@ describe CandidatesMailer, type: :model do
         expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
         expect(body).to have_css('li[id=parent-email-2]', text: @candidate.candidate_sheet.parent_email_2)
 
-        expect(body).to have_css('p[id=subject]', text: SUBJECT)
+        expect(body).to have_css('p[id=subject]', text: ViewsHelpers::SUBJECT)
 
         expect_view(body, [], coming_due_values, [], [])
 
         expect_closing(body)
-
       end
     end
-
   end
-  describe 'adhoc mail' do
 
+  describe 'adhoc mail' do
     before(:each) do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: SUBJECT, body_input: 'some body')
-
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: ViewsHelpers::SUBJECT, body_input: 'some body')
     end
+
     describe 'adhoc' do
-
       it 'should create an adhoc mail form' do
-
         admin = AppFactory.create_admin(email: 'candidate@example.com')
 
         mail = CandidatesMailer.adhoc(admin, @text)
         expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email, @candidate.candidate_sheet.parent_email_1])
-        expect(mail.from).to eq([FROM_EMAIL])
-        expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
-        expect(mail.subject).to eq(SUBJECT)
+        expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
+        expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
+        expect(mail.subject).to eq(ViewsHelpers::SUBJECT)
 
         body = Capybara.string(mail.body.encoded)
 
         expect(body).to have_css('p[id=first_name]', text: 'Paul,')
         expect(body).to have_css('p[id=body_text][ style="white-space: pre-line;"]', text: 'some body')
-
       end
     end
+
     describe 'adhoc test' do
-
       it 'should create an adhoc test mail form' do
-
         admin = AppFactory.create_admin(email: 'candidate@example.com')
 
         mail = CandidatesMailer.adhoc_test(admin, @text)
         expect(mail.to).to eq([admin.email])
-        expect(mail.from).to eq([FROM_EMAIL])
-        expect(mail.reply_to).to eq([REPLY_TO_EMAIL])
+        expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
+        expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
         expect(mail.subject).to eq(I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
@@ -119,50 +109,47 @@ describe CandidatesMailer, type: :model do
         expect(body).to have_css('li[id=parent-email-1]', text: @candidate.candidate_sheet.parent_email_1)
         expect(body).to have_css('li[id=parent-email-2]', text: '')
 
-        expect(body).to have_css('p[id=subject]', text: "The subject: #{SUBJECT}")
+        expect(body).to have_css('p[id=subject]', text: "The subject: #{ViewsHelpers::SUBJECT}")
 
         expect(body).to have_css('p[id=first_name]', text: 'Paul,')
         expect(body).to have_css('p[id=body_text]', text: 'some body')
-
       end
     end
   end
 
   def expect_view(body, late_values, coming_due_values, completed_awaiting_values, completed_values)
-
     expect(body).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
-    expect_table(body, 'past_due_text', LATE_INITIAL_TEXT, 'past_due',
+    expect_table(body, 'past_due_text', ViewsHelpers::LATE_INITIAL_TEXT, 'past_due',
                  [],
                  late_values)
 
-    expect_table(body, I18n.t('email.coming_due_label'), COMING_DUE_INITIAL_TEXT, 'coming_due_events',
+    expect_table(body, I18n.t('email.coming_due_label'), ViewsHelpers::COMING_DUE_INITIAL_TEXT, 'coming_due_events',
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
-    expect_table(body, I18n.t('email.completed_awaiting_text_label'), COMPLETE_AWAITING_INITIAL_TEXT, 'completed_awaiting_events',
+    expect_table(body, I18n.t('email.completed_awaiting_text_label'), ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT, 'completed_awaiting_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_awaiting_values)
 
-    expect_table(body, I18n.t('email.completed_text_label'), COMPLETE_INITIAL_TEXT, 'completed_events',
+    expect_table(body, I18n.t('email.completed_text_label'), ViewsHelpers::COMPLETE_INITIAL_TEXT, 'completed_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
   end
 
-
-  def expect_table(body, field_id, field_text, event_prefix, column_headers, cell_values)
+  def expect_table(body, _field_id, field_text, event_prefix, column_headers, cell_values)
     table_id = "table[id='#{event_prefix}_table']"
-    expect(body).to have_css("p[id='#{event_prefix}_text']", text: field_text) unless field_text.nil? #if expect(body).to have_field(field_id, text: field_text)
+    expect(body).to have_css("p[id='#{event_prefix}_text']", text: field_text) unless field_text.nil? # if expect(body).to have_field(field_id, text: field_text)
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
-    expect(body).to have_css("#{table_id}")
+    expect(body).to have_css(table_id.to_s)
     expect(body).to have_css("#{table_id} #{tr_header_id}")
     expect(body).to have_css "#{table_id} #{tr_header_id} th", count: column_headers.size
     column_headers.each do |header|
       expect(body).to have_css "#{table_id} #{tr_header_id} th", text: header
     end
 
-    expect(body).to have_css("#{table_id} tr", count: cell_values.size+1)
+    expect(body).to have_css("#{table_id} tr", count: cell_values.size + 1)
     cell_values.each do |values|
       tr_td_id = "tr[id='#{event_prefix}_tr#{values[1]}']"
       tr_td_0_id = "td[id='#{event_prefix}_td0#{values[1]}']"
@@ -176,12 +163,10 @@ describe CandidatesMailer, type: :model do
         verifiable_info.each do |info|
           expect(body).to have_css("#{tr_li_ul_id} li", text: "#{info[0]}: #{info[1]}")
         end
+      elsif verifiable_info.nil?
+        expect(body).not_to have_css("#{table_id} #{tr_td_id} #{tr_td_1_id}", text: verifiable_info)
       else
-        if verifiable_info.nil?
-          expect(body).not_to have_css("#{table_id} #{tr_td_id} #{tr_td_1_id}", text: verifiable_info)
-        else
-          expect(body).to have_css("#{table_id} #{tr_td_id} #{tr_td_1_id}", text: verifiable_info)
-        end
+        expect(body).to have_css("#{table_id} #{tr_td_id} #{tr_td_1_id}", text: verifiable_info)
       end
     end
   end
@@ -191,5 +176,4 @@ describe CandidatesMailer, type: :model do
     expect(body).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: I18n.t('email.salutation_initial_text'))
     expect(body).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: 'Vicki Kristoff')
   end
-
 end

@@ -12,6 +12,7 @@ RSpec.configure do |c|
 end
 
 shared_context 'christian_ministry_html_erb' do
+  include ViewsHelpers
   before(:each) do
     @cand_id = @candidate.id
     cand_name = 'Sophia Agusta'

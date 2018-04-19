@@ -1,9 +1,8 @@
-include ViewsHelpers
+# frozen_string_literal: true
 
 describe 'admins/monthly_mass_mailing.html.erb' do
-
+  include ViewsHelpers
   before(:each) do
-
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
@@ -13,12 +12,9 @@ describe 'admins/monthly_mass_mailing.html.erb' do
     @candidates = [Candidate.find_by(account_name: candidate1.account_name),
                    Candidate.find_by(account_name: candidate2.account_name)]
     @candidate_info = PluckCan.pluck_candidates
-
   end
 
-
   it 'display the list of candidates' do
-
     @subject = t('email.subject_initial_text')
     @pre_late_input = t('email.late_initial_text')
     @pre_coming_due_input = t('email.coming_due_initial_text')
@@ -31,7 +27,5 @@ describe 'admins/monthly_mass_mailing.html.erb' do
     render
 
     expect_mass_mailing_html(@candidates, rendered)
-
   end
-
 end

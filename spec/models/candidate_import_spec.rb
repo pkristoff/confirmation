@@ -1,11 +1,10 @@
-include ViewsHelpers
-include ActionDispatch::TestProcess
-include FileHelper
+# frozen_string_literal: true
 
 describe CandidateImport do
-
+  include ViewsHelpers
+  include ActionDispatch::TestProcess
+  include FileHelper
   before(:each) do
-
     @image_column_mappings = {
       baptismal_certificate: 'baptismal_certificate.scanned_certificate',
       retreat_verification: 'retreat_verification.scanned_retreat',
@@ -15,9 +14,7 @@ describe CandidateImport do
   end
 
   describe 'import excel spreadsheet' do
-
     it 'import initial spreadsheet from coordinator will update database' do
-
       every_event_names = AppFactory.add_confirmation_events
 
       uploaded_file = fixture_file_upload('Confirmation 2018 Group The Way test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
@@ -32,9 +29,9 @@ describe CandidateImport do
 
       expect_db(85, 9, 0)
 
-      the_way_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_the_way') }
+      the_way_candidates = Candidate.all.select { |c| c.candidate_sheet.attending == I18n.t('views.candidates.attending_the_way') }
       expect(the_way_candidates.size).to eq(83)
-      chs_candidates = Candidate.all.select { |c| c.candidate_sheet.attending === I18n.t('views.candidates.attending_catholic_high_school') }
+      chs_candidates = Candidate.all.select { |c| c.candidate_sheet.attending == I18n.t('views.candidates.attending_catholic_high_school') }
       expect(chs_candidates.size).to eq(2)
 
       the_way_candidate = Candidate.find_by(account_name: 'dawannie')
@@ -56,7 +53,6 @@ describe CandidateImport do
       expect(chs_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_catholic_high_school'))
 
       expect(the_way_candidates[0].candidate_events.size).to eq(every_event_names.size)
-
     end
 
     it 'import invalid spreadsheet will not update database' do
@@ -79,7 +75,7 @@ describe CandidateImport do
       uploaded_zip_file = fixture_file_upload('export_with_events.zip', 'application/zip')
       candidate_import = CandidateImport.new
 
-      expect(save_zip candidate_import, uploaded_zip_file).to eq(true)
+      expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
 
       expect_import_with_events
     end
@@ -88,25 +84,23 @@ describe CandidateImport do
       uploaded_zip_file = fixture_file_upload('export with images.zip', 'application/zip')
       candidate_import = CandidateImport.new
 
-      expect(save_zip candidate_import, uploaded_zip_file).to eq(true)
+      expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
 
-      candidate = Candidate.find_by_account_name 'vickikristoff'
+      candidate = Candidate.find_by(account_name: 'vickikristoff')
       expect_image_values(candidate, :baptismal_certificate, 'Baptismal Certificate.png')
       expect_image_values(candidate, :retreat_verification, 'actions.png')
       expect_image_values(candidate, :sponsor_eligibility, 'Baptismal Certificate.png')
       expect_image_values(candidate, :sponsor_covenant, 'actions.png')
     end
 
-    def image_column_value (candidate, columns)
+    def image_column_value(candidate, columns)
       association, image_method, value_method = columns.split('.')
       candidate.send(association).send(image_method).send(value_method)
     end
   end
 
   describe 'reset system back to original state' do
-
     it 'reset after adding in some candidates' do
-
       expect(Candidate.all.size).to eq(0)
       FactoryBot.create(:candidate, account_name: 'a1')
       FactoryBot.create(:candidate, account_name: 'a2')
@@ -123,15 +117,12 @@ describe CandidateImport do
       expect(Candidate.all.size).to eq(1)
       expect(Candidate.find_by(account_name: 'vickikristoff')).not_to eq(nil)
       expect(Admin.all.size).to eq(1)
-      expect(Admin.find_by_email('stmm.confirmation@kristoffs.com')).not_to eq(nil)
-
+      expect(Admin.find_by(email: 'stmm.confirmation@kristoffs.com')).not_to eq(nil)
     end
   end
 
   describe 'export candidate to excel' do
-
     describe 'export images to excel' do
-
       before(:each) do
         @candidate_import = CandidateImport.new
         @candidate_import.reset_database
@@ -139,12 +130,10 @@ describe CandidateImport do
         @dir_name = 'temp'
 
         Dir.mkdir(@dir_name)
-
       end
 
       after(:each) do
         clean_dir(@dir_name)
-
       end
 
       it 'export baptismal certificate image' do
@@ -177,12 +166,11 @@ describe CandidateImport do
         add_retreat_verification_image(candidate)
         add_sponsor_covenant_image(candidate)
         add_sponsor_eligibility_image(candidate)
-        expect_image(@dir_name, [:baptismal_certificate, :retreat_verification, :sponsor_covenant, :sponsor_eligibility])
-
+        expect_image(@dir_name, %i[baptismal_certificate retreat_verification sponsor_covenant sponsor_eligibility])
       end
     end
 
-    def expect_image (dir_name, image_types)
+    def expect_image(dir_name, image_types)
       candidate = Candidate.first
       package = @candidate_import.to_xlsx(@dir_name)
 
@@ -206,8 +194,8 @@ describe CandidateImport do
             expect(expected_content_type).to eq(original_content_type)
             expect(expected_export_filename).to eq(export_filename)
 
-            expect(File.exist? export_filename).to eq(true), "Expected export_filename '#{export_filename}' to exist"
-            expect(File.size export_filename).to_not eq(0), "Expected export_filename '#{export_filename}' is greater than 0 for image type: #{image_type}"
+            expect(File.exist?(export_filename)).to eq(true), "Expected export_filename '#{export_filename}' to exist"
+            expect(File.size(export_filename)).to_not eq(0), "Expected export_filename '#{export_filename}' is greater than 0 for image type: #{image_type}"
           else
             expect(cell).to eq(nil)
           end
@@ -215,11 +203,11 @@ describe CandidateImport do
       end
     end
 
-    def find_cell_offset (header_row, column_name)
+    def find_cell_offset(header_row, column_name)
       index = -1
       header_row.find do |cell|
         index += 1
-        cell.value === column_name
+        cell.value == column_name
       end
       index
     end
@@ -233,9 +221,7 @@ describe CandidateImport do
       filename = 'export.xlsx'
 
       xlsx_path = "#{dir_name}/#{filename}"
-      image_path = "#{dir_name}/#{'sophiaagusta_actions.png'}"
       begin
-
         Dir.mkdir(dir_name)
         CandidateImport.new.to_xlsx(dir_name).serialize(xlsx_path)
         uploaded_file = Rack::Test::UploadedFile.new(xlsx_path, 'image/png', true)
@@ -255,23 +241,20 @@ describe CandidateImport do
         expect(baptismal_certificate.scanned_certificate.content_type).to eq('image/png')
         expect(baptismal_certificate.scanned_certificate.content).not_to eq(nil)
         expect(baptismal_certificate.scanned_certificate.content).not_to eq('')
-
       ensure
         clean_dir(dir_name)
       end
     end
 
     it 'import with image followed by export' do
-
       uploaded_zip_file = fixture_file_upload('export with images.zip', 'application/zip')
       candidate_import = CandidateImport.new
 
-      expect(save_zip candidate_import, uploaded_zip_file).to eq(true)
+      expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
 
       # now do the export
       dir_name = 'temp'
       begin
-
         Dir.mkdir(dir_name)
 
         candidate_import = CandidateImport.new
@@ -291,17 +274,13 @@ describe CandidateImport do
           expect(export_filename).to eq(expected_export_filename)
         end
 
-        expect(File.exist? expected_export_filename).to eq(true)
-
+        expect(File.exist?(expected_export_filename)).to eq(true)
       ensure
         clean_dir(dir_name)
-
       end
-
     end
 
     it 'reset after adding in some candidates' do
-
       c1 = FactoryBot.create(:candidate, account_name: 'c1')
       c1.candidate_sheet.parent_email_1 = 'test@example.com'
       c1.candidate_sheet.candidate_email = 'candiate@example.com'
@@ -315,7 +294,6 @@ describe CandidateImport do
       candidate_import = CandidateImport.new
       dir_name = 'temp'
       begin
-
         Dir.mkdir(dir_name)
         package = candidate_import.to_xlsx(dir_name)
 
@@ -329,47 +307,41 @@ describe CandidateImport do
               # error
               expect(ws.name).to eq('Candidates with events  Confirmation Events')
             end
-
           end
         end
       ensure
         delete_dir(dir_name)
       end
-
     end
-
-
   end
 
   describe 'orphaned associations errors' do
     it 'login should not cause orphaned associations' do
-
-      c1 = FactoryBot.create(:candidate)
+      FactoryBot.create(:candidate)
       expect_no_orphaned_associations
     end
   end
 
   describe 'orphaned associations' do
     it 'No orphaned associations' do
-
-      c1 = FactoryBot.create(:candidate)
+      FactoryBot.create(:candidate)
       expect_no_orphaned_associations
     end
     it 'orphaned associations' do
-      expected_orphans = get_expected_orphans
+      orphans = expected_orphans
 
-      c1 = FactoryBot.create(:candidate)
+      FactoryBot.create(:candidate)
       candidate_import = CandidateImport.new
       # create orphans
-      expect_ophans(candidate_import, expected_orphans)
+      expect_ophans(candidate_import, orphans)
     end
     it 'destroy orphaned associations' do
-      expected_orphans = get_expected_orphans
+      orphans = expected_orphans
 
-      c1 = FactoryBot.create(:candidate)
+      FactoryBot.create(:candidate)
       candidate_import = CandidateImport.new
 
-      expect_ophans(candidate_import, expected_orphans)
+      expect_ophans(candidate_import, orphans)
 
       candidate_import.remove_orphaned_table_rows
       candidate_import.add_orphaned_table_rows
@@ -379,11 +351,9 @@ describe CandidateImport do
         expect(orphan_ids.size).to be(0), "There should be no orphaned rows for '#{key}': #{orphan_ids}"
       end
     end
-
   end
 
   it 'what do things look like when empty' do
-
     Candidate.create(account_name: 'c1', password: 'asdfgthe',
                      candidate_sheet: CandidateSheet.create(first_name: 'Paul', last_name: 'George'))
     # c1.save
@@ -393,7 +363,6 @@ describe CandidateImport do
     candidate_import = CandidateImport.new
     dir_name = 'temp'
     begin
-
       Dir.mkdir(dir_name)
       package = candidate_import.to_xlsx(dir_name)
 
@@ -407,7 +376,6 @@ describe CandidateImport do
             # error
             expect(ws.name).to eq('Candidates with events  Confirmation Events')
           end
-
         end
       end
     ensure
@@ -416,17 +384,16 @@ describe CandidateImport do
   end
 end
 
-def expect_ophans(candidate_import, expected_orphans)
+def expect_ophans(candidate_import, orphans)
   candidate_import.add_orphaned_table_rows
   orphaned_table_rows = candidate_import.orphaned_table_rows
   orphaned_table_rows.each do |key, orphan_ids|
     expect(orphan_ids.size).to be(1), "There should be only one orphaned row for '#{key}': #{orphan_ids}"
-    expect(orphan_ids[0]).to be(expected_orphans[key].id), "Id mismatch for '#{key}' orphan:#{orphan_ids[0]} expected:#{expected_orphans[key].id}"
+    expect(orphan_ids[0]).to be(orphans[key].id), "Id mismatch for '#{key}' orphan:#{orphan_ids[0]} expected:#{orphans[key].id}"
   end
 end
 
-def get_expected_orphans
-
+def expected_orphans
   {
     # Candidate associations
     BaptismalCertificate: FactoryBot.create(:baptismal_certificate, skip_address_replacement: true),
@@ -461,10 +428,9 @@ def expect_initial_conf_events
   expect_confirmation_event(I18n.t('events.christian_ministry'), today, today)
   expect_confirmation_event(I18n.t('events.sponsor_agreement'), today, today)
 
-  if ConfirmationEvent.all.size != 9
-    ConfirmationEvent.all.each { |x| puts x.name }
-    expect(ConfirmationEvent.all.size).to eq(9), '"Wrong number of Confirmation Events" '
-  end
+  return unless ConfirmationEvent.all.size != 9
+  ConfirmationEvent.all.each { |x| puts x.name }
+  expect(ConfirmationEvent.all.size).to eq(9), '"Wrong number of Confirmation Events" '
 end
 
 describe 'combinations' do
@@ -473,7 +439,7 @@ describe 'combinations' do
     candidate_import = CandidateImport.new(uploaded_zip_file: uploaded_file_zip)
     candidate_import.reset_database
 
-    expect(save_zip candidate_import, uploaded_file_zip).to eq(true)
+    expect(save_zip(candidate_import, uploaded_file_zip)).to eq(true)
 
     expect_import_with_events
   end
@@ -482,14 +448,14 @@ describe 'combinations' do
     candidate_import = CandidateImport.new
     candidate_import.reset_database
 
-    expect(save candidate_import, uploaded_file).to eq(true)
+    expect(save(candidate_import, uploaded_file)).to eq(true)
 
     expect_initial_conf_events
     expect(Candidate.all.size).to eq(4) # vicki + 3 import
 
     uploaded_file_updated = fixture_file_upload('Initial candidates update.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
-    expect(save candidate_import, uploaded_file_updated).to eq(true)
+    expect(save(candidate_import, uploaded_file_updated)).to eq(true)
 
     expect_initial_conf_events
     expect(Candidate.all.size).to eq(6) # vicki + 3 old import + 2 new from update
@@ -542,7 +508,7 @@ describe 'combinations' do
 end
 
 describe 'check_events' do
-
+  include ViewsHelpers
   it 'should show "Sponsor Covenant" is missing.' do
     candidate_import = CandidateImport.new
     candidate_import.start_new_year
@@ -572,11 +538,9 @@ describe 'check_events' do
     expect(candidate_import.unknown_confirmation_events.length).to be(1)
     expect(candidate_import.unknown_confirmation_events[0]).to eq('unknown event')
   end
-
 end
 
 describe 'image_filename' do
-
   before(:each) do
     CandidateImport.new.reset_database
     candidate = Candidate.first
@@ -584,7 +548,6 @@ describe 'image_filename' do
     add_retreat_verification_image(candidate)
     add_sponsor_covenant_image(candidate)
     add_sponsor_eligibility_image(candidate)
-
   end
 
   it 'should concat a file path for the scanned in file' do
@@ -713,7 +676,6 @@ describe 'start new year' do
       content_type: 'image/png',
       content: content
     )
-
   end
 
   it 'start a new year will clean up dangling references the DB' do
@@ -785,7 +747,7 @@ describe 'start new year' do
 
     expect(Admin.all.size).to eq(1)
     expect(ConfirmationEvent.all.size).to eq(9)
-    expect(Candidate.all.size).to eq(1) #vickikristoff the seed
+    expect(Candidate.all.size).to eq(1) # vickikristoff the seed
 
     cand_assoc = { Address: 2,
                    BaptismalCertificate: 1,
@@ -802,7 +764,6 @@ describe 'start new year' do
 
     expect_table_rows(Candidate, cand_assoc)
   end
-
 end
 
 def add_baptismal_certificate_image(candidate)
@@ -853,7 +814,7 @@ def add_sponsor_eligibility_image(candidate)
   candidate.save
 end
 
-def expect_candidate (values)
+def expect_candidate(values)
   candidate = Candidate.find_by(account_name: values[:account_name])
   values.keys.each do |key|
     value = values[key]
@@ -874,21 +835,21 @@ def expect_candidate (values)
   expect(candidate.candidate_events.size).to eq(all_event_names.size)
 end
 
-def expect_candidates(ws, candidate_import)
-  header_row = ws.rows[0]
+def expect_candidates(wks, candidate_import)
+  header_row = wks.rows[0]
   candidate_import.xlsx_columns.each_with_index do |column_name, index|
     # puts "#{index}:#{header_row.cells[index].value}"
     expect(header_row.cells[index].value).to eq(column_name)
   end
-  c1_row = ws.rows[1]
-  c2_row = ws.rows[2]
-  c3_row = ws.rows[3]
-  (1..ws.rows.size - 1).each do |i|
-    account_name = ws.rows[i].cells[find_cell_offset(header_row, 'account_name')].value
+  c1_row = wks.rows[1]
+  c2_row = wks.rows[2]
+  c3_row = wks.rows[3]
+  (1..wks.rows.size - 1).each do |i|
+    account_name = wks.rows[i].cells[find_cell_offset(header_row, 'account_name')].value
     # puts account_name
-    c1_row = ws.rows[i] if account_name === 'c1'
-    c2_row = ws.rows[i] if account_name === 'c2'
-    c3_row = ws.rows[i] if account_name === 'c3'
+    c1_row = wks.rows[i] if account_name == 'c1'
+    c2_row = wks.rows[i] if account_name == 'c2'
+    c3_row = wks.rows[i] if account_name == 'c3'
   end
 
   expect(c1_row.cells[find_cell_offset(header_row, 'account_name')].value).to eq('c1')
@@ -904,7 +865,7 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_2')].value).to eq('Apt. 456')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.city')].value).to eq('Apex')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.state')].value).to eq('NC')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.zip_code')].value).to eq(27502)
+  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.zip_code')].value).to eq(27_502)
 
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.birth_date')].value.to_s).to eq('1983-08-20')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.baptismal_date')].value.to_s).to eq('1983-10-20')
@@ -913,7 +874,7 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.street_2')].value).to eq('Apt. 456')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.city')].value).to eq('Apex')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.state')].value).to eq('NC')
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.zip_code')].value).to eq(27502)
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.zip_code')].value).to eq(27_502)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.father_first')].value).to eq('George')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.father_middle')].value).to eq('Paul')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.father_last')].value).to eq('Smith')
@@ -933,7 +894,6 @@ def expect_candidates(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.where_held_retreat')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.scanned_retreat')].value).to eq(nil)
 
-
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.0.completed_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.0.verified')].value).to eq(0)
 
@@ -947,21 +907,21 @@ def expect_candidates(ws, candidate_import)
   expect(c3_row.cells[0].value).to eq('c3')
 end
 
-def expect_candidates_empty(ws, candidate_import)
-  header_row = ws.rows[0]
+def expect_candidates_empty(wks, candidate_import)
+  header_row = wks.rows[0]
   candidate_import.xlsx_columns.each_with_index do |column_name, index|
     # puts "#{index}:#{header_row.cells[index].value}"
     expect(header_row.cells[index].value).to eq(column_name)
   end
   trans_col = CandidateImport.transient_columns
   header_row.cells.each do |cell|
-    expect(trans_col.include? cell.value).to eq(false), "Should not find transient column: #{cell.value}"
+    expect(trans_col.include?(cell.value)).to eq(false), "Should not find transient column: #{cell.value}"
   end
-  c1_row = ws.rows[1]
-  (1..ws.rows.size - 1).each do |i|
-    account_name = ws.rows[i].cells[find_cell_offset(header_row, 'account_name')].value
+  c1_row = wks.rows[1]
+  (1..wks.rows.size - 1).each do |i|
+    account_name = wks.rows[i].cells[find_cell_offset(header_row, 'account_name')].value
     # puts account_name
-    c1_row = ws.rows[i] if account_name === 'c1'
+    c1_row = wks.rows[i] if account_name == 'c1'
   end
 
   expect(c1_row.cells[find_cell_offset(header_row, 'account_name')].value).to eq('c1')
@@ -977,7 +937,7 @@ def expect_candidates_empty(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_2')].value).to eq('')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.city')].value).to eq('Apex')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.state')].value).to eq('NC')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.zip_code')].value).to eq(27502)
+  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.zip_code')].value).to eq(27_502)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.birth_date')].value.to_s).to eq('')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.baptismal_date')].value.to_s).to eq('')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_name')].value).to eq(nil)
@@ -985,7 +945,7 @@ def expect_candidates_empty(ws, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.street_2')].value).to eq('')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.city')].value).to eq('Apex')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.state')].value).to eq('NC')
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.zip_code')].value).to eq(27502)
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_address.zip_code')].value).to eq(27_502)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.father_first')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.father_middle')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.father_last')].value).to eq(nil)
@@ -1012,18 +972,17 @@ def expect_candidates_empty(ws, candidate_import)
   expect(c1_row.size).to eq(71)
 end
 
-def expect_confirmation_events_empty(ws, candidate_import)
-  header_row = ws.rows[0]
+def expect_confirmation_events_empty(wks, candidate_import)
+  header_row = wks.rows[0]
   expect(header_row.cells.size).to eq(5)
   candidate_import.xlsx_conf_event_columns.each_with_index do |column_name, index|
     expect(header_row.cells[index].value).to eq(column_name)
   end
   events_in_order = ConfirmationEvent.order(:name)
-  expect(ws.rows.size).to eq(events_in_order.size + 1)
+  expect(wks.rows.size).to eq(events_in_order.size + 1)
 
   events_in_order.each_with_index do |event, index|
-
-    row = ws.rows[index + 1]
+    row = wks.rows[index + 1]
     expect(row.cells.size).to eq(5)
     # puts row.cells[0].value
     expect(row.cells[0].value).to eq(event.name)
@@ -1031,22 +990,20 @@ def expect_confirmation_events_empty(ws, candidate_import)
     expect(row.cells[2].value.to_s).to eq(Date.today.to_s)
     expect(row.cells[3].value.to_s).to eq(Date.today.to_s)
     expect(row.cells[4].value.to_s).to eq('')
-
   end
 end
 
-def expect_confirmation_events(ws, candidate_import)
-  header_row = ws.rows[0]
+def expect_confirmation_events(wks, candidate_import)
+  header_row = wks.rows[0]
   expect(header_row.cells.size).to eq(5)
   candidate_import.xlsx_conf_event_columns.each_with_index do |column_name, index|
     expect(header_row.cells[index].value).to eq(column_name)
   end
   events_in_order = ConfirmationEvent.order(:name)
-  expect(ws.rows.size).to eq(events_in_order.size + 1)
+  expect(wks.rows.size).to eq(events_in_order.size + 1)
 
   events_in_order.each_with_index do |confirmation_event, index|
-
-    row = ws.rows[index + 1]
+    row = wks.rows[index + 1]
     expect(row.cells.size).to eq(5)
     # puts row.cells[0].value
     expect(row.cells[0].value).to eq(confirmation_event.name)
@@ -1054,7 +1011,6 @@ def expect_confirmation_events(ws, candidate_import)
     expect(row.cells[2].value.to_s).to eq(confirmation_event.the_way_due_date.to_s)
     expect(row.cells[3].value.to_s).to eq(confirmation_event.chs_due_date.to_s)
     expect(row.cells[4].value.to_s).to eq(confirmation_event.instructions)
-
   end
 end
 
@@ -1075,22 +1031,22 @@ def expect_import_with_events
 
   expect(ConfirmationEvent.all.size).to eq(9)
 
-  confirmation_event_2 = ConfirmationEvent.find_by(name: 'Attend Retreat')
-  expect(confirmation_event_2.the_way_due_date.to_s).to eq('2016-05-31')
-  expect(confirmation_event_2.chs_due_date.to_s).to eq('2016-05-03')
-  expect(confirmation_event_2.instructions).to eq("<h1>a heading</h1>\n<ul>\n<li>step 1</li>\n<li>step 2</li>\n</ul>\n<p> </p>\n<p> </p>")
+  confirmation_event2 = ConfirmationEvent.find_by(name: 'Attend Retreat')
+  expect(confirmation_event2.the_way_due_date.to_s).to eq('2016-05-31')
+  expect(confirmation_event2.chs_due_date.to_s).to eq('2016-05-03')
+  expect(confirmation_event2.instructions).to eq("<h1>a heading</h1>\n<ul>\n<li>step 1</li>\n<li>step 2</li>\n</ul>\n<p> </p>\n<p> </p>")
 
   expect(Candidate.all.size).to eq(3)
-  expect_candidate(get_vicki_kristoff)
-  expect_candidate(get_paul_kristoff)
-  expect_candidate(get_foo_bar)
+  expect_candidate(vicki_kristoff)
+  expect_candidate(paul_kristoff)
+  expect_candidate(foo_bar)
 end
 
 def expect_keys(obj, attributes)
   attributes.keys.each do |sub_key|
     # puts obj.class
-    # puts "#{obj.first_name}" if obj.class.to_s === 'CandidateSheet'
-    # puts "#{obj.confirmation_event.name}:#{sub_key}" if obj.class.to_s === 'CandidateSheet'
+    # puts "#{obj.first_name}" if obj.class.to_s == 'CandidateSheet'
+    # puts "#{obj.confirmation_event.name}:#{sub_key}" if obj.class.to_s == 'CandidateSheet'
     if attributes[sub_key].is_a?(Hash)
       expect_keys(obj.send(sub_key), attributes[sub_key])
     else
@@ -1100,7 +1056,7 @@ def expect_keys(obj, attributes)
 end
 
 def expect_table_rows(clazz, expected_sizes, checked = [], do_not_include = [Admin])
-  top = checked === []
+  top = checked == []
   class_sym = clazz.to_s.to_sym
   unless checked.include?(class_sym) || do_not_include.include?(clazz)
     checked << class_sym
@@ -1110,20 +1066,19 @@ def expect_table_rows(clazz, expected_sizes, checked = [], do_not_include = [Adm
       expect_table_rows(assoc_class, expected_sizes, checked)
     end
   end
-  if top
-    unless checked.size === expected_sizes.size
-      puts checked
-      puts expected_sizes
-    end
-    expect(checked.size).to eq(expected_sizes.size)
+  return unless top
+  unless checked.size == expected_sizes.size
+    puts checked
+    puts expected_sizes
   end
+  expect(checked.size).to eq(expected_sizes.size)
 end
 
-def find_cell_offset (header_row, column_name)
+def find_cell_offset(header_row, column_name)
   index = -1
   header_row.find do |cell|
     index += 1
-    cell.value === column_name
+    cell.value == column_name
   end
   index
 end
@@ -1137,7 +1092,7 @@ def all_event_names
   all_events_names
 end
 
-def get_foo_bar
+def foo_bar
   {
     account_name: 'foobar',
     candidate_sheet: {
@@ -1155,7 +1110,7 @@ def get_foo_bar
         city: 'Clarksville',
         state: 'IN',
         zip_code: '47129'
-      },
+      }
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
@@ -1198,7 +1153,7 @@ def get_foo_bar
   }
 end
 
-def get_paul_kristoff
+def paul_kristoff
   {
     account_name: 'paulkristoff',
     candidate_sheet: {
@@ -1216,7 +1171,7 @@ def get_paul_kristoff
         city: 'Cary',
         state: 'NC',
         zip_code: '27555'
-      },
+      }
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
@@ -1259,7 +1214,7 @@ def get_paul_kristoff
   }
 end
 
-def get_vicki_kristoff
+def vicki_kristoff
   {
     account_name: 'vickikristoff',
     candidate_sheet: {
@@ -1277,7 +1232,7 @@ def get_vicki_kristoff
         city: 'Apex',
         state: 'NC',
         zip_code: '27502'
-      },
+      }
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet
@@ -1321,19 +1276,18 @@ def get_vicki_kristoff
 end
 
 def clean_dir(dir)
-  if Dir.exists?(dir)
-    Dir.foreach(dir) do |entry|
-      unless entry === '.' or entry === '..'
-        filename = "#{dir}/#{entry}"
-        if File.file?(filename)
-          File.delete filename
-        else
-          clean_dir(filename)
-        end
+  return unless Dir.exist?(dir)
+  Dir.foreach(dir) do |entry|
+    unless ['.', '..'].include?(entry)
+      filename = "#{dir}/#{entry}"
+      if File.file?(filename)
+        File.delete filename
+      else
+        clean_dir(filename)
       end
     end
-    Dir.rmdir(dir)
   end
+  Dir.rmdir(dir)
 end
 
 def expect_image_values(candidate, image_column_mapping_key, image_filename)
@@ -1363,7 +1317,7 @@ def expect_no_orphaned_associations
   candidate_import = CandidateImport.new
   candidate_import.add_orphaned_table_rows
   orphaned_table_rows = candidate_import.orphaned_table_rows
-  orphaned_table_rows.each do |key, orphan_ids|
+  orphaned_table_rows.each do |_key, orphan_ids|
     expect(orphan_ids).to be_empty
   end
 end

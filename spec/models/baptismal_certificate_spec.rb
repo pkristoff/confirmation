@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe BaptismalCertificate, type: :model do
-
   describe 'church_address' do
-
     it 'can retrieve a candiadate\'s address' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)
       expect(baptismal_certificate.birth_date.to_s).to match '1983-08-20'
@@ -22,9 +22,7 @@ describe BaptismalCertificate, type: :model do
       expect(baptismal_certificate.church_address.city).to match 'Apex'
       expect(baptismal_certificate.church_address.state).to match 'NC'
       expect(baptismal_certificate.church_address.zip_code).to match '27502'
-
     end
-
   end
 
   describe 'event completion attributes' do
@@ -60,7 +58,6 @@ describe BaptismalCertificate, type: :model do
 
   describe 'show check and divs' do
     describe 'baptized_at_stmm_show_yes' do
-
       it 'should not show yes if has_chosen_baptized_at_stmm has not happend: false 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
         baptismal_certificate.baptized_at_stmm = false
@@ -93,8 +90,8 @@ describe BaptismalCertificate, type: :model do
         expect(baptismal_certificate.baptized_at_stmm_show_yes).to eq(true)
       end
     end
-    describe 'baptized_at_stmm_show_no' do
 
+    describe 'baptized_at_stmm_show_no' do
       it 'should not show no if has_chosen_baptized_at_stmm has not happend: false 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
         baptismal_certificate.baptized_at_stmm = false
@@ -127,8 +124,8 @@ describe BaptismalCertificate, type: :model do
         expect(baptismal_certificate.baptized_at_stmm_show_no).to eq(false)
       end
     end
-    describe 'first_comm_show' do
 
+    describe 'first_comm_show' do
       it 'should not show: false 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
         baptismal_certificate.baptized_at_stmm = false
@@ -161,9 +158,8 @@ describe BaptismalCertificate, type: :model do
         expect(baptismal_certificate.first_comm_show).to eq(false)
       end
     end
-    
-    describe 'info_show' do
 
+    describe 'info_show' do
       it 'should show: true' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
         baptismal_certificate.baptized_at_stmm = true
@@ -199,7 +195,7 @@ describe BaptismalCertificate, type: :model do
 
       expect(baptismal_certificate.validate_event_complete).to eq(false)
       msgs = baptismal_certificate.errors.full_messages
-      expect(msgs[0]).to eq("I was Baptized at Saint Mary Magdalene should be checked.")
+      expect(msgs[0]).to eq('I was Baptized at Saint Mary Magdalene should be checked.')
       expect(msgs.size).to eq(1)
     end
 

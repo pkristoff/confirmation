@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 shared_context 'baptismal_certificate' do
+  include ViewsHelpers
   before(:each) do
     AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
   end

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 describe 'layouts/_nav_links_for_auth.html.erb' do
   context 'visitor no one logged in' do
     it 'nav links layout for visitor' do
-
       render
 
       expect(rendered).to have_selector('li', count: 2)

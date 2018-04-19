@@ -1,8 +1,7 @@
-
+# frozen_string_literal: true
 
 describe 'layouts/_navigation.html.erb' do
   it 'navigation layout' do
-
     render
 
     expect_common
@@ -11,7 +10,6 @@ describe 'layouts/_navigation.html.erb' do
   end
 
   it 'navigation layout admin logged in' do
-
     admin = login_admin
 
     render
@@ -22,7 +20,6 @@ describe 'layouts/_navigation.html.erb' do
   end
 
   it 'navigation layout candidate logged in' do
-
     candidate = login_candidate
 
     render
@@ -44,4 +41,3 @@ describe 'layouts/_navigation.html.erb' do
     expect(rendered).to have_link(I18n.t('views.top_bar.about'), href: about_path)
   end
 end
-

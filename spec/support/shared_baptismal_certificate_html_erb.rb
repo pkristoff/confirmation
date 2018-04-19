@@ -16,6 +16,7 @@ MOTHER_MIDDLE = 'Thette'
 MOTHER_MAIDEN = 'Mary'
 
 shared_context 'baptismal_certificate_html_erb' do
+  include ViewsHelpers
   before(:each) do
     event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, @is_verify)
     AppFactory.add_confirmation_events

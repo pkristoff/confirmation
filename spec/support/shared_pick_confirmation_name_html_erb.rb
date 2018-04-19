@@ -9,6 +9,7 @@ end
 SAINT_NAME = 'George Sponsor'
 
 shared_context 'pick_confirmation_name_html_erb' do
+  include ViewsHelpers
   before(:each) do
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by(account_name: @candidate.account_name)

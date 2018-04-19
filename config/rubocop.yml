@@ -47,3 +47,8 @@ Style:
   # all examples use enumerators like map, each
 Style/SymbolProc:
   Enabled: false
+Style/MixinUsage:
+  Exclude:
+    # need to figure out how to make DeviseHelpers available to
+    # erb.
+    - 'spec/views/admins/passwords/new.html.erb_spec.rb'

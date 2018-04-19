@@ -6,6 +6,7 @@ START_DATE = Date.today - 10
 END_DATE = Date.today - 5
 
 shared_context 'retreat_verification_html_erb' do
+  include ViewsHelpers
   before(:each) do
     event_with_picture_setup(Event::Route::RETREAT_VERIFICATION, @is_verify)
     AppFactory.add_confirmation_events

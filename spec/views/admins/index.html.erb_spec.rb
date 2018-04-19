@@ -1,17 +1,14 @@
+# frozen_string_literal: true
 
 describe 'admins/index.html.erb' do
-
   before(:each) do
-
     @admin1 = FactoryBot.create(:admin)
-    @admin2 = FactoryBot.create(:admin, {
-        name: 'Other Admin',
-        email: 'other@test.com'})
-
+    @admin2 = FactoryBot.create(:admin,
+                                name: 'Other Admin',
+                                email: 'other@test.com')
   end
 
   it 'display @admins 0' do
-
     assign(:admins, [])
 
     render
@@ -20,7 +17,6 @@ describe 'admins/index.html.erb' do
   end
 
   it 'display @admins 1' do
-
     assign(:admins, [@admin2])
 
     render
@@ -31,7 +27,6 @@ describe 'admins/index.html.erb' do
   end
 
   it 'display @admins 2' do
-
     assign(:admins, [@admin1, @admin2])
 
     render

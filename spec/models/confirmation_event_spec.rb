@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ConfirmationEvent, type: :model do
@@ -11,7 +13,7 @@ RSpec.describe ConfirmationEvent, type: :model do
 
   it 'scrubbing instructions' do
     confirmation_event = FactoryBot.create(:confirmation_event,
-                                            instructions: 'ohai! <div>div is safe</div> <script>but script is not</script>')
+                                           instructions: 'ohai! <div>div is safe</div> <script>but script is not</script>')
     expect(confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
     expect(confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
     expect(confirmation_event.name).to eq('Going out to eat')

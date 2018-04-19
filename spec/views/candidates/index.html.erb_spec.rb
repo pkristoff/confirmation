@@ -1,8 +1,8 @@
-include ViewsHelpers
+# frozen_string_literal: true
+
 describe 'candidates/index.html.erb' do
-
+  include ViewsHelpers
   before(:each) do
-
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
@@ -12,19 +12,15 @@ describe 'candidates/index.html.erb' do
     @candidates = [Candidate.find_by(account_name: candidate1.account_name),
                    Candidate.find_by(account_name: candidate2.account_name)]
     @candidate_info = PluckCan.pluck_candidates
-
   end
 
-
   it 'display the list of candidates' do
-
     render
 
     expect_sorting_candidate_list(
-        candidates_columns,
-        @candidates,
-        rendered)
-
+      candidates_columns,
+      @candidates,
+      rendered
+    )
   end
-
 end
