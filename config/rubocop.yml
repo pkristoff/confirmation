@@ -48,7 +48,24 @@ Style:
 Style/SymbolProc:
   Enabled: false
 Style/MixinUsage:
+  Enabled: true
   Exclude:
     # need to figure out how to make DeviseHelpers available to
     # erb.
-    - 'spec/views/admins/passwords/new.html.erb_spec.rb'
+    - './spec/views/admins/passwords/new.html.erb_spec.rb'
+
+# An extension cop that will cause the build to be broken if
+# the right documentation is not proesent.
+Style/PublicMethodDocumentation:
+  Description: 'Document public class methods.'
+  Enabled: true
+  Include:
+    - 'app/controllers/application_controller.rb'
+#  Exclude:
+#    - 'app/helpers/**/*'
+#    - 'app/mailers/**/*'
+#    - 'app/models/**/*'
+#    - 'app/views/**/*'
+#    - 'db/**/*'
+#    - 'spec/**/*'
+#    - 'test/**/*'

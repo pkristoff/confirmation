@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
 
   # map  from candidate_event status to css class
   # it should match candidate_event.status
+  #
+  # === Parameters:
+  #
+  # * <tt>_candidate_event_</tt> CandidateEvent
+  #
   def event_class(candidate_event)
     case candidate_event.status
     when I18n.t('status.not_started')

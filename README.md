@@ -100,6 +100,9 @@ Copy production db to staging
 - heroku pg:copy your-app::DATABASE_URL DATABASE_URL -a yourapp-staging
 - https://stackoverflow.com/questions/10673630/how-do-i-transfer-production-database-to-staging-on-heroku-using-pgbackups-gett/24005476#30495448
 
+Copy production(lit-earth-34236) db to staging(confirmation-staging)
+-  heroku pg:copy lit-earth-34236::DATABASE_URL DATABASE_URL -a confirmation-staging
+
 Production => local
 - heroku pg:backups:download --app lit-earth-34236
 - pg_restore --verbose --clean --no-acl --no-owner -h localhost -U paulkristoff -d confirmation_development 20180213.dump > restore.log
@@ -141,8 +144,8 @@ Creating DBs.
 
 SendGrid
 -------------------
-https://sendgrid.com/docs/API_Reference/api_v3.html
-https://github.com/sendgrid/sendgrid-ruby/blob/master/examples/helpers/mail/example.rb#L21
+- https://sendgrid.com/docs/API_Reference/api_v3.html
+- https://github.com/sendgrid/sendgrid-ruby/blob/master/examples/helpers/mail/example.rb#L21
 
 Time consuming bugs
 -------------------
