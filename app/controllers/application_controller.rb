@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   #
   # === Parameters:
   #
-  # * <tt>_candidate_event_</tt> CandidateEvent
+  # * <tt>:candidate_event</tt> CandidateEvent
   #
   def event_class(candidate_event)
     case candidate_event.status

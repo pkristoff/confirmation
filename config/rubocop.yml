@@ -61,8 +61,8 @@ Style/PublicMethodDocumentation:
   Enabled: true
   Include:
     - 'app/controllers/application_controller.rb'
-#  Exclude:
-#    - 'app/helpers/**/*'
+  Exclude:
+    - 'app/controllers/spec/**/*'
 #    - 'app/mailers/**/*'
 #    - 'app/models/**/*'
 #    - 'app/views/**/*'

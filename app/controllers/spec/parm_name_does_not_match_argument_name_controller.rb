@@ -4,54 +4,54 @@
 # Handles Common Application tasks
 #
 class ParmNameDoesNotMatchArgumentNameController < ActionController
-  # description
+  # legal
   #
   # === Parameters:
   #
-  # * <tt>_arg1_</tt> First Parameter
+  # * <tt>:arg1</tt> First Parameter
   #
   def param_and_arg_name_good(arg1)
     uuu(arg1)
   end
 
-  # description
+  # Parameter does not match arg
   #
   # === Parameters:
   #
-  # * <tt>_parm1_</tt> First Parameter
+  # * <tt>:parm1</tt> First Parameter
   #
   def param_and_arg_name(arg1)
     uuu(arg1)
   end
 
-  # description
+  # First Parameter does not match first argument
   #
   # === Parameters:
   #
-  # * <tt>_parm1_</tt> First Parameter
-  # * <tt>_same_</tt> Second Parameter
+  # * <tt>:parm1</tt> First Parameter
+  # * <tt>:same</tt> Second Parameter
   #
   def first_param_and_arg_name(arg1, same)
     uuu(arg1, same)
   end
 
-  # description
+  # Second Parameter does not match second argument
   #
   # === Parameters:
   #
-  # * <tt>_same_</tt> First Parameter
-  # * <tt>_parm2_</tt> Second Parameter
+  # * <tt>:same</tt> First Parameter
+  # * <tt>:parm2</tt> Second Parameter
   #
   def second_param_and_arg_name(same, arg2)
     uuu(same, arg2)
   end
 
-  # description
+  # legal
   #
   # === Parameters:
   #
-  # * <tt>_arg2_</tt> First Parameter
-  # * <tt>_arg1_</tt> Second Parameter
+  # * <tt>:arg2</tt> First Parameter
+  # * <tt>:arg1</tt> Second Parameter
   #
   def param_and_arg_name_order(arg1, arg2)
     uuu(arg1, arg2)

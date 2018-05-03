@@ -9,8 +9,8 @@ class ParamsGreaterThanArgsController < ActionController
   #
   # === Parameters:
   #
-  # * <tt>_arg1_</tt> First Parameter
-  # * <tt>_parm2_</tt> Second Parameter
+  # * <tt>:arg1</tt> First Parameter
+  # * <tt>:parm2</tt> Second Parameter
   #
   def params_greater_than_args(arg1)
     uuu(arg1)
@@ -22,8 +22,8 @@ class ParamsGreaterThanArgsController < ActionController
   #
   # === Parameters:
   #
-  # * <tt>_parm1_</tt> First Parameter
-  # * <tt>_parm2_</tt> Second Parameter
+  # * <tt>:parm1</tt> First Parameter
+  # * <tt>:parm2</tt> Second Parameter
   #
   def params_greater_than_args_name_mismatch(arg1)
     uuu(arg1)
