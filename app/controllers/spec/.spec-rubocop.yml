@@ -1,0 +1,9 @@
+# pwd = confirmation/app/controllers/spec
+inherit_from: ../../../.rubocop.yml
+
+# A copy of original setup for testing its code
+Style/PublicMethodDocumentation:
+  Description: 'xxx Document public class methods.'
+  Enabled: true
+  Include:
+    - '*.rb'

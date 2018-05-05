@@ -51,7 +51,6 @@ module RuboCop
           cop_config['RequireForNonPublicMethods']
         end
 
-        private
         RETURNS_DOC = '# === Returns:'.freeze
         PARMS_DOC = '# === Parameters:'.freeze
 

@@ -2,13 +2,22 @@
 
 describe 'method_documentation' do
 
+  # only want this available when running yhese tests otherwise ignore these spec files
+  before(:each) do
+    expect(system 'cp app/controllers/spec/.spec-rubocop.yml app/controllers/spec/.rubocop.yml').to eq(true)
+  end
+
+  after(:each) do
+    expect(system 'rm app/controllers/spec/.rubocop.yml').to eq(true)
+  end
+
   it 'Basic documentation' do
     expect_offenses('app/controllers/spec/basic_doc_controller.rb',
 
                     [':13:3: C: Style/PublicMethodDocumentation: Description should not begin with blank comment',
                      '  #'],
                     [':20:3: C: Style/PublicMethodDocumentation: Description should end with blank comment',
-                     '  # description'],
+                     '  # Description should end with a blank comment'],
                     [":39:3: C: Style/PublicMethodDocumentation: Parameters should end with blank comment",
                      '  # * <tt>:arg1</tt> First Parameter'],
                     [":46:3: C: Style/PublicMethodDocumentation: Parameters does not match '# === Parameters:' exactly",
@@ -48,9 +57,9 @@ describe 'method_documentation' do
       expect_offenses('app/controllers/spec/params_less_than_args_controller.rb',
                       [':13:35: C: Style/PublicMethodDocumentation: Parameter size 1 does not match argument size 2.',
                        '  def params_less_than_args(arg1, arg2)'],
-                      [':21:3: C: Style/PublicMethodDocumentation: Parameter name parm1 does not match argument name arg1.',
+                      [':23:3: C: Style/PublicMethodDocumentation: Parameter name parm1 does not match argument name arg1.',
                        '  # * <tt>:parm1</tt> First Parameter'],
-                      [':23:37: C: Style/PublicMethodDocumentation: Parameter size 1 does not match argument size 2.',
+                      [':25:37: C: Style/PublicMethodDocumentation: Parameter size 1 does not match argument size 2.',
                        '  def params_less_than_args_2(arg1, arg2)'])
     end
 
@@ -63,21 +72,23 @@ describe 'method_documentation' do
                          '  # * <tt>:parm1</tt> First Parameter'],
                         [':43:3: C: Style/PublicMethodDocumentation: Parameter name parm2 does not match argument name arg2.',
                          '  # * <tt>:parm2</tt> Second Parameter'],
-                        [':53:3: C: Style/PublicMethodDocumentation: Parameter name arg2 does not match argument name arg1.',
+                        [':65:3: C: Style/PublicMethodDocumentation: Parameter name _arg2 does not match argument name _arg2.',
+                         '  # * <tt>:_arg2</tt> First Parameter'],
+                        [':75:3: C: Style/PublicMethodDocumentation: Parameter name arg2 does not match argument name arg1.',
                          '  # * <tt>:arg2</tt> First Parameter'],
-                        [':54:3: C: Style/PublicMethodDocumentation: Parameter name arg1 does not match argument name arg2.',
+                        [':76:3: C: Style/PublicMethodDocumentation: Parameter name arg1 does not match argument name arg2.',
                          '  # * <tt>:arg1</tt> Second Parameter'])
       end
     end
   end
 
   def expect_offenses(file, *expected_offenses)
-    output = `rubocop -d  #{file}`
+    output = `rubocop -d #{file}`
     # output = system "rubocop -d #{file}"
     if expected_offenses.size < 1
-      expect($?.success?).to eq(true), 'expected rubocop no offenses'
+      expect($?.success?).to eq(true), "expected rubocop no offenses but got exit code: #{$?}"
     else
-      expect($?.success?).to eq(false), 'expected rubocop offenses'
+      expect($?.success?).to eq(false), "expected rubocop offenses but got exit code: #{$?}"
       actual_offenses = offenses(output)
       unless expected_offenses.size == actual_offenses.size
         actual_offenses.each { |off| puts off }

@@ -46,6 +46,28 @@ class ParmNameDoesNotMatchArgumentNameController < ActionController
     uuu(same, arg2)
   end
 
+  # Legal unused argument
+  #
+  # === Parameters:
+  #
+  # * <tt>:same</tt> First Parameter
+  # * <tt>:arg2</tt> Second Parameter
+  #
+  def unused_argument(same, _arg2)
+    uuu(same)
+  end
+
+  # Illegal unused argument
+  #
+  # === Parameters:
+  #
+  # * <tt>:same</tt> First Parameter
+  # * <tt>:_arg2</tt> Second Parameter
+  #
+  def illegal_unused_argument(same, _arg2)
+    uuu(same)
+  end
+
   # legal
   #
   # === Parameters:
