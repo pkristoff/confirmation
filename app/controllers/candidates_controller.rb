@@ -21,31 +21,68 @@ class CandidatesController < CommonCandidatesController
 
   before_action :authenticate_admin!
 
+  # edit candidate
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def edit
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
   end
 
+  # edit event
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def event
     @resource = Candidate.find(params[:id])
   end
 
+  # show candidates
+  #
   def index
     candidates_info
   end
 
+  # show candidate
+  #
+  # === Returns:
+  #
+  # * <code>Boolean</code>
+  #
   def admin?
     true
   end
 
+  # create new Candidate
+  #
   def new
     @resource = AppFactory.create_candidate
   end
 
+  # show candidate
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def show
     @candidate = Candidate.find(params[:id])
   end
 
+  # update candidate - only update password if filled in
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  # * <tt>:candidate</tt>
+  # ** <tt>:password</tt>
+  # ** <tt>:password_confirmation</tt>
+  #
   def update
     if params[:candidate][:password].blank?
       params[:candidate].delete(:password)
@@ -60,10 +97,24 @@ class CandidatesController < CommonCandidatesController
     end
   end
 
+  # edit candidate_sheet verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def candidate_sheet_verify
     @candidate = Candidate.find(params[:id])
   end
 
+  # update candidate_sheet verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:commit</tt> legal values
+  # ** <code>18n.t('views.common.un_verify')</code>
+  # * <tt>:id</tt> Candidate id
+  #
   def candidate_sheet_verify_update
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
@@ -81,10 +132,24 @@ class CandidatesController < CommonCandidatesController
     render :candidate_sheet_verify unless render_called
   end
 
+  # edit christian_ministry verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def christian_ministry_verify
     @candidate = Candidate.find(params[:id])
   end
 
+  # update christian_ministry verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:commit</tt> legal values
+  # ** <code>18n.t('views.common.un_verify')</code>
+  # * <tt>:id</tt> Candidate id
+  #
   def christian_ministry_verify_update
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
@@ -102,10 +167,24 @@ class CandidatesController < CommonCandidatesController
     render :christian_ministry_verify unless render_called
   end
 
+  # edit pick_confirmation_name verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def pick_confirmation_name_verify
     @candidate = Candidate.find(params[:id])
   end
 
+  # update pick_confirmation_name verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:commit</tt> legal values
+  # ** <code>18n.t('views.common.un_verify')</code>
+  # * <tt>:id</tt> Candidate id
+  #
   def pick_confirmation_name_verify_update
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
@@ -123,11 +202,25 @@ class CandidatesController < CommonCandidatesController
     render :pick_confirmation_name_verify unless render_called
   end
 
+  # edit sponsor_agreement verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def sponsor_agreement_verify
     @is_verify = true
     @candidate = Candidate.find(params[:id])
   end
 
+  # update sponsor_agreement verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:commit</tt> legal values
+  # ** <code>18n.t('views.common.un_verify')</code>
+  # * <tt>:id</tt> Candidate id
+  #
   def sponsor_agreement_verify_update
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 

@@ -196,6 +196,8 @@ class ExportListsController < ApplicationController
     p
   end
 
+  protected
+
   def add_wb(wbk, candidates, title, extra_columns, value_lambdas)
     wbk.add_worksheet(name: title) do |sheet|
       headers = [I18n.t('label.candidate_sheet.first_name'), I18n.t('label.candidate_sheet.last_name')]

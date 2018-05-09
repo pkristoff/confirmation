@@ -5,7 +5,7 @@ describe 'Internal' do
   describe 'app' do
 
     it 'should pass controllers' do
-      expect(system 'rubocop app/controllers/').to eq(true)
+      expect(system 'rubocop -d --cache false app/controllers/').to eq(true)
     end
 
     it 'should pass app helpers' do
@@ -76,6 +76,13 @@ describe 'Internal' do
   describe 'initializers' do
     it 'should pass initializers' do
       expect(system 'rubocop config/initializers/version.rb').to eq(true)
+    end
+  end
+
+  describe 'rubocop extension' do
+    it 'should pass initializers' do
+      expect(system 'rubocop spec/rubocop/cop/style/method_documentation.rb').to eq(true)
+      expect(system 'rubocop spec/method_documentation_spec.rb').to eq(true)
     end
   end
 end

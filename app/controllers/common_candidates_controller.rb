@@ -8,6 +8,16 @@ require 'constants'
 class CommonCandidatesController < ApplicationController
   attr_accessor :resource # for testing
 
+  # edit event_with_picture verify
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  # * <tt>:event_name</tt> legal values
+  # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
+  # ** <code>:Event::Route::SPONSOR_COVENANT</code>
+  # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
+  #
   def event_with_picture_verify
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
@@ -15,11 +25,31 @@ class CommonCandidatesController < ApplicationController
     render_event_with_picture(false, event_name, true)
   end
 
+  # update event_with_picture verify event
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  # * <tt>:event_name</tt> legal values
+  # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
+  # ** <code>:Event::Route::SPONSOR_COVENANT</code>
+  # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
+  #
   def event_with_picture_verify_update
     @is_verify = true
     event_with_picture_update
   end
 
+  # edit event_with_picture
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  # * <tt>:event_name</tt> legal values
+  # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
+  # ** <code>:Event::Route::SPONSOR_COVENANT</code>
+  # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
+  #
   def event_with_picture
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
@@ -27,6 +57,18 @@ class CommonCandidatesController < ApplicationController
     render_event_with_picture(false, event_name)
   end
 
+  # update event_with_picture
+  #
+  # === Attributes:
+  #
+  # * <tt>:commit</tt> legal values
+  # ** <code>I18n.t('views.common.un_verify')E</code>
+  # * <tt>:id</tt> Candidate id
+  # * <tt>:event_name</tt> legal values
+  # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
+  # ** <code>:Event::Route::SPONSOR_COVENANT</code>
+  # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
+  #
   def event_with_picture_update
     # TODO: commonize this code
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
@@ -90,11 +132,23 @@ class CommonCandidatesController < ApplicationController
     render_event_with_picture(render_called, event_name, is_verify)
   end
 
+  # edit candidate_sheet information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def candidate_sheet
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
   end
 
+  # update candidate_sheet information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def candidate_sheet_update
     @candidate = Candidate.find(params[:id])
 
@@ -104,11 +158,23 @@ class CommonCandidatesController < ApplicationController
     render :candidate_sheet unless render_called
   end
 
+  # edit christian_ministry information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def christian_ministry
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
   end
 
+  # update christian_ministry information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def christian_ministry_update
     @candidate = Candidate.find(params[:id])
 
@@ -118,6 +184,12 @@ class CommonCandidatesController < ApplicationController
     render :christian_ministry unless render_called
   end
 
+  # send_pdf to browser
+  #
+  # === Attributes:
+  #
+  # * <tt>:name</tt> Name of pdf file
+  #
   def download_document
     doc_name = Event::Document::MAPPING[params[:name].to_sym]
     pdf = File.new("public/documents/#{doc_name}")
@@ -129,6 +201,16 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
+  # send_image of event_with_picture
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  # * <tt>:event_name</tt> legal values
+  # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
+  # ** <code>:Event::Route::SPONSOR_COVENANT</code>
+  # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
+  #
   def event_with_picture_image
     @candidate = Candidate.find(params[:id])
     scanned_image = nil
@@ -148,11 +230,23 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
+  # edit pick_confirmation_name information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def pick_confirmation_name
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
   end
 
+  # update pick_confirmation_name information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def pick_confirmation_name_update
     @candidate = Candidate.find(params[:id])
 
@@ -162,12 +256,24 @@ class CommonCandidatesController < ApplicationController
     render :pick_confirmation_name unless render_called
   end
 
+  # edit sign_agreement information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def sign_agreement
     @is_verify = false
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
   end
 
+  # update sign_agreement information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def sign_agreement_update
     @candidate = Candidate.find(params[:id])
     @is_verify = false
@@ -177,11 +283,23 @@ class CommonCandidatesController < ApplicationController
     render :sign_agreement
   end
 
+  # edit sign_agreement_verify information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def sign_agreement_verify
     @is_verify = true
     @candidate = Candidate.find(params[:id])
   end
 
+  # update sign_agreement_verify information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
   def sign_agreement_verify_update
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
@@ -196,6 +314,44 @@ class CommonCandidatesController < ApplicationController
     render_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'), true)
     render :sign_agreement_verify unless render_called
   end
+
+  # edit sponsor_agreement information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
+  def sponsor_agreement
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+  end
+
+  # update sponsor_agreement information
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
+  def sponsor_agreement_update
+    @candidate = Candidate.find(params[:id])
+    agreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement', I18n.t('label.sponsor_agreement.sponsor_agreement'))
+    @resource = @candidate
+    render :sponsor_agreement
+  end
+
+  # send_image scanned_eligibility image if saved
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
+  def upload_sponsor_eligibility_image
+    @candidate = Candidate.find(params[:id])
+    scanned_image = @candidate.sponsor_covenant.scanned_eligibility
+    send_image(scanned_image) unless scanned_image.nil?
+  end
+
+  private
 
   def agreement_update_private(event_name, signed_param_name, field_name, admin_verified = false)
     candidate_event = @candidate.get_candidate_event(event_name)
@@ -234,26 +390,6 @@ class CommonCandidatesController < ApplicationController
       true
     end
   end
-
-  def sponsor_agreement
-    @candidate = Candidate.find(params[:id])
-    @resource = @candidate
-  end
-
-  def sponsor_agreement_update
-    @candidate = Candidate.find(params[:id])
-    agreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement', I18n.t('label.sponsor_agreement.sponsor_agreement'))
-    @resource = @candidate
-    render :sponsor_agreement
-  end
-
-  def upload_sponsor_eligibility_image
-    @candidate = Candidate.find(params[:id])
-    scanned_image = @candidate.sponsor_covenant.scanned_eligibility
-    send_image(scanned_image) unless scanned_image.nil?
-  end
-
-  private
 
   def event_with_picture_update_private(clazz, admin_verified = false)
     render_called = false

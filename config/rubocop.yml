@@ -60,4 +60,6 @@ Style/PublicMethodDocumentation:
   Description: 'Document public class methods.'
   Enabled: true
   Include:
-    - './app/controllers/application_controller.rb'
+    # make sure you don't include app/controllers/spec
+    - 'app/controllers/*.rb'
+    - 'app/controllers/dev/*.rb'

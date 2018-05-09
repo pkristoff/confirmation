@@ -23,6 +23,16 @@ class AdminsController < ApplicationController
 
   # ROUTES
 
+  # edit adhoc email
+  #
+  # === Attributes:
+  #
+  # * <tt>:candidate</tt> holder of
+  # ** <tt>:candidate_ids</tt>  candidate ids to update
+  # * <tt>:mail</tt> holder of
+  # * <tt>:body_input_text</tt> body of text
+  # * <tt>:subject_text</tt>  subject of message
+  #
   def adhoc_mailing
     subject = t('email.subject_initial_text')
     body = ''
@@ -34,6 +44,16 @@ class AdminsController < ApplicationController
     setup_adhoc_render(body, subject)
   end
 
+  # update adhoc email - send email
+  #
+  # === Attributes:
+  #
+  # * <tt>:candidate</tt> holder of
+  # ** <tt>:candidate_ids</tt>  candidate ids to update
+  # * <tt>:mail</tt> holder of
+  # * <tt>:body_input_text</tt> body of text
+  # * <tt>:subject_text</tt>  subject of message
+  #
   def adhoc_mailing_update
     expected_params = { mail: %i[subject body_input],
                         candidate: [:candidate_ids] }
@@ -88,18 +108,41 @@ class AdminsController < ApplicationController
     render :adhoc_mailing, mail: mail_param
   end
 
+  # edit ConfirmationEvents
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> ConfirmationEvent id
+  #
   def edit_multiple_confirmation_events
     set_confirmation_events
   end
 
+  # list all admins
+  #
   def index
     @admins = Admin.all
   end
 
+  # edit mass candidate events
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> ConfirmationEvent id
+  #
   def mass_edit_candidates_event
     candidates_info(confirmation_event: ConfirmationEvent.find(params[:id]))
   end
 
+  # updating mass candidate events
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> ConfirmationEvent id
+  # * <tt>:candidate</tt> holder of
+  # ** <tt>:candidate_ids</tt>  candidate ids to update
+  # * <tt>:confirmation_event_attributes</tt> is set
+  #
   def mass_edit_candidates_event_update
     confirmation_event = ConfirmationEvent.find(params[:id])
     params.delete(:id)
@@ -129,6 +172,20 @@ class AdminsController < ApplicationController
     render :mass_edit_candidates_event
   end
 
+  # updating mass edit candidates
+  #
+  # === Attributes:
+  #
+  # * <tt>:candidate</tt> holder of
+  # ** <tt>:candidate_ids</tt>  candidate ids to update
+  # * <tt>:commit</tt> legal values
+  # ** <code>AdminsController::DELETE</code>  deletes candidates
+  # ** <code>AdminsController::GENERATE_PDF</code>  generates pdf of all info for A candidate
+  # ** <code>AdminsController::EMAIL</code> render monthly mass mailing passing candidate_ids as selected_ids
+  # ** <code>AdminsController::RESET_PASSWORD</code>  send reset password email to each candidate
+  # ** <code>AdminsController::INITIAL_EMAIL</code> send initial email to candidate asking them to confirm their account
+  # ** <code>AdminsController::CONFIRM_ACCOUNT</code>  send confirm account email.
+  #
   def mass_edit_candidates_update
     candidate_param = params[:candidate]
     candidate_ids = candidate_param ? candidate_param[:candidate_ids] : []
@@ -209,6 +266,21 @@ class AdminsController < ApplicationController
     end
   end
 
+  # updating and sending monthly mass mailing
+  #
+  # === Attributes:
+  #
+  # * <tt>:mail</tt> holder of
+  # ** <tt>:subject</tt>  subject of message
+  # ** <tt>:pre_late_input</tt>
+  # ** <tt>:pre_coming_due_input</tt>
+  # ** <tt>:completed_awaiting_input</tt>
+  # ** <tt>:completed_input</tt>
+  # ** <tt>:closing_text</tt>
+  # ** <tt>:salutation_text</tt>
+  # ** <tt>:from_text</tt>
+  # ** <tt>:selected_ids</tt> Optional
+  #
   def monthly_mass_mailing
     subject = t('email.subject_initial_text')
     pre_late_input = t('email.late_initial_text')
@@ -233,6 +305,12 @@ class AdminsController < ApplicationController
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text)
   end
 
+  # setup default values for monthly mass mailing
+  #
+  # === Parameters:
+  #
+  # * <tt>:selected_ids</tt>  Optional
+  #
   def setup_monthly_mailing_render_default(selected_ids = [])
     subject = t('email.subject_initial_text')
     pre_late_input = t('email.late_initial_text')
@@ -246,6 +324,20 @@ class AdminsController < ApplicationController
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text, selected_ids)
   end
 
+  # prepare for monthly mass mailing
+  #
+  # === Attributes:
+  #
+  # * <tt>:subject</tt>  subject of message
+  # * <tt>:pre_late_input</tt>
+  # * <tt>:pre_coming_due_input</tt>
+  # * <tt>:completed_awaiting_input</tt>
+  # * <tt>:completed_input</tt>
+  # * <tt>:closing_text</tt>
+  # * <tt>:salutation_text</tt>
+  # * <tt>:from_text</tt>
+  # * <tt>:selected_ids</tt> Optional
+  #
   def monthly_mass_mailing_update
     expected_params = { mail: %i[subject pre_late_input pre_coming_due_input completed_input salutation_text closing_text from_text],
                         candidate: [:candidate_ids] }
@@ -323,10 +415,24 @@ class AdminsController < ApplicationController
     render :monthly_mass_mailing
   end
 
+  # show admin
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> admin id
+  #
   def show
     @admin = Admin.find(params[:id])
   end
 
+  # updates ConfirmationEvents
+  #
+  # === Attributes:
+  #
+  # * <tt>:commit</tt> "Update" using <tt>:confirmation_events</tt>
+  # * <tt>:confirmation_events</tt>
+  # * <tt>:update</tt> should be another value for commit
+  #
   def update_multiple_confirmation_events
     if params[:commit] == t('views.common.update')
       confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject { |p| p.errors.empty? }
@@ -350,6 +456,20 @@ class AdminsController < ApplicationController
     end
   end
 
+  # setup for monthly mass mailing
+  #
+  # === Parameters:
+  #
+  # * <tt>:subject</tt>  subject of message
+  # * <tt>:pre_late_input</tt>
+  # * <tt>:pre_coming_due_input</tt>
+  # * <tt>:completed_awaiting_input</tt>
+  # * <tt>:completed_input</tt>
+  # * <tt>:closing_text</tt>
+  # * <tt>:salutation_text</tt>
+  # * <tt>:from_text</tt>
+  # * <tt>:selected_ids</tt> Optional
+  #
   def setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input,
                                    closing_text, salutation_text, from_text, selected_ids = [])
     @subject = subject
@@ -363,12 +483,26 @@ class AdminsController < ApplicationController
     candidates_info(selected_candidate_ids: selected_ids)
   end
 
+  # setup for adhoc email
+  #
+  # === Parameters:
+  #
+  # * <tt>:body_input_text</tt> body of text
+  # * <tt>:subject_text</tt>  subject of message
+  #
   def setup_adhoc_render(body_input_text, subject_text)
     @subject = subject_text
     @body = body_input_text
     candidates_info
   end
 
+  # redirect back to request.referer
+  #
+  # === Parameters:
+  #
+  # * <tt>:flash_message</tt> alert too flash upon redirect
+  # * <tt>:mail_params</tt>  mail parameters to merge in for redirect
+  #
   def redirect_back(flash_message, mail_params)
     begin
       # get a URI object for referring url
@@ -390,6 +524,8 @@ class AdminsController < ApplicationController
     redirect_to referrer_url.to_s
   end
 
+  # sorts and sets @confirmation_events
+  #
   def set_confirmation_events
     @confirmation_events = ConfirmationEvent.all.sort do |ce1, ce2|
       # sort based on the_way_due_date and then by name ignoring chs_due_date

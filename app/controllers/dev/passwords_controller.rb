@@ -5,6 +5,8 @@ module Dev
   # Handles Password tasks
   #
   class PasswordsController < Devise::PasswordsController
+    # flashes alert if token has expires
+    #
     def edit
       original_token = params[:reset_password_token]
       candidate = candidate_from_token(original_token)
@@ -16,6 +18,8 @@ module Dev
       end
     end
 
+    # setup account_confirmed for super call
+    #
     def update
       parms = resource_params
       original_token = parms[:reset_password_token]
@@ -27,6 +31,12 @@ module Dev
       super
     end
 
+    # creates flash
+    #
+    # === Parameters:
+    #
+    # * <tt>:args</tt> args[0] is a Candidate
+    #
     def respond_with(*args)
       raise('PasswordsController.respond_with called with no args') if args.empty?
       candidate = args[0]
@@ -39,6 +49,12 @@ module Dev
       super
     end
 
+    # Lookup candidate based on original-token
+    #
+    # === Parameters:
+    #
+    # * <tt>:original_token</tt>
+    #
     def candidate_from_token(original_token)
       reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
       Candidate.find_by(reset_password_token: reset_password_token)

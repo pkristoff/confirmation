@@ -20,25 +20,31 @@ module Dev
     before_action :authenticate_candidate!
 
     # Should never be called
+    #
     def edit
       @candidate = Candidate.find(params[:id])
     end
 
     # Should never be called
+    #
     def event
       @candidate = Candidate.find(params[:id])
     end
 
     # Should never be called
+    #
     def index
       redirect_to :back, alert: 'Please login as admin to see list of candidates.' unless admin_signed_in?
     end
 
+    # returns false
+    #
     def admin?
       false
     end
 
     # Should never be called
+    #
     def show
       @candidate = Candidate.find(params[:id])
       redirect_to :back, alert: I18n.t('messages.accessed_denied') unless @candidate == current_candidate

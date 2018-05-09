@@ -34,7 +34,6 @@ module RuboCop
 
         def on_def(node)
           # puts("start-#{node.children.first.to_s}")
-          method_name, = *node
           check(node)
           # puts 'end-on_def'
         end
@@ -51,33 +50,41 @@ module RuboCop
           cop_config['RequireForNonPublicMethods']
         end
 
-        RETURNS_DOC = '# === Returns:'.freeze
-        PARMS_DOC = '# === Parameters:'.freeze
+        ATTRS_DOC = '# === Attributes:'
+        RETURNS_DOC = '# === Returns:'
+        PARMS_DOC = '# === Parameters:'
 
-        MSG_DOCUMENTATION = 'Missing public method documentation comment for `%<method>s`.'.freeze
-        MSG_MISSING_DOCUMENTATION = 'Missing public method documentation comment for `%s`.'.freeze
-        MSG_INVALID_DOCUMENTATION = 'Invalid public method documentation comment for `%s`.'.freeze
-        MSG_MISSING_DESCRIPTION = 'Description is missing for `%s`'.freeze
-        MSG_MISSING_PARAMETERS = 'Parameter is missing for `%s`.'.freeze
-        MSG_UNNECESSARY_PARAMETERS = 'Unncessary Parameter documentation for `%s`.'.freeze
-        MSG_PARAMETERS_MISSING_BLANK_LINE = 'Parameter should have one blankline before arguments for `%s`.'.freeze
-        MSG_PARAMETERS_ARG_SIZE_MISMATCH = 'Parameter size `%s` does not match argument size `%s`.'.freeze
-        MSG_PARAMETERS_ARG_NAME_MISMATCH = 'Parameter name `%s` does not match argument name `%s`.'.freeze
-        MSG_DESCRIPTION_SHOULD_NOT_BEGIN_WITH_BLANK_COMMENT = 'Description should not begin with blank comment'.freeze
-        MSG_DESCRIPTION_SHOULD_NOT_END_WITH_BLANK_COMMENT = 'Description should end with blank comment'.freeze
-        MSG_PARAMETERS_SHOULD_NOT_END_WITH_BLANK_COMMENT = 'Parameters should end with blank comment'.freeze
-        MSG_RETURNS_SHOULD_NOT_END_WITH_BLANK_COMMENT = 'Returns should end with blank comment'.freeze
-        MSG_DESCRIPTIION_SHOULD_BE_FIRST = 'description should be first'.freeze
-        MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS = 'Parameters should be before Returns'.freeze
-        MSG_NO_DESC = 'No description'.freeze
-        MSG_PARAMETERZ_DOES_MATCH_MATCH = "Parameters does not match '#{PARMS_DOC}' exactly"
-        MSG_RETURNS_DOES_NOT_MATCH = "Returns does not match '#{RETURNS_DOC}' exactly"
+        MSG_DOCUMENTATION = 'Missing public method documentation comment for `%<method>s`.'
+        MSG_MISSING_DOCUMENTATION = 'Missing public method documentation comment for `%s`.'
+        MSG_INVALID_DOCUMENTATION = 'Invalid public method documentation comment for `%s`.'
+        MSG_MISSING_DESCRIPTION = 'Description is missing for `%s`.'
+        MSG_MISSING_PARAMETERS = 'Parameter is missing for `%s`.'
+        MSG_UNNECESSARY_PARAMETERS = 'Unnecessary Parameter documentation for `%s`.'
+        MSG_PARAMETERS_MISSING_BLANK_LINE = 'Parameter should have one blankline before arguments for `%s`.'
+        MSG_PARAMETERS_ARG_SIZE_MISMATCH = 'Parameter size `%s` does not match argument size `%s`.'
+        MSG_PARAMETERS_ARG_NAME_MISMATCH = 'Parameter name `%s` does not match argument name `%s`.'
+        MSG_DESCRIPTION_SHOULD_NOT_BEGIN_WITH_BLANK_COMMENT = 'Description should not begin with blank comment.'
+        MSG_DESCRIPTION_SHOULD_END_WITH_BLANK_COMMENT = 'Description should end with blank comment.'
+        MSG_PARAMETERS_IS_MISSING_FIRST_BLANK_COMMENT = '=== Parameters: should have a blank comment following it.'
+        MSG_PARAMETERS_SHOULD_END_WITH_BLANK_COMMENT = 'Parameters should end with blank comment.'
+        MSG_ATTRIBUTES_IS_MISSING_FIRST_BLANK_COMMENT = '=== Attributes: should have a blank comment following it.'
+        MSG_ATTRIBUTES_SHOULD_END_WITH_BLANK_COMMENT = 'Attributes: should end with a blank comment.'
+        MSG_RETURNS_IS_MISSING_FIRST_BLANK_COMMENT = '=== Returns: should have a blank comment following it.'
+        MSG_RETURNS_SHOULD_END_WITH_BLANK_COMMENT = 'Returns should end with blank comment.'
+        MSG_RETURNS_SHOULD_BE_LAST = 'Returns should be last.'
+        MSG_DESCRIPTIION_SHOULD_BE_FIRST = 'description should be first.'
+        MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS = 'Parameters should be before Returns.'
+        MSG_NO_DESC = 'No description'
+        MSG_PARAMETERS_DOES_MATCH_MATCH = "Parameters does not match '#{PARMS_DOC}' exactly."
+        MSG_RETURNS_DOES_NOT_MATCH = "Returns does not match '#{RETURNS_DOC}' exactly."
+        MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST = 'Attributes and Parameters should not exist on same method.'
 
-        DOC_PARM_REGEXP = /^# \* <tt>:(\w+)<\/tt>/i.freeze
-        PARM_START = '# * <tt>:'.freeze
-        PARM_END = '</tt>'.freeze
-        RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/i.freeze
-        PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/i.freeze
+        DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}i
+        PARM_START = '# * <tt>:'
+        PARM_END = '</tt>'
+        RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/i
+        ATTR_REGEXP = /^[ ]*#[ ]*===[ ]*Attributes:/i
+        PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/i
 
         def add_format(message)
           format(message, @method_name)
@@ -94,16 +101,24 @@ module RuboCop
 
         def prk_documentation_comment(node)
           @method_name = node.children.first.to_s
-          # puts "  processing: #{@method_name}"
+          puts "  processing: #{@method_name}"
           preceding_lines = preceding_lines(node)
 
           return add_offense(node, message: MSG_MISSING_DOCUMENTATION) unless preceding_comment?(node, preceding_lines.last)
 
-          description_range, parameters_range, returns_range = parse_documentation(preceding_lines)
+          description_range, parameters_range, returns_range, attrs_range = parse_documentation(preceding_lines)
 
-          add_offense(description_range[0], message: MSG_DESCRIPTIION_SHOULD_BE_FIRST) unless before(description_range, parameters_range) && before(description_range, returns_range)
+          add_offense(preceding_lines[0], message: MSG_MISSING_DESCRIPTION) if description_range.empty?
 
-          finish_range(description_range, parameters_range, preceding_lines, returns_range)
+          # order
+          #   description_range
+          #   parameters_range || attrs_range
+          #   returns_range
+          #
+          add_offense(description_range[0], message: MSG_DESCRIPTIION_SHOULD_BE_FIRST) unless before(description_range, parameters_range) && before(description_range, returns_range) && before(description_range, attrs_range)
+          add_offense(description_range[0], message: MSG_RETURNS_SHOULD_BE_LAST) unless before(parameters_range, returns_range) && before(attrs_range, returns_range)
+
+          add_offense(attrs_range[0], message: MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST) unless attrs_range.empty? || parameters_range.empty?
 
           index = -1
           special_comm = preceding_lines.any? do |comment|
@@ -117,8 +132,7 @@ module RuboCop
 
           add_offense(parameters_range[0], message: MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS) unless before(parameters_range, returns_range)
 
-          check_blank_comments(preceding_lines, description_range, parameters_range, returns_range)
-
+          check_blank_comments(preceding_lines, description_range, parameters_range, returns_range, attrs_range)
 
           args = node.arguments
           return add_offense(preceding_lines[0], message: MSG_MISSING_PARAMETERS) if parameters_range.empty? && !args.empty?
@@ -132,123 +146,88 @@ module RuboCop
           add_offense(args[pns.size], message: format(MSG_PARAMETERS_ARG_SIZE_MISMATCH, pns.size, args.size)) if args.size > pns.size
 
           match_parms_to_args(args, pns)
-
         end
 
-        def check_blank_comments(preceding_lines, description_range, parameters_range, returns_range)
+        def check_blank_comments(preceding_lines, description_range, parameters_range, returns_range, attrs_range)
           unless description_range.empty?
             add_offense(description_range[0], message: MSG_DESCRIPTION_SHOULD_NOT_BEGIN_WITH_BLANK_COMMENT) if empty_comm?(preceding_lines[description_range[1]])
-            add_offense(preceding_lines[description_range[2]], message: MSG_DESCRIPTION_SHOULD_NOT_END_WITH_BLANK_COMMENT) unless empty_comm?(preceding_lines[description_range[2]])
+            add_offense(preceding_lines[description_range[2]], message: MSG_DESCRIPTION_SHOULD_END_WITH_BLANK_COMMENT) unless empty_comm?(preceding_lines[description_range[2]])
           end
 
-          add_offense(preceding_lines[parameters_range[2]], message: MSG_PARAMETERS_SHOULD_NOT_END_WITH_BLANK_COMMENT) unless parameters_range.empty? || empty_comm?(preceding_lines[parameters_range[2]])
+          add_offense(preceding_lines[parameters_range[1]], message: MSG_PARAMETERS_IS_MISSING_FIRST_BLANK_COMMENT) unless parameters_range.empty? || empty_comm?(preceding_lines[parameters_range[1] + 1])
+          add_offense(preceding_lines[parameters_range[2]], message: MSG_PARAMETERS_SHOULD_END_WITH_BLANK_COMMENT) unless parameters_range.empty? || empty_comm?(preceding_lines[parameters_range[2]])
 
-          add_offense(preceding_lines[returns_range[2]], message: MSG_RETURNS_SHOULD_NOT_END_WITH_BLANK_COMMENT) unless returns_range.empty? || empty_comm?(preceding_lines[returns_range[2]])
+          add_offense(preceding_lines[returns_range[1]], message: MSG_RETURNS_IS_MISSING_FIRST_BLANK_COMMENT) unless returns_range.empty? || empty_comm?(preceding_lines[returns_range[1] + 1])
+          add_offense(preceding_lines[returns_range[2]], message: MSG_RETURNS_SHOULD_END_WITH_BLANK_COMMENT) unless returns_range.empty? || empty_comm?(preceding_lines[returns_range[2]])
+
+          add_offense(preceding_lines[attrs_range[1]], message: MSG_ATTRIBUTES_IS_MISSING_FIRST_BLANK_COMMENT) unless attrs_range.empty? || empty_comm?(preceding_lines[attrs_range[1] + 1])
+          add_offense(preceding_lines[attrs_range[2]], message: MSG_ATTRIBUTES_SHOULD_END_WITH_BLANK_COMMENT) unless attrs_range.empty? || empty_comm?(preceding_lines[attrs_range[2]])
         end
-
-        def finish_range(description_range, parameters_range, preceding_lines, returns_range)
-          unless description_range.empty?
-            if parameters_range.empty?
-              if returns_range.empty?
-                description_range[2] = preceding_lines.size - 1
-              else
-                description_range[2] = returns_range[1] - 1
-              end
-            else
-              if before(parameters_range, returns_range)
-                description_range[2] = parameters_range[1] - 1
-              else
-                description_range[2] = returns_range[1] - 1
-              end
-            end
-          end
-
-          unless parameters_range.empty?
-            if description_range.empty?
-              if before(parameters_range, returns_range)
-                if returns_range.empty?
-                  parameters_range[2] = preceding_lines.size - 1
-                else
-                  parameters_range[2] = returns_range[1] - 1
-                end
-              else
-                parameters_range[2] = preceding_lines.size - 1
-              end
-            else
-              if before(parameters_range, returns_range)
-                if returns_range.empty?
-                  parameters_range[2] = preceding_lines.size - 1
-                else
-                  parameters_range[2] = returns_range[1] - 1
-                end
-              else
-                parameters_range[2] = preceding_lines.size - 1
-              end
-            end
-          end
-
-          unless returns_range.empty?
-            if description_range.empty?
-              if before(parameters_range, returns_range)
-                returns_range[2] = parameters_range.size - 1
-              else
-                returns_range[2] = preceding_lines.size - 1
-              end
-            else
-              if before(parameters_range, returns_range)
-                if parameters_range.empty?
-                  returns_range[2] = preceding_lines.size - 1
-                else
-                  returns_range[2] = parameters_range[1] - 1
-                end
-              else
-                returns_range[2] = description_range[1] - 1
-              end
-            end
-          end
-          # puts "finish_range result"
-          # puts("    description_range =#{description_range}")
-          # puts("    parameters_range=#{parameters_range}")
-          # puts("    returns_range=#{returns_range}")
-        end
-
 
         def parse_documentation(comments)
           desc = []
           returns = []
           parms = []
+          attrs = []
+          current = []
           comments.each_with_index do |comment_line, i|
             text_line = comment_line.text
-            RETURNS_REGEXP.match(text_line) do |_matchdata|
-              returns = [comment_line, i, nil]
+            if RETURNS_REGEXP.match(text_line)
+              current[2] = i - 1 unless current.empty?
+              returns = [comment_line, i, 0]
+              current = returns
+            elsif PARMS_REGEXP.match(text_line)
+              current[2] = i - 1 unless current.empty?
+              parms = [comment_line, i, 0]
+              current = parms
+            elsif ATTR_REGEXP.match(text_line)
+              current[2] = i - 1 unless current.empty?
+              attrs = [comment_line, i, 0]
+              current = attrs
+            elsif i == 0
+              current[2] = i - 1 unless current.empty?
+              desc = [comment_line, i, 0]
+              current = desc
             end
-            PARMS_REGEXP.match(text_line) do |_matchdata|
-              parms = [comment_line, i, nil]
-            end
+            current[2] = comments.size - 1
           end
-          if (!parms.empty?) && parms[1] <= 1 && (!returns.empty?) && returns[1] <= 1
-            add_offense(comments[0], message: MSG_NO_DESC)
-          else
-            desc = [comments[0], 0, nil]
+          add_offense(comments[0], message: MSG_NO_DESC) if !parms.empty? && parms[1] <= 1 && !returns.empty? && returns[1] <= 1
+          unless parms.empty?
+            add_offense(parms[0], message: MSG_PARAMETERS_DOES_MATCH_MATCH) unless parms[0].text == PARMS_DOC
           end
           unless parms.empty?
-            add_offense(parms[0], message: MSG_PARAMETERZ_DOES_MATCH_MATCH) unless parms[0].text == PARMS_DOC
+            add_offense(parms[0], message: MSG_PARAMETERS_DOES_MATCH_MATCH) unless parms[0].text == PARMS_DOC
           end
           unless returns.empty?
             add_offense(returns[0], message: MSG_RETURNS_DOES_NOT_MATCH) unless returns[0].text == RETURNS_DOC
           end
-          [desc, parms, returns]
+          unless attrs.empty?
+            add_offense(attrs[0], message: MSG_RETURNS_DOES_NOT_MATCH) unless attrs[0].text == ATTRS_DOC
+          end
+          puts 'parse_document result'
+          puts("    desc =#{desc}")
+          puts("    parms=#{parms}")
+          puts("    returns=#{returns}")
+          puts("    attrs=#{attrs}")
+          [desc, parms, returns, attrs]
         end
 
         def match_parms_to_args(args, pns)
           pns.each_with_index do |param_pair, i|
             break if args[i].nil?
-            arg_name = args[i].node_parts[0].to_s
+            arg_name = get_arg_name(args[i])
             param_line = param_pair[0]
             param_name = param_pair[1]
             # puts "Comparing arg name #{arg_name} with parm name #{param_name} ans=#{param_name == arg_name}"
             add_offense(param_line, message: format(MSG_PARAMETERS_ARG_NAME_MISMATCH, param_name, arg_name)) unless param_name == arg_name
           end
+        end
+
+        def get_arg_name(arg)
+          name = arg.node_parts[0].to_s
+          # handle unused arguments, which begin with _
+          return name[1...name.size] if name[0] == '_'
+          name
         end
 
         def parm_names(parms)
