@@ -117,7 +117,7 @@ describe 'method_documentation' do
   end
 
   def expect_offenses(file, *expected_offenses)
-    output = `rubocop -d #{file}`
+    output = `rubocop #{file}`
     # output = system "rubocop -d #{file}"
     if expected_offenses.empty?
       expect($CHILD_STATUS.success?).to eq(true), "expected rubocop no offenses but got exit code: #{$CHILD_STATUS}"

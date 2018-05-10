@@ -101,7 +101,7 @@ module RuboCop
 
         def prk_documentation_comment(node)
           @method_name = node.children.first.to_s
-          puts "  processing: #{@method_name}"
+          # puts "  processing: #{@method_name}"
           preceding_lines = preceding_lines(node)
 
           return add_offense(node, message: MSG_MISSING_DOCUMENTATION) unless preceding_comment?(node, preceding_lines.last)
@@ -204,11 +204,11 @@ module RuboCop
           unless attrs.empty?
             add_offense(attrs[0], message: MSG_RETURNS_DOES_NOT_MATCH) unless attrs[0].text == ATTRS_DOC
           end
-          puts 'parse_document result'
-          puts("    desc =#{desc}")
-          puts("    parms=#{parms}")
-          puts("    returns=#{returns}")
-          puts("    attrs=#{attrs}")
+          # puts 'parse_document result'
+          # puts("    desc =#{desc}")
+          # puts("    parms=#{parms}")
+          # puts("    returns=#{returns}")
+          # puts("    attrs=#{attrs}")
           [desc, parms, returns, attrs]
         end
 
