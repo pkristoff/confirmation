@@ -63,3 +63,4 @@ Style/PublicMethodDocumentation:
     # make sure you don't include app/controllers/spec
     - 'app/controllers/*.rb'
     - 'app/controllers/dev/*.rb'
+    - 'app/models/*.rb'

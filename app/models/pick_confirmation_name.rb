@@ -8,7 +8,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # === Parameters:
   #
-  # * <tt>:_options_</tt>
+  # * <tt>:options</tt>
   #
   def validate_event_complete(_options = {})
     EventCompleteValidator.new(self).validate(PickConfirmationName.permitted_params)

@@ -8,7 +8,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # === Parameters:
   #
-  # * <tt>:baptized_at_stmm</tt> If true then nothing else needs to be added
+  # * <tt>:options</tt> If true then nothing else needs to be added
   #
   # === Return:
   #

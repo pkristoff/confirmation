@@ -30,7 +30,7 @@ class Address < ActiveRecord::Base
   #
   # === Parameters:
   #
-  # * <tt>:_options_</tt>
+  # * <tt>:options</tt>
   #
   # === Return:
   #

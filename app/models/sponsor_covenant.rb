@@ -16,7 +16,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Parameters:
   #
-  # * <tt>:_options_</tt>
+  # * <tt>:options</tt>
   #
   def validate_event_complete(_options = {})
     event_complete_validator = EventCompleteValidator.new(self, !sponsor_attends_stmm)

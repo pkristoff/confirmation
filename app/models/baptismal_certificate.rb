@@ -18,7 +18,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Parameters:
   #
-  # * <tt>:baptized_at_stmm</tt> If true then nothing else needs to be added
+  # * <tt>:options</tt>
   #
   # === Return:
   #
@@ -176,34 +176,82 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # UI stuff
 
+  # Whether to show baptized as yes
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def baptized_at_stmm_show_yes
     chosen_baptized_at_stmm? && baptized_at_stmm
   end
 
+  # Whether to show baptized as no
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def baptized_at_stmm_show_no
     chosen_baptized_at_stmm? && !baptized_at_stmm
   end
 
+  # Whether to show first communion as yes
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def first_comm_at_stmm_show_yes
     chosen_first_comm_at_stmm? && first_comm_at_stmm
   end
 
+  # Whether to show first communion as no
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def first_comm_at_stmm_show_no
     chosen_first_comm_at_stmm? && !first_comm_at_stmm
   end
 
+  # Whether to show first communion info
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def first_comm_show
     chosen_baptized_at_stmm? && !baptized_at_stmm
   end
 
+  # Whether candidate has chosen that they were baptised at St MM
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def chosen_baptized_at_stmm?
     show_empty_radio.positive?
   end
 
+  # Whether candidate has chosen that they received first communion at St MM
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def chosen_first_comm_at_stmm?
     show_empty_radio > 1
   end
 
+  # Whether to show info
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def info_show
     chosen_first_comm_at_stmm? && !baptized_at_stmm
   end

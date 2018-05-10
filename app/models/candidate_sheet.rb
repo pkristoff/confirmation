@@ -15,7 +15,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Parameters:
   #
-  # * <tt>:baptized_at_stmm</tt> If true then nothing else needs to be added
+  # * <tt>:options</tt> If true then nothing else needs to be added
   #
   # === Return:
   #
@@ -149,7 +149,11 @@ class CandidateSheet < ActiveRecord::Base
     errors.add(:parent_email_2, "is an invalid email: #{parent_email_2}") unless validate_email(parent_email_2)
   end
 
-  # Validate if value is a valid email addrress.
+  # Validate if email is a valid email addrress.
+  #
+  # === Parameters:
+  #
+  # * <tt>:email</tt> String
   #
   def validate_email(email)
     return true if email.blank?

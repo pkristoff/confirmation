@@ -45,7 +45,7 @@ class Candidate < ActiveRecord::Base
             uniqueness: {
               case_sensitive: false
             }
-  #
+
   # turn off sending verify instructions until admin sends it.
   #
   def send_on_create_confirmation_instructions() end
@@ -146,6 +146,12 @@ class Candidate < ActiveRecord::Base
     params
   end
 
+  # builds candidate's associations
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def build_associations
     candidate_sheet || build_candidate_sheet
     baptismal_certificate || build_baptismal_certificate
@@ -178,11 +184,11 @@ class Candidate < ActiveRecord::Base
   #
   # === Parameters:
   #
-  # * <tt>:candidate</tt> owner of association
+  # * <tt>:association_class</tt> association for self related to event
   #
   # === Return:
   #
-  # christian_ministry with validation errors
+  # Boolean
   #
   def validate_event_complete(association_class)
     complete = true
@@ -200,7 +206,6 @@ class Candidate < ActiveRecord::Base
   #
   # String
   #
-
   def bcc_email
     'stmm.confirmation@kristoffs.com'
   end

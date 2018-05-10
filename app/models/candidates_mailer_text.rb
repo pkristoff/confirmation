@@ -17,6 +17,12 @@ class CandidatesMailerText
   attr_accessor :from_text
   attr_accessor :token
 
+  # instanciation
+  #
+  # === Parameters:
+  #
+  # * <tt>:parms</tt>
+  #
   def initialize(parms)
     @candidate = parms[:candidate]
     @subject = parms[:subject]

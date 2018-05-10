@@ -12,6 +12,12 @@ require 'RMagick'
 class CandidatePDFDocument < Prawn::Document
   include Magick
 
+  # instanciation
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> number of columns
+  #
   def initialize(candidate)
     super()
     @candidate = candidate
@@ -295,8 +301,8 @@ class CandidatePDFDocument < Prawn::Document
   #
   # === Parameters:
   #
-  # * <tt>_:columns_</tt> number of columns
-  # * <tt>_:rows_</tt> number of rows
+  # * <tt>:columns</tt> number of columns
+  # * <tt>:rows</tt> number of rows
   #
   def define_grid_page(columns = 4, rows = 20)
     define_grid(columns: columns, rows: rows)
@@ -348,7 +354,7 @@ class CandidatePDFDocument < Prawn::Document
   #
   # === Parameters:
   #
-  # * <tt>:cell1</tt> start point
+  # * <tt>:cell</tt> start point
   # * <tt>:cell2</tt> end point
   # * <tt>:label</tt> label
   #
@@ -363,7 +369,7 @@ class CandidatePDFDocument < Prawn::Document
   #
   # === Parameters:
   #
-  # * <tt>:cell1</tt> start point
+  # * <tt>:cell</tt> start point
   # * <tt>:cell2</tt> end point
   # * <tt>:value</tt> value
   #
@@ -395,10 +401,10 @@ class CandidatePDFDocument < Prawn::Document
     end
   end
 
-  #
   # Output the event information
   #
-  # ====== Parameters:
+  # === Parameters:
+  #
   # * <tt>:event</tt> CandidateEvent
   # * <tt>:cell1</tt> start point
   # * <tt>:cell2</tt> end point

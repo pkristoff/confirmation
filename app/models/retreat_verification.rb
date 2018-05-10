@@ -13,7 +13,7 @@ class RetreatVerification < ActiveRecord::Base
   #
   # === Parameters:
   #
-  # * <tt>:_options_</tt>
+  # * <tt>:options</tt>
   #
   def validate_event_complete(_options = {})
     event_complete_validator = EventCompleteValidator.new(self, !retreat_held_at_stmm)

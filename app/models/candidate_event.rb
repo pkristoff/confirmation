@@ -97,6 +97,7 @@ class CandidateEvent < ActiveRecord::Base
   # === Return:
   #
   # Boolean
+  #
   def awaiting_admin?
     CandidateEvent.awaiting_admin?(due_date, completed_date, verified)
   end
@@ -143,6 +144,12 @@ class CandidateEvent < ActiveRecord::Base
     CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date >= today) && (due_date < today + 30)
   end
 
+  # Is the candidate event completed
+  #
+  # === Return:
+  #
+  # Boolean
+  #
   def completed?
     CandidateEvent.completed?(due_date, verified)
   end
@@ -231,10 +238,6 @@ class CandidateEvent < ActiveRecord::Base
   end
 
   # information to be verified by admin
-  #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
   #
   # === Return:
   #

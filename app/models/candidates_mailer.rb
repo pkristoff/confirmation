@@ -13,7 +13,7 @@ class CandidatesMailer < ActionMailer::Base
   # === Parameters:
   #
   # * <tt>:admin</tt> Admin: not used
-  # * <tt>:candidateMailerText</tt> CandidateMailerText
+  # * <tt>:candidate_mailer_text</tt> CandidateMailerText
   #
   # === Return:
   #
@@ -36,7 +36,7 @@ class CandidatesMailer < ActionMailer::Base
   # === Parameters:
   #
   # * <tt>:admin</tt> Admin: indicates a test email
-  # * <tt>:candidateMailerText</tt> CandidateMailerText
+  # * <tt>:candidate_mailer_text</tt> CandidateMailerText
   #
   # === Return:
   #
@@ -59,7 +59,7 @@ class CandidatesMailer < ActionMailer::Base
   # === Parameters:
   #
   # * <tt>:admin</tt> Admin: indicates whether a test message or not
-  # * <tt>:candidateMailerText</tt> CandidateMailerText
+  # * <tt>:candidate_mailer_text</tt> CandidateMailerText
   #
   # === Return:
   #
@@ -83,7 +83,7 @@ class CandidatesMailer < ActionMailer::Base
   # === Parameters:
   #
   # * <tt>:admin</tt> Admin: indicates whether a test message or not
-  # * <tt>:candidateMailerText</tt> CandidateMailerText
+  # * <tt>:candidate_mailer_text</tt> CandidateMailerText
   #
   # === Return:
   #

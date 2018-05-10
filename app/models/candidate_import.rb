@@ -39,7 +39,7 @@ class CandidateImport
   #
   # === Parameters:
   #
-  # * <tt>:_attributes_</tt> name vaue pairs
+  # * <tt>:attributes</tt> name vaue pairs
   #
   # === Return:
   #
@@ -239,6 +239,7 @@ class CandidateImport
   # === Parameters:
   #
   # * <tt>:dir</tt> String:  where to store the zip file.
+  # * <tt>:with_pictures</tt> Boolean: whether to export pictures.
   #
   # === Return:
   #
@@ -324,7 +325,7 @@ class CandidateImport
   #
   # * <tt>:clazz</tt> Class: class of interest
   # * <tt>:used_ids</tt> Array: of ids - ids of clazz used by parent
-  # * <tt>:_offset_</tt>  If present used to offset the ids of clazz (i.e. clazz_id iss an array)
+  # * <tt>:offset</tt>  If present used to offset the ids of clazz (i.e. clazz_id iss an array)
   #
   # === Return:
   #
@@ -374,6 +375,7 @@ class CandidateImport
   end
 
   # Finds all the Address's that have been orphaned.
+  #
   def orphaned_addresses
     ids(Address).select do |ar_id|
       ids(BaptismalCertificate).map { |bc_info| bc_info[1] }.select { |church_address_id| church_address_id == ar_id }.empty? &&
@@ -399,7 +401,7 @@ class CandidateImport
   #
   # === Parameters:
   #
-  # * <tt>:used_cand_ids</tt> Array:
+  # * <tt>:cand_ids</tt> Array:
   #
   # === Return:
   #
@@ -413,7 +415,7 @@ class CandidateImport
   #
   # === Parameters:
   #
-  # * <tt>:used_cand_ids</tt> Array:
+  # * <tt>:cand_ids</tt> Array:
   #
   # === Return:
   #
@@ -427,7 +429,7 @@ class CandidateImport
   #
   # === Parameters:
   #
-  # * <tt>:used_cand_ids</tt> Array:
+  # * <tt>:cand_ids</tt> Array:
   #
   # === Return:
   #
@@ -441,7 +443,7 @@ class CandidateImport
   #
   # === Parameters:
   #
-  # * <tt>:used_cand_ids</tt> Array:
+  # * <tt>:cand_ids</tt> Array:
   #
   # === Return:
   #
@@ -455,7 +457,7 @@ class CandidateImport
   #
   # === Parameters:
   #
-  # * <tt>:used_cand_ids</tt> Array:
+  # * <tt>:cand_ids</tt> Array:
   #
   # === Return:
   #
@@ -466,6 +468,7 @@ class CandidateImport
   end
 
   # Finds all the ScannedImage's that have been orphaned.
+  #
   def orphaned_scanned_image
     ids(ScannedImage).select do |ar_id|
       ids(BaptismalCertificate).map { |x| x[2] }.select { |scanned_certificate_id| scanned_certificate_id == ar_id }.empty? &&
@@ -476,6 +479,7 @@ class CandidateImport
   end
 
   # Finds all the ScannedImage's that have been orphaned.
+  #
   def orphaned_to_do
     orphaned = ids(ToDo).select do |_todo_id, confirmation_event_id, candidate_event_id|
       ids(ConfirmationEvent).select { |ce_id| confirmation_event_id == ce_id }.empty? &&
@@ -486,10 +490,6 @@ class CandidateImport
 
   # test only
   # gets columns
-  #
-  # === Parameters:
-  #
-  # * <tt>:missing_events</tt> Array: of expected missing ConfirmationEvents
   #
   # === Return:
   #
@@ -521,7 +521,6 @@ class CandidateImport
   #
   # Array: String
   #
-
   def xlsx_conf_event_columns
     %w[name index the_way_due_date chs_due_date instructions]
   end
