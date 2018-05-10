@@ -17,7 +17,7 @@ class CandidatesMailerText
   attr_accessor :from_text
   attr_accessor :token
 
-  # instanciation
+  # Instantiation
   #
   # === Parameters:
   #

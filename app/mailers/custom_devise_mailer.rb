@@ -4,6 +4,13 @@
 # Custom Devise Mailer tasks
 #
 class CustomDeviseMailer < Devise::Mailer
+  # set up email addresses in header
+  #
+  # === Parameters:
+  #
+  # * <tt>:action</tt> legal values
+  # * <tt>:opts</tt> legal values
+  #
   def headers_for(action, opts)
     headers = super
     headers = headers.merge(to: resource.emails,
@@ -12,6 +19,14 @@ class CustomDeviseMailer < Devise::Mailer
     headers
   end
 
+  # default subjects for enail messages
+  #
+  # === Parameters:
+  #
+  # * <tt>:key</tt> legal values
+  # ** <code>:reset_password_instructions</code> when sending reset message
+  # ** <code>:confirmation_instructions</code> when sending initial welcome message
+  #
   def subject_for(key)
     if key == :reset_password_instructions
       'StMM website for Confirmation Candidates - Reset password instructions'

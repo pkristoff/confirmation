@@ -6,6 +6,15 @@
 class SendResetEmailJob
   include SuckerPunch::Job
 
+  # Is this being used
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> Candidate
+  # * <tt>:type</tt> email subject
+  # ** <code>:AdminsController::RESET_PASSWORD</code>
+  # ** <code>:AdminsController::INITIAL_EMAIL</code>
+  #
   def perform(_candidate, type)
     case type
     when AdminsController::RESET_PASSWORD

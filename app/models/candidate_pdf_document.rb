@@ -12,7 +12,7 @@ require 'RMagick'
 class CandidatePDFDocument < Prawn::Document
   include Magick
 
-  # instanciation
+  # Instantiation
   #
   # === Parameters:
   #

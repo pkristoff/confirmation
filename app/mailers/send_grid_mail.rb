@@ -13,6 +13,13 @@ require 'constants'
 class SendGridMail
   include SendGrid
 
+  # Instantiation
+  #
+  # === Parameters:
+  #
+  # * <tt>:admin</tt> from
+  # * <tt>:candidates</tt> to
+  #
   def initialize(admin, candidates)
     @admin = admin
     @candidates = candidates
@@ -21,7 +28,7 @@ class SendGridMail
 
   # legal emails for non-production
   #
-  # === return:
+  # === Returns:
   #
   # Array of legal emails for non-production
   #
@@ -31,7 +38,7 @@ class SendGridMail
 
   # convert illegal email to one of these in non-production
   #
-  # === return:
+  # === Returns:
   #
   # Array of legal emails for non-production
   #
@@ -39,7 +46,6 @@ class SendGridMail
     %w[paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com]
   end
 
-  #
   # Generate and send adhoc email
   #
   # === Parameters:
@@ -54,7 +60,6 @@ class SendGridMail
                adhoc_call)
   end
 
-  #
   # Generate and send adhoc test email
   #
   # === Parameters:
@@ -68,7 +73,6 @@ class SendGridMail
                adhoc_test_subj_call)
   end
 
-  #
   # Generate and send candidate user id confirmation email
   #
   def confirmation_instructions
@@ -77,7 +81,6 @@ class SendGridMail
      @candidate_mailer_text.token]
   end
 
-  #
   # Generate and send monthly reminder email
   #
   # === Parameters:
@@ -90,7 +93,6 @@ class SendGridMail
                mmm_call)
   end
 
-  #
   # Generate and send monthly reminder test email
   #
   # === Parameters:
@@ -104,7 +106,6 @@ class SendGridMail
                mmm_test_subj_call)
   end
 
-  #
   # Generate and send reset password email
   #
   def reset_password
@@ -113,7 +114,6 @@ class SendGridMail
      @candidate_mailer_text.token]
   end
 
-  #
   # Generate and email.
   #
   # category is used to distinguish emails in SendGrid application
@@ -148,7 +148,6 @@ class SendGridMail
     mail
   end
 
-  #
   # Create personalizations
   #
   # === Parameters:
@@ -184,7 +183,7 @@ class SendGridMail
   # * <tt>:emails</tt> Array of email addresses. Can be nil or ''
   # * <tt>:used</tt> List of emai addresses alrady used for this email
   #
-  # === return:
+  # === Returns:
   #
   # In production - Array of passed in email addresses.
   # else - Array of legal non-production email addresses
@@ -208,7 +207,7 @@ class SendGridMail
   # * <tt>:used</tt>  Array of email addresses already used
   # * <tt>:legal_used</tt>  Array of legal email addresses.  If converted and in this array do not use.
   #
-  # === return:
+  # === Returns:
   #
   # In production - email address passed in with '' converted to nil.
   # else - email address if not legal.
@@ -231,18 +230,16 @@ class SendGridMail
     end
   end
 
-  #
   # Expand the email text making any necessary substitutions.
   #
   # === Parameters:
-  #
   #
   # * <tt>:candidate</tt> The candidate
   # * <tt>:subject_text</tt> The subject of the email put in by the admin
   # * <tt>:body_input_text</tt> The body of the email put in by the admin
   # * <tt>:delivery_call</tt> Generates and expands the email body
   #
-  # === return:
+  # === Returns:
   #
   # In production - Array of passed in email addresses.
   # else - Array of legal non-production email addresses
@@ -254,15 +251,13 @@ class SendGridMail
     text(delivery)
   end
 
-  #
   # Send the email to SendGrid, which will send the email
   #
   # === Parameters:
   #
-  #
   # * <tt>:sg_mail</tt> An instance of SendGrid::Email
   #
-  # === returns:
+  # === Returns:
   #
   # The response from SendGrid
   #
@@ -279,19 +274,17 @@ class SendGridMail
     response
   end
 
-  #
   # Generates and sends the email
   #
   # === Parameters:
-  #
   #
   # * <tt>:subject_text</tt> The subject of the email put in by the admin
   # * <tt>:body_input_text</tt> The body of the email put in by the admin
   # * <tt>:email_type</tt> The type of email: adhoc, confirmation, etc.
   # * <tt>:delivery_call</tt> Generates and expands the email body
-  # * <tt>:_test_subject_</tt> The subject of the email when it is a test email
+  # * <tt>:test_subject</tt> The subject of the email when it is a test email
   #
-  # === returns:
+  # === Returns:
   #
   # The response from SendGrid
   #
@@ -317,17 +310,15 @@ class SendGridMail
     response
   end
 
-  #
   # Generates email body with expansion
   #
   # === Parameters:
   #
-  #
   # * <tt>:delivery</tt> SendGrid
   #
-  # === returns:
+  # === Returns:
   #
-  # The expanded email body
+  # String The expanded email body
   #
   def text(delivery)
     message = delivery.message
@@ -335,30 +326,66 @@ class SendGridMail
   end
 
   # TEST ONLY
+  # expand text
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> Candidate
+  # * <tt>:subject_text</tt> email subject
+  # * <tt>:body_input_text</tt> email body
+  #
   def expand_text_adhoc(candidate, subject_text, *body_input_text)
     expand_text(candidate, subject_text, *body_input_text,
                 adhoc_call)
   end
 
   # TEST ONLY
+  # expand text
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> Candidate
+  # * <tt>:subject_text</tt> email subject
+  # * <tt>:body_input_text</tt> email body
+  #
   def expand_text_at(candidate, subject_text, body_input_text)
     expand_text(candidate, subject_text, body_input_text,
                 adhoc_test_call)
   end
 
   # TEST ONLY
+  # expand text
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> Candidate
+  #
   def expand_text_ci(candidate)
     expand_text(candidate, 'StMM website for Confirmation Candidates - User Verification instructions', '',
                 conf_insts_call)
   end
 
   # TEST ONLY
+  # expand text
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> Candidate
+  #
   def expand_text_rp(candidate)
     expand_text(candidate, 'StMM website for Confirmation Candidates - Reset password instructions', '',
                 reset_pass_call)
   end
 
   # TEST ONLY
+  # expand text
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> Candidate
+  # * <tt>:subject_text</tt> email subject
+  # * <tt>:body_input_text</tt> email body
+  #
   def expand_text_mmm(candidate, subject_text, *body_input_text)
     expand_text(candidate, subject_text, *body_input_text,
                 mmm_call)

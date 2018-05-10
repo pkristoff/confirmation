@@ -6,6 +6,15 @@
 class SendEmailJob
   include SuckerPunch::Job
 
+  # Is this being used
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> To
+  # * <tt>:text</tt> body
+  # * <tt>:admin</tt> from
+  # * <tt>:test</tt>
+  #
   def perform(candidate, text, admin, test = false)
     mailer = if text.body_text.nil?
                if test
