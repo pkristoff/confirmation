@@ -13,6 +13,18 @@
 # * <tt>:candidate_event</tt> The candiate event information (verified, completion_date) being editied in mass_edit_candidates_event.html.erb
 #
 class PluckCan
+  # instantiation
+  #
+  # === Parameters:
+  #
+  # * <tt>:cand_info</tt> Candidate information shown in the sorting table.
+  # * <tt>:cand_event_info</tt> A hash that has the information necessary to generate the status of each candidate event for a candidate.
+  # * <tt>:candidate_event</tt> The candiate event information (verified, completion_date) being editied in mass_edit_candidates_event.html.erb
+  #
+  # === Return:
+  #
+  # Array of PluckCan
+  #
   def initialize(cand_info, cand_event_info, candidate_event = nil)
     @cand_info = cand_info
     @cand_event_info = cand_event_info
@@ -94,11 +106,9 @@ class PluckCan
 
   # candidate_event_id
   #
-  # === Parameters:
-  #
   # === Return:
   #
-  # candidate_event_id
+  # String
   #
   def candidate_event_id
     @candidate_event[3]
@@ -106,11 +116,9 @@ class PluckCan
 
   # verified
   #
-  # === Parameters:
-  #
   # === Return:
   #
-  # verified
+  # Boolean
   #
   def verified
     @candidate_event[4]
@@ -118,11 +126,9 @@ class PluckCan
 
   # completed_date
   #
-  # === Parameters:
-  #
   # === Return:
   #
-  # completed_date
+  # Date
   #
   def completed_date
     @candidate_event[5]
@@ -130,11 +136,9 @@ class PluckCan
 
   # id
   #
-  # === Parameters:
-  #
   # === Return:
   #
-  # id
+  # String
   #
   def id
     @cand_info[0]
@@ -142,11 +146,9 @@ class PluckCan
 
   # account_name
   #
-  # === Parameters:
-  #
   # === Return:
   #
-  # account_name
+  # String
   #
   def account_name
     @cand_info[1]
@@ -154,11 +156,9 @@ class PluckCan
 
   # confirmed?
   #
-  # === Parameters:
-  #
   # === Return:
   #
-  # confirmed?
+  # Boolean
   #
   def confirmed?
     @cand_info[2] ? true : false
@@ -166,11 +166,9 @@ class PluckCan
 
   # password_changed
   #
-  # === Parameters:
-  #
   # === Return:
   #
-  # password_changed
+  # Boolean
   #
   def password_changed
     encrypted_password = @cand_info[3]
@@ -179,8 +177,6 @@ class PluckCan
   end
 
   # last_name
-  #
-  # === Parameters:
   #
   # === Return:
   #
@@ -192,8 +188,6 @@ class PluckCan
 
   # first_name
   #
-  # === Parameters:
-  #
   # === Return:
   #
   # first_name
@@ -204,8 +198,6 @@ class PluckCan
 
   # grade
   #
-  # === Parameters:
-  #
   # === Return:
   #
   # grade
@@ -215,8 +207,6 @@ class PluckCan
   end
 
   # attending
-  #
-  # === Parameters:
   #
   # === Return:
   #

@@ -4,6 +4,19 @@
 # Application Helper
 #
 module ApplicationHelper
+  # return link for sortable column
+  #
+  # === Parameters:
+  #
+  # * <tt>:column</tt>
+  # * <tt>:title</tt>
+  # * <tt>:route</tt>
+  # * <tt>:confirmation_event_id</tt>
+  #
+  # === Returns:
+  #
+  # String
+  #
   def sortable(column, title, route, confirmation_event_id = '')
     title ||= column.titleize
     css_class = if column == sort_column(params[:sort])
@@ -18,6 +31,16 @@ module ApplicationHelper
   end
 
   # private - test only
+  # Sort direction
+  #
+  # === Parameters:
+  #
+  # * <tt>:sort_column</tt>
+  #
+  # === Returns:
+  #
+  # String
+  #
   def sort_column(sort_column)
     columns = CandidateSheet.permitted_params.map { |attr| "candidate_sheet.#{attr}" }
     columns << 'account_name'
@@ -25,10 +48,41 @@ module ApplicationHelper
     columns.include?(sort_column) ? sort_column : 'account_name'
   end
 
+  # Sort direction
+  #
+  # === Parameters:
+  #
+  # * <tt>:direction</tt>
+  # ** <code>acs<\code>
+  # ** <code>desc<\code>
+  #
+  # === Returns:
+  #
+  # String
+  #
   def sort_direction(direction)
     %w[asc desc].include?(direction) ? direction : 'asc'
   end
 
+  # used to show selection of sidebar links
+  #
+  # === Parameters:
+  #
+  # * <tt>:confirmation_event_name</tt>
+  # ** <code>events.candidate_covenant_agreement<\code>
+  # ** <code>events.candidate_information_sheet<\code>
+  # ** <code>events.baptismal_certificate<\code>
+  # ** <code>events.sponsor_covenant<\code>
+  # ** <code>events.confirmation_name<\code>
+  # ** <code>events.sponsor_agreement<\code>
+  # ** <code>events.retreat_verification<\code>
+  # ** <code>events.parent_meeting<\code>
+  # * <tt>:candidate_id</tt>
+  #
+  # === Returns:
+  #
+  # String
+  #
   def candidate_event_to_path(confirmation_event_name, candidate_id)
     # for some reason when this was in-lined in _side_bar it handled
     # admin vs. candidate.
@@ -94,6 +148,15 @@ module ApplicationHelper
   end
 
   # used to show selection of sidebar links
+  #
+  # === Parameters:
+  #
+  # * <tt>:paths</tt>
+  #
+  # === Returns:
+  #
+  # String
+  #
   def active_tab_class(*paths)
     active = false
     # originally used current_page? but it did not work when update button was called.

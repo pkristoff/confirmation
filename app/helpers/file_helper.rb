@@ -4,6 +4,16 @@
 # File Helper
 #
 module FileHelper
+  # Delete directory
+  #
+  # === Parameters:
+  #
+  # * <tt>:dir</tt> The event being edited in mass_edit_candidates_event.html.erb
+  #
+  # === Return:
+  #
+  # Array of PluckCan
+  #
   def delete_dir(dir)
     return unless Dir.exist? dir
     Dir.foreach(dir) do |filename|
