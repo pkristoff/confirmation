@@ -35,7 +35,7 @@ class ParametersController < ActionController
     uuu(arg1)
   end
 
-  # Missing final blank company ***ERROR
+  # Missing first blank company ***ERROR
   #
   # === Parameters:
   # * <tt>:arg1</tt> First Parameter

@@ -74,14 +74,12 @@ module RuboCop
         MSG_RETURNS_SHOULD_BE_LAST = 'Returns should be last.'
         MSG_DESCRIPTIION_SHOULD_BE_FIRST = 'description should be first.'
         MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS = 'Parameters should be before Returns.'
-        MSG_NO_DESC = 'No description'
+        # MSG_NO_DESC = 'No description'
         MSG_PARAMETERS_DOES_MATCH_MATCH = "Parameters does not match '#{PARMS_DOC}' exactly."
         MSG_RETURNS_DOES_NOT_MATCH = "Returns does not match '#{RETURNS_DOC}' exactly."
         MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST = 'Attributes and Parameters should not exist on same method.'
 
         DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}i
-        PARM_START = '# * <tt>:'
-        PARM_END = '</tt>'
         RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/i
         ATTR_REGEXP = /^[ ]*#[ ]*===[ ]*Attributes:/i
         PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/i
@@ -108,17 +106,17 @@ module RuboCop
 
           description_range, parameters_range, returns_range, attrs_range = parse_documentation(preceding_lines)
 
-          add_offense(preceding_lines[0], message: MSG_MISSING_DESCRIPTION) if description_range.empty?
+          add_offense(preceding_lines[0], message: MSG_MISSING_DESCRIPTION) if description_range.nil?
 
           # order
           #   description_range
           #   parameters_range || attrs_range
           #   returns_range
           #
-          add_offense(description_range[0], message: MSG_DESCRIPTIION_SHOULD_BE_FIRST) unless before(description_range, parameters_range) && before(description_range, returns_range) && before(description_range, attrs_range)
-          add_offense(description_range[0], message: MSG_RETURNS_SHOULD_BE_LAST) unless before(parameters_range, returns_range) && before(attrs_range, returns_range)
+          add_offense(description_range.start_comment, message: MSG_DESCRIPTIION_SHOULD_BE_FIRST) unless description_range.before?(parameters_range) && description_range.before?(returns_range) && description_range.before?(attrs_range)
+          add_offense(description_range.start_comment, message: MSG_RETURNS_SHOULD_BE_LAST) unless parameters_range.before?(returns_range) && attrs_range.before?(returns_range)
 
-          add_offense(attrs_range[0], message: MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST) unless attrs_range.empty? || parameters_range.empty?
+          add_offense(attrs_range.start_comment, message: MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST) unless attrs_range.missing? || parameters_range.missing?
 
           index = -1
           special_comm = preceding_lines.any? do |comment|
@@ -130,17 +128,24 @@ module RuboCop
 
           return add_offense(preceding_lines[index], message: MSG_INVALID_DOCUMENTATION) unless special_comm
 
-          add_offense(parameters_range[0], message: MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS) unless before(parameters_range, returns_range)
+          add_offense(parameters_range.start_comment, message: MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS) unless parameters_range.before?(returns_range)
 
-          check_blank_comments(preceding_lines, description_range, parameters_range, returns_range, attrs_range)
+          check_blank_comments(description_range, parameters_range, returns_range, attrs_range)
 
           args = node.arguments
-          return add_offense(preceding_lines[0], message: MSG_MISSING_PARAMETERS) if parameters_range.empty? && !args.empty?
-          return add_offense(parameters_range[0], message: MSG_UNNECESSARY_PARAMETERS) if !parameters_range.empty? && args.empty?
+          return add_offense(preceding_lines[0], message: MSG_MISSING_PARAMETERS) if parameters_range.missing? && !args.empty?
+          return add_offense(parameters_range[0], message: MSG_UNNECESSARY_PARAMETERS) if !parameters_range.missing? && args.empty?
 
-          return if parameters_range.empty?
+          return if parameters_range.missing?
 
-          pns = parm_names(preceding_lines[parameters_range[1]...parameters_range[2] + 1])
+          # check_body(parameters_range)
+
+          check_parms_and_args(args, parameters_range)
+        end
+
+        def check_parms_and_args(args, parameters_range)
+          # pns = parm_names(range_lines(preceding_lines, parameters_range))
+          pns = parameters_range.parm_names
 
           add_offense(pns[args.size][0], message: format(MSG_PARAMETERS_ARG_SIZE_MISMATCH, pns.size, args.size)) if pns.size > args.size
           add_offense(args[pns.size], message: format(MSG_PARAMETERS_ARG_SIZE_MISMATCH, pns.size, args.size)) if args.size > pns.size
@@ -148,67 +153,74 @@ module RuboCop
           match_parms_to_args(args, pns)
         end
 
-        def check_blank_comments(preceding_lines, description_range, parameters_range, returns_range, attrs_range)
-          unless description_range.empty?
-            add_offense(description_range[0], message: MSG_DESCRIPTION_SHOULD_NOT_BEGIN_WITH_BLANK_COMMENT) if empty_comm?(preceding_lines[description_range[1]])
-            add_offense(preceding_lines[description_range[2]], message: MSG_DESCRIPTION_SHOULD_END_WITH_BLANK_COMMENT) unless empty_comm?(preceding_lines[description_range[2]])
+        def check_body(range)
+          body = range.range_body
+          return add_offense(range.start_comment, message: 'Attribute body is missing.') if body.empty?
+          body.each_with_index do |line, _i|
+            text = line.text.to_s
+            # puts "check_body text=#{text}"
+            add_offense(line, message: "illegal range body format: '# * <tt>:{argument}</tt> {description}'") unless DOC_PARM_REGEXP.match(text)
+          end
+        end
+
+        def check_blank_comments(description_range, parameters_range, returns_range, attrs_range)
+          unless description_range.missing?
+            add_offense(description_range.start_comment, message: MSG_DESCRIPTION_SHOULD_NOT_BEGIN_WITH_BLANK_COMMENT) if description_range.starts_with_empty_comment?
+            add_offense(description_range.end_comment, message: MSG_DESCRIPTION_SHOULD_END_WITH_BLANK_COMMENT) unless description_range.ends_with_empty_comment?
           end
 
-          add_offense(preceding_lines[parameters_range[1]], message: MSG_PARAMETERS_IS_MISSING_FIRST_BLANK_COMMENT) unless parameters_range.empty? || empty_comm?(preceding_lines[parameters_range[1] + 1])
-          add_offense(preceding_lines[parameters_range[2]], message: MSG_PARAMETERS_SHOULD_END_WITH_BLANK_COMMENT) unless parameters_range.empty? || empty_comm?(preceding_lines[parameters_range[2]])
+          add_offense(parameters_range.start_comment, message: MSG_PARAMETERS_IS_MISSING_FIRST_BLANK_COMMENT) unless parameters_range.first_empty_comment?
+          add_offense(parameters_range.end_comment, message: MSG_PARAMETERS_SHOULD_END_WITH_BLANK_COMMENT) unless parameters_range.ends_with_empty_comment?
 
-          add_offense(preceding_lines[returns_range[1]], message: MSG_RETURNS_IS_MISSING_FIRST_BLANK_COMMENT) unless returns_range.empty? || empty_comm?(preceding_lines[returns_range[1] + 1])
-          add_offense(preceding_lines[returns_range[2]], message: MSG_RETURNS_SHOULD_END_WITH_BLANK_COMMENT) unless returns_range.empty? || empty_comm?(preceding_lines[returns_range[2]])
+          add_offense(returns_range.start_comment, message: MSG_RETURNS_IS_MISSING_FIRST_BLANK_COMMENT) unless returns_range.first_empty_comment?
+          add_offense(returns_range.end_comment, message: MSG_RETURNS_SHOULD_END_WITH_BLANK_COMMENT) unless returns_range.ends_with_empty_comment?
 
-          add_offense(preceding_lines[attrs_range[1]], message: MSG_ATTRIBUTES_IS_MISSING_FIRST_BLANK_COMMENT) unless attrs_range.empty? || empty_comm?(preceding_lines[attrs_range[1] + 1])
-          add_offense(preceding_lines[attrs_range[2]], message: MSG_ATTRIBUTES_SHOULD_END_WITH_BLANK_COMMENT) unless attrs_range.empty? || empty_comm?(preceding_lines[attrs_range[2]])
+          add_offense(attrs_range.start_comment, message: MSG_ATTRIBUTES_IS_MISSING_FIRST_BLANK_COMMENT) unless attrs_range.first_empty_comment?
+          add_offense(attrs_range.end_comment, message: MSG_ATTRIBUTES_SHOULD_END_WITH_BLANK_COMMENT) unless attrs_range.ends_with_empty_comment?
         end
 
         def parse_documentation(comments)
-          desc = []
-          returns = []
-          parms = []
-          attrs = []
-          current = []
+          desc = MethodDocRange.new(comments)
+          returns = MethodDocRange.new(comments)
+          parms = MethodDocRange.new(comments)
+          attrs = MethodDocRange.new(comments)
+          current = nil
           comments.each_with_index do |comment_line, i|
             text_line = comment_line.text
             if RETURNS_REGEXP.match(text_line)
-              current[2] = i - 1 unless current.empty?
-              returns = [comment_line, i, 0]
+              current.end = i - 1 unless current.nil?
+              returns.start = i # [comment_line, i, 0]
               current = returns
             elsif PARMS_REGEXP.match(text_line)
-              current[2] = i - 1 unless current.empty?
-              parms = [comment_line, i, 0]
+              current.end = i - 1 unless current.nil?
+              parms.start = i # [comment_line, i, 0]
               current = parms
             elsif ATTR_REGEXP.match(text_line)
-              current[2] = i - 1 unless current.empty?
-              attrs = [comment_line, i, 0]
+              current.end = i - 1 unless current.nil?
+              attrs.start = i # [comment_line, i, 0]
               current = attrs
             elsif i == 0
-              current[2] = i - 1 unless current.empty?
-              desc = [comment_line, i, 0]
+              current.end = i - 1 unless current.nil?
+              desc.start = i # [comment_line, i, 0]
               current = desc
             end
-            current[2] = comments.size - 1
+            current.end = comments.size - 1
           end
-          add_offense(comments[0], message: MSG_NO_DESC) if !parms.empty? && parms[1] <= 1 && !returns.empty? && returns[1] <= 1
-          unless parms.empty?
-            add_offense(parms[0], message: MSG_PARAMETERS_DOES_MATCH_MATCH) unless parms[0].text == PARMS_DOC
+          add_offense(comments[0], message: MSG_MISSING_DESCRIPTION) if desc.missing? # !parms.first_comment? && !returns.first_comment?
+          unless parms.missing?
+            add_offense(parms.start_comment, message: MSG_PARAMETERS_DOES_MATCH_MATCH) unless parms.first_comment_equal?(PARMS_DOC)
           end
-          unless parms.empty?
-            add_offense(parms[0], message: MSG_PARAMETERS_DOES_MATCH_MATCH) unless parms[0].text == PARMS_DOC
+          unless returns.missing?
+            add_offense(returns.start_comment, message: MSG_RETURNS_DOES_NOT_MATCH) unless returns.first_comment_equal?(RETURNS_DOC)
           end
-          unless returns.empty?
-            add_offense(returns[0], message: MSG_RETURNS_DOES_NOT_MATCH) unless returns[0].text == RETURNS_DOC
-          end
-          unless attrs.empty?
-            add_offense(attrs[0], message: MSG_RETURNS_DOES_NOT_MATCH) unless attrs[0].text == ATTRS_DOC
+          unless attrs.missing?
+            add_offense(attrs.start_comment, message: MSG_RETURNS_DOES_NOT_MATCH) unless attrs.first_comment_equal?(ATTRS_DOC)
           end
           # puts 'parse_document result'
-          # puts("    desc =#{desc}")
-          # puts("    parms=#{parms}")
-          # puts("    returns=#{returns}")
-          # puts("    attrs=#{attrs}")
+          # puts("    desc =#{desc.to_s}")
+          # puts("    parms=#{parms.to_s}")
+          # puts("    returns=#{returns.to_s}")
+          # puts("    attrs=#{attrs.to_s}")
           [desc, parms, returns, attrs]
         end
 
@@ -229,26 +241,84 @@ module RuboCop
           return name[1...name.size] if name[0] == '_'
           name
         end
-
-        def parm_names(parms)
-          names = []
-          parms.each do |parm_line|
-            # puts "parm_line.text=#{parm_line}"
-            # puts "match=#{DOC_PARM_REGEXP.match(parm_line.text).to_s}"
-            DOC_PARM_REGEXP.match(parm_line.text) do |m|
-              parm_name = m.to_s[PARM_START.size...m.to_s.index(PARM_END)]
-              names.push([parm_line, parm_name])
-              # puts "parm_name=#{parm_name}"
-            end
-          end
-          names
-        end
-
-        def empty_comm?(comment)
-          txt = comment.text
-          txt.size <= 2
-        end
       end
     end
+  end
+end
+
+class MethodDocRange
+  attr_accessor(:end, :start)
+
+  DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}i
+  PARM_START = '# * <tt>:'
+  PARM_END = '</tt>'
+
+  def initialize(comments)
+    @comments = comments
+  end
+
+  def before?(method_doc_range)
+    return true if missing? || method_doc_range.missing?
+    @start < method_doc_range.start
+  end
+
+  def empty_comm?(comment)
+    txt = comment.text
+    txt.size <= 2
+  end
+
+  def end_comment
+    @comments[@end]
+  end
+
+  def ends_with_empty_comment?
+    missing? || empty_comm?(end_comment)
+  end
+
+  def first_comment?
+    @start == 0
+  end
+
+  def first_empty_comment?
+    missing? || empty_comm?(@comments[@start + 1])
+  end
+
+  def first_comment_equal?(text)
+    !missing? && start_comment.text == text
+  end
+
+  def missing?
+    @start.nil?
+  end
+
+  def parm_names
+    names = []
+    range_body.each do |parm_line|
+      # puts "parm_line.text=#{parm_line}"
+      # puts "match=#{DOC_PARM_REGEXP.match(parm_line.text).to_s}"
+      DOC_PARM_REGEXP.match(parm_line.text) do |m|
+        parm_name = m.to_s[PARM_START.size...m.to_s.index(PARM_END)]
+        names.push([parm_line, parm_name])
+        # puts "parm_name=#{parm_name}"
+      end
+    end
+    # puts "names=#{names}"
+    names
+  end
+
+  def range_body
+    @comments[@start + (first_empty_comment? ? 2 : 1)...@end + (ends_with_empty_comment? ? 0 : 1)]
+  end
+
+  def start_comment
+    @comments[@start]
+  end
+
+  def starts_with_empty_comment?
+    empty_comm?(@comments[@start])
+  end
+
+  def to_s
+    [missing? ? nil : start_comment, @start, @end]
   end
 end
