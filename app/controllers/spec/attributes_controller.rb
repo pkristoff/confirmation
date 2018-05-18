@@ -42,7 +42,7 @@ class AttributesController < ActionController
   #
   # * <tt>:arg1</tt> First Parameter
   #
-  def attributes_parameters_no_coexisting(arg1)
+  def attributes_attributes_no_coexisting(arg1)
     uuu(params[:id], arg1)
   end
 
@@ -70,5 +70,39 @@ class AttributesController < ActionController
   def attributes_should_be_before_description
     uuu(params[:id])
     true
+  end
+
+  # No attributes body ***Error
+  #
+  # === Attributes:
+  #
+  def no_attributes_body
+    uuu(params[:id])
+  end
+
+  # legal sub-lines
+  #
+  # === Attributes:
+  #
+  # * <tt>:arg1</tt> Legal Values - legal
+  # ** <code>:one</code> legal
+  # *** <code>:one-one</code> when desc one - legal
+  # ** <code>:legal</code>
+  # ** <code>AdminsController::CONFIRM_ACCOUNT</code>  send confirm account email. - legal
+  # ** <code>views.imports.excel_no_pict</code> - legal
+  #
+  def legal_sub_attributes
+    uuu
+  end
+
+  # illegal sub-line tt instead of code ***ERROR
+  #
+  # === Attributes:
+  #
+  # * <tt>:arg1</tt> Legal Values
+  # ** <tt>:one</tt> when desc one - illegal
+  #
+  def illegal_sub_attributes
+    uuu
   end
 end

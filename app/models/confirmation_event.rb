@@ -12,7 +12,7 @@ class ConfirmationEvent < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #

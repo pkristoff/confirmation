@@ -21,7 +21,7 @@ class PluckCan
   # * <tt>:cand_event_info</tt> A hash that has the information necessary to generate the status of each candidate event for a candidate.
   # * <tt>:candidate_event</tt> The candiate event information (verified, completion_date) being editied in mass_edit_candidates_event.html.erb
   #
-  # === Return:
+  # === Returns:
   #
   # Array of PluckCan
   #
@@ -31,13 +31,13 @@ class PluckCan
     @candidate_event = candidate_event
   end
 
-  # Calcuate status of candidate_event
+  # Calculate status of candidate_event
   #
   # === Parameters:
   #
-  # * <tt>_:confirmation_event_id_</tt> The event being edited in mass_edit_candidates_event.html.erb
+  # * <tt>:confirmation_event_id</tt> The event being edited in mass_edit_candidates_event.html.erb
   #
-  # === Return:
+  # === Returns:
   #
   # Array of PluckCan
   #
@@ -56,7 +56,7 @@ class PluckCan
   #
   # === Parameters:
   #
-  # === Return:
+  # === Returns:
   #
   # Array of candidate_event information
   #
@@ -106,7 +106,7 @@ class PluckCan
 
   # candidate_event_id
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -116,7 +116,7 @@ class PluckCan
 
   # verified
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -126,7 +126,7 @@ class PluckCan
 
   # completed_date
   #
-  # === Return:
+  # === Returns:
   #
   # Date
   #
@@ -136,7 +136,7 @@ class PluckCan
 
   # id
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -146,7 +146,7 @@ class PluckCan
 
   # account_name
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -156,7 +156,7 @@ class PluckCan
 
   # confirmed?
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -166,7 +166,7 @@ class PluckCan
 
   # password_changed
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -178,7 +178,7 @@ class PluckCan
 
   # last_name
   #
-  # === Return:
+  # === Returns:
   #
   # last_name
   #
@@ -188,7 +188,7 @@ class PluckCan
 
   # first_name
   #
-  # === Return:
+  # === Returns:
   #
   # first_name
   #
@@ -198,7 +198,7 @@ class PluckCan
 
   # grade
   #
-  # === Return:
+  # === Returns:
   #
   # grade
   #
@@ -208,7 +208,7 @@ class PluckCan
 
   # attending
   #
-  # === Return:
+  # === Returns:
   #
   # attending
   #

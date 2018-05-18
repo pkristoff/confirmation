@@ -41,7 +41,7 @@ class CandidatesMailerText
 
   # late CandidateEvent
   #
-  # === Return:
+  # === Returns:
   #
   # Array: CandidateEvent
   #
@@ -49,7 +49,7 @@ class CandidatesMailerText
 
   # coming due (due within 30 days) CandidateEvent
   #
-  # === Return:
+  # === Returns:
   #
   # Array: CandidateEvent
   #
@@ -57,7 +57,7 @@ class CandidatesMailerText
 
   # awaiting candidate CandidateEvent
   #
-  # === Return:
+  # === Returns:
   #
   # Array: CandidateEvent
   #
@@ -65,7 +65,7 @@ class CandidatesMailerText
 
   # awaiting admin verification CandidateEvent
   #
-  # === Return:
+  # === Returns:
   #
   # Array: CandidateEvent
   #
@@ -75,7 +75,7 @@ class CandidatesMailerText
 
   # completed CandidateEvent
   #
-  # === Return:
+  # === Returns:
   #
   # Array: CandidateEvent
   #

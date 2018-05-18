@@ -44,7 +44,7 @@ class ExportListsController < ApplicationController
 
   # downloads spreadsheet for event baptism per candidate
   #
-  # === Return:
+  # === Returns:
   #
   # send_data for spreadsheet
   #
@@ -65,7 +65,7 @@ class ExportListsController < ApplicationController
 
   # downloads spreadsheet for event confirmation name per candidate
   #
-  # === Return:
+  # === Returns:
   #
   # send_data for spreadsheet
   #
@@ -93,7 +93,7 @@ class ExportListsController < ApplicationController
 
   # downloads spreadsheet for event retreat per candidate
   #
-  # === Return:
+  # === Returns:
   #
   # send_data for spreadsheet
   #
@@ -120,7 +120,7 @@ class ExportListsController < ApplicationController
 
   # downloads spreadsheet for event sponsor per candidate
   #
-  # === Return:
+  # === Returns:
   #
   # send_data for spreadsheet
   #
@@ -142,7 +142,7 @@ class ExportListsController < ApplicationController
 
   # downloads spreadsheet for event status per candidate
   #
-  # === Return:
+  # === Returns:
   #
   # send_data for spreadsheet
   #
@@ -162,7 +162,7 @@ class ExportListsController < ApplicationController
   #
   # * <tt>:event_name</tt> name of event
   #
-  # === Return:
+  # === Returns:
   #
   # Lambda - when called with candidate will return the CandidateEvent status
   #
@@ -182,7 +182,7 @@ class ExportListsController < ApplicationController
   # * <tt>:extra_columns</tt> list of columns to be shown
   # * <tt>:value_lambdas</tt> list of values for extra_columns
   #
-  # === Return:
+  # === Returns:
   #
   # Axlsx::Package
   #

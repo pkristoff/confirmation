@@ -20,7 +20,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # * <tt>:options</tt>
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -46,7 +46,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # This validates all the information needed when St. MM does not have the baptismal certificate
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean - whether the event can be marked complete.
   #
@@ -72,7 +72,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -85,7 +85,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -97,7 +97,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Required attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -116,7 +116,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of association
   #
-  # === Return:
+  # === Returns:
   #
   # baptismal_certificate with validation errors
   #
@@ -128,7 +128,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # associated confirmation event name
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -149,7 +149,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #
@@ -178,7 +178,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Whether to show baptized as yes
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -188,7 +188,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Whether to show baptized as no
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -198,7 +198,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Whether to show first communion as yes
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -208,7 +208,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Whether to show first communion as no
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -218,7 +218,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Whether to show first communion info
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -228,7 +228,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Whether candidate has chosen that they were baptised at St MM
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -238,7 +238,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Whether candidate has chosen that they received first communion at St MM
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -248,7 +248,7 @@ class BaptismalCertificate < ActiveRecord::Base
 
   # Whether to show info
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #

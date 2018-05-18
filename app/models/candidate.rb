@@ -52,7 +52,7 @@ class Candidate < ActiveRecord::Base
 
   # Sorts candidate events in priorty order (to be cmpleted first)
   #
-  # === Return:
+  # === Returns:
   #
   # Array candidate events
   #
@@ -103,7 +103,7 @@ class Candidate < ActiveRecord::Base
 
   # ???
   #
-  # === Return:
+  # === Returns:
   #
   # Array of condidations
   #
@@ -123,7 +123,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:confirmation_event</tt> common event
   #
-  # === Return:
+  # === Returns:
   #
   # candidate_event
   #
@@ -136,7 +136,7 @@ class Candidate < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -148,7 +148,7 @@ class Candidate < ActiveRecord::Base
 
   # builds candidate's associations
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -164,7 +164,7 @@ class Candidate < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -186,7 +186,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:association_class</tt> association for self related to event
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -202,7 +202,7 @@ class Candidate < ActiveRecord::Base
 
   # If bcc is called use this email  address
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -212,7 +212,7 @@ class Candidate < ActiveRecord::Base
 
   # Array of email addresses ignoring the fact they could be nil - devise
   #
-  # === Return:
+  # === Returns:
   #
   # Array of Stings
   #
@@ -222,7 +222,7 @@ class Candidate < ActiveRecord::Base
 
   # returns the canidates email - used by Factory Girl
   #
-  # === Return:
+  # === Returns:
   #
   # email address String
   #
@@ -242,7 +242,7 @@ class Candidate < ActiveRecord::Base
 
   # returns false - used by Factory Girl
   #
-  # === Return:
+  # === Returns:
   #
   # boolean
   #
@@ -252,7 +252,7 @@ class Candidate < ActiveRecord::Base
 
   # returns false - used by Factory Girl
   #
-  # === Return:
+  # === Returns:
   #
   # boolean
   #
@@ -262,7 +262,7 @@ class Candidate < ActiveRecord::Base
 
   # whether the password has been changed - allows admin to know whether the candidate has signed in.
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -272,7 +272,7 @@ class Candidate < ActiveRecord::Base
 
   # returns whether the User account has been confirmed
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -282,7 +282,7 @@ class Candidate < ActiveRecord::Base
 
   # confirm the user account
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -296,7 +296,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:resource_params</tt> parms necessary to change password
   #
-  # === Return:
+  # === Returns:
   #
   # Candidate whose password was changed
   #
@@ -314,7 +314,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:event_name</tt> owner of association
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -334,7 +334,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:event_route_name</tt> event name
   #
-  # === Return:
+  # === Returns:
   #
   # christian_ministry with validation errors
   #
@@ -365,7 +365,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #
@@ -375,7 +375,7 @@ class Candidate < ActiveRecord::Base
 
   # returns array of completed events
   #
-  # === Return:
+  # === Returns:
   #
   # Array of completed candidate events
   #
@@ -385,7 +385,7 @@ class Candidate < ActiveRecord::Base
 
   # returns array of coming due events
   #
-  # === Return:
+  # === Returns:
   #
   # Array of coming due candidate events
   #
@@ -395,7 +395,7 @@ class Candidate < ActiveRecord::Base
 
   # returns array of 'awaiting candidate' events
   #
-  # === Return:
+  # === Returns:
   #
   # Array of 'awaiting candidate' candidate events
   #
@@ -405,7 +405,7 @@ class Candidate < ActiveRecord::Base
 
   # returns array of awaiting admin events
   #
-  # === Return:
+  # === Returns:
   #
   # Array of awaiting admin candidate events
   #
@@ -415,7 +415,7 @@ class Candidate < ActiveRecord::Base
 
   # returns array of late events
   #
-  # === Return:
+  # === Returns:
   #
   # Array of late candidate events
   #
@@ -431,7 +431,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -445,7 +445,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -459,7 +459,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -499,7 +499,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -513,7 +513,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -525,7 +525,7 @@ class Candidate < ActiveRecord::Base
   # The user has clicked on the Forgot Password link
   # on the sign in pane
   #
-  # === Return:
+  # === Returns:
   #
   # password reset token
   #
@@ -541,7 +541,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:candidate_mailer_text</tt> expands instructions
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -557,7 +557,7 @@ class Candidate < ActiveRecord::Base
   #
   # * <tt>:candidate_mailer_text</tt> expands instructions
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #

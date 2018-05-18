@@ -14,8 +14,8 @@ class CandidateImportsController < ApplicationController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>t('views.imports.check_orphaned_table_rows')</code>  show info on orphaned rows
-  # ** <code>t('views.imports.remove_orphaned_table_rows')</code> remove orphaned rows
+  # ** <code>views.imports.check_orphaned_table_rows</code>  show info on orphaned rows
+  # ** <code>views.imports.remove_orphaned_table_rows</code> remove orphaned rows
   # *** <code>:missing</code> list of missing events
   #
   def orphaned_table_rows
@@ -33,8 +33,8 @@ class CandidateImportsController < ApplicationController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>t('views.imports.check_events')</code>  Check to see if all ConfirmationEvents are present
-  # ** <code>t('views.imports.add_missing_events')</code> legal values
+  # ** <code>views.imports.check_events</code>  Check to see if all ConfirmationEvents are present
+  # ** <code>views.imports.add_missing_events</code> legal values
   # *** <code>:missing</code> list of missing events
   #
   def check_events
@@ -82,8 +82,8 @@ class CandidateImportsController < ApplicationController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>t('views.imports.excel')</code>
-  # ** <code>t('views.imports.excel_no_pict')</code>
+  # ** <code>views.imports.excel</code>
+  # ** <code>views.imports.excel_no_pict</code>
   #
   def export_to_excel
     dir = 'xlsx_export'

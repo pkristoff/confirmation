@@ -10,7 +10,7 @@ class AppFactory
   #
   # * <tt>:resource_class</tt> Candidate or Admin
   #
-  # === return:
+  # === Returns:
   #
   # New instance
   #
@@ -25,7 +25,7 @@ class AppFactory
   #
   # * <tt>:options</tt> options for a new Admin
   #
-  # === return:
+  # === Returns:
   #
   # New instance
   #
@@ -36,7 +36,7 @@ class AppFactory
   #
   # create a new Candidate and then add the candidate_events
   #
-  # === return:
+  # === Returns:
   #
   # New instance
   #
@@ -93,7 +93,7 @@ class AppFactory
   #
   # * <tt>:options</tt> options for a new Admin
   #
-  # === return:
+  # === Returns:
   #
   # New instance
   #
@@ -134,7 +134,7 @@ class AppFactory
   #
   # * <tt>:event_name</tt> ConfirmationEvent name
   #
-  # === return:
+  # === Returns:
   #
   # CandidateEvent
   #
@@ -181,7 +181,7 @@ class AppFactory
   #
   # * <tt>:confirmation_event</tt> ConfirmationEvent
   #
-  # === return:
+  # === Returns:
   #
   # CandidateEvent
   #
@@ -194,7 +194,7 @@ class AppFactory
 
   # Create seed Candidate
   #
-  # === return:
+  # === Returns:
   #
   # Candidate: new instance
   #
@@ -218,7 +218,7 @@ class AppFactory
 
   # clear confirmation events and Create ConfirmationEvents
   #
-  # === return:
+  # === Returns:
   #
   # Array: ConfirmationEvent name
   #
@@ -234,7 +234,7 @@ class AppFactory
 
   # return a list of the I18n ConfirmationEvent names
   #
-  # === return:
+  # === Returns:
   #
   # CandidateEvent
   #

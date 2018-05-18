@@ -17,7 +17,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # * <tt>:options</tt> If true then nothing else needs to be added
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -36,7 +36,7 @@ class CandidateSheet < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -46,7 +46,7 @@ class CandidateSheet < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -56,7 +56,7 @@ class CandidateSheet < ActiveRecord::Base
 
   # Required attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -75,7 +75,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of association
   #
-  # === Return:
+  # === Returns:
   #
   # candidate_sheet with validation errors
   #
@@ -87,7 +87,7 @@ class CandidateSheet < ActiveRecord::Base
 
   # associated confirmation event name
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -103,7 +103,7 @@ class CandidateSheet < ActiveRecord::Base
 
   # returns the parent_1's email - used by Factory Girl
   #
-  # === Return:
+  # === Returns:
   #
   # email address String
   #
@@ -123,7 +123,7 @@ class CandidateSheet < ActiveRecord::Base
 
   # returns false - used by Factory Girl
   #
-  # === Return:
+  # === Returns:
   #
   # boolean
   #
@@ -133,7 +133,7 @@ class CandidateSheet < ActiveRecord::Base
 
   # returns false - used by Factory Girl
   #
-  # === Return:
+  # === Returns:
   #
   # boolean
   #
@@ -166,7 +166,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #
@@ -187,7 +187,7 @@ class CandidateSheet < ActiveRecord::Base
   #   3. if parent_2 email is not nil then return it.
   #   4. Otherwise return ''.
   #
-  # === Return:
+  # === Returns:
   #
   # String: email address or nil
   #
@@ -202,7 +202,7 @@ class CandidateSheet < ActiveRecord::Base
   #   2. if parent_2 email is not nil then return it.
   #   3. Otherwise return ''.
   #
-  # === Return:
+  # === Returns:
   #
   # String: email address or nil
   #
@@ -220,7 +220,7 @@ class CandidateSheet < ActiveRecord::Base
   #   1. if parent_2 email is not nil and not used in to_email or in cc_mail then return it.
   #   2. Otherwise return ''.
   #
-  # === Return:
+  # === Returns:
   #
   # String: email address or nil
   #

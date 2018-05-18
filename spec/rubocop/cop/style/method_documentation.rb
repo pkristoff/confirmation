@@ -74,12 +74,16 @@ module RuboCop
         MSG_RETURNS_SHOULD_BE_LAST = 'Returns should be last.'
         MSG_DESCRIPTIION_SHOULD_BE_FIRST = 'description should be first.'
         MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS = 'Parameters should be before Returns.'
-        # MSG_NO_DESC = 'No description'
         MSG_PARAMETERS_DOES_MATCH_MATCH = "Parameters does not match '#{PARMS_DOC}' exactly."
         MSG_RETURNS_DOES_NOT_MATCH = "Returns does not match '#{RETURNS_DOC}' exactly."
         MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST = 'Attributes and Parameters should not exist on same method.'
+        MSG_ILLEGAL_RANGE_BODY_FORMAT = "Illegal %s format: '# * <tt>:{argument}</tt> {description}'."
+        MSG_ILLEGAL_RANGE_BODY_FORMAT_SUB = "Illegal %s sub-format: '# **(*) <code>:{argument}</code> {description}'."
+        MSG_RANGE_BODY_EMPTY = '%s body is empty.'
 
+        #   https://regex101.com/
         DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}i
+        DOC_SUB_PARM_REGEXP = %r{^# \** <code>([\.:\w ]+-*[\.:\w ]+)<\/code>([\.:\w ]*-*[\.:\w ]*)}
         RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/i
         ATTR_REGEXP = /^[ ]*#[ ]*===[ ]*Attributes:/i
         PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/i
@@ -136,11 +140,10 @@ module RuboCop
           return add_offense(preceding_lines[0], message: MSG_MISSING_PARAMETERS) if parameters_range.missing? && !args.empty?
           return add_offense(parameters_range[0], message: MSG_UNNECESSARY_PARAMETERS) if !parameters_range.missing? && args.empty?
 
-          return if parameters_range.missing?
+          check_body(parameters_range) unless parameters_range.missing?
+          check_body(attrs_range) unless attrs_range.missing?
 
-          # check_body(parameters_range)
-
-          check_parms_and_args(args, parameters_range)
+          check_parms_and_args(args, parameters_range) unless parameters_range.missing?
         end
 
         def check_parms_and_args(args, parameters_range)
@@ -154,13 +157,23 @@ module RuboCop
         end
 
         def check_body(range)
+          # puts "check_body=#{range.type} for #{@method_name}"
+          # puts range.start_comment.text
           body = range.range_body
-          return add_offense(range.start_comment, message: 'Attribute body is missing.') if body.empty?
+          found = false
           body.each_with_index do |line, _i|
+            next if range.empty_comm?(line)
+            found = true
             text = line.text.to_s
             # puts "check_body text=#{text}"
-            add_offense(line, message: "illegal range body format: '# * <tt>:{argument}</tt> {description}'") unless DOC_PARM_REGEXP.match(text)
+            # puts "check_body DOC_PARM_REGEXP) text=#{DOC_PARM_REGEXP.match(text)}"
+            # puts "check_body (DOC_SUB_PARM_REGEXP) text=#{DOC_SUB_PARM_REGEXP.match(text)}"
+            unless DOC_PARM_REGEXP.match(text) || DOC_SUB_PARM_REGEXP.match(text)
+              add_offense(line, message: format(MSG_ILLEGAL_RANGE_BODY_FORMAT, range.type)) unless text.start_with?('# **')
+              add_offense(line, message: format(MSG_ILLEGAL_RANGE_BODY_FORMAT_SUB, range.type)) if text.start_with?('# **')
+            end
           end
+          add_offense(range.start_comment, message: format(MSG_RANGE_BODY_EMPTY, range.type)) unless found
         end
 
         def check_blank_comments(description_range, parameters_range, returns_range, attrs_range)
@@ -180,10 +193,10 @@ module RuboCop
         end
 
         def parse_documentation(comments)
-          desc = MethodDocRange.new(comments)
-          returns = MethodDocRange.new(comments)
-          parms = MethodDocRange.new(comments)
-          attrs = MethodDocRange.new(comments)
+          desc = MethodDocRange.new(comments, 'Description')
+          returns = MethodDocRange.new(comments, 'Return')
+          parms = MethodDocRange.new(comments, 'Parameter')
+          attrs = MethodDocRange.new(comments, 'Attribute')
           current = nil
           comments.each_with_index do |comment_line, i|
             text_line = comment_line.text
@@ -247,14 +260,15 @@ module RuboCop
 end
 
 class MethodDocRange
-  attr_accessor(:end, :start)
+  attr_accessor(:end, :start, :type)
 
-  DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}i
+  DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}
   PARM_START = '# * <tt>:'
   PARM_END = '</tt>'
 
-  def initialize(comments)
+  def initialize(comments, type)
     @comments = comments
+    @type = type
   end
 
   def before?(method_doc_range)

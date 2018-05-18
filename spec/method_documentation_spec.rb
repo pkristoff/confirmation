@@ -18,24 +18,34 @@ describe 'method_documentation' do
                      '  # Description should end with a blank comment ***ERROR'],
                     [':35:3: C: Style/PublicMethodDocumentation: Description is missing for missing_descriptions.',
                      '  # === Parameters:'],
+                    [':39:3: C: Style/PublicMethodDocumentation: Illegal Parameter format: \'# * <tt>:{argument}</tt> {description}\'.',
+                     '  # Description should be first ***ERROR'],
                     [':55:3: C: Style/PublicMethodDocumentation: Description is missing for missing_description_with_returns.',
                      '  # === Returns:'],
                     [':79:3: C: Style/PublicMethodDocumentation: Description is missing for description_missing_with_parameters_and_returns.',
                      '  # === Parameters:'],
+                    [':83:3: C: Style/PublicMethodDocumentation: Illegal Parameter format: \'# * <tt>:{argument}</tt> {description}\'.',
+                     '  # Description should be first ***ERROR'],
                     [':93:3: C: Style/PublicMethodDocumentation: Description is missing for description_missing_with_parameters_and_returns2.',
                      '  # === Parameters:'],
                     [':107:3: C: Style/PublicMethodDocumentation: Description is missing for description_missing_with_parameters.',
-                     '  # === Parameters:'])
+                     '  # === Parameters:'],
+                    [':111:3: C: Style/PublicMethodDocumentation: Illegal Parameter format: \'# * <tt>:{argument}</tt> {description}\'.',
+                     '  # Description should be first ***ERROR'])
   end
 
   it 'Parameters documentation' do
     expect_offenses('app/controllers/spec/parameters_controller.rb',
-                    [':23:3: C: Style/PublicMethodDocumentation: Parameters should end with blank comment.',
+                    [':21:3: C: Style/PublicMethodDocumentation: Parameters should end with blank comment.',
                      '  # * <tt>:arg1</tt> First Parameter'],
-                    [":30:3: C: Style/PublicMethodDocumentation: Parameters does not match '# === Parameters:' exactly.",
+                    [":28:3: C: Style/PublicMethodDocumentation: Parameters does not match '# === Parameters:' exactly.",
                      '  # ===  Parameters:'],
-                    [':40:3: C: Style/PublicMethodDocumentation: === Parameters: should have a blank comment following it.',
-                     '  # === Parameters:'])
+                    [':38:3: C: Style/PublicMethodDocumentation: === Parameters: should have a blank comment following it.',
+                     '  # === Parameters:'],
+                    [':47:3: C: Style/PublicMethodDocumentation: Parameter body is empty.',
+                     '  # === Parameters:'],
+                    [':49:31: C: Style/PublicMethodDocumentation: Parameter size 0 does not match argument size 1.',
+                     '  def missing_body_parameters(arg1)'])
   end
 
   it 'Returns documentation' do
@@ -111,7 +121,13 @@ describe 'method_documentation' do
                         [':49:3: C: Style/PublicMethodDocumentation: Returns should be last.',
                          '  # Attributes should be before Returns'],
                         [':64:3: C: Style/PublicMethodDocumentation: Description is missing for attributes_should_be_before_description.',
-                         '  # === Attributes:'])
+                         '  # === Attributes:'],
+                        [':68:3: C: Style/PublicMethodDocumentation: Illegal Attribute format: \'# * <tt>:{argument}</tt> {description}\'.',
+                         '  # Attributes should be before Description'],
+                        [':77:3: C: Style/PublicMethodDocumentation: Attribute body is empty.',
+                         '  # === Attributes:'],
+                        [':103:3: C: Style/PublicMethodDocumentation: Illegal Attribute sub-format: \'# **(*) <code>:{argument}</code> {description}\'.',
+                         '  # ** <tt>:one</tt> when desc one - illegal'])
       end
     end
   end

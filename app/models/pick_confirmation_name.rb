@@ -16,7 +16,7 @@ class PickConfirmationName < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -26,7 +26,7 @@ class PickConfirmationName < ActiveRecord::Base
 
   # associated confirmation event name
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -40,7 +40,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of association
   #
-  # === Return:
+  # === Returns:
   #
   # pick_confirmation_name with validation errors
   #
@@ -56,7 +56,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #

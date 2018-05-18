@@ -35,7 +35,7 @@ class SponsorCovenant < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -50,7 +50,7 @@ class SponsorCovenant < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -60,7 +60,7 @@ class SponsorCovenant < ActiveRecord::Base
 
   # Editable attributes when sponsor belongs to stmm
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -73,7 +73,7 @@ class SponsorCovenant < ActiveRecord::Base
 
   # Required attributes when sponsor belongs to stmm
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -87,7 +87,7 @@ class SponsorCovenant < ActiveRecord::Base
 
   # Editable attributes when sponsor does NOT belongs to stmm
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -103,7 +103,7 @@ class SponsorCovenant < ActiveRecord::Base
 
   # associated confirmation event name
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -117,7 +117,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of association
   #
-  # === Return:
+  # === Returns:
   #
   # sponsor_covenant with validation errors
   #
@@ -133,7 +133,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #

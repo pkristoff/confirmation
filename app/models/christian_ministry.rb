@@ -10,7 +10,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # * <tt>:options</tt> If true then nothing else needs to be added
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -21,7 +21,7 @@ class ChristianMinistry < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -31,7 +31,7 @@ class ChristianMinistry < ActiveRecord::Base
 
   # associated confirmation event name
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -45,7 +45,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of association
   #
-  # === Return:
+  # === Returns:
   #
   # christian_ministry with validation errors
   #
@@ -61,7 +61,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #

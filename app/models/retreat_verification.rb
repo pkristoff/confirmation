@@ -28,7 +28,7 @@ class RetreatVerification < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -38,7 +38,7 @@ class RetreatVerification < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -48,7 +48,7 @@ class RetreatVerification < ActiveRecord::Base
 
   # Required attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -62,7 +62,7 @@ class RetreatVerification < ActiveRecord::Base
 
   # associated confirmation event name
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -76,7 +76,7 @@ class RetreatVerification < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of association
   #
-  # === Return:
+  # === Returns:
   #
   # retreat_verification with validation errors
   #
@@ -92,7 +92,7 @@ class RetreatVerification < ActiveRecord::Base
   #
   # * <tt>:candidate</tt> owner of this association
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #

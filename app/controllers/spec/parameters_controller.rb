@@ -10,8 +10,6 @@ class ParametersController < ActionController
   #
   # * <tt>:arg1</tt> First Parameter
   #
-  # send_data for spreadsheet
-  #
   def legal_parameters_syntax(arg1)
     uuu(arg1)
   end
@@ -41,6 +39,26 @@ class ParametersController < ActionController
   # * <tt>:arg1</tt> First Parameter
   #
   def missing_first_blank_comment_parameters(arg1)
+    uuu(arg1)
+  end
+
+  # Missing body ***ERROR
+  #
+  # === Parameters:
+  #
+  def missing_body_parameters(arg1)
+    uuu(arg1)
+  end
+
+  # legal sub-lines ***ERROR
+  #
+  # === Parameters:
+  #
+  # * <tt>:arg1</tt> Legal Values
+  # ** <code>:one</code> when desc one
+  # ** <code>:two</code> when desc two
+  #
+  def legal_sub_parameters(arg1)
     uuu(arg1)
   end
 end

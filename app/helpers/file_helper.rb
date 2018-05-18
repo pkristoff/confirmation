@@ -10,7 +10,7 @@ module FileHelper
   #
   # * <tt>:dir</tt> The event being edited in mass_edit_candidates_event.html.erb
   #
-  # === Return:
+  # === Returns:
   #
   # Array of PluckCan
   #

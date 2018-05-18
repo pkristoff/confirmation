@@ -15,7 +15,7 @@ class CandidatesMailer < ActionMailer::Base
   # * <tt>:admin</tt> Admin: not used
   # * <tt>:candidate_mailer_text</tt> CandidateMailerText
   #
-  # === Return:
+  # === Returns:
   #
   # String:  expanded body text
   #
@@ -38,7 +38,7 @@ class CandidatesMailer < ActionMailer::Base
   # * <tt>:admin</tt> Admin: indicates a test email
   # * <tt>:candidate_mailer_text</tt> CandidateMailerText
   #
-  # === Return:
+  # === Returns:
   #
   # String:  expanded body text
   #
@@ -61,7 +61,7 @@ class CandidatesMailer < ActionMailer::Base
   # * <tt>:admin</tt> Admin: indicates whether a test message or not
   # * <tt>:candidate_mailer_text</tt> CandidateMailerText
   #
-  # === Return:
+  # === Returns:
   #
   # String:  expanded body text
   #
@@ -85,7 +85,7 @@ class CandidatesMailer < ActionMailer::Base
   # * <tt>:admin</tt> Admin: indicates whether a test message or not
   # * <tt>:candidate_mailer_text</tt> CandidateMailerText
   #
-  # === Return:
+  # === Returns:
   #
   # String:  expanded body text
   #

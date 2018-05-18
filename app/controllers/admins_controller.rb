@@ -28,7 +28,7 @@ class AdminsController < ApplicationController
   # === Attributes:
   #
   # * <tt>:candidate</tt> holder of
-  # ** <tt>:candidate_ids</tt>  candidate ids to update
+  # ** <code>:candidate_ids</code>  candidate ids to update
   # * <tt>:mail</tt> holder of
   # * <tt>:body_input_text</tt> body of text
   # * <tt>:subject_text</tt>  subject of message
@@ -49,7 +49,7 @@ class AdminsController < ApplicationController
   # === Attributes:
   #
   # * <tt>:candidate</tt> holder of
-  # ** <tt>:candidate_ids</tt>  candidate ids to update
+  # ** <code>:candidate_ids</code>  candidate ids to update
   # * <tt>:mail</tt> holder of
   # * <tt>:body_input_text</tt> body of text
   # * <tt>:subject_text</tt>  subject of message
@@ -140,7 +140,7 @@ class AdminsController < ApplicationController
   #
   # * <tt>:id</tt> ConfirmationEvent id
   # * <tt>:candidate</tt> holder of
-  # ** <tt>:candidate_ids</tt>  candidate ids to update
+  # ** <code>:candidate_ids</code>  candidate ids to update
   # * <tt>:confirmation_event_attributes</tt> is set
   #
   def mass_edit_candidates_event_update
@@ -177,7 +177,7 @@ class AdminsController < ApplicationController
   # === Attributes:
   #
   # * <tt>:candidate</tt> holder of
-  # ** <tt>:candidate_ids</tt>  candidate ids to update
+  # ** <code>:candidate_ids</code>  candidate ids to update
   # * <tt>:commit</tt> legal values
   # ** <code>AdminsController::DELETE</code>  deletes candidates
   # ** <code>AdminsController::GENERATE_PDF</code>  generates pdf of all info for A candidate
@@ -271,15 +271,15 @@ class AdminsController < ApplicationController
   # === Attributes:
   #
   # * <tt>:mail</tt> holder of
-  # ** <tt>:subject</tt>  subject of message
-  # ** <tt>:pre_late_input</tt>
-  # ** <tt>:pre_coming_due_input</tt>
-  # ** <tt>:completed_awaiting_input</tt>
-  # ** <tt>:completed_input</tt>
-  # ** <tt>:closing_text</tt>
-  # ** <tt>:salutation_text</tt>
-  # ** <tt>:from_text</tt>
-  # ** <tt>:selected_ids</tt> Optional
+  # ** <code>:subject</code>  subject of message
+  # ** <code>:pre_late_input</code>
+  # ** <code>:pre_coming_due_input</code>
+  # ** <code>:completed_awaiting_input</code>
+  # ** <code>:completed_input</code>
+  # ** <code>:closing_text</code>
+  # ** <code>:salutation_text</code>
+  # ** <code>:from_text</code>
+  # ** <code>:selected_ids</code> Optional
   #
   def monthly_mass_mailing
     subject = t('email.subject_initial_text')

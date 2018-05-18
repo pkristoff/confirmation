@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-#
 # Active Record
 #
 class Address < ActiveRecord::Base
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -16,7 +15,7 @@ class Address < ActiveRecord::Base
 
   # Required attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -32,7 +31,7 @@ class Address < ActiveRecord::Base
   #
   # * <tt>:options</tt>
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #

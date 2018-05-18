@@ -62,7 +62,7 @@ class CommonCandidatesController < ApplicationController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>I18n.t('views.common.un_verify')E</code>
+  # ** <code>views.common.un_verify</code>
   # * <tt>:id</tt> Candidate id
   # * <tt>:event_name</tt> legal values
   # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
@@ -422,7 +422,7 @@ class CommonCandidatesController < ApplicationController
   # * <tt>:candidate_event</tt> CandidateEvent
   # * <tt>:event_name</tt> ConfirmationEvent name
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean:  whether render was called
   #
@@ -453,7 +453,7 @@ class CommonCandidatesController < ApplicationController
   # * <tt>:candidate_event</tt> CandidateEvent
   # * <tt>:event_name</tt> ConfirmationEvent name
   #
-  # === Return:
+  # === Returns:
   #
   #
   #

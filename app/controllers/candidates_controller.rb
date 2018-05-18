@@ -80,8 +80,8 @@ class CandidatesController < CommonCandidatesController
   #
   # * <tt>:id</tt> Candidate id
   # * <tt>:candidate</tt>
-  # ** <tt>:password</tt>
-  # ** <tt>:password_confirmation</tt>
+  # ** <code>:password</code>
+  # ** <code>:password_confirmation</code>
   #
   def update
     if params[:candidate][:password].blank?
@@ -112,7 +112,7 @@ class CandidatesController < CommonCandidatesController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>18n.t('views.common.un_verify')</code>
+  # ** <code>views.common.un_verify</code>
   # * <tt>:id</tt> Candidate id
   #
   def candidate_sheet_verify_update
@@ -147,7 +147,7 @@ class CandidatesController < CommonCandidatesController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>18n.t('views.common.un_verify')</code>
+  # ** <code>views.common.un_verify</code>
   # * <tt>:id</tt> Candidate id
   #
   def christian_ministry_verify_update
@@ -182,7 +182,7 @@ class CandidatesController < CommonCandidatesController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>18n.t('views.common.un_verify')</code>
+  # ** <code>views.common.un_verify</code>
   # * <tt>:id</tt> Candidate id
   #
   def pick_confirmation_name_verify_update
@@ -218,7 +218,7 @@ class CandidatesController < CommonCandidatesController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>18n.t('views.common.un_verify')</code>
+  # ** <code>views.common.un_verify</code>
   # * <tt>:id</tt> Candidate id
   #
   def sponsor_agreement_verify_update

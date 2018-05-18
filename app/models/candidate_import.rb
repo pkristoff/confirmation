@@ -41,7 +41,7 @@ class CandidateImport
   #
   # * <tt>:attributes</tt> name vaue pairs
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #
@@ -67,7 +67,7 @@ class CandidateImport
   # * <tt>:image_column</tt> Symbol: The ScannedImage accessor.
   # * <tt>:image</tt> ScannedImage: the image being exported
   #
-  # === Return:
+  # === Returns:
   #
   # String: the file path
   #
@@ -82,7 +82,7 @@ class CandidateImport
   #
   # * <tt>:file_path</tt> String: filepath for importing
   #
-  # === Return:
+  # === Returns:
   #
   # File: for file_path
   #
@@ -97,7 +97,7 @@ class CandidateImport
   #
   # * <tt>:missing_events</tt> Array: of expected missing ConfirmationEvents
   #
-  # === Return:
+  # === Returns:
   #
   # CandidateImport: self
   #
@@ -112,7 +112,7 @@ class CandidateImport
 
   # Check to seeif any ConfirmaEvents are missing.  It stores missing store in unknown_confirmation_events
   #
-  # === Return:
+  # === Returns:
   #
   # CandidateImport: self
   #
@@ -142,7 +142,7 @@ class CandidateImport
   #
   # * <tt>:file</tt> String: filepath
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean:  whether valid
   #
@@ -160,7 +160,7 @@ class CandidateImport
   #
   # * <tt>:file</tt> String: filepath
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean: whether valid
   #
@@ -174,7 +174,7 @@ class CandidateImport
 
   # needed to expand _candidate_import.html.erb
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean: false
   #
@@ -241,7 +241,7 @@ class CandidateImport
   # * <tt>:dir</tt> String:  where to store the zip file.
   # * <tt>:with_pictures</tt> Boolean: whether to export pictures.
   #
-  # === Return:
+  # === Returns:
   #
   # Package: package
   #
@@ -254,7 +254,7 @@ class CandidateImport
 
   # destroy orphaned rows
   #
-  # === Return:
+  # === Returns:
   #
   # CandidateImport: self
   #
@@ -289,7 +289,7 @@ class CandidateImport
   #
   # * <tt>:clazz</tt> Class: class of interest
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ids or Array of ids
   #
@@ -327,7 +327,7 @@ class CandidateImport
   # * <tt>:used_ids</tt> Array: of ids - ids of clazz used by parent
   # * <tt>:offset</tt>  If present used to offset the ids of clazz (i.e. clazz_id iss an array)
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ids
   #
@@ -347,7 +347,7 @@ class CandidateImport
 
   # Walks through the associations searching for associations that are created but not associated with parent
   #
-  # === Return:
+  # === Returns:
   #
   # CandidateImport: self
   #
@@ -389,7 +389,7 @@ class CandidateImport
   #
   # * <tt>:used_cand_ids</tt> Array:
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ids
   #
@@ -403,7 +403,7 @@ class CandidateImport
   #
   # * <tt>:cand_ids</tt> Array:
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ids
   #
@@ -417,7 +417,7 @@ class CandidateImport
   #
   # * <tt>:cand_ids</tt> Array:
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ids
   #
@@ -431,7 +431,7 @@ class CandidateImport
   #
   # * <tt>:cand_ids</tt> Array:
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ids
   #
@@ -445,7 +445,7 @@ class CandidateImport
   #
   # * <tt>:cand_ids</tt> Array:
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ids
   #
@@ -459,7 +459,7 @@ class CandidateImport
   #
   # * <tt>:cand_ids</tt> Array:
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ids
   #
@@ -491,7 +491,7 @@ class CandidateImport
   # test only
   # gets columns
   #
-  # === Return:
+  # === Returns:
   #
   # CandidateImport: self
   #
@@ -517,7 +517,7 @@ class CandidateImport
   # test only
   # Conifirmation Event columns
   #
-  # === Return:
+  # === Returns:
   #
   # Array: String
   #
@@ -533,7 +533,7 @@ class CandidateImport
   #
   # * <tt>:candidate</tt> Candidate:
   #
-  # === Return:
+  # === Returns:
   #
   # Array: of CandidateEvent
   #
@@ -621,7 +621,7 @@ class CandidateImport
   #
   # * <tt>:dir</tt> String: base filepath
   #
-  # === Return:
+  # === Returns:
   #
   # Axlsx::Package:
   #
@@ -667,7 +667,7 @@ class CandidateImport
   # * <tt>:col</tt> String:
   # * <tt>:confirmation_events</tt> Array:
   #
-  # === Return:
+  # === Returns:
   #
   # Object: self
   #
@@ -729,7 +729,7 @@ class CandidateImport
 
   # return sorted array of ConfirmationEvent by name
   #
-  # === Return:
+  # === Returns:
   #
   # Array: ConfirmationEvent
   #
@@ -763,7 +763,7 @@ class CandidateImport
 
   # read in spreadsheet from given file.
   #
-  # === Return:
+  # === Returns:
   #
   # Roo::Excelx:
   #
@@ -847,7 +847,7 @@ class CandidateImport
   #
   # * <tt>:cell</tt> String:  cell value
   #
-  # === Return:
+  # === Returns:
   #
   # ScannedImage:
   #
@@ -907,7 +907,7 @@ class CandidateImport
   #
   # * <tt>:images</tt> Array: ScannedImages to export
   #
-  # === Return:
+  # === Returns:
   #
   # CandidateImport: self
   #
@@ -934,7 +934,7 @@ class CandidateImport
   # * <tt>:candidates</tt> Array: updated with created Candidate
   # * <tt>:spreadsheet</tt> Roo::Excelx
   #
-  # === Return:
+  # === Returns:
   #
   # Array: candidates
   #
@@ -1029,7 +1029,7 @@ class CandidateImport
 
   # Make sure all candidates are valid before saving.
   #
-  # === Return:
+  # === Returns:
   #
   #
   # Boolean:

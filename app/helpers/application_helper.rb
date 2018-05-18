@@ -53,8 +53,8 @@ module ApplicationHelper
   # === Parameters:
   #
   # * <tt>:direction</tt>
-  # ** <code>acs<\code>
-  # ** <code>desc<\code>
+  # ** <code>acs</code>
+  # ** <code>desc</code>
   #
   # === Returns:
   #
@@ -69,14 +69,14 @@ module ApplicationHelper
   # === Parameters:
   #
   # * <tt>:confirmation_event_name</tt>
-  # ** <code>events.candidate_covenant_agreement<\code>
-  # ** <code>events.candidate_information_sheet<\code>
-  # ** <code>events.baptismal_certificate<\code>
-  # ** <code>events.sponsor_covenant<\code>
-  # ** <code>events.confirmation_name<\code>
-  # ** <code>events.sponsor_agreement<\code>
-  # ** <code>events.retreat_verification<\code>
-  # ** <code>events.parent_meeting<\code>
+  # ** <code>events.candidate_covenant_agreement</code>
+  # ** <code>events.candidate_information_sheet</code>
+  # ** <code>events.baptismal_certificate</code>
+  # ** <code>events.sponsor_covenant</code>
+  # ** <code>events.confirmation_name</code>
+  # ** <code>events.sponsor_agreement</code>
+  # ** <code>events.retreat_verification</code>
+  # ** <code>events.parent_meeting</code>
   # * <tt>:candidate_id</tt>
   #
   # === Returns:

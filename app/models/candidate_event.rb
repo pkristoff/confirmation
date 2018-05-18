@@ -15,7 +15,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Shortcut to due date of the confirmation event based on attending
   #
-  # === Return:
+  # === Returns:
   #
   # Date
   #
@@ -29,7 +29,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Shortcut to instructions of the confirmation event
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -37,7 +37,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Shortcut to name of the confirmation event
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -45,7 +45,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Has the event been started
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -59,7 +59,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # * <tt>:due_date</tt> Date: The due_date -if nil then not started.
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -69,7 +69,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Is the candidate event waiting for information from the candidate
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -84,7 +84,7 @@ class CandidateEvent < ActiveRecord::Base
   # * <tt>:due_date</tt> Date: The due_date -if nil then not started.
   # * <tt>:completed_date</tt> Date: When all the information is filled in.
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -94,7 +94,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Is the candidate event waiting verification from admin
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -110,7 +110,7 @@ class CandidateEvent < ActiveRecord::Base
   # * <tt>:completed_date</tt> Date: When all the information is filled in.
   # * <tt>:verified</tt> Boolean: Has admin verified
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -120,7 +120,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Is the candidate event coming due within the next 30 days.
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -135,7 +135,7 @@ class CandidateEvent < ActiveRecord::Base
   # * <tt>:due_date</tt> Date: The due_date -if nil then not started.
   # * <tt>:completed_date</tt> Date: When all the information is filled in.
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -146,7 +146,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Is the candidate event completed
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -161,7 +161,7 @@ class CandidateEvent < ActiveRecord::Base
   # * <tt>:due_date</tt> Date: The due_date -if nil then not started.
   # * <tt>:verified</tt> Boolean: Has admin verified
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -171,7 +171,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Is the candidate event past due.
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -186,7 +186,7 @@ class CandidateEvent < ActiveRecord::Base
   # * <tt>:due_date</tt> Date: The due_date -if nil then not started.
   # * <tt>:completed_date</tt> Date: When all the information is filled in.
   #
-  # === Return:
+  # === Returns:
   #
   # Boolean
   #
@@ -202,7 +202,7 @@ class CandidateEvent < ActiveRecord::Base
   # * <tt>:completed_date</tt> Date: When all the information is filled in.
   # * <tt>:verified</tt> Boolean: Has admin verified
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -218,7 +218,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # What is the status of this event.
   #
-  # === Return:
+  # === Returns:
   #
   # String
   #
@@ -228,7 +228,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # Editable attributes
   #
-  # === Return:
+  # === Returns:
   #
   # Array of attributes
   #
@@ -239,7 +239,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # information to be verified by admin
   #
-  # === Return:
+  # === Returns:
   #
   # Hash of information to be verified
   #
@@ -249,7 +249,7 @@ class CandidateEvent < ActiveRecord::Base
 
   # mapping from confirmation event name to a routing symbol
   #
-  # === Return:
+  # === Returns:
   #
   # Symbol
   #
