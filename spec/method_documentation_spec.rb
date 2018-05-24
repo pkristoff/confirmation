@@ -22,12 +22,16 @@ describe 'method_documentation' do
                      '  # Description should be first ***ERROR'],
                     [':55:3: C: Style/PublicMethodDocumentation: Description is missing for missing_description_with_returns.',
                      '  # === Returns:'],
+                    [':59:3: C: Style/PublicMethodDocumentation: Illegal Return format: \'# * <tt>{CLASS}</tt> {description}\'.',
+                     '  # Description should be first ***ERROR'],
                     [':79:3: C: Style/PublicMethodDocumentation: Description is missing for description_missing_with_parameters_and_returns.',
                      '  # === Parameters:'],
                     [':83:3: C: Style/PublicMethodDocumentation: Illegal Parameter format: \'# * <tt>:{argument}</tt> {description}\'.',
                      '  # Description should be first ***ERROR'],
                     [':93:3: C: Style/PublicMethodDocumentation: Description is missing for description_missing_with_parameters_and_returns2.',
                      '  # === Parameters:'],
+                    [':101:3: C: Style/PublicMethodDocumentation: Illegal Return format: \'# * <tt>{CLASS}</tt> {description}\'.',
+                     '  # Description should be first ***ERROR'],
                     [':107:3: C: Style/PublicMethodDocumentation: Description is missing for description_missing_with_parameters.',
                      '  # === Parameters:'],
                     [':111:3: C: Style/PublicMethodDocumentation: Illegal Parameter format: \'# * <tt>:{argument}</tt> {description}\'.',
@@ -50,12 +54,14 @@ describe 'method_documentation' do
 
   it 'Returns documentation' do
     expect_offenses('app/controllers/spec/returns_controller.rb',
-                    [':21:3: C: Style/PublicMethodDocumentation: Returns should end with blank comment.',
-                     '  # send_data for spreadsheet'],
-                    [":28:3: C: Style/PublicMethodDocumentation: Returns does not match '# === Returns:' exactly.",
+                    [':47:3: C: Style/PublicMethodDocumentation: Returns should end with blank comment.',
+                     '  # * <tt>send_data</tt> for spreadsheet'],
+                    [":54:3: C: Style/PublicMethodDocumentation: Returns does not match '# === Returns:' exactly.",
                      '  # ===  Returns:'],
-                    [':38:3: C: Style/PublicMethodDocumentation: === Returns: should have a blank comment following it.',
-                     '  # === Returns:'])
+                    [':64:3: C: Style/PublicMethodDocumentation: === Returns: should have a blank comment following it.',
+                     '  # === Returns:'],
+                    [':76:3: C: Style/PublicMethodDocumentation: Illegal Return sub-format: \'# **(*) <code>:{value}</code> {description}\'.',
+                     '  # ** <tt>:one</tt> when desc one - illegal'])
   end
 
   describe 'no comment' do
@@ -126,7 +132,7 @@ describe 'method_documentation' do
                          '  # Attributes should be before Description'],
                         [':77:3: C: Style/PublicMethodDocumentation: Attribute body is empty.',
                          '  # === Attributes:'],
-                        [':103:3: C: Style/PublicMethodDocumentation: Illegal Attribute sub-format: \'# **(*) <code>:{argument}</code> {description}\'.',
+                        [':103:3: C: Style/PublicMethodDocumentation: Illegal Attribute sub-format: \'# **(*) <code>:{value}</code> {description}\'.',
                          '  # ** <tt>:one</tt> when desc one - illegal'])
       end
     end

@@ -23,7 +23,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # Array of PluckCan
+  # * <tt>Array</tt> of PluckCan
   #
   def initialize(cand_info, cand_event_info, candidate_event = nil)
     @cand_info = cand_info
@@ -39,7 +39,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # Array of PluckCan
+  # * <tt>Array</tt> of PluckCan
   #
   def self.pluck_candidates(confirmation_event_id = nil)
     candidate_events = pluck_cand_events
@@ -108,7 +108,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def candidate_event_id
     @candidate_event[3]
@@ -118,7 +118,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def verified
     @candidate_event[4]
@@ -128,7 +128,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # Date
+  # * <tt>Date</tt>
   #
   def completed_date
     @candidate_event[5]
@@ -138,7 +138,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def id
     @cand_info[0]
@@ -148,7 +148,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def account_name
     @cand_info[1]
@@ -158,7 +158,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def confirmed?
     @cand_info[2] ? true : false
@@ -168,7 +168,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def password_changed
     encrypted_password = @cand_info[3]
@@ -180,7 +180,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # last_name
+  # * <tt>String</tt>
   #
   def last_name
     @cand_info[4]
@@ -190,7 +190,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # first_name
+  # * <tt>String</tt>
   #
   def first_name
     @cand_info[5]
@@ -200,7 +200,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # grade
+  # * <tt>Integer</tt>
   #
   def grade
     @cand_info[6]
@@ -210,7 +210,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # attending
+  # * <tt>Symbol</tt> :attending
   #
   def attending
     @cand_info[7]

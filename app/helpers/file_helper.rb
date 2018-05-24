@@ -12,7 +12,7 @@ module FileHelper
   #
   # === Returns:
   #
-  # Array of PluckCan
+  # * <tt>Array</tt> of PluckCan
   #
   def delete_dir(dir)
     return unless Dir.exist? dir

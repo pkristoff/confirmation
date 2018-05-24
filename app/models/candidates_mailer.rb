@@ -17,7 +17,7 @@ class CandidatesMailer < ActionMailer::Base
   #
   # === Returns:
   #
-  # String:  expanded body text
+  # * <tt>String</tt> expanded body text
   #
   def adhoc(_admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
@@ -40,7 +40,7 @@ class CandidatesMailer < ActionMailer::Base
   #
   # === Returns:
   #
-  # String:  expanded body text
+  # * <tt>String</tt> expanded body text
   #
   def adhoc_test(admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
@@ -63,7 +63,7 @@ class CandidatesMailer < ActionMailer::Base
   #
   # === Returns:
   #
-  # String:  expanded body text
+  # * <tt>String</tt> expanded body text
   #
   def monthly_reminder(_admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
@@ -87,7 +87,7 @@ class CandidatesMailer < ActionMailer::Base
   #
   # === Returns:
   #
-  # String:  expanded body text
+  # * <tt>String</tt> expanded body text
   #
   def monthly_reminder_test(admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)

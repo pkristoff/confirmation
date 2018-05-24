@@ -54,7 +54,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array candidate events
+  # * <tt>Array</tt> candidate events
   #
   def candidate_events_sorted
     # TODO: rewrite using event states
@@ -105,7 +105,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of condidations
+  # * <tt>Array</tt> of condidations
   #
   def self.find_first_by_auth_conditions(tainted_conditions, options = {})
     login = tainted_conditions.delete(:account_name)
@@ -125,7 +125,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # candidate_event
+  # * <tt>CandidateEvent</tt>
   #
   def add_candidate_event(confirmation_event)
     candidate_event = AppFactory.create_candidate_event(confirmation_event)
@@ -138,7 +138,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.candidate_params
     params = attribute_names.collect(&:to_sym) & %i[account_name password]
@@ -150,7 +150,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def build_associations
     candidate_sheet || build_candidate_sheet
@@ -166,7 +166,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
     [:account_name, :password, :password_confirmation,
@@ -188,7 +188,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def validate_event_complete(association_class)
     complete = true
@@ -204,7 +204,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def bcc_email
     'stmm.confirmation@kristoffs.com'
@@ -214,7 +214,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of Stings
+  # * <tt>Array</tt> of Stings
   #
   def emails
     "#{candidate_sheet.candidate_email}, #{candidate_sheet.parent_email_1},#{candidate_sheet.parent_email_2}"
@@ -224,7 +224,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # email address String
+  # * <tt>String</tt> email address
   #
   def email
     candidate_sheet.candidate_email.to_s
@@ -244,7 +244,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # boolean
+  # * <tt>Boolean</tt>
   #
   def email_required?
     false
@@ -254,7 +254,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # boolean
+  # * <tt>Boolean</tt>
   #
   def email_changed?
     false
@@ -264,7 +264,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def password_changed?
     !valid_password?(Event::Other::INITIAL_PASSWORD)
@@ -274,7 +274,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def account_confirmed?
     confirmed?
@@ -284,7 +284,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def confirm_account
     confirm
@@ -298,7 +298,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Candidate whose password was changed
+  # * <tt>Candidate</tt> whose password was changed
   #
   def self.reset_password_by_token(resource_params)
     candidate = super(resource_params)
@@ -316,7 +316,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def get_candidate_event(event_name)
     event = candidate_events.find { |candidate_event| candidate_event.name == event_name }
@@ -336,7 +336,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # christian_ministry with validation errors
+  # * <tt>ChristianMinistry</tt>christian_ministry with validation errors
   #
   def get_event_association(event_route_name)
     case event_route_name.to_sym
@@ -367,7 +367,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
     {}
@@ -377,7 +377,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of completed candidate events
+  # * <tt>Array</tt> of completed candidate events
   #
   def completed
     candidate_events.select(&:completed?)
@@ -387,7 +387,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of coming due candidate events
+  # * <tt>Array</tt> of coming due candidate events
   #
   def coming_due_events
     candidate_events.select(&:coming_due?)
@@ -397,7 +397,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of 'awaiting candidate' candidate events
+  # * <tt>Array</tt> of 'awaiting candidate' candidate events
   #
   def awaiting_candidate_events
     candidate_events.select(&:awaiting_candidate?)
@@ -407,7 +407,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of awaiting admin candidate events
+  # * <tt>Array</tt> of awaiting admin candidate events
   #
   def awaiting_admin_events
     candidate_events.select(&:awaiting_admin?)
@@ -417,7 +417,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of late candidate events
+  # * <tt>Array</tt> of late candidate events
   #
   def late_events
     candidate_events.select(&:late?)
@@ -433,7 +433,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.baptismal_external_verification
     external_verification(I18n.t('events.baptismal_certificate'), ->(candidate) { candidate.baptismal_certificate.baptized_at_stmm || candidate.baptismal_certificate.first_comm_at_stmm })
@@ -447,7 +447,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.retreat_external_verification
     external_verification(I18n.t('events.retreat_verification'), ->(candidate) { candidate.retreat_verification.retreat_held_at_stmm })
@@ -461,7 +461,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.confirmation_name_external_verification
     external_verification(I18n.t('events.confirmation_name'))
@@ -501,7 +501,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.sponsor_external_verification
     external_verification(I18n.t('events.sponsor_covenant'), ->(candidate) { candidate.sponsor_covenant.sponsor_attends_stmm })
@@ -515,7 +515,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>Boolean
   #
   def self.events_external_verification
     [[], Candidate.order(:account_name), [], []]
@@ -527,7 +527,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # password reset token
+  # * <tt>password</tt> reset token
   #
   def send_reset_password_instructions
     send_grid_mail = SendGridMail.new(nil, [self])
@@ -543,7 +543,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def password_reset_message(candidate_mailer_text)
     token = set_reset_password_token
@@ -559,7 +559,7 @@ class Candidate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def confirmation_instructions(candidate_mailer_text)
     token = generate_confirmation_token

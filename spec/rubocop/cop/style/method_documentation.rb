@@ -77,16 +77,18 @@ module RuboCop
         MSG_PARAMETERS_DOES_MATCH_MATCH = "Parameters does not match '#{PARMS_DOC}' exactly."
         MSG_RETURNS_DOES_NOT_MATCH = "Returns does not match '#{RETURNS_DOC}' exactly."
         MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST = 'Attributes and Parameters should not exist on same method.'
+        MSG_ILLEGAL_RANGE_RET_BODY_FORMAT = "Illegal %s format: '# * <tt>{CLASS}</tt> {description}'."
         MSG_ILLEGAL_RANGE_BODY_FORMAT = "Illegal %s format: '# * <tt>:{argument}</tt> {description}'."
-        MSG_ILLEGAL_RANGE_BODY_FORMAT_SUB = "Illegal %s sub-format: '# **(*) <code>:{argument}</code> {description}'."
+        MSG_ILLEGAL_RANGE_BODY_FORMAT_SUB = "Illegal %s sub-format: '# **(*) <code>:{value}</code> {description}'."
         MSG_RANGE_BODY_EMPTY = '%s body is empty.'
 
         #   https://regex101.com/
-        DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}i
+        DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}
+        DOC_RET_REGEXP = %r{^# \* <tt>([:\w]+)</tt>}
         DOC_SUB_PARM_REGEXP = %r{^# \** <code>([\.:\w ]+-*[\.:\w ]+)<\/code>([\.:\w ]*-*[\.:\w ]*)}
-        RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/i
-        ATTR_REGEXP = /^[ ]*#[ ]*===[ ]*Attributes:/i
-        PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/i
+        RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/
+        ATTR_REGEXP = /^[ ]*#[ ]*===[ ]*Attributes:/
+        PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/
 
         def add_format(message)
           format(message, @method_name)
@@ -142,6 +144,7 @@ module RuboCop
 
           check_body(parameters_range) unless parameters_range.missing?
           check_body(attrs_range) unless attrs_range.missing?
+          check_body(returns_range) unless returns_range.missing?
 
           check_parms_and_args(args, parameters_range) unless parameters_range.missing?
         end
@@ -162,17 +165,28 @@ module RuboCop
           body = range.range_body
           found = false
           body.each_with_index do |line, _i|
+            # puts "check_body loop text=#{line.text}"
             next if range.empty_comm?(line)
             found = true
             text = line.text.to_s
-            # puts "check_body text=#{text}"
-            # puts "check_body DOC_PARM_REGEXP) text=#{DOC_PARM_REGEXP.match(text)}"
-            # puts "check_body (DOC_SUB_PARM_REGEXP) text=#{DOC_SUB_PARM_REGEXP.match(text)}"
-            unless DOC_PARM_REGEXP.match(text) || DOC_SUB_PARM_REGEXP.match(text)
-              add_offense(line, message: format(MSG_ILLEGAL_RANGE_BODY_FORMAT, range.type)) unless text.start_with?('# **')
-              add_offense(line, message: format(MSG_ILLEGAL_RANGE_BODY_FORMAT_SUB, range.type)) if text.start_with?('# **')
+            if range.returns?
+              # puts "check_body ret DOC_RET_REGEXP) text=#{DOC_RET_REGEXP.match(text)}"
+              # puts "check_body (DOC_SUB_PARM_REGEXP) text=#{DOC_SUB_PARM_REGEXP.match(text)}"
+              unless DOC_RET_REGEXP.match(text) || DOC_SUB_PARM_REGEXP.match(text)
+                add_offense(line, message: format(MSG_ILLEGAL_RANGE_RET_BODY_FORMAT, range.type)) unless text.start_with?('# **')
+                add_offense(line, message: format(MSG_ILLEGAL_RANGE_BODY_FORMAT_SUB, range.type)) if text.start_with?('# **')
+              end
+            else
+              # puts "check_body DOC_PARM_REGEXP) text=#{DOC_PARM_REGEXP.match(text)}"
+              # puts "check_body (DOC_SUB_PARM_REGEXP) text=#{DOC_SUB_PARM_REGEXP.match(text)}"
+              unless DOC_PARM_REGEXP.match(text) || DOC_SUB_PARM_REGEXP.match(text)
+                add_offense(line, message: format(MSG_ILLEGAL_RANGE_BODY_FORMAT, range.type)) unless text.start_with?('# **')
+                add_offense(line, message: format(MSG_ILLEGAL_RANGE_BODY_FORMAT_SUB, range.type)) if text.start_with?('# **')
+              end
             end
           end
+          # puts "check_body found=#{found}"
+          # puts "check_body adding_offense=#{found}" unless found
           add_offense(range.start_comment, message: format(MSG_RANGE_BODY_EMPTY, range.type)) unless found
         end
 
@@ -322,6 +336,10 @@ class MethodDocRange
 
   def range_body
     @comments[@start + (first_empty_comment? ? 2 : 1)...@end + (ends_with_empty_comment? ? 0 : 1)]
+  end
+
+  def returns?
+    @type == 'Return'
   end
 
   def start_comment

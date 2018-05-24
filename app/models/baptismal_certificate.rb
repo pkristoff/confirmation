@@ -22,7 +22,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def validate_event_complete(_options = {})
     # 0: user has never saved this thus when baptized_at_stmm will not show yes or no as selected
@@ -48,7 +48,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean - whether the event can be marked complete.
+  # * <tt>Boolean</tt> - whether the event can be marked complete.
   #
   def validate_other_info
     event_complete = true
@@ -74,7 +74,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
     BaptismalCertificate.basic_permitted_params.concat(
@@ -87,7 +87,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.basic_permitted_params
     %I[birth_date baptismal_date church_name father_first father_middle father_last
@@ -99,7 +99,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.basic_validation_params
     params = BaptismalCertificate.basic_permitted_params
@@ -118,7 +118,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # baptismal_certificate with validation errors
+  # * <tt>baptismal_certificate</tt> with validation errors
   #
   def self.validate_event_complete(candidate)
     baptismal_certificate = candidate.baptismal_certificate
@@ -130,7 +130,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def self.event_name
     I18n.t('events.baptismal_certificate')
@@ -151,7 +151,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(candidate)
     if candidate.baptismal_certificate.baptized_at_stmm || candidate.baptismal_certificate.first_comm_at_stmm
@@ -180,7 +180,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def baptized_at_stmm_show_yes
     chosen_baptized_at_stmm? && baptized_at_stmm
@@ -190,7 +190,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def baptized_at_stmm_show_no
     chosen_baptized_at_stmm? && !baptized_at_stmm
@@ -200,7 +200,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def first_comm_at_stmm_show_yes
     chosen_first_comm_at_stmm? && first_comm_at_stmm
@@ -210,7 +210,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def first_comm_at_stmm_show_no
     chosen_first_comm_at_stmm? && !first_comm_at_stmm
@@ -220,7 +220,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def first_comm_show
     chosen_baptized_at_stmm? && !baptized_at_stmm
@@ -230,7 +230,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def chosen_baptized_at_stmm?
     show_empty_radio.positive?
@@ -240,7 +240,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def chosen_first_comm_at_stmm?
     show_empty_radio > 1
@@ -250,7 +250,7 @@ class BaptismalCertificate < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def info_show
     chosen_first_comm_at_stmm? && !baptized_at_stmm

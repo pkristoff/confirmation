@@ -43,7 +43,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def initialize(attributes = {})
     attributes.each { |name, value| send("#{name}=", value) }
@@ -69,7 +69,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # String: the file path
+  # * <tt>String</tt> the file path
   #
   def self.image_filepath_export(candidate, dir, image_column, image)
     file_basename = image.nil? ? '' : File.basename(image.filename)
@@ -84,7 +84,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # File: for file_path
+  # * <tt>File</tt> for file_path
   #
   def self.image_filename_import(file_path)
     filename = File.basename(file_path)
@@ -99,7 +99,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # CandidateImport: self
+  # * <tt>CandidateImport</tt> self
   #
   def add_missing_events(missing_events)
     missing_events.each do |event_name|
@@ -114,7 +114,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # CandidateImport: self
+  # * <tt>CandidateImport</tt> self
   #
   def check_events
     all_in_confirmation_event_names = AppFactory.all_i18n_confirmation_event_names
@@ -144,7 +144,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Boolean:  whether valid
+  # * <tt>Boolean</tt> whether valid
   #
   def load_initial_file(file)
     @uploaded_file = file
@@ -162,7 +162,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Boolean: whether valid
+  # * <tt>Boolean</tt> whether valid
   #
   def load_zip_file(file)
     @uploaded_zip_file = file
@@ -176,7 +176,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Boolean: false
+  # * <tt>Boolean</tt> false
   #
   def persisted?
     false
@@ -243,7 +243,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Package: package
+  # * <tt>Package</tt> package
   #
   def to_xlsx(dir, with_pictures = true)
     p = create_xlsx_package(dir, with_pictures)
@@ -256,7 +256,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # CandidateImport: self
+  # * <tt>CandidateImport</tt> self
   #
   def remove_orphaned_table_rows
     cand_ids = ids(Candidate)
@@ -291,7 +291,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: ids or Array of ids
+  # * <tt>Array</tt> ids or Array of ids
   #
   def ids(clazz)
     class_sym = clazz.name.to_sym
@@ -329,7 +329,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: ids
+  # * <tt>Array</tt> ids
   #
   def orphaned_ids(clazz, used_ids, offset = nil)
     if offset.nil?
@@ -349,7 +349,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # CandidateImport: self
+  # * <tt>CandidateImport</tt> self
   #
   def add_orphaned_table_rows
     begin
@@ -391,7 +391,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: ids
+  # * <tt>Array</tt> ids
   #
   def orphaned_baptismal_certificates(used_cand_ids)
     orphaned_ids(BaptismalCertificate, (used_cand_ids.map { |x| x[1] }), 0)
@@ -405,7 +405,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: ids
+  # * <tt>Array</tt> ids
   #
   def orphaned_christian_ministry(cand_ids)
     orphaned_ids(ChristianMinistry, cand_ids.map { |x| x[3] })
@@ -419,7 +419,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: ids
+  # * <tt>Array</tt> ids
   #
   def orphaned_candidate_sheets(cand_ids)
     orphaned_ids(CandidateSheet, cand_ids.map { |x| x[2] }, 0)
@@ -433,7 +433,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: ids
+  # * <tt>Array</tt> ids
   #
   def orphaned_pick_name(cand_ids)
     orphaned_ids(PickConfirmationName, cand_ids.map { |x| x[4] })
@@ -447,7 +447,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: ids
+  # * <tt>Array</tt> ids
   #
   def orphaned_retreat_verification(cand_ids)
     orphaned_ids(RetreatVerification, cand_ids.map { |x| x[5] }, 0)
@@ -461,7 +461,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: ids
+  # * <tt>Array</tt> ids
   #
   def orphaned_sponsor_covenant(cand_ids)
     orphaned_ids(SponsorCovenant, cand_ids.map { |x| x[6] }, 0)
@@ -493,7 +493,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # CandidateImport: self
+  # * <tt>CandidateImport</tt> self
   #
   def xlsx_columns
     params = Candidate.permitted_params
@@ -519,7 +519,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: String
+  # * <tt>Array</tt> String
   #
   def xlsx_conf_event_columns
     %w[name index the_way_due_date chs_due_date instructions]
@@ -535,7 +535,7 @@ class CandidateImport
   #
   # === Returns:
   #
-  # Array: of CandidateEvent
+  # * <tt>Array</tt> of CandidateEvent
   #
   def candidate_events_in_order(candidate)
     events = []

@@ -37,7 +37,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
     SponsorCovenant.attends_stmm_params.concat(
@@ -52,7 +52,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.basic_permitted_params
     %i[sponsor_name sponsor_attends_stmm sponsor_church scanned_covenant scanned_eligibility id]
@@ -62,7 +62,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.attends_stmm_params
     params = basic_permitted_params
@@ -75,7 +75,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.attends_stmm_validation_params
     params = SponsorCovenant.attends_stmm_params
@@ -89,7 +89,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.not_attends_stmm_params
     params = basic_permitted_params
@@ -105,7 +105,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def self.event_name
     I18n.t('events.sponsor_covenant')
@@ -119,7 +119,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Returns:
   #
-  # sponsor_covenant with validation errors
+  # * <tt>SponsorCovenant</tt> with validation errors
   #
   def self.validate_event_complete(candidate)
     sponsor_covenant = candidate.sponsor_covenant
@@ -135,7 +135,7 @@ class SponsorCovenant < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
     { 'Sponsor name': sponsor_name,

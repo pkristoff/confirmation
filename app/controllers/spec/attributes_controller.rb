@@ -50,7 +50,7 @@ class AttributesController < ActionController
   #
   # === Returns:
   #
-  # ** <code>:Boolean</code>
+  # * <tt>Boolean</tt>
   #
   # === Attributes:
   #

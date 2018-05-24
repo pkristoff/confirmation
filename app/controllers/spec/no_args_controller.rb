@@ -14,7 +14,7 @@ class NoArgsController < ActionController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def no_args_with_returns
     uuu

@@ -15,7 +15,7 @@ module ApplicationHelper
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def sortable(column, title, route, confirmation_event_id = '')
     title ||= column.titleize
@@ -39,7 +39,7 @@ module ApplicationHelper
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def sort_column(sort_column)
     columns = CandidateSheet.permitted_params.map { |attr| "candidate_sheet.#{attr}" }
@@ -58,7 +58,7 @@ module ApplicationHelper
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def sort_direction(direction)
     %w[asc desc].include?(direction) ? direction : 'asc'
@@ -81,7 +81,7 @@ module ApplicationHelper
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def candidate_event_to_path(confirmation_event_name, candidate_id)
     # for some reason when this was in-lined in _side_bar it handled
@@ -155,7 +155,7 @@ module ApplicationHelper
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def active_tab_class(*paths)
     active = false

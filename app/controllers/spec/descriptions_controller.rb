@@ -46,7 +46,7 @@ class DescriptionsController < ActionController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def legal_description_with_returns
     uuu
@@ -54,7 +54,7 @@ class DescriptionsController < ActionController
 
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   # Description should be first ***ERROR
   #
@@ -70,7 +70,7 @@ class DescriptionsController < ActionController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def legal_description_with_parameters_and_returns(arg1)
     uuu(arg1)
@@ -84,7 +84,7 @@ class DescriptionsController < ActionController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def description_missing_with_parameters_and_returns(arg1)
     uuu(arg1)
@@ -96,7 +96,7 @@ class DescriptionsController < ActionController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   # Description should be first ***ERROR
   #

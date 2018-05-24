@@ -17,7 +17,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Date
+  # * <tt>Date</tt>
   #
   def due_date
     if candidate.candidate_sheet.attending == 'The Way'
@@ -31,7 +31,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   delegate :instructions, to: :confirmation_event
 
@@ -39,7 +39,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   delegate :name, to: :confirmation_event
 
@@ -47,7 +47,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def started?
     CandidateEvent.started?(due_date)
@@ -61,7 +61,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.started?(due_date)
     !due_date.nil?
@@ -71,7 +71,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def awaiting_candidate?
     CandidateEvent.awaiting_candidate?(due_date, completed_date)
@@ -86,7 +86,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.awaiting_candidate?(due_date, completed_date)
     CandidateEvent.started?(due_date) && completed_date.nil?
@@ -96,7 +96,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def awaiting_admin?
     CandidateEvent.awaiting_admin?(due_date, completed_date, verified)
@@ -112,7 +112,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.awaiting_admin?(due_date, completed_date, verified)
     CandidateEvent.started?(due_date) && !completed_date.nil? && !verified
@@ -122,7 +122,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def coming_due?
     CandidateEvent.coming_due?(due_date, completed_date)
@@ -137,7 +137,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.coming_due?(due_date, completed_date)
     today = Date.today
@@ -148,7 +148,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def completed?
     CandidateEvent.completed?(due_date, verified)
@@ -163,7 +163,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.completed?(due_date, verified)
     CandidateEvent.started?(due_date) && verified
@@ -173,7 +173,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def late?
     CandidateEvent.late?(due_date, completed_date)
@@ -188,7 +188,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def self.late?(due_date, completed_date)
     CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date < Date.today)
@@ -220,7 +220,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def status
     CandidateEvent.status(due_date, completed_date, verified)
@@ -230,7 +230,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
     [:id, :completed_date, :verified,
@@ -241,7 +241,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info
     candidate.get_event_association(route).verifiable_info(candidate)
@@ -251,7 +251,7 @@ class CandidateEvent < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Symbol
+  # * <tt>Symbol</tt>
   #
   def route
     # TODO: maybe move to constants

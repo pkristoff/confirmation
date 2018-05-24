@@ -19,7 +19,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def validate_event_complete(_options = {})
     event_complete_validator = EventCompleteValidator.new(self)
@@ -38,7 +38,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
     CandidateSheet.basic_permitted_params.concat([address_attributes: Address.basic_permitted_params])
@@ -48,7 +48,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.basic_permitted_params
     %i[first_name middle_name last_name candidate_email parent_email_1 parent_email_2 grade attending id]
@@ -58,7 +58,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.basic_validation_params
     params = CandidateSheet.basic_permitted_params
@@ -77,7 +77,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # candidate_sheet with validation errors
+  # * <tt>CandidateSheet</tt>candidate_sheet with validation errors
   #
   def self.validate_event_complete(candidate)
     candidate_sheet = candidate.candidate_sheet
@@ -89,7 +89,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def self.event_name
     I18n.t('events.candidate_information_sheet')
@@ -105,7 +105,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # email address String
+  # * <tt>String</tt>email address
   #
   def email
     parent_email_1
@@ -125,7 +125,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # boolean
+  # * <tt>Boolean</tt>
   #
   def email_required?
     false
@@ -135,7 +135,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # boolean
+  # * <tt>Boolean</tt>
   #
   def email_changed?
     false
@@ -168,7 +168,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
     # TODO: come up with prettier names
@@ -189,7 +189,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String: email address or nil
+  # * <tt>String</tt> email address or nil
   #
   def to_email
     return candidate_email if candidate_email.present?
@@ -204,7 +204,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String: email address or nil
+  # * <tt>String</tt> email address or nil
   #
   def cc_email
     if candidate_email.blank?
@@ -222,7 +222,7 @@ class CandidateSheet < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String: email address or nil
+  # * <tt>String</tt> email address or nil
   #
   def cc_email_2
     return parent_email_2 unless candidate_email.blank? || parent_email_1.blank?

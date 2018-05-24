@@ -94,7 +94,7 @@ class RetreatVerification < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
     {}

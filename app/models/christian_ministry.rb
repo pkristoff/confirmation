@@ -12,7 +12,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Boolean
+  # * <tt>Boolean</tt>
   #
   def validate_event_complete(_options = {})
     event_complete_validator = EventCompleteValidator.new(self)
@@ -23,7 +23,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
     %i[what_service where_service when_service helped_me id]
@@ -33,7 +33,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def self.event_name
     I18n.t('events.christian_ministry')
@@ -47,7 +47,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # === Returns:
   #
-  # christian_ministry with validation errors
+  # * <tt>christian_ministry</tt> with validation errors
   #
   def self.validate_event_complete(candidate)
     christian_ministry = candidate.christian_ministry
@@ -63,7 +63,7 @@ class ChristianMinistry < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
     {}

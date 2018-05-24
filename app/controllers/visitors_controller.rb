@@ -32,7 +32,7 @@ class VisitorsController < ApplicationController
   #
   # === Returns:
   #
-  # <tt>:Candidate<t/t>
+  # * <tt>Candidate</tt>
   #
   def resource
     @candidate

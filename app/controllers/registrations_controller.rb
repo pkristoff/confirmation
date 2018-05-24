@@ -42,7 +42,7 @@ class RegistrationsController < Devise::RegistrationsController
   #
   # === Returns:
   #
-  # * <tt>:Candidate</tt>
+  # * <tt>Candidate</tt>
   #
   def after_update_path_for(_resource_or_scope)
     current_candidate

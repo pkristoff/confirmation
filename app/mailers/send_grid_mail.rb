@@ -30,7 +30,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # Array of legal emails for non-production
+  # * <tt>Array</tt> of legal emails for non-production
   #
   def legal_emails
     %w[stmm.confirmation@kristoffs.com stmm.confirmationa@aol.com paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com]
@@ -40,7 +40,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # Array of legal emails for non-production
+  # * <tt>Array</tt> of legal emails for non-production
   #
   def convert_email
     %w[paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com]
@@ -126,7 +126,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # SendGrid::Email
+  # * <tt>SendGrid::Email</tt>
   #
   def create_mail(subject, email_type, account_name)
     mail = SendGrid::Mail.new
@@ -185,8 +185,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # In production - Array of passed in email addresses.
-  # else - Array of legal non-production email addresses
+  # * <tt>Array</tt> In production - Array of passed in email addresses. else - Array of legal non-production email addresses
   #
   def convert_emails(emails, used)
     legal_used = []
@@ -209,8 +208,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # In production - email address passed in with '' converted to nil.
-  # else - email address if not legal.
+  # * <tt>Array</tt> In production - email address passed in with '' converted to nil. else - email address if not legal.
   #
   def convert_if_not_production(email, used = [], legal_used = [])
     if email.blank?
@@ -241,8 +239,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # In production - Array of passed in email addresses.
-  # else - Array of legal non-production email addresses
+  # * <tt>Array</tt> In production - Array of passed in email addresses else - Array of legal non-production email addresses
   #
   def expand_text(candidate, subject_text, body_input_text, delivery_call)
     @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: subject_text, body_input: body_input_text)
@@ -259,7 +256,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # The response from SendGrid
+  # * <tt>Response</tt> from SendGrid
   #
   def post_email(sg_mail)
     sg = SendGrid::API.new(api_key: Rails.application.secrets.email_key, host: 'https://api.sendgrid.com')
@@ -286,7 +283,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # The response from SendGrid
+  # * <tt>String</tt>
   #
   def send_email(subject_text, body_input_text, email_type, delivery_call, test_subject = nil)
     response = nil
@@ -318,7 +315,7 @@ class SendGridMail
   #
   # === Returns:
   #
-  # String The expanded email body
+  # * <tt>String</tt> The expanded email body
   #
   def text(delivery)
     message = delivery.message

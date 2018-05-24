@@ -43,7 +43,7 @@ class CandidatesMailerText
   #
   # === Returns:
   #
-  # Array: CandidateEvent
+  # * <tt>Array</tt> CandidateEvent
   #
   delegate :late_events, to: :candidate
 
@@ -51,7 +51,7 @@ class CandidatesMailerText
   #
   # === Returns:
   #
-  # Array: CandidateEvent
+  # * <tt>Array</tt> CandidateEvent
   #
   delegate :coming_due_events, to: :candidate
 
@@ -59,7 +59,7 @@ class CandidatesMailerText
   #
   # === Returns:
   #
-  # Array: CandidateEvent
+  # * <tt>Array</tt> CandidateEvent
   #
   delegate :awaiting_candidate_events, to: :candidate
 
@@ -67,7 +67,7 @@ class CandidatesMailerText
   #
   # === Returns:
   #
-  # Array: CandidateEvent
+  # * <tt>Array</tt> CandidateEvent
   #
   def completed_awaiting_events
     candidate.awaiting_admin_events
@@ -77,7 +77,7 @@ class CandidatesMailerText
   #
   # === Returns:
   #
-  # Array: CandidateEvent
+  # * <tt>Array</tt> CandidateEvent
   #
   def completed_events
     candidate.completed

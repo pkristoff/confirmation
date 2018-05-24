@@ -18,7 +18,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
     %i[saint_name id]
@@ -28,7 +28,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def self.event_name
     I18n.t('events.confirmation_name')
@@ -42,7 +42,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # === Returns:
   #
-  # pick_confirmation_name with validation errors
+  # * <tt>PickConfirmationName</tt> pick_confirmation_name with validation errors
   #
   def self.validate_event_complete(candidate)
     pick_confirmation_name = candidate.pick_confirmation_name
@@ -58,7 +58,7 @@ class PickConfirmationName < ActiveRecord::Base
   #
   # === Returns:
   #
-  # Hash of information to be verified
+  # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
     { 'Confirmation name': saint_name }

@@ -46,7 +46,7 @@ class ExportListsController < ApplicationController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def baptism
     external, to_be_verified, verified, not_complete = Candidate.baptismal_external_verification
@@ -67,7 +67,7 @@ class ExportListsController < ApplicationController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def confirmation_name
     external, to_be_verified, verified, not_complete = Candidate.confirmation_name_external_verification
@@ -95,7 +95,7 @@ class ExportListsController < ApplicationController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def retreat
     external, to_be_verified, verified, not_complete = Candidate.retreat_external_verification
@@ -122,7 +122,7 @@ class ExportListsController < ApplicationController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def sponsor
     external, to_be_verified, verified, not_complete = Candidate.sponsor_external_verification
@@ -144,7 +144,7 @@ class ExportListsController < ApplicationController
   #
   # === Returns:
   #
-  # send_data for spreadsheet
+  # * <tt>send_data</tt> for spreadsheet
   #
   def events
     external, to_be_verified, verified, not_complete = Candidate.events_external_verification
@@ -184,7 +184,7 @@ class ExportListsController < ApplicationController
   #
   # === Returns:
   #
-  # Axlsx::Package
+  # * <tt>Axlsx::Package</tt>
   #
   def create_xlsx(external_verify, verify, verified, not_complete, pre_title, extra_columns = [], value_lambdas = [])
     p = Axlsx::Package.new(author: 'Admin')
