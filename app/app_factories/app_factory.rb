@@ -202,7 +202,8 @@ class AppFactory
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.password = Event::Other::INITIAL_PASSWORD
       candidate.password_confirmation = Event::Other::INITIAL_PASSWORD
-      candidate.create_candidate_sheet if candidate.candidate_sheet.nil?
+      # Rails 5.2 - create would have errored about not doing a save on parent.
+      candidate.build_candidate_sheet if candidate.candidate_sheet.nil?
       candidate.candidate_sheet.parent_email_1 = 'stmm.confirmation@kristoffs.com'
       candidate.candidate_sheet.first_name = 'Vicki'
       candidate.candidate_sheet.middle_name = 'Anne'

@@ -260,6 +260,7 @@ class CandidatePDFDocument < Prawn::Document
       end
       # convert pdf to jpg which Prawn handles.
     elsif scanned_image.content_type == 'application/pdf'
+      Dir.mkdir('tmp') unless Dir.exist?('tmp')
       pdf_file_path = "tmp/#{scanned_image.filename}"
       jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
       File.open(pdf_file_path, 'wb') do |f|
@@ -281,6 +282,7 @@ class CandidatePDFDocument < Prawn::Document
         File.delete(jpg_file_path) if File.exist?(jpg_file_path)
       end
     else
+      Dir.mkdir('tmp') unless Dir.exist?('tmp')
       file_path = "tmp/#{scanned_image.filename}"
       File.open(file_path, 'wb') do |f|
         f.write(scanned_image.content)

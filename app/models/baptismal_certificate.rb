@@ -3,7 +3,7 @@
 #
 # Active Record
 #
-class BaptismalCertificate < ActiveRecord::Base
+class BaptismalCertificate < ApplicationRecord
   belongs_to(:church_address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :church_address, allow_destroy: true
 

@@ -97,11 +97,10 @@ describe AdminsController do
 
     it 'should NOT update any candidate\'s candidate_event' do
       put :mass_edit_candidates_event_update,
-          id: @confirmation_event.id,
-          completed_date: '2016-09-04',
-          verified: true,
-          candidate: { candidate_ids: [] }
-
+          params: { id: @confirmation_event.id,
+                    completed_date: '2016-09-04',
+                    verified: true,
+                    candidate: { candidate_ids: [] } }
       expect_candidate_event(@c1, '2016-06-09', false)
       expect_candidate_event(@c2, '', false)
       expect_candidate_event(@c3, '2016-07-23', false)

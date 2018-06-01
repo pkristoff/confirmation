@@ -1,16 +1,16 @@
 source 'https://rubygems.org'
-ruby '2.3.4'
-gem 'rails', '4.2.5.1'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+ruby '2.5.1'
+gem 'rails', '5.2'
+gem 'sass-rails'
+gem 'uglifier'
+# gem 'coffee-rails'
 gem 'jquery-rails'
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
 group :development, :test do
   gem 'byebug'
 end
 group :development do
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
   gem 'spring'
 end
 gem 'bootstrap-sass'
@@ -19,7 +19,8 @@ gem 'high_voltage'
 group :development do
   gem 'better_errors'
   gem 'hub', :require=>nil
-  gem 'quiet_assets'
+  # does not exist in rails 5.0
+  # gem 'quiet_assets'
   gem 'rails_layout'
   gem 'spring-commands-rspec'
 end
@@ -34,7 +35,7 @@ group :production do
   gem 'unicorn'
 end
 group :test do
-  gem 'capybara', '=2.7.1'
+  gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'selenium-webdriver'
@@ -46,9 +47,9 @@ gem 'puma'
 gem 'roo', '~> 2.4.0'
 gem 'zip-zip'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
-gem 'tinymce-rails', '=4.3.12'
+gem 'tinymce-rails'
 gem 'sucker_punch'
-gem 'jquery-tablesorter', '~> 1.23', '>= 1.23.2'
+gem 'jquery-tablesorter'
 # Avoid issues with turbolinks and jquery
 gem 'jquery-turbolinks'
 gem 'exception_notification'
@@ -57,5 +58,12 @@ gem 'rmagick'
 group :test do
   gem "i18n-tasks"
 end
+# refering to master - remove branch
+gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
 gem 'sendgrid-ruby'
 gem 'sdoc'
+
+# Needed for testing controller
+group :test do
+  gem 'rails-controller-testing'
+end

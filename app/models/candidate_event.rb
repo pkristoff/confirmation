@@ -3,7 +3,7 @@
 #
 # Candidate specific of a ConfirmationEvent
 #
-class CandidateEvent < ActiveRecord::Base
+class CandidateEvent < ApplicationRecord
   # http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association
   # has_and_belongs_to_many :confirmation_event
   # accepts_nested_attributes_for :confirmation_event, allow_destroy: false

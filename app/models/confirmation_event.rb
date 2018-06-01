@@ -3,7 +3,7 @@
 #
 # A common event that all candidates have to do in order to be confirmed.
 #
-class ConfirmationEvent < ActiveRecord::Base
+class ConfirmationEvent < ApplicationRecord
   has_many :to_dos
   has_many :candidate_events, through: :to_dos
   before_save :scrub_instructions

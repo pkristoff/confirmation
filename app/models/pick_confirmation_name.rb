@@ -3,7 +3,7 @@
 #
 # Active Record
 #
-class PickConfirmationName < ActiveRecord::Base
+class PickConfirmationName < ApplicationRecord
   # Validate if event is complete by adding validation errors to active record
   #
   # === Parameters:

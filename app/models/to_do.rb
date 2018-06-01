@@ -3,7 +3,7 @@
 #
 # Used to conect CandaditeEvent to ConfirmationEvent
 #
-class ToDo < ActiveRecord::Base
+class ToDo < ApplicationRecord
   belongs_to :candidate_event
   belongs_to :confirmation_event
 end

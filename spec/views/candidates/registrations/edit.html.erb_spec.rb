@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+include DeviseHelpers
+
 describe 'candidates/registrations/edit.html.erb' do
-  include DeviseHelpers
   include ViewsHelpers
 
   before(:each) do

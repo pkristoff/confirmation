@@ -954,7 +954,8 @@ class CandidateImport
 
         last_name = spreadsheet_row[0].nil? ? '' : spreadsheet_row[0].strip
         first_name = spreadsheet_row[1].nil? ? '' : spreadsheet_row[1].strip
-        grade = if spreadsheet_row[2].class.to_s == 'Fixnum'
+        # ruby fixnum is deprecating
+        grade = if spreadsheet_row[2].class.to_s == 'Integer'
                   (spreadsheet_row[2].nil? ? '10th' : "#{spreadsheet_row[2]}th")
                 else
                   (spreadsheet_row[2].nil? ? '10th' : spreadsheet_row[2].strip)

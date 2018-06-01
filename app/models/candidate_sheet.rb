@@ -3,7 +3,7 @@
 #
 # Basic information about candidate.
 #
-class CandidateSheet < ActiveRecord::Base
+class CandidateSheet < ApplicationRecord
   belongs_to(:address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :address, allow_destroy: true
 

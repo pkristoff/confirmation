@@ -5,7 +5,7 @@ require 'constants'
 #
 # Person being confirmed
 #
-class Candidate < ActiveRecord::Base
+class Candidate < ApplicationRecord
   # TODO: Remove address - this should be gone.
   belongs_to(:address, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:address, allow_destroy: true)
@@ -565,5 +565,10 @@ class Candidate < ActiveRecord::Base
     token = generate_confirmation_token
     candidate_mailer_text.token = token
     devise_mailer.confirmation_instructions(self, token)
+  end
+
+  # 5.0 hack with devise
+  def will_save_change_to_email?
+    false
   end
 end

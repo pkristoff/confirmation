@@ -3,7 +3,7 @@
 #
 # Active Record
 #
-class SponsorCovenant < ActiveRecord::Base
+class SponsorCovenant < ApplicationRecord
   belongs_to(:scanned_eligibility, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_eligibility, allow_destroy: true)
 

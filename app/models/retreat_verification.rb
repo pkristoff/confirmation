@@ -3,7 +3,7 @@
 #
 # Active Record
 #
-class RetreatVerification < ActiveRecord::Base
+class RetreatVerification < ApplicationRecord
   belongs_to(:scanned_retreat, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_retreat, allow_destroy: true)
 
