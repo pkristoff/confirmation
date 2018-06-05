@@ -93,8 +93,8 @@ Postgres Production
 
 https://dashboard.heroku.com/apps
 
-Productiion: https://lit-earth-34236.herokuapp.com/
-Staging:  https://confirmation-staging.herokuapp.com/
+- Production: https://lit-earth-34236.herokuapp.com/
+- Staging:  https://confirmation-staging.herokuapp.com/
 
 Copy production db to staging
 - heroku pg:copy your-app::DATABASE_URL DATABASE_URL -a yourapp-staging
