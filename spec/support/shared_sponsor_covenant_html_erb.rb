@@ -120,7 +120,7 @@ shared_context 'sponsor_covenant_html_erb' do
     event = candidate_db_update.get_candidate_event(SPONSOR_COVENANT_EVENT)
     # this errors periodically
     expect(event.candidate).to eq(candidate_db_update)
-    expect(event.completed_date).to eq(Date.today)
+    expect(event.completed_date).to eq(Time.zone.today)
     expect(event.verified).to eq(false)
 
     visit @path

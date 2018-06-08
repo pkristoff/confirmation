@@ -190,7 +190,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect(candidate.baptismal_certificate).not_to eq(nil) # always created now
     expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(true)
-    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(Time.zone.today)
     expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).verified).to eq(@is_verify)
   end
 
@@ -313,7 +313,7 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.baptismal_certificate.baptized_at_stmm = true
     @candidate.baptismal_certificate.show_empty_radio = 1
     event_name = I18n.t('events.baptismal_certificate')
-    @candidate.get_candidate_event(event_name).completed_date = Date.today
+    @candidate.get_candidate_event(event_name).completed_date = Time.zone.today
     @candidate.get_candidate_event(event_name).verified = true
     @candidate.save
 
@@ -331,7 +331,7 @@ shared_context 'baptismal_certificate_html_erb' do
       expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Time.zone.today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

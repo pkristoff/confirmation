@@ -187,7 +187,7 @@ class CandidateImport
   def start_new_year
     clean_associations(Candidate)
     AppFactory.create_seed_candidate
-    today = Date.today
+    today = Time.zone.today
     ConfirmationEvent.find_each do |ce|
       ce.chs_due_date = today
       ce.the_way_due_date = today

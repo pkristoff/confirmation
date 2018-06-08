@@ -62,7 +62,7 @@ shared_context 'sign_an_agreement_html_erb' do
     click_button(@update_id)
 
     candidate = Candidate.find(@cand_id)
-    
+
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @documant_key, @event_name, @update_id, @is_verify,
                                  expect_messages: [
                                    [:flash_notice, @updated_failed_verification],
@@ -76,7 +76,7 @@ shared_context 'sign_an_agreement_html_erb' do
     event_name = @event_name
     candidate = Candidate.find(@cand_id)
     candidate.send(@sign_agreement_setter, true)
-    candidate.get_candidate_event(event_name).completed_date = Date.today
+    candidate.get_candidate_event(event_name).completed_date = Time.zone.today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
 
@@ -94,7 +94,7 @@ shared_context 'sign_an_agreement_html_erb' do
       expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @documant_key, @event_name, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Time.zone.today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

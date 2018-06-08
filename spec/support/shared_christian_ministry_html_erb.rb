@@ -53,7 +53,7 @@ shared_context 'christian_ministry_html_erb' do
                                      expect_messages: [[:flash_notice, @updated_message]])
     end
 
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(Time.zone.today)
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
 
     visit @path
@@ -87,7 +87,7 @@ shared_context 'christian_ministry_html_erb' do
                                      expect_messages: [[:flash_notice, @updated_message]])
     end
 
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(Time.zone.today)
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
 
     visit @path
@@ -155,7 +155,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate.christian_ministry.where_service = 'ppp'
     candidate.christian_ministry.helped_me = 'ooo'
 
-    candidate.get_candidate_event(event_name).completed_date = Date.today
+    candidate.get_candidate_event(event_name).completed_date = Time.zone.today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
     update_christian_ministry(true)
@@ -174,7 +174,7 @@ shared_context 'christian_ministry_html_erb' do
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Time.zone.today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

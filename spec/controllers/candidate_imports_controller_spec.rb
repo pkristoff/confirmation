@@ -60,8 +60,8 @@ describe CandidateImportsController do
       expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
       expect(ConfirmationEvent.all.size).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
-        expect(ce.chs_due_date).to eq(Date.today)
-        expect(ce.the_way_due_date).to eq(Date.today)
+        expect(ce.chs_due_date).to eq(Time.zone.today)
+        expect(ce.the_way_due_date).to eq(Time.zone.today)
       end
     end
   end

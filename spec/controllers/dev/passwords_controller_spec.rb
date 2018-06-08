@@ -7,7 +7,7 @@ describe Dev::PasswordsController do
       token = 'xxx'
       candidate.confirmed_at = nil
       candidate.confirmation_token = token
-      candidate.confirmation_sent_at = Date.today
+      candidate.confirmation_sent_at = Time.zone.today
       candidate.save
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]

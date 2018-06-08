@@ -58,7 +58,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     expect_mass_edit_candidates_event(@confirmation_event, candidate, nil)
     candidate_event = candidate.get_candidate_event(@confirmation_event.name)
     expect(candidate_event.completed?)
-    expect(candidate_event.completed_date).to eq(Date.today)
+    expect(candidate_event.completed_date).to eq(Time.zone.today)
     expect(candidate_event.verified).to eq(true)
   end
 
@@ -68,7 +68,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
   # Admin clicks 'Update and Verify'
   # The mass_edit_candidates_event is opened and candidate has been verified.
   scenario 'admin' do
-    completed_date = Date.today - 1
+    completed_date = Time.zone.today - 1
     candidate = Candidate.find(@cand_id)
     candidate.pick_confirmation_name.saint_name = 'Paul'
     candidate_event = candidate.get_candidate_event(@confirmation_event.name)

@@ -43,7 +43,7 @@ shared_context 'pick_confirmation_name_html_erb' do
       expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_message]])
       expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
 
-      expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(Date.today)
+      expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(Time.zone.today)
       expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).verified).to eq(false)
 
       expect_db(1, 9, 0) # make sure DB does not increase in size.
@@ -104,7 +104,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     event_name = I18n.t('events.confirmation_name')
     candidate = Candidate.find(@cand_id)
-    candidate.get_candidate_event(event_name).completed_date = Date.today
+    candidate.get_candidate_event(event_name).completed_date = Time.zone.today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
     update_pick_confirmation_name(true)
@@ -123,7 +123,7 @@ shared_context 'pick_confirmation_name_html_erb' do
       expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Time.zone.today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

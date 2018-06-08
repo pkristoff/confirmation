@@ -140,7 +140,7 @@ class CandidateEvent < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.coming_due?(due_date, completed_date)
-    today = Date.today
+    today = Time.zone.today
     CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date >= today) && (due_date < today + 30)
   end
 
@@ -191,7 +191,7 @@ class CandidateEvent < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.late?(due_date, completed_date)
-    CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date < Date.today)
+    CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date < Time.zone.today)
   end
 
   # What is the status of this event.
@@ -290,7 +290,7 @@ class CandidateEvent < ApplicationRecord
   def mark_completed(validated, cand_assoc_class)
     if validated
       if completed_date.nil?
-        self.completed_date = Date.today
+        self.completed_date = Time.zone.today
         # automatically mark verified when completed.
         # TODO: move to association class
         self.verified = %w[CandidateSheet ChristianMinistry].include?(cand_assoc_class.to_s)

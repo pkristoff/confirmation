@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'candidates_mailer/monthly_reminder.html.erb' do
-  today = Date.today.to_s
+  today = Time.zone.today.to_s
 
   before(:each) do
     @render_mail_text = true
@@ -36,7 +36,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   it 'display with all late' do
-    change_due_date(Date.today - 2)
+    change_due_date(Time.zone.today - 2)
 
     change_completed_date('')
 
@@ -52,7 +52,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   it 'display with all coming due' do
-    change_due_date(Date.today + 1)
+    change_due_date(Time.zone.today + 1)
 
     change_completed_date('')
 
@@ -151,19 +151,19 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
   it 'display with mixture of events' do
     late_events_event = @candidate.get_candidate_event(I18n.t('events.parent_meeting'))
-    late_events_event.confirmation_event.chs_due_date = Date.today - 2
-    late_events_event.confirmation_event.the_way_due_date = Date.today - 2
+    late_events_event.confirmation_event.chs_due_date = Time.zone.today - 2
+    late_events_event.confirmation_event.the_way_due_date = Time.zone.today - 2
     late_events_event.save
     late_events_values = [[late_events_event.name, late_events_event.id]]
 
     completed_awaiting_event = @candidate.get_candidate_event(I18n.t('events.retreat_verification'))
-    completed_awaiting_event.completed_date = Date.today - 2
+    completed_awaiting_event.completed_date = Time.zone.today - 2
     completed_awaiting_event.verified = false
     completed_awaiting_event.save
     completed_awaiting_values = [[completed_awaiting_event.name, completed_awaiting_event.id, []]]
 
     completed_events_event = @candidate.get_candidate_event(I18n.t('events.christian_ministry'))
-    completed_events_event.completed_date = Date.today - 2
+    completed_events_event.completed_date = Time.zone.today - 2
     completed_events_event.verified = true
     completed_events_event.save
     completed_events_values = [[completed_events_event.name, completed_events_event.id, []]]

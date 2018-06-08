@@ -378,7 +378,7 @@ class CommonCandidatesController < ApplicationController
     if params['candidate']
       # TODO: move logic to association instance.
       if params['candidate'][signed_param_name] == '1'
-        candidate_event.completed_date = Date.today if candidate_event.completed_date.nil?
+        candidate_event.completed_date = Time.zone.today if candidate_event.completed_date.nil?
         candidate_event.verified = true unless candidate_event.verified
       elsif params['candidate'][signed_param_name] == '0'
         candidate_event.completed_date = nil
