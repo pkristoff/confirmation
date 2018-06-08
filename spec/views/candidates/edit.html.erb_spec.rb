@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+include DeviseHelpers
+include DeviseRails5Helpers
 describe 'candidates/edit.html.erb' do
-  include DeviseHelpers
   include ViewsHelpers
   before(:each) do
     @resource_class = Candidate

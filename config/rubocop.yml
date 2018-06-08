@@ -47,12 +47,28 @@ Style:
   # all examples use enumerators like map, each
 Style/SymbolProc:
   Enabled: false
+
 Style/MixinUsage:
   Enabled: true
   Exclude:
-    # need to figure out how to make DeviseHelpers available to
+    # need to figure out how to make DeviseHelpers & DeviseRails5Helpers available to
     # erb.
     - './spec/views/admins/passwords/new.html.erb_spec.rb'
+    - './spec/views/candidates/registrations/new.html.erb_spec.rb'
+    - './spec/views/candidates/edit.html.erb_spec.rb'
+    - './spec/views/candidates/registrations/edit.html.erb_spec.rb'
+
+Style/SymbolArray:
+  Enabled: true
+  Exclude:
+    # does not work well with require/permit 'Use %i or %I for an array of symbols'
+    - './app/controllers/common_candidates_controller.rb'
+
+Style/ClassAndModuleChildren:
+  Enabled: true
+  Exclude:
+    # need to figure out how 'Use nested module/class definitions instead of compact style'
+    - './spec/support/devise_rails_5_helpers.rb'
 
 # An extension cop that will cause the build to be broken if
 # the right documentation is not proesent.

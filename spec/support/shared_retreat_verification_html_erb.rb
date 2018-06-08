@@ -111,7 +111,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, 'Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied: Start date can\'t be blank End date can\'t be blank Who held retreat can\'t be blank Where held retreat can\'t be blank']],
+                                                       [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied:', 'Start date can\'t be blank', 'End date can\'t be blank', 'Who held retreat can\'t be blank', 'Where held retreat can\'t be blank']]],
                                      who_held_retreat: '',
                                      where_held_retreat: '',
                                      start_date: '',
@@ -143,7 +143,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Scanned retreat verification can\'t be blank']])
+                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Scanned retreat verification can\'t be blank']]])
   end
 
   scenario 'admin logs in and selects a candidate, fills in template, except Who held retreat' do
@@ -162,7 +162,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Who held retreat can\'t be blank']],
+                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Who held retreat can\'t be blank']]],
                                      who_held_retreat: '')
   end
 

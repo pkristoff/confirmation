@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post 'candidate_imports/start_new_year'
   post 'candidate_imports/export_to_excel'
   post 'candidate_imports/orphaned_table_rows'
+  post 'candidate_imports/import_candidates'
 
   devise_for :admins,
              controllers: {registrations: 'registrations',

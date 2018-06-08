@@ -568,6 +568,7 @@ class Candidate < ApplicationRecord
   end
 
   # 5.0 hack with devise
+  #
   def will_save_change_to_email?
     false
   end

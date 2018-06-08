@@ -175,7 +175,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Sponsor name can\'t be blank']],
+                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Sponsor name can\'t be blank']]],
                                  sponsor_name: '')
   end
 

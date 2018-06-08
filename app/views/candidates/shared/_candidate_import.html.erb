@@ -48,7 +48,7 @@
   </p>
 
 
-  <%= form_for @candidate_import do |f| %>
+  <%= form_for @candidate_import, url: candidate_imports_import_candidates_path do |f| %>
       <% if @candidate_import.errors.any? %>
           <div id="error_explanation">
             <h2><%= pluralize(@candidate_import.errors.count, "error") %> prohibited this import from completing:</h2>

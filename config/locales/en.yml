@@ -11,11 +11,11 @@ en:
     coming_due_initial_text: These events are not due yet.
     coming_due_label: Coming due events
     completed_awaiting_approval_label: Completed events awaiting approval.
-    completed_awaiting_initial_text: These are the completed events awaiting approval.  Please
-      verify that the information you entered is correct, if any.
+    completed_awaiting_initial_text: These are the completed events awaiting approval.
+      Please verify that the information you entered is correct, if any.
     completed_awaiting_text_label: Completed events awaiting approval
     completed_events: Events
-    completed_initial_text: These are the completed events.  Please verify that the
+    completed_initial_text: These are the completed events. Please verify that the
       information you entered is correct, if any.
     completed_text_label: Completed events
     confirmation_instructions_subject: StMM website for Confirmation Candidates -

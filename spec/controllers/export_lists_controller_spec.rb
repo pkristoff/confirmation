@@ -122,8 +122,7 @@ def expect_send_data(external, to_be_verified, verified, not_complete, pre_title
   xlxs_options = { type: 'application/xlsx', filename: filename }
 
   expect(controller).to receive(:send_data).with(xlxs_data, xlxs_options) do
-    controller.render nothing: true # to prevent a 'missing template' error
   end
 
-  get route
+  post route
 end

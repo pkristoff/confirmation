@@ -62,21 +62,25 @@ class AdminsController < ApplicationController
       return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
     end
 
+    commit = params.require(:commit)
+
+    mail_param = params.require(:mail).permit(:subject, :body_input)
+
+    # mail_param = parm[:mail]
+    subject_text = mail_param[:subject]
+    body_input_text = mail_param[:body_input]
+
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
-    mail_param = params[:mail]
-    subject_text = mail_param[:subject]
-    body_input_text = mail_param[:body_input]
-
     if candidates.empty?
-      return redirect_back(t('messages.no_candidate_selected'), mail_param)
+      return redirect_back_mail(t('messages.no_candidate_selected'), adhoc_mailing_path, mail_param)
     end
 
     begin
       send_grid_mail = SendGridMail.new(current_admin, candidates)
-      case params[:commit]
+      case commit
       when t('email.adhoc_mail')
 
         flash_message = t('messages.adhoc_mailing_progress')
@@ -89,7 +93,7 @@ class AdminsController < ApplicationController
 
       else
 
-        return redirect_to :back, alert: "Unknown submit button: #{params[:commit]}"
+        return redirect_to :back, alert: "Unknown submit button: #{parm[:commit]}"
 
       end
 
@@ -147,9 +151,13 @@ class AdminsController < ApplicationController
     confirmation_event = ConfirmationEvent.find(params[:id])
     params.delete(:id)
 
-    candidate_ids = params[:candidate][:candidate_ids]
+    candidate_ids = params[:candidate].nil? ? [] : params[:candidate][:candidate_ids]
     candidates = []
-    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+    # with upgrade to 5.0 params will remove
+    # candidate from params if candidate_ids is empty
+    # so we force it to have something.  This is a test only
+    # hack - productions does not seem to be a problem.
+    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? || id == '-1' }
     if candidates.empty?
       candidates_info(confirmation_event: confirmation_event)
       flash[:notice] = t('messages.no_candidate_selected')
@@ -194,7 +202,7 @@ class AdminsController < ApplicationController
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     if candidates.empty?
-      redirect_to :back, alert: t('messages.no_candidate_selected')
+      redirect_back fallback_location: ref_url, alert: t('messages.no_candidate_selected')
     else
       case params[:commit]
       when AdminsController::DELETE
@@ -230,7 +238,7 @@ class AdminsController < ApplicationController
         else
           flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
         end
-        redirect_to :back
+        redirect_back fallback_location: ref_url
       when AdminsController::INITIAL_EMAIL
         # This only sends the password reset instructions, the
         # password is not changed. (Recipient has to click link
@@ -246,7 +254,7 @@ class AdminsController < ApplicationController
         else
           flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
         end
-        redirect_to :back, notice: t('messages.initial_email_sent')
+        redirect_back fallback_location: ref_url, notice: t('messages.initial_email_sent')
       when AdminsController::CONFIRM_ACCOUNT
         confirmed = 0
         candidates.each do |candidate|
@@ -259,9 +267,9 @@ class AdminsController < ApplicationController
             Rails.logger.info("Candidate account confirmed: #{candidate.account_name}")
           end
         end
-        redirect_to :back, notice: t('messages.account_confirmed', number_confirmed: confirmed, number_not_confirmed: candidates.size - confirmed)
+        redirect_back fallback_location: ref_url, notice: t('messages.account_confirmed', number_confirmed: confirmed, number_not_confirmed: candidates.size - confirmed)
       else
-        redirect_to :back, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
+        redirect_back fallback_location: ref_url, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
       end
     end
   end
@@ -346,7 +354,11 @@ class AdminsController < ApplicationController
       return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
     end
 
-    mail_param = params[:mail]
+    commit = params.require(:commit)
+
+    mail_param = params.require(:mail).permit(:subject, :pre_late_input, :pre_coming_due_input, :completed_awaiting_input, :completed_input, :salutation_text, :closing_text, :from_text)
+
+    # mail_param = params[:mail]
     subject_text = mail_param[:subject]
     pre_late_input = mail_param[:pre_late_input]
     pre_coming_due_input = mail_param[:pre_coming_due_input]
@@ -361,10 +373,10 @@ class AdminsController < ApplicationController
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     if candidates.empty?
-      return redirect_back(t('messages.no_candidate_selected'), mail_param)
+      return redirect_back_mail(t('messages.no_candidate_selected'), monthly_mass_mailing_path, mail_param)
     end
 
-    case params[:commit]
+    case commit
     when t('email.monthly_mail')
 
       is_test_mail = false
@@ -443,7 +455,7 @@ class AdminsController < ApplicationController
       end
       set_confirmation_events
       render :edit_multiple_confirmation_events
-    elsif params[:update].size == 1 && (params[:update][params[:update].keys[0]] == t('views.common.update_candidates_event'))
+    elsif !params[:update].nil? && params[:update].keys.size == 1 && (params[:update][params[:update].keys[0]] == t('views.common.update_candidates_event'))
 
       confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
 
@@ -501,16 +513,13 @@ class AdminsController < ApplicationController
   # === Parameters:
   #
   # * <tt>:flash_message</tt> alert too flash upon redirect
+  # * <tt>:default_path</tt> go to this if ref_url returns nil
   # * <tt>:mail_params</tt>  mail parameters to merge in for redirect
   #
-  def redirect_back(flash_message, mail_params)
-    begin
-      # get a URI object for referring url
-      referrer_url = URI.parse(request.referer)
-    rescue StandardError
-      URI.parse(some_default_url)
-      # need to have a default in case referrer is not given
-    end
+  def redirect_back_mail(flash_message, default_path, mail_params)
+    referrer_url = ref_url
+
+    referrer_url = default_path if referrer_url.nil?
 
     # append the query string to the  referrer url
     # referrer_url.query returns the existing query string => "f=b"
@@ -521,6 +530,7 @@ class AdminsController < ApplicationController
 
     flash[:alert] = flash_message
     # redirect to the referrer url with the modified query string
+    # redirect_back fallback_location: root_path
     redirect_to referrer_url.to_s
   end
 
@@ -546,5 +556,19 @@ class AdminsController < ApplicationController
         end
       end
     end
+  end
+
+  private
+
+  def ref_url
+    referrer_url = nil
+    begin
+      # get a URI object for referring url
+      referrer_url = URI.parse(request.referer)
+    rescue StandardError
+      referrer_url = URI.parse(some_default_url)
+      # need to have a default in case referrer is not given
+    end
+    referrer_url
   end
 end

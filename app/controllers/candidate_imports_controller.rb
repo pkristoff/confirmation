@@ -56,7 +56,7 @@ class CandidateImportsController < ApplicationController
   #
   # * <tt>:candidate_import</tt> the file being uploaded
   #
-  def create
+  def import_candidates
     import_file_param = params[:candidate_import]
     if import_file_param.nil?
       redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')

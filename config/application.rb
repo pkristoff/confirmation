@@ -46,5 +46,8 @@ module Confirmation
         ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
+
+
+    # config.action_dispatch.perform_deep_munge = false
   end
 end

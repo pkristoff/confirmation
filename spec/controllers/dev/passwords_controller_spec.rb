@@ -12,7 +12,7 @@ describe Dev::PasswordsController do
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
 
-      get :edit, reset_password_token: token
+      get :edit, params: { reset_password_token: token }
 
       expect(response).to redirect_to('/dev/candidates/sign_in')
       expect(flash[:alert]).to eq(I18n.t('messages.password.token_expired'))
@@ -25,7 +25,7 @@ describe Dev::PasswordsController do
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
 
-      get :edit, reset_password_token: token
+      get :edit, params: { reset_password_token: token }
 
       expect(response.status).to eq(200)
     end
@@ -40,7 +40,7 @@ describe Dev::PasswordsController do
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
 
-      put :update, candidate: { reset_password_token: token, password: 'therainin', password_confirmation: 'therainin' }
+      put :update, params: { candidate: { reset_password_token: token, password: 'therainin', password_confirmation: 'therainin' } }
 
       candidate = Candidate.find(candidate.id)
       expect(response.status).to eq(302)
@@ -56,7 +56,7 @@ describe Dev::PasswordsController do
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
 
-      put :update, candidate: { reset_password_token: token, password: 'therainin', password_confirmation: 'therainin' }
+      put :update, params: { candidate: { reset_password_token: token, password: 'therainin', password_confirmation: 'therainin' } }
 
       candidate = Candidate.find(candidate.id)
       expect(response.status).to eq(302)

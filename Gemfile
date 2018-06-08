@@ -3,7 +3,7 @@ ruby '2.5.1'
 gem 'rails', '5.2'
 gem 'sass-rails'
 gem 'uglifier'
-# gem 'coffee-rails'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
 group :development, :test do
@@ -62,8 +62,3 @@ end
 gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
 gem 'sendgrid-ruby'
 gem 'sdoc'
-
-# Needed for testing controller
-group :test do
-  gem 'rails-controller-testing'
-end

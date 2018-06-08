@@ -29,7 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
   #
   def new
     unless admin_signed_in?
-      return redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin'))
+      return redirect_back fallback_location: new_admin_registration_path, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin'))
     end
     super
   end

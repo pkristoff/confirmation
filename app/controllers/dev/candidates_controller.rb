@@ -34,7 +34,7 @@ module Dev
     # Should never be called
     #
     def index
-      redirect_to :back, alert: 'Please login as admin to see list of candidates.' unless admin_signed_in?
+      redirect_back fallback_location: ref_url, alert: 'Please login as admin to see list of candidates.' unless admin_signed_in?
     end
 
     # returns false
@@ -47,7 +47,21 @@ module Dev
     #
     def show
       @candidate = Candidate.find(params[:id])
-      redirect_to :back, alert: I18n.t('messages.accessed_denied') unless @candidate == current_candidate
+      redirect_back fallback_location: ref_url, alert: I18n.t('messages.accessed_denied') unless @candidate == current_candidate
+    end
+
+    private
+
+    def ref_url
+      referrer_url = nil
+      begin
+        # get a URI object for referring url
+        referrer_url = URI.parse(request.referer)
+      rescue StandardError
+        referrer_url = URI.parse(some_default_url)
+        # need to have a default in case referrer is not given
+      end
+      referrer_url
     end
   end
 end
