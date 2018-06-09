@@ -10,6 +10,10 @@ feature 'Other', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
+  before(:each) do
+    @today = Time.zone.today
+  end
+
   after(:each) do
     Warden.test_reset!
   end
@@ -56,8 +60,8 @@ feature 'Other', :devise do
       expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
       expect(ConfirmationEvent.all.size).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
-        expect(ce.chs_due_date).to eq(Time.zone.today)
-        expect(ce.the_way_due_date).to eq(Time.zone.today)
+        expect(ce.chs_due_date).to eq(@today)
+        expect(ce.the_way_due_date).to eq(@today)
       end
     end
   end
@@ -102,8 +106,8 @@ feature 'Other', :devise do
         expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
         expect(ConfirmationEvent.all.size).not_to eq(0)
         ConfirmationEvent.all.each do |ce|
-          expect(ce.chs_due_date).to eq(Time.zone.today)
-          expect(ce.the_way_due_date).to eq(Time.zone.today)
+          expect(ce.chs_due_date).to eq(@today)
+          expect(ce.the_way_due_date).to eq(@today)
         end
 
         visit new_candidate_import_path

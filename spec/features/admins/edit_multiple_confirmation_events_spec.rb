@@ -14,6 +14,8 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
     AppFactory.add_confirmation_events
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
+
+    @today = Time.zone.today
   end
 
   after(:each) do
@@ -29,15 +31,15 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
     chs_due_date_id = "confirmation_events_#{confirmation_event.id}_chs_due_date"
     instructions_id = "confirmation_events_#{confirmation_event.id}_instructions"
 
-    fill_in the_way_due_date_id, with: Time.zone.today - 10
-    fill_in chs_due_date_id, with: Time.zone.today - 8
+    fill_in the_way_due_date_id, with: @today - 10
+    fill_in chs_due_date_id, with: @today - 8
     fill_in instructions_id, with: 'Very important instructions'
 
     click_button("update-#{confirmation_event.id}")
 
     expect_message(:flash_notice, I18n.t('messages.confirmation_events_updated'))
-    expect(page).to have_css("input[id=#{the_way_due_date_id}][value='#{(Time.zone.today - 10)}']")
-    expect(page).to have_css("input[id=#{chs_due_date_id}][value='#{(Time.zone.today - 8)}']")
+    expect(page).to have_css("input[id=#{the_way_due_date_id}][value='#{(@today - 10)}']")
+    expect(page).to have_css("input[id=#{chs_due_date_id}][value='#{(@today - 8)}']")
     expect(page).to have_css("textarea[id=#{instructions_id}]", text: 'Very important instructions')
   end
 
@@ -45,7 +47,7 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
     candidate = Candidate.find_by(account_name: @candidate1.account_name)
     event_name = I18n.t('events.confirmation_name')
     candidate_event = candidate.get_candidate_event(event_name)
-    candidate_event.completed_date = Time.zone.today
+    candidate_event.completed_date = @today
     candidate_event.save
 
     visit edit_multiple_confirmation_events_path

@@ -4,6 +4,7 @@ shared_context 'baptismal_certificate' do
   include ViewsHelpers
   before(:each) do
     AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
+    @today = Time.zone.today
   end
 
   it 'should show baptismal_certificate for the candidate.' do
@@ -34,7 +35,7 @@ shared_context 'baptismal_certificate' do
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
     expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(true)
-    expect(candidate_event.completed_date).to eq(Time.zone.today)
+    expect(candidate_event.completed_date).to eq(@today)
   end
 
   it 'show should illegal parameter.' do
@@ -101,7 +102,7 @@ shared_context 'baptismal_certificate' do
       candidate = Candidate.find(@candidate.id)
       baptismal_certificate = make_valid_bc(candidate)
 
-      update_event(candidate, Time.zone.today, false, I18n.t('events.baptismal_certificate'))
+      update_event(candidate, @today, false, I18n.t('events.baptismal_certificate'))
       candidate.save
 
       expect(baptismal_certificate.scanned_certificate).to_not be_nil
@@ -120,7 +121,7 @@ shared_context 'baptismal_certificate' do
       expect(baptismal_certificate.scanned_certificate).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(candidate_event.completed_date).to eq(Time.zone.today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.verified).to be(false)
     end
 
@@ -128,7 +129,7 @@ shared_context 'baptismal_certificate' do
       candidate = Candidate.find(@candidate.id)
       baptismal_certificate = make_valid_bc(candidate)
 
-      update_event(candidate, Time.zone.today, true, I18n.t('events.baptismal_certificate'))
+      update_event(candidate, @today, true, I18n.t('events.baptismal_certificate'))
       candidate.save
 
       expect(baptismal_certificate.scanned_certificate).to_not be_nil
@@ -177,8 +178,8 @@ shared_context 'baptismal_certificate' do
   def make_valid_bc(candidate)
     baptismal_certificate = candidate.baptismal_certificate
     baptismal_certificate.baptized_at_stmm = false
-    baptismal_certificate.birth_date = Time.zone.today
-    baptismal_certificate.baptismal_date = Time.zone.today
+    baptismal_certificate.birth_date = @today
+    baptismal_certificate.baptismal_date = @today
     baptismal_certificate.church_name = 'St. me'
     baptismal_certificate.father_first = 'Paul'
     baptismal_certificate.father_middle = 'R'
@@ -197,6 +198,10 @@ shared_context 'baptismal_certificate' do
 end
 
 shared_context 'sign_agreement' do
+  before(:each) do
+    @today = Time.zone.today
+  end
+
   it 'should show sign_agreement for the candidate.' do
     get :sign_agreement, params: { id: @candidate.id }
 
@@ -220,13 +225,14 @@ shared_context 'sign_agreement' do
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}sign_agreement.#{candidate.id}")
     expect(candidate.signed_agreement).to eq(true)
-    expect(candidate_event.completed_date).to eq(Time.zone.today)
+    expect(candidate_event.completed_date).to eq(@today)
   end
 end
 
 shared_context 'retreat_verification' do
   before(:each) do
     AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
+    @today = Time.zone.today
   end
 
   [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
@@ -234,7 +240,7 @@ shared_context 'retreat_verification' do
       candidate = Candidate.find(@candidate.id)
       retreat_verification = make_valid_rv(candidate)
 
-      update_event(candidate, Time.zone.today, false, I18n.t('events.retreat_verification'))
+      update_event(candidate, @today, false, I18n.t('events.retreat_verification'))
       candidate.save
 
       expect(retreat_verification.scanned_retreat).to_not be_nil
@@ -253,7 +259,7 @@ shared_context 'retreat_verification' do
       expect(retreat_verification.scanned_retreat).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(I18n.t('events.retreat_verification'))
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(candidate_event.completed_date).to eq(Time.zone.today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.verified).to be(false)
     end
 
@@ -261,7 +267,7 @@ shared_context 'retreat_verification' do
       candidate = Candidate.find(@candidate.id)
       retreat_verification = make_valid_rv(candidate)
 
-      update_event(candidate, Time.zone.today, true, I18n.t('events.retreat_verification'))
+      update_event(candidate, @today, true, I18n.t('events.retreat_verification'))
       candidate.save
 
       expect(retreat_verification.scanned_retreat).to_not be_nil
@@ -286,8 +292,8 @@ shared_context 'retreat_verification' do
   def valid_parameters_rv(id)
     {
       retreat_held_at_stmm: '0',
-      start_date: Time.zone.today.to_s,
-      end_date: Time.zone.today.to_s,
+      start_date: @today.to_s,
+      end_date: @today.to_s,
       who_held_retreat: 'c',
       where_held_retreat: 'St. Paul',
       remove_retreat_verification_picture: 'Remove',
@@ -298,8 +304,8 @@ shared_context 'retreat_verification' do
   def make_valid_rv(candidate)
     retreat_verification = candidate.retreat_verification
     retreat_verification.retreat_held_at_stmm = false
-    retreat_verification.start_date = Time.zone.today
-    retreat_verification.end_date = Time.zone.today
+    retreat_verification.start_date = @today
+    retreat_verification.end_date = @today
     retreat_verification.who_held_retreat = 'St. Paul'
     retreat_verification.where_held_retreat = 'St. Paul'
     retreat_verification.scanned_retreat = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
@@ -310,13 +316,14 @@ end
 shared_context 'sponsor_covenant' do
   before(:each) do
     AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
+    @today = Time.zone.today
   end
   [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
     it "Admin removes sponsor covenant picture and undoes events completed state.  commit = #{commit_value}" do
       candidate = Candidate.find(@candidate.id)
       sponsor_covenant = make_valid_sc(candidate)
 
-      update_event(candidate, Time.zone.today, false, I18n.t('events.sponsor_covenant'))
+      update_event(candidate, @today, false, I18n.t('events.sponsor_covenant'))
       candidate.save
 
       expect(sponsor_covenant.scanned_covenant).to_not be_nil
@@ -335,7 +342,7 @@ shared_context 'sponsor_covenant' do
       expect(sponsor_covenant.scanned_covenant).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_covenant'))
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(candidate_event.completed_date).to eq(Time.zone.today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.verified).to be(false)
     end
 
@@ -343,7 +350,7 @@ shared_context 'sponsor_covenant' do
       candidate = Candidate.find(@candidate.id)
       sponsor_covenant = make_valid_sc(candidate)
 
-      update_event(candidate, Time.zone.today, true, I18n.t('events.sponsor_covenant'))
+      update_event(candidate, @today, true, I18n.t('events.sponsor_covenant'))
       candidate.save
 
       expect(sponsor_covenant.scanned_covenant).to_not be_nil
@@ -368,7 +375,7 @@ shared_context 'sponsor_covenant' do
       candidate = Candidate.find(@candidate.id)
       sponsor_covenant = make_valid_sc_eligibility(candidate)
 
-      update_event(candidate, Time.zone.today, false, I18n.t('events.sponsor_covenant'))
+      update_event(candidate, @today, false, I18n.t('events.sponsor_covenant'))
       candidate.save
 
       cand_sc_params = valid_parameters_sc_eligibility(sponsor_covenant.id)
@@ -386,7 +393,7 @@ shared_context 'sponsor_covenant' do
       expect(sponsor_covenant.scanned_eligibility).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_covenant'))
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(candidate_event.completed_date).to eq(Time.zone.today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.verified).to be(false)
     end
   end
@@ -432,6 +439,10 @@ shared_context 'sponsor_covenant' do
 end
 
 shared_context 'sponsor_agreement' do
+  before(:each) do
+    @today = Time.zone.today
+  end
+
   it 'should show sponsor_agreement for the candidate.' do
     get :sponsor_agreement, params: { id: @candidate.id }
 
@@ -455,11 +466,15 @@ shared_context 'sponsor_agreement' do
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}sponsor_agreement.#{candidate.id}")
     expect(candidate.sponsor_agreement).to eq(true)
-    expect(candidate_event.completed_date).to eq(Time.zone.today)
+    expect(candidate_event.completed_date).to eq(@today)
   end
 end
 
 shared_context 'candidate_information_sheet' do
+  before(:each) do
+    @today = Time.zone.today
+  end
+
   it 'should show candidate_information_sheet for the candidate.' do
     get :candidate_sheet, params: { id: @candidate.id }
 
@@ -500,7 +515,7 @@ shared_context 'candidate_information_sheet' do
     expect(candidate.candidate_sheet.first_name).to eq('Paul')
     expect(candidate.candidate_sheet.middle_name).to eq('Richard')
     expect(candidate.candidate_sheet.address.city).to eq('wayville')
-    expect(candidate_event.completed_date).to eq(Time.zone.today)
+    expect(candidate_event.completed_date).to eq(@today)
   end
 end
 

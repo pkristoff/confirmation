@@ -69,7 +69,8 @@ shared_context 'candidate_sheet_html_erb' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
     event_name = I18n.t('events.candidate_information_sheet')
-    @candidate.get_candidate_event(event_name).completed_date = Time.zone.today
+    today = Time.zone.today
+    @candidate.get_candidate_event(event_name).completed_date = today
     @candidate.get_candidate_event(event_name).verified = true
     @candidate.save
 
@@ -87,7 +88,7 @@ shared_context 'candidate_sheet_html_erb' do
       expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Time.zone.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

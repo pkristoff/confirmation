@@ -13,6 +13,7 @@ shared_context 'retreat_verification_html_erb' do
 
     @candidate_event_id = @candidate.get_candidate_event(I18n.t('events.retreat_verification')).id
     @cand_id = @candidate.id
+    @today = Time.zone.today
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -55,7 +56,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(retreat_verification.end_date).to eq(END_DATE)
     expect(retreat_verification.scanned_retreat).to eq(nil)
 
-    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(Time.zone.today)
+    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(@today)
     expect(CandidateEvent.find(@candidate_event_id).verified).to eq(@is_verify)
 
     visit @path
@@ -88,7 +89,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(retreat_verification.end_date).to eq(END_DATE)
     expect(retreat_verification.scanned_retreat.filename).to eq('actions for spec testing.png')
 
-    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(Time.zone.today)
+    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(@today)
     expect(CandidateEvent.find(@candidate_event_id).verified).to eq(@is_verify)
 
     visit @path
@@ -172,7 +173,7 @@ shared_context 'retreat_verification_html_erb' do
     event_name = I18n.t('events.retreat_verification')
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_stmm = true
-    candidate.get_candidate_event(event_name).completed_date = Time.zone.today
+    candidate.get_candidate_event(event_name).completed_date = @today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
 
@@ -198,7 +199,7 @@ shared_context 'retreat_verification_html_erb' do
                                        end_date: '')
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Time.zone.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(@today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

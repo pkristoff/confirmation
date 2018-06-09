@@ -2,6 +2,11 @@
 
 describe Candidate do
   include ActionDispatch::TestProcess
+
+  before(:each) do
+    @today = Time.zone.today
+  end
+
   describe 'address' do
     it 'can retrieve a candiadate\'s address' do
       candidate = FactoryBot.create(:candidate)
@@ -200,14 +205,13 @@ describe Candidate do
 
     it 'baptismal_external_verification?' do
       event_key = I18n.t('events.baptismal_certificate')
-      today = Time.zone.today
       @c1.baptismal_certificate.baptized_at_stmm = false
       @c1.baptismal_certificate.first_comm_at_stmm = false
-      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.baptismal_certificate.baptized_at_stmm = true
       @c2.baptismal_certificate.first_comm_at_stmm = false
-      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
       @c3.baptismal_certificate.baptized_at_stmm = true
       @c3.baptismal_certificate.first_comm_at_stmm = false
@@ -215,7 +219,7 @@ describe Candidate do
       @c3.save
       @c4.baptismal_certificate.baptized_at_stmm = false
       @c4.baptismal_certificate.first_comm_at_stmm = true
-      @c4.get_candidate_event(event_key).completed_date = today
+      @c4.get_candidate_event(event_key).completed_date = @today
       @c4.save
 
       expect_external_verification(Candidate.baptismal_external_verification, [@c2, @c4], [@c1], [], [@c3])
@@ -223,12 +227,11 @@ describe Candidate do
 
     it 'confirmation_name_external_verification' do
       event_key = I18n.t('events.confirmation_name')
-      today = Time.zone.today
       @c1.pick_confirmation_name.saint_name = 'xxx'
-      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.pick_confirmation_name.saint_name = 'xxx'
-      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).completed_date = @today
       @c2.get_candidate_event(event_key).verified = true
       @c2.save
       @c3.pick_confirmation_name.saint_name = nil
@@ -246,12 +249,11 @@ describe Candidate do
 
     it 'retreat_external_verification??' do
       event_key = I18n.t('events.retreat_verification')
-      today = Time.zone.today
       @c1.retreat_verification.retreat_held_at_stmm = false
-      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.retreat_verification.retreat_held_at_stmm = true
-      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
       @c3.retreat_verification.retreat_held_at_stmm = true
       @c3.get_candidate_event(event_key).completed_date = nil
@@ -262,12 +264,11 @@ describe Candidate do
 
     it 'sponsor_external_verification?' do
       event_key = I18n.t('events.sponsor_covenant')
-      today = Time.zone.today
       @c1.sponsor_covenant.sponsor_attends_stmm = false
-      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.sponsor_covenant.sponsor_attends_stmm = true
-      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
       @c3.sponsor_covenant.sponsor_attends_stmm = true
       @c3.get_candidate_event(event_key).completed_date = nil

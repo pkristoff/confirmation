@@ -3,6 +3,7 @@
 describe CandidatesController do
   before(:each) do
     @admdin = login_admin
+    @today = Time.zone.today
   end
 
   it 'should NOT have a current_candidate' do
@@ -111,7 +112,7 @@ describe CandidatesController do
     end
 
     it 'should goes back to mass_edit_candidates_event, updating verified' do
-      completed_date = Time.zone.today - 20
+      completed_date = @today - 20
       cand = Candidate.find(@c1_id)
       cand.pick_confirmation_name.saint_name = 'george'
       cand.save
@@ -146,7 +147,7 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
-      expect(cand_event.completed_date).to eq(Time.zone.today)
+      expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
   end
@@ -182,7 +183,7 @@ describe CandidatesController do
     end
 
     it 'should goes back to mass_edit_candidates_event, updating verified' do
-      completed_date = Time.zone.today - 20
+      completed_date = @today - 20
       cand = Candidate.find(@c1_id)
       cand.sponsor_agreement = true
       cand.save
@@ -218,7 +219,7 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
-      expect(cand_event.completed_date).to eq(Time.zone.today)
+      expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
   end
@@ -254,7 +255,7 @@ describe CandidatesController do
     end
 
     it 'should goes back to mass_edit_candidates_event, updating verified' do
-      completed_date = Time.zone.today - 20
+      completed_date = @today - 20
       cand = Candidate.find(@c1_id)
       cand.signed_agreement = true
       cand.save
@@ -290,7 +291,7 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
-      expect(cand_event.completed_date).to eq(Time.zone.today)
+      expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
   end
@@ -381,7 +382,7 @@ describe CandidatesController do
       end
 
       it "should goes back to mass_edit_candidates_event, updating verified: #{event_name_key}" do
-        completed_date = Time.zone.today - 20
+        completed_date = @today - 20
         cand = Candidate.find(@c1_id)
         valid_setter.call(cand)
         cand.save
@@ -440,7 +441,7 @@ describe CandidatesController do
     end
 
     it 'should goes back to mass_edit_candidates_event, updating verified' do
-      completed_date = Time.zone.today - 20
+      completed_date = @today - 20
       cand = Candidate.find(@c1_id)
       cand.christian_ministry.what_service = 'xxx'
       cand.christian_ministry.where_service = 'yyy'
@@ -486,7 +487,7 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
-      expect(cand_event.completed_date).to eq(Time.zone.today)
+      expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
   end
@@ -526,7 +527,7 @@ describe CandidatesController do
     end
 
     it 'should goes back to mass_edit_candidates_event, updating verified' do
-      completed_date = Time.zone.today - 20
+      completed_date = @today - 20
       cand = Candidate.find(@c0_id)
       cand.candidate_sheet.candidate_email = 'foo@kristoffs.com'
       cand.save
@@ -579,7 +580,7 @@ describe CandidatesController do
       expect(@request.fullpath.include?("/candidate_sheet_verify.#{cand.id}")).to eq(true)
 
       cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
-      expect(cand_event.completed_date).to eq(Time.zone.today)
+      expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
   end
