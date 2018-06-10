@@ -3,9 +3,9 @@
 #
 
 Bundler:
-  Enabled: false
+  Enabled: true
 Gemspec:
-  Enabled: false
+  Enabled: true
 Layout:
   Enabled: true
 Lint:
@@ -35,12 +35,12 @@ Rails/Date:
   Enabled: true
   # presence :column does not exist
 Rails/Validation:
-  Enabled: false
+  Enabled: true
   # this is a Rails 5 thing
 Rails/HttpPositionalArguments:
-  Enabled: false
+  Enabled: true
 Security:
-  Enabled: false
+  Enabled: true
 Style:
   Enabled: true
   # could not figure out how to use with method mail(...) do ...

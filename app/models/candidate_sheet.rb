@@ -9,7 +9,8 @@ class CandidateSheet < ApplicationRecord
 
   after_initialize :build_associations, if: :new_record?
 
-  validates_presence_of(:first_name, :last_name)
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   # Validate if event is complete by adding validation errors to active record
   #
