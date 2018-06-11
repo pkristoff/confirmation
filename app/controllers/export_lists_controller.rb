@@ -133,7 +133,7 @@ class ExportListsController < ApplicationController
   end
 
   def self.event_columns
-    ConfirmationEvent.order(:name).map { |candidate_event| candidate_event.name }
+    ConfirmationEvent.order(:name).map(&:name)
   end
 
   def self.event_values

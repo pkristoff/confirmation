@@ -40,7 +40,9 @@ Style:
   # could not figure out how to use with method mail(...) do ...
   # all examples use enumerators like map, each
 Style/SymbolProc:
-  Enabled: false
+  Enabled: true
+  Exclude:
+    - './app/models/candidates_mailer.rb'
 
 Style/MixinUsage:
   Enabled: true
