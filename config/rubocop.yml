@@ -4,18 +4,25 @@
 
 Bundler:
   Enabled: true
+
 Gemspec:
   Enabled: true
+
 Layout:
   Enabled: true
+
 Lint:
   Enabled: true
+
 Metrics:
   Enabled: false
+
 Naming:
   Enabled: true
+
 Performance:
   Enabled: true
+
 Rails:
   Enabled: true
 Rails/ApplicationRecord:
@@ -33,8 +40,10 @@ Rails/Validation:
   Enabled: true
 Rails/HttpPositionalArguments:
   Enabled: true
+
 Security:
   Enabled: true
+
 Style:
   Enabled: true
   # could not figure out how to use with method mail(...) do ...
