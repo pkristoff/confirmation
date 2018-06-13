@@ -29,7 +29,7 @@ describe CandidateSheet, type: :model do
     it 'should return a hash of :attribute => value' do
       candidate = FactoryBot.create(:candidate)
       verifiables = FactoryBot.create(:candidate_sheet).verifiable_info(candidate)
-      expected_verifiables = { name: 'Sophia Young', grade: 10, street_1: '555 Xxx Ave.', street_2: '<nothing>', city: 'Clarksville', state: 'IN', zipcode: '47529' }
+      expected_verifiables = { name: 'Sophia Saraha Young', grade: 10, street_1: '555 Xxx Ave.', street_2: '<nothing>', city: 'Clarksville', state: 'IN', zipcode: '47529' }
       expect(verifiables).to eq(expected_verifiables)
     end
   end
@@ -103,6 +103,24 @@ describe CandidateSheet, type: :model do
         expect(candidate_sheet.cc_email).to eq('')
         expect(candidate_sheet.cc_email_2).to eq('')
       end
+    end
+  end
+  describe 'validate_event_complete' do
+    it 'should pass validation - new candidate_sheet validated' do
+      candidate_sheet = FactoryBot.create(:candidate_sheet)
+
+      expect(candidate_sheet.validate_event_complete).to eq(true)
+      msgs = candidate_sheet.errors.full_messages
+      expect(msgs.empty?).to eq(true), "msgs not empty=#{msgs}"
+    end
+    it 'should fail validation -  middle_name now required' do
+      candidate_sheet = FactoryBot.create(:candidate_sheet)
+      candidate_sheet.middle_name = nil
+
+      expect(candidate_sheet.validate_event_complete).to eq(false)
+      msgs = candidate_sheet.errors.full_messages
+      expect(msgs[0]).to eq("Middle name can't be blank")
+      expect(msgs.size).to eq(1), "msgs should be middle=#{msgs}"
     end
   end
 end

@@ -190,10 +190,10 @@ describe Candidate do
 
   describe 'external verification' do
     before(:each) do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
-      c2 = create_candidate('c2', 'Vicki', 'Kristoff')
-      c3 = create_candidate('c3', 'Karen', 'Kristoff')
-      c4 = create_candidate('c4', 'aaa', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
+      c2 = create_candidate_local('c2', 'Vicki', 'Kristoff')
+      c3 = create_candidate_local('c3', 'Karen', 'Kristoff')
+      c4 = create_candidate_local('c4', 'aaa', 'Kristoff')
 
       AppFactory.add_confirmation_events
 
@@ -280,19 +280,19 @@ describe Candidate do
 
   describe 'password' do
     it 'should return false if password is not initial password' do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c1.password = 'abcdefghij'
       expect(c1.password_changed?).to eq(true)
     end
 
     it 'should return false if password is initial password' do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c1.password = Event::Other::INITIAL_PASSWORD
       expect(c1.password_changed?).to eq(false)
     end
 
     it 'should return true if password is changed back to initial password' do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c1.password = 'abcdefghij'
       expect(c1.password_changed?).to eq(true)
       c1.password = Event::Other::INITIAL_PASSWORD
@@ -323,7 +323,7 @@ describe Candidate do
 
   describe 'password_reset_message' do
     it 'should return a DeliveryMessage' do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       delivery = c1.password_reset_message(CandidatesMailerText.new(candidate: c1, subject: 'sub', body_input: ''))
       expect(delivery).not_to eq(nil)
       text = delivery.message.body.to_s
@@ -334,7 +334,7 @@ describe Candidate do
     end
   end
 
-  def create_candidate(account_name, first, last)
+  def create_candidate_local(account_name, first, last)
     candidate = FactoryBot.create(:candidate, account_name: account_name)
     candidate.candidate_sheet.first_name = first
     candidate.candidate_sheet.last_name = last

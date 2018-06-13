@@ -1,6 +1,9 @@
 #
 # This file is called via the .rubocop.yml "inherit_from: config/rubocop.yml"
 #
+AllCops:
+  UseCache: true
+  MaxFilesInCache: 4000
 
 Bundler:
   Enabled: true

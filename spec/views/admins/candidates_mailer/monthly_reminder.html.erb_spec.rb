@@ -89,7 +89,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << %w[State HA]
         info << ['Zip Code', '12345']
       when I18n.t('events.candidate_information_sheet')
-        info << [:name, 'Sophia Agusta']
+        info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
         info << [:street_1, '2120 Frissell Ave.']
         info << [:street_2, 'Apt. 456']
@@ -130,7 +130,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << %w[State HA]
         info << ['Zip Code', '12345']
       when I18n.t('events.candidate_information_sheet')
-        info << [:name, 'Sophia Agusta']
+        info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
         info << [:street_1, '2120 Frissell Ave.']
         info << [:street_2, 'Apt. 456']

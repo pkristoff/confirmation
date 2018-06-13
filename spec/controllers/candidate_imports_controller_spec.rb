@@ -90,13 +90,13 @@ describe CandidateImportsController do
       candidate_sheets = CandidateSheet.all
       expect(candidate_sheets.size).to eq(1)
       expect(candidate.candidate_sheet).to eq(candidate_sheets.first)
-      expect_event_association(candidate.baptismal_certificate)
-      expect_event_association(candidate.candidate_sheet)
-      expect_event_association(candidate.sponsor_covenant)
-      expect_event_association(candidate.pick_confirmation_name)
-      expect_event_association(candidate.christian_ministry)
-      expect_event_association(candidate.retreat_verification)
-      expect_event_association(candidate.sponsor_covenant)
+      expect_event_association_local(candidate.baptismal_certificate)
+      expect_event_association_local(candidate.candidate_sheet)
+      expect_event_association_local(candidate.sponsor_covenant)
+      expect_event_association_local(candidate.pick_confirmation_name)
+      expect_event_association_local(candidate.christian_ministry)
+      expect_event_association_local(candidate.retreat_verification)
+      expect_event_association_local(candidate.sponsor_covenant)
 
       expect(Admin.all.size).to eq(1)
     end
@@ -118,7 +118,7 @@ describe CandidateImportsController do
     end
   end
 
-  def expect_event_association(assoc_from_candidate)
+  def expect_event_association_local(assoc_from_candidate)
     event_assoc = assoc_from_candidate.class.all
     expect(event_assoc.size).to eq(1)
     expect(assoc_from_candidate).to eq(event_assoc.first)

@@ -63,7 +63,6 @@ class CandidateSheet < ApplicationRecord
   #
   def self.basic_validation_params
     params = CandidateSheet.basic_permitted_params
-    params.delete(:middle_name)
     params.delete(:candidate_email)
     params.delete(:parent_email_1)
     params.delete(:parent_email_2)
@@ -172,8 +171,7 @@ class CandidateSheet < ApplicationRecord
   # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
-    # TODO: come up with prettier names
-    { name: "#{first_name} #{last_name}",
+    { name: "#{first_name} #{middle_name} #{last_name}",
       grade: grade,
       street_1: address.street_1,
       street_2: address.street_2,

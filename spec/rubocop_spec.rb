@@ -5,7 +5,7 @@ describe 'Internal' do
   describe 'app' do
 
     it 'should pass controllers' do
-      expect(system 'rubocop --cache false app/controllers/').to eq(true)
+      expect(system 'rubocop app/controllers/').to eq(true)
     end
 
     it 'should pass app helpers' do
