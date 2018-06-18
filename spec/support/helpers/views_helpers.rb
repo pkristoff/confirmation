@@ -122,11 +122,14 @@ module ViewsHelpers
   end
 
   def expect_password_changed
-    ->(candidate, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: 'true' }
+    ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true' }
   end
 
   def expect_account_confirmed
-    ->(candidate, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: candidate.account_confirmed? }
+    lambda { |cand_id, rendered, td_index|
+      candidate = Candidate.find_by(id: cand_id)
+      expect(rendered).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: candidate.account_confirmed?
+    }
   end
 
   def setup_unknown_missing_events
