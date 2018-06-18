@@ -14,6 +14,28 @@
       <%= bc_fields.radio_button :first_comm_at_stmm, '0', checked: bc.first_comm_at_stmm_show_no, onclick: 'confirmation_toggle().first_comm_no();' %><%= bc_fields.label :first_comm_at_stmm, 'No' %>
     </div>
     <div id="baptismal-certificate-top" class="<%= bc.info_show ? 'show-div' : 'hide-div' %>">
+
+      <%= f.fields_for :candidate_sheet do |cs_fields| %>
+        <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
+          <div class="fieldset-div">
+            <div class="field">
+              <%= cs_fields.label :first_name, I18n.t('label.candidate_sheet.first_name') %><br/>
+              <%= cs_fields.text_field :first_name, autofocus: true %>
+            </div>
+
+            <div class="field">
+              <%= cs_fields.label :middle_name, I18n.t('label.candidate_sheet.middle_name') %><br/>
+              <%= cs_fields.text_field :middle_name %>
+            </div>
+
+            <div class="field">
+              <%= cs_fields.label :last_name, I18n.t('label.candidate_sheet.last_name') %><br/>
+              <%= cs_fields.text_field :last_name %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
       <%= field_set_tag t('field_set.baptismal_certificate.dates'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <div class="field">
@@ -116,8 +138,8 @@
         </div>
       <% end %>
 
-      <%= render partial: "candidates/shared/scanned_image",
-                 :locals => {
+      <%= render "candidates/shared/scanned_image",
+
                      url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)),
                      candidate: candidate,
 
@@ -127,8 +149,8 @@
                      remove_field: bc_fields.hidden_field(:remove_certificate_picture, value: ''),
                      scanned_image: event_association.scanned_certificate,
                      scanned_image_field: bc_fields.file_field(:certificate_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture');"),
-                     scanned_image_label: bc_fields.label(:certificate_picture, t('label.baptismal_certificate.baptismal_certificate.certificate_picture')),
-                 } %>
+                     scanned_image_label: bc_fields.label(:certificate_picture, t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
+                  %>
 
   <% end %>
   </div>

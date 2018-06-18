@@ -119,7 +119,10 @@ class CommonCandidatesController < ApplicationController
                                                                                                                       :street_2,
                                                                                                                       :city,
                                                                                                                       :state,
-                                                                                                                      :zip_code]])
+                                                                                                                      :zip_code]],
+                                                       candidate_sheet_attributes: [:first_name,
+                                                                                    :middle_name,
+                                                                                    :last_name])
 
         baptized_at_stmm = cand_parms[:baptismal_certificate_attributes][:baptized_at_stmm] == '1'
         baptismal_certificate = @candidate.baptismal_certificate
@@ -416,6 +419,20 @@ class CommonCandidatesController < ApplicationController
     event_name = clazz.event_name
 
     if @candidate.update(candidate_params)
+
+      # TODO: Move logic out of common code
+      if clazz == BaptismalCertificate
+        bc = @candidate.baptismal_certificate
+        if bc.show_empty_radio > 1 && !bc.baptized_at_stmm? && !bc.first_comm_at_stmm?
+          candidate_info_sheet_event = @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+          candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
+          @candidate.keep_bc_errors
+          if candidate_info_sheet_event.save
+
+          end
+        end
+      end
+
       candidate_event = @candidate.get_candidate_event(event_name)
       candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
       if candidate_event.save

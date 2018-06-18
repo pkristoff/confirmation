@@ -32,7 +32,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
   scenario 'admin' do
     visit mass_edit_candidates_event_path(@confirmation_event.id)
 
-    expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
+    expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
 
     click_link("pick-#{@cand_id}")
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
@@ -55,7 +55,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    expect_mass_edit_candidates_event(@confirmation_event, candidate, nil)
+    expect_mass_edit_candidates_event(@confirmation_event, candidate.id, nil)
     candidate_event = candidate.get_candidate_event(@confirmation_event.name)
     expect(candidate_event.completed?)
     expect(candidate_event.completed_date).to eq(Time.zone.today)
@@ -77,7 +77,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     candidate.save
 
     visit mass_edit_candidates_event_path(@confirmation_event.id)
-    expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
+    expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
     # puts page.html
     click_link("pick-#{@cand_id}")
     # puts page.html

@@ -102,9 +102,11 @@ module SortingCandListHelpers
 
   def expect_event(event_name, verify = false)
     lambda { |candidate, rendered, td_index|
-      href = verify ? event_name_to_path_verify(event_name, candidate.id) : event_name_to_path(event_name, candidate.id)
-      expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{candidate.id}'] td[id=tr#{candidate.id}_td#{td_index}] a[href='#{href}']",
-                                   text: candidate.get_candidate_event(event_name).status)
+      cand_id = candidate.id
+      cand = Candidate.find_by(id: cand_id)
+      href = verify ? event_name_to_path_verify(event_name, cand_id) : event_name_to_path(event_name, cand_id)
+      expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{cand_id}'] td[id=tr#{cand_id}_td#{td_index}] a[href='#{href}']",
+                                   text: cand.get_candidate_event(event_name).status)
     }
   end
 
@@ -176,7 +178,7 @@ module SortingCandListHelpers
     ]
   end
 
-  def expect_mass_edit_candidates_event(confirmation_event, candidate, updated_message, is_unverified = false)
+  def expect_mass_edit_candidates_event(confirmation_event, cand_id, updated_message, is_unverified = false)
     expect_message(:flash_notice, updated_message) unless updated_message.nil?
 
     expect(page).to have_css "form[action='/mass_edit_candidates_event_update/#{confirmation_event.id}']"
@@ -189,16 +191,17 @@ module SortingCandListHelpers
     expect(page).to have_field(I18n.t('views.events.verified'))
     expect(page).to have_field(I18n.t('views.events.completed_date'))
 
+    cand = Candidate.find_by(id: cand_id)
     expect_sorting_candidate_list(
       candidate_events_columns(confirmation_event),
-      [candidate],
+      [cand],
       page,
       confirmation_event
     )
 
-    expect(candidate.get_candidate_event(confirmation_event.name).completed_date).to eq(Time.zone.today) unless updated_message.nil?
-    expect(candidate.get_candidate_event(confirmation_event.name).verified).to eq(true) if updated_message && !is_unverified
-    expect(candidate.get_candidate_event(confirmation_event.name).verified).to eq(false) if is_unverified
+    expect(cand.get_candidate_event(confirmation_event.name).completed_date).to eq(Time.zone.today) unless updated_message.nil?
+    expect(cand.get_candidate_event(confirmation_event.name).verified).to eq(true) if updated_message && !is_unverified
+    expect(cand.get_candidate_event(confirmation_event.name).verified).to eq(false) if is_unverified
   end
 
   def expect_pick_confirmation_name_form(cand_id, path_str, dev_path, update_id, is_verify, values = {})

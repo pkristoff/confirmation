@@ -1,9 +1,10 @@
-<%= render partial: 'candidates/shared/two_column_event',
-           :locals => {is_dev: @is_dev,
-                       is_verify: false,
-                       candidate: @candidate,
-                       candidate_event: @candidate_event,
-                       event_association: @candidate.get_event_association(@event_with_picture_name),
-                       event_with_picture_name: @event_with_picture_name,
-                       download_doc: dev_download_document_path(@candidate.id, @event_with_picture_name)
-           } %>
+<%= render 'candidates/shared/two_column_event',
+           is_dev: @is_dev,
+           is_verify: false,
+           candidate: @candidate,
+           candidate_event: @candidate_event,
+           event_association: @candidate.get_event_association(@event_with_picture_name),
+           error_msgs: (@event_with_picture_name == 'baptismal_certificate' ? @candidate : @candidate.get_event_association(@event_with_picture_name)),
+           event_with_picture_name: @event_with_picture_name,
+           download_doc: dev_download_document_path(@candidate.id, @event_with_picture_name)
+%>

@@ -32,7 +32,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
   scenario 'admin' do
     visit mass_edit_candidates_event_path(@confirmation_event.id)
 
-    expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
+    expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
 
     click_link("cma-#{@cand_id}")
     expect_christian_ministry_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
@@ -56,7 +56,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    expect_mass_edit_candidates_event(@confirmation_event, candidate, nil)
+    expect_mass_edit_candidates_event(@confirmation_event, candidate.id, nil)
     candidate_event = candidate.get_candidate_event(@confirmation_event.name)
     expect(candidate_event.completed?)
     expect(candidate_event.completed_date).to eq(Time.zone.today)
@@ -80,7 +80,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     candidate.save
 
     visit mass_edit_candidates_event_path(@confirmation_event.id)
-    expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
+    expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
     # puts page.html
     click_link("cma-#{@cand_id}")
     # puts page.html

@@ -40,7 +40,7 @@ shared_context 'retreat_verification_html_erb' do
     candidate = Candidate.find(@cand_id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate.id, @updated_message)
 
     else
 
@@ -77,7 +77,7 @@ shared_context 'retreat_verification_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate.id, @updated_message)
 
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
@@ -190,7 +190,7 @@ shared_context 'retreat_verification_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                        who_held_retreat: '',
