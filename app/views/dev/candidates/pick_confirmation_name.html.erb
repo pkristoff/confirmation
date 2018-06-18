@@ -1,11 +1,11 @@
 <% require 'constants' %>
 
-<%= render partial: 'candidates/shared/two_column_signed_event',
-           :locals => {path: dev_pick_confirmation_name_path(@candidate.id),
-                       event_association: @candidate.pick_confirmation_name,
-                       shared_html_file: 'pick_confirmation_name',
-                       candidate_event: @candidate.get_candidate_event(I18n.t('events.confirmation_name')),
-                       download_doc: dev_download_document_path(@candidate.id, Event::Document::CONFIRMATION_NAME),
-                       is_dev: true,
-                       is_verify: false
-           } %>
+<%= render 'candidates/shared/two_column_signed_event',
+           path: dev_pick_confirmation_name_path(@candidate.id),
+           event_association: @candidate.pick_confirmation_name,
+           shared_html_file: 'pick_confirmation_name',
+           candidate_event: @candidate.get_candidate_event(I18n.t('events.confirmation_name')),
+           download_doc: dev_download_document_path(@candidate.id, Event::Document::CONFIRMATION_NAME),
+           is_dev: true,
+           is_verify: false
+%>

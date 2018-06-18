@@ -1,5 +1,5 @@
 <h2>Edit Candidate</h2>
 
-<%= form_for(resource, as: resource_name, url: event_candidate_path(resource), html: {method: :put}) do |f| %>
-    <%= render partial: 'candidates/shared/edit_and_new_candidate', :locals => {f: f, by_candidate: false, is_new: false} %>
+<%= form_for(resource, as: resource_name, url: event_candidate_path(resource), html: { method: :put }) do |f| %>
+  <%= render 'candidates/shared/edit_and_new_candidate', f: f, by_candidate: false, is_new: false %>
 <% end %>

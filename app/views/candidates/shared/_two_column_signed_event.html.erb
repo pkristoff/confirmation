@@ -10,26 +10,26 @@
   <% end %>
 </h2>
 
-<%= render partial:"candidates/shared/show_error_message",
-           :locals => {event_association: event_association} %>
+<%= render 'candidates/shared/show_error_message',
+           event_association: event_association %>
 
 <div class="actions">
-  <%= button_to t('views.common.download'), download_doc, {method: :put} %>
+  <%= button_to t('views.common.download'), download_doc, { method: :put } %>
 </div>
 
 
 <div id="two_column">
   <div id="left-col" class="left_col">
 
-    <%= render partial: 'candidates/shared/event_form',
-               :locals => {path: path,
-                           update_name: is_verify ? t('views.common.update_verify') : t('views.common.update'),
-                           id_postfix: is_verify ? '-verify' : '',
-                           is_verify: is_verify,
-                           shared_html_file: shared_html_file,
-                           is_event_with_picture: false,
-                           is_dev: is_dev
-               } %>
+    <%= render 'candidates/shared/event_form',
+               path: path,
+               update_name: is_verify ? t('views.common.update_verify') : t('views.common.update'),
+               id_postfix: is_verify ? '-verify' : '',
+               is_verify: is_verify,
+               shared_html_file: shared_html_file,
+               is_event_with_picture: false,
+               is_dev: is_dev
+    %>
 
   </div>
 

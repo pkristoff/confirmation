@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-<head >
-  <meta content = 'text/html; charset=UTF-8' http-equiv = 'Content-Type' />
-</head >
-<body >
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
 
-<%= render partial: 'shared/adhoc_body',
-           :locals => {
-               # mailing to single candidate is happening if true
-               # editing a single candidate message if false
-               render_mail_text: true
-           } %>
-</body >
-</html >
+<%= render 'shared/adhoc_body',
+           # mailing to single candidate is happening if true
+           # editing a single candidate message if false
+           render_mail_text: true
+%>
+</body>
+</html>

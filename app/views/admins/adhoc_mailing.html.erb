@@ -1,24 +1,23 @@
 <%= form_tag adhoc_mailing_update_path, method: :put do %>
 
-    <%= submit_tag t('email.adhoc_mail'), id: 'top-update' %>
-    <%= submit_tag t('email.test_adhoc_mail'), id: 'top-test' %>
-<br>
-    <%= label_tag('mail[subject]', t('email.subject_label')) %>:
-    <%= text_area_tag('mail[subject]', @subject) %> <br/>
+  <%= submit_tag t('email.adhoc_mail'), id: 'top-update' %>
+  <%= submit_tag t('email.test_adhoc_mail'), id: 'top-test' %>
+  <br>
+  <%= label_tag('mail[subject]', t('email.subject_label')) %>:
+  <%= text_area_tag('mail[subject]', @subject) %> <br/>
 
-    <%= label_tag('mail[body_input]', t('email.body_label')) %>:
-    <%= text_area_tag('mail[body_input]', @body) %> <br/>
+  <%= label_tag('mail[body_input]', t('email.body_label')) %>:
+  <%= text_area_tag('mail[body_input]', @body) %> <br/>
 
-    <%= render partial: 'shared/sorting_candidate_selection',
-               :locals => {
-                   candidate_info: @candidate_info,
-                   confirmation_event: nil,
-                   other_columns: nil,
-                   route: :adhoc_mailing,
-                   selected_candidate_ids: @selected_candidate_ids
-               } %>
+  <%= render 'shared/sorting_candidate_selection',
+             candidate_info: @candidate_info,
+             confirmation_event: nil,
+             other_columns: nil,
+             route: :adhoc_mailing,
+             selected_candidate_ids: @selected_candidate_ids
+  %>
 
-    <%= submit_tag t('email.adhoc_mail'), id: 'bottom-update' %>
-    <%= submit_tag t('email.test_adhoc_mail'), id: 'bottom-test' %>
+  <%= submit_tag t('email.adhoc_mail'), id: 'bottom-update' %>
+  <%= submit_tag t('email.test_adhoc_mail'), id: 'bottom-test' %>
 
 <% end %>

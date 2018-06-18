@@ -1,4 +1,4 @@
-<%= form_for(@candidate, as: :candidate, url: path, html: {method: :put,  autocomplete: "on"}) do |f| %>
+<%= form_for(@candidate, as: :candidate, url: path, html: { method: :put, autocomplete: "on" }) do |f| %>
 
   <div class="actions">
     <%= f.submit update_name, id: "top-update#{id_postfix}" %>
@@ -7,14 +7,13 @@
     <% end %>
   </div>
 
-  <%= render partial: "candidates/shared/#{shared_html_file}",
-             :locals => {
-                 f: f,
-                 # pictures
-                 candidate: is_event_with_picture ? candidate : nil,
-                 is_dev: is_dev,
-                 event_association: is_event_with_picture ? event_association : nil
-             } %>
+  <%= render "candidates/shared/#{shared_html_file}",
+             f: f,
+             # pictures
+             candidate: is_event_with_picture ? candidate : nil,
+             is_dev: is_dev,
+             event_association: is_event_with_picture ? event_association : nil
+  %>
 
 
   <div class="actions">
