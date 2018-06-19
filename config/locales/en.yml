@@ -303,6 +303,7 @@ en:
       contact_information: Contact Information
       help: Help
       home: Home
+      send_grid: Send Grid
       sign_in: Sign in %{name}
       sign_out: Sign out
       sign_up: Sign up
