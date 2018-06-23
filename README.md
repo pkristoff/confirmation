@@ -144,6 +144,12 @@ SendGrid
 https://sendgrid.com/docs/API_Reference/api_v3.html
 https://github.com/sendgrid/sendgrid-ruby/blob/master/examples/helpers/mail/example.rb#L21
 
+Year End
+-------------------
+- copy database to db/year-end/V1.0.18-ye.2017-18.dump
+- commit
+- tag code ex: V1.0.18-ye.2017-18
+
 Time consuming bugs
 -------------------
 - When exporting spreadsheet to excel get the error:
