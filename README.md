@@ -93,8 +93,8 @@ Postgres Production
 
 https://dashboard.heroku.com/apps
 
-Productiion: https://lit-earth-34236.herokuapp.com/
-Staging:  https://confirmation-staging.herokuapp.com/
+- Production: https://lit-earth-34236.herokuapp.com/
+- Staging:  https://confirmation-staging.herokuapp.com/
 
 Copy production db to staging
 - heroku pg:copy your-app::DATABASE_URL DATABASE_URL -a yourapp-staging
@@ -146,6 +146,13 @@ SendGrid
 -------------------
 - https://sendgrid.com/docs/API_Reference/api_v3.html
 - https://github.com/sendgrid/sendgrid-ruby/blob/master/examples/helpers/mail/example.rb#L21
+
+Year End
+-------------------
+- get copy of db
+  * heroku pg:backups:download --app lit-earth-34236
+  * mv latest.dump ~/Dropbox/Confirmation/2018-05/year-end/V1.0.18-ye.2017-18.dump
+- tag code ex: V1.0.18-ye.2017-18
 
 Time consuming bugs
 -------------------
