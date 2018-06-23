@@ -146,8 +146,9 @@ https://github.com/sendgrid/sendgrid-ruby/blob/master/examples/helpers/mail/exam
 
 Year End
 -------------------
-- copy database to db/year-end/V1.0.18-ye.2017-18.dump
-- commit
+- get copy of db
+  * heroku pg:backups:download --app lit-earth-34236
+  * mv latest.dump ~/Dropbox/Confirmation/2018-05/year-end/V1.0.18-ye.2017-18.dump
 - tag code ex: V1.0.18-ye.2017-18
 
 Time consuming bugs
