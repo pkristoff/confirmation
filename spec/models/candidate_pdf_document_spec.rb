@@ -16,11 +16,11 @@ describe CandidatePDFDocument, type: :model do
     end
     File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
       @candidate.retreat_verification.scanned_retreat =
-          ScannedImage.new(
-              filename: 'Baptismal Certificate.PDF',
-              content_type: 'application/pdf',
-              content: f.read
-          )
+        ScannedImage.new(
+          filename: 'Baptismal Certificate.PDF',
+          content_type: 'application/pdf',
+          content: f.read
+        )
     end
     @candidate.save
   end

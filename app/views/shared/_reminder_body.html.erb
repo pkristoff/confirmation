@@ -1,8 +1,8 @@
-<% if render_mail_text %>
+<% render_mail_text = local_assigns[:render_mail_text] %>
+
+<% unless render_mail_text %>
   <%= render 'shared/attach_file_to_email' %>
 <% end %>
-
-<% render_mail_text = local_assigns[:render_mail_text] %>
 
 <% if render_mail_text %>
   <p><%= @candidate_mailer_text.candidate.candidate_sheet.first_name %>,</p>
