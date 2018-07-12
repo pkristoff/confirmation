@@ -32,7 +32,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
   scenario 'admin' do
     visit mass_edit_candidates_event_path(@confirmation_event.id)
 
-    expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
+    expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
 
     click_link("pick-#{@cand_id}")
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
@@ -40,8 +40,12 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                                                                                            [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Saint name can\'t be blank']])
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify,
+                                       saint_name: '',
+                                       expect_messages: [
+                                         [:flash_notice, @updated_failed_verification],
+                                         [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Saint name can\'t be blank']]
+                                       ])
     candidate_event = candidate.get_candidate_event(I18n.t('events.confirmation_name'))
     expect(candidate_event.completed_date).to eq(nil)
     expect(candidate_event.verified).to eq(false)
@@ -51,10 +55,10 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    expect_mass_edit_candidates_event(@confirmation_event, candidate, nil)
+    expect_mass_edit_candidates_event(@confirmation_event, candidate.id, nil)
     candidate_event = candidate.get_candidate_event(@confirmation_event.name)
     expect(candidate_event.completed?)
-    expect(candidate_event.completed_date).to eq(Date.today)
+    expect(candidate_event.completed_date).to eq(Time.zone.today)
     expect(candidate_event.verified).to eq(true)
   end
 
@@ -64,7 +68,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
   # Admin clicks 'Update and Verify'
   # The mass_edit_candidates_event is opened and candidate has been verified.
   scenario 'admin' do
-    completed_date = Date.today - 1
+    completed_date = Time.zone.today - 1
     candidate = Candidate.find(@cand_id)
     candidate.pick_confirmation_name.saint_name = 'Paul'
     candidate_event = candidate.get_candidate_event(@confirmation_event.name)
@@ -73,7 +77,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     candidate.save
 
     visit mass_edit_candidates_event_path(@confirmation_event.id)
-    expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
+    expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
     # puts page.html
     click_link("pick-#{@cand_id}")
     # puts page.html

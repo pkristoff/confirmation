@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html >
-<head >
-  <meta content = 'text/html; charset=UTF-8' http-equiv = 'Content-Type' />
-</head >
-<body >
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
 
 <p>This is a test mass mailing message sending a message to the admin.</p>
 <p>Had it been real the below message would have been sent to the following email addresses</p>
@@ -17,11 +17,10 @@
 
 <p>The Message</p>
 
-<%= render partial: 'shared/reminder_body',
-           :locals => {
-               # mailing to single candidate is happening if true
-               # editing a single candidate message if false
-               render_mail_text: true
-           } %>
-</body >
-</html >
+<%= render 'shared/reminder_body',
+           # mailing to single candidate is happening if true
+           # editing a single candidate message if false
+           render_mail_text: true
+%>
+</body>
+</html>

@@ -3,7 +3,7 @@
 #
 # Active Record
 #
-class ScannedImage < ActiveRecord::Base
+class ScannedImage < ApplicationRecord
   belongs_to(:retreat_verification)
   belongs_to(:baptismal_certificate)
   belongs_to(:sponsor_covenant)

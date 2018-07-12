@@ -5,7 +5,7 @@ require 'constants'
 #
 # Person being confirmed
 #
-class Candidate < ActiveRecord::Base
+class Candidate < ApplicationRecord
   # TODO: Remove address - this should be gone.
   belongs_to(:address, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:address, allow_destroy: true)
@@ -48,7 +48,7 @@ class Candidate < ActiveRecord::Base
 
   # turn off sending verify instructions until admin sends it.
   #
-  def send_on_create_confirmation_instructions() end
+  def send_on_create_confirmation_instructions(); end
 
   # Sorts candidate events in priorty order (to be cmpleted first)
   #
@@ -288,6 +288,15 @@ class Candidate < ActiveRecord::Base
   #
   def confirm_account
     confirm
+  end
+
+  # keep only first, middle, and last names error messages
+  #
+  def keep_bc_errors
+    bc_errors = %w[First Middle Last]
+    errors.clone.each do |_attr, msg|
+      errors.messages[:base].delete(msg) if bc_errors.detect { |xxx| msg.include? xxx }.nil?
+    end
   end
 
   # Confirm user account when changing password
@@ -565,5 +574,11 @@ class Candidate < ActiveRecord::Base
     token = generate_confirmation_token
     candidate_mailer_text.token = token
     devise_mailer.confirmation_instructions(self, token)
+  end
+
+  # 5.0 hack with devise
+  #
+  def will_save_change_to_email?
+    false
   end
 end

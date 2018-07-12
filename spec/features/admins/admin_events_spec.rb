@@ -46,8 +46,8 @@ feature 'Admin events page', :devise do
     expect_form
 
     within_fieldset I18n.t('events.candidate_covenant_agreement') do
-      expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_the_way_due_date][value='#{Date.today}']")
-      expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_chs_due_date][value='#{Date.today}']")
+      expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_the_way_due_date][value='#{Time.zone.today}']")
+      expect(page).to have_selector("input[id=confirmation_events_#{agreement_event.id}_chs_due_date][value='#{Time.zone.today}']")
       expect(page).to have_field(I18n.t('label.events.instructions'), text: '')
     end
     within_fieldset I18n.t('events.candidate_information_sheet') do

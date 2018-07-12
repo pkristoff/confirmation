@@ -1,61 +1,59 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
-ruby '2.3.4'
-gem 'rails', '4.2.5.1'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
-gem 'jquery-rails'
-gem 'jbuilder', '~> 2.0'
-group :development, :test do
-  gem 'byebug'
-end
-group :development do
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
-end
+ruby '2.5.1'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'bootstrap-sass'
+gem 'coffee-rails'
 gem 'devise'
+# Avoid issues with turbolinks and jquery
+gem 'exception_notification'
 gem 'high_voltage'
+gem 'jbuilder'
+gem 'jquery-rails'
+gem 'jquery-tablesorter'
+gem 'jquery-turbolinks'
+gem 'pg', '=0.20'
+gem 'prawn'
+gem 'puma'
+gem 'rails', '5.2'
+gem 'rmagick'
+gem 'roo', '~> 2.4.0'
+gem 'sass-rails'
+gem 'sdoc'
+gem 'sendgrid-ruby'
+gem 'tinymce-rails'
+gem 'uglifier'
+gem 'zip-zip'
+# refering to master - remove branch
+gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
+gem 'sucker_punch'
 group :development do
   gem 'better_errors'
-  gem 'hub', :require=>nil
-  gem 'quiet_assets'
+  gem 'hub', require: nil
+  # does not exist in rails 5.0
+  # gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'web-console'
 end
 group :development, :test do
+  gem 'byebug'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'rspec-rails'
   gem 'rails_real_favicon'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
 end
 group :production do
+  gem 'rails_12factor'
   gem 'unicorn'
 end
 group :test do
-  gem 'capybara', '=2.7.1'
+  gem 'capybara'
   gem 'database_cleaner'
+  gem 'i18n-tasks'
   gem 'launchy'
   gem 'selenium-webdriver'
 end
-
-gem 'pg', '=0.20'
-gem 'rails_12factor', group: :production
-gem 'puma'
-gem 'roo', '~> 2.4.0'
-gem 'zip-zip'
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
-gem 'tinymce-rails', '=4.3.12'
-gem 'sucker_punch'
-gem 'jquery-tablesorter', '~> 1.23', '>= 1.23.2'
-# Avoid issues with turbolinks and jquery
-gem 'jquery-turbolinks'
-gem 'exception_notification'
-gem 'prawn'
-gem 'rmagick'
-group :test do
-  gem "i18n-tasks"
-end
-gem 'sendgrid-ruby'
-gem 'sdoc'

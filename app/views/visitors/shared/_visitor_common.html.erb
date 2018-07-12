@@ -29,10 +29,9 @@
   <!-- /#sidebar-wrapper -->
 
   <!-- Page Content -->
-  <%= render partial: page_content,
-             :locals => {candidate: (candidate ? candidate : nil),
-                         resource_errors: (resource_errors ? resource_errors : nil)
-             }
+  <%= render page_content,
+             candidate: (candidate ? candidate : nil),
+             resource_errors: (resource_errors ? resource_errors : nil)
   %>
   <!-- /#page-content-wrapper -->
 
@@ -41,8 +40,8 @@
 
 <!-- Menu Toggle Script -->
 <script>
-    $( "#menu-toggle" ).click( function ( e ) {
+    $("#menu-toggle").click(function (e) {
         e.preventDefault();
-        $( "#wrapper" ).toggleClass( "toggled" );
-    } );
+        $("#wrapper").toggleClass("toggled");
+    });
 </script>

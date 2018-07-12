@@ -21,7 +21,7 @@ shared_context 'candidate_sheet_html_erb' do
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expect_messages: [
                                   [:flash_notice, @updated_failed_verification],
-                                  [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Candidate email is an invalid email: m']
+                                  [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Candidate email is an invalid email: m']]
                                 ])
   end
 
@@ -34,7 +34,7 @@ shared_context 'candidate_sheet_html_erb' do
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expect_messages: [
                                   [:flash_notice, @updated_failed_verification],
-                                  [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Candidate email is an invalid email: mm']
+                                  [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Candidate email is an invalid email: mm']]
                                 ])
   end
 
@@ -53,7 +53,7 @@ shared_context 'candidate_sheet_html_erb' do
     if @admin_verified
 
       candidate = Candidate.find(@candidate.id)
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.candidate_information_sheet')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.candidate_information_sheet')), candidate.id, @updated_message)
 
     else
 
@@ -69,7 +69,8 @@ shared_context 'candidate_sheet_html_erb' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
     event_name = I18n.t('events.candidate_information_sheet')
-    @candidate.get_candidate_event(event_name).completed_date = Date.today
+    today = Time.zone.today
+    @candidate.get_candidate_event(event_name).completed_date = today
     @candidate.get_candidate_event(event_name).verified = true
     @candidate.save
 
@@ -82,12 +83,12 @@ shared_context 'candidate_sheet_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

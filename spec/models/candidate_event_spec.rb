@@ -4,6 +4,9 @@ require 'rails_helper'
 
 xxx = 0
 describe CandidateEvent, type: :model do
+  before(:each) do
+    @today = Time.zone.today
+  end
   describe 'relationship with ConfirmationEvent' do
     it 'basic creation' do
       confirmation_event = FactoryBot.create(:confirmation_event)
@@ -143,13 +146,13 @@ describe CandidateEvent, type: :model do
           expect(candidate_event.late?).to eq(true)
         end
         it 'should not be late? - due today' do
-          confirmation_event_started.chs_due_date = Date.today
-          confirmation_event_started.the_way_due_date = Date.today
+          confirmation_event_started.chs_due_date = @today
+          confirmation_event_started.the_way_due_date = @today
           expect(candidate_event.late?).to eq(false)
         end
         it 'should not be late? - due in the future' do
-          confirmation_event_started.chs_due_date = Date.today + 1
-          confirmation_event_started.the_way_due_date = Date.today + 1
+          confirmation_event_started.chs_due_date = @today + 1
+          confirmation_event_started.the_way_due_date = @today + 1
           expect(candidate_event.late?).to eq(false)
         end
       end
@@ -233,41 +236,41 @@ describe CandidateEvent, type: :model do
     end
 
     it 'if confirmation event due date set for today and < 30 days in future but candidate has done nothing "Coming Due"' do
-      @candidate_event.confirmation_event.chs_due_date = Date.today
-      @candidate_event.confirmation_event.the_way_due_date = Date.today
+      @candidate_event.confirmation_event.chs_due_date = @today
+      @candidate_event.confirmation_event.the_way_due_date = @today
       expect(@candidate_event.status).to eq('Coming Due')
     end
 
     it 'if confirmation event due date set < 30 days in the future but candidate has done nothing "Coming Due"' do
-      @candidate_event.confirmation_event.chs_due_date = Date.today + 29
-      @candidate_event.confirmation_event.the_way_due_date = Date.today + 29
+      @candidate_event.confirmation_event.chs_due_date = @today + 29
+      @candidate_event.confirmation_event.the_way_due_date = @today + 29
       expect(@candidate_event.status).to eq('Coming Due')
     end
 
     it 'if confirmation event due date set >= to 30 days in future but candidate has done nothing "Awaiting Candidate"' do
-      @candidate_event.confirmation_event.chs_due_date = Date.today + 30
-      @candidate_event.confirmation_event.the_way_due_date = Date.today + 30
+      @candidate_event.confirmation_event.chs_due_date = @today + 30
+      @candidate_event.confirmation_event.the_way_due_date = @today + 30
       expect(@candidate_event.status).to eq('Awaiting Candidate')
     end
 
     it 'if confirmation event due date set before today but candidate has done nothing "Late"' do
-      @candidate_event.confirmation_event.chs_due_date = Date.today - 1
-      @candidate_event.confirmation_event.the_way_due_date = Date.today - 1
+      @candidate_event.confirmation_event.chs_due_date = @today - 1
+      @candidate_event.confirmation_event.the_way_due_date = @today - 1
       expect(@candidate_event.status).to eq('Late')
     end
 
     it 'if confirmation event due date set, candidate completes event and admin has not verified "Awaiting Admin"' do
-      @candidate_event.confirmation_event.chs_due_date = Date.today
-      @candidate_event.confirmation_event.the_way_due_date = Date.today
-      @candidate_event.completed_date = Date.today
+      @candidate_event.confirmation_event.chs_due_date = @today
+      @candidate_event.confirmation_event.the_way_due_date = @today
+      @candidate_event.completed_date = @today
       @candidate_event.verified = false
       expect(@candidate_event.status).to eq('Awaiting Admin')
     end
 
     it 'if confirmation event due date set, candidate completes event and admin verified "Completed"' do
-      @candidate_event.confirmation_event.chs_due_date = Date.today
-      @candidate_event.confirmation_event.the_way_due_date = Date.today
-      @candidate_event.completed_date = Date.today
+      @candidate_event.confirmation_event.chs_due_date = @today
+      @candidate_event.confirmation_event.the_way_due_date = @today
+      @candidate_event.completed_date = @today
       @candidate_event.verified = true
       expect(@candidate_event.status).to eq('Verified')
     end
@@ -289,7 +292,7 @@ describe CandidateEvent, type: :model do
 
         candidate_event.mark_completed(true, association_class_pair[0])
 
-        expect(candidate_event.completed_date).to eq(Date.today)
+        expect(candidate_event.completed_date).to eq(@today)
         expect(candidate_event.verified).to eq(association_class_pair[1]), "Verification does not match for association #{association_class_pair[0]} expected: #{association_class_pair[1]}"
       end
     end
@@ -304,7 +307,7 @@ describe CandidateEvent, type: :model do
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
        [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]].each do |association_class_pair|
 
-        candidate_event.completed_date = Date.today
+        candidate_event.completed_date = @today
         candidate_event.verified = true
 
         candidate_event.mark_completed(false, association_class_pair[0])

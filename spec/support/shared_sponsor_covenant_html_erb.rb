@@ -120,7 +120,7 @@ shared_context 'sponsor_covenant_html_erb' do
     event = candidate_db_update.get_candidate_event(SPONSOR_COVENANT_EVENT)
     # this errors periodically
     expect(event.candidate).to eq(candidate_db_update)
-    expect(event.completed_date).to eq(Date.today)
+    expect(event.completed_date).to eq(Time.zone.today)
     expect(event.verified).to eq(false)
 
     visit @path
@@ -175,7 +175,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Sponsor name can\'t be blank']],
+                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Sponsor name can\'t be blank']]],
                                  sponsor_name: '')
   end
 

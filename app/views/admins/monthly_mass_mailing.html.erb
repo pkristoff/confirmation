@@ -1,23 +1,21 @@
-<%= form_tag monthly_mass_mailing_update_path, method: :put do %>
+<%= form_tag monthly_mass_mailing_update_path, method: :put, multipart: true do %>
 
-    <%= submit_tag t('email.monthly_mail'), id: 'top-update' %>
-    <%= submit_tag t('email.test_monthly_mail'), id: 'top-test' %>
+  <%= submit_tag t('email.monthly_mail'), id: 'top-update' %>
+  <%= submit_tag t('email.test_monthly_mail'), id: 'top-test' %>
 
-    <%= render partial: 'shared/reminder_body',
-               :locals => {
-                   render_mail_text: false
-               } %>
+  <%= render 'shared/reminder_body',
+             render_mail_text: false
+  %>
 
-    <%= render partial: 'shared/sorting_candidate_selection',
-               :locals => {
-                   candidate_info: @candidate_info,
-                   confirmation_event: nil,
-                   other_columns: nil,
-                   route: :monthly_mass_mailing,
-                   selected_candidate_ids: @selected_candidate_ids
-               } %>
+  <%= render 'shared/sorting_candidate_selection',
+             candidate_info: @candidate_info,
+             confirmation_event: nil,
+             other_columns: nil,
+             route: :monthly_mass_mailing,
+             selected_candidate_ids: @selected_candidate_ids
+  %>
 
-    <%= submit_tag t('email.monthly_mail'), id: 'bottom-update' %>
-    <%= submit_tag t('email.test_monthly_mail'), id: 'bottom-test' %>
+  <%= submit_tag t('email.monthly_mail'), id: 'bottom-update' %>
+  <%= submit_tag t('email.test_monthly_mail'), id: 'bottom-test' %>
 
 <% end %>

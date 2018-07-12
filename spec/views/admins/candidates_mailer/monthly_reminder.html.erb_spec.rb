@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 describe 'candidates_mailer/monthly_reminder.html.erb' do
-  today = Date.today.to_s
-
   before(:each) do
+    @today = Time.zone.today
     @render_mail_text = true
 
     candidate = FactoryBot.create(:candidate)
@@ -36,7 +35,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   it 'display with all late' do
-    change_due_date(Date.today - 2)
+    change_due_date(@today - 2)
 
     change_completed_date('')
 
@@ -52,7 +51,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   it 'display with all coming due' do
-    change_due_date(Date.today + 1)
+    change_due_date(@today + 1)
 
     change_completed_date('')
 
@@ -70,7 +69,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   it 'display with all completed' do
     completed_values = @candidate.candidate_events.map do |ce|
       ce.verified = true
-      ce.completed_date = today
+      ce.completed_date = @today
       info = []
       case ce.name
       when I18n.t('events.confirmation_name')
@@ -90,7 +89,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << %w[State HA]
         info << ['Zip Code', '12345']
       when I18n.t('events.candidate_information_sheet')
-        info << [:name, 'Sophia Agusta']
+        info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
         info << [:street_1, '2120 Frissell Ave.']
         info << [:street_2, 'Apt. 456']
@@ -111,7 +110,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   it 'display with all completed awaiting admin appproval' do
     completed_awaiting_values = @candidate.candidate_events.map do |ce|
       ce.verified = false
-      ce.completed_date = today
+      ce.completed_date = @today
       info = []
       case ce.name
       when I18n.t('events.confirmation_name')
@@ -131,7 +130,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << %w[State HA]
         info << ['Zip Code', '12345']
       when I18n.t('events.candidate_information_sheet')
-        info << [:name, 'Sophia Agusta']
+        info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
         info << [:street_1, '2120 Frissell Ave.']
         info << [:street_2, 'Apt. 456']
@@ -151,19 +150,19 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
   it 'display with mixture of events' do
     late_events_event = @candidate.get_candidate_event(I18n.t('events.parent_meeting'))
-    late_events_event.confirmation_event.chs_due_date = Date.today - 2
-    late_events_event.confirmation_event.the_way_due_date = Date.today - 2
+    late_events_event.confirmation_event.chs_due_date = @today - 2
+    late_events_event.confirmation_event.the_way_due_date = @today - 2
     late_events_event.save
     late_events_values = [[late_events_event.name, late_events_event.id]]
 
     completed_awaiting_event = @candidate.get_candidate_event(I18n.t('events.retreat_verification'))
-    completed_awaiting_event.completed_date = Date.today - 2
+    completed_awaiting_event.completed_date = @today - 2
     completed_awaiting_event.verified = false
     completed_awaiting_event.save
     completed_awaiting_values = [[completed_awaiting_event.name, completed_awaiting_event.id, []]]
 
     completed_events_event = @candidate.get_candidate_event(I18n.t('events.christian_ministry'))
-    completed_events_event.completed_date = Date.today - 2
+    completed_events_event.completed_date = @today - 2
     completed_events_event.verified = true
     completed_events_event.save
     completed_events_values = [[completed_events_event.name, completed_events_event.id, []]]
@@ -175,7 +174,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |i18n_name| i18n_name != 'events.parent_meeting' && i18n_name != 'events.retreat_verification' && i18n_name != 'events.christian_ministry' }.map do |i18n_name|
       name = I18n.t(i18n_name)
       id = @candidate.get_candidate_event(name).id
-      [name, id, today]
+      [name, id, @today]
     end
 
     expect_view(late_events_values,

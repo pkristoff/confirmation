@@ -14,6 +14,7 @@ end
 shared_context 'christian_ministry_html_erb' do
   include ViewsHelpers
   before(:each) do
+    @today = Time.zone.today
     @cand_id = @candidate.id
     cand_name = 'Sophia Agusta'
     @admin_verified = @updated_message == I18n.t('messages.updated_verified', cand_name: cand_name)
@@ -43,7 +44,7 @@ shared_context 'christian_ministry_html_erb' do
 
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.christian_ministry')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.christian_ministry')), candidate.id, @updated_message)
 
     else
 
@@ -53,7 +54,7 @@ shared_context 'christian_ministry_html_erb' do
                                      expect_messages: [[:flash_notice, @updated_message]])
     end
 
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(@today)
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
 
     visit @path
@@ -77,7 +78,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@cand_id)
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.christian_ministry')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.christian_ministry')), candidate.id, @updated_message)
 
     else
 
@@ -87,7 +88,7 @@ shared_context 'christian_ministry_html_erb' do
                                      expect_messages: [[:flash_notice, @updated_message]])
     end
 
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(@today)
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
 
     visit @path
@@ -112,7 +113,7 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '',
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, 'Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied: What service can\'t be blank Where service can\'t be blank When service can\'t be blank Helped me can\'t be blank']])
+                                                     [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
 
     candidate = Candidate.find(@cand_id)
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(nil)
@@ -140,7 +141,7 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME,
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: What service can\'t be blank']])
+                                                     [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'What service can\'t be blank']]])
 
     expect_db(1, 9, 0) # make sure DB does not increase in size.
   end
@@ -155,7 +156,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate.christian_ministry.where_service = 'ppp'
     candidate.christian_ministry.helped_me = 'ooo'
 
-    candidate.get_candidate_event(event_name).completed_date = Date.today
+    candidate.get_candidate_event(event_name).completed_date = @today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
     update_christian_ministry(true)
@@ -169,12 +170,12 @@ shared_context 'christian_ministry_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(@today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

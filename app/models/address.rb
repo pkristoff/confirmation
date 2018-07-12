@@ -2,7 +2,7 @@
 
 # Active Record
 #
-class Address < ActiveRecord::Base
+class Address < ApplicationRecord
   # Editable attributes
   #
   # === Returns:

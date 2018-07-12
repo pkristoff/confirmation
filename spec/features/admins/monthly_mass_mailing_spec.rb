@@ -23,9 +23,13 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.closing_text_label'), with: 'The closing_text'
     fill_in I18n.t('email.salutation_text_label'), with: 'The salutation_text'
     fill_in I18n.t('email.from_text_label'), with: 'The from_text'
+    attach_file(I18n.t('label.mail.attach_file'), 'spec/fixtures/Initial candidates update.xlsx')
+
     click_button('top-update')
 
     expect_message(:flash_alert, I18n.t('messages.no_candidate_selected'))
+    have_css('form[enctype="multipart/form-data"]')
+    expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
     expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
@@ -34,6 +38,8 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
     expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
     expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
+
+    expect_mail_attadchment_upload
   end
 
   scenario 'admin can send email to multiple candidates' do

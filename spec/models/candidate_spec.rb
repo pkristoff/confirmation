@@ -2,6 +2,11 @@
 
 describe Candidate do
   include ActionDispatch::TestProcess
+
+  before(:each) do
+    @today = Time.zone.today
+  end
+
   describe 'address' do
     it 'can retrieve a candiadate\'s address' do
       candidate = FactoryBot.create(:candidate)
@@ -185,10 +190,10 @@ describe Candidate do
 
   describe 'external verification' do
     before(:each) do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
-      c2 = create_candidate('c2', 'Vicki', 'Kristoff')
-      c3 = create_candidate('c3', 'Karen', 'Kristoff')
-      c4 = create_candidate('c4', 'aaa', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
+      c2 = create_candidate_local('c2', 'Vicki', 'Kristoff')
+      c3 = create_candidate_local('c3', 'Karen', 'Kristoff')
+      c4 = create_candidate_local('c4', 'aaa', 'Kristoff')
 
       AppFactory.add_confirmation_events
 
@@ -200,14 +205,13 @@ describe Candidate do
 
     it 'baptismal_external_verification?' do
       event_key = I18n.t('events.baptismal_certificate')
-      today = Date.today
       @c1.baptismal_certificate.baptized_at_stmm = false
       @c1.baptismal_certificate.first_comm_at_stmm = false
-      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.baptismal_certificate.baptized_at_stmm = true
       @c2.baptismal_certificate.first_comm_at_stmm = false
-      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
       @c3.baptismal_certificate.baptized_at_stmm = true
       @c3.baptismal_certificate.first_comm_at_stmm = false
@@ -215,7 +219,7 @@ describe Candidate do
       @c3.save
       @c4.baptismal_certificate.baptized_at_stmm = false
       @c4.baptismal_certificate.first_comm_at_stmm = true
-      @c4.get_candidate_event(event_key).completed_date = today
+      @c4.get_candidate_event(event_key).completed_date = @today
       @c4.save
 
       expect_external_verification(Candidate.baptismal_external_verification, [@c2, @c4], [@c1], [], [@c3])
@@ -223,12 +227,11 @@ describe Candidate do
 
     it 'confirmation_name_external_verification' do
       event_key = I18n.t('events.confirmation_name')
-      today = Date.today
       @c1.pick_confirmation_name.saint_name = 'xxx'
-      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.pick_confirmation_name.saint_name = 'xxx'
-      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).completed_date = @today
       @c2.get_candidate_event(event_key).verified = true
       @c2.save
       @c3.pick_confirmation_name.saint_name = nil
@@ -246,12 +249,11 @@ describe Candidate do
 
     it 'retreat_external_verification??' do
       event_key = I18n.t('events.retreat_verification')
-      today = Date.today
       @c1.retreat_verification.retreat_held_at_stmm = false
-      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.retreat_verification.retreat_held_at_stmm = true
-      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
       @c3.retreat_verification.retreat_held_at_stmm = true
       @c3.get_candidate_event(event_key).completed_date = nil
@@ -262,12 +264,11 @@ describe Candidate do
 
     it 'sponsor_external_verification?' do
       event_key = I18n.t('events.sponsor_covenant')
-      today = Date.today
       @c1.sponsor_covenant.sponsor_attends_stmm = false
-      @c1.get_candidate_event(event_key).completed_date = today
+      @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.sponsor_covenant.sponsor_attends_stmm = true
-      @c2.get_candidate_event(event_key).completed_date = today
+      @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
       @c3.sponsor_covenant.sponsor_attends_stmm = true
       @c3.get_candidate_event(event_key).completed_date = nil
@@ -279,19 +280,19 @@ describe Candidate do
 
   describe 'password' do
     it 'should return false if password is not initial password' do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c1.password = 'abcdefghij'
       expect(c1.password_changed?).to eq(true)
     end
 
     it 'should return false if password is initial password' do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c1.password = Event::Other::INITIAL_PASSWORD
       expect(c1.password_changed?).to eq(false)
     end
 
     it 'should return true if password is changed back to initial password' do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c1.password = 'abcdefghij'
       expect(c1.password_changed?).to eq(true)
       c1.password = Event::Other::INITIAL_PASSWORD
@@ -322,7 +323,7 @@ describe Candidate do
 
   describe 'password_reset_message' do
     it 'should return a DeliveryMessage' do
-      c1 = create_candidate('c1', 'Paul', 'Kristoff')
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       delivery = c1.password_reset_message(CandidatesMailerText.new(candidate: c1, subject: 'sub', body_input: ''))
       expect(delivery).not_to eq(nil)
       text = delivery.message.body.to_s
@@ -333,7 +334,7 @@ describe Candidate do
     end
   end
 
-  def create_candidate(account_name, first, last)
+  def create_candidate_local(account_name, first, last)
     candidate = FactoryBot.create(:candidate, account_name: account_name)
     candidate.candidate_sheet.first_name = first
     candidate.candidate_sheet.last_name = last

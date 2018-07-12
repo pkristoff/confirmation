@@ -416,7 +416,7 @@ def expect_confirmation_event(event_name, way_date, chs_date)
 end
 
 def expect_initial_conf_events
-  today = Date.today.to_s
+  today = Time.zone.today.to_s
 
   expect_confirmation_event(I18n.t('events.parent_meeting'), today, today)
   expect_confirmation_event(I18n.t('events.retreat_verification'), today, today)
@@ -987,8 +987,8 @@ def expect_confirmation_events_empty(wks, candidate_import)
     # puts row.cells[0].value
     expect(row.cells[0].value).to eq(event.name)
     expect(row.cells[1].value).to eq(index)
-    expect(row.cells[2].value.to_s).to eq(Date.today.to_s)
-    expect(row.cells[3].value.to_s).to eq(Date.today.to_s)
+    expect(row.cells[2].value.to_s).to eq(Time.zone.today.to_s)
+    expect(row.cells[3].value.to_s).to eq(Time.zone.today.to_s)
     expect(row.cells[4].value.to_s).to eq('')
   end
 end

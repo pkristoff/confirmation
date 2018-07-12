@@ -3,13 +3,14 @@
 #
 # Basic information about candidate.
 #
-class CandidateSheet < ActiveRecord::Base
+class CandidateSheet < ApplicationRecord
   belongs_to(:address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :address, allow_destroy: true
 
   after_initialize :build_associations, if: :new_record?
 
-  validates_presence_of(:first_name, :last_name)
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   # Validate if event is complete by adding validation errors to active record
   #
@@ -62,7 +63,6 @@ class CandidateSheet < ActiveRecord::Base
   #
   def self.basic_validation_params
     params = CandidateSheet.basic_permitted_params
-    params.delete(:middle_name)
     params.delete(:candidate_email)
     params.delete(:parent_email_1)
     params.delete(:parent_email_2)
@@ -171,8 +171,7 @@ class CandidateSheet < ActiveRecord::Base
   # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
-    # TODO: come up with prettier names
-    { name: "#{first_name} #{last_name}",
+    { name: "#{first_name} #{middle_name} #{last_name}",
       grade: grade,
       street_1: address.street_1,
       street_2: address.street_2,

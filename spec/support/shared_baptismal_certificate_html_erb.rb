@@ -10,16 +10,19 @@ STATE = 'IN'
 ZIP_CODE = '47129'
 FATHER_FIRST = 'Paul'
 FATHER_MIDDLE = 'The'
-LAST_NAME = 'Apostle'
+LAST_NAME = 'Agusta'
 MOTHER_FIRST = 'Paulette'
 MOTHER_MIDDLE = 'Thette'
 MOTHER_MAIDEN = 'Mary'
+FIRST_NAME = 'Sophia'
+MIDDLE_NAME = 'xxx'
 
 shared_context 'baptismal_certificate_html_erb' do
   include ViewsHelpers
   before(:each) do
     event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, @is_verify)
     AppFactory.add_confirmation_events
+    @today = Time.zone.today
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_stmm = false, show_empty_radio = 0, nothing else showing' do
@@ -121,7 +124,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
 
     else
 
@@ -145,6 +148,10 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(candidate.baptismal_certificate.mother_maiden).to eq(MOTHER_MAIDEN)
     expect(candidate.baptismal_certificate.mother_last).to eq(LAST_NAME)
 
+    expect(candidate.candidate_sheet.first_name).to eq(FIRST_NAME)
+    expect(candidate.candidate_sheet.middle_name).to eq(MIDDLE_NAME)
+    expect(candidate.candidate_sheet.last_name).to eq(LAST_NAME)
+
     expect_db(1, 9, 1) # make sure DB does not increase in size.
   end
 
@@ -161,7 +168,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
 
     else
 
@@ -180,7 +187,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
 
     else
 
@@ -190,7 +197,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect(candidate.baptismal_certificate).not_to eq(nil) # always created now
     expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(true)
-    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(@today)
     expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).verified).to eq(@is_verify)
   end
 
@@ -198,20 +205,31 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.baptismal_certificate.baptized_at_stmm = false
     @candidate.baptismal_certificate.first_comm_at_stmm = false
     @candidate.baptismal_certificate.show_empty_radio = 2
-    @candidate.save
     update_baptismal_certificate(false)
+    @candidate.save
 
     expect_db(1, 9, 0)
 
     visit @path
-
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                        [:error_explanation, "Your changes were saved!! 11 empty fields need to be filled in on the form to be verfied: Birth date can't be blank Baptismal date can't be blank Church name can't be blank Father first can't be blank Father middle can't be blank Father last can't be blank Mother first can't be blank Mother middle can't be blank Mother maiden can't be blank Mother last can't be blank Street 1 can't be blank"]])
+                                                        [:error_explanation, ['Your changes were saved!! 12 empty fields need to be filled in on the form to be verfied:',
+                                                                              'Middle Name can\'t be blank',
+                                                                              'Birth date can\'t be blank',
+                                                                              'Baptismal date can\'t be blank',
+                                                                              'Church name can\'t be blank',
+                                                                              'Father first can\'t be blank',
+                                                                              'Father middle can\'t be blank',
+                                                                              'Father last can\'t be',
+                                                                              'blank Mother first can\'t be blank',
+                                                                              'Mother middle can\'t be blank',
+                                                                              'Mother maiden can\'t be blank',
+                                                                              'Mother last can\'t be blank',
+                                                                              'Street 1 can\'t be blank']]])
 
     expect_db(1, 9, 1)
     expect(page).to have_selector(img_src_selector)
@@ -223,7 +241,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
 
     else
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
@@ -241,6 +259,55 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_db(1, 9, 1) # make sure DB does not increase in size.
   end
 
+  scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
+    @candidate.baptismal_certificate.baptized_at_stmm = false
+    @candidate.baptismal_certificate.first_comm_at_stmm = false
+    @candidate.baptismal_certificate.show_empty_radio = 2
+    update_baptismal_certificate(true)
+    @candidate.candidate_sheet.middle_name = ''
+    @candidate.save
+
+    visit @path
+    attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+    click_button @update_id
+
+    candidate = Candidate.find(@candidate.id)
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
+                                      expect_messages: [[:flash_notice, @updated_failed_verification],
+                                                        [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:',
+                                                                              'Middle Name can\'t be blank']]])
+
+    candidate = Candidate.find(@candidate.id)
+
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
+
+    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).verified).to eq(false), 'Baptismal certificate not verified.'
+    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(Time.zone.today)
+
+    expect(candidate.get_candidate_event(I18n.t('events.candidate_information_sheet')).verified).to eq(false)
+    expect(candidate.get_candidate_event(I18n.t('events.candidate_information_sheet')).completed_date).to eq(nil)
+
+    fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+
+    click_button @update_id
+
+    if @is_verify
+
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+
+    else
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
+    end
+
+    cand = Candidate.find_by(id: candidate.id)
+    expect(cand.get_candidate_event(I18n.t('events.baptismal_certificate')).verified).to eq(@is_verify), 'Baptismal certificate not verified.'
+    expect(cand.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(Time.zone.today)
+
+    # candidate_information_sheet if completed is automatically verified
+    expect(cand.get_candidate_event(I18n.t('events.candidate_information_sheet')).verified?).to eq(true)
+    expect(cand.get_candidate_event(I18n.t('events.candidate_information_sheet')).completed_date).to eq(Time.zone.today)
+  end
+
   scenario 'admin logs in and selects a candidate, checks no for baptized_at_stmm and updates' do
     @candidate.baptismal_certificate.baptized_at_stmm = false
     @candidate.baptismal_certificate.first_comm_at_stmm = false
@@ -255,7 +322,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                        [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: I received First Communion at Saint Mary Magdalene should be checked.']])
+                                                        [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'I received First Communion at Saint Mary Magdalene should be checked.']]])
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds non-picture data, updates, adds picture, updates - everything is saved' do
@@ -279,7 +346,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
 
     else
 
@@ -302,7 +369,7 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.baptismal_certificate.baptized_at_stmm = true
     @candidate.baptismal_certificate.show_empty_radio = 1
     event_name = I18n.t('events.baptismal_certificate')
-    @candidate.get_candidate_event(event_name).completed_date = Date.today
+    @candidate.get_candidate_event(event_name).completed_date = @today
     @candidate.get_candidate_event(event_name).verified = true
     @candidate.save
 
@@ -315,12 +382,12 @@ shared_context 'baptismal_certificate_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(@today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 
@@ -343,7 +410,11 @@ shared_context 'baptismal_certificate_html_erb' do
                                           mother_first: dont_show_values ? nil : MOTHER_FIRST,
                                           mother_middle: dont_show_values ? nil : MOTHER_MIDDLE,
                                           mother_maiden: dont_show_values ? nil : MOTHER_MAIDEN,
-                                          mother_last: dont_show_values ? nil : LAST_NAME
+                                          mother_last: dont_show_values ? nil : LAST_NAME,
+
+                                          first_name: dont_show_values ? nil : FIRST_NAME,
+                                          middle_name: dont_show_values ? nil : MIDDLE_NAME,
+                                          last_name: dont_show_values ? nil : LAST_NAME
                                         })
 
     # street_1 = values[:street_1].nil? ? STREET_1 : values[:street_1]
@@ -446,6 +517,11 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in('Mother middle', with: MOTHER_MIDDLE)
     fill_in('Mother maiden', with: MOTHER_MAIDEN)
     fill_in('Mother last', with: LAST_NAME)
+
+    fill_in(I18n.t('label.candidate_sheet.first_name'), with: FIRST_NAME)
+    fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+    fill_in(I18n.t('label.candidate_sheet.last_name'), with: LAST_NAME)
+
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png') if attach_file
   end
 
@@ -455,7 +531,13 @@ shared_context 'baptismal_certificate_html_erb' do
 
   def update_baptismal_certificate(with_values)
     baptismal_certificate = @candidate.baptismal_certificate
+
+    candidate_sheet = @candidate.candidate_sheet
+    candidate_sheet.middle_name = '' unless with_values
+    candidate_sheet.attending = '' unless with_values
+
     return unless with_values
+
     baptismal_certificate.birth_date = Date.parse(BIRTH_DATE)
     baptismal_certificate.baptismal_date = Date.parse(BAPTISMAL_DATE)
 
@@ -474,6 +556,10 @@ shared_context 'baptismal_certificate_html_erb' do
     baptismal_certificate.mother_middle = MOTHER_MIDDLE
     baptismal_certificate.mother_maiden = MOTHER_MAIDEN
     baptismal_certificate.mother_last = LAST_NAME
+
+    candidate_sheet.first_name = FIRST_NAME
+    candidate_sheet.middle_name = MIDDLE_NAME
+    candidate_sheet.last_name = LAST_NAME
     @candidate.save
   end
 end

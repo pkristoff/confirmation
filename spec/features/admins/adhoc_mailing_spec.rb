@@ -18,13 +18,17 @@ feature 'Admin monthly mass mailing', :devise do
 
     fill_in I18n.t('email.subject_label'), with: 'The subject'
     fill_in I18n.t('email.body_label'), with: 'The body'
+    attach_file(I18n.t('label.mail.attach_file'), 'spec/fixtures/Initial candidates update.xlsx')
 
     click_button('top-update')
 
     # puts page.html
     expect_message(:flash_alert, I18n.t('messages.no_candidate_selected'))
+    have_css('form[enctype="multipart/form-data"]')
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')
+
+    expect_mail_attadchment_upload
   end
 
   scenario 'admin can send email to multiple candidates' do

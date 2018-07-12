@@ -108,11 +108,8 @@ module ViewsHelpers
     expect(rendered_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.pre_late_text_label'), text: I18n.t('email.late_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.pre_coming_due_text_label'), text: I18n.t('email.coming_due_initial_text'))
-    # had to break this into two parts because it could not be found together.  I think it is a bug with RSpec.
-    expect(rendered_or_page).to have_field(I18n.t('email.completed_awaiting_text_label'))
-    expect(rendered_or_page).to have_content(I18n.t('email.completed_awaiting_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.completed_text_label'))
-    expect(rendered_or_page).to have_content(I18n.t('email.completed_initial_text'))
+    expect(rendered_or_page).to have_field(I18n.t('email.completed_awaiting_text_label'), text: I18n.t('email.completed_awaiting_initial_text'))
+    expect(rendered_or_page).to have_field(I18n.t('email.completed_text_label'), text: I18n.t('email.completed_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.closing_text_label'), text: I18n.t('email.closing_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.salutation_text_label'), text: I18n.t('email.salutation_initial_text'))
     expect(rendered_or_page).to have_field(I18n.t('email.from_text_label'), text: 'Vicki Kristoff')
@@ -125,11 +122,14 @@ module ViewsHelpers
   end
 
   def expect_password_changed
-    ->(candidate, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: 'true' }
+    ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true' }
   end
 
   def expect_account_confirmed
-    ->(candidate, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{candidate.id}_td#{td_index}]", text: candidate.account_confirmed? }
+    lambda { |cand_id, rendered, td_index|
+      candidate = Candidate.find_by(id: cand_id)
+      expect(rendered).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: candidate.account_confirmed?
+    }
   end
 
   def setup_unknown_missing_events

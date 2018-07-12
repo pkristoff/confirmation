@@ -32,7 +32,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
   scenario 'admin' do
     visit mass_edit_candidates_event_path(@confirmation_event.id)
 
-    expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
+    expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
 
     click_link("cma-#{@cand_id}")
     expect_christian_ministry_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
@@ -42,7 +42,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     expect_christian_ministry_form(@cand_id, @path_str, @dev, @update_id, @is_verify,
                                    saint_name: '',
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, 'Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied: What service can\'t be blank Where service can\'t be blank When service can\'t be blank Helped me can\'t be blank']])
+                                                     [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
     candidate = Candidate.find(@cand_id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.christian_ministry'))
     expect(candidate_event.completed_date).to eq(nil)
@@ -56,10 +56,10 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    expect_mass_edit_candidates_event(@confirmation_event, candidate, nil)
+    expect_mass_edit_candidates_event(@confirmation_event, candidate.id, nil)
     candidate_event = candidate.get_candidate_event(@confirmation_event.name)
     expect(candidate_event.completed?)
-    expect(candidate_event.completed_date).to eq(Date.today)
+    expect(candidate_event.completed_date).to eq(Time.zone.today)
     expect(candidate_event.verified).to eq(true)
   end
   # Admin opens mass edit candidates event for pick candidate event
@@ -68,7 +68,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
   # Admin clicks 'Update and Verify'
   # The mass_edit_candidates_event is opened and candidate has been verified.
   scenario 'admin' do
-    completed_date = Date.today - 1
+    completed_date = Time.zone.today - 1
     candidate = Candidate.find(@cand_id)
     candidate.christian_ministry.what_service = 'What'
     candidate.christian_ministry.where_service = 'Where'
@@ -80,7 +80,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     candidate.save
 
     visit mass_edit_candidates_event_path(@confirmation_event.id)
-    expect_mass_edit_candidates_event(@confirmation_event, Candidate.find(@cand_id), nil)
+    expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
     # puts page.html
     click_link("cma-#{@cand_id}")
     # puts page.html

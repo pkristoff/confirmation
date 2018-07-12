@@ -19,7 +19,7 @@ shared_context 'sign_an_agreement_html_erb' do
     candidate = Candidate.find(@cand_id)
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @documant_key, @event_name, @update_id, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: By checking you agree to the above. needs to be checked']])
+                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'By checking you agree to the above. needs to be checked']]])
   end
 
   scenario 'user(candidate or admin) logs in, selects signing an agreement, has signed agreement previously' do
@@ -43,7 +43,7 @@ shared_context 'sign_an_agreement_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: @event_name), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: @event_name), candidate.id, @updated_message)
 
     else
       expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @documant_key, @event_name, @update_id, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
@@ -62,10 +62,11 @@ shared_context 'sign_an_agreement_html_erb' do
     click_button(@update_id)
 
     candidate = Candidate.find(@cand_id)
+
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @documant_key, @event_name, @update_id, @is_verify,
                                  expect_messages: [
                                    [:flash_notice, @updated_failed_verification],
-                                   [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: By checking you agree to the above. needs to be checked']
+                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'By checking you agree to the above. needs to be checked']]
                                  ])
   end
 
@@ -75,7 +76,8 @@ shared_context 'sign_an_agreement_html_erb' do
     event_name = @event_name
     candidate = Candidate.find(@cand_id)
     candidate.send(@sign_agreement_setter, true)
-    candidate.get_candidate_event(event_name).completed_date = Date.today
+    today = Time.zone.today
+    candidate.get_candidate_event(event_name).completed_date = today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
 
@@ -88,12 +90,12 @@ shared_context 'sign_an_agreement_html_erb' do
 
     candidate = Candidate.find(@cand_id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @documant_key, @event_name, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

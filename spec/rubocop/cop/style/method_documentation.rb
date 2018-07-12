@@ -214,15 +214,15 @@ module RuboCop
           current = nil
           comments.each_with_index do |comment_line, i|
             text_line = comment_line.text
-            if RETURNS_REGEXP.match(text_line)
+            if RETURNS_REGEXP.match?(text_line)
               current.end = i - 1 unless current.nil?
               returns.start = i # [comment_line, i, 0]
               current = returns
-            elsif PARMS_REGEXP.match(text_line)
+            elsif PARMS_REGEXP.match?(text_line)
               current.end = i - 1 unless current.nil?
               parms.start = i # [comment_line, i, 0]
               current = parms
-            elsif ATTR_REGEXP.match(text_line)
+            elsif ATTR_REGEXP.match?(text_line)
               current.end = i - 1 unless current.nil?
               attrs.start = i # [comment_line, i, 0]
               current = attrs

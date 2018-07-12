@@ -7,7 +7,7 @@ RSpec.describe 'I18n' do
   let(:missing_keys) {i18n.missing_keys}
   let(:unused_keys) {i18n.unused_keys}
   # these keys are used even though this says otherwise.
-  let(:used_keys) {%w(
+  let(:used_keys) {%w[
         label.candidate_event.select
         views.admins.current_password
         views.admins.email
@@ -19,7 +19,7 @@ RSpec.describe 'I18n' do
         views.common.password
         views.common.password_confirmation
         views.top_bar.home
-    ).to_set
+    ].to_set
   }
 
   it 'does not have missing keys' do

@@ -3,7 +3,7 @@
 #
 # Candidate specific of a ConfirmationEvent
 #
-class CandidateEvent < ActiveRecord::Base
+class CandidateEvent < ApplicationRecord
   # http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association
   # has_and_belongs_to_many :confirmation_event
   # accepts_nested_attributes_for :confirmation_event, allow_destroy: false
@@ -140,7 +140,7 @@ class CandidateEvent < ActiveRecord::Base
   # * <tt>Boolean</tt>
   #
   def self.coming_due?(due_date, completed_date)
-    today = Date.today
+    today = Time.zone.today
     CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date >= today) && (due_date < today + 30)
   end
 
@@ -191,7 +191,7 @@ class CandidateEvent < ActiveRecord::Base
   # * <tt>Boolean</tt>
   #
   def self.late?(due_date, completed_date)
-    CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date < Date.today)
+    CandidateEvent.awaiting_candidate?(due_date, completed_date) && (due_date < Time.zone.today)
   end
 
   # What is the status of this event.
@@ -290,7 +290,7 @@ class CandidateEvent < ActiveRecord::Base
   def mark_completed(validated, cand_assoc_class)
     if validated
       if completed_date.nil?
-        self.completed_date = Date.today
+        self.completed_date = Time.zone.today
         # automatically mark verified when completed.
         # TODO: move to association class
         self.verified = %w[CandidateSheet ChristianMinistry].include?(cand_assoc_class.to_s)

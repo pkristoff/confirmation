@@ -74,7 +74,7 @@ class CommonCandidatesController < ApplicationController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = params[:event_name]
+    event_name = params.require(:event_name)
     @candidate = Candidate.find(candidate_id)
     candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
 
@@ -101,14 +101,37 @@ class CommonCandidatesController < ApplicationController
         render_called = event_with_picture_update_private(SponsorCovenant, is_verify)
 
       when Event::Route::BAPTISMAL_CERTIFICATE
-        baptized_at_stmm = params[:candidate]['baptized_at_stmm'] == '1'
+        cand_parms = params.require(:candidate).permit(baptismal_certificate_attributes: [:baptized_at_stmm,
+                                                                                          :show_empty_radio,
+                                                                                          :remove_certificate_picture,
+                                                                                          :certificate_picture,
+                                                                                          :birth_date,
+                                                                                          :baptismal_date,
+                                                                                          :church_name,
+                                                                                          :father_first,
+                                                                                          :father_middle,
+                                                                                          :father_last,
+                                                                                          :mother_first,
+                                                                                          :mother_middle,
+                                                                                          :mother_maiden,
+                                                                                          :mother_last,
+                                                                                          church_address_attributes: [:street_1,
+                                                                                                                      :street_2,
+                                                                                                                      :city,
+                                                                                                                      :state,
+                                                                                                                      :zip_code]],
+                                                       candidate_sheet_attributes: [:first_name,
+                                                                                    :middle_name,
+                                                                                    :last_name])
+
+        baptized_at_stmm = cand_parms[:baptismal_certificate_attributes][:baptized_at_stmm] == '1'
         baptismal_certificate = @candidate.baptismal_certificate
         unless baptized_at_stmm
-          baptismal_certificate_params = params[:candidate][:baptismal_certificate_attributes]
+          baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
           if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
             baptismal_certificate.scanned_certificate = nil
           end
-          setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, baptismal_certificate_params)
+          setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, params[:candidate][:baptismal_certificate_attributes])
         end
 
         render_called = event_with_picture_update_private(BaptismalCertificate, is_verify)
@@ -358,7 +381,7 @@ class CommonCandidatesController < ApplicationController
     if params['candidate']
       # TODO: move logic to association instance.
       if params['candidate'][signed_param_name] == '1'
-        candidate_event.completed_date = Date.today if candidate_event.completed_date.nil?
+        candidate_event.completed_date = Time.zone.today if candidate_event.completed_date.nil?
         candidate_event.verified = true unless candidate_event.verified
       elsif params['candidate'][signed_param_name] == '0'
         candidate_event.completed_date = nil
@@ -396,6 +419,20 @@ class CommonCandidatesController < ApplicationController
     event_name = clazz.event_name
 
     if @candidate.update(candidate_params)
+
+      # TODO: Move logic out of common code
+      if clazz == BaptismalCertificate
+        bc = @candidate.baptismal_certificate
+        if bc.show_empty_radio > 1 && !bc.baptized_at_stmm? && !bc.first_comm_at_stmm?
+          candidate_info_sheet_event = @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+          candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
+          @candidate.keep_bc_errors
+          if candidate_info_sheet_event.save
+
+          end
+        end
+      end
+
       candidate_event = @candidate.get_candidate_event(event_name)
       candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
       if candidate_event.save
@@ -558,10 +595,10 @@ class CommonCandidatesController < ApplicationController
     end
     return if scanned_filename.nil?
     picture_params = ActionController::Parameters.new
-    association_params[scanned_image_attributes] = picture_params
     picture_params[:filename] = scanned_filename
     picture_params[:content_type] = scanned_content_type
     picture_params[:content] = scanned_content
     picture_params[:id] = scanned_image_id unless scanned_image_id.nil?
+    association_params[scanned_image_attributes] = picture_params.permit(:filename, :content_type, :content, :id)
   end
 end

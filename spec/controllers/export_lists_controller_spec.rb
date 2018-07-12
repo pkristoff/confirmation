@@ -17,6 +17,8 @@ describe ExportListsController do
 
     @c1 = Candidate.find_by(account_name: c1.account_name)
     @c2 = Candidate.find_by(account_name: c2.account_name)
+
+    @today = Time.zone.today
   end
 
   it 'should create an xlsx' do
@@ -37,7 +39,7 @@ describe ExportListsController do
 
   it 'should return a xlxs Baptized attachment' do
     @c1.baptismal_certificate.baptized_at_stmm = true
-    @c1.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date = Date.today
+    @c1.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date = @today
     @c1.save
 
     expect_send_data([@c1], [], [], [@c2], 'Baptized', 'baptized.xlsx', :baptism,
@@ -47,7 +49,7 @@ describe ExportListsController do
 
   it 'should return a xlxs retreat attachment' do
     @c1.retreat_verification.retreat_held_at_stmm = true
-    @c1.get_candidate_event(I18n.t('events.retreat_verification')).completed_date = Date.today
+    @c1.get_candidate_event(I18n.t('events.retreat_verification')).completed_date = @today
     @c1.save
 
     expect_send_data([@c1], [], [], [@c2], 'Retreat', 'retreat.xlsx', :retreat,
@@ -57,7 +59,7 @@ describe ExportListsController do
 
   it 'should return a xlxs confirmation name attachment' do
     @c1.pick_confirmation_name.saint_name = 'Paul'
-    @c1.get_candidate_event(I18n.t('events.confirmation_name')).completed_date = Date.today
+    @c1.get_candidate_event(I18n.t('events.confirmation_name')).completed_date = @today
     @c1.save
 
     expect_send_data([], [@c1], [], [@c2], 'Confirmation Names', 'confirmation_name.xlsx', :confirmation_name,
@@ -67,7 +69,7 @@ describe ExportListsController do
 
   it 'should return a xlxs sponsor attachment' do
     @c1.sponsor_covenant.sponsor_attends_stmm = true
-    @c1.get_candidate_event(I18n.t('events.sponsor_covenant')).completed_date = Date.today
+    @c1.get_candidate_event(I18n.t('events.sponsor_covenant')).completed_date = @today
     @c1.save
 
     expect_send_data([@c1], [], [], [@c2], 'Sponsor', 'sponsor.xlsx', :sponsor,
@@ -122,8 +124,7 @@ def expect_send_data(external, to_be_verified, verified, not_complete, pre_title
   xlxs_options = { type: 'application/xlsx', filename: filename }
 
   expect(controller).to receive(:send_data).with(xlxs_data, xlxs_options) do
-    controller.render nothing: true # to prevent a 'missing template' error
   end
 
-  get route
+  post route
 end

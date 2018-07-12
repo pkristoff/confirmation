@@ -10,6 +10,10 @@ feature 'Other', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
+  before(:each) do
+    @today = Time.zone.today
+  end
+
   after(:each) do
     Warden.test_reset!
   end
@@ -38,7 +42,7 @@ feature 'Other', :devise do
       attach_file :candidate_import_file, 'spec/fixtures/Invalid.xlsx'
       click_button 'Import'
 
-      expect_message(:error_explanation, '4 errors prohibited this import from completing: Row 2: Last name can\'t be blank Row 3: First name can\'t be blank Row 5: Parent email 1 is an invalid email: @nc.rr.com Row 5: Parent email 2 is an invalid email: rannunz')
+      expect_message(:error_explanation, ['4 errors prohibited this import from completing:', 'Row 2: Last name can\'t be blank', 'Row 3: First name can\'t be blank', 'Row 5: Parent email 1 is an invalid email: @nc.rr.com', 'Row 5: Parent email 2 is an invalid email: rannunz'])
     end
   end
 
@@ -56,8 +60,8 @@ feature 'Other', :devise do
       expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
       expect(ConfirmationEvent.all.size).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
-        expect(ce.chs_due_date).to eq(Date.today)
-        expect(ce.the_way_due_date).to eq(Date.today)
+        expect(ce.chs_due_date).to eq(@today)
+        expect(ce.the_way_due_date).to eq(@today)
       end
     end
   end
@@ -102,8 +106,8 @@ feature 'Other', :devise do
         expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
         expect(ConfirmationEvent.all.size).not_to eq(0)
         ConfirmationEvent.all.each do |ce|
-          expect(ce.chs_due_date).to eq(Date.today)
-          expect(ce.the_way_due_date).to eq(Date.today)
+          expect(ce.chs_due_date).to eq(@today)
+          expect(ce.the_way_due_date).to eq(@today)
         end
 
         visit new_candidate_import_path

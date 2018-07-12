@@ -2,8 +2,8 @@
 
 WHO_HELD_RETREAT = 'George'
 WHERE_HELD_RETREAT = 'Over there'
-START_DATE = Date.today - 10
-END_DATE = Date.today - 5
+START_DATE = Time.zone.today - 10
+END_DATE = Time.zone.today - 5
 
 shared_context 'retreat_verification_html_erb' do
   include ViewsHelpers
@@ -13,6 +13,7 @@ shared_context 'retreat_verification_html_erb' do
 
     @candidate_event_id = @candidate.get_candidate_event(I18n.t('events.retreat_verification')).id
     @cand_id = @candidate.id
+    @today = Time.zone.today
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -39,7 +40,7 @@ shared_context 'retreat_verification_html_erb' do
     candidate = Candidate.find(@cand_id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate.id, @updated_message)
 
     else
 
@@ -55,7 +56,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(retreat_verification.end_date).to eq(END_DATE)
     expect(retreat_verification.scanned_retreat).to eq(nil)
 
-    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(Date.today)
+    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(@today)
     expect(CandidateEvent.find(@candidate_event_id).verified).to eq(@is_verify)
 
     visit @path
@@ -76,7 +77,7 @@ shared_context 'retreat_verification_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate.id, @updated_message)
 
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
@@ -88,7 +89,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(retreat_verification.end_date).to eq(END_DATE)
     expect(retreat_verification.scanned_retreat.filename).to eq('actions for spec testing.png')
 
-    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(Date.today)
+    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(@today)
     expect(CandidateEvent.find(@candidate_event_id).verified).to eq(@is_verify)
 
     visit @path
@@ -111,7 +112,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, 'Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied: Start date can\'t be blank End date can\'t be blank Who held retreat can\'t be blank Where held retreat can\'t be blank']],
+                                                       [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied:', 'Start date can\'t be blank', 'End date can\'t be blank', 'Who held retreat can\'t be blank', 'Where held retreat can\'t be blank']]],
                                      who_held_retreat: '',
                                      where_held_retreat: '',
                                      start_date: '',
@@ -143,7 +144,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Scanned retreat verification can\'t be blank']])
+                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Scanned retreat verification can\'t be blank']]])
   end
 
   scenario 'admin logs in and selects a candidate, fills in template, except Who held retreat' do
@@ -162,7 +163,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Who held retreat can\'t be blank']],
+                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Who held retreat can\'t be blank']]],
                                      who_held_retreat: '')
   end
 
@@ -172,7 +173,7 @@ shared_context 'retreat_verification_html_erb' do
     event_name = I18n.t('events.retreat_verification')
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_stmm = true
-    candidate.get_candidate_event(event_name).completed_date = Date.today
+    candidate.get_candidate_event(event_name).completed_date = @today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
 
@@ -189,7 +190,7 @@ shared_context 'retreat_verification_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                        who_held_retreat: '',
@@ -198,7 +199,7 @@ shared_context 'retreat_verification_html_erb' do
                                        end_date: '')
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(@today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

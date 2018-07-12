@@ -8,9 +8,9 @@
   <% end %>
 </h2>
 
-<%= render partial: "candidates/shared/show_error_message",
-           :locals => { event_association: event_association
-           } %>
+<%= render 'candidates/shared/show_error_message',
+           event_association: local_assigns[:error_msgs] ? error_msgs : event_association
+%>
 
 <% unless download_doc.nil? %>
   <div class="actions">
@@ -22,8 +22,8 @@
 <div id="two_column">
   <div id="left-col" class="left_col">
 
-    <%= render partial: "candidates/shared/event_form",
-               :locals => { is_dev: is_dev,
+    <%= render 'candidates/shared/event_form',
+               is_dev: is_dev,
                             is_verify: is_verify,
                             candidate: candidate,
                             event_association: event_association,
@@ -34,7 +34,7 @@
                             shared_html_file: event_with_picture_name,
                             path: is_dev ? dev_event_with_picture_update_path(candidate.id, @event_with_picture_name) : (is_verify ? event_with_picture_verify_update_path(candidate.id, @event_with_picture_name) : event_with_picture_update_path(candidate.id, @event_with_picture_name)),
                             is_event_with_picture: true
-               } %>
+               %>
 
 
   </div>

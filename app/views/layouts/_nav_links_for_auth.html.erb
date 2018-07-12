@@ -3,6 +3,7 @@
 <% end %>
 <% if admin_signed_in? %>
     <li><%= link_to I18n.t('views.top_bar.sign_out'), destroy_admin_session_path, :method => 'delete' %></li>
+    <li><%= link_to I18n.t('views.top_bar.send_grid'), 'https://app.sendgrid.com', target: '_blank' %></li>
 <% end %>
 
 <% if ! (admin_signed_in? or candidate_signed_in?) %>

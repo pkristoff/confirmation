@@ -187,7 +187,7 @@ class CandidateImport
   def start_new_year
     clean_associations(Candidate)
     AppFactory.create_seed_candidate
-    today = Date.today
+    today = Time.zone.today
     ConfirmationEvent.find_each do |ce|
       ce.chs_due_date = today
       ce.the_way_due_date = today
@@ -954,7 +954,8 @@ class CandidateImport
 
         last_name = spreadsheet_row[0].nil? ? '' : spreadsheet_row[0].strip
         first_name = spreadsheet_row[1].nil? ? '' : spreadsheet_row[1].strip
-        grade = if spreadsheet_row[2].class.to_s == 'Fixnum'
+        # ruby fixnum is deprecating
+        grade = if spreadsheet_row[2].class.to_s == 'Integer'
                   (spreadsheet_row[2].nil? ? '10th' : "#{spreadsheet_row[2]}th")
                 else
                   (spreadsheet_row[2].nil? ? '10th' : spreadsheet_row[2].strip)

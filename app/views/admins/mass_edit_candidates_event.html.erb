@@ -1,24 +1,23 @@
 <%= form_tag mass_edit_candidates_event_update_path(@confirmation_event.id), method: :put do %>
 
-    <%= submit_tag t('views.common.update'), id: 'top-update' %>
+  <%= submit_tag t('views.common.update'), id: 'top-update' %>
 
-    <h2><%= @confirmation_event.name %></h2>
+  <h2><%= @confirmation_event.name %></h2>
 
-    <%= label_tag(:verified, t('views.events.verified')) %>:
-    <%= check_box_tag(:verified, 1, params[:verified], onclick: "update_completed_date(this.id)") %><br/>
+  <%= label_tag(:verified, t('views.events.verified')) %>:
+  <%= check_box_tag(:verified, 1, params[:verified], onclick: "update_completed_date(this.id)") %><br/>
 
-    <%= label_tag(:completed_date, t('views.events.completed_date')) %>:
-    <%= date_field_tag(:completed_date, params[:completed_date]) %>
+  <%= label_tag(:completed_date, t('views.events.completed_date')) %>:
+  <%= date_field_tag(:completed_date, params[:completed_date]) %>
 
-    <%= render partial: 'shared/sorting_candidate_selection',
-               :locals => {
-                   candidate_info: @candidate_info,
-                   confirmation_event: @confirmation_event,
-                   other_columns: nil,
-                   route: :mass_edit_candidates_event,
-                   selected_candidate_ids: nil
-               } %>
+  <%= render 'shared/sorting_candidate_selection',
+             candidate_info: @candidate_info,
+             confirmation_event: @confirmation_event,
+             other_columns: nil,
+             route: :mass_edit_candidates_event,
+             selected_candidate_ids: nil
+  %>
 
-    <%= submit_tag t('views.common.update'), id: 'bottom-update' %>
+  <%= submit_tag t('views.common.update'), id: 'bottom-update' %>
 
 <% end %>

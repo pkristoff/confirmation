@@ -3,8 +3,10 @@
 #
 # A common event that all candidates have to do in order to be confirmed.
 #
-class ConfirmationEvent < ActiveRecord::Base
-  has_many :to_dos
+class ConfirmationEvent < ApplicationRecord
+  # added dependent to handle Rails/HasManyOrHasOneDependent, but does not
+  # seem to have an affect.
+  has_many :to_dos, dependent: :delete_all
   has_many :candidate_events, through: :to_dos
   before_save :scrub_instructions
 

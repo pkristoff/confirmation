@@ -17,6 +17,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     cand_name = 'Sophia Agusta'
     @admin_verified = @updated_message == I18n.t('messages.updated_verified', cand_name: cand_name)
     @dev_path = @is_dev ? 'dev/' : ''
+    @today = Time.zone.today
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -36,14 +37,14 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.confirmation_name')), Candidate.find(@candidate.id), @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.confirmation_name')), @candidate.id, @updated_message)
 
     else
       candidate = Candidate.find(@cand_id)
       expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_message]])
       expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
 
-      expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(Date.today)
+      expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(@today)
       expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).verified).to eq(false)
 
       expect_db(1, 9, 0) # make sure DB does not increase in size.
@@ -70,7 +71,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.confirmation_name')), Candidate.find(@candidate.id), @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.confirmation_name')), @candidate.id, @updated_message)
 
     else
 
@@ -90,8 +91,10 @@ shared_context 'pick_confirmation_name_html_erb' do
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
-    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                                                                                                 [:error_explanation, 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied: Saint name can\'t be blank']])
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
+                                       saint_name: '',
+                                       expect_messages: [[:flash_notice, @updated_failed_verification],
+                                                         [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Saint name can\'t be blank']]])
 
     expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).completed_date).to eq(nil)
     expect(candidate.get_candidate_event(I18n.t('events.confirmation_name')).verified).to eq(false)
@@ -102,7 +105,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     event_name = I18n.t('events.confirmation_name')
     candidate = Candidate.find(@cand_id)
-    candidate.get_candidate_event(event_name).completed_date = Date.today
+    candidate.get_candidate_event(event_name).completed_date = @today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
     update_pick_confirmation_name(true)
@@ -116,12 +119,12 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(Date.today)
+    expect(candidate.get_candidate_event(event_name).completed_date).to eq(@today)
     expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
   end
 

@@ -109,8 +109,9 @@ class AppFactory
     event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
       confirmation_event.name = event_name
       # puts 'attempting the_way_due_date'
-      confirmation_event.the_way_due_date = Date.today
-      confirmation_event.chs_due_date = Date.today
+      today = Time.zone.today
+      confirmation_event.the_way_due_date = today
+      confirmation_event.chs_due_date = today
       # puts 'done attempting the_way_due_date'
       new_confirmation_event = confirmation_event
       # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}"
@@ -144,7 +145,7 @@ class AppFactory
     event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
       confirmation_event.name = event_name
       # puts 'attempting due_date'
-      confirmation_event.due_date = Date.today
+      confirmation_event.due_date = Time.zone.today
       # puts 'done attempting due_date'
       new_confirmation_event = confirmation_event
       # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}"
@@ -202,7 +203,8 @@ class AppFactory
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.password = Event::Other::INITIAL_PASSWORD
       candidate.password_confirmation = Event::Other::INITIAL_PASSWORD
-      candidate.create_candidate_sheet if candidate.candidate_sheet.nil?
+      # Rails 5.2 - create would have errored about not doing a save on parent.
+      candidate.build_candidate_sheet if candidate.candidate_sheet.nil?
       candidate.candidate_sheet.parent_email_1 = 'stmm.confirmation@kristoffs.com'
       candidate.candidate_sheet.first_name = 'Vicki'
       candidate.candidate_sheet.middle_name = 'Anne'
