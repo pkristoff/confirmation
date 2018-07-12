@@ -177,9 +177,14 @@ confirmation_toggle = function () {
         toggle_top( '#remove-' + root, 'hide' );
     }
 
+    function clear_attached_file() {
+        $('#attach-file-container').html($('#attach-file-container').html());
+    }
+
     return {
         baptised_no:           baptised_no,
         baptised_yes:          baptised_yes,
+        clear_attached_file:   clear_attached_file,
         first_comm_no:         first_comm_no,
         first_comm_yes:        first_comm_yes,
         instructions:          instructions,

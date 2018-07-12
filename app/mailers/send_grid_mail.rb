@@ -51,10 +51,12 @@ class SendGridMail
   # === Parameters:
   #
   # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:attach_file</tt> uploaded file to be attached to email.
   # * <tt>:body_input_text</tt> The body of the email puy in by the admin
   #
-  def adhoc(subject_text, body_input_text)
+  def adhoc(subject_text, attach_file, body_input_text)
     send_email(subject_text,
+               attach_file,
                body_input_text,
                EmailStuff::TYPES[:adhoc],
                adhoc_call)
@@ -65,10 +67,11 @@ class SendGridMail
   # === Parameters:
   #
   # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:attach_file</tt> uploaded file to be attached to email.
   # * <tt>:body_input_text</tt> The body of the email put in by the admin
   #
-  def adhoc_test(subject_text, body_input_text)
-    send_email(subject_text, body_input_text, EmailStuff::TYPES[:adhoc_test],
+  def adhoc_test(subject_text, attach_file, body_input_text)
+    send_email(subject_text, attach_file, body_input_text, EmailStuff::TYPES[:adhoc_test],
                adhoc_test_call,
                adhoc_test_subj_call)
   end
@@ -76,7 +79,7 @@ class SendGridMail
   # Generate and send candidate user id confirmation email
   #
   def confirmation_instructions
-    [send_email(I18n.t('email.confirmation_instructions_subject'), '', EmailStuff::TYPES[:confirmation_instructions],
+    [send_email(I18n.t('email.confirmation_instructions_subject'), nil, '', EmailStuff::TYPES[:confirmation_instructions],
                 conf_insts_call),
      @candidate_mailer_text.token]
   end
@@ -86,10 +89,11 @@ class SendGridMail
   # === Parameters:
   #
   # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:attach_file</tt> uploaded file to be attached to email.
   # * <tt>:body_input_text</tt> The body of the email put in by the admin
   #
-  def monthly_mass_mailing(subject_text, *body_input_text)
-    send_email(subject_text, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing],
+  def monthly_mass_mailing(subject_text, attach_file, *body_input_text)
+    send_email(subject_text, attach_file, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing],
                mmm_call)
   end
 
@@ -98,10 +102,11 @@ class SendGridMail
   # === Parameters:
   #
   # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:attach_file</tt> uploaded file to be attached to email.
   # * <tt>:body_input_text</tt> The body of the email put in by the admin
   #
-  def monthly_mass_mailing_test(subject_text, *body_input_text)
-    send_email(subject_text, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing_test],
+  def monthly_mass_mailing_test(subject_text, attach_file, *body_input_text)
+    send_email(subject_text, attach_file, *body_input_text, EmailStuff::TYPES[:monthly_mass_mailing_test],
                mmm_test_call,
                mmm_test_subj_call)
   end
@@ -109,7 +114,7 @@ class SendGridMail
   # Generate and send reset password email
   #
   def reset_password
-    [send_email(I18n.t('email.reset_password_subject'), '', EmailStuff::TYPES[:reset_password],
+    [send_email(I18n.t('email.reset_password_subject'), nil, '', EmailStuff::TYPES[:reset_password],
                 reset_pass_call),
      @candidate_mailer_text.token]
   end
@@ -276,6 +281,7 @@ class SendGridMail
   # === Parameters:
   #
   # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:attach_file</tt> a file to be uploaded and attached to the email.
   # * <tt>:body_input_text</tt> The body of the email put in by the admin
   # * <tt>:email_type</tt> The type of email: adhoc, confirmation, etc.
   # * <tt>:delivery_call</tt> Generates and expands the email body
@@ -285,11 +291,14 @@ class SendGridMail
   #
   # * <tt>String</tt>
   #
-  def send_email(subject_text, body_input_text, email_type, delivery_call, test_subject = nil)
+  def send_email(subject_text, attach_file, body_input_text, email_type, delivery_call, test_subject = nil)
+    last_failed_response = nil
     response = nil
 
     @candidates.each do |candidate|
       sg_mail = create_mail((test_subject.nil? ? subject_text : test_subject.call(candidate)), email_type, candidate.account_name)
+
+      add_attachment_file(attach_file, sg_mail) unless attach_file.nil?
 
       create_personalization(candidate, sg_mail, test_subject ? @admin : nil)
 
@@ -299,12 +308,12 @@ class SendGridMail
 
       response = post_email(sg_mail)
 
-      if response.status_code[0] != '2'
-        Rails.logger.info("Skipping sending #{email_type} message for #{candidate.account_name} because of a bad response")
-        Rails.logger.info("Status=#{response.status_code} body=#{response.body}")
-      end
+      next if response.status_code[0] != '2'
+      last_failed_response = response
+      Rails.logger.info("Skipping sending #{email_type} message for #{candidate.account_name} because of a bad response")
+      Rails.logger.info("Status=#{response.status_code} body=#{response.body}")
     end
-    response
+    last_failed_response || response
   end
 
   # Generates email body with expansion
@@ -389,6 +398,21 @@ class SendGridMail
   end
 
   private
+
+  def add_attachment_file(attach_file, sg_mail)
+    uploaded_file = attach_file
+
+    attachment = Attachment.new
+    content = uploaded_file.read
+    # Rails.logger.info("content.encoding=#{content.encoding}")
+    content64 = Base64.strict_encode64(content)
+    # Rails.logger.info("content64.encoding=#{content64.encoding}")
+    attachment.content = content64
+    attachment.type = uploaded_file.content_type
+    attachment.filename = uploaded_file.original_filename
+    attachment.disposition = 'attachment'
+    sg_mail.add_attachment(attachment)
+  end
 
   #
   # Generates email body for adhoc email

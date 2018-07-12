@@ -64,11 +64,12 @@ class AdminsController < ApplicationController
 
     commit = params.require(:commit)
 
-    mail_param = params.require(:mail).permit(:subject, :body_input)
+    mail_param = params.require(:mail).permit(:subject, :body_input, :attach_file)
 
     # mail_param = parm[:mail]
     subject_text = mail_param[:subject]
     body_input_text = mail_param[:body_input]
+    attach_file = mail_param[:attach_file]
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
@@ -84,12 +85,12 @@ class AdminsController < ApplicationController
       when t('email.adhoc_mail')
 
         flash_message = t('messages.adhoc_mailing_progress')
-        response = send_grid_mail.adhoc(subject_text, body_input_text)
+        response = send_grid_mail.adhoc(subject_text, attach_file, body_input_text)
 
       when t('email.test_adhoc_mail')
 
         flash_message = t('messages.adhoc_mailing_test_sent')
-        response = send_grid_mail.adhoc_test(subject_text, body_input_text)
+        response = send_grid_mail.adhoc_test(subject_text, attach_file, body_input_text)
 
       else
 
@@ -356,7 +357,7 @@ class AdminsController < ApplicationController
 
     commit = params.require(:commit)
 
-    mail_param = params.require(:mail).permit(:subject, :pre_late_input, :pre_coming_due_input, :completed_awaiting_input, :completed_input, :salutation_text, :closing_text, :from_text)
+    mail_param = params.require(:mail).permit(:subject, :pre_late_input, :pre_coming_due_input, :completed_awaiting_input, :completed_input, :salutation_text, :closing_text, :from_text, :attach_file)
 
     # mail_param = params[:mail]
     subject_text = mail_param[:subject]
@@ -367,6 +368,7 @@ class AdminsController < ApplicationController
     salutation_text = mail_param[:salutation_text]
     closing_text = mail_param[:closing_text]
     from_text = mail_param[:from_text]
+    attach_file = mail_param[:attach_file]
 
     candidate_ids = params[:candidate][:candidate_ids]
     candidates = []
@@ -398,27 +400,33 @@ class AdminsController < ApplicationController
     mail_param = params[:mail]
     send_grid_mail = SendGridMail.new(current_admin, candidates)
 
-    if is_test_mail
-      send_grid_mail.monthly_mass_mailing_test(mail_param[:subject],
-                                               pre_late_text: mail_param[:pre_late_input],
-                                               pre_coming_due_text: mail_param[:pre_coming_due_input],
-                                               completed_awaiting_text: mail_param[:completed_awaiting_input],
-                                               completed_text: mail_param[:completed_input],
-                                               closing_text: mail_param[:closing_text],
-                                               salutation_text: mail_param[:salutation_text],
-                                               from_text: mail_param[:from_text])
-    else
-      send_grid_mail.monthly_mass_mailing(mail_param[:subject],
-                                          pre_late_text: mail_param[:pre_late_input],
-                                          pre_coming_due_text: mail_param[:pre_coming_due_input],
-                                          completed_awaiting_text: mail_param[:completed_awaiting_input],
-                                          completed_text: mail_param[:completed_input],
-                                          closing_text: mail_param[:closing_text],
-                                          salutation_text: mail_param[:salutation_text],
-                                          from_text: mail_param[:from_text])
-    end
+    send_mail_response = if is_test_mail
+                           send_grid_mail.monthly_mass_mailing_test(mail_param[:subject],
+                                                                    attach_file,
+                                                                    pre_late_text: mail_param[:pre_late_input],
+                                                                    pre_coming_due_text: mail_param[:pre_coming_due_input],
+                                                                    completed_awaiting_text: mail_param[:completed_awaiting_input],
+                                                                    completed_text: mail_param[:completed_input],
+                                                                    closing_text: mail_param[:closing_text],
+                                                                    salutation_text: mail_param[:salutation_text],
+                                                                    from_text: mail_param[:from_text])
+                         else
+                           send_grid_mail.monthly_mass_mailing(mail_param[:subject],
+                                                               attach_file,
+                                                               pre_late_text: mail_param[:pre_late_input],
+                                                               pre_coming_due_text: mail_param[:pre_coming_due_input],
+                                                               completed_awaiting_text: mail_param[:completed_awaiting_input],
+                                                               completed_text: mail_param[:completed_input],
+                                                               closing_text: mail_param[:closing_text],
+                                                               salutation_text: mail_param[:salutation_text],
+                                                               from_text: mail_param[:from_text])
+                         end
 
-    flash[:notice] = flash_message
+    flash[:notice] = if send_mail_response.status_code[0] == '2'
+                       flash_message
+                     else
+                       "Send emai failed - see logs for more info - last failed response: Status=#{send_mail_response.status_code} body=#{send_mail_response.body}"
+                     end
 
     set_confirmation_events
 

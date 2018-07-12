@@ -131,6 +131,8 @@ en:
       chs_due_date: Catholic high school due date
       instructions: Instructions
       the_way_due_date: The Way due date
+    mail:
+      attach_file: Attach file
     retreat_verification:
       end_date: Retreat end date
       retreat_held_at_stmm: Did you attend a St. Mary Magdalene confirmation retreat?
@@ -229,6 +231,7 @@ en:
       are_you_sure: Are you sure?
       are_you_sure_delete_candidates: Are you sure you want to delete the selected
         candidate(s)?
+      clear_attach_file: Clear choosen file
       confirm_account: Confirm Account
       delete: Delete
       download: Download document
@@ -237,6 +240,7 @@ en:
       image_upload_file_types: You can only upload a file type of .pdf, .jpg, .jpeg,
         .png
       initial_email: Initial email
+      mail_upload_file_types: You can only upload a file type of .pdf, .docx, xlsx
       name: Name
       password: Password
       password_confirmation: Password confirmation

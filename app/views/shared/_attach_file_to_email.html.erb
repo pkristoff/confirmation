@@ -1,0 +1,18 @@
+<% require 'constants' %>
+
+<%= field_set_tag 'Attach file to email', class: 'fieldset' do %>
+
+  <div class="fieldset-div">
+    <div id="file-type-message-id"> <%= t('views.common.mail_upload_file_types') %> </div>
+    <%= label_tag('mail[attach_file]', t('label.mail.attach_file')) %>
+    <div id="two_column">
+      <div id="attach-file-container" class="left_col">
+        <%= file_field_tag('mail[attach_file]', accept: SideBar::MAIL_ATTACH_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('remove-attach_file', 'attach_file');") %>
+      </div>
+      <div id="attach-file-container" class="right_col">
+        <%= button_tag(t('views.common.clear_attach_file'), id: "clear-attach_file", type: 'button', onClick: "confirmation_toggle().clear_attached_file();") %>
+      </div>
+    </div>
+  </div>
+
+<% end %>

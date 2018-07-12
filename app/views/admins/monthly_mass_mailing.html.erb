@@ -1,4 +1,4 @@
-<%= form_tag monthly_mass_mailing_update_path, method: :put do %>
+<%= form_tag monthly_mass_mailing_update_path, method: :put, multipart: true do %>
 
   <%= submit_tag t('email.monthly_mail'), id: 'top-update' %>
   <%= submit_tag t('email.test_monthly_mail'), id: 'top-test' %>

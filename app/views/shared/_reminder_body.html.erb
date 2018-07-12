@@ -1,3 +1,7 @@
+<% if render_mail_text %>
+  <%= render 'shared/attach_file_to_email' %>
+<% end %>
+
 <% render_mail_text = local_assigns[:render_mail_text] %>
 
 <% if render_mail_text %>

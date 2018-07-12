@@ -128,3 +128,10 @@ def expect_field(label, value)
     expect(page).to have_field(label, with: value)
   end
 end
+
+def expect_mail_attadchment_upload
+  expect(page).to have_css('div[id=file-type-message-id]', text: I18n.t('views.common.mail_upload_file_types'))
+  expect(page).to have_css("input[id=mail_attach_file][type=file][accept='#{SideBar::MAIL_ATTACH_FILE_TYPES}']")
+  expect(page).to have_css('label[for=mail_attach_file]', text: I18n.t('label.mail.attach_file'))
+  expect(page).to have_css('button[id=clear-attach_file]', text: I18n.t('views.common.clear_attach_file'))
+end

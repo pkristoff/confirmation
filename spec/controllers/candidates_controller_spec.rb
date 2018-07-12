@@ -33,7 +33,7 @@ describe CandidatesController do
     # order not important js will do it
     expect(controller.candidate_info.size).to eq(3)
     [c1, c2, c3].each_with_index do |candidate, index|
-      expect(controller.candidate_info[index].id).to eq(candidate.id)
+      expect(controller.candidate_info[index].id).to eq(candidate.id), "Candidate id '#{candidate.id}' did not match expected: #{controller.candidate_info[index].id}"
     end
   end
 

@@ -1,8 +1,11 @@
-<%= form_tag adhoc_mailing_update_path, method: :put do %>
+<%= form_tag adhoc_mailing_update_path, method: :put, multipart: true  do %>
 
   <%= submit_tag t('email.adhoc_mail'), id: 'top-update' %>
   <%= submit_tag t('email.test_adhoc_mail'), id: 'top-test' %>
   <br>
+
+  <%= render 'shared/attach_file_to_email' %>
+
   <%= label_tag('mail[subject]', t('email.subject_label')) %>:
   <%= text_area_tag('mail[subject]', @subject) %> <br/>
 
