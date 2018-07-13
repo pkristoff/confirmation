@@ -25,6 +25,7 @@ gem 'sendgrid-ruby'
 gem 'tinymce-rails'
 gem 'uglifier'
 gem 'zip-zip'
+gem 'sprockets', '~> 3.7.2'
 # refering to master - remove branch
 gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
 gem 'sucker_punch'
