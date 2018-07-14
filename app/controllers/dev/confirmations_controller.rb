@@ -33,7 +33,7 @@ module Dev
       # msgs cannot be empty
       msgs += 'noerrors' if msgs.empty?
       # resource.id cannot be nil
-      my_candidate_confirmation_path(resource.id ? resource.id : -1, msgs)
+      my_candidate_confirmation_path(resource.id || -1, msgs)
     end
   end
 end

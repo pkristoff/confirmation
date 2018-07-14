@@ -43,6 +43,11 @@ Rails/Validation:
   Enabled: true
 Rails/HttpPositionalArguments:
   Enabled: true
+Rails/BulkChangeTable:
+  Exclude:
+    # not run anymore
+    - './db/migrate/20180209181803_add_column_first_comm_at_stmm.rb'
+    - './db/migrate/20180209181803_add_column_first_comm_at_stmm.rb'
 
 Security:
   Enabled: true

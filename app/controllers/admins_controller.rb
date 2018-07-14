@@ -37,8 +37,8 @@ class AdminsController < ApplicationController
     subject = t('email.subject_initial_text')
     body = ''
     if params[:mail]
-      subject = params[:mail][:subject] ? params[:mail][:subject] : subject
-      body = params[:mail][:body_input] ? params[:mail][:body_input] : body
+      subject = params[:mail][:subject] || subject
+      body = params[:mail][:body_input] || body
     end
 
     setup_adhoc_render(body, subject)
@@ -300,15 +300,15 @@ class AdminsController < ApplicationController
     salutation_text = t('email.salutation_initial_text')
     from_text = t('email.from_initial_text_html')
     if params[:mail]
-      subject = params[:mail][:subject] ? params[:mail][:subject] : subject
-      pre_late_input = params[:mail][:pre_late_input] ? params[:mail][:pre_late_input] : pre_late_input
-      pre_coming_due_input = params[:mail][:pre_coming_due_input] ? params[:mail][:pre_coming_due_input] : pre_coming_due_input
-      completed_awaiting_input = params[:mail][:completed_awaiting_input] ? params[:mail][:completed_awaiting_input] : completed_awaiting_input
-      completed_input = params[:mail][:completed_input] ? params[:mail][:completed_input] : completed_input
-      closing_text = params[:mail][:closing_awaiting_text] ? params[:mail][:closing_awaiting_text] : closing_text
-      closing_text = params[:mail][:closing_text] ? params[:mail][:closing_text] : closing_text
-      salutation_text = params[:mail][:salutation_text] ? params[:mail][:salutation_text] : salutation_text
-      from_text = params[:mail][:from_text] ? params[:mail][:from_text] : from_text
+      subject = params[:mail][:subject] || subject
+      pre_late_input = params[:mail][:pre_late_input] || pre_late_input
+      pre_coming_due_input = params[:mail][:pre_coming_due_input] || pre_coming_due_input
+      completed_awaiting_input = params[:mail][:completed_awaiting_input] || completed_awaiting_input
+      completed_input = params[:mail][:completed_input] || completed_input
+      closing_text = params[:mail][:closing_awaiting_text] || closing_text
+      closing_text = params[:mail][:closing_text] || closing_text
+      salutation_text = params[:mail][:salutation_text] || salutation_text
+      from_text = params[:mail][:from_text] || from_text
     end
 
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text)
