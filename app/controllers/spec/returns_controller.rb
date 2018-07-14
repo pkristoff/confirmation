@@ -3,7 +3,7 @@
 # A fixture used by rubocop extensions to test
 # uniformity of documentation
 #
-class ReturnsController < ActionController
+class ReturnsController < ApplicationController
   # legal returns
   #
   # === Returns:

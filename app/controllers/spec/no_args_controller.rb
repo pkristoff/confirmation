@@ -3,7 +3,7 @@
 #
 # Handles Common Application tasks
 #
-class NoArgsController < ActionController
+class NoArgsController < ApplicationController
   # Legal no argument method
   #
   def no_args

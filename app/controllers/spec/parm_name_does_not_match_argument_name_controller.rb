@@ -3,7 +3,7 @@
 #
 # Handles Common Application tasks
 #
-class ParmNameDoesNotMatchArgumentNameController < ActionController
+class ParmNameDoesNotMatchArgumentNameController < ApplicationController
   # legal
   #
   # === Parameters:

@@ -3,7 +3,7 @@
 #
 # Handles Common Application tasks
 #
-class NoCommentController < ActionController::Base
+class NoCommentController < ApplicationController
   def no_comment
     uuu
   end

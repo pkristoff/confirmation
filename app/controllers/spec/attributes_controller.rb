@@ -3,7 +3,7 @@
 # A fixture used by rubocop extensions to test
 # uniformity of documentation
 #
-class AttributesController < ActionController
+class AttributesController < ApplicationController
   # Legal use of attributes
   #
   # === Attributes:

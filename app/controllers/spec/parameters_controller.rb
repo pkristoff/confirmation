@@ -3,7 +3,7 @@
 # A fixture used by rubocop extensions to test
 # uniformity of documentation
 #
-class ParametersController < ActionController
+class ParametersController < ApplicationController
   # legal parameters
   #
   # === Parameters:

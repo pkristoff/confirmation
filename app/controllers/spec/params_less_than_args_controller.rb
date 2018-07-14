@@ -3,7 +3,7 @@
 #
 # Handles Common Application tasks
 #
-class ParamsLessThanArgsController < ActionController
+class ParamsLessThanArgsController < ApplicationController
   # should generate offense that Paremetes is less than arguments
   #
   # === Parameters:

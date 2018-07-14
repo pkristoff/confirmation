@@ -3,7 +3,7 @@
 #
 # Handles Common Application tasks
 #
-class ParamsGreaterThanArgsController < ActionController
+class ParamsGreaterThanArgsController < ApplicationController
   # This will raise one offense that the documented parm size does not match the
   # number of arguments specified.
   #

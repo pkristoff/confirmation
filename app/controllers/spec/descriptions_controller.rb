@@ -3,7 +3,7 @@
 # A fixture used by rubocop extensions to test
 # uniformity of documentation
 #
-class DescriptionsController < ActionController
+class DescriptionsController < ApplicationController
   # Should not generate any offenses
   #
   def legal_no_args
