@@ -52,10 +52,6 @@ describe Dev::CandidatesController do
       it_behaves_like 'sign_agreement'
     end
 
-    describe 'sponsor_agreement' do
-      it_behaves_like 'sponsor_agreement'
-    end
-
     describe 'candidate_information_sheet' do
       it_behaves_like 'candidate_information_sheet'
     end

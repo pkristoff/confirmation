@@ -20,6 +20,8 @@ class CandidateImport
   attr_accessor :orphaned_table_rows
   attr_accessor :candidate_missing_associations
 
+  EXTRACTED_ZIP_DIR = 'temp'
+
   def self.image_columns
     %w[
       baptismal_certificate.scanned_certificate retreat_verification.scanned_retreat sponsor_covenant.scanned_eligibility sponsor_covenant.scanned_covenant
@@ -525,6 +527,13 @@ class CandidateImport
     %w[name index the_way_due_date chs_due_date instructions]
   end
 
+  # Removes all ConfirmationEvent
+  # public for TEST - Only
+  #
+  def remove_all_confirmation_events
+    ConfirmationEvent.find_each(&:destroy)
+  end
+
   private
 
   # Get a candidate's CandidateEvent in order
@@ -856,7 +865,8 @@ class CandidateImport
     scanned_image = ScannedImage.new
     scanned_image.filename = image_filename
     scanned_image.content_type = "image/#{image_content_type}"
-    File.open(export_filename, 'rb') do |f|
+    p = "#{EXTRACTED_ZIP_DIR}/#{export_filename}"
+    File.open(p, 'rb') do |f|
       scanned_image.content = f.read
     end
     scanned_image
@@ -999,33 +1009,26 @@ class CandidateImport
 
   # expand zip file and the process xlsx
   def process_xlsx_zip
-    dir = 'xlsx_export'
-
-    delete_dir(dir)
+    delete_dir(EXTRACTED_ZIP_DIR)
 
     begin
-      Dir.mkdir(dir)
+      Dir.mkdir(EXTRACTED_ZIP_DIR)
 
       Zip::File.open(uploaded_zip_file.tempfile) do |zip_file|
         # Handle entries one by one
         zip_file.each do |entry|
           # Extract to file/directory/symlink
           # puts "Extracting #{entry.name}"
-          entry.extract("#{dir}/#{entry.name}")
+          entry.extract("#{EXTRACTED_ZIP_DIR}/#{entry.name}")
           if File.extname(entry.name) == '.xlsx' && @uploaded_file.nil?
-            @uploaded_file = "#{dir}/#{entry.name}"
+            @uploaded_file = "#{EXTRACTED_ZIP_DIR}/#{entry.name}"
           end
         end
       end
       load_imported_candidates
     ensure
-      delete_dir(dir)
+      delete_dir(EXTRACTED_ZIP_DIR)
     end
-  end
-
-  # Removes all ConfirmationEvent
-  def remove_all_confirmation_events
-    ConfirmationEvent.find_each(&:delete)
   end
 
   # Make sure all candidates are valid before saving.

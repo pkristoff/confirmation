@@ -33,7 +33,7 @@ describe CandidatesController do
     # order not important js will do it
     expect(controller.candidate_info.size).to eq(3)
     [c1, c2, c3].each_with_index do |candidate, index|
-      expect(controller.candidate_info[index].id).to eq(candidate.id), "Candidate id '#{candidate.id}' did not match expected: #{controller.candidate_info[index].id}"
+      expect(controller.candidate_info[index].id).to eq(candidate.id), "Candidate id '#{candidate.id}' [#{candidate.account_name}] did not match expected: #{controller.candidate_info[index].id}[#{controller.candidate_info[index].account_name}] "
     end
   end
 
@@ -147,78 +147,6 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
-      expect(cand_event.completed_date).to eq(@today)
-      expect(cand_event.verified).to eq(true)
-    end
-  end
-
-  describe 'sponsor_agreement_verify' do
-    before(:each) do
-      c1 = create_candidate('c1')
-      @c1_id = c1.id
-      AppFactory.add_confirmation_event(I18n.t('events.sponsor_agreement'))
-    end
-
-    it 'should set @candidate' do
-      get :sponsor_agreement_verify, params: { id: @c1_id }
-
-      cand = Candidate.find(@c1_id)
-      expect(controller.candidate).to eq(cand)
-      # expect(response).to render_template('candidates/sponsor_agreement_verify')
-      expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}")
-    end
-
-    it 'should stay on sponsor_agreement_verify, since it should not pass validation' do
-      put :sponsor_agreement_verify_update,
-          params: { id: @c1_id, candidate: { sponsor_agreement: '0' } }
-
-      cand = Candidate.find(@c1_id)
-      expect(controller.candidate).to eq(cand)
-      # expect(response).to render_template('candidates/sponsor_agreement_verify')
-      expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}")
-
-      cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
-      expect(cand_event.completed_date).to eq(nil)
-      expect(cand_event.verified).to eq(false)
-    end
-
-    it 'should goes back to mass_edit_candidates_event, updating verified' do
-      completed_date = @today - 20
-      cand = Candidate.find(@c1_id)
-      cand.sponsor_agreement = true
-      cand.save
-
-      cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
-      cand_event.completed_date = completed_date
-      cand_event.verified = false
-      cand.save
-
-      put :sponsor_agreement_verify_update,
-          params: { id: @c1_id, candidate: { sponsor_agreement: '1' } }
-
-      cand = Candidate.find(@c1_id)
-      expect(controller.candidate).to eq(cand)
-      # expect(response).to render_template('admins/mass_edit_candidates_event')
-      expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}")
-
-      cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
-      expect(cand_event.completed_date).to eq(completed_date)
-      expect(cand_event.verified).to eq(true)
-    end
-
-    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
-      put :sponsor_agreement_verify_update,
-          params: { id: @c1_id,
-                    candidate: { sponsor_agreement: '1' } }
-
-      cand = Candidate.find(@c1_id)
-      expect(cand.sponsor_agreement).to eq(true)
-
-      expect(controller.candidate).to eq(cand)
-      # expect(response).to render_template('admins/mass_edit_candidates_event')
-      expect(@request.fullpath).to eq("/sponsor_agreement_verify.#{cand.id}")
-
-      cand_event = cand.get_candidate_event(I18n.t('events.sponsor_agreement'))
       expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
@@ -594,10 +522,6 @@ describe CandidatesController do
 
     describe 'sign_agreement' do
       it_behaves_like 'sign_agreement'
-    end
-
-    describe 'sponsor_agreement' do
-      it_behaves_like 'sponsor_agreement'
     end
 
     describe 'candidate_information_sheet' do

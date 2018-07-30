@@ -112,7 +112,7 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.save
     update_baptismal_certificate(false)
 
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
 
     visit @path
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true)
@@ -152,7 +152,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(candidate.candidate_sheet.middle_name).to eq(MIDDLE_NAME)
     expect(candidate.candidate_sheet.last_name).to eq(LAST_NAME)
 
-    expect_db(1, 9, 1) # make sure DB does not increase in size.
+    expect_db(1, 8, 1) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template then changes mind she was baptized at stmm' do
@@ -208,7 +208,7 @@ shared_context 'baptismal_certificate_html_erb' do
     update_baptismal_certificate(false)
     @candidate.save
 
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
 
     visit @path
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
@@ -231,7 +231,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                               'Mother last can\'t be blank',
                                                                               'Street 1 can\'t be blank']]])
 
-    expect_db(1, 9, 1)
+    expect_db(1, 8, 1)
     expect(page).to have_selector(img_src_selector)
 
     fill_in_form(false) # no picture
@@ -247,7 +247,7 @@ shared_context 'baptismal_certificate_html_erb' do
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
     end
 
-    expect_db(1, 9, 1)
+    expect_db(1, 8, 1)
     expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate.baptismal_certificate.scanned_certificate).not_to eq(nil)
@@ -256,7 +256,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false)
 
-    expect_db(1, 9, 1) # make sure DB does not increase in size.
+    expect_db(1, 8, 1) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do

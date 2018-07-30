@@ -63,7 +63,7 @@ feature 'Sign in', :devise do
   end
 
   def create_candidate(account_name, first, last)
-    candidate = FactoryBot.create(:candidate, account_name: account_name, add_candidate_events: false)
+    candidate = FactoryBot.create(:candidate, account_name: account_name, add_new_confirmation_events: false)
     candidate.candidate_sheet.first_name = first
     candidate.candidate_sheet.last_name = last
     candidate.save

@@ -43,8 +43,7 @@ def expect_message(id, message, rendered_page = page)
 end
 
 def event_with_picture_setup(route, is_verify = false)
-  @candidate = FactoryBot.create(:candidate, add_candidate_events: false)
-  # AppFactory.add_confirmation_event(event_name) unless event_name.nil?
+  @candidate = FactoryBot.create(:candidate, add_new_confirmation_events: false)
   if @is_dev
     login_as(@candidate, scope: :candidate)
 

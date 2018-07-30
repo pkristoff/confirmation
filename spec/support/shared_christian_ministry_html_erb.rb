@@ -34,7 +34,7 @@ shared_context 'christian_ministry_html_erb' do
   scenario 'admin logs in and selects a candidate, fills in template and no picture' do
     update_christian_ministry(false)
 
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
     visit @path
 
     fill_in_form
@@ -63,13 +63,13 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME)
 
-    expect_db(1, 9, 0) # make sure DB does not increase in size.
+    expect_db(1, 8, 0) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and picture' do
     update_christian_ministry(false)
 
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
 
     visit @path
     fill_in_form
@@ -96,7 +96,7 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME)
 
-    expect_db(1, 9, 0) # make sure DB does not increase in size.
+    expect_db(1, 8, 0) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
@@ -104,7 +104,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate.save
     update_christian_ministry(false)
 
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
     visit @path
 
     click_button @update_id
@@ -124,13 +124,13 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '')
 
-    expect_db(1, 9, 0) # make sure DB does not increase in size.
+    expect_db(1, 8, 0) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, fills in template, except saint_name' do
     update_christian_ministry(false)
 
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
 
     visit @path
     fill_in_form
@@ -143,7 +143,7 @@ shared_context 'christian_ministry_html_erb' do
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
                                                      [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'What service can\'t be blank']]])
 
-    expect_db(1, 9, 0) # make sure DB does not increase in size.
+    expect_db(1, 8, 0) # make sure DB does not increase in size.
   end
 
   scenario 'admin un-verifies a verified christian ministry event' do

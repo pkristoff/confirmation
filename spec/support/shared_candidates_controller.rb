@@ -438,38 +438,6 @@ shared_context 'sponsor_covenant' do
   end
 end
 
-shared_context 'sponsor_agreement' do
-  before(:each) do
-    @today = Time.zone.today
-  end
-
-  it 'should show sponsor_agreement for the candidate.' do
-    get :sponsor_agreement, params: { id: @candidate.id }
-
-    # expect(response).to render_template('sponsor_agreement')
-    expect(controller.candidate).to eq(@candidate)
-    expect(@request.fullpath).to eq("/#{@dev}sponsor_agreement.#{@candidate.id}")
-  end
-
-  it 'show should update the candidate to signing the sponsor agreement and update Candidate event.' do
-    AppFactory.add_confirmation_event(I18n.t('events.sponsor_agreement'))
-
-    candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
-    expect(candidate_event.completed_date).to eq(nil)
-
-    put :sponsor_agreement_update, params: { id: candidate.id, candidate: { sponsor_agreement: 1 } }
-
-    candidate = Candidate.find(@candidate.id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.sponsor_agreement'))
-
-    expect(response.status).to eq(200)
-    expect(@request.fullpath).to eq("/#{@dev}sponsor_agreement.#{candidate.id}")
-    expect(candidate.sponsor_agreement).to eq(true)
-    expect(candidate_event.completed_date).to eq(@today)
-  end
-end
-
 shared_context 'candidate_information_sheet' do
   before(:each) do
     @today = Time.zone.today

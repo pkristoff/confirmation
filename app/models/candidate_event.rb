@@ -268,8 +268,6 @@ class CandidateEvent < ApplicationRecord
       Event::Route::CONFIRMATION_NAME
     when I18n.t('events.parent_meeting')
       Event::Other::PARENT_INFORMATION_MEETING
-    when I18n.t('events.sponsor_agreement')
-      Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
     when I18n.t('events.sponsor_covenant')
       Event::Route::SPONSOR_COVENANT
     when I18n.t('events.retreat_verification')

@@ -27,7 +27,7 @@ describe CandidateImport do
       end
       expect(success).to eq(true)
 
-      expect_db(85, 9, 0)
+      expect_db(85, 8, 0)
 
       the_way_candidates = Candidate.all.select { |c| c.candidate_sheet.attending == I18n.t('views.candidates.attending_the_way') }
       expect(the_way_candidates.size).to eq(83)
@@ -212,40 +212,6 @@ describe CandidateImport do
       index
     end
 
-    it 'read in exported image' do
-      candidate = FactoryBot.create(:candidate,
-                                    baptismal_certificate: FactoryBot.create(:baptismal_certificate))
-      add_baptismal_certificate_image(candidate)
-
-      dir_name = 'temp'
-      filename = 'export.xlsx'
-
-      xlsx_path = "#{dir_name}/#{filename}"
-      begin
-        Dir.mkdir(dir_name)
-        CandidateImport.new.to_xlsx(dir_name).serialize(xlsx_path)
-        uploaded_file = Rack::Test::UploadedFile.new(xlsx_path, 'image/png', true)
-        CandidateImport.new.reset_database
-
-        expect(Candidate.find_by(account_name: candidate.account_name)).to eq(nil)
-
-        candidate_import = CandidateImport.new
-        save_result = candidate_import.load_initial_file(uploaded_file)
-        expect(save_result).to eq(true)
-
-        candidate = Candidate.find_by(account_name: candidate.account_name)
-        expect(candidate).not_to eq(nil)
-        baptismal_certificate = candidate.baptismal_certificate
-        expect(baptismal_certificate).not_to eq(nil)
-        expect(baptismal_certificate.scanned_certificate.filename).to eq('actions.png')
-        expect(baptismal_certificate.scanned_certificate.content_type).to eq('image/png')
-        expect(baptismal_certificate.scanned_certificate.content).not_to eq(nil)
-        expect(baptismal_certificate.scanned_certificate.content).not_to eq('')
-      ensure
-        clean_dir(dir_name)
-      end
-    end
-
     it 'import with image followed by export' do
       uploaded_zip_file = fixture_file_upload('export with images.zip', 'application/zip')
       candidate_import = CandidateImport.new
@@ -426,11 +392,10 @@ def expect_initial_conf_events
   expect_confirmation_event(I18n.t('events.sponsor_covenant'), today, today)
   expect_confirmation_event(I18n.t('events.confirmation_name'), today, today)
   expect_confirmation_event(I18n.t('events.christian_ministry'), today, today)
-  expect_confirmation_event(I18n.t('events.sponsor_agreement'), today, today)
 
-  return unless ConfirmationEvent.all.size != 9
+  return unless ConfirmationEvent.all.size != 8
   ConfirmationEvent.all.each { |x| puts x.name }
-  expect(ConfirmationEvent.all.size).to eq(9), '"Wrong number of Confirmation Events" '
+  expect(ConfirmationEvent.all.size).to eq(8), '"Wrong number of Confirmation Events" '
 end
 
 describe 'combinations' do
@@ -601,7 +566,7 @@ describe 'start new year' do
                    CandidateEvent: 0,
                    CandidateSheet: 0,
                    ChristianMinistry: 0,
-                   ConfirmationEvent: 9,
+                   ConfirmationEvent: 8,
                    PickConfirmationName: 0,
                    RetreatVerification: 0,
                    SponsorCovenant: 0,
@@ -613,7 +578,7 @@ describe 'start new year' do
     candidate_import = CandidateImport.new
     # candidate_import.load_zip_file(fixture_file_upload('export with images.zip'))
 
-    c0 = FactoryBot.create(:candidate, add_candidate_events: false)
+    c0 = FactoryBot.create(:candidate, add_new_confirmation_events: false)
     AppFactory.add_candidate_events(c0)
     c0.baptismal_certificate.scanned_certificate = create_scanned_image
     c0.sponsor_covenant.scanned_eligibility = create_scanned_image
@@ -621,11 +586,11 @@ describe 'start new year' do
     c0.retreat_verification.scanned_retreat = create_scanned_image
     c0.save
 
-    c1 = FactoryBot.create(:candidate, account_name: 'c1', add_candidate_events: false)
+    c1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
     AppFactory.add_candidate_events(c1)
     c1.save
 
-    c2 = FactoryBot.create(:candidate, account_name: 'c2', add_candidate_events: false)
+    c2 = FactoryBot.create(:candidate, account_name: 'c2', add_new_confirmation_events: false)
     AppFactory.add_candidate_events(c2)
     c2.save
 
@@ -634,15 +599,15 @@ describe 'start new year' do
     cand_assoc = { Address: 6,
                    BaptismalCertificate: 3,
                    Candidate: 3,
-                   CandidateEvent: 27,
+                   CandidateEvent: 24,
                    CandidateSheet: 3,
                    ChristianMinistry: 3,
-                   ConfirmationEvent: 9,
+                   ConfirmationEvent: 8,
                    PickConfirmationName: 3,
                    RetreatVerification: 3,
                    SponsorCovenant: 3,
                    ScannedImage: 4,
-                   ToDo: 27 }
+                   ToDo: 24 }
 
     expect_table_rows(Candidate, cand_assoc)
 
@@ -653,15 +618,15 @@ describe 'start new year' do
     cand_assoc = { Address: 2,
                    BaptismalCertificate: 1,
                    Candidate: 1,
-                   CandidateEvent: 9,
+                   CandidateEvent: 8,
                    CandidateSheet: 1,
                    ChristianMinistry: 1,
-                   ConfirmationEvent: 9,
+                   ConfirmationEvent: 8,
                    PickConfirmationName: 1,
                    RetreatVerification: 1,
                    SponsorCovenant: 1,
                    ScannedImage: 0,
-                   ToDo: 9 }
+                   ToDo: 8 }
 
     expect_table_rows(Candidate, cand_assoc)
   end
@@ -690,7 +655,7 @@ describe 'start new year' do
                    CandidateEvent: 0,
                    CandidateSheet: 0,
                    ChristianMinistry: 0,
-                   ConfirmationEvent: 9,
+                   ConfirmationEvent: 8,
                    PickConfirmationName: 0,
                    RetreatVerification: 0,
                    SponsorCovenant: 0,
@@ -713,54 +678,54 @@ describe 'start new year' do
 
     candidate_import = CandidateImport.new
 
-    c0 = FactoryBot.create(:candidate, add_candidate_events: false)
+    c0 = FactoryBot.create(:candidate, add_new_confirmation_events: false)
     AppFactory.add_candidate_events(c0)
     c0.save
-    c1 = FactoryBot.create(:candidate, account_name: 'c1', add_candidate_events: false)
+    c1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
     AppFactory.add_candidate_events(c1)
     c1.baptismal_certificate.scanned_certificate = create_scanned_image
     c1.save
-    c2 = FactoryBot.create(:candidate, account_name: 'c2', add_candidate_events: false)
+    c2 = FactoryBot.create(:candidate, account_name: 'c2', add_new_confirmation_events: false)
     AppFactory.add_candidate_events(c2)
     c2.save
 
     expect(Admin.all.size).to eq(1)
-    expect(ConfirmationEvent.all.size).to eq(9)
+    expect(ConfirmationEvent.all.size).to eq(8)
     expect(Candidate.all.size).to eq(3)
 
     cand_assoc = { Address: 9,
                    BaptismalCertificate: 4,
                    Candidate: 3,
-                   CandidateEvent: 28,
+                   CandidateEvent: 25,
                    CandidateSheet: 4,
                    ChristianMinistry: 4,
-                   ConfirmationEvent: 9,
+                   ConfirmationEvent: 8,
                    PickConfirmationName: 4,
                    RetreatVerification: 4,
                    SponsorCovenant: 4,
                    ScannedImage: 4,
-                   ToDo: 28 }
+                   ToDo: 25 }
 
     expect_table_rows(Candidate, cand_assoc)
 
     candidate_import.start_new_year
 
     expect(Admin.all.size).to eq(1)
-    expect(ConfirmationEvent.all.size).to eq(9)
+    expect(ConfirmationEvent.all.size).to eq(8)
     expect(Candidate.all.size).to eq(1) # vickikristoff the seed
 
     cand_assoc = { Address: 2,
                    BaptismalCertificate: 1,
                    Candidate: 1,
-                   CandidateEvent: 9,
+                   CandidateEvent: 8,
                    CandidateSheet: 1,
                    ChristianMinistry: 1,
-                   ConfirmationEvent: 9,
+                   ConfirmationEvent: 8,
                    PickConfirmationName: 1,
                    RetreatVerification: 1,
                    SponsorCovenant: 1,
                    ScannedImage: 0,
-                   ToDo: 9 }
+                   ToDo: 8 }
 
     expect_table_rows(Candidate, cand_assoc)
   end
@@ -900,7 +865,7 @@ def expect_candidates(wks, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.1.completed_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_events.1.verified')].value).to eq(0)
 
-  expect(c1_row.size).to eq(71)
+  expect(c1_row.size).to eq(68)
 
   expect(c2_row.cells[0].value).to eq('c2')
 
@@ -969,7 +934,7 @@ def expect_candidates_empty(wks, candidate_import)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(71)
+  expect(c1_row.size).to eq(68)
 end
 
 def expect_confirmation_events_empty(wks, candidate_import)
@@ -1022,14 +987,13 @@ def expect_import_with_events
   expect_confirmation_event(I18n.t('events.baptismal_certificate'), '2016-08-31', '2016-08-12')
   expect_confirmation_event(I18n.t('events.sponsor_covenant'), '2016-10-31', '2016-10-15')
   expect_confirmation_event(I18n.t('events.confirmation_name'), '2016-11-30', '2016-11-20')
-  expect_confirmation_event(I18n.t('events.sponsor_agreement'), '2016-12-31', '2016-12-15')
   expect_confirmation_event(I18n.t('events.christian_ministry'), '2017-01-31', '2017-01-22')
 
-  if ConfirmationEvent.all.size != 9
+  if ConfirmationEvent.all.size != 8
     ConfirmationEvent.all.each { |x| puts x.name }
   end
 
-  expect(ConfirmationEvent.all.size).to eq(9)
+  expect(ConfirmationEvent.all.size).to eq(8)
 
   confirmation_event2 = ConfirmationEvent.find_by(name: 'Attend Retreat')
   expect(confirmation_event2.the_way_due_date.to_s).to eq('2016-05-31')
@@ -1144,11 +1108,7 @@ def foo_bar
       { completed_date: '2016-12-25', # Confirmation Name
         name: I18n.t('events.confirmation_name'),
         due_date: '2016-11-30',
-        verified: true },
-      { completed_date: '2017-01-25', # Sponsor Agreement 12/31/2016
-        name: I18n.t('events.sponsor_agreement'),
-        due_date: '2016-12-31',
-        verified: false }
+        verified: true }
     ]
   }
 end
@@ -1193,10 +1153,6 @@ def paul_kristoff
       { completed_date: '', # Confirmation Name
         name: I18n.t('events.confirmation_name'),
         due_date: '2016-11-30',
-        verified: false },
-      { completed_date: '', # Sponsor Agreement 12/31/2016
-        name: I18n.t('events.sponsor_agreement'),
-        due_date: '2016-12-31',
         verified: false },
       { completed_date: '', # Christian Ministry Awareness 1/31/17
         name: I18n.t('events.christian_ministry'),
@@ -1258,10 +1214,6 @@ def vicki_kristoff
       { completed_date: '', # Confirmation Name
         name: I18n.t('events.confirmation_name'),
         due_date: '2016-11-20',
-        verified: false },
-      { completed_date: '', # Sponsor Agreement 12/15/2016
-        name: I18n.t('events.sponsor_agreement'),
-        due_date: '2016-12-15',
         verified: false },
       { completed_date: '', # Christian Ministry Awareness 1/31/17
         name: I18n.t('events.christian_ministry'),

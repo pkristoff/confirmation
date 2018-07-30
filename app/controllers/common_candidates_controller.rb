@@ -338,30 +338,6 @@ class CommonCandidatesController < ApplicationController
     render :sign_agreement_verify unless render_called
   end
 
-  # edit sponsor_agreement information
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> Candidate id
-  #
-  def sponsor_agreement
-    @candidate = Candidate.find(params[:id])
-    @resource = @candidate
-  end
-
-  # update sponsor_agreement information
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> Candidate id
-  #
-  def sponsor_agreement_update
-    @candidate = Candidate.find(params[:id])
-    agreement_update_private(I18n.t('events.sponsor_agreement'), 'sponsor_agreement', I18n.t('label.sponsor_agreement.sponsor_agreement'))
-    @resource = @candidate
-    render :sponsor_agreement
-  end
-
   # send_image scanned_eligibility image if saved
   #
   # === Attributes:

@@ -223,7 +223,7 @@ describe CandidateEvent, type: :model do
   describe 'status' do
     before(:each) do
       candidate = FactoryBot.create(:candidate)
-      event_key = I18n.t('events.sponsor_agreement')
+      event_key = I18n.t('events.candidate_covenant_agreement')
       AppFactory.add_confirmation_event(event_key)
       @candidate = Candidate.find_by(account_name: candidate.account_name)
       @candidate_event = @candidate.get_candidate_event(event_key)

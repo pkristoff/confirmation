@@ -53,7 +53,6 @@ en:
     confirmation_name: Confirmation Name
     parent_meeting: Parent Information Meeting
     retreat_verification: Attend Retreat
-    sponsor_agreement: Sponsor and Candidate Conversation
     sponsor_covenant: Sponsor Covenant
   field_set:
     baptismal_certificate:
@@ -147,12 +146,9 @@ en:
       christian_ministry: Christian Ministry
       confirmation_name: Confirmation Name
       retreat_verification: Attend Retreat
-      sponsor_agreement: Sponsor Conversation
       sponsor_covenant: Sponsor's Covenant
     sign_agreement:
       signed_agreement: By checking you agree to the above.
-    sponsor_agreement:
-      sponsor_agreement: By checking you agree to the above.
     sponsor_covenant:
       sponsor_attends_stmm: Sponsor registered at Saint Mary Magdalene
       sponsor_church: Sponsor's church

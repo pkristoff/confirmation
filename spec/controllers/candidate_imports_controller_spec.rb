@@ -73,6 +73,9 @@ describe CandidateImportsController do
       FactoryBot.create(:candidate, account_name: 'a2')
       FactoryBot.create(:candidate, account_name: 'a3')
       expect(Candidate.all.size).to eq(3)
+      expect(ConfirmationEvent.all.size).to eq(2)
+      expect(CandidateEvent.all.size).to eq(6)
+      expect(ToDo.all.size).to eq(6)
       login_admin
 
       expect(Admin.all.size).to eq(1)
@@ -84,6 +87,10 @@ describe CandidateImportsController do
       expect(response).to redirect_to(root_url)
       candidates = Candidate.all
       expect(candidates.size).to eq(1)
+
+      expect(ConfirmationEvent.all.size).to eq(8)
+      expect(CandidateEvent.all.size).to eq(8)
+      expect(ToDo.all.size).to eq(8)
 
       candidate = candidates.first
       expect(candidate.account_name).to eq('vickikristoff')
@@ -99,6 +106,34 @@ describe CandidateImportsController do
       expect_event_association_local(candidate.sponsor_covenant)
 
       expect(Admin.all.size).to eq(1)
+    end
+
+    it 'should remove all ConfirmationEvent and related ToDo & CandidateEvent' do
+      expect(Candidate.all.size).to eq(0)
+      expect(ConfirmationEvent.all.size).to eq(0)
+      expect(CandidateEvent.all.size).to eq(0)
+      expect(ToDo.all.size).to eq(0)
+
+      AppFactory.add_confirmation_events
+
+      expect(Candidate.all.size).to eq(0)
+      expect(ConfirmationEvent.all.size).to eq(8)
+      expect(CandidateEvent.all.size).to eq(0)
+      expect(ToDo.all.size).to eq(0)
+
+      FactoryBot.create(:candidate, account_name: 'a1', add_candidate_events: true, add_new_confirmation_events: false)
+
+      expect(Candidate.all.size).to eq(1)
+      expect(ConfirmationEvent.all.size).to eq(8)
+      expect(CandidateEvent.all.size).to eq(8)
+      expect(ToDo.all.size).to eq(8)
+
+      CandidateImport.new.remove_all_confirmation_events
+
+      expect(Candidate.all.size).to eq(1)
+      expect(ConfirmationEvent.all.size).to eq(0)
+      expect(ToDo.all.size).to eq(0)
+      expect(CandidateEvent.all.size).to eq(0)
     end
   end
 

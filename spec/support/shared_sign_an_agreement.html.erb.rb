@@ -7,7 +7,7 @@ shared_context 'sign_an_agreement_html_erb' do
   end
 
   scenario 'admin visits form and pushes update' do
-    @candidate.sponsor_agreement = false
+    @candidate.signed_agreement = false
     @candidate.save
 
     visit @path
@@ -23,7 +23,7 @@ shared_context 'sign_an_agreement_html_erb' do
   end
 
   scenario 'user(candidate or admin) logs in, selects signing an agreement, has signed agreement previously' do
-    @candidate.sponsor_agreement = true
+    @candidate.signed_agreement = true
     @candidate.save
     visit @path
 

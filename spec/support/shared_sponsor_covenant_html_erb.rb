@@ -59,7 +59,7 @@ shared_context 'sponsor_covenant_html_erb' do
     @candidate.save
     update_sponsor_covenant(false)
 
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
 
     visit @path
     fill_in_form
@@ -77,7 +77,7 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(true)
     expect(candidate.sponsor_covenant).not_to eq(nil)
 
-    expect_db(1, 9, 2) # make sure DB does not increase in size.
+    expect_db(1, 8, 2) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
@@ -85,7 +85,7 @@ shared_context 'sponsor_covenant_html_erb' do
     @candidate.save
     update_sponsor_covenant(false)
 
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
 
     visit @path
 
@@ -127,7 +127,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate_db_visit = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate_db_visit.id, @dev, @path_str, @is_verify)
 
-    expect_db(1, 9, 2) # make sure DB does not increase in size.
+    expect_db(1, 8, 2) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, adds non-picture data, updates, adds picture, updates - everything is saved' do

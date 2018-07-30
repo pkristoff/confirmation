@@ -6,8 +6,8 @@
 class ConfirmationEvent < ApplicationRecord
   # added dependent to handle Rails/HasManyOrHasOneDependent, but does not
   # seem to have an affect.
-  has_many :to_dos, dependent: :delete_all
-  has_many :candidate_events, through: :to_dos
+  has_many :to_dos, dependent: :destroy
+  has_many :candidate_events, through: :to_dos, dependent: :destroy
   before_save :scrub_instructions
 
   # TODO: valid presence of

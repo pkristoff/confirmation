@@ -4,7 +4,8 @@ FactoryBot.define do
   factory :candidate do
     transient do
       should_confirm true
-      add_candidate_events true
+      add_candidate_events false
+      add_new_confirmation_events true
     end
     account_name 'sophiaagusta'
     password 'please123'
@@ -19,8 +20,11 @@ FactoryBot.define do
       # overwrite the already created address
       candidate.candidate_sheet.address&.destroy
       candidate.candidate_sheet.address = FactoryBot.create(:address)
-      if evaluator.add_candidate_events && candidate.candidate_events.size <= 0
+      if evaluator.add_new_confirmation_events && candidate.candidate_events.size <= 0
         candidate.candidate_events = create_candidate_events
+      end
+      if evaluator.add_candidate_events
+        AppFactory.add_candidate_events(candidate)
       end
     end
   end

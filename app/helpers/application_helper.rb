@@ -74,7 +74,6 @@ module ApplicationHelper
   # ** <code>events.baptismal_certificate</code>
   # ** <code>events.sponsor_covenant</code>
   # ** <code>events.confirmation_name</code>
-  # ** <code>events.sponsor_agreement</code>
   # ** <code>events.retreat_verification</code>
   # ** <code>events.parent_meeting</code>
   # * <tt>:candidate_id</tt>
@@ -117,12 +116,6 @@ module ApplicationHelper
         dev_pick_confirmation_name_path(candidate_id)
       else
         pick_confirmation_name_path(candidate_id)
-      end
-    when I18n.t('events.sponsor_agreement')
-      if is_candidate_logged_in
-        dev_sponsor_agreement_path(candidate_id)
-      else
-        sponsor_agreement_path(candidate_id)
       end
     when I18n.t('events.christian_ministry')
       if is_candidate_logged_in

@@ -1,9 +1,0 @@
-<%= render 'candidates/shared/two_column_signed_event',
-           path: dev_sponsor_agreement_update_path(@candidate.id),
-           event_association: @candidate,
-           shared_html_file: 'sponsor_agreement',
-           candidate_event: @candidate.get_candidate_event(I18n.t('events.sponsor_agreement')),
-           download_doc: dev_download_document_path(@candidate.id, Event::Document::CONVERSATION_SPONSOR_CANDIDATE),
-           is_dev: true,
-           is_verify: false
-%>

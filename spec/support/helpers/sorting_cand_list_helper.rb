@@ -63,8 +63,6 @@ module SortingCandListHelpers
       event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
     when I18n.t('events.confirmation_name')
       pick_confirmation_name_path(candidate_id)
-    when I18n.t('events.sponsor_agreement')
-      sponsor_agreement_path(candidate_id)
     when I18n.t('events.christian_ministry')
       christian_ministry_path(candidate_id)
     when I18n.t('events.retreat_verification')
@@ -88,8 +86,6 @@ module SortingCandListHelpers
       event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT)
     when I18n.t('events.confirmation_name')
       pick_confirmation_name_verify_path(candidate_id)
-    when I18n.t('events.sponsor_agreement')
-      sponsor_agreement_verify_path(candidate_id)
     when I18n.t('events.christian_ministry')
       christian_ministry_verify_path(candidate_id)
     when I18n.t('events.retreat_verification')
@@ -171,7 +167,6 @@ module SortingCandListHelpers
       [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
       [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
       [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
-      [I18n.t('events.sponsor_agreement'), true, '', expect_event(I18n.t('events.sponsor_agreement'))],
       [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))],
       [I18n.t('events.retreat_verification'), true, '', expect_event(I18n.t('events.retreat_verification'))],
       [I18n.t('events.parent_meeting'), true, '', expect_event(I18n.t('events.parent_meeting'))]

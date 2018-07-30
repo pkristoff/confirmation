@@ -54,9 +54,6 @@ class CandidatePDFDocument < Prawn::Document
     confirmation_name
     start_new_page
 
-    sponsor_agreement
-    start_new_page
-
     christian_ministry
     start_new_page
 
@@ -69,7 +66,6 @@ class CandidatePDFDocument < Prawn::Document
       section(I18n.t('label.sidebar.baptismal_certificate'), destination: 3)
       section(I18n.t('label.sidebar.sponsor_covenant'), destination: 4)
       section(I18n.t('label.sidebar.confirmation_name'), destination: 5)
-      section(I18n.t('label.sidebar.sponsor_agreement'), destination: 6)
       section(I18n.t('label.sidebar.christian_ministry'), destination: 7)
       section(I18n.t('label.sidebar.retreat_verification'), destination: 8)
     end
@@ -199,17 +195,6 @@ class CandidatePDFDocument < Prawn::Document
     grid_label_value2([6, 0], "#{I18n.t('label.retreat_verification.where_held_retreat')}:", rv.where_held_retreat)
 
     common_image(rv.scanned_retreat, I18n.t('label.retreat_verification.retreat_verification_picture'))
-  end
-
-  # Generate Sponsor agreement
-  #
-  def sponsor_agreement
-    sa = @candidate.sponsor_agreement
-    define_grid_page
-    page_header(I18n.t('label.sidebar.sponsor_agreement'), [0, 0], [0, 3])
-    common_event(@candidate.get_candidate_event(I18n.t('events.sponsor_covenant')), [1, 0], [1, 3])
-
-    grid_label_value2([2, 0], 'Agreed to having the conversation with sponsor', sa)
   end
 
   # Generate Sponsor covenant

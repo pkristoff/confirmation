@@ -202,41 +202,6 @@ class CandidatesController < CommonCandidatesController
     render :pick_confirmation_name_verify unless render_called
   end
 
-  # edit sponsor_agreement verify
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> Candidate id
-  #
-  def sponsor_agreement_verify
-    @is_verify = true
-    @candidate = Candidate.find(params[:id])
-  end
-
-  # update sponsor_agreement verify
-  #
-  # === Attributes:
-  #
-  # * <tt>:commit</tt> legal values
-  # ** <code>views.common.un_verify</code>
-  # * <tt>:id</tt> Candidate id
-  #
-  def sponsor_agreement_verify_update
-    is_unverify = params[:commit] == I18n.t('views.common.un_verify')
-
-    candidate_id = params[:id]
-    event_name = I18n.t('events.sponsor_agreement')
-    @candidate = Candidate.find(candidate_id)
-    candidate_event = @candidate.get_candidate_event(event_name)
-
-    return admin_unverified_private(@candidate, candidate_event) if is_unverify
-
-    @candidate = Candidate.find(candidate_id)
-    render_called = agreement_update_private(event_name, 'sponsor_agreement', I18n.t('label.sponsor_agreement.sponsor_agreement'), true)
-    @is_verify = true
-    render :sponsor_agreement_verify unless render_called
-  end
-
   protected
 
   def resource_class

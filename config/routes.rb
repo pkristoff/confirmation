@@ -66,17 +66,6 @@ Rails.application.routes.draw do
     get 'sign_agreement_verify.:id', to: 'candidates#sign_agreement_verify', as: 'sign_agreement_verify'
     put 'sign_agreement_verify.:id', to: 'candidates#sign_agreement_verify_update', as: 'sign_agreement_verify_update'
 
-    # sponsor agreement
-
-    get 'dev/sponsor_agreement.:id', to: 'dev/candidates#sponsor_agreement', as: 'dev_sponsor_agreement'
-    put 'dev/sponsor_agreement.:id', to: 'dev/candidates#sponsor_agreement_update', as: 'dev_sponsor_agreement_update'
-
-    get 'sponsor_agreement.:id', to: 'candidates#sponsor_agreement', as: 'sponsor_agreement'
-    put 'sponsor_agreement.:id', to: 'candidates#sponsor_agreement_update', as: 'sponsor_agreement_update'
-
-    get 'sponsor_agreement_verify.:id', to: 'candidates#sponsor_agreement_verify', as: 'sponsor_agreement_verify'
-    put 'sponsor_agreement_verify.:id', to: 'candidates#sponsor_agreement_verify_update', as: 'sponsor_agreement_verify_update'
-
     # Christian Ministry Awareness
 
     get 'dev/christian_ministry.:id', to: 'dev/candidates#christian_ministry', as: 'dev_christian_ministry'

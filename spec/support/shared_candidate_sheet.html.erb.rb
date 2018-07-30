@@ -39,7 +39,7 @@ shared_context 'candidate_sheet_html_erb' do
   end
 
   scenario 'candidate fills out candidate sheet' do
-    expect_db(1, 9, 0)
+    expect_db(1, 8, 0)
 
     visit @path
 
@@ -62,7 +62,7 @@ shared_context 'candidate_sheet_html_erb' do
 
     end
 
-    expect_db(1, 9, 0) # make sure DB does not increase in size.
+    expect_db(1, 8, 0) # make sure DB does not increase in size.
   end
 
   scenario 'admin un-verifies a verified candidate sheet event' do

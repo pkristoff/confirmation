@@ -48,7 +48,7 @@ class Candidate < ApplicationRecord
 
   # turn off sending verify instructions until admin sends it.
   #
-  def send_on_create_confirmation_instructions(); end
+  def send_on_create_confirmation_instructions() end
 
   # Sorts candidate events in priorty order (to be cmpleted first)
   #
@@ -170,7 +170,7 @@ class Candidate < ApplicationRecord
   #
   def self.permitted_params
     [:account_name, :password, :password_confirmation,
-     :signed_agreement, :sponsor_agreement,
+     :signed_agreement,
      candidate_sheet_attributes: CandidateSheet.permitted_params,
      baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
      sponsor_covenant_attributes: SponsorCovenant.permitted_params,
