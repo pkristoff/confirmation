@@ -169,6 +169,8 @@ en:
     candidates_removed: All candidates successfully removed.
     confirmation_events_updated: Updated ConfirmationEvents!
     database_reset: Database successfully reset.
+    export_to_excel: Working in background.  An email with spreadsheet will be sent
+      upon completion with %{commit}.
     generate_pdf_error: Only select one candidate
     import_successful: Imported candidates successfully.
     initial_email_sent: Initial email sent.

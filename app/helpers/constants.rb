@@ -62,6 +62,9 @@ module EmailStuff
     adhoc: :adhoc,
     adhoc_test: :adhoc_test,
     confirmation_instructions: :confirmation_instructions,
+    email_error_message: :email_error_message,
+    export_to_excel_no_pictures: :export_to_excel_no_pictures,
+    export_to_excel: :export_to_excel,
     monthly_mass_mailing: :monthly_mass_mailing,
     monthly_mass_mailing_test: :monthly_mass_mailing_test,
     reset_password: :reset_password

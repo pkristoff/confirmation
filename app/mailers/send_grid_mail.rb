@@ -164,8 +164,8 @@ class SendGridMail
   #
   def create_personalization(candidate, sg_mail, admin, *subs)
     personalization = SendGrid::Personalization.new
-    sheet = candidate.candidate_sheet
     if admin.nil? # unless test email
+      sheet = candidate.candidate_sheet
       used = ['stmm.confirmation@kristoffs.com']
       converted_emails = convert_emails([sheet.to_email, sheet.cc_email, sheet.cc_email_2], used)
       personalization.add_to(SendGrid::Email.new(email: converted_emails[0], name: "#{sheet.first_name} #{sheet.last_name}"))
@@ -251,6 +251,78 @@ class SendGridMail
 
     delivery = delivery_call.call(@admin, @candidate_mailer_text)
     text(delivery)
+  end
+
+  # Send the attach_file to admin.
+  #
+  # === Parameters:
+  #
+  # * <tt>:attach_file_path</tt> The excel spread sheet
+  #
+  # === Returns:
+  #
+  # * <tt>Number</tt> response code from sending an email.
+  #
+  def export_to_excel_no_pictures_message(attach_file_path)
+    send_email_admin('Please see the attached excel spreadsheet.', attach_file_path)
+  end
+
+  # Send error message to admin.
+  #
+  # === Parameters:
+  #
+  # * <tt>:message</tt> error message
+  # * <tt>:backtrace</tt> backtrace
+  # * <tt>:attach_file_path</tt> nil - should not be used.
+  #
+  # === Returns:
+  #
+  # * <tt>Number</tt> response code from sending an email.
+  #
+  def email_error_message(message, backtrace, attach_file_path = nil)
+    send_email_admin("#{message} <br/> <br/> backtrace: #{backtrace}", attach_file_path)
+  end
+
+  # Send error message to admin.
+  #
+  # === Parameters:
+  #
+  # * <tt>:text</tt> email body
+  # * <tt>:attach_file_path</tt> path to the file to attach
+  #
+  # === Returns:
+  #
+  # * <tt>Number</tt> response code from sending an email.
+  #
+  def send_email_admin(text, attach_file_path)
+    email_type = EmailStuff::TYPES[:email_error_message]
+    sg_mail = create_mail('Error in job', email_type, @admin.name)
+
+    add_attachment_file_xlxs(File.new(attach_file_path), sg_mail, attach_file_path) unless attach_file_path.nil?
+
+    create_personalization(nil, sg_mail, @admin)
+
+    sg_mail.add_content(SendGrid::Content.new(type: 'text/html', value: text))
+
+    response = post_email(sg_mail)
+
+    handle_bad_response(response, email_type, @admin.name)
+
+    response
+  end
+
+  # Expand the email text making any necessary substitutions.
+  #
+  # === Parameters:
+  #
+  # * <tt>:attach_file_path</tt> The path to the excel spread sheet
+  #
+  # === Returns:
+  #
+  # * <tt>Number</tt> response code from sending an email.
+  #
+  def export_to_excel_pictures_message(attach_file_path)
+    send_email_admin('Please see the attached zip file.', attach_file_path)
   end
 
   # Send the email to SendGrid, which will send the email
@@ -399,6 +471,11 @@ class SendGridMail
 
   private
 
+  def handle_bad_response(response, email_type, name)
+    Rails.logger.info("Skipping sending #{email_type} message for #{name} because of a bad response") if response.status_code[0] != '2'
+    Rails.logger.info("Status=#{response.status_code} body=#{response.body}") if response.status_code[0] != '2'
+  end
+
   def add_attachment_file(attach_file, sg_mail)
     uploaded_file = attach_file
 
@@ -410,6 +487,36 @@ class SendGridMail
     attachment.content = content64
     attachment.type = uploaded_file.content_type
     attachment.filename = uploaded_file.original_filename
+    attachment.disposition = 'attachment'
+    sg_mail.add_attachment(attachment)
+  end
+
+  def add_attachment_file_xlxs(attach_file, sg_mail, path)
+    uploaded_file = attach_file
+
+    attachment = Attachment.new
+    content = uploaded_file.read
+    # Rails.logger.info("content.encoding=#{content.encoding}")
+    content64 = Base64.strict_encode64(content)
+    # Rails.logger.info("content64.encoding=#{content64.encoding}")
+    attachment.content = content64
+    attachment.type = 'application/xlsx'
+    attachment.filename = path
+    attachment.disposition = 'attachment'
+    sg_mail.add_attachment(attachment)
+  end
+
+  def add_attachment_file_zip(attach_file, sg_mail, path)
+    uploaded_file = attach_file
+
+    attachment = Attachment.new
+    content = uploaded_file.read
+    # Rails.logger.info("content.encoding=#{content.encoding}")
+    content64 = Base64.strict_encode64(content)
+    # Rails.logger.info("content64.encoding=#{content64.encoding}")
+    attachment.content = content64
+    attachment.type = 'application/zip'
+    attachment.filename = path
     attachment.disposition = 'attachment'
     sg_mail.add_attachment(attachment)
   end

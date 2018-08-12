@@ -84,8 +84,7 @@ feature 'Other', :devise do
   end
 
   describe 'Export to excel' do
-    xlsx_filename = 'exported_candidates.xlsx'
-    xlsx_filename_zip = 'exported_candidates.zip'
+    include FileHelper
 
     scenario 'admin can export to excel and read it back in.' do
       FactoryBot.create(:candidate)
@@ -95,11 +94,13 @@ feature 'Other', :devise do
       admin = FactoryBot.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
       login_as(admin, scope: :admin)
       expect(Admin.all.size).to eq(2) # prove there are only 2
-      visit new_candidate_import_path
-      click_button I18n.t('views.imports.excel')
 
-      File.open(xlsx_filename_zip, 'w') { |f| f.write(page.html) }
+      dir = 'temp'
+      delete_dir(dir)
       begin
+        Dir.mkdir(dir)
+        file_path, _temp_file = ExportExcelJob.new.generate_zip(dir)
+
         visit new_candidate_import_path
         click_button I18n.t('views.imports.start_new_year')
         expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
@@ -111,12 +112,11 @@ feature 'Other', :devise do
         end
 
         visit new_candidate_import_path
-        attach_file :candidate_import_file, xlsx_filename_zip
+        attach_file :candidate_import_file, file_path
         click_button I18n.t('views.imports.import')
         expect(Candidate.all.size).to eq(3) # + candidate seed
       ensure
-        File.delete xlsx_filename if File.exist? xlsx_filename
-        File.delete xlsx_filename_zip if File.exist? xlsx_filename_zip
+        delete_dir(dir)
       end
     end
   end

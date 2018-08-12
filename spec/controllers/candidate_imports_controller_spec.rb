@@ -138,7 +138,19 @@ describe CandidateImportsController do
   end
 
   describe 'export_to_excel' do
-    it 'should download an excel spreadsheet.' do
+    it 'should bad commit.' do
+      login_admin
+
+      FactoryBot.create(:candidate, account_name: 'a1')
+      FactoryBot.create(:candidate, account_name: 'a2')
+      FactoryBot.create(:candidate, account_name: 'a3')
+
+      post :export_to_excel, params: { commit: 'bad commit', format: 'xlsx' }
+
+      expect(response.body).to have_css('a[href="http://test.host/candidate_imports/new"]')
+    end
+
+    it 'should download an excel spreadsheet in background.' do
       login_admin
 
       FactoryBot.create(:candidate, account_name: 'a1')
@@ -147,9 +159,7 @@ describe CandidateImportsController do
 
       post :export_to_excel, params: { commit: I18n.t('views.imports.excel'), format: 'xlsx' }
 
-      expect(controller.headers['Content-Transfer-Encoding']).to eq('binary')
-      expect(response.header['Content-Type']).to eq('application/zip')
-      expect(response.status).to eq(200)
+      expect(response.body).to have_css('a[href="http://test.host/candidate_imports/new"]')
     end
   end
 

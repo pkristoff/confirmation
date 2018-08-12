@@ -645,7 +645,7 @@ class CandidateImport
       images = []
       sheet.add_row candidate_columns
       Candidate.order(:account_name).each do |candidate|
-        Rails.logger.info "xxx create_xlsx_package processing candidate:#{candidate.account_name}"
+        Rails.logger.info "xxx create_xlsx_package 'with_pictures:#{with_pictures}' processing candidate:#{candidate.account_name}"
         events = confirmation_events_sorted
         sheet.add_row(candidate_columns.map do |col|
           if CandidateImport.image_columns.include?(col)

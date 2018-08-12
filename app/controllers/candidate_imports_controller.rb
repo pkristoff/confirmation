@@ -86,39 +86,11 @@ class CandidateImportsController < ApplicationController
   # ** <code>views.imports.excel_no_pict</code>
   #
   def export_to_excel
-    dir = 'xlsx_export'
-    with_pictures = params[:commit] == t('views.imports.excel')
+    ExportExcelJob.perform_async(params[:commit], current_admin)
 
-    delete_dir(dir)
-
-    if with_pictures
-
-      begin
-        Dir.mkdir(dir)
-
-        CandidateImport.new.to_xlsx(dir).serialize("#{dir}/export.xlsx", true)
-
-        zip_filename = 'xlsx_export.zip'
-        temp_file = Tempfile.new(zip_filename)
-        Zip::OutputStream.open(temp_file) { |zos| zos }
-        Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
-          # zip.add(dir, dir)
-          Dir.foreach(dir) do |filename|
-            zip.add(filename, File.join(dir, filename)) unless File.directory?("#{dir}/#{filename}") || filename == zip_filename
-          end
-        end
-        zip_data = File.read(temp_file.path)
-        send_data(zip_data, type: 'application/zip', filename: zip_filename)
-      ensure
-        temp_file&.close
-        temp_file&.unlink
-        delete_dir(dir)
-      end
-    else
-      # No need to create & delete dir
-      p = CandidateImport.new.to_xlsx(dir, with_pictures)
-      send_data p.to_stream.read, type: 'application/xlsx', filename: 'export_no_pict.xlsx'
-    end
+    redirect_to new_candidate_import_path, notice: t('messages.export_to_excel', commit: params[:commit])
+  rescue StandardError => e
+    redirect_to new_candidate_import_path, alert: e.message
   end
 
   # Reset the database.  End up with only an admin + confirmation events and the candidate vickikristoff
