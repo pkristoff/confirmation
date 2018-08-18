@@ -644,28 +644,34 @@ class CandidateImport
     wb.add_worksheet(name: @worksheet_name) do |sheet|
       images = []
       sheet.add_row candidate_columns
-      Candidate.order(:account_name).each do |candidate|
-        Rails.logger.info "xxx create_xlsx_package 'with_pictures:#{with_pictures}' processing candidate:#{candidate.account_name}"
-        events = confirmation_events_sorted
-        sheet.add_row(candidate_columns.map do |col|
-          if CandidateImport.image_columns.include?(col)
-            Rails.logger.info "   xxx create_xlsx_package Image:#{candidate.account_name} #{col}"
-            certificate_image_column(candidate, col, dir, images)
-          elsif CandidateImport.transient_columns.include?(col)
-            # don't put these out in the spreadsheet they are associated with getting images to the server.
-            Rails.logger.info "   xxx create_xlsx_package Transient:#{candidate.account_name} #{col}"
-          else
-            # puts col
-            # Rails.logger.info "   xxx create_xlsx_package NOT Image:#{candidate.account_name} #{col}"
-            val = get_column_value(candidate, col, events)
-            # Rails.logger.info "col=#{col} val=#{val}"
-            val
-          end
-        end)
+      candidate_order = Candidate.order(:account_name)
+      expected_rows = candidate_order.size + 1
+      candidate_order.each do |candidate|
+        # Rails.logger.info("create_xlsx_package:candidate.baptismal_certificate=#{candidate.baptismal_certificate}")
+        # Rails.logger.info("create_xlsx_package:candidate.candidate_sheet.address=#{candidate.candidate_sheet.address}")
+        # Rails.logger.info "Candidate.all.map{|x| x.id}=#{Candidate.all.map{|x| x.id}}"
+        ExportExcelCandJob.perform_async(candidate.id, sheet, with_pictures, candidate_columns, dir, images)
+        # ExportExcelCandJob.perform(candidate, sheet, with_pictures, confirmation_events_sorted, candidate_columns, dir, images)
       end
+      while jobs_left(expected_rows, sheet.rows.size) do
+        # puts "expected_rows=#{expected_rows}"
+        # puts "sheet.rows.size=#{sheet.rows.size}"
+        # puts "SuckerPunch::Queue.stats=#{SuckerPunch::Queue.stats[ExportExcelCandJob.to_s]}"
+        sleep(2)
+      end
+      # wait_until 60 do
+      #   puts "sheet.rows.size=#{sheet.rows.size}"
+      #   expected_rows >= sheet.rows.size
+      # end
       write_export_images(images) if with_pictures
     end
     p
+  end
+
+  def jobs_left(expectd_rows, current_row_size)
+    all_stats = SuckerPunch::Queue.stats
+    stats = all_stats[ExportExcelCandJob.to_s]
+    current_row_size + stats["jobs"]["failed"] < expectd_rows
   end
 
   # get value to put in cell
@@ -951,11 +957,11 @@ class CandidateImport
   def process_initial_xlsx(candidates, spreadsheet)
     header_row = spreadsheet.first
     if header_row[0].strip == 'Last Name' &&
-       header_row[1].strip == 'First Name' &&
-       header_row[2].strip == 'Grade' &&
-       header_row[3].strip == 'Teen Email' &&
-       header_row[4].strip == 'Parent Email Address(es)' &&
-       header_row[5].strip == 'Cardinal Gibbons HS Group'
+      header_row[1].strip == 'First Name' &&
+      header_row[2].strip == 'Grade' &&
+      header_row[3].strip == 'Teen Email' &&
+      header_row[4].strip == 'Parent Email Address(es)' &&
+      header_row[5].strip == 'Cardinal Gibbons HS Group'
 
       (2..spreadsheet.last_row).each do |i|
         spreadsheet_row = spreadsheet.row(i)

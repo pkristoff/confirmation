@@ -107,6 +107,13 @@ Production => local
 - heroku pg:backups:download --app lit-earth-34236
 - pg_restore --verbose --clean --no-acl --no-owner -h localhost -U paulkristoff -d confirmation_development 20180213.dump > restore.log
 
+Restore dump to Production:
+- save dump to Dropbox
+- in Dropbox make link visable by all
+- copy link and convert it to ...
+- see http://albertnetymk.github.io/2014/08/28/import_heroku/
+
+
 Postgres local
 ---------------
 Install postgres
@@ -128,6 +135,11 @@ Install postgres
     * if not reboot
   * create role for current login
     * CREATE ROLE paulkristoff LOGIN SUPERUSER CREATEROLE CREATEDB REPLICATION BYPASSRLS;
+
+Upgrade local DB
+- su - administrator
+  *  brew upgrade postgresql
+  *  brew postgresql-upgrade-database
   
 Start DB
 - login as paulkristoff

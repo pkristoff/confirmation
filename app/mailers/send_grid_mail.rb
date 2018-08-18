@@ -264,7 +264,7 @@ class SendGridMail
   # * <tt>Number</tt> response code from sending an email.
   #
   def export_to_excel_no_pictures_message(attach_file_path)
-    send_email_admin('Please see the attached excel spreadsheet.', attach_file_path)
+    send_email_admin('Export to excel NO scanned pictures', 'Please see the attached excel spreadsheet.', attach_file_path)
   end
 
   # Send error message to admin.
@@ -280,7 +280,7 @@ class SendGridMail
   # * <tt>Number</tt> response code from sending an email.
   #
   def email_error_message(message, backtrace, attach_file_path = nil)
-    send_email_admin("#{message} <br/> <br/> backtrace: #{backtrace}", attach_file_path)
+    send_email_admin('Error in job', "#{message} <br/> <br/> backtrace: #{backtrace}", attach_file_path)
   end
 
   # Send error message to admin.
@@ -294,9 +294,9 @@ class SendGridMail
   #
   # * <tt>Number</tt> response code from sending an email.
   #
-  def send_email_admin(text, attach_file_path)
+  def send_email_admin(subject, text, attach_file_path)
     email_type = EmailStuff::TYPES[:email_error_message]
-    sg_mail = create_mail('Error in job', email_type, @admin.name)
+    sg_mail = create_mail(subject, email_type, @admin.name)
 
     add_attachment_file_xlxs(File.new(attach_file_path), sg_mail, attach_file_path) unless attach_file_path.nil?
 
@@ -322,7 +322,7 @@ class SendGridMail
   # * <tt>Number</tt> response code from sending an email.
   #
   def export_to_excel_pictures_message(attach_file_path)
-    send_email_admin('Please see the attached zip file.', attach_file_path)
+    send_email_admin('Export to excel with scanned pictures', 'Please see the attached zip file.', attach_file_path)
   end
 
   # Send the email to SendGrid, which will send the email

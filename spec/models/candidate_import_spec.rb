@@ -1,351 +1,372 @@
 # frozen_string_literal: true
 
-describe CandidateImport do
-  include ViewsHelpers
-  include ActionDispatch::TestProcess
-  include FileHelper
-  before(:each) do
-    @image_column_mappings = {
-      baptismal_certificate: 'baptismal_certificate.scanned_certificate',
-      retreat_verification: 'retreat_verification.scanned_retreat',
-      sponsor_eligibility: 'sponsor_covenant.scanned_eligibility',
-      sponsor_covenant: 'sponsor_covenant.scanned_covenant'
-    }
-  end
+# spec/jobs/email_job_spec.rb
+require 'spec_helper'
 
-  describe 'import excel spreadsheet' do
-    it 'import initial spreadsheet from coordinator will update database' do
-      every_event_names = AppFactory.add_confirmation_events
+describe ExportExcelJob, job: true do
+  describe ExportExcelCandJob, job: true do
+    describe CandidateImport do
+      include ViewsHelpers
+      include ActionDispatch::TestProcess
+      include FileHelper
 
-      uploaded_file = fixture_file_upload('Confirmation 2018 Group The Way test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      candidate_import = CandidateImport.new
-      success = candidate_import.load_initial_file(uploaded_file)
-      unless success
-        candidate_import.errors.messages.each do |error|
-          puts error
+      before(:each) do
+        @image_column_mappings = {
+          baptismal_certificate: 'baptismal_certificate.scanned_certificate',
+          retreat_verification: 'retreat_verification.scanned_retreat',
+          sponsor_eligibility: 'sponsor_covenant.scanned_eligibility',
+          sponsor_covenant: 'sponsor_covenant.scanned_covenant'
+        }
+      end
+
+      describe 'import excel spreadsheet' do
+        it 'import initial spreadsheet from coordinator will update database' do
+          every_event_names = AppFactory.add_confirmation_events
+
+          uploaded_file = fixture_file_upload('Confirmation 2018 Group The Way test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+          candidate_import = CandidateImport.new
+          success = candidate_import.load_initial_file(uploaded_file)
+          unless success
+            candidate_import.errors.messages.each do |error|
+              puts error
+            end
+          end
+          expect(success).to eq(true)
+
+          expect_db(85, 8, 0)
+
+          the_way_candidates = Candidate.all.select { |c| c.candidate_sheet.attending == I18n.t('views.candidates.attending_the_way') }
+          expect(the_way_candidates.size).to eq(83)
+          chs_candidates = Candidate.all.select { |c| c.candidate_sheet.attending == I18n.t('views.candidates.attending_catholic_high_school') }
+          expect(chs_candidates.size).to eq(2)
+
+          the_way_candidate = Candidate.find_by(account_name: 'dawannie')
+          expect(the_way_candidate.candidate_sheet.first_name).to eq('Annie')
+          expect(the_way_candidate.candidate_sheet.last_name).to eq('Daw')
+          expect(the_way_candidate.candidate_sheet.grade).to eq(10)
+          expect(the_way_candidate.candidate_sheet.candidate_email).to eq('financial@kristoffs.com')
+          expect(the_way_candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
+          expect(the_way_candidate.candidate_sheet.parent_email_2).to eq('')
+          expect(the_way_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_the_way'))
+
+          chs_candidate = Candidate.find_by(account_name: 'clavijoabbie')
+          expect(chs_candidate.candidate_sheet.first_name).to eq('Abbie')
+          expect(chs_candidate.candidate_sheet.last_name).to eq('Clavijo')
+          expect(chs_candidate.candidate_sheet.grade).to eq(10)
+          expect(the_way_candidate.candidate_sheet.candidate_email).to eq('financial@kristoffs.com')
+          expect(chs_candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
+          expect(chs_candidate.candidate_sheet.parent_email_2).to eq('stmm-confirmation@kristoffs.com')
+          expect(chs_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_catholic_high_school'))
+
+          expect(the_way_candidates[0].candidate_events.size).to eq(every_event_names.size)
+        end
+
+        it 'import invalid spreadsheet will not update database' do
+          uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+          candidate_import = CandidateImport.new
+          expect(candidate_import.load_initial_file(uploaded_file)).to eq(false)
+          error_messages = [
+            'Row 2: Last name can\'t be blank',
+            'Row 3: First name can\'t be blank',
+            'Row 5: Parent email 1 is an invalid email: @nc.rr.com',
+            'Row 5: Parent email 2 is an invalid email: rannunz'
+          ]
+          candidate_import.errors.each_with_index do |candidate, index|
+            expect(candidate[1]).to eq(error_messages[index])
+          end
+          expect(candidate_import.errors.size).to eq(4)
+        end
+
+        it 'import spreadsheet from export will update database' do
+          uploaded_zip_file = fixture_file_upload('export_with_events.zip', 'application/zip')
+          candidate_import = CandidateImport.new
+
+          expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
+
+          expect_import_with_events
+        end
+
+        it 'import spreadsheet with images from export will update database' do
+          uploaded_zip_file = fixture_file_upload('export with images.zip', 'application/zip')
+          candidate_import = CandidateImport.new
+
+          expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
+
+          candidate = Candidate.find_by(account_name: 'vickikristoff')
+          expect_image_values(candidate, :baptismal_certificate, 'Baptismal Certificate.png')
+          expect_image_values(candidate, :retreat_verification, 'actions.png')
+          expect_image_values(candidate, :sponsor_eligibility, 'Baptismal Certificate.png')
+          expect_image_values(candidate, :sponsor_covenant, 'actions.png')
+        end
+
+        def image_column_value(candidate, columns)
+          association, image_method, value_method = columns.split('.')
+          candidate.send(association).send(image_method).send(value_method)
         end
       end
-      expect(success).to eq(true)
 
-      expect_db(85, 8, 0)
+      describe 'reset system back to original state' do
+        it 'reset after adding in some candidates' do
+          expect(Candidate.all.size).to eq(0)
+          FactoryBot.create(:candidate, account_name: 'a1')
+          FactoryBot.create(:candidate, account_name: 'a2')
+          FactoryBot.create(:candidate, account_name: 'a3')
+          expect(Candidate.all.size).to eq(3)
 
-      the_way_candidates = Candidate.all.select { |c| c.candidate_sheet.attending == I18n.t('views.candidates.attending_the_way') }
-      expect(the_way_candidates.size).to eq(83)
-      chs_candidates = Candidate.all.select { |c| c.candidate_sheet.attending == I18n.t('views.candidates.attending_catholic_high_school') }
-      expect(chs_candidates.size).to eq(2)
+          expect(Admin.all.size).to eq(0)
+          FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+          FactoryBot.create(:admin, email: 'vicki@kristoffs.com', name: 'Vicki')
+          expect(Admin.all.size).to eq(2)
 
-      the_way_candidate = Candidate.find_by(account_name: 'dawannie')
-      expect(the_way_candidate.candidate_sheet.first_name).to eq('Annie')
-      expect(the_way_candidate.candidate_sheet.last_name).to eq('Daw')
-      expect(the_way_candidate.candidate_sheet.grade).to eq(10)
-      expect(the_way_candidate.candidate_sheet.candidate_email).to eq('financial@kristoffs.com')
-      expect(the_way_candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
-      expect(the_way_candidate.candidate_sheet.parent_email_2).to eq('')
-      expect(the_way_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_the_way'))
+          CandidateImport.new.reset_database
 
-      chs_candidate = Candidate.find_by(account_name: 'clavijoabbie')
-      expect(chs_candidate.candidate_sheet.first_name).to eq('Abbie')
-      expect(chs_candidate.candidate_sheet.last_name).to eq('Clavijo')
-      expect(chs_candidate.candidate_sheet.grade).to eq(10)
-      expect(the_way_candidate.candidate_sheet.candidate_email).to eq('financial@kristoffs.com')
-      expect(chs_candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
-      expect(chs_candidate.candidate_sheet.parent_email_2).to eq('stmm-confirmation@kristoffs.com')
-      expect(chs_candidate.candidate_sheet.attending).to eq(I18n.t('views.candidates.attending_catholic_high_school'))
-
-      expect(the_way_candidates[0].candidate_events.size).to eq(every_event_names.size)
-    end
-
-    it 'import invalid spreadsheet will not update database' do
-      uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      candidate_import = CandidateImport.new
-      expect(candidate_import.load_initial_file(uploaded_file)).to eq(false)
-      error_messages = [
-        'Row 2: Last name can\'t be blank',
-        'Row 3: First name can\'t be blank',
-        'Row 5: Parent email 1 is an invalid email: @nc.rr.com',
-        'Row 5: Parent email 2 is an invalid email: rannunz'
-      ]
-      candidate_import.errors.each_with_index do |candidate, index|
-        expect(candidate[1]).to eq(error_messages[index])
-      end
-      expect(candidate_import.errors.size).to eq(4)
-    end
-
-    it 'import spreadsheet from export will update database' do
-      uploaded_zip_file = fixture_file_upload('export_with_events.zip', 'application/zip')
-      candidate_import = CandidateImport.new
-
-      expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
-
-      expect_import_with_events
-    end
-
-    it 'import spreadsheet with images from export will update database' do
-      uploaded_zip_file = fixture_file_upload('export with images.zip', 'application/zip')
-      candidate_import = CandidateImport.new
-
-      expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
-
-      candidate = Candidate.find_by(account_name: 'vickikristoff')
-      expect_image_values(candidate, :baptismal_certificate, 'Baptismal Certificate.png')
-      expect_image_values(candidate, :retreat_verification, 'actions.png')
-      expect_image_values(candidate, :sponsor_eligibility, 'Baptismal Certificate.png')
-      expect_image_values(candidate, :sponsor_covenant, 'actions.png')
-    end
-
-    def image_column_value(candidate, columns)
-      association, image_method, value_method = columns.split('.')
-      candidate.send(association).send(image_method).send(value_method)
-    end
-  end
-
-  describe 'reset system back to original state' do
-    it 'reset after adding in some candidates' do
-      expect(Candidate.all.size).to eq(0)
-      FactoryBot.create(:candidate, account_name: 'a1')
-      FactoryBot.create(:candidate, account_name: 'a2')
-      FactoryBot.create(:candidate, account_name: 'a3')
-      expect(Candidate.all.size).to eq(3)
-
-      expect(Admin.all.size).to eq(0)
-      FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
-      FactoryBot.create(:admin, email: 'vicki@kristoffs.com', name: 'Vicki')
-      expect(Admin.all.size).to eq(2)
-
-      CandidateImport.new.reset_database
-
-      expect(Candidate.all.size).to eq(1)
-      expect(Candidate.find_by(account_name: 'vickikristoff')).not_to eq(nil)
-      expect(Admin.all.size).to eq(1)
-      expect(Admin.find_by(email: 'stmm.confirmation@kristoffs.com')).not_to eq(nil)
-    end
-  end
-
-  describe 'export candidate to excel' do
-    describe 'export images to excel' do
-      before(:each) do
-        @candidate_import = CandidateImport.new
-        @candidate_import.reset_database
-
-        @dir_name = 'temp'
-
-        Dir.mkdir(@dir_name)
+          expect(Candidate.all.size).to eq(1)
+          expect(Candidate.find_by(account_name: 'vickikristoff')).not_to eq(nil)
+          expect(Admin.all.size).to eq(1)
+          expect(Admin.find_by(email: 'stmm.confirmation@kristoffs.com')).not_to eq(nil)
+        end
       end
 
-      after(:each) do
-        clean_dir(@dir_name)
-      end
+      describe 'export candidate to excel' do
+        describe 'export images to excel' do
+          before(:each) do
+            @candidate_import = CandidateImport.new
+            @candidate_import.reset_database
 
-      it 'export baptismal certificate image' do
-        candidate = Candidate.first
-        add_baptismal_certificate_image(candidate)
-        expect_image(@dir_name, [:baptismal_certificate])
-      end
+            @dir_name = 'temp'
 
-      it 'export retreat image' do
-        candidate = Candidate.first
-        add_retreat_verification_image(candidate)
-        expect_image(@dir_name, [:retreat_verification])
-      end
+            Dir.mkdir(@dir_name)
+          end
 
-      it 'export sponsor_covenants image - sponsor_eligibility' do
-        candidate = Candidate.first
-        add_sponsor_eligibility_image(candidate)
-        expect_image(@dir_name, [:sponsor_eligibility])
-      end
+          after(:each) do
+            clean_dir(@dir_name)
+          end
 
-      it 'export sponsor_covenants image - sponsor_covenant' do
-        candidate = Candidate.first
-        add_sponsor_covenant_image(candidate)
-        expect_image(@dir_name, [:sponsor_covenant])
-      end
+          it 'export baptismal certificate image' do
+            candidate = Candidate.first
+            add_baptismal_certificate_image(candidate)
+            expect_image(@dir_name, [:baptismal_certificate])
+          end
 
-      it 'export retreat image, sponsor_covenant and baptismal certificate avoiding name conflicts' do
-        candidate = Candidate.first
-        add_baptismal_certificate_image(candidate)
-        add_retreat_verification_image(candidate)
-        add_sponsor_covenant_image(candidate)
-        add_sponsor_eligibility_image(candidate)
-        expect_image(@dir_name, %i[baptismal_certificate retreat_verification sponsor_covenant sponsor_eligibility])
-      end
-    end
+          it 'export retreat image' do
+            candidate = Candidate.first
+            add_retreat_verification_image(candidate)
+            expect_image(@dir_name, [:retreat_verification])
+          end
 
-    def expect_image(dir_name, image_types)
-      candidate = Candidate.first
-      package = @candidate_import.to_xlsx(@dir_name)
+          it 'export sponsor_covenants image - sponsor_eligibility' do
+            candidate = Candidate.first
+            add_sponsor_eligibility_image(candidate)
+            expect_image(@dir_name, [:sponsor_eligibility])
+          end
 
-      package.workbook do |wb|
-        ws = wb.worksheets[1]
-        header_row = ws.rows[0]
-        c1_row = ws.rows[1]
-        @image_column_mappings.each_key do |image_type|
-          column_name = @image_column_mappings[image_type]
-          cell = c1_row.cells[find_cell_offset(header_row, column_name)].value
-          if image_types.include? image_type
+          it 'export sponsor_covenants image - sponsor_covenant' do
+            candidate = Candidate.first
+            add_sponsor_covenant_image(candidate)
+            expect_image(@dir_name, [:sponsor_covenant])
+          end
 
-            association_column, image_column = column_name.split('.')
-            expected_export_filename = CandidateImport.image_filepath_export(candidate, dir_name, image_column, candidate.send(association_column).send(image_column))
-            expected_filename = 'actions.png'
-            expected_content_type = 'png'
-
-            original_filename, original_content_type, export_filename = cell.split(':::')
-
-            expect(expected_filename).to eq(original_filename)
-            expect(expected_content_type).to eq(original_content_type)
-            expect(expected_export_filename).to eq(export_filename)
-
-            expect(File.exist?(export_filename)).to eq(true), "Expected export_filename '#{export_filename}' to exist"
-            expect(File.size(export_filename)).to_not eq(0), "Expected export_filename '#{export_filename}' is greater than 0 for image type: #{image_type}"
-          else
-            expect(cell).to eq(nil)
+          it 'export retreat image, sponsor_covenant and baptismal certificate avoiding name conflicts' do
+            candidate = Candidate.first
+            add_baptismal_certificate_image(candidate)
+            add_retreat_verification_image(candidate)
+            add_sponsor_covenant_image(candidate)
+            add_sponsor_eligibility_image(candidate)
+            expect_image(@dir_name, %i[baptismal_certificate retreat_verification sponsor_covenant sponsor_eligibility])
           end
         end
-      end
-    end
 
-    def find_cell_offset(header_row, column_name)
-      index = -1
-      header_row.find do |cell|
-        index += 1
-        cell.value == column_name
-      end
-      index
-    end
+        def expect_image(dir_name, image_types)
+          candidate = Candidate.first
+          package = @candidate_import.to_xlsx(@dir_name)
 
-    it 'import with image followed by export' do
-      uploaded_zip_file = fixture_file_upload('export with images.zip', 'application/zip')
-      candidate_import = CandidateImport.new
+          package.workbook do |wb|
+            ws = wb.worksheets[1]
+            header_row = ws.rows[0]
+            c1_row = ws.rows[1]
+            @image_column_mappings.each_key do |image_type|
+              column_name = @image_column_mappings[image_type]
+              cell = c1_row.cells[find_cell_offset(header_row, column_name)].value
+              if image_types.include? image_type
 
-      expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
+                association_column, image_column = column_name.split('.')
+                expected_export_filename = CandidateImport.image_filepath_export(candidate, dir_name, image_column, candidate.send(association_column).send(image_column))
+                expected_filename = 'actions.png'
+                expected_content_type = 'png'
 
-      # now do the export
-      dir_name = 'temp'
-      begin
-        Dir.mkdir(dir_name)
+                original_filename, original_content_type, export_filename = cell.split(':::')
 
-        candidate_import = CandidateImport.new
-        package = candidate_import.to_xlsx(dir_name)
-        # column_names = @image_column_mappings[image_type]
+                expect(expected_filename).to eq(original_filename)
+                expect(expected_content_type).to eq(original_content_type)
+                expect(expected_export_filename).to eq(export_filename)
 
-        expected_export_filename = 'temp/vickikristoff_scanned_certificate_Baptismal Certificate.png'
-        package.workbook do |wb|
-          ws = wb.worksheets[1]
-          header_row = ws.rows[0]
-          c1_row = ws.rows[1]
-          cell = c1_row.cells[find_cell_offset(header_row, @image_column_mappings[:baptismal_certificate])].value
-          expect(cell).not_to be(nil)
-          original_filename, original_content_type, export_filename = cell.split(':::')
-          expect(original_filename).to eq('Baptismal Certificate.png')
-          expect(original_content_type).to eq('png')
-          expect(export_filename).to eq(expected_export_filename)
-        end
-
-        expect(File.exist?(expected_export_filename)).to eq(true)
-      ensure
-        clean_dir(dir_name)
-      end
-    end
-
-    it 'reset after adding in some candidates' do
-      c1 = FactoryBot.create(:candidate, account_name: 'c1')
-      c1.candidate_sheet.parent_email_1 = 'test@example.com'
-      c1.candidate_sheet.candidate_email = 'candiate@example.com'
-      c1.baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-      c1.save
-      FactoryBot.create(:candidate, account_name: 'c2')
-      FactoryBot.create(:candidate, account_name: 'c3')
-
-      AppFactory.add_confirmation_events
-
-      candidate_import = CandidateImport.new
-      dir_name = 'temp'
-      begin
-        Dir.mkdir(dir_name)
-        package = candidate_import.to_xlsx(dir_name)
-
-        package.workbook do |wb|
-          wb.worksheets.each do |ws|
-            if ws.name == 'Candidates with events'
-              expect_candidates(ws, candidate_import)
-            elsif ws.name == 'Confirmation Events'
-              expect_confirmation_events(ws, candidate_import)
-            else
-              # error
-              expect(ws.name).to eq('Candidates with events  Confirmation Events')
+                expect(File.exist?(export_filename)).to eq(true), "Expected export_filename '#{export_filename}' to exist"
+                expect(File.size(export_filename)).to_not eq(0), "Expected export_filename '#{export_filename}' is greater than 0 for image type: #{image_type}"
+              else
+                expect(cell).to eq(nil)
+              end
             end
           end
         end
-      ensure
-        delete_dir(dir_name)
-      end
-    end
-  end
 
-  describe 'orphaned associations errors' do
-    it 'login should not cause orphaned associations' do
-      FactoryBot.create(:candidate)
-      expect_no_orphaned_associations
-    end
-  end
+        def find_cell_offset(header_row, column_name)
+          index = -1
+          header_row.find do |cell|
+            index += 1
+            cell.value == column_name
+          end
+          index
+        end
 
-  describe 'orphaned associations' do
-    it 'No orphaned associations' do
-      FactoryBot.create(:candidate)
-      expect_no_orphaned_associations
-    end
-    it 'orphaned associations' do
-      orphans = expected_orphans
+        it 'import with image followed by export' do
+          uploaded_zip_file = fixture_file_upload('export with images.zip', 'application/zip')
+          candidate_import = CandidateImport.new
 
-      FactoryBot.create(:candidate)
-      candidate_import = CandidateImport.new
-      # create orphans
-      expect_ophans(candidate_import, orphans)
-    end
-    it 'destroy orphaned associations' do
-      orphans = expected_orphans
+          expect(save_zip(candidate_import, uploaded_zip_file)).to eq(true)
 
-      FactoryBot.create(:candidate)
-      candidate_import = CandidateImport.new
+          # now do the export
+          dir_name = 'temp'
+          begin
+            Dir.mkdir(dir_name)
 
-      expect_ophans(candidate_import, orphans)
+            candidate_import = CandidateImport.new
+            package = candidate_import.to_xlsx(dir_name)
+            # column_names = @image_column_mappings[image_type]
 
-      candidate_import.remove_orphaned_table_rows
-      candidate_import.add_orphaned_table_rows
-      orphaned_table_rows = candidate_import.orphaned_table_rows
+            expected_export_filename = 'temp/vickikristoff_scanned_certificate_Baptismal Certificate.png'
+            package.workbook do |wb|
+              ws = wb.worksheets[1]
+              header_row = ws.rows[0]
+              c1_row = ws.rows[1]
+              cell = c1_row.cells[find_cell_offset(header_row, @image_column_mappings[:baptismal_certificate])].value
+              expect(cell).not_to be(nil)
+              original_filename, original_content_type, export_filename = cell.split(':::')
+              expect(original_filename).to eq('Baptismal Certificate.png')
+              expect(original_content_type).to eq('png')
+              expect(export_filename).to eq(expected_export_filename)
+            end
 
-      orphaned_table_rows.each do |key, orphan_ids|
-        expect(orphan_ids.size).to be(0), "There should be no orphaned rows for '#{key}': #{orphan_ids}"
-      end
-    end
-  end
+            expect(File.exist?(expected_export_filename)).to eq(true)
+          ensure
+            clean_dir(dir_name)
+          end
+        end
 
-  it 'what do things look like when empty' do
-    Candidate.create(account_name: 'c1', password: 'asdfgthe',
-                     candidate_sheet: CandidateSheet.create(first_name: 'Paul', last_name: 'George'))
-    # c1.save
+        it 'reset after adding in some candidates' do
+          c1 = FactoryBot.create(:candidate, account_name: 'c1')
+          c1.candidate_sheet.parent_email_1 = 'test@example.com'
+          c1.candidate_sheet.candidate_email = 'candiate@example.com'
+          c1.baptismal_certificate = FactoryBot.create(:baptismal_certificate)
+          c1.save
+          FactoryBot.create(:candidate, account_name: 'c2')
+          FactoryBot.create(:candidate, account_name: 'c3')
 
-    AppFactory.add_confirmation_events
+          AppFactory.add_confirmation_events
 
-    candidate_import = CandidateImport.new
-    dir_name = 'temp'
-    begin
-      Dir.mkdir(dir_name)
-      package = candidate_import.to_xlsx(dir_name)
+          candidate_import = CandidateImport.new
+          dir_name = 'temp'
+          begin
+            Dir.mkdir(dir_name)
+            package = candidate_import.to_xlsx(dir_name)
 
-      package.workbook do |wb|
-        wb.worksheets.each do |ws|
-          if ws.name == 'Candidates with events'
-            expect_candidates_empty(ws, candidate_import)
-          elsif ws.name == 'Confirmation Events'
-            expect_confirmation_events_empty(ws, candidate_import)
-          else
-            # error
-            expect(ws.name).to eq('Candidates with events  Confirmation Events')
+            package.workbook do |wb|
+              wb.worksheets.each do |ws|
+                if ws.name == 'Candidates with events'
+                  expect_candidates(ws, candidate_import)
+                elsif ws.name == 'Confirmation Events'
+                  expect_confirmation_events(ws, candidate_import)
+                else
+                  # error
+                  expect(ws.name).to eq('Candidates with events  Confirmation Events')
+                end
+              end
+            end
+          ensure
+            delete_dir(dir_name)
           end
         end
       end
-    ensure
-      delete_dir(dir_name)
+
+      describe 'orphaned associations errors' do
+        it 'login should not cause orphaned associations' do
+          FactoryBot.create(:candidate)
+          expect_no_orphaned_associations
+        end
+      end
+
+      describe 'orphaned associations' do
+        it 'No orphaned associations' do
+          FactoryBot.create(:candidate)
+          expect_no_orphaned_associations
+        end
+        it 'orphaned associations' do
+          orphans = expected_orphans
+
+          FactoryBot.create(:candidate)
+          candidate_import = CandidateImport.new
+          # create orphans
+          expect_ophans(candidate_import, orphans)
+        end
+        it 'destroy orphaned associations' do
+          orphans = expected_orphans
+
+          FactoryBot.create(:candidate)
+          candidate_import = CandidateImport.new
+
+          expect_ophans(candidate_import, orphans)
+
+          candidate_import.remove_orphaned_table_rows
+          candidate_import.add_orphaned_table_rows
+          orphaned_table_rows = candidate_import.orphaned_table_rows
+
+          orphaned_table_rows.each do |key, orphan_ids|
+            expect(orphan_ids.size).to be(0), "There should be no orphaned rows for '#{key}': #{orphan_ids}"
+          end
+        end
+      end
+
+      it 'what do things look like when empty' do
+        candidate = FactoryBot.create(:candidate, account_name: 'c1', password: 'asdfgthe')
+        candidate.candidate_sheet.first_name = 'Paul'
+        candidate.candidate_sheet.last_name = 'George'
+        succ = candidate.save
+        Rails.logger.info("succ=#{succ}")
+
+        Rails.logger.info("IT:candidate.baptismal_certificate=#{candidate.baptismal_certificate}")
+        Rails.logger.info("ASYNC setup:candidate.candidate_sheet.address=#{Candidate.all.first.candidate_sheet.address}")
+
+        # c1.save
+
+        AppFactory.add_confirmation_events
+
+        candidate_import = CandidateImport.new
+        dir_name = 'temp'
+        delete_dir(dir_name)
+        begin
+          Dir.mkdir(dir_name)
+          package = candidate_import.to_xlsx(dir_name)
+          package.workbook do |wb|
+            wb.worksheets.each do |ws|
+              # check if error in jobs
+              all_stats = SuckerPunch::Queue.stats
+              stats = all_stats[ExportExcelCandJob.to_s]
+              puts "stats=#{stats}"
+              expect(stats['jobs']['failed']).to eq(0)
+
+              if ws.name == 'Candidates with events'
+                expect_candidates_empty(ws, candidate_import)
+              elsif ws.name == 'Confirmation Events'
+                expect_confirmation_events_empty(ws, candidate_import)
+              else
+                # error
+                expect(ws.name).to eq('Candidates with events  Confirmation Events')
+              end
+            end
+          end
+        ensure
+          delete_dir(dir_name)
+        end
+      end
     end
   end
 end
