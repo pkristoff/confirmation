@@ -23,8 +23,8 @@ class ExportExcelCandJob
   #
   def perform(cand_id, sheet, candidate_columns, dir)
     ActiveRecord::Base.connection_pool.with_connection do
-      # Rails.logger.info "Candidate.all.map{|x| x.id}=#{Candidate.all.map { |x| x.id }}"
       candidate = Candidate.find(cand_id)
+      Rails.logger.info "Processing candidate id: #{cand_id} with account_name: #{candidate.account_name}"
       events = confirmation_events_sorted
       @sheet_mutex.synchronize do
         sheet.add_row(candidate_columns.map do |col|
