@@ -10,7 +10,7 @@ describe 'candidate_imports/new.html.erb' do
     expect_message(nil, nil, rendered)
 
     section_info = [
-      ['section[id=export] form[id=new_candidate_import][action="/candidate_imports/export_to_excel.xlsx"]', I18n.t('views.imports.excel')],
+      ['section[id=export] form[id=new_candidate_import][action="/candidate_imports/export_to_excel.xlsx"]', I18n.t('views.imports.excel_no_pict')],
       ['section[id=import] form[id=new_candidate_import][action="/candidate_imports/import_candidates"]', I18n.t('views.imports.import')],
       ['section[id=start_new_year] form[id=new_candidate_import][action="/candidate_imports/start_new_year"]', I18n.t('views.imports.reset_database')],
       ['section[id=reset_database] form[id=new_candidate_import][action="/candidate_imports/reset_database"]', I18n.t('views.imports.start_new_year')],

@@ -30,7 +30,6 @@
   <%= form_for @candidate_import, url: candidate_imports_export_to_excel_path(format: 'xlsx') do |f| %>
 
       <div class="buttons"><%= f.submit t('views.imports.excel_no_pict') %></div>
-      <div class="buttons"><%= f.submit t('views.imports.excel') %></div>
 
   <% end %>
 </section>
@@ -43,7 +42,6 @@
     You can import an
   <ul>
     <li>xlxs file which represents the initial candidates which will come from the church</li>
-    <li>zip xlxs file created from the <%= t('views.imports.candidates_export') %> above</li>
   </ul>
   </p>
 

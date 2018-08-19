@@ -287,6 +287,7 @@ class SendGridMail
   #
   # === Parameters:
   #
+  # * <tt>:subject</tt> email subject
   # * <tt>:text</tt> email body
   # * <tt>:attach_file_path</tt> path to the file to attach
   #

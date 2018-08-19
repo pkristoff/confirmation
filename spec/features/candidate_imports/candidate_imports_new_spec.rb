@@ -83,44 +83,6 @@ feature 'Other', :devise do
     end
   end
 
-  describe 'Export to excel' do
-    include FileHelper
-
-    scenario 'admin can export to excel and read it back in.' do
-      FactoryBot.create(:candidate)
-      FactoryBot.create(:candidate, account_name: 'a1')
-      expect(Candidate.all.size).to eq(2) # prove there are only 2
-      FactoryBot.create(:admin)
-      admin = FactoryBot.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
-      login_as(admin, scope: :admin)
-      expect(Admin.all.size).to eq(2) # prove there are only 2
-
-      dir = 'temp'
-      delete_dir(dir)
-      begin
-        Dir.mkdir(dir)
-        file_path, _temp_file = ExportExcelJob.new.generate_zip(dir)
-
-        visit new_candidate_import_path
-        click_button I18n.t('views.imports.start_new_year')
-        expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
-        expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
-        expect(ConfirmationEvent.all.size).not_to eq(0)
-        ConfirmationEvent.all.each do |ce|
-          expect(ce.chs_due_date).to eq(@today)
-          expect(ce.the_way_due_date).to eq(@today)
-        end
-
-        visit new_candidate_import_path
-        attach_file :candidate_import_file, file_path
-        click_button I18n.t('views.imports.import')
-        expect(Candidate.all.size).to eq(3) # + candidate seed
-      ensure
-        delete_dir(dir)
-      end
-    end
-  end
-
   describe 'Check Events' do
     # Scenario: Admin sees confirmation events that are missing, unknown, & found
     #   Given Admin is signed in

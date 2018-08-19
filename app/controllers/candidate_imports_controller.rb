@@ -60,13 +60,6 @@ class CandidateImportsController < ApplicationController
     import_file_param = params[:candidate_import]
     if import_file_param.nil?
       redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')
-    elsif File.extname(import_file_param.values.first.original_filename) == '.zip'
-      @candidate_import = CandidateImport.new(uploaded_zip_file: import_file_param.values.first)
-      if @candidate_import.load_zip_file(import_file_param.values.first)
-        redirect_to root_url, notice: I18n.t('messages.import_successful')
-      else
-        render :new
-      end
     else
       @candidate_import = CandidateImport.new
       if @candidate_import.load_initial_file(import_file_param.values.first)
@@ -82,7 +75,6 @@ class CandidateImportsController < ApplicationController
   # === Attributes:
   #
   # * <tt>:commit</tt> legal values
-  # ** <code>views.imports.excel</code>
   # ** <code>views.imports.excel_no_pict</code>
   #
   def export_to_excel

@@ -149,18 +149,6 @@ describe CandidateImportsController do
 
       expect(response.body).to have_css('a[href="http://test.host/candidate_imports/new"]')
     end
-
-    it 'should download an excel spreadsheet in background.' do
-      login_admin
-
-      FactoryBot.create(:candidate, account_name: 'a1')
-      FactoryBot.create(:candidate, account_name: 'a2')
-      FactoryBot.create(:candidate, account_name: 'a3')
-
-      post :export_to_excel, params: { commit: I18n.t('views.imports.excel'), format: 'xlsx' }
-
-      expect(response.body).to have_css('a[href="http://test.host/candidate_imports/new"]')
-    end
   end
 
   def expect_event_association_local(assoc_from_candidate)
