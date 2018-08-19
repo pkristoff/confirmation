@@ -145,14 +145,8 @@ describe CandidateImport do
     candidate = FactoryBot.create(:candidate, account_name: 'c1', password: 'asdfgthe')
     candidate.candidate_sheet.first_name = 'Paul'
     candidate.candidate_sheet.last_name = 'George'
-    puts "candidate.candidate_sheet.middle_name=#{candidate.candidate_sheet.middle_name}"
     succ = candidate.save
     Rails.logger.info("succ=#{succ}")
-
-    Rails.logger.info("IT:candidate.baptismal_certificate=#{candidate.baptismal_certificate}")
-    Rails.logger.info("ASYNC setup:candidate.candidate_sheet.address=#{Candidate.all.first.candidate_sheet.address}")
-
-    # c1.save
 
     AppFactory.add_confirmation_events
 

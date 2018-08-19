@@ -21,16 +21,16 @@ class ExportExcelCandJob
   # * <tt>:candidate_columns</tt> columns
   # * <tt>:dir</tt> temp dir for storage
   #
-  def perform(cand_id, sheet, candidate_columns, dir)
+  def perform(cand_id, sheet, candidate_columns, _dir)
     ActiveRecord::Base.connection_pool.with_connection do
       candidate = Candidate.find(cand_id)
       Rails.logger.info "Processing candidate id: #{cand_id} with account_name: #{candidate.account_name}"
       events = confirmation_events_sorted
       @sheet_mutex.synchronize do
         sheet.add_row(candidate_columns.map do |col|
-          if CandidateImport.image_columns.include?(col)
-            certificate_image_column(candidate, col, dir)
-          elsif !CandidateImport.transient_columns.include?(col)
+          if CandidateImport.image_columns.include?(col) || CandidateImport.transient_columns.include?(col)
+            nil
+          else
             get_column_value(candidate, col, events)
           end
         end)
@@ -56,34 +56,34 @@ class ExportExcelCandJob
   # * <tt>:col</tt> String: image being processed
   # * <tt>:dir</tt> String: base file path
   #
-  def certificate_image_column(candidate, col, dir)
-    Rails.logger.info("candidate.baptismal_certificate=#{candidate.baptismal_certificate}")
-    if col.include? 'scanned_certificate'
-      image = candidate.baptismal_certificate.scanned_certificate
-      unless image.nil?
-        export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_certificate', image)
-        "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
-      end
-    elsif col.include? 'retreat_verification'
-      image = candidate.retreat_verification.scanned_retreat
-      unless image.nil?
-        export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_retreat', image)
-        "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
-      end
-    elsif col.include? 'scanned_eligibility'
-      image = candidate.sponsor_covenant.scanned_eligibility
-      unless image.nil?
-        export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_eligibility', image)
-        "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
-      end
-    elsif col.include? 'scanned_covenant'
-      image = candidate.sponsor_covenant.scanned_covenant
-      unless image.nil?
-        export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_covenant', image)
-        "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
-      end
-    end
-  end
+  # def certificate_image_column(candidate, col, dir)
+  #   Rails.logger.info("candidate.baptismal_certificate=#{candidate.baptismal_certificate}")
+  #   if col.include? 'scanned_certificate'
+  #     image = candidate.baptismal_certificate.scanned_certificate
+  #     unless image.nil?
+  #       export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_certificate', image)
+  #       "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
+  #     end
+  #   elsif col.include? 'retreat_verification'
+  #     image = candidate.retreat_verification.scanned_retreat
+  #     unless image.nil?
+  #       export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_retreat', image)
+  #       "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
+  #     end
+  #   elsif col.include? 'scanned_eligibility'
+  #     image = candidate.sponsor_covenant.scanned_eligibility
+  #     unless image.nil?
+  #       export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_eligibility', image)
+  #       "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
+  #     end
+  #   elsif col.include? 'scanned_covenant'
+  #     image = candidate.sponsor_covenant.scanned_covenant
+  #     unless image.nil?
+  #       export_filename = CandidateImport.image_filepath_export(candidate, dir, 'scanned_covenant', image)
+  #       "#{image.filename}:::#{content_type(image.content_type)}:::#{export_filename}"
+  #     end
+  #   end
+  # end
 
   # get content type
   #
