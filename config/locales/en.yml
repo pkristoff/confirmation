@@ -104,6 +104,8 @@ en:
         mother_middle: Mother middle
     candidate_event:
       select: Select
+    candidate_note:
+      note: Note
     candidate_sheet:
       address:
         city: City
@@ -143,6 +145,7 @@ en:
       baptismal_certificate: Baptismal Certificate
       candidate_covenant_agreement: Covenant Agreement
       candidate_information_sheet: Information Sheet
+      candidate_note: Note
       christian_ministry: Christian Ministry
       confirmation_name: Confirmation Name
       retreat_verification: Attend Retreat

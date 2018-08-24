@@ -704,6 +704,7 @@ def expect_candidates_empty(wks, candidate_import)
   end
 
   expect(c1_row.cells[find_cell_offset(header_row, 'account_name')].value).to eq('c1')
+  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_note')].value).to eq('Admin note')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.first_name')].value).to eq('Paul')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.middle_name')].value).to eq('Saraha')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.last_name')].value).to eq('George')
@@ -748,7 +749,7 @@ def expect_candidates_empty(wks, candidate_import)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(68)
+  expect(c1_row.size).to eq(69)
 end
 
 def expect_confirmation_events_empty(wks, candidate_import)

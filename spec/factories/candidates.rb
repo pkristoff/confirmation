@@ -9,6 +9,7 @@ FactoryBot.define do
     end
     account_name 'sophiaagusta'
     password 'please123'
+    candidate_note 'Admin note'
     after(:build) do |candidate, evaluator|
       candidate.confirm if evaluator.should_confirm
       candidate.candidate_sheet.parent_email_1 = 'test@example.com'

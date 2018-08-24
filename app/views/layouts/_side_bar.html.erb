@@ -34,6 +34,7 @@
               <li class="no-link">Candidate: <%= "#{resource.candidate_sheet.first_name} #{resource.candidate_sheet.last_name}" %></li>
 
               <% candidate_info= [
+                  [I18n.t('label.sidebar.candidate_note'), candidate_note_path(resource.id), I18n.t('label.sidebar.candidate_note')],
                   [I18n.t('label.sidebar.candidate_covenant_agreement'), candidate_event_to_path(I18n.t('events.candidate_covenant_agreement'), resource.id), I18n.t('label.sidebar.candidate_covenant_agreement')],
                   [I18n.t('label.sidebar.candidate_information_sheet'), candidate_event_to_path(I18n.t('events.candidate_information_sheet'), resource.id), I18n.t('label.sidebar.candidate_information_sheet')],
                   [I18n.t('label.sidebar.baptismal_certificate'), candidate_event_to_path(I18n.t('events.baptismal_certificate'), resource.id), I18n.t('label.sidebar.baptismal_certificate')],

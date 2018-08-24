@@ -21,6 +21,33 @@ class CandidatesController < CommonCandidatesController
 
   before_action :authenticate_admin!
 
+  # edit candidate note
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
+  def candidate_note
+    @candidate = Candidate.find(params[:id])
+    @resource = @candidate
+  end
+
+  # update candidate note
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
+  def candidate_note_update
+    @candidate = Candidate.find(params[:id])
+    if @candidate.update(candidate_params)
+      flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
+    else
+      flash['alert'] = 'Update_attributes fails'
+    end
+    render :candidate_note
+  end
+
   # edit candidate
   #
   # === Attributes:

@@ -7,6 +7,14 @@ describe Candidate do
     @today = Time.zone.today
   end
 
+  describe 'candidate_note' do
+    it 'can retrieve candidate_note' do
+      candidate = FactoryBot.create(:candidate)
+
+      expect(candidate.candidate_note).to match 'Admin note'
+    end
+  end
+
   describe 'address' do
     it 'can retrieve a candiadate\'s address' do
       candidate = FactoryBot.create(:candidate)

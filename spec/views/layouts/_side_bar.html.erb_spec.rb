@@ -69,6 +69,7 @@ describe 'layouts/_side_bar.html.erb' do
       login_admin
 
       @resource = FactoryBot.create(:candidate)
+      @candidate_link_names_in_order = @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.candidate_note'), '/candidate_note.<id>'])
 
       render
 

@@ -77,6 +77,11 @@ Rails.application.routes.draw do
     get 'christian_ministry_verify.:id', to: 'candidates#christian_ministry_verify', as: 'christian_ministry_verify'
     put 'christian_ministry_verify.:id', to: 'candidates#christian_ministry_verify_update', as: 'christian_ministry_verify_update'
 
+    # candidate notes - admin only
+
+    get 'candidate_note.:id', to: 'candidates#candidate_note', as: 'candidate_note'
+    put 'candidate_note.:id', to: 'candidates#candidate_note_update', as: 'candidate_note_update'
+
     # candidate sheet
 
     get 'dev/candidate_sheet.:id', to: 'dev/candidates#candidate_sheet', as: 'dev_candidate_sheet'

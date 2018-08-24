@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_15_082213) do
+ActiveRecord::Schema.define(version: 2018_08_21_234127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2018_07_15_082213) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.text "candidate_note", default: "", null: false
     t.index ["account_name"], name: "index_candidates_on_account_name", unique: true
     t.index ["baptismal_certificate_id"], name: "index_candidates_on_baptismal_certificate_id"
     t.index ["candidate_sheet_id"], name: "index_candidates_on_candidate_sheet_id"

@@ -170,7 +170,7 @@ class Candidate < ApplicationRecord
   #
   def self.permitted_params
     [:account_name, :password, :password_confirmation,
-     :signed_agreement,
+     :signed_agreement, :candidate_note,
      candidate_sheet_attributes: CandidateSheet.permitted_params,
      baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
      sponsor_covenant_attributes: SponsorCovenant.permitted_params,
