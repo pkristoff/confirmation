@@ -33,9 +33,9 @@ module ViewsHelpers
 
     expect(rendered).to have_field('Street 1', with: (candidate ? candidate.candidate_sheet.address.street_1 : ''), type: 'text')
     expect(rendered).to have_field('Street 2', with: (candidate ? candidate.candidate_sheet.address.street_2 : ''), type: 'text')
-    expect(rendered).to have_field('City', with: (candidate ? candidate.candidate_sheet.address.city : 'Apex'), type: 'text')
-    expect(rendered).to have_field('State', with: (candidate ? candidate.candidate_sheet.address.state : 'NC'), type: 'text')
-    expect(rendered).to have_field('Zip code', with: (candidate ? candidate.candidate_sheet.address.zip_code : '27502'), type: 'text')
+    expect(rendered).to have_field('City', with: (candidate ? candidate.candidate_sheet.address.city : ''), type: 'text')
+    expect(rendered).to have_field('State', with: (candidate ? candidate.candidate_sheet.address.state : ''), type: 'text')
+    expect(rendered).to have_field('Zip code', with: (candidate ? candidate.candidate_sheet.address.zip_code : ''), type: 'text')
 
     if candidate
       expect(rendered).to have_field('Grade', with: candidate.candidate_sheet.grade, type: 'number')

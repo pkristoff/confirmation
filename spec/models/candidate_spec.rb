@@ -37,9 +37,9 @@ describe Candidate do
 
       expect(candidate.candidate_sheet.address.street_1).to match ''
       expect(candidate.candidate_sheet.address.street_2).to match ''
-      expect(candidate.candidate_sheet.address.city).to match 'Apex'
-      expect(candidate.candidate_sheet.address.state).to match 'NC'
-      expect(candidate.candidate_sheet.address.zip_code).to match '27502'
+      expect(candidate.candidate_sheet.address.city).to match ''
+      expect(candidate.candidate_sheet.address.state).to match ''
+      expect(candidate.candidate_sheet.address.zip_code).to match ''
 
       expect(candidate.candidate_events.size).to eq 0
     end

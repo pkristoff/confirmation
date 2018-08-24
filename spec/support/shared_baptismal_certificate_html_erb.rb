@@ -217,7 +217,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                        [:error_explanation, ['Your changes were saved!! 12 empty fields need to be filled in on the form to be verfied:',
+                                                        [:error_explanation, ['Your changes were saved!! 15 empty fields need to be filled in on the form to be verfied:',
                                                                               'Middle Name can\'t be blank',
                                                                               'Birth date can\'t be blank',
                                                                               'Baptismal date can\'t be blank',
@@ -229,7 +229,10 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                               'Mother middle can\'t be blank',
                                                                               'Mother maiden can\'t be blank',
                                                                               'Mother last can\'t be blank',
-                                                                              'Street 1 can\'t be blank']]])
+                                                                              'Street 1 can\'t be blank',
+                                                                              'City can\'t be blank',
+                                                                              'State can\'t be blank',
+                                                                              'Zip Code can\'t be blank']]])
 
     expect_db(1, 8, 1)
     expect(page).to have_selector(img_src_selector)
