@@ -45,6 +45,7 @@ class CandidatesController < CommonCandidatesController
     else
       flash['alert'] = 'Update_attributes fails'
     end
+    @resource = @candidate
     render :candidate_note
   end
 
