@@ -93,18 +93,18 @@ Postgres Production
 
 https://dashboard.heroku.com/apps
 
-- Production: https://lit-earth-34236.herokuapp.com/
+- Production: https://confirmation-production.herokuapp.com/
 - Staging:  https://confirmation-staging.herokuapp.com/
 
 Copy production db to staging
 - heroku pg:copy your-app::DATABASE_URL DATABASE_URL -a yourapp-staging
 - https://stackoverflow.com/questions/10673630/how-do-i-transfer-production-database-to-staging-on-heroku-using-pgbackups-gett/24005476#30495448
 
-Copy production(lit-earth-34236) db to staging(confirmation-staging)
--  heroku pg:copy lit-earth-34236::DATABASE_URL DATABASE_URL -a confirmation-staging
+Copy production(confirmation-production) db to staging(confirmation-staging)
+-  heroku pg:copy confirmation-production::DATABASE_URL DATABASE_URL -a confirmation-staging
 
 Production => local
-- heroku pg:backups:download --app lit-earth-34236
+- heroku pg:backups:download --app confirmation-production
 - pg_restore --verbose --clean --no-acl --no-owner -h localhost -U paulkristoff -d confirmation_development 20180213.dump > restore.log
 
 Restore dump to Production:
@@ -162,7 +162,7 @@ SendGrid
 Year End
 -------------------
 - get copy of db
-  * heroku pg:backups:download --app lit-earth-34236
+  * heroku pg:backups:download --app confirmation-production
   * mv latest.dump ~/Dropbox/Confirmation/2018-05/year-end/V1.0.18-ye.2017-18.dump
 - tag code ex: V1.0.18-ye.2017-18
 
