@@ -4,7 +4,7 @@ module Dev
   #
   # Handles Confirmation tasks
   #
-  class ConfirmationsController < Devise::ConfirmationsController
+  class CandAccountConfirmationsController < Devise::ConfirmationsController
     # Confirms user(account)
     # copied from parent class
     # ==== Attributes
@@ -33,7 +33,7 @@ module Dev
       # msgs cannot be empty
       msgs += 'noerrors' if msgs.empty?
       # resource.id cannot be nil
-      my_candidate_confirmation_path(resource.id || -1, msgs)
+      cand_account_confirmation_path(resource.id || -1, msgs)
     end
   end
 end

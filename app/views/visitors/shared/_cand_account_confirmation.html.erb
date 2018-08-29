@@ -1,0 +1,18 @@
+<% if @errors === 'noerrors' %>
+
+    <div id="confirmed">
+      <p><%= t('messages.cand_account_is_confirmed', account_name: @candidate.account_name) %></p>
+
+      <p><%= t('messages.cand_account_confirmed_next')%></p>
+    </div>
+
+<% else %>
+
+    <div id="confirm-failed">
+
+      <p><%= @errors %></p>
+
+    </div>
+
+<% end %>
+

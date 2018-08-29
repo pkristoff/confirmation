@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   # Sign in CANDIDATE
   devise_for :candidates, :path_prefix => 'dev',
              controllers: {registrations: 'dev/registrations',
-                           confirmations: 'dev/confirmations',
+                           confirmations: 'dev/cand_account_confirmations',
                            passwords: 'dev/passwords'
              }
   devise_scope :candidates do
@@ -134,8 +134,9 @@ Rails.application.routes.draw do
 
   end
 
-  # candidate confirmation
-  get 'my_candidate_confirmation/:id/:errors', to: 'visitors#candidate_confirmation', as: 'my_candidate_confirmation'
+  # candidate account confirmation
+
+  get 'cand_account_confirmation/:id/:errors', to: 'visitors#cand_account_confirmation', as: 'cand_account_confirmation'
 
   # Sign in ADMIN
   resources :candidates

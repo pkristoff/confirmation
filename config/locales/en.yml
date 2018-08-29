@@ -167,6 +167,10 @@ en:
     admin_login_needed: Please login as admin to %{message}.
     another_admin: create another admin
     another_candidate: create another candidate
+    cand_account_confirmed_next: The next step is to change your password. You should
+      have gotten another e-mail explaining how to do this.
+    cand_account_is_confirmed: Congratulations %{account_name} on confirming your
+      account.
     candidate_updated: Candidate %{name} updated successfully
     candidates_deleted: Candidates deleted
     candidates_removed: All candidates successfully removed.
