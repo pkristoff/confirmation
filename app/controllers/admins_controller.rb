@@ -215,10 +215,9 @@ class AdminsController < ApplicationController
         if candidates.size > 1
           redirect_to :back, notice: t('messages.generate_pdf_error')
         else
-          doc_name = 'tmp/temp.pdf'
           pdf = CandidatePDFDocument.new(candidates.first)
           send_data pdf.render,
-                    filename: doc_name,
+                    filename: pdf.document_name,
                     type: 'application/pdf'
         end
       when AdminsController::EMAIL

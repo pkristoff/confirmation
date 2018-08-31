@@ -11,6 +11,15 @@ require 'RMagick'
 #
 class CandidatePDFDocument < Prawn::Document
   include Magick
+  # Name to save the pdf document
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
+  def self.document_name(candidate)
+    "2019 #{candidate.candidate_sheet.last_name} #{candidate.candidate_sheet.first_name}.pdf"
+  end
 
   # Instantiation
   #
@@ -23,6 +32,16 @@ class CandidatePDFDocument < Prawn::Document
     @candidate = candidate
     @verified = false
     do_document
+  end
+
+  # Name to save the pdf document
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
+  def document_name
+    CandidatePDFDocument.document_name(@candidate)
   end
 
   # walk through the events making sure they have all been validated
@@ -426,7 +445,7 @@ class CandidatePDFDocument < Prawn::Document
   def title_page
     bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height do
       bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height / 3 do
-        text 'Confirmation booklet', size: 30, style: :bold, align: :center, valign: :bottom
+        text '2019 Confirmation booklet', size: 30, style: :bold, align: :center, valign: :bottom
       end
       bounding_box [bounds.left, bounds.top - (bounds.height / 3)], width: bounds.width, height: bounds.height / 3 do
         text 'for', size: 30, style: :bold, align: :center, valign: :center
