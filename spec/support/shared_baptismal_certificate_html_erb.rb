@@ -420,8 +420,6 @@ shared_context 'baptismal_certificate_html_erb' do
                                           last_name: dont_show_values ? nil : LAST_NAME
                                         })
 
-    # street_1 = values[:street_1].nil? ? STREET_1 : values[:street_1]
-
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)

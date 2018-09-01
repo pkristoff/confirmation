@@ -90,4 +90,32 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')
   end
+
+  scenario 'admin has to select candidate second time through for adhoc test' do
+    candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+
+    admin = FactoryBot.create(:admin)
+    AppFactory.add_confirmation_events
+
+    login_as(admin, scope: :admin)
+
+    visit adhoc_mailing_path
+
+    fill_in I18n.t('email.subject_label'), with: 'The subject'
+    fill_in I18n.t('email.body_label'), with: 'The body'
+    check("candidate_candidate_ids_#{candidate1.id}")
+    click_button('top-test')
+
+    expect_message(:flash_notice, I18n.t('messages.adhoc_mailing_test_sent'))
+    expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
+    expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')
+
+    # no candidate is selected
+
+    click_button('top-test')
+
+    expect_message(:flash_alert, I18n.t('messages.no_candidate_selected'))
+    expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
+    expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')
+  end
 end

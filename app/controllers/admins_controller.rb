@@ -76,7 +76,9 @@ class AdminsController < ApplicationController
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     if candidates.empty?
-      return redirect_back_mail(t('messages.no_candidate_selected'), adhoc_mailing_path, mail_param)
+      setup_adhoc_render(body_input_text, subject_text)
+      flash.now[:alert] = t('messages.no_candidate_selected')
+      return render :adhoc_mailing, mail: mail_param
     end
 
     begin
@@ -99,7 +101,7 @@ class AdminsController < ApplicationController
       end
 
       if response.status_code[0] == '2'
-        flash[:notice] = flash_message
+        flash.now[:notice] = flash_message
       else
         flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
       end
@@ -374,7 +376,10 @@ class AdminsController < ApplicationController
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     if candidates.empty?
-      return redirect_back_mail(t('messages.no_candidate_selected'), monthly_mass_mailing_path, mail_param)
+      setup_monthly_mailing_render(subject_text, pre_late_input, pre_coming_due_input, completed_awaiting_input,
+                                   completed_input, closing_text, salutation_text, from_text)
+      flash.now[:alert] = t('messages.no_candidate_selected')
+      return render :monthly_mass_mailing
     end
 
     case commit
@@ -421,11 +426,11 @@ class AdminsController < ApplicationController
                                                                from_text: mail_param[:from_text])
                          end
 
-    flash[:notice] = if send_mail_response.status_code[0] == '2'
-                       flash_message
-                     else
-                       "Send emai failed - see logs for more info - last failed response: Status=#{send_mail_response.status_code} body=#{send_mail_response.body}"
-                     end
+    flash.now[:notice] = if send_mail_response.status_code[0] == '2'
+                           flash_message
+                         else
+                           "Send emai failed - see logs for more info - last failed response: Status=#{send_mail_response.status_code} body=#{send_mail_response.body}"
+                         end
 
     set_confirmation_events
 

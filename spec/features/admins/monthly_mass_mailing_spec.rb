@@ -27,17 +27,15 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-update')
 
-    expect_message(:flash_alert, I18n.t('messages.no_candidate_selected'))
-    have_css('form[enctype="multipart/form-data"]')
-    expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
-    expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
-    expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
-    expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
-    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text')
-    expect(page).to have_field(I18n.t('email.completed_text_label'), with: 'The completed_text')
-    expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
-    expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
-    expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
+    expect_monthly_mass_mailing_form(expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
+                                     subject: 'The subject',
+                                     pre_late_text: 'The pre_late_text',
+                                     pre_coming_text: 'The pre_coming_text',
+                                     awaiting_approval: 'The completed_awaiting_text',
+                                     completed_events: 'The completed_text',
+                                     closing_paragraph: 'The closing_text',
+                                     salutation_text: 'The salutation_text',
+                                     from_text: 'The from_text')
 
     expect_mail_attadchment_upload
   end
@@ -67,15 +65,15 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-update')
 
-    expect_message(:flash_notice, I18n.t('messages.monthly_mailing_progress'))
-    expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
-    expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
-    expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
-    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text')
-    expect(page).to have_field(I18n.t('email.completed_text_label'), with: 'The completed_text')
-    expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
-    expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
-    expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
+    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]],
+                                     subject: 'The subject',
+                                     pre_late_text: 'The pre_late_text',
+                                     pre_coming_text: 'The pre_coming_text',
+                                     awaiting_approval: 'The completed_awaiting_text',
+                                     completed_events: 'The completed_text',
+                                     closing_paragraph: 'The closing_text',
+                                     salutation_text: 'The salutation_text',
+                                     from_text: 'The from_text')
   end
 
   scenario 'admin can send email to multiple candidates with default values' do
@@ -94,8 +92,8 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-update')
 
-    expect_message(:flash_notice, I18n.t('messages.monthly_mailing_progress'))
-    expect_default_values
+    # expect_message(:flash_notice, I18n.t('messages.monthly_mailing_progress'))
+    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]])
   end
 
   scenario 'admin has to select candidate before sending test monthly email' do
@@ -113,15 +111,15 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.from_text_label'), with: 'The from_text'
     click_button('top-test')
 
-    expect_message(:flash_alert, I18n.t('messages.no_candidate_selected'))
-    expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
-    expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
-    expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
-    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text')
-    expect(page).to have_field(I18n.t('email.completed_text_label'), with: 'The completed_text')
-    expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
-    expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
-    expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
+    expect_monthly_mass_mailing_form(expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
+                                     subject: 'The subject',
+                                     pre_late_text: 'The pre_late_text',
+                                     pre_coming_text: 'The pre_coming_text',
+                                     awaiting_approval: 'The completed_awaiting_text',
+                                     completed_events: 'The completed_text',
+                                     closing_paragraph: 'The closing_text',
+                                     salutation_text: 'The salutation_text',
+                                     from_text: 'The from_text')
   end
 
   scenario 'admin can send test email to a candidate with default values' do
@@ -137,8 +135,9 @@ feature 'Admin monthly mass mailing', :devise do
     check("candidate_candidate_ids_#{candidate1.id}")
     click_button('top-test')
 
-    expect_message(:flash_notice, I18n.t('messages.monthly_mailing_test_sent'))
-    expect_default_values
+    # expect_message(:flash_notice, I18n.t('messages.monthly_mailing_test_sent'))
+    # expect_default_values
+    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]])
   end
 
   scenario 'admin can send test email to a candidate' do
@@ -162,24 +161,85 @@ feature 'Admin monthly mass mailing', :devise do
     check("candidate_candidate_ids_#{candidate1.id}")
     click_button('top-test')
 
-    expect_message(:flash_notice, I18n.t('messages.monthly_mailing_test_sent'))
-    expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
-    expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: 'The pre_late_text')
-    expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text')
-    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text')
-    expect(page).to have_field(I18n.t('email.closing_text_label'), with: 'The closing_text')
-    expect(page).to have_field(I18n.t('email.salutation_text_label'), with: 'The salutation_text')
-    expect(page).to have_field(I18n.t('email.from_text_label'), with: 'The from_text')
+    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]],
+                                     subject: 'The subject',
+                                     pre_late_text: 'The pre_late_text',
+                                     pre_coming_text: 'The pre_coming_text',
+                                     awaiting_approval: 'The completed_awaiting_text',
+                                     completed_events: 'The completed_text',
+                                     closing_paragraph: 'The closing_text',
+                                     salutation_text: 'The salutation_text',
+                                     from_text: 'The from_text')
   end
 
-  def expect_default_values
-    expect(page).to have_field(I18n.t('email.subject_label'), with: I18n.t('email.subject_initial_text'))
-    expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: I18n.t('email.late_initial_text'))
-    expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: I18n.t('email.coming_due_initial_text'))
-    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: I18n.t('email.completed_awaiting_initial_text'))
-    expect(page).to have_field(I18n.t('email.completed_text_label'), with: I18n.t('email.completed_initial_text'))
-    expect(page).to have_field(I18n.t('email.closing_text_label'), with: I18n.t('email.closing_initial_text'))
-    expect(page).to have_field(I18n.t('email.salutation_text_label'), with: I18n.t('email.salutation_initial_text'))
-    expect(page).to have_css('textarea[id=mail_from_text]', text: /.*Vicki Kristoff.*|.*stmm.confirmation@kristoffs.com.*|.*919-249-5629.*/)
+  scenario 'admin has to select candidate second time through for monthly mass mailing test test' do
+    candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+
+    admin = FactoryBot.create(:admin)
+    AppFactory.add_confirmation_events
+
+    login_as(admin, scope: :admin)
+
+    visit monthly_mass_mailing_path
+
+    fill_in I18n.t('email.subject_label'), with: 'The subject'
+    fill_in I18n.t('email.pre_late_text_label'), with: 'The pre_late_text'
+    fill_in I18n.t('email.pre_coming_due_text_label'), with: 'The pre_coming_text'
+    fill_in I18n.t('email.completed_awaiting_text_label'), with: 'The completed_awaiting_text'
+    fill_in I18n.t('email.completed_text_label'), with: 'The completed_text'
+    fill_in I18n.t('email.closing_text_label'), with: 'The closing_text'
+    fill_in I18n.t('email.salutation_text_label'), with: 'The salutation_text'
+    fill_in I18n.t('email.from_text_label'), with: 'The from_text'
+    check("candidate_candidate_ids_#{candidate1.id}")
+
+    click_button('top-test')
+
+    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]],
+                                     subject: 'The subject',
+                                     pre_late_text: 'The pre_late_text',
+                                     pre_coming_text: 'The pre_coming_text',
+                                     awaiting_approval: 'The completed_awaiting_text',
+                                     completed_events: 'The completed_text',
+                                     closing_paragraph: 'The closing_text',
+                                     salutation_text: 'The salutation_text',
+                                     from_text: 'The from_text')
+
+    # no candidate is selected
+
+    click_button('top-test')
+
+    expect_monthly_mass_mailing_form(expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
+                                     subject: 'The subject',
+                                     pre_late_text: 'The pre_late_text',
+                                     pre_coming_text: 'The pre_coming_text',
+                                     awaiting_approval: 'The completed_awaiting_text',
+                                     completed_events: 'The completed_text',
+                                     closing_paragraph: 'The closing_text',
+                                     salutation_text: 'The salutation_text',
+                                     from_text: 'The from_text')
+  end
+
+  def expect_monthly_mass_mailing_form(values = {
+    subject: I18n.t('email.subject_initial_text'),
+    pre_late_text: I18n.t('email.late_initial_text'),
+    pre_coming_text: I18n.t('email.coming_due_initial_text'),
+    awaiting_approval: I18n.t('email.completed_awaiting_initial_text'),
+    completed_events: I18n.t('email.completed_initial_text'),
+    closing_paragraph: I18n.t('email.closing_initial_text'),
+    salutation_text: I18n.t('email.salutation_initial_text'),
+    from_text: /.*Vicki Kristoff.*|.*stmm.confirmation@kristoffs.com.*|.*919-249-5629.*/
+  })
+
+    # street_1 = values[:street_1].nil? ? STREET_1 : values[:street_1]
+
+    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect(page).to have_field(I18n.t('email.subject_label'), with: values[:subject].presence ? values[:subject] : I18n.t('email.subject_initial_text'))
+    expect(page).to have_field(I18n.t('email.pre_late_text_label'), with: values[:pre_late_text].presence ? values[:pre_late_text] : I18n.t('email.late_initial_text'))
+    expect(page).to have_field(I18n.t('email.pre_coming_due_text_label'), with: values[:pre_coming_text].presence ? values[:pre_coming_text] : I18n.t('email.coming_due_initial_text'))
+    expect(page).to have_field(I18n.t('email.completed_awaiting_text_label'), with: values[:awaiting_approval].presence ? values[:awaiting_approval] : I18n.t('email.completed_awaiting_initial_text'))
+    expect(page).to have_field(I18n.t('email.completed_text_label'), with: values[:completed_events].presence ? values[:completed_events] : I18n.t('email.completed_initial_text'))
+    expect(page).to have_field(I18n.t('email.closing_text_label'), with: values[:closing_paragraph].presence ? values[:closing_paragraph] : I18n.t('email.closing_initial_text'))
+    expect(page).to have_field(I18n.t('email.salutation_text_label'), with: values[:salutation_text].presence ? values[:salutation_text] : I18n.t('email.salutation_initial_text'))
+    expect(page).to have_css('textarea[id=mail_from_text]', text: values[:from_text].presence ? values[:from_text] : /.*Vicki Kristoff.*|.*stmm.confirmation@kristoffs.com.*|.*919-249-5629.*/)
   end
 end
