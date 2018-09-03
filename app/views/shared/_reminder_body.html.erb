@@ -12,7 +12,7 @@
 <% end %>
 
 <% if render_mail_text %>
-  <p id="past_due_text" style="white-space: pre-line;"><%= @candidate_mailer_text.pre_late_text %></p>
+  <p id="past_due_text" style="white-space: pre;"><%= @candidate_mailer_text.pre_late_text %></p>
 <% else %>
   <%= label_tag('mail[pre_late_input]', t('email.pre_late_text_label')) %>:
   <%= text_area_tag('mail[pre_late_input]', @pre_late_input) %> <br/>
@@ -29,7 +29,7 @@
 <% end %>
 
 <% if render_mail_text %>
-  <p id="coming_due_events_text" style="white-space: pre-line;"><%= @candidate_mailer_text.pre_coming_due_text %></p>
+  <p id="coming_due_events_text" style="white-space: pre;"><%= @candidate_mailer_text.pre_coming_due_text %></p>
 <% else %>
   <%= label_tag('mail[pre_coming_due_input]', t('email.pre_coming_due_text_label')) %>:
   <%= text_area_tag('mail[pre_coming_due_input]', @pre_coming_due_input) %> <br/>
@@ -46,7 +46,7 @@
 <% end %>
 
 <% if render_mail_text %>
-  <p id="completed_awaiting_events_text" style="white-space: pre-line;"><%= @candidate_mailer_text.completed_awaiting_text %></p>
+  <p id="completed_awaiting_events_text" style="white-space: pre;"><%= @candidate_mailer_text.completed_awaiting_text %></p>
 <% else %>
   <%= label_tag('mail[completed_awaiting_input]', t('email.completed_awaiting_text_label')) %>:
   <%= text_area_tag('mail[completed_awaiting_input]', @completed_awaiting_input) %> <br/>
@@ -63,7 +63,7 @@
 
 
 <% if render_mail_text %>
-  <p id="completed_events_text" style="white-space: pre-line;"><%= @candidate_mailer_text.completed_text %></p>
+  <p id="completed_events_text" style="white-space: pre;"><%= @candidate_mailer_text.completed_text %></p>
 <% else %>
   <%= label_tag('mail[completed_input]', t('email.completed_text_label')) %>:
   <%= text_area_tag('mail[completed_input]', @completed_input) %> <br/>
@@ -77,21 +77,21 @@
 <% end %>
 
 <% if render_mail_text %>
-  <p id="closing_text" style="white-space: pre-line;"><%= @candidate_mailer_text.closing_text %></p>
+  <p id="closing_text" style="white-space: pre;"><%= @candidate_mailer_text.closing_text %></p>
 <% else %>
   <%= label_tag('mail[closing_text]', t('email.closing_text_label')) %>:
   <%= text_area_tag('mail[closing_text]', @closing_text) %> <br/>
 <% end %>
 
 <% if render_mail_text %>
-  <p id="salutation_text" style="white-space: pre-line;"><%= @candidate_mailer_text.salutation_text %></p>
+  <p id="salutation_text" style="white-space: pre;"><%= @candidate_mailer_text.salutation_text %></p>
 <% else %>
   <%= label_tag('mail[salutation_text]', t('email.salutation_text_label')) %>:
   <%= text_area_tag('mail[salutation_text]', @salutation_text) %> <br/>
 <% end %>
 
 <% if render_mail_text %>
-  <p id="from_text" style="white-space: pre-line;"><%= @candidate_mailer_text.from_text %></p>
+  <p id="from_text" style="white-space: pre;"><%= @candidate_mailer_text.from_text %></p>
 <% else %>
   <%= label_tag('mail[from_text]', t('email.from_text_label')) %>:
   <%= text_area_tag('mail[from_text]', @from_text) %> <br/>

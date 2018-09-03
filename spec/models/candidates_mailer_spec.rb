@@ -33,8 +33,8 @@ describe CandidatesMailer, type: :model do
 
         expect_view(body, [], coming_due_values, [], [])
 
-        expect(body).to have_css('p[id=past_due_text][ style="white-space: pre-line;"]', text: ViewsHelpers::LATE_INITIAL_TEXT)
-        expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre-line;"]', text: ViewsHelpers::COMING_DUE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=past_due_text][ style="white-space: pre;"]', text: ViewsHelpers::LATE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre;"]', text: ViewsHelpers::COMING_DUE_INITIAL_TEXT)
         expect_closing(body)
       end
     end
@@ -89,7 +89,7 @@ describe CandidatesMailer, type: :model do
         body = Capybara.string(mail.body.encoded)
 
         expect(body).to have_css('p[id=first_name]', text: 'Paul,')
-        expect(body).to have_css('p[id=body_text][ style="white-space: pre-line;"]', text: 'some body')
+        expect(body).to have_css('p[id=body_text][ style="white-space: pre;"]', text: 'some body')
       end
     end
 
@@ -172,8 +172,8 @@ describe CandidatesMailer, type: :model do
   end
 
   def expect_closing(body)
-    expect(body).to have_css('p[id=closing_text][ style="white-space: pre-line;"]', text: '')
-    expect(body).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: I18n.t('email.salutation_initial_text'))
-    expect(body).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: 'Vicki Kristoff')
+    expect(body).to have_css('p[id=closing_text][ style="white-space: pre;"]', text: '')
+    expect(body).to have_css('p[id=salutation_text][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_text'))
+    expect(body).to have_css('p[id=from_text][ style="white-space: pre;"]', text: 'Vicki Kristoff')
   end
 end

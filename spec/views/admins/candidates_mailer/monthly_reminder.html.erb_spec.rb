@@ -202,9 +202,9 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
 
-    expect(rendered).to have_css('p[id=closing_text][ style="white-space: pre-line;"]', text: '')
-    expect(rendered).to have_css('p[id=salutation_text][ style="white-space: pre-line;"]', text: I18n.t('email.salutation_initial_text'))
-    expect(rendered).to have_css('p[id=from_text][ style="white-space: pre-line;"]', text: I18n.t('email.from_initial_text_html'))
+    expect(rendered).to have_css('p[id=closing_text][ style="white-space: pre;"]', text: '')
+    expect(rendered).to have_css('p[id=salutation_text][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_text'))
+    expect(rendered).to have_css('p[id=from_text][ style="white-space: pre;"]', text: I18n.t('email.from_initial_text_html'))
   end
 
   def expect_table(_field_id, field_text, event_prefix, column_headers, cell_values)
