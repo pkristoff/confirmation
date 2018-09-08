@@ -3,18 +3,18 @@
 FactoryBot.define do
   factory :baptismal_certificate do
     transient do
-      skip_address_replacement false
+      skip_address_replacement { false }
     end
-    birth_date '1983-08-20'
-    baptismal_date '1983-10-20'
-    church_name 'St. Francis'
-    father_first 'George'
-    father_last 'Smith'
-    father_middle 'Paul'
-    mother_first 'Georgette'
-    mother_middle 'Paula'
-    mother_maiden 'Kirk'
-    mother_last 'Smith'
+    birth_date { '1983-08-20' }
+    baptismal_date { '1983-10-20' }
+    church_name { 'St. Francis' }
+    father_first { 'George' }
+    father_last { 'Smith' }
+    father_middle { 'Paul' }
+    mother_first { 'Georgette' }
+    mother_middle { 'Paula' }
+    mother_maiden { 'Kirk' }
+    mother_last { 'Smith' }
     after(:build) do |baptismal_certificate, evaluator|
       unless evaluator.skip_address_replacement
         # replace baptismal_certificate

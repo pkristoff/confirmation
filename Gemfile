@@ -46,6 +46,7 @@ group :development, :test do
   gem 'rails_real_favicon'
   gem 'rspec-rails'
   gem 'rubocop', require: false
+  gem 'rubocop-rspec'
 end
 group :production do
   gem 'rails_12factor'

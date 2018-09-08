@@ -3,13 +3,13 @@
 FactoryBot.define do
   factory :candidate do
     transient do
-      should_confirm true
-      add_candidate_events false
-      add_new_confirmation_events true
+      should_confirm { true }
+      add_candidate_events { false }
+      add_new_confirmation_events { true }
     end
-    account_name 'sophiaagusta'
-    password 'please123'
-    candidate_note 'Admin note'
+    account_name { 'sophiaagusta' }
+    password { 'please123' }
+    candidate_note { 'Admin note' }
     after(:build) do |candidate, evaluator|
       candidate.confirm if evaluator.should_confirm
       candidate.candidate_sheet.parent_email_1 = 'test@example.com'
