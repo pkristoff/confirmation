@@ -27,8 +27,8 @@
         </div>
 
         <div class="actions">
-          <%= f.submit t('views.common.update'), {id: "update-#{confirmation_event.id}"} %>
-          <%= f.submit t('views.common.update_candidates_event'), {name: "update[#{confirmation_event.id}]", id: "candidates-#{confirmation_event.id}"} %>
+          <%= f.submit t('views.common.update'), { id: "update-#{confirmation_event.id}" } %>
+          <%= f.submit t('views.common.update_candidates_event'), { name: "update[#{confirmation_event.id}]", id: "candidates-#{confirmation_event.id}" } %>
         </div>
 
       <% end %>
@@ -38,12 +38,14 @@
 <% end %>
 
 <script type="text/javascript">
-    <% @confirmation_events.each do |confirmation_event| %>
-    tinyMCE.init({
-        selector: "textarea.tinymce_<%= confirmation_event.id %>",
-        toolbar:  ["insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"],
-        plugins:  "advlist,autolink,lists,link,image,charmap,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,contextmenu,paste,code"
+    $(document).on('ready page:load', function () {
+        <% @confirmation_events.each do |confirmation_event| %>
+        tinyMCE.init({
+            selector: "textarea.tinymce_<%= confirmation_event.id %>",
+            toolbar:  ["insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"],
+            plugins:  "advlist,autolink,lists,link,image,charmap,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,contextmenu,paste,code"
 
+        });
+        <% end %>
     });
-    <% end %>
 </script>
