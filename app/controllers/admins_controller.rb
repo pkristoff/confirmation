@@ -608,8 +608,8 @@ class AdminsController < ApplicationController
   private
 
   def visitor_db_or_new
-    return Visitor.all.first unless Visitor.all.empty?
-    Visitor.create if Visitor.all.empty?
+    return Visitor.first
+
   end
 
   def ref_url
