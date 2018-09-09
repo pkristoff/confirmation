@@ -439,6 +439,41 @@ class AdminsController < ApplicationController
     render :monthly_mass_mailing
   end
 
+  # show visitor editable pages for visitor.
+  #
+  def show_visitor
+    @visitor = visitor_db_or_new
+    @visitor = Visitor.create if Visitor.all.empty?
+  end
+
+  # update visitor editable pages for visitor.
+  #
+  # === Attributes:
+  #
+  # * <tt>:commit</tt>  subject of message
+  # * <tt>:visitor</tt>
+  # ** <code>views.common.update_home</code>
+  # ** <code>views.common.update_about</code>
+  # ** <code>views.common.update_contact</code>
+  #
+  def update_visitor
+    Rails.logger.info "params=#{params}"
+    commit = params.require(:commit)
+    case commit
+    when t('views.common.update_home')
+      visitor = visitor_db_or_new
+      Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{params.permit(Visitor.basic_permitted_params)}")
+      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+        flash[:notice] = 'Home update - i18n'
+        Rails.logger.info "visitor.home=#{visitor.home}"
+      end
+    else
+      flash[:alert] = "Unkown commit param: #{commit}"
+    end
+    @visitor = visitor_db_or_new
+    render :show_visitor
+  end
+
   # show admin
   #
   # === Attributes:
@@ -571,6 +606,11 @@ class AdminsController < ApplicationController
   end
 
   private
+
+  def visitor_db_or_new
+    return Visitor.all.first unless Visitor.all.empty?
+    Visitor.create if Visitor.all.empty?
+  end
 
   def ref_url
     referrer_url = nil

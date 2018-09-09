@@ -41,6 +41,10 @@ Rails.application.routes.draw do
     put 'dev/download_document/:id/.:name', to: 'dev/candidates#download_document', as: 'dev_download_document'
     put 'download_document/:id/.:name', to: 'candidates#download_document', as: 'download_document'
 
+    # visitors
+    get 'show_visitor', to: 'admins#show_visitor', as: 'show_visitor'
+    post 'update_visitor/:id', to: 'admins#update_visitor', as: 'update_visitor'
+
     # put 'mass_edit_candidates_event_sort/:id/:sort/:direction', to: 'admins#mass_edit_candidates_event_sort', as: 'mass_edit_candidates_event_sort'
     get 'mass_edit_candidates_event/:id', to: 'admins#mass_edit_candidates_event', as: 'mass_edit_candidates_event'
     put 'mass_edit_candidates_event_update/:id', to: 'admins#mass_edit_candidates_event_update', as: 'mass_edit_candidates_event_update'

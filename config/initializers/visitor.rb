@@ -1,0 +1,1 @@
+Visitor.create if Visitor.count == 0

@@ -1,80 +1,81 @@
 <% require 'constants' %>
 
 <% if admin_signed_in? %>
-    <% if admin_signed_in? %>
-        <% admin_info= [
-            [I18n.t('views.nav.add_new_admin'), new_admin_registration_path, I18n.t('views.nav.add_new_admin')],
-            [I18n.t('views.nav.edit_account'), edit_admin_registration_path, I18n.t('views.nav.edit_account')],
-            [I18n.t('views.nav.candidates'), candidates_path, I18n.t('views.nav.candidates')],
-            [I18n.t('views.nav.adhoc_mailing'), adhoc_mailing_path, I18n.t('views.nav.adhoc_mailing')],
-            [I18n.t('views.nav.monthly_mass_mailing'), monthly_mass_mailing_path, I18n.t('views.nav.monthly_mass_mailing')],
-            [I18n.t('views.nav.add_new_candidate'), new_candidate_path, I18n.t('views.nav.add_new_candidate')],
-            [I18n.t('views.nav.admins'), admins_path, I18n.t('views.nav.admins')],
-            [I18n.t('views.nav.events'), edit_multiple_confirmation_events_path, I18n.t('views.nav.events')]
+  <% if admin_signed_in? %>
+    <% admin_info = [
+        [I18n.t('views.nav.add_new_admin'), new_admin_registration_path, I18n.t('views.nav.add_new_admin')],
+        [I18n.t('views.nav.edit_account'), edit_admin_registration_path, I18n.t('views.nav.edit_account')],
+        [I18n.t('views.nav.candidates'), candidates_path, I18n.t('views.nav.candidates')],
+        [I18n.t('views.nav.adhoc_mailing'), adhoc_mailing_path, I18n.t('views.nav.adhoc_mailing')],
+        [I18n.t('views.nav.monthly_mass_mailing'), monthly_mass_mailing_path, I18n.t('views.nav.monthly_mass_mailing')],
+        [I18n.t('views.nav.add_new_candidate'), new_candidate_path, I18n.t('views.nav.add_new_candidate')],
+        [I18n.t('views.nav.admins'), admins_path, I18n.t('views.nav.admins')],
+        [I18n.t('views.nav.events'), edit_multiple_confirmation_events_path, I18n.t('views.nav.events')],
+        [I18n.t('views.nav.visitors'), show_visitor_path, I18n.t('views.nav.visitors')]
+    ] %>
+    <ul id="admin-sidebar" class="nav navbar-nav">
+      <% admin_info.each do |arr| %>
+        <li class="<%= active_tab_class(arr[1], root_path) %>"><%= link_to truncate(arr[2], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
+      <% end %>
+      <li><%= link_to I18n.t('views.nav.other'), new_candidate_import_path %></li>
+      <li class="no-link"> Export</li>
+      <% export_info = [
+          [I18n.t('views.nav.export_confirmation_name'), export_lists_confirmation_name_path, I18n.t('views.nav.export_confirmation_name')],
+          [I18n.t('views.nav.export_attend_retreat_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_retreat_path, I18n.t('views.nav.export_attend_retreat_title', home_parish: I18n.t('home_parish.nick_name'))],
+          [I18n.t('views.nav.export_baptized_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_baptism_path, I18n.t('views.nav.export_baptized_at_stmm_title', home_parish: I18n.t('home_parish.nick_name'))],
+          [I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_sponsor_path, I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name'))],
+          [I18n.t('views.nav.export_candidate_event_status_title'), export_lists_events_path, I18n.t('views.nav.export_candidate_event_status_title')]
+      ] %>
+      <ul id="export-sidebar" class="nav navbar-nav">
+        <% export_info.each do |arr| %>
+          <li class="<%= active_tab_class(arr[1], root_path) %>"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
+        <% end %>
+      </ul>
+      <% if defined?(resource) && (!resource.nil?) && (!resource.new_record?) && (resource.is_a? Candidate) %>
+        <li class="no-link">Candidate: <%= "#{resource.candidate_sheet.first_name} #{resource.candidate_sheet.last_name}" %></li>
+
+        <% candidate_info = [
+            [I18n.t('label.sidebar.candidate_note'), candidate_note_path(resource.id), I18n.t('label.sidebar.candidate_note')],
+            [I18n.t('label.sidebar.candidate_covenant_agreement'), candidate_event_to_path(I18n.t('events.candidate_covenant_agreement'), resource.id), I18n.t('label.sidebar.candidate_covenant_agreement')],
+            [I18n.t('label.sidebar.candidate_information_sheet'), candidate_event_to_path(I18n.t('events.candidate_information_sheet'), resource.id), I18n.t('label.sidebar.candidate_information_sheet')],
+            [I18n.t('label.sidebar.baptismal_certificate'), candidate_event_to_path(I18n.t('events.baptismal_certificate'), resource.id), I18n.t('label.sidebar.baptismal_certificate')],
+            [I18n.t('label.sidebar.sponsor_covenant'), candidate_event_to_path(I18n.t('events.sponsor_covenant'), resource.id), I18n.t('label.sidebar.sponsor_covenant')],
+            [I18n.t('label.sidebar.confirmation_name'), candidate_event_to_path(I18n.t('events.confirmation_name'), resource.id), I18n.t('label.sidebar.confirmation_name')],
+            [I18n.t('label.sidebar.christian_ministry'), candidate_event_to_path(I18n.t('events.christian_ministry'), resource.id), I18n.t('label.sidebar.christian_ministry')],
+            [I18n.t('label.sidebar.retreat_verification'), candidate_event_to_path(I18n.t('events.retreat_verification'), resource.id), I18n.t('label.sidebar.retreat_verification')],
+
+            [I18n.t('views.nav.edit'), edit_candidate_path(resource.id), I18n.t('views.nav.edit'),],
+            [I18n.t('views.nav.events'), event_candidate_path(resource.id), I18n.t('views.nav.events')]
         ] %>
-        <ul id="admin-sidebar" class="nav navbar-nav">
-          <% admin_info.each do |arr| %>
-              <li class="<%= active_tab_class(arr[1], root_path) %>"><%= link_to truncate(arr[2], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
-          <% end %>
-          <li><%= link_to I18n.t('views.nav.other'), new_candidate_import_path %></li>
-          <li class="no-link"> Export</li>
-          <% export_info= [
-              [I18n.t('views.nav.export_confirmation_name'), export_lists_confirmation_name_path, I18n.t('views.nav.export_confirmation_name')],
-              [I18n.t('views.nav.export_attend_retreat_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_retreat_path, I18n.t('views.nav.export_attend_retreat_title', home_parish: I18n.t('home_parish.nick_name'))],
-              [I18n.t('views.nav.export_baptized_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_baptism_path, I18n.t('views.nav.export_baptized_at_stmm_title', home_parish: I18n.t('home_parish.nick_name'))],
-              [I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), export_lists_sponsor_path, I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name'))],
-              [I18n.t('views.nav.export_candidate_event_status_title'), export_lists_events_path, I18n.t('views.nav.export_candidate_event_status_title')]
-          ] %>
-          <ul id="export-sidebar" class="nav navbar-nav">
-            <% export_info.each do |arr| %>
-                <li class="<%= active_tab_class(arr[1], root_path) %>"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
-            <% end %>
-          </ul>
-          <% if defined?(resource) && (!resource.nil?) && (!resource.new_record?) && (resource.is_a? Candidate) %>
-              <li class="no-link">Candidate: <%= "#{resource.candidate_sheet.first_name} #{resource.candidate_sheet.last_name}" %></li>
+        <ul id="candidate-sidebar" class="nav navbar-nav">
 
-              <% candidate_info= [
-                  [I18n.t('label.sidebar.candidate_note'), candidate_note_path(resource.id), I18n.t('label.sidebar.candidate_note')],
-                  [I18n.t('label.sidebar.candidate_covenant_agreement'), candidate_event_to_path(I18n.t('events.candidate_covenant_agreement'), resource.id), I18n.t('label.sidebar.candidate_covenant_agreement')],
-                  [I18n.t('label.sidebar.candidate_information_sheet'), candidate_event_to_path(I18n.t('events.candidate_information_sheet'), resource.id), I18n.t('label.sidebar.candidate_information_sheet')],
-                  [I18n.t('label.sidebar.baptismal_certificate'), candidate_event_to_path(I18n.t('events.baptismal_certificate'), resource.id), I18n.t('label.sidebar.baptismal_certificate')],
-                  [I18n.t('label.sidebar.sponsor_covenant'), candidate_event_to_path(I18n.t('events.sponsor_covenant'), resource.id), I18n.t('label.sidebar.sponsor_covenant')],
-                  [I18n.t('label.sidebar.confirmation_name'), candidate_event_to_path(I18n.t('events.confirmation_name'), resource.id), I18n.t('label.sidebar.confirmation_name')],
-                  [I18n.t('label.sidebar.christian_ministry'), candidate_event_to_path(I18n.t('events.christian_ministry'), resource.id), I18n.t('label.sidebar.christian_ministry')],
-                  [I18n.t('label.sidebar.retreat_verification'), candidate_event_to_path(I18n.t('events.retreat_verification'), resource.id), I18n.t('label.sidebar.retreat_verification')],
-
-                  [I18n.t('views.nav.edit'), edit_candidate_path(resource.id), I18n.t('views.nav.edit'),],
-                  [I18n.t('views.nav.events'), event_candidate_path(resource.id), I18n.t('views.nav.events')]
-              ] %>
-              <ul id="candidate-sidebar" class="nav navbar-nav">
-
-                <% candidate_info.each do |arr| %>
-                    <li class="<%= active_tab_class(arr[1], root_path) %>"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
-                <% end %>
-              </ul>
+          <% candidate_info.each do |arr| %>
+            <li class="<%= active_tab_class(arr[1], root_path) %>"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
           <% end %>
         </ul>
-    <% end %>
+      <% end %>
+    </ul>
+  <% end %>
 <% end %>
 
 <% if candidate_signed_in? %>
 
-    <% candidate_info= [
-        [I18n.t('label.sidebar.candidate_covenant_agreement'), dev_sign_agreement_path(current_candidate.id), I18n.t('label.sidebar.candidate_covenant_agreement')],
-        [I18n.t('label.sidebar.candidate_information_sheet'), dev_candidate_sheet_path(current_candidate.id), I18n.t('label.sidebar.candidate_information_sheet')],
-        [I18n.t('label.sidebar.baptismal_certificate'), dev_event_with_picture_path(current_candidate.id, Event::Route::BAPTISMAL_CERTIFICATE), I18n.t('label.sidebar.baptismal_certificate')],
-        [I18n.t('label.sidebar.sponsor_covenant'), dev_event_with_picture_path(current_candidate.id, Event::Route::SPONSOR_COVENANT), I18n.t('label.sidebar.sponsor_covenant')],
-        [I18n.t('label.sidebar.confirmation_name'), dev_pick_confirmation_name_path(current_candidate.id), I18n.t('label.sidebar.confirmation_name')],
-        [I18n.t('label.sidebar.christian_ministry'), dev_christian_ministry_path(current_candidate.id), I18n.t('label.sidebar.christian_ministry')],
-        [I18n.t('label.sidebar.retreat_verification'), dev_event_with_picture_path(current_candidate.id, Event::Route::RETREAT_VERIFICATION), I18n.t('label.sidebar.retreat_verification')],
+  <% candidate_info = [
+      [I18n.t('label.sidebar.candidate_covenant_agreement'), dev_sign_agreement_path(current_candidate.id), I18n.t('label.sidebar.candidate_covenant_agreement')],
+      [I18n.t('label.sidebar.candidate_information_sheet'), dev_candidate_sheet_path(current_candidate.id), I18n.t('label.sidebar.candidate_information_sheet')],
+      [I18n.t('label.sidebar.baptismal_certificate'), dev_event_with_picture_path(current_candidate.id, Event::Route::BAPTISMAL_CERTIFICATE), I18n.t('label.sidebar.baptismal_certificate')],
+      [I18n.t('label.sidebar.sponsor_covenant'), dev_event_with_picture_path(current_candidate.id, Event::Route::SPONSOR_COVENANT), I18n.t('label.sidebar.sponsor_covenant')],
+      [I18n.t('label.sidebar.confirmation_name'), dev_pick_confirmation_name_path(current_candidate.id), I18n.t('label.sidebar.confirmation_name')],
+      [I18n.t('label.sidebar.christian_ministry'), dev_christian_ministry_path(current_candidate.id), I18n.t('label.sidebar.christian_ministry')],
+      [I18n.t('label.sidebar.retreat_verification'), dev_event_with_picture_path(current_candidate.id, Event::Route::RETREAT_VERIFICATION), I18n.t('label.sidebar.retreat_verification')],
 
-        [I18n.t('views.nav.edit'), edit_candidate_registration_path, I18n.t('views.nav.edit'),],
-        [I18n.t('views.nav.events'), event_candidate_registration_path(current_candidate.id), I18n.t('views.nav.events')]
-    ] %>
-    <ul id="candidate-sidebar" class="nav navbar-nav">
+      [I18n.t('views.nav.edit'), edit_candidate_registration_path, I18n.t('views.nav.edit'),],
+      [I18n.t('views.nav.events'), event_candidate_registration_path(current_candidate.id), I18n.t('views.nav.events')]
+  ] %>
+  <ul id="candidate-sidebar" class="nav navbar-nav">
 
-      <% candidate_info.each do |arr| %>
-          <li class="<%= active_tab_class(arr[1], root_path) %>"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
-      <% end %>
-    </ul>
+    <% candidate_info.each do |arr| %>
+      <li class="<%= active_tab_class(arr[1], root_path) %>"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
+    <% end %>
+  </ul>
 <% end %>

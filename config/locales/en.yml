@@ -256,6 +256,7 @@ en:
       un_verify: Unverify
       update: Update
       update_candidates_event: Update event for candidates
+      update_home: Update home
       update_verify: Update & Verify
     events:
       chs_due_date: Catholic High School Due date
@@ -299,6 +300,7 @@ en:
       monthly_mass_mailing: Monthly Mailing
       other: Other
       toggle_navigation: Toggle navigation
+      visitors: Visitors
     title:
       instruction_link: Show/hide instructions
     top_bar:

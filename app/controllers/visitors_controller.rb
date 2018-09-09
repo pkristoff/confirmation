@@ -13,6 +13,7 @@ class VisitorsController < ApplicationController
       redirect_to admin_path(current_admin.id)
     end
     @candidate = nil
+    @visitor = Visitor.first
   end
 
   # If id == -1 then create a new candidate otherwise find one.

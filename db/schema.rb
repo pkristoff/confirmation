@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_24_092127) do
+ActiveRecord::Schema.define(version: 2018_09_05_003318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,6 +189,14 @@ ActiveRecord::Schema.define(version: 2018_08_24_092127) do
     t.datetime "updated_at", null: false
     t.index ["candidate_event_id"], name: "index_to_dos_on_candidate_event_id"
     t.index ["confirmation_event_id"], name: "index_to_dos_on_confirmation_event_id"
+  end
+
+  create_table "visitors", force: :cascade do |t|
+    t.text "home"
+    t.text "about"
+    t.text "contact"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "candidates", "baptismal_certificates"
