@@ -147,4 +147,5 @@ Rails.application.routes.draw do
   root to: 'visitors#index'
   get 'contact_information', to: 'visitors#contact_information'
   get 'about', to: 'visitors#about'
+  get 'about_app', to: 'visitors#about_app'
 end

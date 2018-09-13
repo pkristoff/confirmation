@@ -462,10 +462,15 @@ class AdminsController < ApplicationController
     case commit
     when t('views.common.update_home')
       visitor = visitor_db_or_new
+      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+        flash[:notice] = t('messages.home_updated')
+      end
+    when t('views.common.update_about')
+      visitor = visitor_db_or_new
       Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{params.permit(Visitor.basic_permitted_params)}")
       if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
-        flash[:notice] = 'Home update - i18n'
-        Rails.logger.info "visitor.home=#{visitor.home}"
+        flash[:notice] = t('messages.about_updated')
+        Rails.logger.info "visitor.about=#{visitor.about}"
       end
     else
       flash[:alert] = "Unkown commit param: #{commit}"
@@ -608,8 +613,7 @@ class AdminsController < ApplicationController
   private
 
   def visitor_db_or_new
-    return Visitor.first
-
+    Visitor.first
   end
 
   def ref_url

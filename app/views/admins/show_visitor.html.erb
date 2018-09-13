@@ -2,21 +2,40 @@
   <h2><%= t('views.nav.visitors') %></h2>
 
   <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
-    <%= f.submit t('views.common.update_home'), id: "top-update" %>
+    <%= f.submit t('views.common.update_home'), id: "top-update-home" %>
 
     <%= f.label(:home, 'Home') %>
     <%= f.text_area :home, class: "tinymce_home", rows: 20, cols: 120 %>
 
-    <%= f.submit t('views.common.update_home'), id: "bottom-update" %>
+    <%= f.submit t('views.common.update_home'), id: "bottom-update-home" %>
+  <% end %>
+
+</section>
+
+<section id="about">
+  <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
+    <%= f.submit t('views.common.update_about'), id: "top-update-about" %>
+
+    <%= f.label(:about, 'About') %>
+    <%= f.text_area :about, class: "tinymce_about", rows: 20, cols: 120 %>
+
+    <%= f.submit t('views.common.update_about'), id: "bottom-update-about" %>
   <% end %>
 </section>
 
 
 <script type="text/javascript">
+    var toolbar = ["insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"];
+    var plugins = "advlist,autolink,lists,link,image,charmap,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,contextmenu,paste,code"
     tinyMCE.init({
         selector: "textarea.tinymce_home",
-        toolbar:  ["insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"],
-        plugins:  "advlist,autolink,lists,link,image,charmap,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,contextmenu,paste,code"
+        toolbar:  toolbar,
+        plugins:  plugins
 
+    });
+    tinyMCE.init({
+        selector: "textarea.tinymce_about",
+        toolbar:  toolbar,
+        plugins:  plugins
     });
 </script>

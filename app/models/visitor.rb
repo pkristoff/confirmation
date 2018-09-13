@@ -3,7 +3,6 @@
 # holder of visitor page info.
 #
 class Visitor < ApplicationRecord
-
   before_create :confirm_singularity
 
   # Editable attributes
@@ -19,6 +18,6 @@ class Visitor < ApplicationRecord
   private
 
   def confirm_singularity
-    raise Exception.new("There can be only one.") if Visitor.count > 0
+    raise StandardError, 'There can be only one.' if Visitor.count.positive?
   end
 end

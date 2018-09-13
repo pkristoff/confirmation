@@ -159,6 +159,7 @@ en:
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
       sponsor_name: Sponsor's Name
   messages:
+    about_updated: About updated
     accessed_denied: Accessed denied.
     account_confirmed: 'Candidate accounts confirmed: %{number_confirmed} and already
       confirmed %{number_not_confirmed}.'
@@ -179,6 +180,7 @@ en:
     export_to_excel: Working in background.  An email with spreadsheet will be sent
       upon completion with %{commit}.
     generate_pdf_error: Only select one candidate
+    home_updated: Home updated
     import_successful: Imported candidates successfully.
     initial_email_sent: Initial email sent.
     monthly_mailing_progress: Monthly mailing in progress
@@ -255,6 +257,7 @@ en:
       status: Status
       un_verify: Unverify
       update: Update
+      update_about: Update about
       update_candidates_event: Update event for candidates
       update_home: Update home
       update_verify: Update & Verify
@@ -305,6 +308,7 @@ en:
       instruction_link: Show/hide instructions
     top_bar:
       about: About
+      aboutApp: About Confirmation App
       candidate_checklist: Candidate checklist
       contact_admin: Contact Admin via email stmm.confirmation@kristoffs.com
       contact_admin_mail: mailto:stmm.confirmation@kristoffs.com?subject=%{subject}

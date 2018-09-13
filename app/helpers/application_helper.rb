@@ -156,4 +156,18 @@ module ApplicationHelper
     paths.each { |path| active ||= path == request.path }
     active ? 'active' : ''
   end
+
+  # common method for sanitizing html that is input by the administrator.
+  #
+  # === Parameters:
+  #
+  # * <tt>:html</tt> string to be sanitize
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> of sanitized html.
+  #
+  def app_sanitize(html)
+    sanitize(html, attributes: %w[style])
+  end
 end

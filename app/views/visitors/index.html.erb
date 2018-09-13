@@ -1,5 +1,1 @@
-<%= render 'visitors/shared/visitor_common',
-           page_content: 'visitors/shared/index',
-           candidate: @candidate,
-           resource_errors: @resource_errors
-%>
+<%= app_sanitize @visitor.home %>

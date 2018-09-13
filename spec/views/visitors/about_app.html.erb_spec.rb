@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'visitors/about.html.erb' do
+describe 'visitors/about_app.html.erb' do
   before(:each) do
     last_version = `git describe --tags --always`
     split_v = last_version.split('.')
@@ -31,7 +31,7 @@ describe 'visitors/about.html.erb' do
   end
 
   def expect_common
-    expect(rendered).to have_css('p', text: t('views.top_bar.about'))
+    expect(rendered).to have_css('p', text: t('views.top_bar.aboutApp'))
     expect(rendered).to have_css('li', count: 2)
     expect(rendered).to have_css('li', text: "Version: #{@next_version}")
     expect(rendered).to have_css('li', text: 'Date: 03/27/2018')

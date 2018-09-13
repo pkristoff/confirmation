@@ -36,9 +36,9 @@ describe 'layouts/_navigation.html.erb' do
 
     expect(rendered).to have_selector('li', count: 6 + (admin_logged_in ? 1 : 0))
 
-    expect(rendered).to have_link(I18n.t('views.top_bar.about'), href: '/pages/about')
+    expect(rendered).to have_link(I18n.t('views.top_bar.about'), href: '/about')
     expect(rendered).to have_link(I18n.t('views.top_bar.help'), href: '#')
     expect(rendered).to have_link(I18n.t('views.top_bar.contact_information'), href: contact_information_path)
-    expect(rendered).to have_link(I18n.t('views.top_bar.about'), href: about_path)
+    expect(rendered).to have_link(I18n.t('views.top_bar.aboutApp'), href: '/about_app')
   end
 end

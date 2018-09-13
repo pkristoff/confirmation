@@ -4,6 +4,18 @@
 # Handles Admin tasks
 #
 class VisitorsController < ApplicationController
+  # setup for about page on the top menu bar.
+  #
+  def about
+    @visitor = Visitor.first
+  end
+
+  # setup for about app page in help menu
+  #
+  def about_app
+    @visitor = Visitor.first
+  end
+
   # redirect to appropriate routing depending who is logged in.
   #
   def index
