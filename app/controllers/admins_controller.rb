@@ -454,7 +454,7 @@ class AdminsController < ApplicationController
   # * <tt>:visitor</tt>
   # ** <code>views.common.update_home</code>
   # ** <code>views.common.update_about</code>
-  # ** <code>views.common.update_contact</code>
+  # ** <code>views.common.update_contact_information</code>
   #
   def update_visitor
     Rails.logger.info "params=#{params}"
@@ -471,6 +471,13 @@ class AdminsController < ApplicationController
       if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
         flash[:notice] = t('messages.about_updated')
         Rails.logger.info "visitor.about=#{visitor.about}"
+      end
+    when t('views.common.update_information_contact')
+      visitor = visitor_db_or_new
+      Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{params.permit(Visitor.basic_permitted_params)}")
+      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+        flash[:notice] = t('messages.contact_information_updated')
+        Rails.logger.info "visitor.contact=#{visitor.contact}"
       end
     else
       flash[:alert] = "Unkown commit param: #{commit}"

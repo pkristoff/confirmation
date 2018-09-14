@@ -16,6 +16,12 @@ class VisitorsController < ApplicationController
     @visitor = Visitor.first
   end
 
+  # setup for contact in help menu
+  #
+  def contact_information
+    @visitor = Visitor.first
+  end
+
   # redirect to appropriate routing depending who is logged in.
   #
   def index

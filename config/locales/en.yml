@@ -158,6 +158,10 @@ en:
       sponsor_covenant_picture: Sponsor Covenant
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
       sponsor_name: Sponsor's Name
+    visitor:
+      about: About
+      contact_information: Contact Information
+      home: Home
   messages:
     about_updated: About updated
     accessed_denied: Accessed denied.
@@ -176,6 +180,7 @@ en:
     candidates_deleted: Candidates deleted
     candidates_removed: All candidates successfully removed.
     confirmation_events_updated: Updated ConfirmationEvents!
+    contact_information_updated: Contact information updated
     database_reset: Database successfully reset.
     export_to_excel: Working in background.  An email with spreadsheet will be sent
       upon completion with %{commit}.
@@ -260,6 +265,7 @@ en:
       update_about: Update about
       update_candidates_event: Update event for candidates
       update_home: Update home
+      update_information_contact: Update contact information
       update_verify: Update & Verify
     events:
       chs_due_date: Catholic High School Due date
@@ -310,7 +316,6 @@ en:
       about: About
       aboutApp: About Confirmation App
       candidate_checklist: Candidate checklist
-      contact_admin: Contact Admin via email stmm.confirmation@kristoffs.com
       contact_admin_mail: mailto:stmm.confirmation@kristoffs.com?subject=%{subject}
       contact_admin_mail_text: stmm.confirmation@kristoffs.com
       contact_admin_phone: 919-249-5629

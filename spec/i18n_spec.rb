@@ -18,7 +18,7 @@ RSpec.describe 'I18n' do
         views.candidates.parent_email_1
         views.common.password
         views.common.password_confirmation
-        views.top_bar.home
+        views.top_bar.contact_admin_mail
     ].to_set
   }
 
@@ -33,8 +33,10 @@ RSpec.describe 'I18n' do
     used_keys.select! do |used_key|
       unused_key_names.delete(used_key).nil?
     end
+    puts "used_keys=#{used_keys}" unless used_keys.empty?
     expect(used_keys).to be_empty,
                          "#{used_keys.count} unused i18n keys, run `i18n-tasks unused' to show them"
+    puts "unused_key_names=#{unused_key_names}" unless unused_key_names.empty?
     expect(unused_key_names).to be_empty,
                                 "#{unused_key_names.count} unused i18n keys, run `i18n-tasks unused' to show them"
   end

@@ -1,15 +1,1 @@
-<div id="page-content-wrapper">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12">
-        <p><%= t('views.top_bar.contact_information') %>:</p>
-        <p>
-          <a href=<%= t('views.top_bar.contact_admin_mail', subject: 'Help') %> target="_top"><%= t('views.top_bar.contact_admin') %></a>
-        </p>
-        <% if candidate_signed_in? || admin_signed_in? %>
-            <p>Phone: 919-249-5629</p>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= app_sanitize @visitor.contact %>

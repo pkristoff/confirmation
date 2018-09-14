@@ -3,8 +3,8 @@
 
   <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
     <%= f.submit t('views.common.update_home'), id: "top-update-home" %>
-
-    <%= f.label(:home, 'Home') %>
+    <br/>
+    <%= f.label(:home, t('label.visitor.home')) %>
     <%= f.text_area :home, class: "tinymce_home", rows: 20, cols: 120 %>
 
     <%= f.submit t('views.common.update_home'), id: "bottom-update-home" %>
@@ -15,11 +15,22 @@
 <section id="about">
   <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
     <%= f.submit t('views.common.update_about'), id: "top-update-about" %>
-
-    <%= f.label(:about, 'About') %>
+    <br/>
+    <%= f.label(:about, t('label.visitor.about')) %>
     <%= f.text_area :about, class: "tinymce_about", rows: 20, cols: 120 %>
 
     <%= f.submit t('views.common.update_about'), id: "bottom-update-about" %>
+  <% end %>
+</section>
+
+<section id="contact">
+  <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
+    <%= f.submit t('views.common.update_information_contact'), id: "top-update-contact" %>
+    <br/>
+    <%= f.label(:contact, t('label.visitor.contact_information')) %>
+    <%= f.text_area :contact, class: "tinymce_contact", rows: 20, cols: 120 %>
+
+    <%= f.submit t('views.common.update_information_contact'), id: "bottom-update-contact" %>
   <% end %>
 </section>
 
@@ -35,6 +46,11 @@
     });
     tinyMCE.init({
         selector: "textarea.tinymce_about",
+        toolbar:  toolbar,
+        plugins:  plugins
+    });
+    tinyMCE.init({
+        selector: "textarea.tinymce_contact",
         toolbar:  toolbar,
         plugins:  plugins
     });
