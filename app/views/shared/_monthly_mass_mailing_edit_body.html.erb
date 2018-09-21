@@ -10,10 +10,10 @@
              value="<%= mail_part.checkbox_value %>"
              <%= mail_part.checkbox_checked %>
              onclick="confirmation_toggle().toggle_top('#<%= mail_part.section_id %>', 'toggle')"/>
+      <%= label_tag(mail_part.text_area_name, t("#{mail_part.i18n_label}")) %>:
 
     </legend>
     <div id="<%= mail_part.section_id %>" class="<%= mail_part.section_class %>">
-      <%= label_tag(mail_part.text_area_name, t("#{mail_part.i18n_label}")) %>:
       <%= text_area_tag(mail_part.text_area_name, mail_part.text) %>
     </div>
   </fieldset>

@@ -292,20 +292,7 @@ class AdminsController < ApplicationController
   # ** <code>:selected_ids</code> Optional
   #
   def monthly_mass_mailing
-    if params[:mail]
-      mail_param = params[:mail]
-      subject = MailPart.new('subject', mail_param[:subject], mail_param[:subject_check])
-      pre_late_input = MailPart.new('pre_late_input', mail_param[:pre_late_input], mail_param[:pre_late_input_check])
-      pre_coming_due_input = MailPart.new('pre_coming_due_input', mail_param[:pre_coming_due_input], mail_param[:pre_coming_due_input_check])
-      completed_awaiting_input = MailPart.new('completed_awaiting_input', mail_param[:completed_awaiting_input], mail_param[:completed_awaiting_input_check])
-      completed_input = MailPart.new('completed_input', mail_param[:completed_input], mail_param[:completed_input_check])
-      salutation_input = MailPart.new('closing_input', mail_param[:salutation_input], mail_param[:salutation_input_check])
-      closing_input = MailPart.new('salutation_input', mail_param[:closing_input], mail_param[:closing_input_check])
-      from_input = MailPart.new('from_input', mail_param[:from_input], mail_param[:from_input_check])
-      setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_input, salutation_input, from_input)
-    else
-      setup_monthly_mailing_render_default
-    end
+    setup_monthly_mailing_render_default
   end
 
   # setup default values for monthly mass mailing

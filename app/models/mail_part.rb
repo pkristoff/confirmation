@@ -58,7 +58,7 @@ class MailPart
   # * <tt>:String</tt>
   #
   def checkbox_checked
-    return 'checked="checked"' if show
+    return 'checked=checked' if show
     ''
   end
 
@@ -69,8 +69,9 @@ class MailPart
   # * <tt>:String</tt>
   #
   def checkbox_value
-    return 'true' if show
-    'false'
+    show
+    # return 'true' if show
+    # 'false'
   end
 
   # output whether to show or hide div
