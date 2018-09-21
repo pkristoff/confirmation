@@ -34,7 +34,7 @@ class AdminsController < ApplicationController
   # * <tt>:subject_text</tt>  subject of message
   #
   def adhoc_mailing
-    subject = t('email.subject_initial_text')
+    subject = t('email.subject_initial_input')
     body = ''
     if params[:mail]
       subject = params[:mail][:subject] || subject
@@ -286,33 +286,26 @@ class AdminsController < ApplicationController
   # ** <code>:pre_coming_due_input</code>
   # ** <code>:completed_awaiting_input</code>
   # ** <code>:completed_input</code>
-  # ** <code>:closing_text</code>
-  # ** <code>:salutation_text</code>
-  # ** <code>:from_text</code>
+  # ** <code>:closing_input</code>
+  # ** <code>:salutation_input</code>
+  # ** <code>:from_input</code>
   # ** <code>:selected_ids</code> Optional
   #
   def monthly_mass_mailing
-    subject = t('email.subject_initial_text')
-    pre_late_input = t('email.late_initial_text')
-    pre_coming_due_input = t('email.coming_due_initial_text')
-    completed_awaiting_input = t('email.completed_awaiting_initial_text')
-    completed_input = t('email.completed_initial_text')
-    closing_text = t('email.closing_initial_text')
-    salutation_text = t('email.salutation_initial_text')
-    from_text = t('email.from_initial_text_html')
     if params[:mail]
-      subject = params[:mail][:subject] || subject
-      pre_late_input = params[:mail][:pre_late_input] || pre_late_input
-      pre_coming_due_input = params[:mail][:pre_coming_due_input] || pre_coming_due_input
-      completed_awaiting_input = params[:mail][:completed_awaiting_input] || completed_awaiting_input
-      completed_input = params[:mail][:completed_input] || completed_input
-      closing_text = params[:mail][:closing_awaiting_text] || closing_text
-      closing_text = params[:mail][:closing_text] || closing_text
-      salutation_text = params[:mail][:salutation_text] || salutation_text
-      from_text = params[:mail][:from_text] || from_text
+      mail_param = params[:mail]
+      subject = MailPart.new('subject', mail_param[:subject], mail_param[:subject_check])
+      pre_late_input = MailPart.new('pre_late_input', mail_param[:pre_late_input], mail_param[:pre_late_input_check])
+      pre_coming_due_input = MailPart.new('pre_coming_due_input', mail_param[:pre_coming_due_input], mail_param[:pre_coming_due_input_check])
+      completed_awaiting_input = MailPart.new('completed_awaiting_input', mail_param[:completed_awaiting_input], mail_param[:completed_awaiting_input_check])
+      completed_input = MailPart.new('completed_input', mail_param[:completed_input], mail_param[:completed_input_check])
+      salutation_input = MailPart.new('closing_input', mail_param[:salutation_input], mail_param[:salutation_input_check])
+      closing_input = MailPart.new('salutation_input', mail_param[:closing_input], mail_param[:closing_input_check])
+      from_input = MailPart.new('from_input', mail_param[:from_input], mail_param[:from_input_check])
+      setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_input, salutation_input, from_input)
+    else
+      setup_monthly_mailing_render_default
     end
-
-    setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text)
   end
 
   # setup default values for monthly mass mailing
@@ -322,16 +315,16 @@ class AdminsController < ApplicationController
   # * <tt>:selected_ids</tt>  Optional
   #
   def setup_monthly_mailing_render_default(selected_ids = [])
-    subject = t('email.subject_initial_text')
-    pre_late_input = t('email.late_initial_text')
-    pre_coming_due_input = t('email.coming_due_initial_text')
-    completed_awaiting_input = t('email.completed_awaiting_initial_text')
-    completed_input = t('email.completed_initial_text')
-    closing_text = t('email.closing_initial_text')
-    salutation_text = t('email.salutation_initial_text')
-    from_text = t('email.from_initial_text_html')
+    subject = MailPart.new('subject', t('email.subject_initial_input'))
+    pre_late_input = MailPart.new('pre_late_input', t('email.late_initial_input'))
+    pre_coming_due_input = MailPart.new('pre_coming_due_input', t('email.coming_due_initial_input'))
+    completed_awaiting_input = MailPart.new('completed_awaiting_input', t('email.completed_awaiting_initial_input'))
+    completed_input = MailPart.new('completed_input', t('email.completed_initial_input'))
+    salutation_input = MailPart.new('closing_input', t('email.closing_initial_input'))
+    closing_input = MailPart.new('salutation_input', t('email.salutation_initial_input'))
+    from_input = MailPart.new('from_input', t('email.from_initial_input_html'))
 
-    setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text, selected_ids)
+    setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_input, salutation_input, from_input, selected_ids)
   end
 
   # prepare for monthly mass mailing
@@ -343,13 +336,13 @@ class AdminsController < ApplicationController
   # * <tt>:pre_coming_due_input</tt>
   # * <tt>:completed_awaiting_input</tt>
   # * <tt>:completed_input</tt>
-  # * <tt>:closing_text</tt>
-  # * <tt>:salutation_text</tt>
-  # * <tt>:from_text</tt>
+  # * <tt>:closing_input</tt>
+  # * <tt>:salutation_input</tt>
+  # * <tt>:from_input</tt>
   # * <tt>:selected_ids</tt> Optional
   #
   def monthly_mass_mailing_update
-    expected_params = { mail: %i[subject pre_late_input pre_coming_due_input completed_input salutation_text closing_text from_text],
+    expected_params = { mail: %i[subject pre_late_input pre_coming_due_input completed_input salutation_input closing_input from_input],
                         candidate: [:candidate_ids] }
     missing_params = expected_params.select { |expected_param, _sub_params| params[expected_param].nil? }
     unless missing_params.empty?
@@ -358,17 +351,17 @@ class AdminsController < ApplicationController
 
     commit = params.require(:commit)
 
-    mail_param = params.require(:mail).permit(:subject, :pre_late_input, :pre_coming_due_input, :completed_awaiting_input, :completed_input, :salutation_text, :closing_text, :from_text, :attach_file)
+    mail_param = params.require(:mail).permit(:subject, :subject_check, :pre_late_input, :pre_late_input_check, :pre_coming_due_input, :pre_coming_due_input_check, :completed_awaiting_input, :completed_awaiting_input_check, :completed_input, :completed_input_check, :salutation_input, :salutation_input_check, :closing_input, :closing_input_check, :from_input, :from_input_check, :attach_file)
 
     # mail_param = params[:mail]
-    subject_text = mail_param[:subject]
-    pre_late_input = mail_param[:pre_late_input]
-    pre_coming_due_input = mail_param[:pre_coming_due_input]
-    completed_awaiting_input = mail_param[:completed_awaiting_input]
-    completed_input = mail_param[:completed_input]
-    salutation_text = mail_param[:salutation_text]
-    closing_text = mail_param[:closing_text]
-    from_text = mail_param[:from_text]
+    subject_input = MailPart.new('subject', mail_param[:subject], mail_param[:subject_check])
+    pre_late_input = MailPart.new('pre_late_input', mail_param[:pre_late_input], mail_param[:pre_late_input_check])
+    pre_coming_due_input = MailPart.new('pre_coming_due_input', mail_param[:pre_coming_due_input], mail_param[:pre_coming_due_input_check])
+    completed_awaiting_input = MailPart.new('completed_awaiting_input', mail_param[:completed_awaiting_input], mail_param[:completed_awaiting_input_check])
+    completed_input = MailPart.new('completed_input', mail_param[:completed_input], mail_param[:completed_input_check])
+    salutation_input = MailPart.new('salutation_input', mail_param[:salutation_input], mail_param[:salutation_input_check])
+    closing_input = MailPart.new('closing_input', mail_param[:closing_input], mail_param[:closing_input_check])
+    from_input = MailPart.new('from_input', mail_param[:from_input], mail_param[:from_input_check])
     attach_file = mail_param[:attach_file]
 
     candidate_ids = params[:candidate][:candidate_ids]
@@ -376,8 +369,9 @@ class AdminsController < ApplicationController
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     if candidates.empty?
-      setup_monthly_mailing_render(subject_text, pre_late_input, pre_coming_due_input, completed_awaiting_input,
-                                   completed_input, closing_text, salutation_text, from_text)
+      # TODO: is this needed for rendering monthly_mass_mailing?
+      setup_monthly_mailing_render(subject_input, pre_late_input, pre_coming_due_input, completed_awaiting_input,
+                                   completed_input, closing_input, salutation_input, from_input)
       flash.now[:alert] = t('messages.no_candidate_selected')
       return render :monthly_mass_mailing
     end
@@ -407,23 +401,23 @@ class AdminsController < ApplicationController
     send_mail_response = if is_test_mail
                            send_grid_mail.monthly_mass_mailing_test(mail_param[:subject],
                                                                     attach_file,
-                                                                    pre_late_text: mail_param[:pre_late_input],
-                                                                    pre_coming_due_text: mail_param[:pre_coming_due_input],
-                                                                    completed_awaiting_text: mail_param[:completed_awaiting_input],
-                                                                    completed_text: mail_param[:completed_input],
-                                                                    closing_text: mail_param[:closing_text],
-                                                                    salutation_text: mail_param[:salutation_text],
-                                                                    from_text: mail_param[:from_text])
+                                                                    pre_late_input: mail_param[:pre_late_input],
+                                                                    pre_coming_due_input: mail_param[:pre_coming_due_input],
+                                                                    completed_awaiting_input: mail_param[:completed_awaiting_input],
+                                                                    completed_input: mail_param[:completed_input],
+                                                                    closing_input: mail_param[:closing_input],
+                                                                    salutation_input: mail_param[:salutation_input],
+                                                                    from_input: mail_param[:from_input])
                          else
                            send_grid_mail.monthly_mass_mailing(mail_param[:subject],
                                                                attach_file,
-                                                               pre_late_text: mail_param[:pre_late_input],
-                                                               pre_coming_due_text: mail_param[:pre_coming_due_input],
-                                                               completed_awaiting_text: mail_param[:completed_awaiting_input],
-                                                               completed_text: mail_param[:completed_input],
-                                                               closing_text: mail_param[:closing_text],
-                                                               salutation_text: mail_param[:salutation_text],
-                                                               from_text: mail_param[:from_text])
+                                                               pre_late_input: mail_param[:pre_late_input],
+                                                               pre_coming_due_input: mail_param[:pre_coming_due_input],
+                                                               completed_awaiting_input: mail_param[:completed_awaiting_input],
+                                                               completed_input: mail_param[:completed_input],
+                                                               closing_input: mail_param[:closing_input],
+                                                               salutation_input: mail_param[:salutation_input],
+                                                               from_input: mail_param[:from_input])
                          end
 
     flash.now[:notice] = if send_mail_response.status_code[0] == '2'
@@ -434,8 +428,9 @@ class AdminsController < ApplicationController
 
     set_confirmation_events
 
-    setup_monthly_mailing_render(subject_text, pre_late_input, pre_coming_due_input, completed_awaiting_input,
-                                 completed_input, closing_text, salutation_text, from_text)
+    # TODO: is this needed for rendering monthly_mass_mailing?
+    setup_monthly_mailing_render(subject_input, pre_late_input, pre_coming_due_input, completed_awaiting_input,
+                                 completed_input, closing_input, salutation_input, from_input)
     render :monthly_mass_mailing
   end
 
@@ -536,21 +531,21 @@ class AdminsController < ApplicationController
   # * <tt>:pre_coming_due_input</tt>
   # * <tt>:completed_awaiting_input</tt>
   # * <tt>:completed_input</tt>
-  # * <tt>:closing_text</tt>
-  # * <tt>:salutation_text</tt>
-  # * <tt>:from_text</tt>
+  # * <tt>:closing_input</tt>
+  # * <tt>:salutation_input</tt>
+  # * <tt>:from_input</tt>
   # * <tt>:selected_ids</tt> Optional
   #
   def setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input,
-                                   closing_text, salutation_text, from_text, selected_ids = [])
+                                   closing_input, salutation_input, from_input, selected_ids = [])
     @subject = subject
     @pre_late_input = pre_late_input
     @pre_coming_due_input = pre_coming_due_input
     @completed_awaiting_input = completed_awaiting_input
     @completed_input = completed_input
-    @closing_text = closing_text
-    @salutation_text = salutation_text
-    @from_text = from_text
+    @closing_input = closing_input
+    @salutation_input = salutation_input
+    @from_input = from_input
     candidates_info(selected_candidate_ids: selected_ids)
   end
 
@@ -558,12 +553,12 @@ class AdminsController < ApplicationController
   #
   # === Parameters:
   #
-  # * <tt>:body_input_text</tt> body of text
-  # * <tt>:subject_text</tt>  subject of message
+  # * <tt>:body_input_input</tt> body of text
+  # * <tt>:subject_input</tt>  subject of message
   #
-  def setup_adhoc_render(body_input_text, subject_text)
-    @subject = subject_text
-    @body = body_input_text
+  def setup_adhoc_render(body_input_input, subject_input)
+    @subject = subject_input
+    @body = body_input_input
     candidates_info
   end
 

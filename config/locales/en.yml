@@ -6,44 +6,44 @@ en:
   email:
     adhoc_mail: Adhoc Mail
     body_label: Body
-    closing_initial_text: ''
-    closing_text_label: Closing paragraph
-    coming_due_initial_text: These events are not due yet.
+    closing_initial_input: ''
+    closing_input_label: Closing paragraph
+    coming_due_initial_input: These events are not due yet.
     coming_due_label: Coming due events
     completed_awaiting_approval_label: Completed events awaiting approval.
-    completed_awaiting_initial_text: These are the completed events awaiting approval.
+    completed_awaiting_initial_input: These are the completed events awaiting approval.
       Please verify that the information you entered is correct, if any.
-    completed_awaiting_text_label: Completed events awaiting approval
+    completed_awaiting_input_label: Completed events awaiting approval
     completed_events: Events
-    completed_initial_text: These are the completed events. Please verify that the
+    completed_initial_input: These are the completed events. Please verify that the
       information you entered is correct, if any.
-    completed_text_label: Completed events
+    completed_input_label: Completed events
     confirmation_instructions_subject: StMM website for Confirmation Candidates -
       User Verification instructions
     due_date: Due date
     events: Events
-    from_initial_text_html: |
+    from_initial_input_html: |
       Vicki Kristoff
       stmm.confirmation@kristoffs.com
       919-249-5629
-    from_text_label: From
+    from_input_label: From
     information_entered: Information Entered
-    late_initial_text: Here is the status of your Confirmation forms(events) that
+    late_initial_input: Here is the status of your Confirmation forms(events) that
       you need to submit.
     monthly_mail: Monthly Mail
     past_due: Past due events
-    pre_coming_due_text_label: The pre-coming text
-    pre_late_text_label: The pre-late text
+    pre_coming_due_input_label: The pre-coming text
+    pre_late_input_label: The pre-late text
     reset_password_subject: StMM website for Confirmation Candidates - Reset password
       instructions
-    salutation_initial_text: Please email me if you have any questions
-    salutation_text_label: Salutation text
-    subject_initial_text: Confirmation Information Status
+    salutation_initial_input: Please email me if you have any questions
+    salutation_input_label: Salutation text
+    subject_initial_input: Confirmation Information Status
     subject_label: Subject
     test_adhoc_mail: Test adhoc mail
-    test_adhoc_subject_initial_text: Adhoc test email for %{candidate_account_name}
+    test_adhoc_subject_initial_input: Adhoc test email for %{candidate_account_name}
     test_monthly_mail: Test monthly mail
-    test_monthly_mail_subject_initial_text: Monthly mailing test email for %{candidate_account_name}
+    test_monthly_mail_subject_initial_input: Monthly mailing test email for %{candidate_account_name}
     website_name: StMM website for Confirmation Candidates
   events:
     baptismal_certificate: Baptismal Certificate

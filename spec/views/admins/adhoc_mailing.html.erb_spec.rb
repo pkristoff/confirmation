@@ -15,7 +15,7 @@ describe 'admins/adhoc_mailing.html.erb' do
   end
 
   it 'display the list of candidates' do
-    @subject = t('email.subject_initial_text')
+    @subject = t('email.subject_initial_input')
 
     render
 
@@ -29,7 +29,7 @@ describe 'admins/adhoc_mailing.html.erb' do
 
     expect(rendered).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.adhoc_mail')}']")
 
-    expect(rendered).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_text'))
+    expect(rendered).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_input'))
 
     expect(rendered).to have_field(I18n.t('email.body_label'), text: '')
 

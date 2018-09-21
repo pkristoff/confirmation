@@ -1,0 +1,43 @@
+  <p><%= @candidate_mailer_text.candidate.candidate_sheet.first_name %>,</p>
+
+  <p id="past_due_input" style="white-space: pre;"><%= @candidate_mailer_text.pre_late_input %>
+
+  <%= render 'shared/reminder_table',
+             event_key: 'past_due',
+             headers: [],
+             field_set_header: t('email.past_due'),
+             events: @candidate_mailer_text.late_events,
+             past_due: Proc.new { |candidate_event| nil }
+  %>
+
+  <p id="coming_due_events_input" style="white-space: pre;"><%= @candidate_mailer_text.pre_coming_due_input %></p>
+
+  <%= render 'shared/reminder_table',
+             event_key: 'coming_due_events',
+             headers: [t('email.events'), t('email.due_date')],
+             field_set_header: t('email.coming_due_label'),
+             events: @candidate_mailer_text.coming_due_events,
+             past_due: Proc.new { |candidate_event| candidate_event.due_date }
+  %>
+
+  <p id="completed_awaiting_events_input" style="white-space: pre;"><%= @candidate_mailer_text.completed_awaiting_input %></p>
+
+  <%= render 'shared/completed_reminder_table',
+             event_key: 'completed_awaiting_events',
+             field_set_header: t('email.completed_awaiting_approval_label'),
+             events: @candidate_mailer_text.completed_awaiting_events
+  %>
+
+  <p id="completed_events_input" style="white-space: pre;"><%= @candidate_mailer_text.completed_input %></p>
+
+  <%= render 'shared/completed_reminder_table',
+             event_key: 'completed_events',
+             field_set_header: t('email.completed_input_label'),
+             events: @candidate_mailer_text.completed_events
+  %>
+
+  <p id="closing_input" style="white-space: pre;"><%= @candidate_mailer_text.closing_input %></p>
+
+  <p id="salutation_input" style="white-space: pre;"><%= @candidate_mailer_text.salutation_input %></p>
+
+  <p id="from_input" style="white-space: pre;"><%= @candidate_mailer_text.from_input %></p>

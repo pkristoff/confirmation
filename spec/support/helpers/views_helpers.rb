@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 module ViewsHelpers
-  LATE_INITIAL_TEXT = I18n.t('email.late_initial_text')
-  COMING_DUE_INITIAL_TEXT = I18n.t('email.coming_due_initial_text')
-  COMPLETE_AWAITING_INITIAL_TEXT = I18n.t('email.completed_awaiting_initial_text')
-  COMPLETE_INITIAL_TEXT = I18n.t('email.completed_initial_text')
-  CLOSING_INITIAL_TEXT = I18n.t('email.closing_initial_text')
-  SALUTATION_INITIAL_TEXT = I18n.t('email.salutation_initial_text')
-  FROM_EMAIL_TEXT = I18n.t('email.from_initial_text_html')
-  SUBJECT = I18n.t('email.subject_initial_text')
+  LATE_INITIAL_INPUT = I18n.t('email.late_initial_input')
+  COMING_DUE_INITIAL_INPUT = I18n.t('email.coming_due_initial_input')
+  COMPLETE_AWAITING_INITIAL_INPUT = I18n.t('email.completed_awaiting_initial_input')
+  COMPLETE_INITIAL_INPUT = I18n.t('email.completed_initial_input')
+  CLOSING_INITIAL_INPUT = I18n.t('email.closing_initial_input')
+  SALUTATION_INITIAL_INPUT = I18n.t('email.salutation_initial_input')
+  FROM_EMAIL_INPUT = I18n.t('email.from_initial_input_html')
+  SUBJECT = I18n.t('email.subject_initial_input')
   FROM_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
   REPLY_TO_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
 
@@ -105,14 +105,14 @@ module ViewsHelpers
 
     expect(rendered_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
 
-    expect(rendered_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.pre_late_text_label'), text: I18n.t('email.late_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.pre_coming_due_text_label'), text: I18n.t('email.coming_due_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.completed_awaiting_text_label'), text: I18n.t('email.completed_awaiting_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.completed_text_label'), text: I18n.t('email.completed_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.closing_text_label'), text: I18n.t('email.closing_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.salutation_text_label'), text: I18n.t('email.salutation_initial_text'))
-    expect(rendered_or_page).to have_field(I18n.t('email.from_text_label'), text: 'Vicki Kristoff')
+    expect(rendered_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.pre_late_input_label'), text: I18n.t('email.late_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.pre_coming_due_input_label'), text: I18n.t('email.coming_due_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.completed_awaiting_input_label'), text: I18n.t('email.completed_awaiting_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.completed_input_label'), text: I18n.t('email.completed_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.closing_input_label'), text: I18n.t('email.closing_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.salutation_input_label'), text: I18n.t('email.salutation_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.from_input_label'), text: 'Vicki Kristoff')
 
     expect_sorting_candidate_list(common_columns,
                                   candidates,

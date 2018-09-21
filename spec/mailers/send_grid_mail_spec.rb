@@ -12,11 +12,11 @@ describe SendGridMail, type: :model do
 
     it 'should expand the adhoc email for candidate with no attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
-      send_grid_mail.adhoc(ViewsHelpers::SUBJECT, nil, ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
+      send_grid_mail.adhoc(ViewsHelpers::SUBJECT, nil, ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
-      expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
+      expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
       expect(send_grid_mail.attachments.empty?).to eq(true)
     end
@@ -25,11 +25,11 @@ describe SendGridMail, type: :model do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.adhoc(ViewsHelpers::SUBJECT,
                            fixture_file_upload('Baptismal Certificate.pdf'),
-                           ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
+                           ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
-      expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
+      expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
       expect(send_grid_mail.attachments.size).to eq(1)
       attachment = send_grid_mail.attachments[0]
@@ -38,7 +38,7 @@ describe SendGridMail, type: :model do
 
     it 'should expand the adhoc test email for candidate with no attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
-      send_grid_mail.adhoc_test(ViewsHelpers::SUBJECT, nil, ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
+      send_grid_mail.adhoc_test(ViewsHelpers::SUBJECT, nil, ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
@@ -47,7 +47,7 @@ describe SendGridMail, type: :model do
       expect(body).to have_css('p[id=subject]', text: ViewsHelpers::SUBJECT)
 
       expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
-      expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
+      expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
       expect(send_grid_mail.attachments.empty?).to eq(true)
     end
@@ -56,7 +56,7 @@ describe SendGridMail, type: :model do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.adhoc_test(ViewsHelpers::SUBJECT,
                                 fixture_file_upload('Baptismal Certificate.pdf'),
-                                ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
+                                ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
@@ -65,7 +65,7 @@ describe SendGridMail, type: :model do
       expect(body).to have_css('p[id=subject]', text: ViewsHelpers::SUBJECT)
 
       expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
-      expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
+      expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
       expect(send_grid_mail.attachments.size).to eq(1)
       attachment = send_grid_mail.attachments[0]
@@ -86,20 +86,20 @@ describe SendGridMail, type: :model do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.monthly_mass_mailing(ViewsHelpers::SUBJECT,
                                           nil,
-                                          pre_late_text: ViewsHelpers::LATE_INITIAL_TEXT,
-                                          pre_coming_due_text: ViewsHelpers::COMING_DUE_INITIAL_TEXT,
-                                          completed_awaiting_text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT,
-                                          completed_text: ViewsHelpers::COMPLETE_INITIAL_TEXT, closing_text: ViewsHelpers::CLOSING_INITIAL_TEXT,
-                                          salutation_text: ViewsHelpers::SALUTATION_INITIAL_TEXT, from_text: ViewsHelpers::FROM_EMAIL_TEXT)
+                                          pre_late_input: ViewsHelpers::LATE_INITIAL_INPUT,
+                                          pre_coming_due_input: ViewsHelpers::COMING_DUE_INITIAL_INPUT,
+                                          completed_awaiting_input: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT,
+                                          completed_input: ViewsHelpers::COMPLETE_INITIAL_INPUT, closing_input: ViewsHelpers::CLOSING_INITIAL_INPUT,
+                                          salutation_input: ViewsHelpers::SALUTATION_INITIAL_INPUT, from_input: ViewsHelpers::FROM_EMAIL_INPUT)
 
       body = Capybara.string(send_grid_mail.expanded_text)
-      expect(body).to have_css('p[id=past_due_text]', text: ViewsHelpers::LATE_INITIAL_TEXT)
-      expect(body).to have_css('p[id=coming_due_events_text]', text: ViewsHelpers::COMING_DUE_INITIAL_TEXT)
-      expect(body).to have_css('p[id=completed_awaiting_events_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
-      expect(body).to have_css('p[id=closing_text]', text: ViewsHelpers::CLOSING_INITIAL_TEXT)
-      expect(body).to have_css('p[id=completed_events_text]', text: ViewsHelpers::COMPLETE_INITIAL_TEXT)
-      expect(body).to have_css('p[id=salutation_text]', text: ViewsHelpers::SALUTATION_INITIAL_TEXT)
-      expect(body).to have_css('p[id=from_text]', text: ViewsHelpers::FROM_EMAIL_TEXT)
+      expect(body).to have_css('p[id=past_due_input]', text: ViewsHelpers::LATE_INITIAL_INPUT)
+      expect(body).to have_css('p[id=coming_due_events_input]', text: ViewsHelpers::COMING_DUE_INITIAL_INPUT)
+      expect(body).to have_css('p[id=completed_awaiting_events_input]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
+      expect(body).to have_css('p[id=closing_input]', text: ViewsHelpers::CLOSING_INITIAL_INPUT)
+      expect(body).to have_css('p[id=completed_events_input]', text: ViewsHelpers::COMPLETE_INITIAL_INPUT)
+      expect(body).to have_css('p[id=salutation_input]', text: ViewsHelpers::SALUTATION_INITIAL_INPUT)
+      expect(body).to have_css('p[id=from_input]', text: ViewsHelpers::FROM_EMAIL_INPUT)
 
       expect(send_grid_mail.attachments.empty?).to eq(true)
     end
@@ -108,20 +108,20 @@ describe SendGridMail, type: :model do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.monthly_mass_mailing(ViewsHelpers::SUBJECT,
                                           fixture_file_upload('Baptismal Certificate.pdf'),
-                                          pre_late_text: ViewsHelpers::LATE_INITIAL_TEXT,
-                                          pre_coming_due_text: ViewsHelpers::COMING_DUE_INITIAL_TEXT,
-                                          completed_awaiting_text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT,
-                                          completed_text: ViewsHelpers::COMPLETE_INITIAL_TEXT, closing_text: ViewsHelpers::CLOSING_INITIAL_TEXT,
-                                          salutation_text: ViewsHelpers::SALUTATION_INITIAL_TEXT, from_text: ViewsHelpers::FROM_EMAIL_TEXT)
+                                          pre_late_input: ViewsHelpers::LATE_INITIAL_INPUT,
+                                          pre_coming_due_input: ViewsHelpers::COMING_DUE_INITIAL_INPUT,
+                                          completed_awaiting_input: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT,
+                                          completed_input: ViewsHelpers::COMPLETE_INITIAL_INPUT, closing_input: ViewsHelpers::CLOSING_INITIAL_INPUT,
+                                          salutation_input: ViewsHelpers::SALUTATION_INITIAL_INPUT, from_input: ViewsHelpers::FROM_EMAIL_INPUT)
 
       body = Capybara.string(send_grid_mail.expanded_text)
-      expect(body).to have_css('p[id=past_due_text]', text: ViewsHelpers::LATE_INITIAL_TEXT)
-      expect(body).to have_css('p[id=coming_due_events_text]', text: ViewsHelpers::COMING_DUE_INITIAL_TEXT)
-      expect(body).to have_css('p[id=completed_awaiting_events_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT)
-      expect(body).to have_css('p[id=closing_text]', text: ViewsHelpers::CLOSING_INITIAL_TEXT)
-      expect(body).to have_css('p[id=completed_events_text]', text: ViewsHelpers::COMPLETE_INITIAL_TEXT)
-      expect(body).to have_css('p[id=salutation_text]', text: ViewsHelpers::SALUTATION_INITIAL_TEXT)
-      expect(body).to have_css('p[id=from_text]', text: ViewsHelpers::FROM_EMAIL_TEXT)
+      expect(body).to have_css('p[id=past_due_input]', text: ViewsHelpers::LATE_INITIAL_INPUT)
+      expect(body).to have_css('p[id=coming_due_events_input]', text: ViewsHelpers::COMING_DUE_INITIAL_INPUT)
+      expect(body).to have_css('p[id=completed_awaiting_events_input]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
+      expect(body).to have_css('p[id=closing_input]', text: ViewsHelpers::CLOSING_INITIAL_INPUT)
+      expect(body).to have_css('p[id=completed_events_input]', text: ViewsHelpers::COMPLETE_INITIAL_INPUT)
+      expect(body).to have_css('p[id=salutation_input]', text: ViewsHelpers::SALUTATION_INITIAL_INPUT)
+      expect(body).to have_css('p[id=from_input]', text: ViewsHelpers::FROM_EMAIL_INPUT)
 
       expect(send_grid_mail.attachments.size).to eq(1)
       attachment = send_grid_mail.attachments[0]

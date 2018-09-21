@@ -247,7 +247,7 @@ class SendGridMail
   # * <tt>Array</tt> In production - Array of passed in email addresses else - Array of legal non-production email addresses
   #
   def expand_text(candidate, subject_text, body_input_text, delivery_call)
-    @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: subject_text, body_input: body_input_text)
+    @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: subject_text, body_text: body_input_text)
 
     delivery = delivery_call.call(@admin, @candidate_mailer_text)
     text(delivery)
@@ -559,7 +559,7 @@ class SendGridMail
   # A lambda
   #
   def adhoc_test_subj_call
-    ->(candidate) { I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: candidate.account_name) }
+    ->(candidate) { I18n.t('email.test_adhoc_subject_initial_input', candidate_account_name: candidate.account_name) }
   end
 
   #
@@ -611,7 +611,7 @@ class SendGridMail
   # A lambda
   #
   def mmm_test_subj_call
-    ->(candidate) { I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: candidate.account_name) }
+    ->(candidate) { I18n.t('email.test_monthly_mail_subject_initial_input', candidate_account_name: candidate.account_name) }
   end
 
   def reset_pass_call

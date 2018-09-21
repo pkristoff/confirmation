@@ -8,11 +8,11 @@ describe CandidatesMailer, type: :model do
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
       @text = CandidatesMailerText.new(candidate: @candidate, subject: ViewsHelpers::SUBJECT,
-                                       body_input: { pre_late_text: ViewsHelpers::LATE_INITIAL_TEXT,
-                                                     pre_coming_due_text: ViewsHelpers::COMING_DUE_INITIAL_TEXT,
-                                                     completed_awaiting_text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT,
-                                                     completed_text: ViewsHelpers::COMPLETE_INITIAL_TEXT, closing_text: ViewsHelpers::CLOSING_INITIAL_TEXT,
-                                                     salutation_text: ViewsHelpers::SALUTATION_INITIAL_TEXT, from_text: ViewsHelpers::FROM_EMAIL_TEXT })
+                                       body_text: { pre_late_input: ViewsHelpers::LATE_INITIAL_INPUT,
+                                                    pre_coming_due_input: ViewsHelpers::COMING_DUE_INITIAL_INPUT,
+                                                    completed_awaiting_input: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT,
+                                                    completed_input: ViewsHelpers::COMPLETE_INITIAL_INPUT, closing_input: ViewsHelpers::CLOSING_INITIAL_INPUT,
+                                                    salutation_input: ViewsHelpers::SALUTATION_INITIAL_INPUT, from_input: ViewsHelpers::FROM_EMAIL_INPUT })
     end
 
     describe 'monthly_reminder' do
@@ -33,8 +33,8 @@ describe CandidatesMailer, type: :model do
 
         expect_view(body, [], coming_due_values, [], [])
 
-        expect(body).to have_css('p[id=past_due_text][ style="white-space: pre;"]', text: ViewsHelpers::LATE_INITIAL_TEXT)
-        expect(body).to have_css('p[id=coming_due_events_text][ style="white-space: pre;"]', text: ViewsHelpers::COMING_DUE_INITIAL_TEXT)
+        expect(body).to have_css('p[id=past_due_input][ style="white-space: pre;"]', text: ViewsHelpers::LATE_INITIAL_INPUT)
+        expect(body).to have_css('p[id=coming_due_events_input][ style="white-space: pre;"]', text: ViewsHelpers::COMING_DUE_INITIAL_INPUT)
         expect_closing(body)
       end
     end
@@ -51,7 +51,7 @@ describe CandidatesMailer, type: :model do
         expect(mail.to).to eq([admin.email])
         expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
         expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
-        expect(mail.subject).to eq(I18n.t('email.test_monthly_mail_subject_initial_text', candidate_account_name: @candidate.account_name))
+        expect(mail.subject).to eq(I18n.t('email.test_monthly_mail_subject_initial_input', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
 
@@ -73,7 +73,7 @@ describe CandidatesMailer, type: :model do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: ViewsHelpers::SUBJECT, body_input: 'some body')
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: ViewsHelpers::SUBJECT, body_text: 'some body')
     end
 
     describe 'adhoc' do
@@ -101,7 +101,7 @@ describe CandidatesMailer, type: :model do
         expect(mail.to).to eq([admin.email])
         expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
         expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
-        expect(mail.subject).to eq(I18n.t('email.test_adhoc_subject_initial_text', candidate_account_name: @candidate.account_name))
+        expect(mail.subject).to eq(I18n.t('email.test_adhoc_subject_initial_input', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
 
@@ -120,26 +120,26 @@ describe CandidatesMailer, type: :model do
   def expect_view(body, late_values, coming_due_values, completed_awaiting_values, completed_values)
     expect(body).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
-    expect_table(body, 'past_due_text', ViewsHelpers::LATE_INITIAL_TEXT, 'past_due',
+    expect_table(body, 'past_due_input', ViewsHelpers::LATE_INITIAL_INPUT, 'past_due',
                  [],
                  late_values)
 
-    expect_table(body, I18n.t('email.coming_due_label'), ViewsHelpers::COMING_DUE_INITIAL_TEXT, 'coming_due_events',
+    expect_table(body, I18n.t('email.coming_due_label'), ViewsHelpers::COMING_DUE_INITIAL_INPUT, 'coming_due_events',
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
-    expect_table(body, I18n.t('email.completed_awaiting_text_label'), ViewsHelpers::COMPLETE_AWAITING_INITIAL_TEXT, 'completed_awaiting_events',
+    expect_table(body, I18n.t('email.completed_awaiting_input_label'), ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT, 'completed_awaiting_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_awaiting_values)
 
-    expect_table(body, I18n.t('email.completed_text_label'), ViewsHelpers::COMPLETE_INITIAL_TEXT, 'completed_events',
+    expect_table(body, I18n.t('email.completed_input_label'), ViewsHelpers::COMPLETE_INITIAL_INPUT, 'completed_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
   end
 
   def expect_table(body, _field_id, field_text, event_prefix, column_headers, cell_values)
     table_id = "table[id='#{event_prefix}_table']"
-    expect(body).to have_css("p[id='#{event_prefix}_text']", text: field_text) unless field_text.nil? # if expect(body).to have_field(field_id, text: field_text)
+    expect(body).to have_css("p[id='#{event_prefix}_input']", text: field_text) unless field_text.nil? # if expect(body).to have_field(field_id, text: field_text)
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
     expect(body).to have_css(table_id.to_s)
@@ -172,8 +172,8 @@ describe CandidatesMailer, type: :model do
   end
 
   def expect_closing(body)
-    expect(body).to have_css('p[id=closing_text][ style="white-space: pre;"]', text: '')
-    expect(body).to have_css('p[id=salutation_text][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_text'))
-    expect(body).to have_css('p[id=from_text][ style="white-space: pre;"]', text: 'Vicki Kristoff')
+    expect(body).to have_css('p[id=closing_input][ style="white-space: pre;"]', text: '')
+    expect(body).to have_css('p[id=salutation_input][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_input'))
+    expect(body).to have_css('p[id=from_input][ style="white-space: pre;"]', text: 'Vicki Kristoff')
   end
 end

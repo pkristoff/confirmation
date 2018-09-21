@@ -7,7 +7,14 @@ RSpec.describe 'I18n' do
   let(:missing_keys) {i18n.missing_keys}
   let(:unused_keys) {i18n.unused_keys}
   # these keys are used even though this says otherwise.
+  # email... are used via MailPart.i18n_label
   let(:used_keys) {%w[
+        email.closing_input_label
+        email.completed_awaiting_input_label
+        email.from_input_label
+        email.pre_coming_due_input_label
+        email.pre_late_input_label
+        email.salutation_input_label
         label.candidate_event.select
         views.admins.current_password
         views.admins.email

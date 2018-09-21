@@ -168,9 +168,9 @@ describe AdminsController do
                             pre_late_input: 'xxx',
                             pre_coming_due_input: 'yyy',
                             completed_input: 'zzz',
-                            closing_text: 'ccc',
-                            salutation_text: 'aaa',
-                            from_text: 'bbb' },
+                            closing_input: 'ccc',
+                            salutation_input: 'aaa',
+                            from_input: 'bbb' },
                     candidate: { candidate_ids: [@c1.id, @c2.id] },
                     commit: I18n.t('email.monthly_mail') }
 
@@ -371,12 +371,12 @@ describe AdminsController do
   def expect_mailer_text(candidate, candidates_mailer_text)
     expect(candidates_mailer_text.candidate.id).to eq(candidate.id)
     expect(candidates_mailer_text.subject).to eq('www1')
-    expect(candidates_mailer_text.pre_late_text).to eq('xxx')
-    expect(candidates_mailer_text.pre_coming_due_text).to eq('yyy')
-    expect(candidates_mailer_text.completed_text).to eq('zzz')
-    expect(candidates_mailer_text.closing_text).to eq('ccc')
-    expect(candidates_mailer_text.salutation_text).to eq('aaa')
-    expect(candidates_mailer_text.from_text).to eq('bbb')
+    expect(candidates_mailer_text.pre_late_input).to eq('xxx')
+    expect(candidates_mailer_text.pre_coming_due_input).to eq('yyy')
+    expect(candidates_mailer_text.completed_input).to eq('zzz')
+    expect(candidates_mailer_text.closing_input).to eq('ccc')
+    expect(candidates_mailer_text.salutation_input).to eq('aaa')
+    expect(candidates_mailer_text.from_input).to eq('bbb')
   end
 
   def expect_message(id, message)

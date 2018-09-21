@@ -332,7 +332,7 @@ describe Candidate do
   describe 'password_reset_message' do
     it 'should return a DeliveryMessage' do
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
-      delivery = c1.password_reset_message(CandidatesMailerText.new(candidate: c1, subject: 'sub', body_input: ''))
+      delivery = c1.password_reset_message(CandidatesMailerText.new(candidate: c1, subject: 'sub', body_text: ''))
       expect(delivery).not_to eq(nil)
       text = delivery.message.body.to_s
 

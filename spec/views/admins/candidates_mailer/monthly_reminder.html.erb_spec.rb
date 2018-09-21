@@ -186,29 +186,29 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   def expect_view(late_values, coming_due_values, completed_awaiting_values, completed_values)
     expect(rendered).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
-    expect_table('past_due_text', t('email.late_initial_text'), 'past_due',
+    expect_table('past_due_input', t('email.late_initial_input'), 'past_due',
                  [],
                  late_values)
 
-    expect_table(I18n.t('email.coming_due_label'), t('email.coming_due_initial_text'), 'coming_due_events',
+    expect_table(I18n.t('email.coming_due_label'), t('email.coming_due_initial_input'), 'coming_due_events',
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
-    expect_table(I18n.t('email.completed_awaiting_approval_label'), t('email.completed_awaiting_initial_text'), 'completed_awaiting_events',
+    expect_table(I18n.t('email.completed_awaiting_approval_label'), t('email.completed_awaiting_initial_input'), 'completed_awaiting_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_awaiting_values)
 
-    expect_table(I18n.t('email.completed_text_label'), nil, 'completed_events',
+    expect_table(I18n.t('email.completed_input_label'), nil, 'completed_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
 
-    expect(rendered).to have_css('p[id=closing_text][ style="white-space: pre;"]', text: '')
-    expect(rendered).to have_css('p[id=salutation_text][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_text'))
-    expect(rendered).to have_css('p[id=from_text][ style="white-space: pre;"]', text: I18n.t('email.from_initial_text_html'))
+    expect(rendered).to have_css('p[id=closing_input][ style="white-space: pre;"]', text: '')
+    expect(rendered).to have_css('p[id=salutation_input][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_input'))
+    expect(rendered).to have_css('p[id=from_input][ style="white-space: pre;"]', text: I18n.t('email.from_initial_input_html'))
   end
 
   def expect_table(_field_id, field_text, event_prefix, column_headers, cell_values)
-    expect(rendered).to have_css("p[id='#{event_prefix}_text']", text: field_text) unless field_text.nil? # ?? expect(rendered).to have_field(field_id, text: field_text)
+    expect(rendered).to have_css("p[id='#{event_prefix}_input']", text: field_text) unless field_text.nil? # ?? expect(rendered).to have_field(field_id, text: field_text)
     table_id = "table[id='#{event_prefix}_table']"
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
@@ -245,14 +245,14 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   def render_setup
     @candidate_mailer_text = CandidatesMailerText.new(
       candidate: @candidate,
-      body_input: {
-        pre_late_text: I18n.t('email.late_initial_text'),
-        pre_coming_due_text: I18n.t('email.coming_due_initial_text'),
-        completed_awaiting_text: I18n.t('email.completed_awaiting_initial_text'),
-        completed_text: I18n.t('email.completed_initial_text'),
-        closing_text: I18n.t('email.closing_initial_text'),
-        salutation_text: I18n.t('email.salutation_initial_text'),
-        from_text: I18n.t('email.from_initial_text_html')
+      body_text: {
+        pre_late_input: I18n.t('email.late_initial_input'),
+        pre_coming_due_input: I18n.t('email.coming_due_initial_input'),
+        completed_awaiting_input: I18n.t('email.completed_awaiting_initial_input'),
+        completed_input: I18n.t('email.completed_initial_input'),
+        closing_input: I18n.t('email.closing_initial_input'),
+        salutation_input: I18n.t('email.salutation_initial_input'),
+        from_input: I18n.t('email.from_initial_input_html')
       }
     )
   end

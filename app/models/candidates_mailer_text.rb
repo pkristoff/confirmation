@@ -8,13 +8,13 @@ class CandidatesMailerText
 
   attr_accessor :subject
   attr_accessor :body_text
-  attr_accessor :pre_late_text
-  attr_accessor :pre_coming_due_text
-  attr_accessor :completed_awaiting_text
-  attr_accessor :completed_text
-  attr_accessor :closing_text
-  attr_accessor :salutation_text
-  attr_accessor :from_text
+  attr_accessor :pre_late_input
+  attr_accessor :pre_coming_due_input
+  attr_accessor :completed_awaiting_input
+  attr_accessor :completed_input
+  attr_accessor :closing_input
+  attr_accessor :salutation_input
+  attr_accessor :from_input
   attr_accessor :token
 
   # Instantiation
@@ -26,17 +26,17 @@ class CandidatesMailerText
   def initialize(parms)
     @candidate = parms[:candidate]
     @subject = parms[:subject]
-    @body_text = parms[:body_input]
+    @body_text = parms[:body_text]
 
     return unless @body_text.is_a? Hash
 
-    @pre_late_text = @body_text[:pre_late_text]
-    @pre_coming_due_text = @body_text[:pre_coming_due_text]
-    @completed_awaiting_text = @body_text[:completed_awaiting_text]
-    @completed_text = @body_text[:completed_text]
-    @closing_text = @body_text[:closing_text]
-    @salutation_text = @body_text[:salutation_text]
-    @from_text = @body_text[:from_text]
+    @pre_late_input = @body_text[:pre_late_input]
+    @pre_coming_due_input = @body_text[:pre_coming_due_input]
+    @completed_awaiting_input = @body_text[:completed_awaiting_input]
+    @completed_input = @body_text[:completed_input]
+    @closing_input = @body_text[:closing_input]
+    @salutation_input = @body_text[:salutation_input]
+    @from_input = @body_text[:from_input]
   end
 
   # late CandidateEvent
