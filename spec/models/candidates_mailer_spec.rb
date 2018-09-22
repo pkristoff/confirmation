@@ -7,12 +7,12 @@ describe CandidatesMailer, type: :model do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: ViewsHelpers::SUBJECT,
-                                       body_text: { pre_late_input: ViewsHelpers::LATE_INITIAL_INPUT,
-                                                    pre_coming_due_input: ViewsHelpers::COMING_DUE_INITIAL_INPUT,
-                                                    completed_awaiting_input: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT,
-                                                    completed_input: ViewsHelpers::COMPLETE_INITIAL_INPUT, closing_input: ViewsHelpers::CLOSING_INITIAL_INPUT,
-                                                    salutation_input: ViewsHelpers::SALUTATION_INITIAL_INPUT, from_input: ViewsHelpers::FROM_EMAIL_INPUT })
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: MailPart.new_subject(ViewsHelpers::SUBJECT),
+                                       body_text: { pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT),
+                                                    pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
+                                                    completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
+                                                    completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
+                                                    salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT) })
     end
 
     describe 'monthly_reminder' do
@@ -73,7 +73,7 @@ describe CandidatesMailer, type: :model do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: ViewsHelpers::SUBJECT, body_text: 'some body')
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: MailPart.new_subject(ViewsHelpers::SUBJECT), body_text: 'some body')
     end
 
     describe 'adhoc' do

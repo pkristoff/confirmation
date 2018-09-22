@@ -25,18 +25,18 @@ class CandidatesMailerText
   #
   def initialize(parms)
     @candidate = parms[:candidate]
-    @subject = parms[:subject]
+    @subject = parms[:subject].text
     @body_text = parms[:body_text]
 
     return unless @body_text.is_a? Hash
 
-    @pre_late_input = @body_text[:pre_late_input]
-    @pre_coming_due_input = @body_text[:pre_coming_due_input]
-    @completed_awaiting_input = @body_text[:completed_awaiting_input]
-    @completed_input = @body_text[:completed_input]
-    @closing_input = @body_text[:closing_input]
-    @salutation_input = @body_text[:salutation_input]
-    @from_input = @body_text[:from_input]
+    @pre_late_input = @body_text[:pre_late_input].text
+    @pre_coming_due_input = @body_text[:pre_coming_due_input].text
+    @completed_awaiting_input = @body_text[:completed_awaiting_input].text
+    @completed_input = @body_text[:completed_input].text
+    @closing_input = @body_text[:closing_input].text
+    @salutation_input = @body_text[:salutation_input].text
+    @from_input = @body_text[:from_input].text
   end
 
   # late CandidateEvent

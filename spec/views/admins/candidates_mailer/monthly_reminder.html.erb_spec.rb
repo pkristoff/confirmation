@@ -245,14 +245,13 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   def render_setup
     @candidate_mailer_text = CandidatesMailerText.new(
       candidate: @candidate,
+      subject: MailPart.new_subject(''),
       body_text: {
-        pre_late_input: I18n.t('email.late_initial_input'),
-        pre_coming_due_input: I18n.t('email.coming_due_initial_input'),
-        completed_awaiting_input: I18n.t('email.completed_awaiting_initial_input'),
-        completed_input: I18n.t('email.completed_initial_input'),
-        closing_input: I18n.t('email.closing_initial_input'),
-        salutation_input: I18n.t('email.salutation_initial_input'),
-        from_input: I18n.t('email.from_initial_input_html')
+        pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT),
+        pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
+        completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
+        completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
+        salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT)
       }
     )
   end

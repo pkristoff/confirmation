@@ -302,14 +302,14 @@ class AdminsController < ApplicationController
   # * <tt>:selected_ids</tt>  Optional
   #
   def setup_monthly_mailing_render_default(selected_ids = [])
-    subject = MailPart.new('subject', t('email.subject_initial_input'))
-    pre_late_input = MailPart.new('pre_late_input', t('email.late_initial_input'))
-    pre_coming_due_input = MailPart.new('pre_coming_due_input', t('email.coming_due_initial_input'))
-    completed_awaiting_input = MailPart.new('completed_awaiting_input', t('email.completed_awaiting_initial_input'))
-    completed_input = MailPart.new('completed_input', t('email.completed_initial_input'))
-    salutation_input = MailPart.new('closing_input', t('email.closing_initial_input'))
-    closing_input = MailPart.new('salutation_input', t('email.salutation_initial_input'))
-    from_input = MailPart.new('from_input', t('email.from_initial_input_html'))
+    subject = MailPart.new_subject(t('email.subject_initial_input'))
+    pre_late_input = MailPart.new_pre_late_input(t('email.late_initial_input'))
+    pre_coming_due_input = MailPart.new_pre_coming_due_input(t('email.coming_due_initial_input'))
+    completed_awaiting_input = MailPart.new_completed_awaiting_input(t('email.completed_awaiting_initial_input'))
+    completed_input = MailPart.new_completed_input(t('email.completed_initial_input'))
+    salutation_input = MailPart.new_closing_input(t('email.closing_initial_input'))
+    closing_input = MailPart.new_salutation_input(t('email.salutation_initial_input'))
+    from_input = MailPart.new_from_input(t('email.from_initial_input_html'))
 
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_input, salutation_input, from_input, selected_ids)
   end
@@ -341,14 +341,14 @@ class AdminsController < ApplicationController
     mail_param = params.require(:mail).permit(:subject, :subject_check, :pre_late_input, :pre_late_input_check, :pre_coming_due_input, :pre_coming_due_input_check, :completed_awaiting_input, :completed_awaiting_input_check, :completed_input, :completed_input_check, :salutation_input, :salutation_input_check, :closing_input, :closing_input_check, :from_input, :from_input_check, :attach_file)
 
     # mail_param = params[:mail]
-    subject_input = MailPart.new('subject', mail_param[:subject], mail_param[:subject_check])
-    pre_late_input = MailPart.new('pre_late_input', mail_param[:pre_late_input], mail_param[:pre_late_input_check])
-    pre_coming_due_input = MailPart.new('pre_coming_due_input', mail_param[:pre_coming_due_input], mail_param[:pre_coming_due_input_check])
-    completed_awaiting_input = MailPart.new('completed_awaiting_input', mail_param[:completed_awaiting_input], mail_param[:completed_awaiting_input_check])
-    completed_input = MailPart.new('completed_input', mail_param[:completed_input], mail_param[:completed_input_check])
-    salutation_input = MailPart.new('salutation_input', mail_param[:salutation_input], mail_param[:salutation_input_check])
-    closing_input = MailPart.new('closing_input', mail_param[:closing_input], mail_param[:closing_input_check])
-    from_input = MailPart.new('from_input', mail_param[:from_input], mail_param[:from_input_check])
+    subject_input = MailPart.new_subject(mail_param[:subject], mail_param[:subject_check])
+    pre_late_input = MailPart.new_pre_late_input(mail_param[:pre_late_input], mail_param[:pre_late_input_check])
+    pre_coming_due_input = MailPart.new_pre_coming_due_input(mail_param[:pre_coming_due_input], mail_param[:pre_coming_due_input_check])
+    completed_awaiting_input = MailPart.new_completed_awaiting_input(mail_param[:completed_awaiting_input], mail_param[:completed_awaiting_input_check])
+    completed_input = MailPart.new_completed_input(mail_param[:completed_input], mail_param[:completed_input_check])
+    salutation_input = MailPart.new_salutation_input(mail_param[:salutation_input], mail_param[:salutation_input_check])
+    closing_input = MailPart.new_closing_input(mail_param[:closing_input], mail_param[:closing_input_check])
+    from_input = MailPart.new_from_input(mail_param[:from_input], mail_param[:from_input_check])
     attach_file = mail_param[:attach_file]
 
     candidate_ids = params[:candidate][:candidate_ids]
@@ -382,29 +382,28 @@ class AdminsController < ApplicationController
 
     end
 
-    mail_param = params[:mail]
     send_grid_mail = SendGridMail.new(current_admin, candidates)
 
     send_mail_response = if is_test_mail
-                           send_grid_mail.monthly_mass_mailing_test(mail_param[:subject],
+                           send_grid_mail.monthly_mass_mailing_test(subject_input,
                                                                     attach_file,
-                                                                    pre_late_input: mail_param[:pre_late_input],
-                                                                    pre_coming_due_input: mail_param[:pre_coming_due_input],
-                                                                    completed_awaiting_input: mail_param[:completed_awaiting_input],
-                                                                    completed_input: mail_param[:completed_input],
-                                                                    closing_input: mail_param[:closing_input],
-                                                                    salutation_input: mail_param[:salutation_input],
-                                                                    from_input: mail_param[:from_input])
+                                                                    pre_late_input: pre_late_input,
+                                                                    pre_coming_due_input: pre_coming_due_input,
+                                                                    completed_awaiting_input: completed_awaiting_input,
+                                                                    completed_input: completed_input,
+                                                                    closing_input: closing_input,
+                                                                    salutation_input: salutation_input,
+                                                                    from_input: from_input)
                          else
-                           send_grid_mail.monthly_mass_mailing(mail_param[:subject],
+                           send_grid_mail.monthly_mass_mailing(subject_input,
                                                                attach_file,
-                                                               pre_late_input: mail_param[:pre_late_input],
-                                                               pre_coming_due_input: mail_param[:pre_coming_due_input],
-                                                               completed_awaiting_input: mail_param[:completed_awaiting_input],
-                                                               completed_input: mail_param[:completed_input],
-                                                               closing_input: mail_param[:closing_input],
-                                                               salutation_input: mail_param[:salutation_input],
-                                                               from_input: mail_param[:from_input])
+                                                               pre_late_input: pre_late_input,
+                                                               pre_coming_due_input: pre_coming_due_input,
+                                                               completed_awaiting_input: completed_awaiting_input,
+                                                               completed_input: completed_input,
+                                                               closing_input: closing_input,
+                                                               salutation_input: salutation_input,
+                                                               from_input: from_input)
                          end
 
     flash.now[:notice] = if send_mail_response.status_code[0] == '2'

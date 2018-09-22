@@ -84,13 +84,13 @@ describe SendGridMail, type: :model do
 
     it 'should expand the monthly reminder email for candidate with no attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
-      send_grid_mail.monthly_mass_mailing(ViewsHelpers::SUBJECT,
+      send_grid_mail.monthly_mass_mailing(MailPart.new_subject(ViewsHelpers::SUBJECT),
                                           nil,
-                                          pre_late_input: ViewsHelpers::LATE_INITIAL_INPUT,
-                                          pre_coming_due_input: ViewsHelpers::COMING_DUE_INITIAL_INPUT,
-                                          completed_awaiting_input: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT,
-                                          completed_input: ViewsHelpers::COMPLETE_INITIAL_INPUT, closing_input: ViewsHelpers::CLOSING_INITIAL_INPUT,
-                                          salutation_input: ViewsHelpers::SALUTATION_INITIAL_INPUT, from_input: ViewsHelpers::FROM_EMAIL_INPUT)
+                                          pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT),
+                                          pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
+                                          completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
+                                          completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
+                                          salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT))
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('p[id=past_due_input]', text: ViewsHelpers::LATE_INITIAL_INPUT)
@@ -106,13 +106,13 @@ describe SendGridMail, type: :model do
 
     it 'should expand the monthly reminder email with file attachment for candidate' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
-      send_grid_mail.monthly_mass_mailing(ViewsHelpers::SUBJECT,
+      send_grid_mail.monthly_mass_mailing(MailPart.new_subject(ViewsHelpers::SUBJECT),
                                           fixture_file_upload('Baptismal Certificate.pdf'),
-                                          pre_late_input: ViewsHelpers::LATE_INITIAL_INPUT,
-                                          pre_coming_due_input: ViewsHelpers::COMING_DUE_INITIAL_INPUT,
-                                          completed_awaiting_input: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT,
-                                          completed_input: ViewsHelpers::COMPLETE_INITIAL_INPUT, closing_input: ViewsHelpers::CLOSING_INITIAL_INPUT,
-                                          salutation_input: ViewsHelpers::SALUTATION_INITIAL_INPUT, from_input: ViewsHelpers::FROM_EMAIL_INPUT)
+                                          pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT),
+                                          pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
+                                          completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
+                                          completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input:  MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
+                                          salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT))
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('p[id=past_due_input]', text: ViewsHelpers::LATE_INITIAL_INPUT)
