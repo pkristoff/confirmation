@@ -73,7 +73,7 @@ describe CandidatesMailer, type: :model do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: MailPart.new_subject(ViewsHelpers::SUBJECT), body_text: 'some body')
+      @text = CandidatesMailerText.new(candidate: @candidate, subject: MailPart.new_subject(ViewsHelpers::SUBJECT), body_text: MailPart.new_body('some body'))
     end
 
     describe 'adhoc' do

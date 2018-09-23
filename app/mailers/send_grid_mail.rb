@@ -50,14 +50,14 @@ class SendGridMail
   #
   # === Parameters:
   #
-  # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:subject_mail_part</tt> The subject of the email put in by the admin
   # * <tt>:attach_file</tt> uploaded file to be attached to email.
-  # * <tt>:body_input_text</tt> The body of the email puy in by the admin
+  # * <tt>:body_mail_part</tt> The body of the email puy in by the admin
   #
-  def adhoc(subject_text, attach_file, body_input_text)
-    send_email(MailPart.new_subject(subject_text),
+  def adhoc(subject_mail_part, attach_file, body_mail_part)
+    send_email(subject_mail_part,
                attach_file,
-               body_input_text,
+               body_mail_part,
                EmailStuff::TYPES[:adhoc],
                adhoc_call)
   end
@@ -66,12 +66,12 @@ class SendGridMail
   #
   # === Parameters:
   #
-  # * <tt>:subject_text</tt> The subject of the email put in by the admin
+  # * <tt>:subject_mail_part</tt> The subject of the email put in by the admin
   # * <tt>:attach_file</tt> uploaded file to be attached to email.
-  # * <tt>:body_input_text</tt> The body of the email put in by the admin
+  # * <tt>:body_mail_part</tt> The body of the email put in by the admin
   #
-  def adhoc_test(subject_text, attach_file, body_input_text)
-    send_email(MailPart.new_subject(subject_text), attach_file, body_input_text, EmailStuff::TYPES[:adhoc_test],
+  def adhoc_test(subject_mail_part, attach_file, body_mail_part)
+    send_email(subject_mail_part, attach_file, body_mail_part, EmailStuff::TYPES[:adhoc_test],
                adhoc_test_call,
                adhoc_test_subj_call)
   end
@@ -79,7 +79,7 @@ class SendGridMail
   # Generate and send candidate user id confirmation email
   #
   def confirmation_instructions
-    [send_email(MailPart.new_subject(I18n.t('email.confirmation_instructions_subject')), nil, '', EmailStuff::TYPES[:confirmation_instructions],
+    [send_email(MailPart.new_subject(I18n.t('email.confirmation_instructions_subject')), nil, MailPart.new_body(''), EmailStuff::TYPES[:confirmation_instructions],
                 conf_insts_call),
      @candidate_mailer_text.token]
   end
@@ -114,7 +114,7 @@ class SendGridMail
   # Generate and send reset password email
   #
   def reset_password
-    [send_email(MailPart.new_subject(I18n.t('email.reset_password_subject')), nil, '', EmailStuff::TYPES[:reset_password],
+    [send_email(MailPart.new_subject(I18n.t('email.reset_password_subject')), nil, MailPart.new_body(''), EmailStuff::TYPES[:reset_password],
                 reset_pass_call),
      @candidate_mailer_text.token]
   end
@@ -287,23 +287,23 @@ class SendGridMail
   #
   # === Parameters:
   #
-  # * <tt>:subject</tt> email subject
-  # * <tt>:text</tt> email body
+  # * <tt>:subject_mail_part</tt> email subject
+  # * <tt>:body_mail_part</tt> email body
   # * <tt>:attach_file_path</tt> path to the file to attach
   #
   # === Returns:
   #
   # * <tt>Number</tt> response code from sending an email.
   #
-  def send_email_admin(subject, text, attach_file_path)
+  def send_email_admin(subject_mail_part, body_mail_part, attach_file_path)
     email_type = EmailStuff::TYPES[:email_error_message]
-    sg_mail = create_mail(subject, email_type, @admin.name)
+    sg_mail = create_mail(subject_mail_part, email_type, @admin.name)
 
     add_attachment_file_xlxs(File.new(attach_file_path), sg_mail, attach_file_path) unless attach_file_path.nil?
 
     create_personalization(nil, sg_mail, @admin)
 
-    sg_mail.add_content(SendGrid::Content.new(type: 'text/html', value: text))
+    sg_mail.add_content(SendGrid::Content.new(type: 'text/html', value: body_mail_part))
 
     response = post_email(sg_mail)
 
@@ -323,7 +323,7 @@ class SendGridMail
   # * <tt>Number</tt> response code from sending an email.
   #
   def export_to_excel_pictures_message(attach_file_path)
-    send_email_admin('Export to excel with scanned pictures', 'Please see the attached zip file.', attach_file_path)
+    send_email_admin(MailPart.new_subject('Export to excel with scanned pictures'), MailPart.new_body('Please see the attached zip file.'), attach_file_path)
   end
 
   # Send the email to SendGrid, which will send the email
@@ -355,7 +355,7 @@ class SendGridMail
   #
   # * <tt>:subject_mail_part</tt> The subject of the email put in by the admin
   # * <tt>:attach_file</tt> a file to be uploaded and attached to the email.
-  # * <tt>:body_input_mail_part</tt> The body of the email put in by the admin
+  # * <tt>:body_mail_part</tt> The body of the email put in by the admin
   # * <tt>:email_type</tt> The type of email: adhoc, confirmation, etc.
   # * <tt>:delivery_call</tt> Generates and expands the email body
   # * <tt>:test_subject</tt> The subject of the email when it is a test email
@@ -364,7 +364,7 @@ class SendGridMail
   #
   # * <tt>String</tt>
   #
-  def send_email(subject_mail_part, attach_file, body_input_mail_part, email_type, delivery_call, test_subject = nil)
+  def send_email(subject_mail_part, attach_file, body_mail_part, email_type, delivery_call, test_subject = nil)
     last_failed_response = nil
     response = nil
 
@@ -375,7 +375,7 @@ class SendGridMail
 
       create_personalization(candidate, sg_mail, test_subject ? @admin : nil)
 
-      expanded_text = expand_text(candidate, subject_mail_part, body_input_mail_part, delivery_call)
+      expanded_text = expand_text(candidate, subject_mail_part, body_mail_part, delivery_call)
 
       sg_mail.add_content(SendGrid::Content.new(type: 'text/html', value: expanded_text))
 
@@ -410,37 +410,9 @@ class SendGridMail
   # === Parameters:
   #
   # * <tt>:candidate</tt> Candidate
-  # * <tt>:subject_text</tt> email subject
-  # * <tt>:body_input_text</tt> email body
-  #
-  def expand_text_adhoc(candidate, subject_text, *body_input_text)
-    expand_text(candidate, subject_text, *body_input_text,
-                adhoc_call)
-  end
-
-  # TEST ONLY
-  # expand text
-  #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> Candidate
-  # * <tt>:subject_text</tt> email subject
-  # * <tt>:body_input_text</tt> email body
-  #
-  def expand_text_at(candidate, subject_text, body_input_text)
-    expand_text(candidate, subject_text, body_input_text,
-                adhoc_test_call)
-  end
-
-  # TEST ONLY
-  # expand text
-  #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> Candidate
   #
   def expand_text_ci(candidate)
-    expand_text(candidate, MailPart.new_subject('StMM website for Confirmation Candidates - User Verification instructions'), '',
+    expand_text(candidate, MailPart.new_subject('StMM website for Confirmation Candidates - User Verification instructions'), MailPart.new_body(''),
                 conf_insts_call)
   end
 
@@ -452,22 +424,8 @@ class SendGridMail
   # * <tt>:candidate</tt> Candidate
   #
   def expand_text_rp(candidate)
-    expand_text(candidate, MailPart.new_subject('StMM website for Confirmation Candidates - Reset password instructions'), '',
+    expand_text(candidate, MailPart.new_subject('StMM website for Confirmation Candidates - Reset password instructions'), MailPart.new_body(''),
                 reset_pass_call)
-  end
-
-  # TEST ONLY
-  # expand text
-  #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> Candidate
-  # * <tt>:subject_text</tt> email subject
-  # * <tt>:body_input_text</tt> email body
-  #
-  def expand_text_mmm(candidate, subject_text, *body_input_text)
-    expand_text(candidate, subject_text, *body_input_text,
-                mmm_call)
   end
 
   private

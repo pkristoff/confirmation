@@ -7,10 +7,10 @@
   <%= render 'shared/attach_file_to_email' %>
 
   <%= label_tag('mail[subject]', t('email.subject_label')) %>:
-  <%= text_area_tag('mail[subject]', @subject) %> <br/>
+  <%= text_area_tag('mail[subject]', @subject.text) %> <br/>
 
   <%= label_tag('mail[body_input]', t('email.body_label')) %>:
-  <%= text_area_tag('mail[body_input]', @body) %> <br/>
+  <%= text_area_tag('mail[body_input]', @body.text) %> <br/>
 
   <%= render 'shared/sorting_candidate_selection',
              candidate_info: @candidate_info,

@@ -7,6 +7,7 @@ class MailPart
   attr_accessor :name
   attr_accessor :show
 
+  BODY = 'body'
   SUBJECT = 'subject'
   PRE_LATE_INPUT = 'pre_late_input'
   PRE_COMING_DUE_INPUT = 'pre_coming_due_input'
@@ -15,6 +16,17 @@ class MailPart
   SALUTATION_INPUT = 'salutation_input'
   CLOSING_INPUT = 'closing_input'
   FROM_INPUT = 'from_input'
+
+  # Instantiation for subject
+  #
+  # === Parameters:
+  #
+  # * <tt>:text</tt> field value
+  # * <tt>:show</tt> whether or not to show the div
+  #
+  def self.new_body(text, show = true)
+    MailPart.new(BODY, text, show)
+  end
 
   # Instantiation for subject
   #

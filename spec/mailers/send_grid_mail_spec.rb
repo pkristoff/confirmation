@@ -12,7 +12,7 @@ describe SendGridMail, type: :model do
 
     it 'should expand the adhoc email for candidate with no attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
-      send_grid_mail.adhoc(ViewsHelpers::SUBJECT, nil, ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
+      send_grid_mail.adhoc(MailPart.new_subject(ViewsHelpers::SUBJECT), nil, MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT))
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
@@ -23,9 +23,9 @@ describe SendGridMail, type: :model do
 
     it 'should expand the adhoc email for candidate with attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
-      send_grid_mail.adhoc(ViewsHelpers::SUBJECT,
+      send_grid_mail.adhoc(MailPart.new_subject(ViewsHelpers::SUBJECT),
                            fixture_file_upload('Baptismal Certificate.pdf'),
-                           ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
+                           MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT))
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
@@ -38,7 +38,7 @@ describe SendGridMail, type: :model do
 
     it 'should expand the adhoc test email for candidate with no attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
-      send_grid_mail.adhoc_test(ViewsHelpers::SUBJECT, nil, ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
+      send_grid_mail.adhoc_test(MailPart.new_subject(ViewsHelpers::SUBJECT), nil, MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT))
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)
@@ -54,9 +54,9 @@ describe SendGridMail, type: :model do
 
     it 'should expand the adhoc test email for candidate with attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
-      send_grid_mail.adhoc_test(ViewsHelpers::SUBJECT,
+      send_grid_mail.adhoc_test(MailPart.new_subject(ViewsHelpers::SUBJECT),
                                 fixture_file_upload('Baptismal Certificate.pdf'),
-                                ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
+                                MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT))
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('li[id=candidate-email]', text: @candidate.candidate_sheet.candidate_email)

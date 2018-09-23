@@ -15,7 +15,8 @@ describe 'admins/adhoc_mailing.html.erb' do
   end
 
   it 'display the list of candidates' do
-    @subject = t('email.subject_initial_input')
+    @subject = MailPart.new_subject(t('email.subject_initial_input'))
+    @body = MailPart.new_body('')
 
     render
 

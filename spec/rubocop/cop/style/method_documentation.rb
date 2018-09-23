@@ -140,7 +140,7 @@ module RuboCop
 
           args = node.arguments
           return add_offense(preceding_lines[0], message: MSG_MISSING_PARAMETERS) if parameters_range.missing? && !args.empty?
-          return add_offense(parameters_range[0], message: MSG_UNNECESSARY_PARAMETERS) if !parameters_range.missing? && args.empty?
+          return add_offense(parameters_range.start_comment, message: MSG_UNNECESSARY_PARAMETERS) if !parameters_range.missing? && args.empty?
 
           check_body(parameters_range) unless parameters_range.missing?
           check_body(attrs_range) unless attrs_range.missing?

@@ -21,8 +21,6 @@ class AdminsController < ApplicationController
   AdminsController::GENERATE_PDF = I18n.t('views.common.generate_pdf')
   AdminsController::CONFIRM_ACCOUNT = I18n.t('views.common.confirm_account')
 
-  # ROUTES
-
   # edit adhoc email
   #
   # === Attributes:
@@ -34,14 +32,16 @@ class AdminsController < ApplicationController
   # * <tt>:subject_text</tt>  subject of message
   #
   def adhoc_mailing
-    subject = t('email.subject_initial_input')
-    body = ''
-    if params[:mail]
-      subject = params[:mail][:subject] || subject
-      body = params[:mail][:body_input] || body
-    end
+    setup_adhoc_render_default
+  end
 
-    setup_adhoc_render(body, subject)
+  # setup default values for adhoc mailing
+  #
+  def setup_adhoc_render_default
+    subject = MailPart.new_subject(t('email.subject_initial_input'))
+    body = MailPart.new_body('')
+
+    setup_adhoc_render(subject, body)
   end
 
   # update adhoc email - send email
@@ -66,9 +66,8 @@ class AdminsController < ApplicationController
 
     mail_param = params.require(:mail).permit(:subject, :body_input, :attach_file)
 
-    # mail_param = parm[:mail]
-    subject_text = mail_param[:subject]
-    body_input_text = mail_param[:body_input]
+    subject_mail_part = MailPart.new_subject(mail_param[:subject])
+    body_mail_part = MailPart.new_body(mail_param[:body_input])
     attach_file = mail_param[:attach_file]
 
     candidate_ids = params[:candidate][:candidate_ids]
@@ -76,23 +75,21 @@ class AdminsController < ApplicationController
     candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
 
     if candidates.empty?
-      setup_adhoc_render(body_input_text, subject_text)
+      setup_adhoc_render(body_mail_part, subject_mail_part)
       flash.now[:alert] = t('messages.no_candidate_selected')
-      return render :adhoc_mailing, mail: mail_param
+      return render :adhoc_mailing
     end
-
     begin
       send_grid_mail = SendGridMail.new(current_admin, candidates)
+
       case commit
       when t('email.adhoc_mail')
-
         flash_message = t('messages.adhoc_mailing_progress')
-        response = send_grid_mail.adhoc(subject_text, attach_file, body_input_text)
+        response = send_grid_mail.adhoc(subject_mail_part, attach_file, body_mail_part)
 
       when t('email.test_adhoc_mail')
-
         flash_message = t('messages.adhoc_mailing_test_sent')
-        response = send_grid_mail.adhoc_test(subject_text, attach_file, body_input_text)
+        response = send_grid_mail.adhoc_test(subject_mail_part, attach_file, body_mail_part)
 
       else
 
@@ -111,8 +108,8 @@ class AdminsController < ApplicationController
       Rails.logger.error("message=#{e.message} backtrace=#{e.backtrace[0...5]}")
     end
 
-    setup_adhoc_render(body_input_text, subject_text)
-    render :adhoc_mailing, mail: mail_param
+    setup_adhoc_render(body_mail_part, subject_mail_part)
+    render :adhoc_mailing
   end
 
   # edit ConfirmationEvents
