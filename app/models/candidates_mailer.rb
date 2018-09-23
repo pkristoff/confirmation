@@ -24,7 +24,7 @@ class CandidatesMailer < ActionMailer::Base
 
     mail(
       to: "#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}",
-      subject: candidate_mailer_text.subject
+      subject: candidate_mailer_text.subject.text
     ) do |format|
       format.html
     end
@@ -45,7 +45,7 @@ class CandidatesMailer < ActionMailer::Base
   def adhoc_test(admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
 
-    @subject = candidate_mailer_text.subject
+    @subject = candidate_mailer_text.subject.text
 
     mail(to: admin.email.to_s,
          subject: I18n.t('email.test_adhoc_subject_initial_input', candidate_account_name: candidate_mailer_text.candidate.account_name)) do |format|
@@ -70,7 +70,7 @@ class CandidatesMailer < ActionMailer::Base
 
     mail(
       to: "#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}",
-      subject: candidate_mailer_text.subject
+      subject: candidate_mailer_text.subject.text
     ) do |format|
       format.html
     end
@@ -92,7 +92,7 @@ class CandidatesMailer < ActionMailer::Base
   def monthly_reminder_test(admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
 
-    @subject = candidate_mailer_text.subject
+    @subject = candidate_mailer_text.subject.text
 
     mail(to: admin.email.to_s,
          subject: I18n.t('email.test_monthly_mail_subject_initial_input', candidate_account_name: candidate_mailer_text.candidate.account_name)) do |format|

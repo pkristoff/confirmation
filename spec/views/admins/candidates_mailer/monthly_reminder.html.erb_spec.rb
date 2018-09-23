@@ -212,6 +212,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     table_id = "table[id='#{event_prefix}_table']"
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
+    return expect(rendered).not_to have_css(table_id.to_s) if cell_values.empty?
+
     expect(rendered).to have_css(table_id.to_s)
     expect(rendered).to have_css("#{table_id} #{tr_header_id}")
     expect(rendered).to have_css "#{table_id} #{tr_header_id} th", count: column_headers.size

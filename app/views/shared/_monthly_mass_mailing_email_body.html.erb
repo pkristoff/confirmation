@@ -1,16 +1,21 @@
-  <p><%= @candidate_mailer_text.candidate.candidate_sheet.first_name %>,</p>
+<p><%= @candidate_mailer_text.candidate.candidate_sheet.first_name %>,</p>
 
-  <p id="past_due_input" style="white-space: pre;"><%= @candidate_mailer_text.pre_late_input %>
+<% pre_late_mail_part = @candidate_mailer_text.pre_late_input %>
+<% if pre_late_mail_part.show %>
+  <p id="past_due_input" style="white-space: pre;"><%= pre_late_mail_part.text %>
 
-  <%= render 'shared/reminder_table',
-             event_key: 'past_due',
-             headers: [],
-             field_set_header: t('email.past_due'),
-             events: @candidate_mailer_text.late_events,
-             past_due: Proc.new { |candidate_event| nil }
-  %>
+    <%= render 'shared/reminder_table',
+               event_key: 'past_due',
+               headers: [],
+               field_set_header: t('email.past_due'),
+               events: @candidate_mailer_text.late_events,
+               past_due: Proc.new { |candidate_event| nil }
+    %>
+<% end %>
 
-  <p id="coming_due_events_input" style="white-space: pre;"><%= @candidate_mailer_text.pre_coming_due_input %></p>
+<% pre_coming_due_mail_part = @candidate_mailer_text.pre_coming_due_input %>
+<% if pre_coming_due_mail_part.show %>
+  <p id="coming_due_events_input" style="white-space: pre;"><%= pre_coming_due_mail_part.text %></p>
 
   <%= render 'shared/reminder_table',
              event_key: 'coming_due_events',
@@ -19,25 +24,41 @@
              events: @candidate_mailer_text.coming_due_events,
              past_due: Proc.new { |candidate_event| candidate_event.due_date }
   %>
+<% end %>
 
-  <p id="completed_awaiting_events_input" style="white-space: pre;"><%= @candidate_mailer_text.completed_awaiting_input %></p>
+<% completed_awaiting_mail_part = @candidate_mailer_text.completed_awaiting_input %>
+<% if completed_awaiting_mail_part.show %>
+  <p id="completed_awaiting_events_input" style="white-space: pre;"><%= completed_awaiting_mail_part.text %></p>
 
   <%= render 'shared/completed_reminder_table',
              event_key: 'completed_awaiting_events',
              field_set_header: t('email.completed_awaiting_approval_label'),
              events: @candidate_mailer_text.completed_awaiting_events
   %>
+<% end %>
 
-  <p id="completed_events_input" style="white-space: pre;"><%= @candidate_mailer_text.completed_input %></p>
+<% completed_mail_part = @candidate_mailer_text.completed_input %>
+<% if completed_mail_part.show %>
+  <p id="completed_events_input" style="white-space: pre;"><%= completed_mail_part.text %></p>
 
   <%= render 'shared/completed_reminder_table',
              event_key: 'completed_events',
              field_set_header: t('email.completed_input_label'),
              events: @candidate_mailer_text.completed_events
   %>
+<% end %>
 
-  <p id="closing_input" style="white-space: pre;"><%= @candidate_mailer_text.closing_input %></p>
+<% closing_mail_part = @candidate_mailer_text.closing_input %>
+<% if closing_mail_part.show %>
+  <p id="closing_input" style="white-space: pre;"><%= closing_mail_part.text %></p>
+<% end %>
 
-  <p id="salutation_input" style="white-space: pre;"><%= @candidate_mailer_text.salutation_input %></p>
+<% salutation_mail_part = @candidate_mailer_text.salutation_input %>
+<% if salutation_mail_part.show %>
+  <p id="salutation_input" style="white-space: pre;"><%= salutation_mail_part.text %></p>
+<% end %>
 
-  <p id="from_input" style="white-space: pre;"><%= @candidate_mailer_text.from_input %></p>
+<% from_mail_part = @candidate_mailer_text.from_input %>
+<% if from_mail_part.show %>from_mail_part
+  <p id="from_input" style="white-space: pre;"><%= from_mail_part.text %></p>
+<% end %>

@@ -142,6 +142,8 @@ describe CandidatesMailer, type: :model do
     expect(body).to have_css("p[id='#{event_prefix}_input']", text: field_text) unless field_text.nil? # if expect(body).to have_field(field_id, text: field_text)
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
+    return expect(body).not_to have_css(table_id.to_s) if cell_values.empty?
+
     expect(body).to have_css(table_id.to_s)
     expect(body).to have_css("#{table_id} #{tr_header_id}")
     expect(body).to have_css "#{table_id} #{tr_header_id} th", count: column_headers.size

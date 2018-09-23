@@ -1,19 +1,23 @@
-<%= field_set_tag field_set_header, class: 'fieldset' do %>
+<%= field_set_tag field_set_header, id: "#{event_key}_fieldset", class: 'fieldset' do %>
+  <% if events.empty? %>
+    <p>No events</p>
+  <% else %>
     <div class="container">
       <table id='<%= "#{event_key}_table" %>' class="table table-hover">
         <tr id=<%= "#{event_key}_header" %>>
           <% headers.each do |header| %>
-              <th><%= header %></th>
+            <th><%= header %></th>
           <% end %>
         </tr>
         <% events.each do |candidate_event| %>
-            <tr id="<%= "#{event_key}_tr#{candidate_event.id}" %>">
-              <td id="<%= "#{event_key}_td0#{candidate_event.id}" %>"><%= candidate_event.name %></td>
-              <% unless past_due.call(candidate_event).nil? %>
-                  <td id="<%= "#{event_key}_td1#{candidate_event.id}" %>"><%= past_due.call(candidate_event) %></td>
-              <% end %>
-            </tr>
+          <tr id="<%= "#{event_key}_tr#{candidate_event.id}" %>">
+            <td id="<%= "#{event_key}_td0#{candidate_event.id}" %>"><%= candidate_event.name %></td>
+            <% unless past_due.call(candidate_event).nil? %>
+              <td id="<%= "#{event_key}_td1#{candidate_event.id}" %>"><%= past_due.call(candidate_event) %></td>
+            <% end %>
+          </tr>
         <% end %>
       </table>
     </div>
+  <% end %>
 <% end %>
