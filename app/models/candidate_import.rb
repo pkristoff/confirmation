@@ -877,13 +877,14 @@ class CandidateImport
   # Array: candidates
   #
   def process_initial_xlsx(candidates, spreadsheet)
+    legal_headers = %w[Last\ Name First\ Name Grade Teen\ Email Parent\ Email\ Address(es) Cardinal\ Gibbons\ HS\ Group]
     header_row = spreadsheet.first
-    if header_row[0].strip == 'Last Name' &&
-       header_row[1].strip == 'First Name' &&
-       header_row[2].strip == 'Grade' &&
-       header_row[3].strip == 'Teen Email' &&
-       header_row[4].strip == 'Parent Email Address(es)' &&
-       header_row[5].strip == 'Cardinal Gibbons HS Group'
+    if header_row[0].strip == legal_headers[0] &&
+       header_row[1].strip == legal_headers[1] &&
+       header_row[2].strip == legal_headers[2] &&
+       header_row[3].strip == legal_headers[3] &&
+       header_row[4].strip == legal_headers[4] &&
+       header_row[5].strip == legal_headers[5]
 
       (2..spreadsheet.last_row).each do |i|
         spreadsheet_row = spreadsheet.row(i)
@@ -931,7 +932,7 @@ class CandidateImport
       end
       candidates
     else
-      raise "Unknown spread sheet columns: #{header_row}"
+      raise "Unknown spread sheet column: #{header_row} expected in order: #{legal_headers}"
     end
   end
 
