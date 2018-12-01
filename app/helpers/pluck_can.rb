@@ -44,8 +44,9 @@ class PluckCan
   def self.pluck_candidates(confirmation_event_id = nil)
     candidate_events = pluck_cand_events
     Rails.logger.info("candidate_events=#{candidate_events}")
-    Candidate.joins(:candidate_sheet).pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending).map do |cand_info|
+    Candidate.joins(:candidate_sheet).pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending).map do |ç|
       candidate_id = cand_info[0]
+      Rails.logger.info("cand_info=#{cand_info}")
       Rails.logger.info("account_name=#{cand_info[1]}")
       Rails.logger.info("candidate_events=#{candidate_events[candidate_id]}")
       event = candidate_events[candidate_id].find do |cand_event_for_cand|
