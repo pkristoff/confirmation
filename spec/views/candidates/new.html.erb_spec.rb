@@ -4,10 +4,9 @@ describe 'candidates/new.html.erb' do
   include DeviseHelpers
   include ViewsHelpers
   it 'Form layout' do
+    @resource = AppFactory.create_candidate
     @resource_class = Candidate
-
     render
-
-    expect(rendered).to have_selector('p', text: 'This has been turned off')
+    expect_create_candidate(rendered)
   end
 end

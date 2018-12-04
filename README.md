@@ -107,6 +107,10 @@ Production => local
 - heroku pg:backups:download --app confirmation-production
 - pg_restore --verbose --clean --no-acl --no-owner -h localhost -U paulkristoff -d confirmation_development 20180213.dump > restore.log
 
+PSQL
+- heroku pg:psql postgresql-corrugated-19133 --app confirmation-production
+- https://data.heroku.com/datastores/f944f9a2-8738-4d80-915a-9fe4f83fd7e0#administration
+
 Restore dump to Production:
 - save dump to Dropbox
 - in Dropbox make link visable by all

@@ -35,7 +35,7 @@ def expect_message(id, message, rendered_page = page)
   if (id == :error_explanation) && message.is_a?(Array)
     expect(rendered_page).to have_selector("div[id=#{id}] h2", text: message[0])
     2..message.size do |i|
-      expect(rendered_page).to have_selector("div[id=#{id}] li", text: message[i])
+      expect(rendered_page).to have_selector('li', text: message[i])
     end
   else
     expect(rendered_page).to have_selector("div[id=#{id}]", text: message) unless id.nil?

@@ -1,0 +1,69 @@
+<% is_candidate_signed_in_and_not_new = (by_candidate and !is_new) %>
+
+<%= devise_error_messages! %>
+
+<div class="field">
+  <%= f.label :account_name %><br/>
+  <%= f.text_field :account_name, readonly: is_candidate_signed_in_and_not_new, autofocus: !is_candidate_signed_in_and_not_new %>
+</div>
+
+<%= f.fields_for :candidate_sheet do |cs_fields| %>
+    <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= cs_fields.label :first_name %><br/>
+            <%= cs_fields.text_field :first_name, autofocus: is_candidate_signed_in_and_not_new %>
+          </div>
+
+          <div class="field">
+            <%= cs_fields.label :middle_name %><br/>
+            <%= cs_fields.text_field :middle_name %>
+          </div>
+
+          <div class="field">
+            <%= cs_fields.label :last_name %><br/>
+            <%= cs_fields.text_field :last_name %>
+          </div>
+        </div>
+    <% end %>
+
+    <%= field_set_tag t('field_set.candidate_sheet.email'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= cs_fields.label :candidate_email %><br/>
+            <%= cs_fields.email_field :candidate_email %>
+          </div>
+
+          <div class="field">
+            <%= cs_fields.label :parent_email_1 %><br/>
+            <%= cs_fields.email_field :parent_email_1 %>
+          </div>
+
+          <div class="field">
+            <%= cs_fields.label :parent_email_2 %><br/>
+            <%= cs_fields.email_field :parent_email_2 %>
+          </div>
+        </div>
+    <% end %>
+
+    <%= field_set_tag t('field_set.candidate_sheet.other'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= cs_fields.label :grade %><br/>
+            <%= cs_fields.number_field :grade, min: 8, max: 12 %>
+          </div>
+
+          <%= field_set_tag 'Attending', class: 'fieldset' do %>
+              <div class="fieldset-div">
+                <%= cs_fields.radio_button(:attending, I18n.t('views.candidates.attending_catholic_high_school')) %> <%= cs_fields.label :attending, I18n.t('views.candidates.attending_catholic_high_school'), value: I18n.t('views.candidates.attending_catholic_high_school') %>
+                <br/>
+                <%= cs_fields.radio_button(:attending, I18n.t('views.candidates.attending_the_way')) %> <%= cs_fields.label :attending, I18n.t('views.candidates.attending_the_way'), value: I18n.t('views.candidates.attending_the_way') %>
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+<% end %>
+
+<div class="actions">
+  <%= f.submit (is_new ? t('views.top_bar.sign_up') : t('views.common.update')) %>
+</div>

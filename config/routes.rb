@@ -41,7 +41,9 @@ Rails.application.routes.draw do
     put 'dev/download_document/:id/.:name', to: 'dev/candidates#download_document', as: 'dev_download_document'
     put 'download_document/:id/.:name', to: 'candidates#download_document', as: 'download_document'
 
-    # visitors
+    put 'update_created_candidate', to: 'cadidates#update_created_candidate', as: 'update_created_candidate'
+
+      # visitors
     get 'show_visitor', to: 'admins#show_visitor', as: 'show_visitor'
     post 'update_visitor/:id', to: 'admins#update_visitor', as: 'update_visitor'
 

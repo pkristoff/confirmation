@@ -104,13 +104,53 @@ describe CandidateSheet, type: :model do
         expect(candidate_sheet.cc_email_2).to eq('')
       end
     end
+    describe 'email validation' do
+      it 'illegal emails' do
+        candidate_sheet = CandidateSheet.new
+        fill_in_cand(candidate_sheet)
+        candidate_sheet.parent_email_1 = 'foo'
+        candidate_sheet.validate_emails
+        expect(candidate_sheet.errors.full_messages.size).to eq(1)
+        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 1 is an invalid email: foo')
+      end
+      it 'illegal emails' do
+        candidate_sheet = CandidateSheet.new
+        fill_in_cand(candidate_sheet)
+        candidate_sheet.parent_email_2 = 'foo'
+        candidate_sheet.validate_emails
+        puts candidate_sheet.errors.full_messages
+        expect(candidate_sheet.errors.full_messages.size).to eq(2)
+        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is an invalid email: foo')
+      end
+      it 'illegal emails' do
+        candidate_sheet = CandidateSheet.new
+        fill_in_cand(candidate_sheet)
+        candidate_sheet.candidate_email = 'foo'
+        candidate_sheet.validate_emails
+        expect(candidate_sheet.errors.full_messages.size).to eq(1)
+        expect(candidate_sheet.errors.full_messages[0]).to eq('Candidate email is an invalid email: foo')
+      end
+      it 'at least one email' do
+        candidate_sheet = CandidateSheet.new
+        fill_in_cand(candidate_sheet)
+        candidate_sheet.validate_emails
+        expect(candidate_sheet.errors.full_messages.size).to eq(1)
+        expect(candidate_sheet.errors.full_messages[0]).to eq('Candidate email at least one email must be supplied.')
+      end
+    end
+    def fill_in_cand(cand)
+      cand.first_name = 'x'
+      cand.middle_name = 'x'
+      cand.last_name = 'x'
+    end
   end
   describe 'validate_event_complete' do
     it 'should pass validation - new candidate_sheet validated' do
       candidate_sheet = FactoryBot.create(:candidate_sheet)
 
-      expect(candidate_sheet.validate_event_complete).to eq(true)
       msgs = candidate_sheet.errors.full_messages
+      puts "msgs=#{msgs}"
+      expect(candidate_sheet.validate_event_complete).to eq(true)
       expect(msgs.empty?).to eq(true), "msgs not empty=#{msgs}"
     end
     it 'should fail validation -  middle_name now required' do

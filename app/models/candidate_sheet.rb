@@ -35,6 +35,24 @@ class CandidateSheet < ApplicationRecord
     event_complete
   end
 
+  # Validate if event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:options</tt> If true then nothing else needs to be added
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def validate_creation_complete(_options = {})
+    event_complete_validator = EventCompleteValidator.new(self)
+    event_complete_validator.validate(CandidateSheet.basic_validation_params)
+    validate_emails
+
+    errors.none?
+  end
+
   # Editable attributes
   #
   # === Returns:
@@ -85,6 +103,22 @@ class CandidateSheet < ApplicationRecord
     candidate_sheet
   end
 
+  # Validate if event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of association
+  #
+  # === Returns:
+  #
+  # * <tt>CandidateSheet</tt>candidate_sheet with validation errors
+  #
+  def self.validate_creation_complete(candidate)
+    candidate_sheet = candidate.candidate_sheet
+    candidate_sheet.validate_creation_complete
+    candidate_sheet
+  end
+
   # associated confirmation event name
   #
   # === Returns:
@@ -128,7 +162,7 @@ class CandidateSheet < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def email_required?
-    false
+    true
   end
 
   # returns false - used by Factory Girl
@@ -147,6 +181,8 @@ class CandidateSheet < ApplicationRecord
     errors.add(:candidate_email, "is an invalid email: #{candidate_email}") unless validate_email(candidate_email)
     errors.add(:parent_email_1, "is an invalid email: #{parent_email_1}") unless validate_email(parent_email_1)
     errors.add(:parent_email_2, "is an invalid email: #{parent_email_2}") unless validate_email(parent_email_2)
+
+    errors.add(:candidate_email, 'at least one email must be supplied.') if candidate_email.blank? & parent_email_1.blank? & parent_email_2
   end
 
   # Validate if email is a valid email addrress.

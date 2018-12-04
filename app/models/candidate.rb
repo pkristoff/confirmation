@@ -105,7 +105,7 @@ class Candidate < ApplicationRecord
   #
   # === Returns:
   #
-  # * <tt>Array</tt> of condidations
+  # * <tt>Array</tt> of conditions
   #
   def self.find_first_by_auth_conditions(tainted_conditions, options = {})
     login = tainted_conditions.delete(:account_name)
@@ -142,7 +142,7 @@ class Candidate < ApplicationRecord
   #
   def self.candidate_params
     params = attribute_names.collect(&:to_sym) & %i[account_name password]
-    params = params << :password
+    # params = params << :password
     params
   end
 
@@ -193,6 +193,26 @@ class Candidate < ApplicationRecord
   def validate_event_complete(association_class)
     complete = true
     association = association_class.validate_event_complete(self)
+    association.errors.full_messages.each do |msg|
+      errors[:base] << msg
+      complete = false
+    end
+    complete
+  end
+
+  # Validate if association_class event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:association_class</tt> association for self related to event
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def validate_creation_complete(association_class)
+    complete = true
+    association = association_class.validate_creation_complete(self)
     association.errors.full_messages.each do |msg|
       errors[:base] << msg
       complete = false
@@ -294,7 +314,7 @@ class Candidate < ApplicationRecord
   #
   def keep_bc_errors
     bc_errors = %w[First Middle Last]
-    errors.clone.each do |_attr, msg|
+    errors.messages[:base].clone.each do |msg|
       errors.messages[:base].delete(msg) if bc_errors.detect { |xxx| msg.include? xxx }.nil?
     end
   end

@@ -101,7 +101,9 @@ class CommonCandidatesController < ApplicationController
         render_called = event_with_picture_update_private(SponsorCovenant, is_verify)
 
       when Event::Route::BAPTISMAL_CERTIFICATE
-        cand_parms = params.require(:candidate).permit(baptismal_certificate_attributes: [:baptized_at_stmm,
+        cand_parms = params.require(:candidate).permit(baptismal_certificate_attributes: [:id,
+                                                                                          :baptized_at_stmm,
+                                                                                          :first_comm_at_stmm,
                                                                                           :show_empty_radio,
                                                                                           :remove_certificate_picture,
                                                                                           :certificate_picture,
@@ -115,12 +117,14 @@ class CommonCandidatesController < ApplicationController
                                                                                           :mother_middle,
                                                                                           :mother_maiden,
                                                                                           :mother_last,
-                                                                                          church_address_attributes: [:street_1,
+                                                                                          church_address_attributes: [:id,
+                                                                                                                      :street_1,
                                                                                                                       :street_2,
                                                                                                                       :city,
                                                                                                                       :state,
                                                                                                                       :zip_code]],
-                                                       candidate_sheet_attributes: [:first_name,
+                                                       candidate_sheet_attributes: [:id,
+                                                                                    :first_name,
                                                                                     :middle_name,
                                                                                     :last_name])
 

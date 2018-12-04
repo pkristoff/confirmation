@@ -40,7 +40,8 @@ describe CandidateImportsController do
       uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       post :import_candidates, params: { candidate_import: { file: uploaded_file } }
       expect(controller.candidate_import).not_to eq(nil)
-      expect(controller.candidate_import.errors.size).to eq(4)
+      puts "controller.candidate_import.errors=#{controller.candidate_import.errors}"
+      expect(controller.candidate_import.errors.size).to eq(5)
     end
   end
 

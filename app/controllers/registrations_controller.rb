@@ -10,10 +10,24 @@ class RegistrationsController < Devise::RegistrationsController
   # create Candidate
   #
   def create
-    unless admin_signed_in?
-      return redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin'))
+    @candidate = AppFactory.create_candidate
+    cs = params['candidate']['candidate_sheet_attributes']
+    params['candidate'][:account_name] = "#{cs['last_name']}#{cs['first_name']}"
+    params['candidate'][:password] = '12345678'
+    params['candidate'][:password_confirmation] = '12345678'
+
+    if @candidate.update(candidate_params)
+      event_name = CandidateSheet.event_name
+      candidate_event = @candidate.get_candidate_event(event_name)
+      candidate_event.mark_completed(@candidate.validate_creation_complete(CandidateSheet), CandidateSheet)
+      if candidate_event.save
+        flash['notice'] = "Created #{cs['first_name']} #{cs['last_name']}"
+      else
+        flash['alert'] = "Save of #{event_name} failed"
+      end
+    else
+      flash['alert'] = "Save of creation of candidate failed: #{cs['first_name']} #{cs['last_name']} "
     end
-    super
   end
 
   # destroy Candidate

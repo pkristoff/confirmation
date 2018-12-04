@@ -105,6 +105,39 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false)
   end
 
+  scenario 'should not show a validation error for city and zip code' do
+    candidate = Candidate.find(@candidate.id)
+    @candidate.baptismal_certificate.baptized_at_stmm = false
+    @candidate.baptismal_certificate.first_comm_at_stmm = false
+    @candidate.baptismal_certificate.show_empty_radio = 2
+    candidate.candidate_sheet.address.street_1 = ''
+    candidate.candidate_sheet.address.street_2 = ''
+    candidate.candidate_sheet.address.city = ''
+    candidate.candidate_sheet.address.state = ''
+    candidate.candidate_sheet.address.zip_code = ''
+    suc = candidate.save
+    expect(suc).to be(true)
+
+    @candidate.save
+    update_baptismal_certificate(false)
+
+    visit @path
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true)
+    fill_in_form
+
+    click_button @update_id
+
+    if @is_verify
+
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+
+    else
+
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
+                                        expect_messages: [[:flash_notice, @updated_message]])
+    end
+  end
+
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_stmm, fills in template' do
     @candidate.baptismal_certificate.baptized_at_stmm = false
     @candidate.baptismal_certificate.first_comm_at_stmm = false

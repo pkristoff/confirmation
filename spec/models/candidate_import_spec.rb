@@ -67,12 +67,13 @@ describe CandidateImport do
         'Row 2: Last name can\'t be blank',
         'Row 3: First name can\'t be blank',
         'Row 5: Parent email 1 is an invalid email: @nc.rr.com',
-        'Row 5: Parent email 2 is an invalid email: rannunz'
+        'Row 5: Parent email 2 is an invalid email: rannunz',
+        'Row 6: Candidate email at least one email must be supplied.'
       ]
       candidate_import.errors.each_with_index do |candidate, index|
         expect(candidate[1]).to eq(error_messages[index])
       end
-      expect(candidate_import.errors.size).to eq(4)
+      expect(candidate_import.errors.size).to eq(5)
     end
 
     def image_column_value(candidate, columns)

@@ -12,58 +12,73 @@ module ViewsHelpers
   FROM_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
   REPLY_TO_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
 
-  def expect_edit_and_new_view(rendered, candidate, action, submit_button, is_candidate_signed_in, is_new)
+  def expect_create_candidate(rendered_or_page)
+    expect(rendered_or_page).to have_selector('h2', text: 'Create new Candidate')
+    expect(rendered_or_page).to have_field('Account name', text: '')
+    expect(rendered_or_page).to have_field('First name', text: '')
+    expect(rendered_or_page).to have_field('Middle name', text: '')
+    expect(rendered_or_page).to have_field('Last name', text: '')
+    expect(rendered_or_page).to have_field('Candidate email', text: '')
+    expect(rendered_or_page).to have_field('Parent email 1', text: '')
+    expect(rendered_or_page).to have_field('Parent email 2', text: '')
+
+    expect(rendered_or_page).to have_field('Grade', text: '')
+    expect(rendered_or_page).to have_unchecked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
+    expect(rendered_or_page).to have_checked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
+  end
+
+  def expect_edit_and_new_view(rendered_or_page, candidate, action, submit_button, is_candidate_signed_in, is_new)
     form_id = is_new ? 'new_candidate' : 'edit_candidate'
 
     # this matches the partial: candidates/shared/edit_and_new_candidate
     is_candidate_signed_in_and_not_new = (is_candidate_signed_in && !is_new)
 
-    expect(rendered).to have_selector("form[id=#{form_id}][action=\"#{action}\"]")
+    expect(rendered_or_page).to have_selector("form[id=#{form_id}][action=\"#{action}\"]")
 
     first_name_autofocus = is_candidate_signed_in_and_not_new ? '[autofocus="autofocus"]' : ''
     candidate_autofocus = is_candidate_signed_in_and_not_new ? '' : '[autofocus="autofocus"]'
 
-    expect(rendered).to have_field('Account name', type: 'text', readonly: is_candidate_signed_in_and_not_new)
-    expect(rendered).to have_selector("input[id=candidate_account_name]#{candidate_autofocus}")
+    expect(rendered_or_page).to have_field('Account name', type: 'text', readonly: is_candidate_signed_in_and_not_new)
+    expect(rendered_or_page).to have_selector("input[id=candidate_account_name]#{candidate_autofocus}")
 
-    expect(rendered).to have_field('First name', with: (candidate ? candidate.candidate_sheet.first_name : ''), type: 'text')
-    expect(rendered).to have_selector("input[id=candidate_candidate_sheet_attributes_first_name]#{first_name_autofocus}")
-    expect(rendered).to have_field('Middle name', with: (candidate ? candidate.candidate_sheet.middle_name : ''), type: 'text')
-    expect(rendered).to have_field('Last name', with: (candidate ? candidate.candidate_sheet.last_name : ''), type: 'text')
+    expect(rendered_or_page).to have_field('First name', with: (candidate ? candidate.candidate_sheet.first_name : ''), type: 'text')
+    expect(rendered_or_page).to have_selector("input[id=candidate_candidate_sheet_attributes_first_name]#{first_name_autofocus}")
+    expect(rendered_or_page).to have_field('Middle name', with: (candidate ? candidate.candidate_sheet.middle_name : ''), type: 'text')
+    expect(rendered_or_page).to have_field('Last name', with: (candidate ? candidate.candidate_sheet.last_name : ''), type: 'text')
 
-    expect(rendered).to have_field('Street 1', with: (candidate ? candidate.candidate_sheet.address.street_1 : ''), type: 'text')
-    expect(rendered).to have_field('Street 2', with: (candidate ? candidate.candidate_sheet.address.street_2 : ''), type: 'text')
-    expect(rendered).to have_field('City', with: (candidate ? candidate.candidate_sheet.address.city : ''), type: 'text')
-    expect(rendered).to have_field('State', with: (candidate ? candidate.candidate_sheet.address.state : ''), type: 'text')
-    expect(rendered).to have_field('Zip code', with: (candidate ? candidate.candidate_sheet.address.zip_code : ''), type: 'text')
+    expect(rendered_or_page).to have_field('Street 1', with: (candidate ? candidate.candidate_sheet.address.street_1 : ''), type: 'text')
+    expect(rendered_or_page).to have_field('Street 2', with: (candidate ? candidate.candidate_sheet.address.street_2 : ''), type: 'text')
+    expect(rendered_or_page).to have_field('City', with: (candidate ? candidate.candidate_sheet.address.city : ''), type: 'text')
+    expect(rendered_or_page).to have_field('State', with: (candidate ? candidate.candidate_sheet.address.state : ''), type: 'text')
+    expect(rendered_or_page).to have_field('Zip code', with: (candidate ? candidate.candidate_sheet.address.zip_code : ''), type: 'text')
 
     if candidate
-      expect(rendered).to have_field('Grade', with: candidate.candidate_sheet.grade, type: 'number')
+      expect(rendered_or_page).to have_field('Grade', with: candidate.candidate_sheet.grade, type: 'number')
     else
-      expect(rendered).to have_field('Grade', type: 'number')
+      expect(rendered_or_page).to have_field('Grade', type: 'number')
     end
 
     if candidate&.candidate_sheet&.attending == I18n.t('views.candidates.attending_catholic_high_school')
-      expect(rendered).to have_checked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
-      expect(rendered).to have_unchecked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
+      expect(rendered_or_page).to have_checked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
+      expect(rendered_or_page).to have_unchecked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
     else
-      expect(rendered).to have_unchecked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
-      expect(rendered).to have_checked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
+      expect(rendered_or_page).to have_unchecked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
+      expect(rendered_or_page).to have_checked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
     end
 
-    expect(rendered).to have_field('Candidate email', with: (candidate ? candidate.candidate_sheet.candidate_email : ''), type: 'email')
-    expect(rendered).to have_field('Parent email 1', with: (candidate ? candidate.candidate_sheet.parent_email_1 : ''), type: 'email')
-    expect(rendered).to have_field('Parent email 2', with: (candidate ? candidate.candidate_sheet.parent_email_2 : ''), type: 'email')
+    expect(rendered_or_page).to have_field('Candidate email', with: (candidate ? candidate.candidate_sheet.candidate_email : ''), type: 'email')
+    expect(rendered_or_page).to have_field('Parent email 1', with: (candidate ? candidate.candidate_sheet.parent_email_1 : ''), type: 'email')
+    expect(rendered_or_page).to have_field('Parent email 2', with: (candidate ? candidate.candidate_sheet.parent_email_2 : ''), type: 'email')
 
-    expect(rendered).to have_field('Password', type: 'password')
-    expect(rendered).to have_field('Password confirmation', type: 'password')
+    expect(rendered_or_page).to have_field('Password', type: 'password')
+    expect(rendered_or_page).to have_field('Password confirmation', type: 'password')
     if is_candidate_signed_in_and_not_new
-      expect(rendered).to have_field('Current password', type: 'password')
+      expect(rendered_or_page).to have_field('Current password', type: 'password')
     else
-      expect(rendered).not_to have_field('Current password', type: 'password')
+      expect(rendered_or_page).not_to have_field('Current password', type: 'password')
     end
 
-    expect(rendered).to have_button(submit_button)
+    expect(rendered_or_page).to have_button(submit_button)
   end
 
   def create_candidate(first_name, middle_name, last_name)
@@ -98,37 +113,37 @@ module ViewsHelpers
     candidate
   end
 
-  def expect_mass_mailing_html(candidates, rendered_or_page)
-    expect(rendered_or_page).to have_css "form[action='/monthly_mass_mailing_update']"
+  def expect_mass_mailing_html(candidates, rendered_or_page_or_page)
+    expect(rendered_or_page_or_page).to have_css "form[action='/monthly_mass_mailing_update']"
 
-    expect(rendered_or_page).to have_css("input[type='submit'][value='#{I18n.t('email.monthly_mail')}']", count: 2)
+    expect(rendered_or_page_or_page).to have_css("input[type='submit'][value='#{I18n.t('email.monthly_mail')}']", count: 2)
 
-    expect(rendered_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
+    expect(rendered_or_page_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
 
-    expect(rendered_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_input'))
-    expect(rendered_or_page).to have_field(I18n.t('email.pre_late_input_label'), text: I18n.t('email.late_initial_input'))
-    expect(rendered_or_page).to have_field(I18n.t('email.pre_coming_due_input_label'), text: I18n.t('email.coming_due_initial_input'))
-    expect(rendered_or_page).to have_field(I18n.t('email.completed_awaiting_input_label'), text: I18n.t('email.completed_awaiting_initial_input'))
-    expect(rendered_or_page).to have_field(I18n.t('email.completed_input_label'), text: I18n.t('email.completed_initial_input'))
-    expect(rendered_or_page).to have_field(I18n.t('email.closing_input_label'), text: I18n.t('email.closing_initial_input'))
-    expect(rendered_or_page).to have_field(I18n.t('email.salutation_input_label'), text: I18n.t('email.salutation_initial_input'))
-    expect(rendered_or_page).to have_field(I18n.t('email.from_input_label'), text: 'Vicki Kristoff')
+    expect(rendered_or_page_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_input'))
+    expect(rendered_or_page_or_page).to have_field(I18n.t('email.pre_late_input_label'), text: I18n.t('email.late_initial_input'))
+    expect(rendered_or_page_or_page).to have_field(I18n.t('email.pre_coming_due_input_label'), text: I18n.t('email.coming_due_initial_input'))
+    expect(rendered_or_page_or_page).to have_field(I18n.t('email.completed_awaiting_input_label'), text: I18n.t('email.completed_awaiting_initial_input'))
+    expect(rendered_or_page_or_page).to have_field(I18n.t('email.completed_input_label'), text: I18n.t('email.completed_initial_input'))
+    expect(rendered_or_page_or_page).to have_field(I18n.t('email.closing_input_label'), text: I18n.t('email.closing_initial_input'))
+    expect(rendered_or_page_or_page).to have_field(I18n.t('email.salutation_input_label'), text: I18n.t('email.salutation_initial_input'))
+    expect(rendered_or_page_or_page).to have_field(I18n.t('email.from_input_label'), text: 'Vicki Kristoff')
 
     expect_sorting_candidate_list(common_columns,
                                   candidates,
-                                  rendered_or_page)
+                                  rendered_or_page_or_page)
 
-    expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
+    expect(rendered_or_page_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
   end
 
   def expect_password_changed
-    ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true' }
+    ->(cand_id, rendered_or_page, td_index) { expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true' }
   end
 
   def expect_account_confirmed
-    lambda { |cand_id, rendered, td_index|
+    lambda { |cand_id, rendered_or_page, td_index|
       candidate = Candidate.find_by(id: cand_id)
-      expect(rendered).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: candidate.account_confirmed?
+      expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: candidate.account_confirmed?
     }
   end
 
