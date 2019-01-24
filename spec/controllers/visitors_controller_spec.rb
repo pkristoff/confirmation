@@ -39,4 +39,12 @@ describe VisitorsController do
       expect(response).to redirect_to("http://test.host/admins/#{@admin.id}")
     end
   end
+  describe 'cand_account_confirmation' do
+    # see cand_account_confirmation_controller_spec.rb - this causes this condition
+    it 'error' do
+      get :cand_account_confirmation, params: { id: -1, errors: 'Confirmation token is invalid' }
+      # puts response.body
+      expect(response).to redirect_to('http://test.host/show_visitor?alert=Confirmation+token+is+invalid')
+    end
+  end
 end

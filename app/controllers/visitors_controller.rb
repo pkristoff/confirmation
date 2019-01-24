@@ -45,6 +45,11 @@ class VisitorsController < ApplicationController
     @candidate = params[:id].to_i.equal?('-1'.to_i) ? Candidate.create : Candidate.find(params[:id])
     @errors = params[:errors]
 
+    if @errors && @errors != 'noerrors'
+      # flash[:alert] = @errors
+      return redirect_to show_visitor_url alert: @errors
+    end
+
     send_grid_mail = SendGridMail.new(current_admin, [@candidate])
     response, _token = send_grid_mail.reset_password
     if response.nil? && Rails.env.test?

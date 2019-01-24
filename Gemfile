@@ -43,6 +43,7 @@ group :development, :test do
   gem 'byebug'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'rails-controller-testing'
   gem 'rails_real_favicon'
   gem 'rspec-rails'
   gem 'rubocop', require: false
