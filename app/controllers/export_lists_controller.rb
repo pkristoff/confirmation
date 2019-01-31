@@ -40,7 +40,7 @@ class ExportListsController < ApplicationController
      ->(candidate) { candidate.baptismal_certificate.church_address.city },
      ->(candidate) { candidate.baptismal_certificate.church_address.state },
      ->(candidate) { candidate.baptismal_certificate.church_address.zip_code },
-     ->(candidate) { !candidate.baptismal_certificate.certificate_picture.nil? }].freeze
+     ->(candidate) { !candidate.baptismal_certificate.scanned_certificate.nil? }].freeze
 
   # downloads spreadsheet for event baptism per candidate
   #

@@ -158,6 +158,17 @@ Creating DBs.
 - cd dev/confirmation
 - rake db:setup
 
+delete candidate by hand:
+* delete from candidates where id=854;
+* delete from baptismal_certificates where id= 2341;
+* delete from addresses where id=5423;
+* delete from sponsor_covenants where id= 2206;
+* delete from pick_confirmation_names where id=2158;
+* delete from christian_ministries where id= 21269;
+* delete from candidate_sheets where id= 1788;
+* delete from addresses where id=5422;
+* delete from retreat_verifications where id= 2140;
+
 SendGrid
 -------------------
 - https://sendgrid.com/docs/API_Reference/api_v3.html
