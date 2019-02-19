@@ -251,7 +251,7 @@ class CandidateSheet < ApplicationRecord
     end
   end
 
-  # Attempts to guarentee that there is always a 'to' email
+  # Attempts to guarantee that there is always a 'to' email
   #   1. if parent_2 email is not nil and not used in to_email or in cc_mail then return it.
   #   2. Otherwise return ''.
   #

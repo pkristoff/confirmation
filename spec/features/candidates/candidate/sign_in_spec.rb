@@ -57,15 +57,68 @@ feature 'Sign in', :devise do
   #   Then orphaned associations should not be created.
   scenario 'candidate cannot sign in with wrong password' do
     AppFactory.add_confirmation_events
-    candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
+    candidate1 = create_candidate_old('Vicki', 'Anne', 'Kristoff')
     signin_candidate(candidate1.account_name, candidate1.password)
     expect_no_orphaned_associations
   end
 
-  def create_candidate(account_name, first, last)
+  # Scenario: Candidate can't login decides to 'Resend confirmation instructions'
+  # but puts in wrong email
+  scenario 'Resend confirmation instructions: wrong email' do
+    AppFactory.add_confirmation_events
+    visit new_candidate_session_path
+    expect(page.html).to have_selector('a[href="/dev/candidates/confirmation/new"]',
+                                       text: 'Resend initial instructions?')
+    expect(page.html).to have_selector('a[href="/dev/candidates/password/new"]',
+                                       text: 'Forgot your password?')
+    click_link 'Resend confirmation instructions?'
+    expect(page.html).to have_button('Resend initial instructions')
+    expect_field('Email', '')
+    fill_in('Email', with: 'aaa@bbb.com')
+    click_button('Resend initial instructions')
+    # puts page.html
+    expect_messages([
+                      [:flash_alert, 'email not associated candidate']
+                    ])
+  end
+
+  # Scenario: Candidate can't login decides to 'Resend confirmation instructions'
+  # puts in right email
+  scenario 'Resend confirmation instructions: good email' do
+    AppFactory.add_confirmation_events
+    create_candidate('c1', false)
+    visit new_candidate_session_path
+    click_link 'Resend confirmation instructions?'
+    expect(page.html).to have_button('Resend initial instructions')
+    fill_in('Email', with: 'c3last_name.c3first_name@test.com')
+    click_button('Resend initial instructions')
+    # puts page.html
+    expect_messages([
+                      [:flash_notice, I18n.t('messages.initial_email_sent')]
+                    ])
+  end
+
+  def create_candidate_old(account_name, first, last)
     candidate = FactoryBot.create(:candidate, account_name: account_name, add_new_confirmation_events: false)
     candidate.candidate_sheet.first_name = first
     candidate.candidate_sheet.last_name = last
+    candidate.save
+    candidate
+  end
+
+  def create_candidate(prefix, should_confirm = true)
+    candidate = FactoryBot.create(:candidate, account_name: prefix, should_confirm: should_confirm)
+    candidate_event = candidate.add_candidate_event(@confirmation_event)
+    case prefix
+    when 'c1'
+      candidate.candidate_sheet.first_name = 'c2first_name'
+      candidate.candidate_sheet.middle_name = 'c1middle_name'
+      candidate.candidate_sheet.last_name = 'c3last_name'
+      candidate.candidate_sheet.candidate_email = 'c3last_name.c3first_name@test.com'
+      candidate_event.completed_date = '2016-06-09'
+    else
+      throw RuntimeError.new('Unknown prefix')
+    end
     candidate.save
     candidate
   end
