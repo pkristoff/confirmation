@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Dev::ConfirmationsController</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
+<script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            Dev::ConfirmationsController
+            
+                <span class="parent">&lt;
+                    
+                    Devise::ConfirmationsController
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../../files/app/controllers/dev/confirmations_controller_rb.html">app/controllers/dev/confirmations_controller.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-after_confirmation_path_for">after_confirmation_path_for</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-show">show</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-show">
+            
+              <b>show</b>()
+            
+            <a href="../../classes/Dev/ConfirmationsController.html#method-i-show" name="method-i-show" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Confirms user(account) copied from parent class</p>
+
+<h4 id="method-i-show-label-Attributes">Attributes</h4>
+<ul><li>
+<p><code>confirmation_token</code> - Token from email link</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-show_source')" id="l_method-i-show_source">show</a>
+                
+              </p>
+              <div id="method-i-show_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/dev/confirmations_controller.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">show</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">resource_class</span>.<span class="ruby-identifier">confirm_by_token</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:confirmation_token</span>])
+  <span class="ruby-keyword">yield</span> <span class="ruby-identifier">resource</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+
+  <span class="ruby-identifier">respond_with_navigational</span>(<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">errors</span>, <span class="ruby-identifier">resource</span>) {<span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">after_confirmation_path_for</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">resource_name</span>, <span class="ruby-identifier">resource</span>.<span class="ruby-identifier">errors</span>)}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+              
+      <div class="sectiontitle">Instance Protected methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-after_confirmation_path_for">
+            
+              <b>after_confirmation_path_for</b>(resource, resource_name, errors)
+            
+            <a href="../../classes/Dev/ConfirmationsController.html#method-i-after_confirmation_path_for" name="method-i-after_confirmation_path_for" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Where to go after user(account) is confirmed</p>
+
+<h4 id="method-i-after_confirmation_path_for-label-Attributes">Attributes</h4>
+<ul><li>
+<p><code>resource</code> - candidate</p>
+</li><li>
+<p><code>resource_name</code> - candidate class name</p>
+</li><li>
+<p><code>errors</code> - Errors gathered while confirming account</p>
+</li></ul>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-after_confirmation_path_for_source')" id="l_method-i-after_confirmation_path_for_source">show</a>
+                
+              </p>
+              <div id="method-i-after_confirmation_path_for_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/dev/confirmations_controller.rb, line 25</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">after_confirmation_path_for</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">resource_name</span>, <span class="ruby-identifier">errors</span>)
+  <span class="ruby-identifier">msgs</span> = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">msg</span><span class="ruby-operator">|</span> <span class="ruby-identifier">msgs</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;#{msg}&quot;</span>}
+  <span class="ruby-comment"># msgs cannot be empty</span>
+  <span class="ruby-identifier">msgs</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;noerrors&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">msgs</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-comment"># resource.id cannot be nil</span>
+  <span class="ruby-identifier">my_candidate_confirmation_path</span>(<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">resource</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">:</span> <span class="ruby-number">-1</span>, <span class="ruby-identifier">msgs</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class VisitorsController - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-about">#about</a>
+    
+    <li ><a href="#method-i-about_app">#about_app</a>
+    
+    <li ><a href="#method-i-cand_account_confirmation">#cand_account_confirmation</a>
+    
+    <li ><a href="#method-i-contact_information">#contact_information</a>
+    
+    <li ><a href="#method-i-index">#index</a>
+    
+    <li ><a href="#method-i-resource">#resource</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-VisitorsController">
+  <h1 id="class-VisitorsController" class="class">
+    class VisitorsController
+  </h1>
+
+  <section class="description">
+    
+<p>Handles <a href="Admin.html">Admin</a> tasks</p>
+
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-about" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">about</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>setup for about page on the top menu bar.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="about-source">
+            <pre><span class="ruby-comment"># File app/controllers/visitors_controller.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">about</span>
+  <span class="ruby-ivar">@visitor</span> = <span class="ruby-constant">Visitor</span>.<span class="ruby-identifier">first</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-about_app" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">about_app</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>setup for about app page in help menu</p>
+          
+          
+
+          
+          <div class="method-source-code" id="about_app-source">
+            <pre><span class="ruby-comment"># File app/controllers/visitors_controller.rb, line 15</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">about_app</span>
+  <span class="ruby-ivar">@visitor</span> = <span class="ruby-constant">Visitor</span>.<span class="ruby-identifier">first</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cand_account_confirmation" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cand_account_confirmation</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>If id == -1 then create a new candidate otherwise find one.</p>
+
+<h3 id="method-i-cand_account_confirmation-label-Attributes">Attributes<span><a href="#method-i-cand_account_confirmation-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:id</code> <a href="Candidate.html">Candidate</a> id</p>
+</li><li>
+<p><code>:erros</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cand_account_confirmation-source">
+            <pre><span class="ruby-comment"># File app/controllers/visitors_controller.rb, line 44</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">cand_account_confirmation</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">to_i</span>.<span class="ruby-identifier">equal?</span>(<span class="ruby-string">&#39;-1&#39;</span>.<span class="ruby-identifier">to_i</span>) <span class="ruby-operator">?</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">create</span> <span class="ruby-operator">:</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@errors</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:errors</span>]
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@errors</span> <span class="ruby-operator">!=</span> <span class="ruby-string">&#39;noerrors&#39;</span>
+    <span class="ruby-comment"># flash[:alert] = @errors</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">show_visitor_url</span> <span class="ruby-value">alert:</span> <span class="ruby-ivar">@errors</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">send_grid_mail</span> = <span class="ruby-constant">SendGridMail</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">current_admin</span>, [<span class="ruby-ivar">@candidate</span>])
+  <span class="ruby-identifier">response</span>, <span class="ruby-identifier">_token</span> = <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">reset_password</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">test?</span>
+    <span class="ruby-comment"># not connected to the internet while testing</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.reset_password_message_sent&#39;</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status_code</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;2&#39;</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.reset_password_message_sent&#39;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Status=#{response.status_code} body=#{response.body}&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">sign_out</span> <span class="ruby-identifier">current_admin</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">admin_signed_in?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-contact_information" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">contact_information</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>setup for contact in help menu</p>
+          
+          
+
+          
+          <div class="method-source-code" id="contact_information-source">
+            <pre><span class="ruby-comment"># File app/controllers/visitors_controller.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">contact_information</span>
+  <span class="ruby-ivar">@visitor</span> = <span class="ruby-constant">Visitor</span>.<span class="ruby-identifier">first</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>redirect to appropriate routing depending who is logged in.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/visitors_controller.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate_signed_in?</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">dev_candidate_path</span>(<span class="ruby-identifier">current_candidate</span>.<span class="ruby-identifier">id</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">admin_signed_in?</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">admin_path</span>(<span class="ruby-identifier">current_admin</span>.<span class="ruby-identifier">id</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-ivar">@visitor</span> = <span class="ruby-constant">Visitor</span>.<span class="ruby-identifier">first</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-resource" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">resource</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Devise method</p>
+
+<h3 id="method-i-resource-label-Returns-3A">Returns:<span><a href="#method-i-resource-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Candidate</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="resource-source">
+            <pre><span class="ruby-comment"># File app/controllers/visitors_controller.rb, line 73</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">resource</span>
+  <span class="ruby-ivar">@candidate</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

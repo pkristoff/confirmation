@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class MethodDocRange - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="Object.html">Object</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-i-before-3F">#before?</a>
+    
+    <li ><a href="#method-i-empty_comm-3F">#empty_comm?</a>
+    
+    <li ><a href="#method-i-end_comment">#end_comment</a>
+    
+    <li ><a href="#method-i-ends_with_empty_comment-3F">#ends_with_empty_comment?</a>
+    
+    <li ><a href="#method-i-first_comment-3F">#first_comment?</a>
+    
+    <li ><a href="#method-i-first_comment_equal-3F">#first_comment_equal?</a>
+    
+    <li ><a href="#method-i-first_empty_comment-3F">#first_empty_comment?</a>
+    
+    <li ><a href="#method-i-missing-3F">#missing?</a>
+    
+    <li ><a href="#method-i-parm_names">#parm_names</a>
+    
+    <li ><a href="#method-i-range_body">#range_body</a>
+    
+    <li ><a href="#method-i-returns-3F">#returns?</a>
+    
+    <li ><a href="#method-i-start_comment">#start_comment</a>
+    
+    <li ><a href="#method-i-starts_with_empty_comment-3F">#starts_with_empty_comment?</a>
+    
+    <li ><a href="#method-i-to_s">#to_s</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-MethodDocRange">
+  <h1 id="class-MethodDocRange" class="class">
+    class MethodDocRange
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="DOC_PARM_REGEXP">DOC_PARM_REGEXP
+        
+        <dd>
+        
+      
+        <dt id="PARM_END">PARM_END
+        
+        <dd>
+        
+      
+        <dt id="PARM_START">PARM_START
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-end" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">end</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-start" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">start</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-type" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">type</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section>
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(comments, type)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 283</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">comments</span>, <span class="ruby-identifier">type</span>)
+  <span class="ruby-ivar">@comments</span> = <span class="ruby-identifier">comments</span>
+  <span class="ruby-ivar">@type</span> = <span class="ruby-identifier">type</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-before-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">before?</span><span
+            class="method-args">(method_doc_range)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="before-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 288</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before?</span>(<span class="ruby-identifier">method_doc_range</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">missing?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">method_doc_range</span>.<span class="ruby-identifier">missing?</span>
+  <span class="ruby-ivar">@start</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">method_doc_range</span>.<span class="ruby-identifier">start</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-empty_comm-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">empty_comm?</span><span
+            class="method-args">(comment)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="empty_comm-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 293</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">empty_comm?</span>(<span class="ruby-identifier">comment</span>)
+  <span class="ruby-identifier">txt</span> = <span class="ruby-identifier">comment</span>.<span class="ruby-identifier">text</span>
+  <span class="ruby-identifier">txt</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">2</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-end_comment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">end_comment</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="end_comment-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 298</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">end_comment</span>
+  <span class="ruby-ivar">@comments</span>[<span class="ruby-ivar">@end</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-ends_with_empty_comment-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ends_with_empty_comment?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="ends_with_empty_comment-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 302</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">ends_with_empty_comment?</span>
+  <span class="ruby-identifier">missing?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">empty_comm?</span>(<span class="ruby-identifier">end_comment</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-first_comment-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">first_comment?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="first_comment-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 306</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">first_comment?</span>
+  <span class="ruby-ivar">@start</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-first_comment_equal-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">first_comment_equal?</span><span
+            class="method-args">(text)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="first_comment_equal-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 314</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">first_comment_equal?</span>(<span class="ruby-identifier">text</span>)
+  <span class="ruby-operator">!</span><span class="ruby-identifier">missing?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">start_comment</span>.<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">text</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-first_empty_comment-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">first_empty_comment?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="first_empty_comment-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 310</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">first_empty_comment?</span>
+  <span class="ruby-identifier">missing?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">empty_comm?</span>(<span class="ruby-ivar">@comments</span>[<span class="ruby-ivar">@start</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-missing-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">missing?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="missing-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 318</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">missing?</span>
+  <span class="ruby-ivar">@start</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-parm_names" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parm_names</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="parm_names-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 322</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">parm_names</span>
+  <span class="ruby-identifier">names</span> = []
+  <span class="ruby-identifier">range_body</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">parm_line</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment"># puts &quot;parm_line.text=#{parm_line}&quot;</span>
+    <span class="ruby-comment"># puts &quot;match=#{DOC_PARM_REGEXP.match(parm_line.text).to_s}&quot;</span>
+    <span class="ruby-constant">DOC_PARM_REGEXP</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">parm_line</span>.<span class="ruby-identifier">text</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">parm_name</span> = <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_s</span>[<span class="ruby-constant">PARM_START</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">...</span><span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">index</span>(<span class="ruby-constant">PARM_END</span>)]
+      <span class="ruby-identifier">names</span>.<span class="ruby-identifier">push</span>([<span class="ruby-identifier">parm_line</span>, <span class="ruby-identifier">parm_name</span>])
+      <span class="ruby-comment"># puts &quot;parm_name=#{parm_name}&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># puts &quot;names=#{names}&quot;</span>
+  <span class="ruby-identifier">names</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-range_body" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">range_body</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="range_body-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 337</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">range_body</span>
+  <span class="ruby-ivar">@comments</span>[<span class="ruby-ivar">@start</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">first_empty_comment?</span> <span class="ruby-operator">?</span> <span class="ruby-value">2</span> <span class="ruby-operator">:</span> <span class="ruby-value">1</span>)<span class="ruby-operator">...</span><span class="ruby-ivar">@end</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">ends_with_empty_comment?</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-value">1</span>)]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-returns-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">returns?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="returns-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 341</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">returns?</span>
+  <span class="ruby-ivar">@type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;Return&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-start_comment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">start_comment</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="start_comment-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 345</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">start_comment</span>
+  <span class="ruby-ivar">@comments</span>[<span class="ruby-ivar">@start</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-starts_with_empty_comment-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">starts_with_empty_comment?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="starts_with_empty_comment-3F-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 349</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">starts_with_empty_comment?</span>
+  <span class="ruby-identifier">empty_comm?</span>(<span class="ruby-ivar">@comments</span>[<span class="ruby-ivar">@start</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File spec/rubocop/cop/style/method_documentation.rb, line 353</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_s</span>
+  [<span class="ruby-identifier">missing?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">start_comment</span>, <span class="ruby-ivar">@start</span>, <span class="ruby-ivar">@end</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

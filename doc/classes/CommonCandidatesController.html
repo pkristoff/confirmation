@@ -1,0 +1,1137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CommonCandidatesController</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            CommonCandidatesController
+            
+                <span class="parent">&lt;
+                    
+                    <a href="ApplicationController.html">ApplicationController</a>
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/controllers/common_candidates_controller_rb.html">app/controllers/common_candidates_controller.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-agreement_update_private">agreement_update_private</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-candidate_sheet">candidate_sheet</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-candidate_sheet_update">candidate_sheet_update</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-christian_ministry">christian_ministry</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-christian_ministry_update">christian_ministry_update</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>D</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-download_document">download_document</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-event_with_picture">event_with_picture</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-event_with_picture_image">event_with_picture_image</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-event_with_picture_update">event_with_picture_update</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-event_with_picture_verify">event_with_picture_verify</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-event_with_picture_verify_update">event_with_picture_verify_update</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>P</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-pick_confirmation_name">pick_confirmation_name</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-pick_confirmation_name_update">pick_confirmation_name_update</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-sign_agreement">sign_agreement</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-sign_agreement_update">sign_agreement_update</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-sign_agreement_verify">sign_agreement_verify</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-sign_agreement_verify_update">sign_agreement_verify_update</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-sponsor_agreement">sponsor_agreement</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-sponsor_agreement_update">sponsor_agreement_update</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>U</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-upload_sponsor_eligibility_image">upload_sponsor_eligibility_image</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>resource</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+      </table>
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-agreement_update_private">
+            
+              <b>agreement_update_private</b>(event_name, signed_param_name, field_name, admin_verified = false)
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-agreement_update_private" name="method-i-agreement_update_private" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-agreement_update_private_source')" id="l_method-i-agreement_update_private_source">show</a>
+                
+              </p>
+              <div id="method-i-agreement_update_private_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 179</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">agreement_update_private</span>(<span class="ruby-identifier">event_name</span>, <span class="ruby-identifier">signed_param_name</span>, <span class="ruby-identifier">field_name</span>, <span class="ruby-identifier">admin_verified</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">candidate_event</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">event_name</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;candidate&#39;</span>]
+    <span class="ruby-comment"># TODO move logic to association instance.</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;candidate&#39;</span>][<span class="ruby-identifier">signed_param_name</span>] <span class="ruby-operator">===</span> <span class="ruby-string">&#39;1&#39;</span>
+      <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">completed_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">verified</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">verified</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;candidate&#39;</span>][<span class="ruby-identifier">signed_param_name</span>] <span class="ruby-operator">===</span> <span class="ruby-string">&#39;0&#39;</span>
+        <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">completed_date</span> = <span class="ruby-keyword">nil</span>
+        <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">verified</span> = <span class="ruby-keyword">false</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.unknown_parameter&#39;</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;[&#39;candidate&#39;][signed_param_name]: %{params[&#39;candidate&#39;][signed_param_name]&quot;</span>)
+        <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.unknown_parameter&#39;</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;candidate&#39;</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render_called</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">candidate_params</span>)
+    <span class="ruby-comment"># Make up a validation error</span>
+    <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span> <span class="ruby-value">:base</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.signed_agreement_val&#39;</span>, <span class="ruby-identifier">field_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">field_name</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">admin_verified</span>
+        <span class="ruby-identifier">render_called</span> = <span class="ruby-identifier">admin_verified_private</span>(<span class="ruby-identifier">candidate_event</span>, <span class="ruby-identifier">event_name</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-string">&#39;notice&#39;</span>] = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.updated&#39;</span>, <span class="ruby-identifier">cand_name</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}&quot;</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-string">&#39;alert&#39;</span>] = <span class="ruby-node">&quot;Save of #{event_name} failed&quot;</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">render_called</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.save_failed&#39;</span>)
+    <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-candidate_sheet">
+            
+              <b>candidate_sheet</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-candidate_sheet" name="method-i-candidate_sheet" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-candidate_sheet_source')" id="l_method-i-candidate_sheet_source">show</a>
+                
+              </p>
+              <div id="method-i-candidate_sheet_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 75</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">candidate_sheet</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-candidate_sheet_update">
+            
+              <b>candidate_sheet_update</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-candidate_sheet_update" name="method-i-candidate_sheet_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-candidate_sheet_update_source')" id="l_method-i-candidate_sheet_update_source">show</a>
+                
+              </p>
+              <div id="method-i-candidate_sheet_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">candidate_sheet_update</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+
+  <span class="ruby-identifier">render_called</span> = <span class="ruby-identifier">event_with_picture_update_private</span>(<span class="ruby-constant">CandidateSheet</span>)
+
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:candidate_sheet</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">render_called</span>
+
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-christian_ministry">
+            
+              <b>christian_ministry</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-christian_ministry" name="method-i-christian_ministry" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-christian_ministry_source')" id="l_method-i-christian_ministry_source">show</a>
+                
+              </p>
+              <div id="method-i-christian_ministry_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">christian_ministry</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-christian_ministry_update">
+            
+              <b>christian_ministry_update</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-christian_ministry_update" name="method-i-christian_ministry_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-christian_ministry_update_source')" id="l_method-i-christian_ministry_update_source">show</a>
+                
+              </p>
+              <div id="method-i-christian_ministry_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 95</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">christian_ministry_update</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+
+  <span class="ruby-identifier">render_called</span> = <span class="ruby-identifier">event_with_picture_update_private</span>(<span class="ruby-constant">ChristianMinistry</span>)
+
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:christian_ministry</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">render_called</span>
+
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-download_document">
+            
+              <b>download_document</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-download_document" name="method-i-download_document" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-download_document_source')" id="l_method-i-download_document_source">show</a>
+                
+              </p>
+              <div id="method-i-download_document_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">download_document</span>
+  <span class="ruby-identifier">doc_name</span> = <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span><span class="ruby-operator">::</span><span class="ruby-constant">MAPPING</span>[<span class="ruby-identifier">params</span>[<span class="ruby-value">:name</span>].<span class="ruby-identifier">to_sym</span>]
+  <span class="ruby-identifier">pdf</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;public/documents/#{doc_name}&quot;</span>)
+  <span class="ruby-identifier">pdf_data</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">path</span>)
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">send_data</span>(<span class="ruby-identifier">pdf_data</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/pdf&#39;</span>, <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-identifier">doc_name</span>)
+  <span class="ruby-keyword">ensure</span>
+    <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">close</span>
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-event_with_picture">
+            
+              <b>event_with_picture</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-event_with_picture" name="method-i-event_with_picture" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-event_with_picture_source')" id="l_method-i-event_with_picture_source">show</a>
+                
+              </p>
+              <div id="method-i-event_with_picture_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">event_with_picture</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+  <span class="ruby-identifier">event_name</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_name</span>]
+  <span class="ruby-identifier">render_event_with_picture</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">event_name</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-event_with_picture_image">
+            
+              <b>event_with_picture_image</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-event_with_picture_image" name="method-i-event_with_picture_image" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-event_with_picture_image_source')" id="l_method-i-event_with_picture_image_source">show</a>
+                
+              </p>
+              <div id="method-i-event_with_picture_image_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">event_with_picture_image</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-identifier">scanned_image</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_name</span>].<span class="ruby-identifier">to_sym</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>
+      <span class="ruby-identifier">scanned_image</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">scanned_certificate</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>
+      <span class="ruby-identifier">scanned_image</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">sponsor_covenant</span>.<span class="ruby-identifier">scanned_covenant</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>
+      <span class="ruby-identifier">scanned_image</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">retreat_verification</span>.<span class="ruby-identifier">scanned_retreat</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-string">&#39;alert&#39;</span>] = <span class="ruby-node">&quot;Unknown event_name #{params[:event_name]}&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">send_image</span>(<span class="ruby-identifier">scanned_image</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-event_with_picture_update">
+            
+              <b>event_with_picture_update</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-event_with_picture_update" name="method-i-event_with_picture_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-event_with_picture_update_source')" id="l_method-i-event_with_picture_update_source">show</a>
+                
+              </p>
+              <div id="method-i-event_with_picture_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">event_with_picture_update</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@is_verify</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">is_verify</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">is_verify</span> = <span class="ruby-ivar">@is_verify</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">render_called</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">candidate_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]
+  <span class="ruby-identifier">event_name</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_name</span>]
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">candidate_id</span>)
+  <span class="ruby-ivar">@candidate_event</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-node">&quot;events.#{event_name}&quot;</span>))
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;candidate&#39;</span>]
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">event_name</span>.<span class="ruby-identifier">to_sym</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>
+        <span class="ruby-identifier">sponsor_covenant</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">sponsor_covenant</span>
+        <span class="ruby-identifier">sponsor_covenant_params</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate</span>][<span class="ruby-value">:sponsor_covenant_attributes</span>]
+        <span class="ruby-identifier">setup_file_params</span>(<span class="ruby-identifier">sponsor_covenant_params</span>[<span class="ruby-value">:sponsor_covenant_picture</span>], <span class="ruby-identifier">sponsor_covenant</span>, <span class="ruby-value">:scanned_covenant_attributes</span>, <span class="ruby-identifier">sponsor_covenant_params</span>)
+        <span class="ruby-identifier">setup_file_params</span>(<span class="ruby-identifier">sponsor_covenant_params</span>[<span class="ruby-value">:sponsor_eligibility_picture</span>], <span class="ruby-identifier">sponsor_covenant</span>, <span class="ruby-value">:scanned_eligibility_attributes</span>, <span class="ruby-identifier">sponsor_covenant_params</span>)
+
+        <span class="ruby-identifier">render_called</span> = <span class="ruby-identifier">event_with_picture_update_private</span>(<span class="ruby-constant">SponsorCovenant</span>, <span class="ruby-identifier">is_verify</span>)
+
+      <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>
+        <span class="ruby-identifier">baptized_at_stmm</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate</span>][<span class="ruby-string">&#39;baptized_at_stmm&#39;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;1&#39;</span>
+        <span class="ruby-identifier">baptismal_certificate</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>
+        <span class="ruby-keyword">unless</span> <span class="ruby-identifier">baptized_at_stmm</span>
+          <span class="ruby-identifier">baptismal_certificate_params</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate</span>][<span class="ruby-value">:baptismal_certificate_attributes</span>]
+          <span class="ruby-identifier">setup_file_params</span>(<span class="ruby-identifier">baptismal_certificate_params</span>[<span class="ruby-value">:certificate_picture</span>], <span class="ruby-identifier">baptismal_certificate</span>, <span class="ruby-value">:scanned_certificate_attributes</span>, <span class="ruby-identifier">baptismal_certificate_params</span>)
+        <span class="ruby-keyword">end</span>
+
+        <span class="ruby-identifier">render_called</span> = <span class="ruby-identifier">event_with_picture_update_private</span>(<span class="ruby-constant">BaptismalCertificate</span>, <span class="ruby-identifier">is_verify</span>)
+
+      <span class="ruby-keyword">when</span> <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>
+        <span class="ruby-identifier">retreat_verification</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">retreat_verification</span>
+        <span class="ruby-identifier">retreat_verification_params</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate</span>][<span class="ruby-value">:retreat_verification_attributes</span>]
+        <span class="ruby-identifier">setup_file_params</span>(<span class="ruby-identifier">retreat_verification_params</span>[<span class="ruby-value">:retreat_verification_picture</span>], <span class="ruby-identifier">retreat_verification</span>, <span class="ruby-value">:scanned_retreat_attributes</span>, <span class="ruby-identifier">retreat_verification_params</span>)
+
+        <span class="ruby-identifier">render_called</span> = <span class="ruby-identifier">event_with_picture_update_private</span>(<span class="ruby-constant">RetreatVerification</span>, <span class="ruby-identifier">is_verify</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Unknown event_name: #{event_name}&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.unknown_parameter&#39;</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;candidate&#39;</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+  <span class="ruby-identifier">render_event_with_picture</span>(<span class="ruby-identifier">render_called</span>, <span class="ruby-identifier">event_name</span>, <span class="ruby-identifier">is_verify</span>)
+
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-event_with_picture_verify">
+            
+              <b>event_with_picture_verify</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-event_with_picture_verify" name="method-i-event_with_picture_verify" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-event_with_picture_verify_source')" id="l_method-i-event_with_picture_verify_source">show</a>
+                
+              </p>
+              <div id="method-i-event_with_picture_verify_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 7</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">event_with_picture_verify</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+  <span class="ruby-identifier">event_name</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:event_name</span>]
+  <span class="ruby-identifier">render_event_with_picture</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">event_name</span>, <span class="ruby-keyword">true</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-event_with_picture_verify_update">
+            
+              <b>event_with_picture_verify_update</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-event_with_picture_verify_update" name="method-i-event_with_picture_verify_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-event_with_picture_verify_update_source')" id="l_method-i-event_with_picture_verify_update_source">show</a>
+                
+              </p>
+              <div id="method-i-event_with_picture_verify_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 14</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">event_with_picture_verify_update</span>
+  <span class="ruby-ivar">@is_verify</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">event_with_picture_update</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-pick_confirmation_name">
+            
+              <b>pick_confirmation_name</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-pick_confirmation_name" name="method-i-pick_confirmation_name" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-pick_confirmation_name_source')" id="l_method-i-pick_confirmation_name_source">show</a>
+                
+              </p>
+              <div id="method-i-pick_confirmation_name_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 136</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">pick_confirmation_name</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-pick_confirmation_name_update">
+            
+              <b>pick_confirmation_name_update</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-pick_confirmation_name_update" name="method-i-pick_confirmation_name_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-pick_confirmation_name_update_source')" id="l_method-i-pick_confirmation_name_update_source">show</a>
+                
+              </p>
+              <div id="method-i-pick_confirmation_name_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 141</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">pick_confirmation_name_update</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+
+  <span class="ruby-identifier">render_called</span> = <span class="ruby-identifier">event_with_picture_update_private</span>(<span class="ruby-constant">PickConfirmationName</span>)
+
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:pick_confirmation_name</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">render_called</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sign_agreement">
+            
+              <b>sign_agreement</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-sign_agreement" name="method-i-sign_agreement" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sign_agreement_source')" id="l_method-i-sign_agreement_source">show</a>
+                
+              </p>
+              <div id="method-i-sign_agreement_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 150</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sign_agreement</span>
+  <span class="ruby-ivar">@is_verify</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sign_agreement_update">
+            
+              <b>sign_agreement_update</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-sign_agreement_update" name="method-i-sign_agreement_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sign_agreement_update_source')" id="l_method-i-sign_agreement_update_source">show</a>
+                
+              </p>
+              <div id="method-i-sign_agreement_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 156</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sign_agreement_update</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@is_verify</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">rendered_called</span> = <span class="ruby-identifier">agreement_update_private</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>), <span class="ruby-string">&#39;signed_agreement&#39;</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sign_agreement.signed_agreement&#39;</span>))
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">rendered_called</span>
+    <span class="ruby-comment"># @candidate = Candidate.find(params[:id])</span>
+    <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:sign_agreement</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sign_agreement_verify">
+            
+              <b>sign_agreement_verify</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-sign_agreement_verify" name="method-i-sign_agreement_verify" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sign_agreement_verify_source')" id="l_method-i-sign_agreement_verify_source">show</a>
+                
+              </p>
+              <div id="method-i-sign_agreement_verify_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 167</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sign_agreement_verify</span>
+  <span class="ruby-ivar">@is_verify</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sign_agreement_verify_update">
+            
+              <b>sign_agreement_verify_update</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-sign_agreement_verify_update" name="method-i-sign_agreement_verify_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sign_agreement_verify_update_source')" id="l_method-i-sign_agreement_verify_update_source">show</a>
+                
+              </p>
+              <div id="method-i-sign_agreement_verify_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 172</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sign_agreement_verify_update</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@is_verify</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">render_called</span> = <span class="ruby-identifier">agreement_update_private</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>), <span class="ruby-string">&#39;signed_agreement&#39;</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sign_agreement.signed_agreement&#39;</span>), <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:sign_agreement_verify</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">render_called</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sponsor_agreement">
+            
+              <b>sponsor_agreement</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-sponsor_agreement" name="method-i-sponsor_agreement" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sponsor_agreement_source')" id="l_method-i-sponsor_agreement_source">show</a>
+                
+              </p>
+              <div id="method-i-sponsor_agreement_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 219</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sponsor_agreement</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sponsor_agreement_update">
+            
+              <b>sponsor_agreement_update</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-sponsor_agreement_update" name="method-i-sponsor_agreement_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sponsor_agreement_update_source')" id="l_method-i-sponsor_agreement_update_source">show</a>
+                
+              </p>
+              <div id="method-i-sponsor_agreement_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 224</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sponsor_agreement_update</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-identifier">agreement_update_private</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_agreement&#39;</span>), <span class="ruby-string">&#39;sponsor_agreement&#39;</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.sponsor_agreement.sponsor_agreement&#39;</span>))
+  <span class="ruby-ivar">@resource</span> = <span class="ruby-ivar">@candidate</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:sponsor_agreement</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-upload_sponsor_eligibility_image">
+            
+              <b>upload_sponsor_eligibility_image</b>()
+            
+            <a href="../classes/CommonCandidatesController.html#method-i-upload_sponsor_eligibility_image" name="method-i-upload_sponsor_eligibility_image" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-upload_sponsor_eligibility_image_source')" id="l_method-i-upload_sponsor_eligibility_image_source">show</a>
+                
+              </p>
+              <div id="method-i-upload_sponsor_eligibility_image_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/common_candidates_controller.rb, line 231</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">upload_sponsor_eligibility_image</span>
+  <span class="ruby-ivar">@candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-identifier">scanned_image</span> = <span class="ruby-ivar">@candidate</span>.<span class="ruby-identifier">sponsor_covenant</span>.<span class="ruby-identifier">scanned_eligibility</span>
+  <span class="ruby-identifier">send_image</span>(<span class="ruby-identifier">scanned_image</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">scanned_image</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

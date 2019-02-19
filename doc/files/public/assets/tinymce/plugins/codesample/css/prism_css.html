@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>prism.css</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            prism.css
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/codesample/css/prism.css</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<pre><code> http://prismjs.com/download.html?themes=prism&amp;languages=markup+css+clike+javascript   
+
+ prism.js default theme for JavaScript, CSS and HTML
+ Based on dabblet (http://dabblet.com)
+ @author Lea Verou
+/</code></pre>
+
+<p><a href="class*="language-"">code</a>, <a href="class*="language-"">pre</a>
+{</p>
+
+<pre><code>color: black;
+text-shadow: 0 1px white;
+font-family: Consolas, Monaco, &#39;Andale Mono&#39;, &#39;Ubuntu Mono&#39;, monospace;
+direction: ltr;
+text-align: left;
+white-space: pre;
+word-spacing: normal;
+word-break: normal;
+word-wrap: normal;
+line-height: 1.5;
+
+-moz-tab-size: 4;
+-o-tab-size: 4;
+tab-size: 4;
+
+-webkit-hyphens: none;
+-moz-hyphens: none;
+-ms-hyphens: none;
+hyphens: none;</code></pre>
+
+<p>}</p>
+
+<p><a href="class*="language-"">pre</a>::-moz-selection, <a
+href="class*="language-"">pre</a> ::-moz-selection, <a
+href="class*="language-"">code</a>::-moz-selection, <a
+href="class*="language-"">code</a> ::-moz-selection {</p>
+
+<pre><code>text-shadow: none;
+background: #b3d4fc;</code></pre>
+
+<p>}</p>
+
+<p><a href="class*="language-"">pre</a>::selection, <a
+href="class*="language-"">pre</a> ::selection, <a
+href="class*="language-"">code</a>::selection, <a
+href="class*="language-"">code</a> ::selection {</p>
+
+<pre><code>text-shadow: none;
+background: #b3d4fc;</code></pre>
+
+<p>}</p>
+
+<p>@media print {</p>
+
+<pre><code>code[class*=&quot;language-&quot;],
+pre[class*=&quot;language-&quot;] {
+        text-shadow: none;
+}</code></pre>
+
+<p>}</p>
+
+<p>/* Code blocks</p>
+
+<p><a href="class*="language-"">pre</a> {</p>
+
+<pre><code>padding: 1em;
+margin: .5em 0;
+overflow: auto;</code></pre>
+
+<p>}</p>
+
+<p>:not(pre) &gt; <a href="class*="language-"">code</a>, <a
+href="class*="language-"">pre</a> {</p>
+
+<pre><code>background: #f5f2f0;</code></pre>
+
+<p>}</p>
+
+<p>/* Inline code */ :not(pre) &gt; <a href="class*="language-"">code</a> {</p>
+
+<pre><code>padding: .1em;
+border-radius: .3em;</code></pre>
+
+<p>}</p>
+
+<p>.token.comment, .token.prolog, .token.doctype, .token.cdata {</p>
+
+<pre><code>color: slategray;</code></pre>
+
+<p>}</p>
+
+<p>.token.punctuation {</p>
+
+<pre><code>color: #999;</code></pre>
+
+<p>}</p>
+
+<p>.namespace {</p>
+
+<pre><code>opacity: .7;</code></pre>
+
+<p>}</p>
+
+<p>.token.property, .token.tag, .token.boolean, .token.number,
+.token.constant, .token.symbol, .token.deleted {</p>
+
+<pre><code>color: #905;</code></pre>
+
+<p>}</p>
+
+<p>.token.selector, .token.attr-name, .token.string, .token.char,
+.token.builtin, .token.inserted {</p>
+
+<pre><code>color: #690;</code></pre>
+
+<p>}</p>
+
+<p>.token.operator, .token.entity, .token.url, .language-css .token.string,
+.style .token.string {</p>
+
+<pre><code>color: #a67f59;
+background: hsla(0, 0%, 100%, .5);</code></pre>
+
+<p>}</p>
+
+<p>.token.atrule, .token.attr-value, .token.keyword {</p>
+
+<pre><code>color: #07a;</code></pre>
+
+<p>}</p>
+
+<p>.token.function {</p>
+
+<pre><code>color: #DD4A68;</code></pre>
+
+<p>}</p>
+
+<p>.token.regex, .token.important, .token.variable {</p>
+
+<pre><code>color: #e90;</code></pre>
+
+<p>}</p>
+
+<p>.token.important, .token.bold {</p>
+
+<pre><code>font-weight: bold;</code></pre>
+
+<p>} .token.italic {</p>
+
+<pre><code>font-style: italic;</code></pre>
+
+<p>}</p>
+
+<p>.token.entity {</p>
+
+<pre><code>cursor: help;</code></pre>
+
+<p>}</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

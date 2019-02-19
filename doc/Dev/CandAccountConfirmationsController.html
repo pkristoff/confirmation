@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class Dev::CandAccountConfirmationsController - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+  var index_rel_prefix = "../";
+</script>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link">Devise::ConfirmationsController
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-after_confirmation_path_for">#after_confirmation_path_for</a>
+    
+    <li ><a href="#method-i-create">#create</a>
+    
+    <li ><a href="#method-i-show">#show</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-Dev::CandAccountConfirmationsController">
+  <h1 id="class-Dev::CandAccountConfirmationsController" class="class">
+    class Dev::CandAccountConfirmationsController
+  </h1>
+
+  <section class="description">
+    
+<p>Handles <a href="../Confirmation.html">Confirmation</a> tasks</p>
+
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-create" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Looks at email provided to make sure associate with a candidate.  If so
+send initial message.</p>
+
+<h4 id="method-i-create-label-Attributes">Attributes<span><a href="#method-i-create-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>candidate.email</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="create-source">
+            <pre><span class="ruby-comment"># File app/controllers/dev/cand_account_confirmations_controller.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create</span>
+  <span class="ruby-identifier">email</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;candidate&#39;</span>][<span class="ruby-string">&#39;email&#39;</span>]
+  <span class="ruby-identifier">cs</span> = <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">candidate_email:</span> <span class="ruby-identifier">email</span>)
+  <span class="ruby-identifier">cs</span> = <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">parent_email_1:</span> <span class="ruby-identifier">email</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-identifier">cs</span> = <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">parent_email_2:</span> <span class="ruby-identifier">email</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;email not associated candidate: #{email}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&#39;/dev/candidates/sign_in&#39;</span>, <span class="ruby-identifier">params</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">blank?</span>
+
+  <span class="ruby-identifier">candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">candidate_sheet_id:</span> <span class="ruby-identifier">cs</span>.<span class="ruby-identifier">id</span>)
+  <span class="ruby-identifier">send_grid_mail</span> = <span class="ruby-constant">SendGridMail</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">current_admin</span>, [<span class="ruby-identifier">candidate</span>])
+  <span class="ruby-identifier">response</span>, <span class="ruby-identifier">_token</span> = <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">confirmation_instructions</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">test?</span>
+    <span class="ruby-comment"># not connected to the internet</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.initial_email_sent&#39;</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status_code</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;2&#39;</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.initial_email_sent&#39;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Status=#{response.status_code} body=#{response.body}&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-string">&#39;/dev/candidates/sign_in&#39;</span>, <span class="ruby-identifier">params</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-show" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show</span><span
+            class="method-args">() { |resource| ... }</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Confirms user(account) copied from parent class</p>
+
+<h4 id="method-i-show-label-Attributes">Attributes<span><a href="#method-i-show-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>confirmation_token</code> - Token from email link</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="show-source">
+            <pre><span class="ruby-comment"># File app/controllers/dev/cand_account_confirmations_controller.rb, line 14</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">show</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">resource_class</span>.<span class="ruby-identifier">confirm_by_token</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:confirmation_token</span>])
+  <span class="ruby-keyword">yield</span> <span class="ruby-identifier">resource</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+
+  <span class="ruby-identifier">respond_with_navigational</span>(<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">errors</span>, <span class="ruby-identifier">resource</span>) { <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">after_confirmation_path_for</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">resource_name</span>, <span class="ruby-identifier">resource</span>.<span class="ruby-identifier">errors</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Protected Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-after_confirmation_path_for" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">after_confirmation_path_for</span><span
+            class="method-args">(resource, _resource_name, errors)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Where to go after user(account) is confirmed</p>
+
+<h4 id="method-i-after_confirmation_path_for-label-Attributes">Attributes<span><a href="#method-i-after_confirmation_path_for-label-Attributes">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>resource</code> - candidate</p>
+</li><li>
+<p><code>resource_name</code> - candidate class name</p>
+</li><li>
+<p><code>errors</code> - Errors gathered while confirming account</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="after_confirmation_path_for-source">
+            <pre><span class="ruby-comment"># File app/controllers/dev/cand_account_confirmations_controller.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">after_confirmation_path_for</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">_resource_name</span>, <span class="ruby-identifier">errors</span>)
+  <span class="ruby-identifier">msgs</span> = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">msg</span><span class="ruby-operator">|</span> <span class="ruby-identifier">msgs</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">msg</span>.<span class="ruby-identifier">to_s</span> }
+  <span class="ruby-comment"># msgs cannot be empty</span>
+  <span class="ruby-identifier">msgs</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;noerrors&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">msgs</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-comment"># resource.id cannot be nil</span>
+  <span class="ruby-identifier">cand_account_confirmation_path</span>(<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">||</span> <span class="ruby-value">-1</span>, <span class="ruby-identifier">msgs</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

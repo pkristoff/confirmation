@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/textcolor/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>tinymce.PluginManager.add(“textcolor”,function(a){function b(b){var
+c;return a.dom.getParents(a.selection.getStart(),function(a){var <a
+href=""forecolor"==b?"color":"background-color"">d;(d=a.style</a>)&amp;&amp;(c=d)}),c}function
+c(b){var c,d,e=[];for(d=[“000000”,“Black”,“993300”,“Burnt
+orange”,“333300”,“Dark olive”,“003300”,“Dark green”,“003366”,“Dark
+azure”,“000080”,“Navy Blue”,“333399”,“Indigo”,“333333”,“Very dark
+gray”,“800000”,“Maroon”,“FF6600”,“Orange”,“808000”,“Olive”,“008000”,“Green”,“008080”,“Teal”,“0000FF”,“Blue”,“666699”,“Grayish
+blue”,“808080”,“Gray”,“FF0000”,“Red”,“FF9900”,“Amber”,“99CC00”,“Yellow
+green”,“339966”,“Sea green”,“33CCCC”,“Turquoise”,“3366FF”,“Royal
+blue”,“800080”,“Purple”,“999999”,“Medium
+gray”,“FF00FF”,“Magenta”,“FFCC00”,“Gold”,“FFFF00”,“Yellow”,“00FF00”,“Lime”,“00FFFF”,“Aqua”,“00CCFF”,“Sky
+blue”,“993366”,“Red
+violet”,“FFFFFF”,“White”,“FF99CC”,“Pink”,“FFCC99”,“Peach”,“FFFF99”,“Light
+yellow”,“CCFFCC”,“Pale green”,“CCFFFF”,“Pale cyan”,“99CCFF”,“Light sky <a
+href="b+"_map"">blue”,“CC99FF”,“Plum”],d=a.settings.textcolor_map||d,d=a.settings</a>||d,c=0;c&lt;d.length;c+=2)e.push({<a
+href="c+1">text:d</a>,<a href="c">color:“#”+d</a>});return e}function
+d(){function b(a,b){var c=“transparent”==a;return&#39;&lt;td
+class=“mce-grid-cell&#39;+(c?” mce-colorbtn-trans“:”“)+&#39;”&gt;&lt;div
+id=“&#39;<code>o</code>”-“<code>p+</code> +&#39;”
+data-mce-color=“&#39;+(a?a:”“)+&#39;” role=“option” tabIndex=“-1”
+style=“&#39;+(a?”background-color: “+a:”“)+&#39;”
+title=“&#39;+tinymce.translate(b)+&#39;”&gt;&#39;+(c?“&amp;#215;”:“”)+“&lt;/div&gt;&lt;/td&gt;”}var
+d,e,f,g,h,k,l,m,n=this,o=n._id,p=0;for(m=n.settings.origin,d=c(m),d.push({text:tinymce.translate(“No
+color”),color:“transparent”}),f=&#39;&lt;table class=“mce-grid
+mce-grid-border mce-colorbutton-grid” role=“list” <a
+href="m">cellspacing=“0”><tbody>‘,g=d.length-1,k=0;k<j</a>;k++){<a
+href="m">for(f+=“<tr>”,h=0;h<i</a>;<a href="m">h++)l=k*i</a>+<a
+href="l">h,l>g?f+=“<td></td>”:(e=d</a>,f+=b(e.color,e.text));f+=“&lt;/tr&gt;”}if(a.settings.color_picker_callback){for(f+=&#39;&lt;tr&gt;&lt;td
+<a href="m">colspan=“’+i</a>+&#39;” class=“mce-custom-color-btn”&gt;&lt;div
+id=“&#39;<code>o</code>&#39;-c” class=“mce-widget mce-btn mce-btn-small
+mce-btn-flat” role=“button” tabindex=“-1”
+aria-labelledby=“&#39;<code>o</code>&#39;-c” style=“width:
+100%”&gt;&lt;button type=“button” role=“presentation” <a
+href="m">tabindex=“-1”>‘+tinymce.translate(“Custom…”)+“</button></div></td></tr>”,f+=“<tr>”,h=0;h<i</a>;h++)f+=b(“”,“Custom
+color”);f+=“&lt;/tr&gt;”}return f+=“&lt;/tbody&gt;&lt;/table&gt;”}function
+e(b,c){a.undoManager.transact(function(){a.focus(),a.formatter.apply(b,{value:c}),a.nodeChanged()})}function
+f(b){a.undoManager.transact(function(){a.focus(),a.formatter.remove(b,{value:null},null,!0),a.nodeChanged()})}function
+g©{function d(a){l.hidePanel(),l.color(a),e(l.settings.format,a)}function
+g(){l.hidePanel(),l.resetColor(),f(l.settings.format)}function
+h(a,b){a.style.background=b,a.setAttribute(“data-mce-color”,b)}var
+j,k,l=this.parent();k=l.settings.origin,tinymce.DOM.getParent(c.target,“.mce-custom-color-btn”)&amp;&amp;(l.hidePanel(),a.settings.color_picker_callback.call(a,function(a){var
+<a href="0">b,c,e,f=l.panel.getEl().getElementsByTagName(“table”)</a>;<a
+href="f.rows.length-1">for(b=tinymce.map(f.rows</a>.childNodes,function(a){return
+a.firstChild}),<a href="e">e=0;e<b.length&&(c=b</a>,<a
+href="k">c.getAttribute(“data-mce-color”));e++);if(e==i</a>)<a
+href="k">for(e=0;e<i</a>-<a href="e">1;e++)h(b</a>,<a
+href="e+1">b</a>.getAttribute(“data-mce-color”));h(c,a),d(a)},b(l.settings.format))),j=c.target.getAttribute(“data-mce-color”),j?(this.lastId&amp;&amp;document.getElementById(this.lastId).setAttribute(“aria-selected”,!1),c.target.setAttribute(“aria-selected”,!0),this.lastId=c.target.id,“transparent”==j?g():d(j)):null!==j&amp;&amp;l.hidePanel()}function
+h(){var
+a=this;a._color?e(a.settings.format,a._color):f(a.settings.format)}var
+i,j;j={forecolor:a.settings.forecolor_rows||a.settings.textcolor_rows||5,backcolor:a.settings.backcolor_rows||a.settings.textcolor_rows||5},i={forecolor:a.settings.forecolor_cols||a.settings.textcolor_cols||8,backcolor:a.settings.backcolor_cols||a.settings.textcolor_cols||8},a.addButton(“forecolor”,{type:“colorbutton”,tooltip:“Text
+color”,format:“forecolor”,panel:{origin:“forecolor”,role:“application”,ariaRemember:!0,html:d,onclick:g},onclick:h}),a.addButton(“backcolor”,{type:“colorbutton”,tooltip:“Background
+color”,format:“hilitecolor”,panel:{origin:“backcolor”,role:“application”,ariaRemember:!0,html:d,onclick:g},onclick:h})});</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

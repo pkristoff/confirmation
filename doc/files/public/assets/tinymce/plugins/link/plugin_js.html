@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/link/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>tinymce.PluginManager.add(“link”,function(a){function b(b){return
+function(){var c=a.settings.link_list;“string”==typeof
+c?tinymce.util.XHR.send({url:c,success:function(a){b(tinymce.util.JSON.parse(a))}}):“function”==typeof
+c?c(b):b©}}function c(a,b,c){function d(a,c){return
+c=c||[],tinymce.each(a,function(a){var
+e={text:a.text||a.title};a.menu?e.menu=d(a.menu):(e.value=a.value,b&amp;&amp;b(e)),c.push(e)}),c}return
+d(a,c||[])}function d(b){function d(a){var
+b=l.find(“#text”);(!b.value()||a.lastControl&amp;&amp;b.value()==a.lastControl.text())&amp;&amp;b.value(a.control.text()),l.find(“#href”).value(a.control.value())}function
+e(b){var c=[];return <a
+href="href">tinymce.each(a.dom.select(“a:not(</a>)”),function(a){var
+d=a.name||a.id;d&amp;&amp;c.push({text:d,value:“#”+d,selected:-1!=b.indexOf(“#”+d)})}),c.length?(c.unshift({text:“None”,value:“”}),{name:“anchor”,type:“listbox”,label:“Anchors”,values:c,onselect:d}):void
+0}function f(){!<a
+href="0">k&&0===u.text.length&&m&&this.parent().parent().find(“#text”)</a>.value(this.value())}function
+g(b){var
+c=b.meta||{};o&amp;&amp;o.value(a.convertURL(this.value(),“href”)),tinymce.each(b.meta,function(a,b){l.find(“#”+b).value(a)}),c.text||f.call(this)}function
+h(a){var b=v.getContent();if(/&lt;/.test(b)&amp;&amp;(!/^&lt;a
+[^&gt;]+&gt;[^&lt;]+&lt;/a&gt;$/.test(b)||-1==b.indexOf(“href=”)))return!1;if(a){var
+<a
+href="c">c,d=a.childNodes;if(0===d.length)return!1;for(c=d.length-1;c>=0;c–)if(3!=d</a>.nodeType)return!1}return!0}var
+i,j,k,l,m,n,o,p,q,r,s,t,u={},<a
+href="href">v=a.selection,w=a.dom;i=v.getNode(),j=w.getParent(i,“a</a>”),m=h(),u.text=k=j?j.innerText||j.textContent:v.getContent({format:“text”}),<a
+href=""class"">u.href=j?w.getAttrib(j,“href”):“”,j?u.target=w.getAttrib(j,“target”):a.settings.default_link_target&&(u.target=a.settings.default_link_target),(t=w.getAttrib(j,“rel”))&&(u.rel=t),(t=w.getAttrib(j,“class”))&&(u</a>=t),(t=w.getAttrib(j,“title”))&amp;&amp;(u.title=t),m&amp;&amp;(n={name:“text”,type:“textbox”,size:40,label:“Text
+to
+display”,onchange:function(){u.text=this.value()}}),b&amp;&amp;(o={type:“listbox”,label:“Link
+list”,values:c(b,function(b){b.value=a.convertURL(b.value||b.url,“href”)},[{text:“None”,value:“”}]),onselect:d,value:a.convertURL(u.href,“href”),onPostRender:function(){o=this}}),a.settings.target_list!==!1&amp;&amp;(a.settings.target_list||(a.settings.target_list=[{text:“None”,value:“”},{text:“New
+window”,value:“_blank”}]),q={name:“target”,type:“listbox”,label:“Target”,values:c(a.settings.target_list)}),a.settings.rel_list&amp;&amp;(p={name:“rel”,type:“listbox”,label:“Rel”,values:c(a.settings.rel_list)}),a.settings.link_class_list&amp;&amp;(r={name:“class”,type:“listbox”,label:“Class”,values:c(a.settings.link_class_list,function(b){b.value&amp;&amp;(b.textStyle=function(){return
+a.formatter.getCssText({<a
+href="b.value">inline:“a”,classes:</a>})})})}),a.settings.link_title!==!1&amp;&amp;(s={name:“title”,type:“textbox”,label:“Title”,value:u.title}),l=a.windowManager.open({title:“Insert
+<a
+href="{name:"href",type:"filepicker",filetype:"file",size:40,autofocus:!0,label:"Url",onchange:g,onkeyup:f},n,s,e(u.href),o,p,q,r">link”,data:u,body:</a>,onSubmit:function(b){function
+c(b,c){var
+d=a.selection.getRng();tinymce.util.Delay.setEditorTimeout(a,function(){a.windowManager.confirm(b,function(b){a.selection.setRng(d),c(b)})})}function
+d(){var b={<a
+href=""class"">href:e,target:u.target?u.target:null,rel:u.rel?u.rel:null,“class”:u</a>?<a
+href=""class"">u</a>:null,title:u.title?u.title:null};j?(a.focus(),m&amp;&amp;u.text!=k&amp;&amp;(“innerText”in
+j?j.innerText=u.text:j.textContent=u.text),w.setAttribs(j,b),v.select(j),a.undoManager.add()):m?a.insertContent(w.createHTML(“a”,b,w.encode(u.text))):a.execCommand(“mceInsertLink”,!1,b)}var
+e;return
+u=tinymce.extend(u,b.data),(e=u.href)?e.indexOf(“@”)&gt;0&amp;&amp;-1==e.indexOf(“//”)&amp;&amp;-1==e.indexOf(“<a
+href="mailto:")?void">”)?void</a> c(“The URL you entered seems to be an
+email address. Do you want to add the required mailto:
+prefix?”,function(a){a&amp;&amp;(e=“<a
+href="mailto:"+e),d()}):a.settings.link_assume_external_targets&&!/^\w+:/i.test(e)||!a.settings.link_assume_external_targets&&/^\s*www[\.|\d\.]/i.test(e)?void">”+e),d()}):a.settings.link_assume_external_targets&&!/^w+:/i.test(e)||!a.settings.link_assume_external_targets&&/^s*www[.|d.]/i.test(e)?void</a>
+c(“The URL you entered seems to be an external link. Do you want to add the
+required http:// prefix?”,function(a){a&amp;&amp;(e=“<a
+href="http://"+e),d()}):void">”+e),d()}):void</a> d():void
+a.execCommand(“unlink”)}})}a.addButton(“link”,{icon:“link”,tooltip:“Insert/edit
+<a
+href="href">link”,shortcut:“Meta+K”,onclick:b(d),stateSelector:“a</a>”}),a.addButton(“unlink”,{icon:“unlink”,tooltip:“Remove
+<a
+href="href">link”,cmd:“unlink”,stateSelector:“a</a>”}),a.addShortcut(“Meta+K”,“”,b(d)),a.addCommand(“mceLink”,b(d)),this.showDialog=d,a.addMenuItem(“link”,{icon:“link”,text:“Insert/edit
+<a
+href="href">link”,shortcut:“Meta+K”,onclick:b(d),stateSelector:“a</a>”,context:“insert”,prependToContext:!0})});</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

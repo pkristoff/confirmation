@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/charmap/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>tinymce.PluginManager.add(“charmap”,function(a){function
+b(){return[[“160”,“no-break space”],[“173”,“soft hyphen”],[“34”,“quotation
+mark”],[“162”,“cent sign”],[“8364”,“euro sign”],[“163”,“pound
+sign”],[“165”,“yen sign”],[“169”,“copyright sign”],[“174”,“registered
+sign”],[“8482”,“trade mark sign”],[“8240”,“per mille sign”],[“181”,“micro
+sign”],[“183”,“middle <a href=""8226","bullet"">dot”],</a>,[“8230”,“three
+dot leader”],[“8242”,“minutes / feet”],[“8243”,“seconds /
+inches”],[“167”,“section sign”],[“182”,“paragraph sign”],[“223”,“sharp s /
+ess-zed”],[“8249”,“single left-pointing angle quotation
+mark”],[“8250”,“single right-pointing angle quotation mark”],[“171”,“left
+pointing guillemet”],[“187”,“right pointing guillemet”],[“8216”,“left
+single quotation mark”],[“8217”,“right single quotation
+mark”],[“8220”,“left double quotation mark”],[“8221”,“right double
+quotation mark”],[“8218”,“single low-9 quotation mark”],[“8222”,“double
+low-9 quotation mark”],[“60”,“less-than sign”],[“62”,“greater-than
+sign”],[“8804”,“less-than or equal to”],[“8805”,“greater-than or equal
+to”],[“8211”,“en dash”],[“8212”,“em <a
+href=""175","macron"">dash”],</a>,[“8254”,“overline”],[“164”,“currency
+sign”],[“166”,“broken <a
+href=""168","diaeresis"">bar”],</a>,[“161”,“inverted exclamation
+mark”],[“191”,“turned question mark”],[“710”,“circumflex
+accent”],[“732”,“small tilde”],[“176”,“degree sign”],[“8722”,“minus
+sign”],[“177”,“plus-minus sign”],[“247”,“division sign”],[“8260”,“fraction
+slash”],[“215”,“multiplication sign”],[“185”,“superscript
+one”],[“178”,“superscript two”],[“179”,“superscript
+three”],[“188”,“fraction one quarter”],[“189”,“fraction one
+half”],[“190”,“fraction three quarters”],[“402”,“function / <a
+href=""8747","integral"">florin”],</a>,[“8721”,“n-ary <a
+href=""8734","infinity"">sumation”],</a>,[“8730”,“square
+root”],[“8764”,“similar to”],[“8773”,“approximately equal
+to”],[“8776”,“almost equal to”],[“8800”,“not equal to”],[“8801”,“identical
+to”],[“8712”,“element of”],[“8713”,“not an element of”],[“8715”,“contains
+as member”],[“8719”,“n-ary product”],[“8743”,“logical
+and”],[“8744”,“logical or”],[“172”,“not <a
+href=""8745","intersection"">sign”],</a>,[“8746”,“union”],[“8706”,“partial
+differential”],[“8704”,“for all”],[“8707”,“there <a
+href=""8709","diameter"">exists”],</a>,[“8711”,“backward
+difference”],[“8727”,“asterisk operator”],[“8733”,“proportional <a
+href=""8736","angle"">to”],</a>,[“180”,“acute <a
+href=""184","cedilla"">accent”],</a>,[“170”,“feminine ordinal
+indicator”],[“186”,“masculine ordinal <a
+href=""8224","dagger"">indicator”],</a>,[“8225”,“double dagger”],[“192”,“A
+- grave”],[“193”,“A - acute”],[“194”,“A - circumflex”],[“195”,“A -
+tilde”],[“196”,“A - diaeresis”],[“197”,“A - ring above”],[“198”,“ligature
+AE”],[“199”,“C - cedilla”],[“200”,“E - grave”],[“201”,“E -
+acute”],[“202”,“E - circumflex”],[“203”,“E - diaeresis”],[“204”,“I -
+grave”],[“205”,“I - acute”],[“206”,“I - circumflex”],[“207”,“I - <a
+href=""208","ETH"">diaeresis”],</a>,[“209”,“N - tilde”],[“210”,“O -
+grave”],[“211”,“O - acute”],[“212”,“O - circumflex”],[“213”,“O -
+tilde”],[“214”,“O - diaeresis”],[“216”,“O - slash”],[“338”,“ligature
+OE”],[“352”,“S - caron”],[“217”,“U - grave”],[“218”,“U - acute”],[“219”,“U
+- circumflex”],[“220”,“U - diaeresis”],[“221”,“Y - acute”],[“376”,“Y - <a
+href=""222","THORN"">diaeresis”],</a>,[“224”,“a - grave”],[“225”,“a -
+acute”],[“226”,“a - circumflex”],[“227”,“a - tilde”],[“228”,“a -
+diaeresis”],[“229”,“a - ring above”],[“230”,“ligature ae”],[“231”,“c -
+cedilla”],[“232”,“e - grave”],[“233”,“e - acute”],[“234”,“e -
+circumflex”],[“235”,“e - diaeresis”],[“236”,“i - grave”],[“237”,“i -
+acute”],[“238”,“i - circumflex”],[“239”,“i - <a
+href=""240","eth"">diaeresis”],</a>,[“241”,“n - tilde”],[“242”,“o -
+grave”],[“243”,“o - acute”],[“244”,“o - circumflex”],[“245”,“o -
+tilde”],[“246”,“o - diaeresis”],[“248”,“o slash”],[“339”,“ligature
+oe”],[“353”,“s - caron”],[“249”,“u - grave”],[“250”,“u - acute”],[“251”,“u
+- circumflex”],[“252”,“u - diaeresis”],[“253”,“y - <a
+href=""254","thorn"">acute”],</a>,[“255”,“y - <a
+href=""913","Alpha"">diaeresis”],</a>,[“<a
+href=""915","Gamma"">914”,“Beta”],</a>,[“<a
+href=""917","Epsilon"">916”,“Delta”],</a>,[“<a
+href=""919","Eta"">918”,“Zeta”],</a>,[“<a
+href=""921","Iota"">920”,“Theta”],</a>,[“<a
+href=""923","Lambda"">922”,“Kappa”],</a>,[“<a
+href=""925","Nu"">924”,“Mu”],</a>,[“<a
+href=""927","Omicron"">926”,“Xi”],</a>,[“<a
+href=""929","Rho"">928”,“Pi”],</a>,[“<a
+href=""932","Tau"">931”,“Sigma”],</a>,[“<a
+href=""934","Phi"">933”,“Upsilon”],</a>,[“<a
+href=""936","Psi"">935”,“Chi”],</a>,[“<a
+href=""945","alpha"">937”,“Omega”],</a>,[“<a
+href=""947","gamma"">946”,“beta”],</a>,[“<a
+href=""949","epsilon"">948”,“delta”],</a>,[“<a
+href=""951","eta"">950”,“zeta”],</a>,[“<a
+href=""953","iota"">952”,“theta”],</a>,[“<a
+href=""955","lambda"">954”,“kappa”],</a>,[“<a
+href=""957","nu"">956”,“mu”],</a>,[“<a
+href=""959","omicron"">958”,“xi”],</a>,[“<a
+href=""961","rho"">960”,“pi”],</a>,[“962”,“final <a
+href=""963","sigma"">sigma”],</a>,[“<a
+href=""965","upsilon"">964”,“tau”],</a>,[“<a
+href=""967","chi"">966”,“phi”],</a>,[“<a
+href=""969","omega"">968”,“psi”],</a>,[“8501”,“alef symbol”],[“982”,“pi
+symbol”],[“8476”,“real part symbol”],[“978”,“upsilon - hook
+symbol”],[“8472”,“Weierstrass p”],[“8465”,“imaginary
+part”],[“8592”,“leftwards arrow”],[“8593”,“upwards
+arrow”],[“8594”,“rightwards arrow”],[“8595”,“downwards
+arrow”],[“8596”,“left right arrow”],[“8629”,“carriage
+return”],[“8656”,“leftwards double arrow”],[“8657”,“upwards double
+arrow”],[“8658”,“rightwards double arrow”],[“8659”,“downwards double
+arrow”],[“8660”,“left right double <a
+href=""8756","therefore"">arrow”],</a>,[“8834”,“subset
+of”],[“8835”,“superset of”],[“8836”,“not a subset of”],[“8838”,“subset of
+or equal to”],[“8839”,“superset of or equal to”],[“8853”,“circled
+plus”],[“8855”,“circled <a
+href=""8869","perpendicular"">times”],</a>,[“8901”,“dot
+operator”],[“8968”,“left ceiling”],[“8969”,“right ceiling”],[“8970”,“left
+floor”],[“8971”,“right floor”],[“9001”,“left-pointing angle
+bracket”],[“9002”,“right-pointing angle <a
+href=""9674","lozenge"">bracket”],</a>,[“9824”,“black spade
+suit”],[“9827”,“black club suit”],[“9829”,“black heart
+suit”],[“9830”,“black diamond suit”],[“8194”,“en space”],[“8195”,“em
+space”],[“8201”,“thin space”],[“8204”,“zero width
+non-joiner”],[“8205”,“zero width joiner”],[“8206”,“left-to-right
+mark”],[“8207”,“right-to-left mark”]]}function c(a){return
+tinymce.util.Tools.grep(a,function(a){return
+i(a)&amp;&amp;2==a.length})}function d(a){return
+i(a)?[].concat(c(a)):“function”==typeof a?a():[]}function e(b){var
+c=a.settings;return
+c.charmap&amp;&amp;(b=d(c.charmap)),c.charmap_append?[].concat(b).concat(d(c.charmap_append)):b}function
+f(){return e(b())}function
+g(b){a.fire(“insertCustomChar”,{chr:b}).chr,a.execCommand(“mceInsertContent”,!1,b)}function
+h(){function b(a){for(;a;){if(“TD”==a.nodeName)return a;a=a.parentNode}}var
+c,d,e,h;c=&#39;&lt;table role=“presentation” cellspacing=“0”
+class=“mce-charmap”&gt;&lt;tbody&gt;&#39;;var
+i=f(),j=Math.min(i.length,25),k=Math.ceil(i.length/j);for(e=0;k&gt;e;e++){for(c+=“&lt;tr&gt;”,d=0;j&gt;d;d++){var
+l=e*j+d;if(l&lt;i.length){var <a href="l">m=i</a>;c+=&#39;&lt;td <a
+href="1">title=“‘+m</a>+&#39;”&gt;&lt;div tabindex=“-1” <a
+href="1">title=“’+m</a>+&#39;” <a
+href="0">role=“button”>‘+(m?String.fromCharCode(parseInt(m</a>,10)):“&amp;nbsp;”)+“&lt;/div&gt;&lt;/td&gt;”}else
+c+=“&lt;td /&gt;”}c+=“&lt;/tr&gt;”}c+=“&lt;/tbody&gt;&lt;/table&gt;”;var
+n={type:“container”,html:c,onclick:function(a){var
+c=a.target;/^(TD|DIV)$/.test(c.nodeName)&amp;&amp;b©.firstChild&amp;&amp;(g(tinymce.trim(c.innerText||c.textContent)),a.ctrlKey||h.close())},onmouseover:function(a){var
+c=b(a.target);c&amp;&amp;c.firstChild?(h.find(“#preview”).text(c.firstChild.firstChild.data),h.find(“#previewTitle”).text(c.title)):(h.find(“#preview”).text(“
+”),h.find(“#previewTitle”).text(“
+”))}};h=a.windowManager.open({title:“Special
+character”,spacing:10,padding:10,items:[n,{type:“container”,layout:“flex”,direction:“column”,align:“center”,spacing:5,minWidth:160,minHeight:160,items:[{type:“label”,name:“preview”,text:“
+”,style:“font-size: 40px; text-align:
+center”,border:1,minWidth:140,minHeight:80},{type:“label”,name:“previewTitle”,text:“
+”,style:“text-align: center”,border:1,minWidth:140,minHeight:80}]}],<a
+href="{text:"Close",onclick:function(){h.close()}}">buttons:</a>})}var
+i=tinymce.util.Tools.isArray;return
+a.addCommand(“mceShowCharmap”,h),a.addButton(“charmap”,{icon:“charmap”,tooltip:“Special
+character”,cmd:“mceShowCharmap”}),a.addMenuItem(“charmap”,{icon:“charmap”,text:“Special
+character”,cmd:“mceShowCharmap”,context:“insert”}),{getCharMap:f,insertChar:g}});</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

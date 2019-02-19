@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class ExportListsController - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-candidate_event_state">::candidate_event_state</a>
+    
+    <li ><a href="#method-c-event_columns">::event_columns</a>
+    
+    <li ><a href="#method-c-event_values">::event_values</a>
+    
+    <li ><a href="#method-i-add_wb">#add_wb</a>
+    
+    <li ><a href="#method-i-baptism">#baptism</a>
+    
+    <li ><a href="#method-i-confirmation_name">#confirmation_name</a>
+    
+    <li ><a href="#method-i-create_xlsx">#create_xlsx</a>
+    
+    <li ><a href="#method-i-events">#events</a>
+    
+    <li ><a href="#method-i-retreat">#retreat</a>
+    
+    <li ><a href="#method-i-sponsor">#sponsor</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-ExportListsController">
+  <h1 id="class-ExportListsController" class="class">
+    class ExportListsController
+  </h1>
+
+  <section class="description">
+    
+<p>Handles exporting to excel spread sheets.</p>
+
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="BAPTISM_COLUMNS">BAPTISM_COLUMNS
+        
+        <dd>
+        
+      
+        <dt id="BAPTISM_VALUES">BAPTISM_VALUES
+        
+        <dd>
+        
+      
+        <dt id="CONFIRMATION_NAME_NAMES">CONFIRMATION_NAME_NAMES
+        
+        <dd>
+        
+      
+        <dt id="CONFIRMATION_NAME_VALUES">CONFIRMATION_NAME_VALUES
+        
+        <dd>
+        
+      
+        <dt id="RETREAT_COLUMNS">RETREAT_COLUMNS
+        
+        <dd>
+        
+      
+        <dt id="RETREAT_VALUES">RETREAT_VALUES
+        
+        <dd>
+        
+      
+        <dt id="SPONSOR_COLUMNS">SPONSOR_COLUMNS
+        
+        <dd>
+        
+      
+        <dt id="SPONSOR_VALUES">SPONSOR_VALUES
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-candidate_event_state" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">candidate_event_state</span><span
+            class="method-args">(event_name)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>returns lambda which when called with candidate will return the <a
+href="CandidateEvent.html">CandidateEvent</a> status of event_name</p>
+
+<h3 id="method-c-candidate_event_state-label-Parameters-3A">Parameters:<span><a href="#method-c-candidate_event_state-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:event_name</code> name of event</p>
+</li></ul>
+
+<h3 id="method-c-candidate_event_state-label-Returns-3A">Returns:<span><a href="#method-c-candidate_event_state-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Lambda - when called with candidate will return the <a
+href="CandidateEvent.html">CandidateEvent</a> status</p>
+          
+          
+
+          
+          <div class="method-source-code" id="candidate_event_state-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 169</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">candidate_event_state</span>(<span class="ruby-identifier">event_name</span>)
+  <span class="ruby-operator">-&gt;</span>(<span class="ruby-identifier">candidate</span>) { <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">event_name</span>).<span class="ruby-identifier">status</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-event_columns" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">event_columns</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="event_columns-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">event_columns</span>
+  <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:name</span>).<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-event_values" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">event_values</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="event_values-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 139</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">event_values</span>
+  <span class="ruby-constant">ExportListsController</span>.<span class="ruby-identifier">event_columns</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event_name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_event_state</span>(<span class="ruby-identifier">candidate_event_name</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-baptism" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">baptism</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>downloads spreadsheet for event baptism per candidate</p>
+
+<h3 id="method-i-baptism-label-Returns-3A">Returns:<span><a href="#method-i-baptism-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>send_data</code> for spreadsheet</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="baptism-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 51</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">baptism</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">baptismal_external_verification</span>
+
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Baptized&#39;</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISM_COLUMNS</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISM_VALUES</span>)
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-value">type:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-value">filename:</span> <span class="ruby-string">&#39;baptized.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-confirmation_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">confirmation_name</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>downloads spreadsheet for event confirmation name per candidate</p>
+
+<h3 id="method-i-confirmation_name-label-Returns-3A">Returns:<span><a href="#method-i-confirmation_name-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>send_data</code> for spreadsheet</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="confirmation_name-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">confirmation_name</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">confirmation_name_external_verification</span>
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Confirm Names&#39;</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRMATION_NAME_NAMES</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRMATION_NAME_VALUES</span>)
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-value">type:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-value">filename:</span> <span class="ruby-string">&#39;confirmation_name.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-create_xlsx" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_xlsx</span><span
+            class="method-args">(external_verify, verify, verified, not_complete, pre_title, extra_columns = [], value_lambdas = [])</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>creates spreadsheet with four worksheets showing event information</p>
+
+<h3 id="method-i-create_xlsx-label-Parameters-3A">Parameters:<span><a href="#method-i-create_xlsx-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:external_verify</code> List of candidates needing verification
+outside of system</p>
+</li><li>
+<p><code>:verify</code> List of candidates needing verification by admin</p>
+</li><li>
+<p><code>:verified</code> List of candidates already verified</p>
+</li><li>
+<p><code>:not_complete</code> List of candidates needing more work</p>
+</li><li>
+<p><code>:pre_title</code> prefix for worksheet name</p>
+</li><li>
+<p><code>:extra_columns</code> list of columns to be shown</p>
+</li><li>
+<p><code>:value_lambdas</code> list of values for extra_columns</p>
+</li></ul>
+
+<h3 id="method-i-create_xlsx-label-Returns-3A">Returns:<span><a href="#method-i-create_xlsx-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Axlsx::Package</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="create_xlsx-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 189</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_xlsx</span>(<span class="ruby-identifier">external_verify</span>, <span class="ruby-identifier">verify</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-identifier">pre_title</span>, <span class="ruby-identifier">extra_columns</span> = [], <span class="ruby-identifier">value_lambdas</span> = [])
+  <span class="ruby-identifier">p</span> = <span class="ruby-constant">Axlsx</span><span class="ruby-operator">::</span><span class="ruby-constant">Package</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">author:</span> <span class="ruby-string">&#39;Admin&#39;</span>)
+  <span class="ruby-identifier">wb</span> = <span class="ruby-identifier">p</span>.<span class="ruby-identifier">workbook</span>
+  <span class="ruby-identifier">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">external_verify</span>, <span class="ruby-node">&quot;#{pre_title} Externally Verify&quot;</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">verify</span>, <span class="ruby-node">&quot;#{pre_title} Verify&quot;</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-node">&quot;#{pre_title} Verified&quot;</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">add_wb</span>(<span class="ruby-identifier">wb</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-node">&quot;#{pre_title} Not Complete&quot;</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">p</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-events" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">events</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>downloads spreadsheet for event status per candidate</p>
+
+<h3 id="method-i-events-label-Returns-3A">Returns:<span><a href="#method-i-events-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>send_data</code> for spreadsheet</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="events-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">events</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">events_external_verification</span>
+
+  <span class="ruby-identifier">confirmation_event_names</span> = <span class="ruby-constant">ExportListsController</span>.<span class="ruby-identifier">event_columns</span>
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Events&#39;</span>,
+                  <span class="ruby-identifier">confirmation_event_names</span>,
+                  <span class="ruby-identifier">confirmation_event_names</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event_name</span><span class="ruby-operator">|</span> <span class="ruby-constant">ExportListsController</span>.<span class="ruby-identifier">candidate_event_state</span>(<span class="ruby-identifier">candidate_event_name</span>) })
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-value">type:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-value">filename:</span> <span class="ruby-string">&#39;events.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-retreat" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">retreat</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>downloads spreadsheet for event retreat per candidate</p>
+
+<h3 id="method-i-retreat-label-Returns-3A">Returns:<span><a href="#method-i-retreat-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>send_data</code> for spreadsheet</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="retreat-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">retreat</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">retreat_external_verification</span>
+
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Retreat&#39;</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_COLUMNS</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VALUES</span>)
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-value">type:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-value">filename:</span> <span class="ruby-string">&#39;retreat.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-sponsor" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sponsor</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>downloads spreadsheet for event sponsor per candidate</p>
+
+<h3 id="method-i-sponsor-label-Returns-3A">Returns:<span><a href="#method-i-sponsor-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>send_data</code> for spreadsheet</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="sponsor-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 127</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">sponsor</span>
+  <span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">sponsor_external_verification</span>
+  <span class="ruby-identifier">p</span> = <span class="ruby-identifier">create_xlsx</span>(<span class="ruby-identifier">external</span>, <span class="ruby-identifier">to_be_verified</span>, <span class="ruby-identifier">verified</span>, <span class="ruby-identifier">not_complete</span>, <span class="ruby-string">&#39;Sponsor&#39;</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COLUMNS</span>,
+                  <span class="ruby-constant">ExportListsController</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_VALUES</span>)
+  <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-value">type:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-value">filename:</span> <span class="ruby-string">&#39;sponsor.xlsx&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Protected Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-add_wb" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_wb</span><span
+            class="method-args">(wbk, candidates, title, extra_columns, value_lambdas)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="add_wb-source">
+            <pre><span class="ruby-comment"># File app/controllers/export_lists_controller.rb, line 201</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_wb</span>(<span class="ruby-identifier">wbk</span>, <span class="ruby-identifier">candidates</span>, <span class="ruby-identifier">title</span>, <span class="ruby-identifier">extra_columns</span>, <span class="ruby-identifier">value_lambdas</span>)
+  <span class="ruby-identifier">wbk</span>.<span class="ruby-identifier">add_worksheet</span>(<span class="ruby-value">name:</span> <span class="ruby-identifier">title</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">headers</span> = [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_sheet.first_name&#39;</span>), <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_sheet.last_name&#39;</span>)]
+    <span class="ruby-identifier">extra_columns</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">extra_column</span><span class="ruby-operator">|</span> <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">extra_column</span>) }
+    <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">headers</span>)
+    <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+      <span class="ruby-comment"># puts &quot;#{title}: #{candidate.account_name}&quot;</span>
+      <span class="ruby-identifier">values</span> = [<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">first_name</span>,
+                <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">last_name</span>]
+      <span class="ruby-identifier">value_lambdas</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value_lambda</span><span class="ruby-operator">|</span> <span class="ruby-identifier">values</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">value_lambda</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">candidate</span>)) }
+      <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">values</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

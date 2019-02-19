@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>RenameCandiatesColumnCandiateId</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            RenameCandiatesColumnCandiateId
+            
+                <span class="parent">&lt;
+                    
+                    ActiveRecord::Migration
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/db/migrate/20160524203611_rename_candiates_column_candiate_id_rb.html">db/migrate/20160524203611_rename_candiates_column_candiate_id.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-change">change</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-change">
+            
+              <b>change</b>()
+            
+            <a href="../classes/RenameCandiatesColumnCandiateId.html#method-i-change" name="method-i-change" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-change_source')" id="l_method-i-change_source">show</a>
+                
+              </p>
+              <div id="method-i-change_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File db/migrate/20160524203611_rename_candiates_column_candiate_id.rb, line 2</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">change</span>
+  <span class="ruby-identifier">remove_index</span> <span class="ruby-string">&#39;candidates&#39;</span>, <span class="ruby-identifier">column</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;candidate_id&#39;</span>
+  <span class="ruby-identifier">rename_column</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:candidate_id</span>, <span class="ruby-value">:account_name</span>)
+  <span class="ruby-identifier">add_index</span> <span class="ruby-string">&#39;candidates&#39;</span>, [<span class="ruby-value">:account_name</span>], <span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;index_candidates_on_account_name&#39;</span>, <span class="ruby-identifier">unique</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>, <span class="ruby-identifier">using</span><span class="ruby-operator">:</span> <span class="ruby-value">:btree</span>
+
+  <span class="ruby-identifier">change_table</span> <span class="ruby-value">:candidate_events</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span> <span class="ruby-identifier">t</span> <span class="ruby-operator">|</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">belongs_to</span> <span class="ruby-value">:candidate</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Num of candudates: #{Candidate.all.size}&quot;</span>
+  <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;migrating: #{candidate.account_name}&quot;</span>
+    <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>=<span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">grade</span>=<span class="ruby-number">10</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">grade</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">change_column_null</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:account_name</span>, <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">change_column_default</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:account_name</span>, <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">change_column_default</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:grade</span>, <span class="ruby-number">10</span>)
+  <span class="ruby-identifier">change_column_null</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:grade</span>, <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">change_column_null</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:address_id</span>, <span class="ruby-keyword">false</span>)
+
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Num of Admin: #{Admin.all.size}&quot;</span>
+  <span class="ruby-constant">Admin</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">admin</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;migrating: #{admin.name}&quot;</span>
+    <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">name</span>=<span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">change_column_null</span>(<span class="ruby-value">:admins</span>, <span class="ruby-value">:name</span>, <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">change_column_default</span>(<span class="ruby-value">:admins</span>, <span class="ruby-value">:name</span>, <span class="ruby-string">&#39;&#39;</span>)
+
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

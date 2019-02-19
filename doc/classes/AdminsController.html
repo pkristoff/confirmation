@@ -1,0 +1,1250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>AdminsController</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            AdminsController
+            
+                <span class="parent">&lt;
+                    
+                    <a href="ApplicationController.html">ApplicationController</a>
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/controllers/admins_controller_rb.html">app/controllers/admins_controller.rb</a></li>
+            
+            <li><a href="../files/app/mailers/send_reset_email_job_rb.html">app/mailers/send_reset_email_job.rb</a></li>
+            
+            <li><a href="../files/spec/controllers/admins_controller_spec_rb.html">spec/controllers/admins_controller_spec.rb</a></li>
+            
+            <li><a href="../files/spec/features/candidates/admin/candidate_index_spec_rb.html">spec/features/candidates/admin/candidate_index_spec.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>Handles <a href="Admin.html">Admin</a> tasks</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-adhoc_mailing">adhoc_mailing</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-adhoc_mailing_update">adhoc_mailing_update</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-edit_multiple_confirmation_events">edit_multiple_confirmation_events</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>I</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-index">index</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>M</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-mass_edit_candidates_event">mass_edit_candidates_event</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-mass_edit_candidates_event_update">mass_edit_candidates_event_update</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-mass_edit_candidates_update">mass_edit_candidates_update</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-monthly_mass_mailing">monthly_mass_mailing</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-monthly_mass_mailing_update">monthly_mass_mailing_update</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>R</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-redirect_back">redirect_back</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-set_confirmation_events">set_confirmation_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-setup_adhoc_render">setup_adhoc_render</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-setup_monthly_mailing_render">setup_monthly_mailing_render</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-setup_monthly_mailing_render_default">setup_monthly_mailing_render_default</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-show">show</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>U</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-update_multiple_confirmation_events">update_multiple_confirmation_events</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+      <!-- Section constants -->
+      <div class="sectiontitle">Constants</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class="attr-name">DELETE</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;views.common.delete&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"><p>These should only be looked up once</p></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">EMAIL</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;views.nav.email&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">RESET_PASSWORD</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;views.common.reset_password&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">INITIAL_EMAIL</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;views.common.initial_email&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">GENERATE_PDF</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;views.common.generate_pdf&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">CONFIRM_ACCOUNT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;views.common.confirm_account&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+      </table>
+    
+
+
+    
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>admins</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>candidate_info</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>confirmation_events</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+      </table>
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-adhoc_mailing">
+            
+              <b>adhoc_mailing</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-adhoc_mailing" name="method-i-adhoc_mailing" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>ROUTES</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-adhoc_mailing_source')" id="l_method-i-adhoc_mailing_source">show</a>
+                
+              </p>
+              <div id="method-i-adhoc_mailing_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_mailing</span>
+  <span class="ruby-identifier">subject</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.subject_initial_text&#39;</span>)
+  <span class="ruby-identifier">body</span> = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>]
+    <span class="ruby-identifier">subject</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:subject</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:subject</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">subject</span>
+    <span class="ruby-identifier">body</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:body_input</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:body_input</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">body</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">setup_adhoc_render</span>(<span class="ruby-identifier">body</span>, <span class="ruby-identifier">subject</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-adhoc_mailing_update">
+            
+              <b>adhoc_mailing_update</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-adhoc_mailing_update" name="method-i-adhoc_mailing_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-adhoc_mailing_update_source')" id="l_method-i-adhoc_mailing_update_source">show</a>
+                
+              </p>
+              <div id="method-i-adhoc_mailing_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">adhoc_mailing_update</span>
+  <span class="ruby-identifier">expected_params</span> = { <span class="ruby-identifier">mail</span><span class="ruby-operator">:</span> <span class="ruby-operator">%</span>[<span class="ruby-identifier">subject</span> <span class="ruby-identifier">body_input</span>],
+                      <span class="ruby-identifier">candidate</span><span class="ruby-operator">:</span> [<span class="ruby-value">:candidate_ids</span>] }
+  <span class="ruby-identifier">missing_params</span> = <span class="ruby-identifier">expected_params</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">expected_param</span>, <span class="ruby-identifier">_sub_params</span><span class="ruby-operator">|</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">expected_param</span>].<span class="ruby-identifier">nil?</span> }
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">missing_params</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">redirect_to</span> <span class="ruby-operator">:</span><span class="ruby-identifier">back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;The following required parameters are missing: #{missing_params}&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">candidate_ids</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate</span>][<span class="ruby-value">:candidate_ids</span>]
+  <span class="ruby-identifier">candidates</span> = []
+  <span class="ruby-identifier">candidate_ids</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidates</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">id</span>.<span class="ruby-identifier">empty?</span> }
+
+  <span class="ruby-identifier">mail_param</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>]
+  <span class="ruby-identifier">subject_text</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:subject</span>]
+  <span class="ruby-identifier">body_input_text</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:body_input</span>]
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">redirect_back</span>(<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.no_candidate_selected&#39;</span>), <span class="ruby-identifier">mail_param</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">send_grid_mail</span> = <span class="ruby-constant">SendGridMail</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">current_admin</span>, <span class="ruby-identifier">candidates</span>)
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>]
+    <span class="ruby-keyword">when</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.adhoc_mail&#39;</span>)
+
+      <span class="ruby-identifier">flash_message</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.adhoc_mailing_progress&#39;</span>)
+      <span class="ruby-identifier">response</span> = <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">adhoc</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
+
+    <span class="ruby-keyword">when</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_adhoc_mail&#39;</span>)
+
+      <span class="ruby-identifier">flash_message</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.adhoc_mailing_test_sent&#39;</span>)
+      <span class="ruby-identifier">response</span> = <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">adhoc_test</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">body_input_text</span>)
+
+    <span class="ruby-keyword">else</span>
+
+      <span class="ruby-keyword">return</span> <span class="ruby-identifier">redirect_to</span> <span class="ruby-operator">:</span><span class="ruby-identifier">back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;Unknown submit button: #{params[:commit]}&quot;</span>
+
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status_code</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;2&#39;</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">flash_message</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Status=#{response.status_code} body=#{response.body}&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-comment"># puts &quot;adhoc_mailing_update message=#{e.message} backtrace=#{e.backtrace[0...5]}&quot;</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;message=#{e.message} backtrace=#{e.backtrace[0...5]}&quot;</span>
+    <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-node">&quot;message=#{e.message} backtrace=#{e.backtrace[0...5]}&quot;</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">setup_adhoc_render</span>(<span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">subject_text</span>)
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:adhoc_mailing</span>, <span class="ruby-identifier">mail</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-edit_multiple_confirmation_events">
+            
+              <b>edit_multiple_confirmation_events</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-edit_multiple_confirmation_events" name="method-i-edit_multiple_confirmation_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-edit_multiple_confirmation_events_source')" id="l_method-i-edit_multiple_confirmation_events_source">show</a>
+                
+              </p>
+              <div id="method-i-edit_multiple_confirmation_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">edit_multiple_confirmation_events</span>
+  <span class="ruby-identifier">set_confirmation_events</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-index">
+            
+              <b>index</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-index" name="method-i-index" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-index_source')" id="l_method-i-index_source">show</a>
+                
+              </p>
+              <div id="method-i-index_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 95</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">index</span>
+  <span class="ruby-ivar">@admins</span> = <span class="ruby-constant">Admin</span>.<span class="ruby-identifier">all</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-mass_edit_candidates_event">
+            
+              <b>mass_edit_candidates_event</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-mass_edit_candidates_event" name="method-i-mass_edit_candidates_event" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-mass_edit_candidates_event_source')" id="l_method-i-mass_edit_candidates_event_source">show</a>
+                
+              </p>
+              <div id="method-i-mass_edit_candidates_event_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 99</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mass_edit_candidates_event</span>
+  <span class="ruby-identifier">set_candidates</span>(<span class="ruby-identifier">confirmation_event</span><span class="ruby-operator">:</span> <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]))
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-mass_edit_candidates_event_update">
+            
+              <b>mass_edit_candidates_event_update</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-mass_edit_candidates_event_update" name="method-i-mass_edit_candidates_event_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-mass_edit_candidates_event_update_source')" id="l_method-i-mass_edit_candidates_event_update_source">show</a>
+                
+              </p>
+              <div id="method-i-mass_edit_candidates_event_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mass_edit_candidates_event_update</span>
+  <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:id</span>)
+
+  <span class="ruby-identifier">candidate_ids</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate</span>][<span class="ruby-value">:candidate_ids</span>]
+  <span class="ruby-identifier">candidates</span> = []
+  <span class="ruby-identifier">candidate_ids</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidates</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">id</span>.<span class="ruby-identifier">empty?</span> }
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">set_candidates</span>(<span class="ruby-identifier">confirmation_event</span><span class="ruby-operator">:</span> <span class="ruby-identifier">confirmation_event</span>)
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.no_candidate_selected&#39;</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">render</span> <span class="ruby-operator">:</span><span class="ruby-identifier">mass_edit_candidates_event</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">params</span>[<span class="ruby-value">:confirmation_event_attributes</span>] = { <span class="ruby-identifier">id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">id</span> }
+  <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate_event</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span>)
+
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">params</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">permitted_params</span>))
+                       <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.update_candidate_event&#39;</span>, <span class="ruby-identifier">account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)
+                     <span class="ruby-keyword">else</span>
+                       <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.not_all_confirmation_events_updated&#39;</span>, <span class="ruby-identifier">account_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_name</span>)
+                     <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">set_candidates</span>(<span class="ruby-identifier">confirmation_event</span><span class="ruby-operator">:</span> <span class="ruby-identifier">confirmation_event</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:verified</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:completed_date</span>)
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:mass_edit_candidates_event</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-mass_edit_candidates_update">
+            
+              <b>mass_edit_candidates_update</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-mass_edit_candidates_update" name="method-i-mass_edit_candidates_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-mass_edit_candidates_update_source')" id="l_method-i-mass_edit_candidates_update_source">show</a>
+                
+              </p>
+              <div id="method-i-mass_edit_candidates_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 132</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">mass_edit_candidates_update</span>
+  <span class="ruby-identifier">candidate_param</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate</span>]
+  <span class="ruby-identifier">candidate_ids</span> = <span class="ruby-identifier">candidate_param</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate_param</span>[<span class="ruby-value">:candidate_ids</span>] <span class="ruby-operator">:</span> []
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:candidate</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate_param</span>
+  <span class="ruby-identifier">candidates</span> = []
+  <span class="ruby-identifier">candidate_ids</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidates</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">id</span>.<span class="ruby-identifier">empty?</span> }
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.no_candidate_selected&#39;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>]
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">AdminsController</span><span class="ruby-operator">::</span><span class="ruby-constant">DELETE</span>
+      <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:destroy</span>)
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.candidates_deleted&#39;</span>)
+      <span class="ruby-identifier">set_candidates</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-string">&#39;candidates/index&#39;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">AdminsController</span><span class="ruby-operator">::</span><span class="ruby-constant">GENERATE_PDF</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-number">1</span>
+        <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.generate_pdf_error&#39;</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">doc_name</span> = <span class="ruby-string">&#39;tmp/temp.pdf&#39;</span>
+        <span class="ruby-identifier">pdf</span> = <span class="ruby-constant">CandidatePDFDocument</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">first</span>)
+        <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">render</span>,
+                  <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-identifier">doc_name</span>,
+                  <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/pdf&#39;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">AdminsController</span><span class="ruby-operator">::</span><span class="ruby-constant">EMAIL</span>
+      <span class="ruby-identifier">setup_monthly_mailing_render_default</span>(<span class="ruby-identifier">candidate_ids</span>)
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:monthly_mass_mailing</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">AdminsController</span><span class="ruby-operator">::</span><span class="ruby-constant">RESET_PASSWORD</span>
+      <span class="ruby-comment"># This only sends the password reset instructions, the</span>
+      <span class="ruby-comment"># password is not changed. (Recipient has to click link</span>
+      <span class="ruby-comment"># in email and follow instructions to actually change</span>
+      <span class="ruby-comment"># the password).</span>
+      <span class="ruby-identifier">send_grid_mail</span> = <span class="ruby-constant">SendGridMail</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">current_admin</span>, <span class="ruby-identifier">candidates</span>)
+      <span class="ruby-identifier">response</span>, <span class="ruby-identifier">_token</span> = <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">reset_password</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">test?</span>
+        <span class="ruby-comment"># not connected to the internet</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.reset_password_message_sent&#39;</span>)
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status_code</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;2&#39;</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.reset_password_message_sent&#39;</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Status=#{response.status_code} body=#{response.body}&quot;</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">AdminsController</span><span class="ruby-operator">::</span><span class="ruby-constant">INITIAL_EMAIL</span>
+      <span class="ruby-comment"># This only sends the password reset instructions, the</span>
+      <span class="ruby-comment"># password is not changed. (Recipient has to click link</span>
+      <span class="ruby-comment"># in email and follow instructions to actually change</span>
+      <span class="ruby-comment"># the password).</span>
+      <span class="ruby-identifier">send_grid_mail</span> = <span class="ruby-constant">SendGridMail</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">current_admin</span>, <span class="ruby-identifier">candidates</span>)
+      <span class="ruby-identifier">response</span>, <span class="ruby-identifier">_token</span> = <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">confirmation_instructions</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">env</span>.<span class="ruby-identifier">test?</span>
+        <span class="ruby-comment"># not connected to the internet</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.initial_email_sent&#39;</span>)
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status_code</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;2&#39;</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.initial_email_sent&#39;</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Status=#{response.status_code} body=#{response.body}&quot;</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.initial_email_sent&#39;</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">AdminsController</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRM_ACCOUNT</span>
+      <span class="ruby-identifier">confirmed</span> = <span class="ruby-number">0</span>
+      <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_confirmed?</span>
+          <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Candidate account already confirmed: #{candidate.account_name}&quot;</span>)
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">confirm_account</span>
+          <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">save</span>
+          <span class="ruby-identifier">confirmed</span> <span class="ruby-operator">+=</span> <span class="ruby-number">1</span>
+          <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Candidate account confirmed: #{candidate.account_name}&quot;</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.account_confirmed&#39;</span>, <span class="ruby-identifier">number_confirmed</span><span class="ruby-operator">:</span> <span class="ruby-identifier">confirmed</span>, <span class="ruby-identifier">number_not_confirmed</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">confirmed</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.unknown_parameter_commit&#39;</span>, <span class="ruby-identifier">commit</span><span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>], <span class="ruby-identifier">params</span><span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-monthly_mass_mailing">
+            
+              <b>monthly_mass_mailing</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-monthly_mass_mailing" name="method-i-monthly_mass_mailing" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-monthly_mass_mailing_source')" id="l_method-i-monthly_mass_mailing_source">show</a>
+                
+              </p>
+              <div id="method-i-monthly_mass_mailing_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 212</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_mass_mailing</span>
+  <span class="ruby-identifier">subject</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.subject_initial_text&#39;</span>)
+  <span class="ruby-identifier">pre_late_input</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.late_initial_text&#39;</span>)
+  <span class="ruby-identifier">pre_coming_due_input</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.coming_due_initial_text&#39;</span>)
+  <span class="ruby-identifier">completed_awaiting_input</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.completed_awaiting_initial_text&#39;</span>)
+  <span class="ruby-identifier">completed_input</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.completed_initial_text&#39;</span>)
+  <span class="ruby-identifier">closing_text</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.closing_initial_text&#39;</span>)
+  <span class="ruby-identifier">salutation_text</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.salutation_initial_text&#39;</span>)
+  <span class="ruby-identifier">from_text</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.from_initial_text_html&#39;</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>]
+    <span class="ruby-identifier">subject</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:subject</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:subject</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">subject</span>
+    <span class="ruby-identifier">pre_late_input</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:pre_late_input</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:pre_late_input</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">pre_late_input</span>
+    <span class="ruby-identifier">pre_coming_due_input</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:pre_coming_due_input</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:pre_coming_due_input</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">pre_coming_due_input</span>
+    <span class="ruby-identifier">completed_awaiting_input</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:completed_awaiting_input</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:completed_awaiting_input</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">completed_awaiting_input</span>
+    <span class="ruby-identifier">completed_input</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:completed_input</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:completed_input</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">completed_input</span>
+    <span class="ruby-identifier">closing_text</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:closing_awaiting_text</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:closing_awaiting_text</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">closing_text</span>
+    <span class="ruby-identifier">closing_text</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:closing_text</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:closing_text</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">closing_text</span>
+    <span class="ruby-identifier">salutation_text</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:salutation_text</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:salutation_text</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">salutation_text</span>
+    <span class="ruby-identifier">from_text</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:from_text</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>][<span class="ruby-value">:from_text</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">from_text</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">setup_monthly_mailing_render</span>(<span class="ruby-identifier">subject</span>, <span class="ruby-identifier">pre_late_input</span>, <span class="ruby-identifier">pre_coming_due_input</span>, <span class="ruby-identifier">completed_awaiting_input</span>, <span class="ruby-identifier">completed_input</span>, <span class="ruby-identifier">closing_text</span>, <span class="ruby-identifier">salutation_text</span>, <span class="ruby-identifier">from_text</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-monthly_mass_mailing_update">
+            
+              <b>monthly_mass_mailing_update</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-monthly_mass_mailing_update" name="method-i-monthly_mass_mailing_update" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-monthly_mass_mailing_update_source')" id="l_method-i-monthly_mass_mailing_update_source">show</a>
+                
+              </p>
+              <div id="method-i-monthly_mass_mailing_update_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 249</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">monthly_mass_mailing_update</span>
+  <span class="ruby-identifier">expected_params</span> = { <span class="ruby-identifier">mail</span><span class="ruby-operator">:</span> <span class="ruby-operator">%</span>[<span class="ruby-identifier">subject</span> <span class="ruby-identifier">pre_late_input</span> <span class="ruby-identifier">pre_coming_due_input</span> <span class="ruby-identifier">completed_input</span> <span class="ruby-identifier">salutation_text</span> <span class="ruby-identifier">closing_text</span> <span class="ruby-identifier">from_text</span>],
+                      <span class="ruby-identifier">candidate</span><span class="ruby-operator">:</span> [<span class="ruby-value">:candidate_ids</span>] }
+  <span class="ruby-identifier">missing_params</span> = <span class="ruby-identifier">expected_params</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">expected_param</span>, <span class="ruby-identifier">_sub_params</span><span class="ruby-operator">|</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">expected_param</span>].<span class="ruby-identifier">nil?</span> }
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">missing_params</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">redirect_to</span> <span class="ruby-operator">:</span><span class="ruby-identifier">back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;The following required parameters are missing: #{missing_params}&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">mail_param</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>]
+  <span class="ruby-identifier">subject_text</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:subject</span>]
+  <span class="ruby-identifier">pre_late_input</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:pre_late_input</span>]
+  <span class="ruby-identifier">pre_coming_due_input</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:pre_coming_due_input</span>]
+  <span class="ruby-identifier">completed_awaiting_input</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:completed_awaiting_input</span>]
+  <span class="ruby-identifier">completed_input</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:completed_input</span>]
+  <span class="ruby-identifier">salutation_text</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:salutation_text</span>]
+  <span class="ruby-identifier">closing_text</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:closing_text</span>]
+  <span class="ruby-identifier">from_text</span> = <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:from_text</span>]
+
+  <span class="ruby-identifier">candidate_ids</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate</span>][<span class="ruby-value">:candidate_ids</span>]
+  <span class="ruby-identifier">candidates</span> = []
+  <span class="ruby-identifier">candidate_ids</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidates</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">id</span>.<span class="ruby-identifier">empty?</span> }
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidates</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">redirect_back</span>(<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.no_candidate_selected&#39;</span>), <span class="ruby-identifier">mail_param</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>]
+  <span class="ruby-keyword">when</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.monthly_mail&#39;</span>)
+
+    <span class="ruby-identifier">is_test_mail</span> = <span class="ruby-keyword">false</span>
+
+    <span class="ruby-identifier">flash_message</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.monthly_mailing_progress&#39;</span>)
+
+  <span class="ruby-keyword">when</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.test_monthly_mail&#39;</span>)
+
+    <span class="ruby-identifier">is_test_mail</span> = <span class="ruby-keyword">true</span>
+
+    <span class="ruby-identifier">flash_message</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.monthly_mailing_test_sent&#39;</span>)
+
+  <span class="ruby-keyword">else</span>
+
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">redirect_to</span> <span class="ruby-operator">:</span><span class="ruby-identifier">back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;Unknown submit button: #{params[:commit]}&quot;</span>
+
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">mail_param</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:mail</span>]
+  <span class="ruby-identifier">send_grid_mail</span> = <span class="ruby-constant">SendGridMail</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">current_admin</span>, <span class="ruby-identifier">candidates</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_test_mail</span>
+    <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">monthly_mass_mailing_test</span>(<span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:subject</span>],
+                                             <span class="ruby-identifier">pre_late_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:pre_late_input</span>],
+                                             <span class="ruby-identifier">pre_coming_due_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:pre_coming_due_input</span>],
+                                             <span class="ruby-identifier">completed_awaiting_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:completed_awaiting_input</span>],
+                                             <span class="ruby-identifier">completed_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:completed_input</span>],
+                                             <span class="ruby-identifier">closing_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:closing_text</span>],
+                                             <span class="ruby-identifier">salutation_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:salutation_text</span>],
+                                             <span class="ruby-identifier">from_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:from_text</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">send_grid_mail</span>.<span class="ruby-identifier">monthly_mass_mailing</span>(<span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:subject</span>],
+                                        <span class="ruby-identifier">pre_late_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:pre_late_input</span>],
+                                        <span class="ruby-identifier">pre_coming_due_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:pre_coming_due_input</span>],
+                                        <span class="ruby-identifier">completed_awaiting_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:completed_awaiting_input</span>],
+                                        <span class="ruby-identifier">completed_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:completed_input</span>],
+                                        <span class="ruby-identifier">closing_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:closing_text</span>],
+                                        <span class="ruby-identifier">salutation_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:salutation_text</span>],
+                                        <span class="ruby-identifier">from_text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_param</span>[<span class="ruby-value">:from_text</span>])
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">flash_message</span>
+
+  <span class="ruby-identifier">set_confirmation_events</span>
+
+  <span class="ruby-identifier">setup_monthly_mailing_render</span>(<span class="ruby-identifier">subject_text</span>, <span class="ruby-identifier">pre_late_input</span>, <span class="ruby-identifier">pre_coming_due_input</span>, <span class="ruby-identifier">completed_awaiting_input</span>,
+                               <span class="ruby-identifier">completed_input</span>, <span class="ruby-identifier">closing_text</span>, <span class="ruby-identifier">salutation_text</span>, <span class="ruby-identifier">from_text</span>)
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:monthly_mass_mailing</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-redirect_back">
+            
+              <b>redirect_back</b>(flash_message, mail_params)
+            
+            <a href="../classes/AdminsController.html#method-i-redirect_back" name="method-i-redirect_back" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-redirect_back_source')" id="l_method-i-redirect_back_source">show</a>
+                
+              </p>
+              <div id="method-i-redirect_back_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 372</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">redirect_back</span>(<span class="ruby-identifier">flash_message</span>, <span class="ruby-identifier">mail_params</span>)
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-comment"># get a URI object for referring url</span>
+    <span class="ruby-identifier">referrer_url</span> = <span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">referer</span>)
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>
+    <span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">some_default_url</span>)
+    <span class="ruby-comment"># need to have a default in case referrer is not given</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># append the query string to the  referrer url</span>
+  <span class="ruby-comment"># referrer_url.query returns the existing query string =&gt; &quot;f=b&quot;</span>
+  <span class="ruby-comment"># Rack::Utils.parse_nested_query converts query string to hash =&gt; {f: &quot;b&quot;}</span>
+  <span class="ruby-comment"># merge appends or overwrites the new parameter  =&gt; {f: &quot;b&quot;, cp: :foo&#39;}</span>
+  <span class="ruby-identifier">referrer_url</span>.<span class="ruby-identifier">query</span> = <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">parse_nested_query</span>(<span class="ruby-identifier">referrer_url</span>.<span class="ruby-identifier">query</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">mail</span><span class="ruby-operator">:</span> <span class="ruby-identifier">mail_params</span>).<span class="ruby-identifier">to_query</span>
+  <span class="ruby-comment"># to_query converts hash back to query string =&gt; &quot;f=b&amp;cp=foo&quot;</span>
+
+  <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">flash_message</span>
+  <span class="ruby-comment"># redirect to the referrer url with the modified query string</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">referrer_url</span>.<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-set_confirmation_events">
+            
+              <b>set_confirmation_events</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-set_confirmation_events" name="method-i-set_confirmation_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-set_confirmation_events_source')" id="l_method-i-set_confirmation_events_source">show</a>
+                
+              </p>
+              <div id="method-i-set_confirmation_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 393</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">set_confirmation_events</span>
+  <span class="ruby-ivar">@confirmation_events</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">sort</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ce1</span>, <span class="ruby-identifier">ce2</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment"># sort based on the_way_due_date and then by name ignoring chs_due_date</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">the_way_due_date</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">the_way_due_date</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">name</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-number">-1</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">the_way_due_date</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-number">1</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">due_date</span> = <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">the_way_due_date</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">the_way_due_date</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">due_date</span>.<span class="ruby-identifier">zero?</span>
+        <span class="ruby-identifier">ce1</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">ce2</span>.<span class="ruby-identifier">name</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">due_date</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-setup_adhoc_render">
+            
+              <b>setup_adhoc_render</b>(body_input_text, subject_text)
+            
+            <a href="../classes/AdminsController.html#method-i-setup_adhoc_render" name="method-i-setup_adhoc_render" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-setup_adhoc_render_source')" id="l_method-i-setup_adhoc_render_source">show</a>
+                
+              </p>
+              <div id="method-i-setup_adhoc_render_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 366</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">setup_adhoc_render</span>(<span class="ruby-identifier">body_input_text</span>, <span class="ruby-identifier">subject_text</span>)
+  <span class="ruby-ivar">@subject</span> = <span class="ruby-identifier">subject_text</span>
+  <span class="ruby-ivar">@body</span> = <span class="ruby-identifier">body_input_text</span>
+  <span class="ruby-identifier">set_candidates</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-setup_monthly_mailing_render">
+            
+              <b>setup_monthly_mailing_render</b>(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_text, salutation_text, from_text, selected_ids = [])
+            
+            <a href="../classes/AdminsController.html#method-i-setup_monthly_mailing_render" name="method-i-setup_monthly_mailing_render" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-setup_monthly_mailing_render_source')" id="l_method-i-setup_monthly_mailing_render_source">show</a>
+                
+              </p>
+              <div id="method-i-setup_monthly_mailing_render_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 353</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">setup_monthly_mailing_render</span>(<span class="ruby-identifier">subject</span>, <span class="ruby-identifier">pre_late_input</span>, <span class="ruby-identifier">pre_coming_due_input</span>, <span class="ruby-identifier">completed_awaiting_input</span>, <span class="ruby-identifier">completed_input</span>,
+                                 <span class="ruby-identifier">closing_text</span>, <span class="ruby-identifier">salutation_text</span>, <span class="ruby-identifier">from_text</span>, <span class="ruby-identifier">selected_ids</span> = [])
+  <span class="ruby-ivar">@subject</span> = <span class="ruby-identifier">subject</span>
+  <span class="ruby-ivar">@pre_late_input</span> = <span class="ruby-identifier">pre_late_input</span>
+  <span class="ruby-ivar">@pre_coming_due_input</span> = <span class="ruby-identifier">pre_coming_due_input</span>
+  <span class="ruby-ivar">@completed_awaiting_input</span> = <span class="ruby-identifier">completed_awaiting_input</span>
+  <span class="ruby-ivar">@completed_input</span> = <span class="ruby-identifier">completed_input</span>
+  <span class="ruby-ivar">@closing_text</span> = <span class="ruby-identifier">closing_text</span>
+  <span class="ruby-ivar">@salutation_text</span> = <span class="ruby-identifier">salutation_text</span>
+  <span class="ruby-ivar">@from_text</span> = <span class="ruby-identifier">from_text</span>
+  <span class="ruby-identifier">set_candidates</span>(<span class="ruby-identifier">selected_candidate_ids</span><span class="ruby-operator">:</span> <span class="ruby-identifier">selected_ids</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-setup_monthly_mailing_render_default">
+            
+              <b>setup_monthly_mailing_render_default</b>(selected_ids = [])
+            
+            <a href="../classes/AdminsController.html#method-i-setup_monthly_mailing_render_default" name="method-i-setup_monthly_mailing_render_default" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-setup_monthly_mailing_render_default_source')" id="l_method-i-setup_monthly_mailing_render_default_source">show</a>
+                
+              </p>
+              <div id="method-i-setup_monthly_mailing_render_default_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 236</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">setup_monthly_mailing_render_default</span>(<span class="ruby-identifier">selected_ids</span> = [])
+  <span class="ruby-identifier">subject</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.subject_initial_text&#39;</span>)
+  <span class="ruby-identifier">pre_late_input</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.late_initial_text&#39;</span>)
+  <span class="ruby-identifier">pre_coming_due_input</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.coming_due_initial_text&#39;</span>)
+  <span class="ruby-identifier">completed_awaiting_input</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.completed_awaiting_initial_text&#39;</span>)
+  <span class="ruby-identifier">completed_input</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.completed_initial_text&#39;</span>)
+  <span class="ruby-identifier">closing_text</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.closing_initial_text&#39;</span>)
+  <span class="ruby-identifier">salutation_text</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.salutation_initial_text&#39;</span>)
+  <span class="ruby-identifier">from_text</span> = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.from_initial_text_html&#39;</span>)
+
+  <span class="ruby-identifier">setup_monthly_mailing_render</span>(<span class="ruby-identifier">subject</span>, <span class="ruby-identifier">pre_late_input</span>, <span class="ruby-identifier">pre_coming_due_input</span>, <span class="ruby-identifier">completed_awaiting_input</span>, <span class="ruby-identifier">completed_input</span>, <span class="ruby-identifier">closing_text</span>, <span class="ruby-identifier">salutation_text</span>, <span class="ruby-identifier">from_text</span>, <span class="ruby-identifier">selected_ids</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-show">
+            
+              <b>show</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-show" name="method-i-show" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-show_source')" id="l_method-i-show_source">show</a>
+                
+              </p>
+              <div id="method-i-show_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 326</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">show</span>
+  <span class="ruby-ivar">@admin</span> = <span class="ruby-constant">Admin</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-update_multiple_confirmation_events">
+            
+              <b>update_multiple_confirmation_events</b>()
+            
+            <a href="../classes/AdminsController.html#method-i-update_multiple_confirmation_events" name="method-i-update_multiple_confirmation_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-update_multiple_confirmation_events_source')" id="l_method-i-update_multiple_confirmation_events_source">show</a>
+                
+              </p>
+              <div id="method-i-update_multiple_confirmation_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/admins_controller.rb, line 330</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">update_multiple_confirmation_events</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.common.update&#39;</span>)
+    <span class="ruby-identifier">confirmation_events</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:confirmation_events</span>].<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:confirmation_events</span>].<span class="ruby-identifier">values</span>).<span class="ruby-identifier">reject</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">empty?</span> }
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">confirmation_events</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.confirmation_events_updated&#39;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.not_all_confirmation_events_updated&#39;</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">set_confirmation_events</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:edit_multiple_confirmation_events</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:update</span>].<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-number">1</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:update</span>][<span class="ruby-identifier">params</span>[<span class="ruby-value">:update</span>].<span class="ruby-identifier">keys</span>[<span class="ruby-number">0</span>]] <span class="ruby-operator">==</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.common.update_candidates_event&#39;</span>))
+
+    <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:update</span>].<span class="ruby-identifier">keys</span>[<span class="ruby-number">0</span>])
+
+    <span class="ruby-identifier">set_candidates</span>(<span class="ruby-identifier">confirmation_event</span><span class="ruby-operator">:</span> <span class="ruby-identifier">confirmation_event</span>)
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:mass_edit_candidates_event</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-node">&quot;Unkown commit param: #{params[:commit]}&quot;</span>
+    <span class="ruby-identifier">set_confirmation_events</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:edit_multiple_confirmation_events</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

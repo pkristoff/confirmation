@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CandidateImportsController</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            CandidateImportsController
+            
+                <span class="parent">&lt;
+                    
+                    <a href="ApplicationController.html">ApplicationController</a>
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/controllers/candidate_imports_controller_rb.html">app/controllers/candidate_imports_controller.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-check_events">check_events</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-create">create</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-export_to_excel">export_to_excel</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>N</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-new">new</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>O</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-orphaned_table_rows">orphaned_table_rows</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>R</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-reset_database">reset_database</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-start_new_year">start_new_year</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>candidate_import</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+      </table>
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-check_events">
+            
+              <b>check_events</b>()
+            
+            <a href="../classes/CandidateImportsController.html#method-i-check_events" name="method-i-check_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-check_events_source')" id="l_method-i-check_events_source">show</a>
+                
+              </p>
+              <div id="method-i-check_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 18</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">check_events</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.add_missing_events&#39;</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate_import</span>][<span class="ruby-value">:missing</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&#39;</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.check_events_first&#39;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">add_missing_events</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate_import</span>][<span class="ruby-value">:missing</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;:&#39;</span>))
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">check_events</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">check_events</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-create">
+            
+              <b>create</b>()
+            
+            <a href="../classes/CandidateImportsController.html#method-i-create" name="method-i-create" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-create_source')" id="l_method-i-create_source">show</a>
+                
+              </p>
+              <div id="method-i-create_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 31</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">create</span>
+  <span class="ruby-identifier">import_file_param</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate_import</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">import_file_param</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_candidate_import_url</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.select_excel_file&#39;</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">import_file_param</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">original_filename</span>) <span class="ruby-operator">===</span> <span class="ruby-string">&#39;.zip&#39;</span>
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">uploaded_zip_file</span><span class="ruby-operator">:</span> <span class="ruby-identifier">import_file_param</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">first</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@candidate_import</span>.<span class="ruby-identifier">load_zip_file</span>(<span class="ruby-identifier">import_file_param</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">first</span>)
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_url</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.import_successful&#39;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:new</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@candidate_import</span>.<span class="ruby-identifier">load_initial_file</span>(<span class="ruby-identifier">import_file_param</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">first</span>)
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_url</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.import_successful&#39;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:new</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-export_to_excel">
+            
+              <b>export_to_excel</b>()
+            
+            <a href="../classes/CandidateImportsController.html#method-i-export_to_excel" name="method-i-export_to_excel" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-export_to_excel_source')" id="l_method-i-export_to_excel_source">show</a>
+                
+              </p>
+              <div id="method-i-export_to_excel_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 52</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">export_to_excel</span>
+
+  <span class="ruby-identifier">dir</span> = <span class="ruby-string">&#39;xlsx_export&#39;</span>
+  <span class="ruby-identifier">with_pictures</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.excel&#39;</span>)
+
+  <span class="ruby-identifier">delete_dir</span>(<span class="ruby-identifier">dir</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">with_pictures</span>
+
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-identifier">dir</span>)
+
+      <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">to_xlsx</span>(<span class="ruby-identifier">dir</span>).<span class="ruby-identifier">serialize</span>(<span class="ruby-node">&quot;#{dir}/export.xlsx&quot;</span>, <span class="ruby-keyword">true</span>)
+
+      <span class="ruby-identifier">zip_filename</span> = <span class="ruby-string">&#39;xlsx_export.zip&#39;</span>
+      <span class="ruby-identifier">temp_file</span> = <span class="ruby-constant">Tempfile</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">zip_filename</span>)
+      <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">OutputStream</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">temp_file</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zos</span><span class="ruby-operator">|</span> <span class="ruby-identifier">zos</span> }
+      <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">temp_file</span>.<span class="ruby-identifier">path</span>, <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">CREATE</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">zip</span><span class="ruby-operator">|</span>
+        <span class="ruby-comment"># zip.add(dir, dir)</span>
+        <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">foreach</span>(<span class="ruby-identifier">dir</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">filename</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">zip</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">filename</span>)) <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-node">&quot;#{dir}/#{filename}&quot;</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">zip_filename</span>
+          <span class="ruby-comment"># File.delete(&quot;#{dir}/#{filename}&quot;) unless File.directory?(&quot;#{dir}/#{filename}&quot;)</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">zip_data</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">temp_file</span>.<span class="ruby-identifier">path</span>)
+      <span class="ruby-identifier">send_data</span>(<span class="ruby-identifier">zip_data</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/zip&#39;</span>, <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-identifier">zip_filename</span>)
+
+        <span class="ruby-comment"># send_file(, type: &#39;application/zip&#39;, x_sendfile: true, disposition: &#39;attachment&#39;)</span>
+    <span class="ruby-keyword">ensure</span>
+      <span class="ruby-identifier">temp_file</span>.<span class="ruby-identifier">close</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">temp_file</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">temp_file</span>.<span class="ruby-identifier">unlink</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">temp_file</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">delete_dir</span>(<span class="ruby-identifier">dir</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-comment"># No need to create &amp; delete dir</span>
+    <span class="ruby-identifier">p</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">to_xlsx</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">with_pictures</span>)
+    <span class="ruby-identifier">send_data</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">to_stream</span>.<span class="ruby-identifier">read</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/xlsx&#39;</span>, <span class="ruby-identifier">filename</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;export_no_pict.xlsx&#39;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-new">
+            
+              <b>new</b>()
+            
+            <a href="../classes/CandidateImportsController.html#method-i-new" name="method-i-new" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-new_source')" id="l_method-i-new_source">show</a>
+                
+              </p>
+              <div id="method-i-new_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">new</span>
+  <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-ivar">@candidate_import</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@candidate_import</span> <span class="ruby-operator">:</span> <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-orphaned_table_rows">
+            
+              <b>orphaned_table_rows</b>()
+            
+            <a href="../classes/CandidateImportsController.html#method-i-orphaned_table_rows" name="method-i-orphaned_table_rows" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-orphaned_table_rows_source')" id="l_method-i-orphaned_table_rows_source">show</a>
+                
+              </p>
+              <div id="method-i-orphaned_table_rows_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">orphaned_table_rows</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>]
+  <span class="ruby-keyword">when</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.check_orphaned_table_rows&#39;</span>)
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">add_orphaned_table_rows</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.remove_orphaned_table_rows&#39;</span>)
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">remove_orphaned_table_rows</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-reset_database">
+            
+              <b>reset_database</b>()
+            
+            <a href="../classes/CandidateImportsController.html#method-i-reset_database" name="method-i-reset_database" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-reset_database_source')" id="l_method-i-reset_database_source">show</a>
+                
+              </p>
+              <div id="method-i-reset_database_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 92</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">reset_database</span>
+  <span class="ruby-identifier">sign_out</span> <span class="ruby-identifier">current_admin</span>
+  <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">reset_database</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_url</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.database_reset&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-start_new_year">
+            
+              <b>start_new_year</b>()
+            
+            <a href="../classes/CandidateImportsController.html#method-i-start_new_year" name="method-i-start_new_year" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-start_new_year_source')" id="l_method-i-start_new_year_source">show</a>
+                
+              </p>
+              <div id="method-i-start_new_year_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">start_new_year</span>
+  <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">start_new_year</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_url</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.candidates_removed&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

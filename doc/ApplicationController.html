@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class ApplicationController - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link">ActionController::Base
+  
+</div>
+
+    <div id="includes-section" class="nav-section">
+  <h3>Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="ApplicationHelper.html">ApplicationHelper</a>
+  
+  
+  </ul>
+</div>
+
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li class="calls-super" ><a href="#method-i-after_sign_in_path_for">#after_sign_in_path_for</a>
+    
+    <li ><a href="#method-i-candidate_params">#candidate_params</a>
+    
+    <li ><a href="#method-i-candidate_permitted_params">#candidate_permitted_params</a>
+    
+    <li ><a href="#method-i-candidates_info">#candidates_info</a>
+    
+    <li ><a href="#method-i-certificate_file_params">#certificate_file_params</a>
+    
+    <li ><a href="#method-i-configure_permitted_parameters">#configure_permitted_parameters</a>
+    
+    <li ><a href="#method-i-event_class">#event_class</a>
+    
+    <li ><a href="#method-i-pick_confirmation_name_file_params">#pick_confirmation_name_file_params</a>
+    
+    <li ><a href="#method-i-sponsor_eligibility_file_params">#sponsor_eligibility_file_params</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-ApplicationController">
+  <h1 id="class-ApplicationController" class="class">
+    class ApplicationController
+  </h1>
+
+  <section class="description">
+    
+<p>Handles Common Application tasks</p>
+
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-event_class" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">event_class</span><span
+            class="method-args">(candidate_event)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>map  from candidate_event status to css class it should match
+candidate_event.status</p>
+
+<h3 id="method-i-event_class-label-Parameters-3A">Parameters:<span><a href="#method-i-event_class-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:candidate_event</code> <a
+href="CandidateEvent.html">CandidateEvent</a></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="event_class-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">event_class</span>(<span class="ruby-identifier">candidate_event</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">status</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.not_started&#39;</span>)
+    <span class="ruby-string">&#39;event-unitialized&#39;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.coming_due&#39;</span>)
+    <span class="ruby-string">&#39;event-coming-due&#39;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.late&#39;</span>)
+    <span class="ruby-string">&#39;event-late&#39;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.awaiting_candidate&#39;</span>)
+    <span class="ruby-string">&#39;event-awaiting-candidate&#39;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.awaiting_admin&#39;</span>)
+    <span class="ruby-string">&#39;event-awaiting-verification&#39;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.verified&#39;</span>)
+    <span class="ruby-string">&#39;event-completed&#39;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span>(<span class="ruby-node">&quot;Unknown candidate_event status = #{candidate_event.status}&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Protected Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-after_sign_in_path_for" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">after_sign_in_path_for</span><span
+            class="method-args">(resource)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+            <div class="method-calls-super">
+              Calls superclass method
+              
+            </div>
+          
+
+          
+          <div class="method-source-code" id="after_sign_in_path_for-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">after_sign_in_path_for</span>(<span class="ruby-identifier">resource</span>)
+  <span class="ruby-identifier">stored_location_for</span>(<span class="ruby-identifier">resource</span>) <span class="ruby-operator">||</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">resource</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Candidate</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate_signed_in?</span>
+        <span class="ruby-identifier">event_candidate_registration_url</span>(<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">id</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">candidate_url</span>(<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">id</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">admin_signed_in?</span>
+      <span class="ruby-identifier">admin_path</span>(<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">super</span>
+    <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-candidate_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">candidate_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="candidate_params-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 61</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">candidate_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:candidate</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-identifier">candidate_permitted_params</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-candidate_permitted_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">candidate_permitted_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="candidate_permitted_params-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 78</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">candidate_permitted_params</span>
+  <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">permitted_params</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-candidates_info" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">candidates_info</span><span
+            class="method-args">(args = {})</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>sets info for _sorting_candidate_selection.html.erb</p>
+
+<h3 id="method-i-candidates_info-label-Parameters-3A">Parameters:<span><a href="#method-i-candidates_info-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code><em>selected_candidate_ids</em></code> Array of initially selected
+candidates</p>
+</li><li>
+<p><code><em>confirmation_event</em></code> <a
+href="Confirmation.html">Confirmation</a> event used for mass update of
+candidate event for candidates.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="candidates_info-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 104</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">candidates_info</span>(<span class="ruby-identifier">args</span> = {})
+  <span class="ruby-identifier">args</span> = { <span class="ruby-value">confirmation_event:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">selected_candidate_ids:</span> [] }.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">args</span>)
+  <span class="ruby-ivar">@confirmation_event</span> = <span class="ruby-identifier">args</span>[<span class="ruby-value">:confirmation_event</span>]
+  <span class="ruby-ivar">@selected_candidate_ids</span> = <span class="ruby-identifier">args</span>[<span class="ruby-value">:selected_candidate_ids</span>]
+  <span class="ruby-identifier">ce_id</span> = <span class="ruby-ivar">@confirmation_event</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@confirmation_event</span>.<span class="ruby-identifier">id</span>
+  <span class="ruby-ivar">@candidate_info</span> = <span class="ruby-constant">PluckCan</span>.<span class="ruby-identifier">pluck_candidates</span>(<span class="ruby-identifier">ce_id</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-certificate_file_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">certificate_file_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="certificate_file_params-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">certificate_file_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:candidate</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">baptismal_certificate_attributes:</span> [<span class="ruby-value">:scanned_certificate</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-configure_permitted_parameters" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">configure_permitted_parameters</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="configure_permitted_parameters-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">configure_permitted_parameters</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">devise_mapping</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-value">:admin</span>
+    <span class="ruby-identifier">devise_parameter_sanitizer</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:sign_up</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">u</span><span class="ruby-operator">|</span> <span class="ruby-identifier">u</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:name</span>, <span class="ruby-value">:password</span>, <span class="ruby-value">:password_confirmation</span>, <span class="ruby-value">:remember_me</span>) }
+    <span class="ruby-identifier">devise_parameter_sanitizer</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:sign_in</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">u</span><span class="ruby-operator">|</span> <span class="ruby-identifier">u</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:name</span>, <span class="ruby-value">:password</span>, <span class="ruby-value">:remember_me</span>) }
+    <span class="ruby-identifier">devise_parameter_sanitizer</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:account_update</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">u</span><span class="ruby-operator">|</span> <span class="ruby-identifier">u</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:name</span>, <span class="ruby-value">:password</span>, <span class="ruby-value">:password_confirmation</span>, <span class="ruby-value">:current_password</span>) }
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-comment"># admin is editing a candidate&#39;s account info</span>
+    <span class="ruby-identifier">devise_parameter_sanitizer</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:sign_in</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_parms</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">candidate_parms</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:account_name</span>, <span class="ruby-value">:parent_email_1</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">devise_parameter_sanitizer</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:sign_up</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_parms</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">candidate_parms</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">candidate_permitted_params</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">devise_parameter_sanitizer</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-value">:account_update</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_parms</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">candidate_parms</span>.<span class="ruby-identifier">permit</span>(<span class="ruby-operator">*</span>(<span class="ruby-identifier">candidate_signed_in?</span> <span class="ruby-operator">?</span> [<span class="ruby-value">:current_password</span>] <span class="ruby-operator">:</span> []), <span class="ruby-operator">*</span><span class="ruby-identifier">candidate_permitted_params</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-pick_confirmation_name_file_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">pick_confirmation_name_file_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>TODO: Remove?</p>
+          
+          
+
+          
+          <div class="method-source-code" id="pick_confirmation_name_file_params-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">pick_confirmation_name_file_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:candidate</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">pick_confirmation_name_attributes:</span> <span class="ruby-node">%i[pick_confirmation_name_filename pick_confirmation_name_content_type pick_confirmation_name_file_contents]</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-sponsor_eligibility_file_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sponsor_eligibility_file_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="sponsor_eligibility_file_params-source">
+            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">sponsor_eligibility_file_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:candidate</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">sponsor_covenant_attributes:</span> [<span class="ruby-value">:scanned_eligibility</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

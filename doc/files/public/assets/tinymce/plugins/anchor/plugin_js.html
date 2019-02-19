@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/anchor/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>tinymce.PluginManager.add(“anchor”,function(a){function b(){var
+b=a.selection.getNode(),c=“”,d=“A”==b.tagName&amp;&amp;“”===a.dom.getAttrib(b,“href”);d&amp;&amp;(c=b.name||b.id||“”),a.windowManager.open({title:“Anchor”,body:{type:“textbox”,name:“name”,size:40,label:“Name”,value:c},onsubmit:function©{var
+e=c.data.name;d?b.id=e:(a.selection.collapse(!0),a.execCommand(“mceInsertContent”,!1,a.dom.createHTML(“a”,{id:e})))}})}a.addCommand(“mceAnchor”,b),a.addButton(“anchor”,{<a
+href="href">icon:“anchor”,tooltip:“Anchor”,onclick:b,stateSelector:“a:not(</a>)”}),a.addMenuItem(“anchor”,{icon:“anchor”,text:“Anchor”,context:“insert”,onclick:b})});</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/media/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>tinymce.PluginManager.add(“media”,function(a,b){function c(a){return
+a=a.toLowerCase(),-1!=a.indexOf(“.mp3”)?“audio/mpeg”:-1!=a.indexOf(“.wav”)?“audio/wav”:-1!=a.indexOf(“.mp4”)?“video/mp4”:-1!=a.indexOf(“.webm”)?“video/webm”:-1!=a.indexOf(“.ogg”)?“video/ogg”:-1!=a.indexOf(“.swf”)?“application/x-shockwave-flash”:“”}function
+d(b){var c=a.settings.media_scripts;if©for(var <a
+href="d">d=0;d<c.length;d++)if(-1!==b.indexOf(c</a>.filter))return <a
+href="d">c</a>}function e(){function b(a){var <a
+href="0">b,c,f,g;b=d.find(“#width”)</a>,<a
+href="0">c=d.find(“#height”)</a>,<a
+href="0">f=b.value(),g=c.value(),d.find(“#constrain”)</a>.checked()&amp;&amp;e&amp;&amp;j&amp;&amp;f&amp;&amp;g&amp;&amp;(a.control==b?(g=Math.round(f/e*g),isNaN(g)||c.value(g)):(f=Math.round(g/j*f),isNaN(f)||b.value(f))),e=f,j=g}function
+c(){k=h(this.value()),this.parent().parent().fromJSON(k)}var <a
+href="{name:"source1",type:"filepicker",filetype:"media",size:40,autofocus:!0,label:"Source",onchange:function(a){tinymce.each(a.meta,function(a,b){d.find("#"+b).value(a)})}}">d,e,j,k,l=</a>;a.settings.media_alt_source!==!1&amp;&amp;l.push({name:“source2”,type:“filepicker”,filetype:“media”,size:40,label:“Alternative
+source”}),a.settings.media_poster!==!1&amp;&amp;l.push({name:“poster”,type:“filepicker”,filetype:“image”,size:40,label:“Poster”}),a.settings.media_dimensions!==!1&amp;&amp;l.push({type:“container”,label:“Dimensions”,layout:“flex”,align:“center”,spacing:5,items:[{name:“width”,type:“textbox”,maxLength:5,size:3,onchange:b,ariaLabel:“Width”},{type:“label”,text:“x”},{name:“height”,type:“textbox”,maxLength:5,size:3,onchange:b,ariaLabel:“Height”},{name:“constrain”,type:“checkbox”,checked:!0,text:“Constrain
+proportions”}]}),k=i(a.selection.getNode()),e=k.width,j=k.height;var
+m={id:“mcemediasource”,type:“textbox”,flex:1,name:“embed”,value:f(),multiline:!0,label:“Source”};<a
+href="p">m</a>=c,d=a.windowManager.open({title:“Insert/edit
+video”,data:k,bodyType:“tabpanel”,body:[{title:“General”,type:“form”,onShowTab:function(){k=h(this.next().find(“#embed”).value()),this.fromJSON(k)},items:l},{title:“Embed”,type:“container”,layout:“flex”,direction:“column”,align:“stretch”,padding:10,spacing:10,onShowTab:function(){this.find(“#embed”).value(g(this.parent().toJSON()))},items:[{type:“label”,text:“Paste
+your embed code
+below:”,forId:“mcemediasource”},m]}],onSubmit:function(){var <a
+href="data-mce-object">b,c,d,e;for(b=a.dom.select(“img</a>”),<a
+href="data-mce-object">a.insertContent(g(this.toJSON())),c=a.dom.select(“img</a>”),<a
+href="d">d=0;d<b.length;d++)for(e=c.length-1;e>=0;e–)b</a>==<a
+href="e">c</a>&amp;&amp;<a
+href="0">c.splice(e,1);a.selection.select(c</a>),a.nodeChanged()}})}function
+f(){var b=a.selection.getNode();return
+b.getAttribute(“data-mce-object”)?a.selection.getContent():void 0}function
+g(e){var
+f=“”;if(!e.source1&amp;&amp;(tinymce.extend(e,h(e.embed)),!e.source1))return“”;if(e.source2||(e.source2=“”),e.poster||(e.poster=“”),e.source1=a.convertURL(e.source1,“source”),e.source2=a.convertURL(e.source2,“source”),e.source1mime=c(e.source1),e.source2mime=c(e.source2),e.poster=a.convertURL(e.poster,“poster”),e.flashPlayerUrl=a.convertURL(b+“/moxieplayer.swf”,“movie”),tinymce.each(o,function(a){var
+b,c,d;if(b=a.regex.exec(e.source1)){<a
+href="c">for(d=a.url,c=0;b</a>;c++)d=d.replace(“$”+c,function(){return <a
+href="c">b</a>});e.source1=d,e.type=a.type,e.allowFullscreen=a.allowFullscreen,e.width=e.width||a.w,e.height=e.height||a.h}}),e.embed)f=k(e.embed,e,!0);else{var
+g=d(e.source1);if(g&amp;&amp;(e.type=“script”,e.width=g.width,e.height=g.height),e.width=e.width||300,e.height=e.height||150,tinymce.each(e,function(b,c){<a
+href="c">e</a>=a.dom.encode(b)}),“iframe”==e.type){var
+i=e.allowFullscreen?&#39; allowFullscreen=“1”&#39;:“”;f+=&#39;&lt;iframe
+src=“&#39;<code>e.source1</code>&#39;”
+width=“&#39;<code>e.width</code>&#39;”
+height=“&#39;<code>e.height</code>&#39;”&#39;<code>i</code>“&gt;&lt;/iframe&gt;”}else“application/x-shockwave-flash”==e.source1mime?(f+=&#39;&lt;object
+data=“&#39;<code>e.source1</code>&#39;”
+width=“&#39;<code>e.width</code>&#39;”
+height=“&#39;<code>e.height</code>&#39;”
+type=“application/x-shockwave-flash”&gt;&#39;,e.poster&amp;&amp;(f+=&#39;&lt;img
+src=“&#39;<code>e.poster</code>&#39;”
+width=“&#39;<code>e.width</code>&#39;”
+height=“&#39;<code>e.height</code>&#39;”
+/&gt;&#39;),f+=“&lt;/object&gt;”):-1!=e.source1mime.indexOf(“audio”)?a.settings.audio_template_callback?f=a.settings.audio_template_callback(e):f+=&#39;&lt;audio
+controls=“controls”
+src=“&#39;<code>e.source1</code>&#39;”&gt;&#39;+(e.source2?&#39;n&lt;source
+src=“&#39;<code>e.source2</code>&#39;”&#39;+(e.source2mime?&#39;
+type=“&#39;<code>e.source2mime</code>&#39;”&#39;:“”)+“
+/&gt;n”:“”)+“&lt;/audio&gt;”:“script”==e.type?f+=&#39;&lt;script
+src=“&#39;<code>e.source1</code>&#39;”&gt;&lt;/script&gt;&#39;:f=a.settings.video_template_callback?a.settings.video_template_callback(e):&#39;&lt;video
+width=“&#39;<code>e.width</code>&#39;”
+height=“&#39;<code>e.height</code>&#39;”&#39;+(e.poster?&#39;
+poster=“&#39;<code>e.poster</code>&#39;”&#39;:“”)+&#39;
+controls=“controls”&gt;n&lt;source
+src=“&#39;<code>e.source1</code>&#39;”&#39;+(e.source1mime?&#39;
+type=“&#39;<code>e.source1mime</code>&#39;”&#39;:“”)+“
+/&gt;n”+(e.source2?&#39;&lt;source
+src=“&#39;<code>e.source2</code>&#39;”&#39;+(e.source2mime?&#39;
+type=“&#39;<code>e.source2mime</code>&#39;”&#39;:“”)+“
+/&gt;n”:“”)+“&lt;/video&gt;”}return f}function h(a){var b={};return new
+tinymce.html.SaxParser({validate:!1,allow_conditional_comments:!0,special:“script,noscript”,start:function(a,c){if(b.source1||“param”!=a||(b.source1=c.map.movie),“iframe”!=a&amp;&amp;“object”!=a&amp;&amp;“embed”!=a&amp;&amp;“video”!=a&amp;&amp;“audio”!=a||(b.type||(b.type=a),b=tinymce.extend(c.map,b)),“script”==a){var
+e=d(c.map.src);if(!e)return;b={type:“script”,source1:c.map.src,width:e.width,height:e.height}}“source”==a&amp;&amp;(b.source1?b.source2||(b.source2=c.map.src):b.source1=c.map.src),“img”!=a||b.poster||(b.poster=c.map.src)}}).parse(a),b.source1=b.source1||b.src||b.data,b.source2=b.source2||“”,b.poster=b.poster||“”,b}function
+i(b){return
+b.getAttribute(“data-mce-object”)?h(a.serializer.serialize(b,{selection:!0})):{}}function
+j(b){if(a.settings.media_filter_html===!1)return b;var c,d=new
+tinymce.html.Writer;return new
+tinymce.html.SaxParser({validate:!1,allow_conditional_comments:!1,special:“script,noscript”,comment:function(a){d.comment(a)},cdata:function(a){d.cdata(a)},text:function(a,b){d.text(a,b)},start:function(b,e,f){if(c=!0,“script”!=b&amp;&amp;“noscript”!=b){for(var
+g=0;g&lt;e.length;g++){<a href="g">if(0===e</a>.<a
+href="g">name.indexOf(“on”))return;“style”==e</a>.<a
+href="g">name&&(e</a>.<a
+href="g">value=a.dom.serializeStyle(a.dom.parseStyle(e</a>.value),b))}d.start(b,e,f),c=!1}},end:function(a){c||d.end(a)}},new
+tinymce.html.Schema({})).parse(b),d.getContent()}function k(a,b,c){function
+d(a,b){var c,d,e,f;for(c in <a href="c">b)if(e=“”+b</a>,<a
+href="c">a.map</a>)<a href="d">for(d=a.length;d–;)f=a</a>,<a
+href="c">f.name==c&&(e?(a.map</a>=e,f.value=e):(delete <a
+href="c">a.map</a>,a.splice(d,1)));else
+e&amp;&amp;(a.push({name:c,value:e}),<a href="c">a.map</a>=e)}var e,f=new
+tinymce.html.Writer,g=0;return new
+tinymce.html.SaxParser({validate:!1,allow_conditional_comments:!0,special:“script,noscript”,comment:function(a){f.comment(a)},cdata:function(a){f.cdata(a)},text:function(a,b){f.text(a,b)},start:function(a,h,i){switch(a){case“video”:case“object”:case“embed”:case“img”:case“iframe”:d(h,{width:b.width,height:b.height})}if©switch(a){case“video”:d(h,{poster:b.poster,src:“”}),b.source2&amp;&amp;d(h,{src:“”});break;case“iframe”:d(h,{src:b.source1});break;case“source”:if(g++,2&gt;=g&amp;&amp;(d(h,{<a
+href=""source"+g">src:b</a>,<a href=""source"g"mime"">type:b</a>}),!<a
+href=""source"+g">b</a>))return;break;case“img”:if(!b.poster)return;e=!0}f.start(a,h,i)},end:function(a){if(“video”==a&amp;&amp;c)for(var
+<a href=""source"+h">h=1;2>=h;h++)if(b</a>){var <a
+href=""source"+h">i=[];i.map={},h>g&&(d(i,{src:b</a>,<a
+href=""source"h"mime"">type:b</a>}),f.start(“source”,i,!0))}if(b.poster&amp;&amp;“object”==a&amp;&amp;c&amp;&amp;!e){var
+j=[];j.map={},d(j,{src:b.poster,width:b.width,height:b.height}),f.start(“img”,j,!0)}f.end(a)}},new
+tinymce.html.Schema({})).parse(a),f.getContent()}function l(b,c){var <a
+href="g">d,e,f,g,h;for(f=b.attributes,g=f.length;g–;)d=f</a>.<a
+href="g">name,e=f</a>.value,“width”!==d&amp;&amp;“height”!==d&amp;&amp;“style”!==d&amp;&amp;(“data”!=d&amp;&amp;“src”!=d||(e=a.convertURL(e,d)),c.attr(“data-mce-p-”+d,e));h=b.firstChild&amp;&amp;b.firstChild.value,h&amp;&amp;(c.attr(“data-mce-html”,escape(h)),c.firstChild=null)}function
+m(a){var b,c=a.name;return b=new
+tinymce.html.Node(“img”,1),b.shortEnded=!0,l(a,b),b.attr({width:a.attr(“width”)||“300”,height:a.attr(“height”)||(“audio”==c?“30”:“150”),style:a.attr(“style”),src:tinymce.Env.transparentSrc,“data-mce-object”:c,“class”:“mce-object
+mce-object-”+c}),b}function n(a){var b,c,d,e=a.name;return b=new
+tinymce.html.Node(“span”,1),b.attr({contentEditable:“false”,style:a.attr(“style”),“data-mce-object”:e,“class”:“mce-preview-object
+mce-object-”+e}),l(a,b),c=new
+tinymce.html.Node(e,1),c.attr({src:a.attr(“src”),allowfullscreen:a.attr(“allowfullscreen”),width:a.attr(“width”)||“300”,height:a.attr(“height”)||(“audio”==e?“30”:“150”),frameborder:“0”}),d=new
+tinymce.html.Node(“span”,1),d.attr(“class”,“mce-shim”),b.append©,b.append(d),b}var
+<a
+href="\w\-.">o=[{regex:/youtu.be/(</a>+)/,type:“iframe”,w:560,h:314,url:“//<a
+href="www.youtube.com/embed/$1",allowFullscreen:!0},{regex:/youtube\.com(.+)v=([^&]+)/,type:"iframe",w:560,h:314,url:"//www.youtube.com/embed/$2",allowFullscreen:!0},{regex:/youtube.com\/embed\/([a-z0-9\-_]+)/i,type:"iframe",w:560,h:314,url:"//www.youtube.com/embed/$1",allowFullscreen:!0},{regex:/vimeo\.com\/([0-9]+)/,type:"iframe",w:425,h:350,url:"//player.vimeo.com/video/$1?title=0&byline=0&portrait=0&color=8dc7dc",allowfullscreen:!0},{regex:/vimeo\.com\/(.*)\/([0-9]+)/,type:"iframe",w:425,h:350,url:"//player.vimeo.com/video/$2?title=0&amp;byline=0",allowfullscreen:!0},{regex:/maps\.google\.([a-z]{2,3})\/maps\/(.+)msid=(.+)/,type:"iframe",w:425,h:350,url:'//maps.google.com/maps/ms?msid=$2&output=embed"',allowFullscreen:!1},{regex:/dailymotion\.com\/video\/([^_]+)/,type:"iframe",w:480,h:270,url:"//www.dailymotion.com/embed/video/$1",allowFullscreen:!0}],p=tinymce.Env.ie&&tinymce.Env.ie<=8?"onChange":"onInput";a.on("ResolveName",function(a){var">www.youtube.com/embed/$1”,allowFullscreen:!0},{regex:/youtube.com(.+)v=([^&]+)/,type:“iframe”,w:560,h:314,url:“//www.youtube.com/embed/$2”,allowFullscreen:!0},{regex:/youtube.com/embed/([a-z0-9-_]+)/i,type:“iframe”,w:560,h:314,url:“//www.youtube.com/embed/$1”,allowFullscreen:!0},{regex:/vimeo.com/([0-9]+)/,type:“iframe”,w:425,h:350,url:“//player.vimeo.com/video/$1?title=0&byline=0&portrait=0&color=8dc7dc”,allowfullscreen:!0},{regex:/vimeo.com/(.*)/([0-9]+)/,type:“iframe”,w:425,h:350,url:“//player.vimeo.com/video/$2?title=0&amp;byline=0”,allowfullscreen:!0},{regex:/maps.google.([a-z]{2,3})/maps/(.+)msid=(.+)/,type:“iframe”,w:425,h:350,url:‘//maps.google.com/maps/ms?msid=$2&output=embed“’,allowFullscreen:!1},{regex:/dailymotion.com/video/([^_]+)/,type:”iframe“,w:480,h:270,url:”//www.dailymotion.com/embed/video/$1“,allowFullscreen:!0}],p=tinymce.Env.ie&&tinymce.Env.ie<=8?"onChange":"onInput";a.on("ResolveName",function(a){var</a>
+b;1==a.target.nodeType&amp;&amp;(b=a.target.getAttribute(”data-mce-object“))&amp;&amp;(a.name=b)}),a.on(”preInit“,function(){var
+b=a.schema.getSpecialElements();tinymce.each(”video audio iframe
+object“.split(” “),function(a){<a href="a">b</a>=new <a
+href="^>”>RegExp(“</"a"</a>*&gt;”,“gi”)});var
+c=a.schema.getBoolAttrs();tinymce.each(“webkitallowfullscreen
+mozallowfullscreen allowfullscreen”.split(“ ”),function(a){<a
+href="a">c</a>={}}),a.parser.addNodeFilter(“iframe,video,audio,object,embed,script”,function(b){for(var
+<a
+href="g">c,e,f,g=b.length;g–;)c=b</a>,c.parent&amp;&amp;(c.parent.attr(“data-mce-object”)||(“script”!=c.name||(f=d(c.attr(“src”))))&amp;&amp;(f&amp;&amp;(f.width&amp;&amp;c.attr(“width”,f.width.toString()),f.height&amp;&amp;c.attr(“height”,f.height.toString())),e=“iframe”==c.name&amp;&amp;a.settings.media_live_embeds!==!1&amp;&amp;tinymce.Env.ceFalse?n©:m©,c.replace(e)))}),a.serializer.addAttributeFilter(“data-mce-object”,function(a,b){for(var
+<a
+href="l">c,d,e,f,g,h,i,k,l=a.length;l–;)if(c=a</a>,c.parent){for(i=c.attr(b),d=new
+tinymce.html.Node(i,1),“audio”!=i&amp;&amp;“script”!=i&amp;&amp;(k=c.attr(“class”),k&amp;&amp;-1!==k.indexOf(“mce-preview-object”)?d.attr({width:c.firstChild.attr(“width”),height:c.firstChild.attr(“height”)}):d.attr({width:c.attr(“width”),height:c.attr(“height”)})),d.attr({style:c.attr(“style”)}),f=c.attributes,e=f.length;e–;){var
+<a href="e">m=f</a>.<a
+href="e">name;0===m.indexOf(“data-mce-p-”)&&d.attr(m.substr(11),f</a>.value)}“script”==i&amp;&amp;d.attr(“type”,“text/javascript”),g=c.attr(“data-mce-html”),g&amp;&amp;(h=new
+tinymce.html.Node(“#text”,3),h.raw=!0,h.value=j(unescape(g)),d.append(h)),c.replace(d)}})}),a.on(“click
+keyup”,function(){var
+b=a.selection.getNode();b&amp;&amp;a.dom.hasClass(b,“mce-preview-object”)&amp;&amp;a.dom.getAttrib(b,“data-mce-selected”)&amp;&amp;b.setAttribute(“data-mce-selected”,“2”)}),a.on(“ObjectSelected”,function(a){var
+b=a.target.getAttribute(“data-mce-object”);“audio”!=b&amp;&amp;“script”!=b||a.preventDefault()}),a.on(“objectResized”,function(a){var
+b,c=a.target;c.getAttribute(“data-mce-object”)&amp;&amp;(b=c.getAttribute(“data-mce-html”),b&amp;&amp;(b=unescape(b),c.setAttribute(“data-mce-html”,escape(k(b,{width:a.width,height:a.height})))))}),a.addButton(“media”,{tooltip:“Insert/edit
+<a href="data-mce-object">video”,onclick:e,stateSelector:[“img</a>”,“<a
+href="data-mce-object">span</a>”]}),a.addMenuItem(“media”,{icon:“media”,text:“Insert/edit
+video”,onclick:e,context:“insert”,prependToContext:!0}),a.on(“setContent”,function(){a.$(“span.mce-preview-object”).each(function(b,c){var
+d=a.$©;0===d.find(“span.mce-shim”,c).length&amp;&amp;d.append(&#39;&lt;span
+class=“mce-shim”&gt;&lt;/span&gt;&#39;)})}),a.addCommand(“mceMedia”,e),this.showDialog=e});</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

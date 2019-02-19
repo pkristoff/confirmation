@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>ApplicationHelper</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Module</span>
+            ApplicationHelper
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/app/helpers/application_helper_rb.html">app/helpers/application_helper.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>require_relative &#39;../../External Libraries/&#39;</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>A</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-active_tab_class">active_tab_class</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-candidate_event_to_path">candidate_event_to_path</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-expect_db">expect_db</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-sort_column">sort_column</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-sort_direction">sort_direction</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-sortable">sortable</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-active_tab_class">
+            
+              <b>active_tab_class</b>(*paths)
+            
+            <a href="../classes/ApplicationHelper.html#method-i-active_tab_class" name="method-i-active_tab_class" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>used to show selection of sidebar links</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-active_tab_class_source')" id="l_method-i-active_tab_class_source">show</a>
+                
+              </p>
+              <div id="method-i-active_tab_class_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/application_helper.rb, line 96</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">active_tab_class</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">paths</span>)
+  <span class="ruby-identifier">active</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-comment"># originally used current_page? but it did not work when update button was called.</span>
+  <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span> <span class="ruby-identifier">active</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">path</span>}
+  <span class="ruby-identifier">active</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;active&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-candidate_event_to_path">
+            
+              <b>candidate_event_to_path</b>(confirmation_event_name, candidate_id)
+            
+            <a href="../classes/ApplicationHelper.html#method-i-candidate_event_to_path" name="method-i-candidate_event_to_path" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-candidate_event_to_path_source')" id="l_method-i-candidate_event_to_path_source">show</a>
+                
+              </p>
+              <div id="method-i-candidate_event_to_path_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/application_helper.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">candidate_event_to_path</span>(<span class="ruby-identifier">confirmation_event_name</span>, <span class="ruby-identifier">candidate_id</span>)
+  <span class="ruby-comment"># for some reason when this was in-lined in _side_bar it handled</span>
+  <span class="ruby-comment"># admin vs. candidate.</span>
+  <span class="ruby-identifier">is_candidate_logged_in</span> = <span class="ruby-identifier">current_admin</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">confirmation_event_name</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_sign_agreement_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">sign_agreement_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_candidate_sheet_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">candidate_sheet_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>)
+      <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>)
+      <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_pick_confirmation_name_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">pick_confirmation_name_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_agreement&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_sponsor_agreement_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">sponsor_agreement_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_christian_ministry_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">christian_ministry_path</span>(<span class="ruby-identifier">candidate_id</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>)
+      <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.parent_meeting&#39;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_logged_in</span>
+        <span class="ruby-identifier">dev_event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">PARENT_INFORMATION_MEETING</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">PARENT_INFORMATION_MEETING</span>)
+      <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown candidate_event_to_path: #{confirmation_event_name}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_db">
+            
+              <b>expect_db</b>(candidate_size, conf_event_size, image_size)
+            
+            <a href="../classes/ApplicationHelper.html#method-i-expect_db" name="method-i-expect_db" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_db_source')" id="l_method-i-expect_db_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_db_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/application_helper.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_db</span> (<span class="ruby-identifier">candidate_size</span>, <span class="ruby-identifier">conf_event_size</span>, <span class="ruby-identifier">image_size</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">conf_event_size</span>), <span class="ruby-node">&quot;ConfirmationEvent size #{ConfirmationEvent.all.size} did not meet expected #{conf_event_size}&quot;</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span>), <span class="ruby-node">&quot;Candidate size #{Candidate.all.size} did not meet expected #{candidate_size}&quot;</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">BaptismalCertificate</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span>), <span class="ruby-node">&quot;BaptismalCertificate size #{BaptismalCertificate.all.size} did not meet expected #{candidate_size}&quot;</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span>), <span class="ruby-node">&quot;CandidateSheet size #{CandidateSheet.all.size} did not meet expected #{candidate_size}&quot;</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">ChristianMinistry</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span>), <span class="ruby-node">&quot;ChristianMinistry size #{ChristianMinistry.all.size} did not meet expected #{candidate_size}&quot;</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">PickConfirmationName</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span>), <span class="ruby-node">&quot;PickConfirmationName size #{PickConfirmationName.all.size} did not meet expected #{candidate_size}&quot;</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">RetreatVerification</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span>), <span class="ruby-node">&quot;RetreatVerification size #{RetreatVerification.all.size} did not meet expected #{candidate_size}&quot;</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span>), <span class="ruby-node">&quot;SponsorCovenant size #{SponsorCovenant.all.size} did not meet expected #{candidate_size}&quot;</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">Address</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span><span class="ruby-operator">*</span><span class="ruby-number">2</span>), <span class="ruby-node">&quot;Address size #{Address.all.size} did not meet expected #{candidate_size*2}&quot;</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">candidate_size</span><span class="ruby-operator">*</span><span class="ruby-identifier">conf_event_size</span>), <span class="ruby-node">&quot;CandidateEvent size #{CandidateEvent.all.size} did not meet expected #{candidate_size*conf_event_size}&quot;</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">ToDo</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>), <span class="ruby-node">&quot;ToDo size #{ToDo.all.size} did not meet expected #{CandidateEvent.all.size}&quot;</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">size</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-identifier">image_size</span>), <span class="ruby-node">&quot;ScannedImages size #{ScannedImage.all.size} did not meet expected #{image_size}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sort_column">
+            
+              <b>sort_column</b>(sort_column)
+            
+            <a href="../classes/ApplicationHelper.html#method-i-sort_column" name="method-i-sort_column" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>private - test only</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sort_column_source')" id="l_method-i-sort_column_source">show</a>
+                
+              </p>
+              <div id="method-i-sort_column_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/application_helper.rb, line 16</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sort_column</span>(<span class="ruby-identifier">sort_column</span>)
+  <span class="ruby-identifier">columns</span> = <span class="ruby-constant">CandidateSheet</span>.<span class="ruby-identifier">permitted_params</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">attr</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;candidate_sheet.#{attr}&quot;</span>}
+  <span class="ruby-identifier">columns</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;account_name&#39;</span>
+  <span class="ruby-identifier">columns</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;completed_date&#39;</span>
+  <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">sort_column</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">sort_column</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;account_name&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sort_direction">
+            
+              <b>sort_direction</b>(direction)
+            
+            <a href="../classes/ApplicationHelper.html#method-i-sort_direction" name="method-i-sort_direction" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sort_direction_source')" id="l_method-i-sort_direction_source">show</a>
+                
+              </p>
+              <div id="method-i-sort_direction_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/application_helper.rb, line 23</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sort_direction</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-node">%w[asc desc]</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">direction</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">direction</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;asc&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sortable">
+            
+              <b>sortable</b>(column, title, route, confirmation_event_id=&#39;&#39;)
+            
+            <a href="../classes/ApplicationHelper.html#method-i-sortable" name="method-i-sortable" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-sortable_source')" id="l_method-i-sortable_source">show</a>
+                
+              </p>
+              <div id="method-i-sortable_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File app/helpers/application_helper.rb, line 4</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sortable</span>(<span class="ruby-identifier">column</span>, <span class="ruby-identifier">title</span>, <span class="ruby-identifier">route</span>, <span class="ruby-identifier">confirmation_event_id</span>=<span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">title</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">column</span>.<span class="ruby-identifier">titleize</span>
+  <span class="ruby-identifier">css_class</span> = <span class="ruby-identifier">column</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">sort_column</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:sort</span>]) <span class="ruby-operator">?</span> <span class="ruby-node">&quot;current #{sort_direction(params[:direction]) == &#39;asc&#39; ? &#39;glyphicon glyphicon-arrow-up&#39; : &#39;glyphicon glyphicon-arrow-down&#39;}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">direction</span> = <span class="ruby-identifier">column</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">sort_column</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:sort</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">sort_direction</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:direction</span>]) <span class="ruby-operator">==</span> <span class="ruby-string">&#39;asc&#39;</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;desc&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;asc&#39;</span>
+  <span class="ruby-identifier">path</span> = <span class="ruby-string">&#39;unknown path&#39;</span>
+  <span class="ruby-identifier">path</span> = <span class="ruby-identifier">monthly_mass_mailing_path</span>(<span class="ruby-identifier">sort</span><span class="ruby-operator">:</span> <span class="ruby-identifier">column</span>, <span class="ruby-identifier">direction</span><span class="ruby-operator">:</span> <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">class</span><span class="ruby-operator">:</span> <span class="ruby-identifier">css_class</span>, <span class="ruby-identifier">update</span><span class="ruby-operator">:</span> {<span class="ruby-identifier">confirmation_event_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;&#39;</span>}) <span class="ruby-keyword">if</span> <span class="ruby-identifier">route</span> <span class="ruby-operator">===</span> <span class="ruby-value">:monthly_mass_mailing</span>
+  <span class="ruby-identifier">path</span> = <span class="ruby-identifier">mass_edit_candidates_event_path</span>(<span class="ruby-identifier">id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">confirmation_event_id</span>, <span class="ruby-identifier">sort</span><span class="ruby-operator">:</span> <span class="ruby-identifier">column</span>, <span class="ruby-identifier">direction</span><span class="ruby-operator">:</span> <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">class</span><span class="ruby-operator">:</span> <span class="ruby-identifier">css_class</span>, <span class="ruby-identifier">update</span><span class="ruby-operator">:</span> {<span class="ruby-identifier">confirmation_event_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;&#39;</span>}) <span class="ruby-keyword">if</span> <span class="ruby-identifier">route</span> <span class="ruby-operator">===</span> <span class="ruby-value">:mass_edit_candidates_event</span>
+  <span class="ruby-identifier">path</span> = <span class="ruby-identifier">candidates_path</span>(<span class="ruby-identifier">sort</span><span class="ruby-operator">:</span> <span class="ruby-identifier">column</span>, <span class="ruby-identifier">direction</span><span class="ruby-operator">:</span> <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">class</span><span class="ruby-operator">:</span> <span class="ruby-identifier">css_class</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">route</span> <span class="ruby-operator">===</span> <span class="ruby-value">:candidates</span>
+  <span class="ruby-identifier">link_to</span> <span class="ruby-identifier">title</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-value">:get</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

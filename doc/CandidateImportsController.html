@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class CandidateImportsController - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</div>
+
+    <div id="includes-section" class="nav-section">
+  <h3>Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="FileHelper.html">FileHelper</a>
+  
+  
+  </ul>
+</div>
+
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-check_events">#check_events</a>
+    
+    <li ><a href="#method-i-export_to_excel">#export_to_excel</a>
+    
+    <li ><a href="#method-i-import_candidates">#import_candidates</a>
+    
+    <li ><a href="#method-i-new">#new</a>
+    
+    <li ><a href="#method-i-orphaned_table_rows">#orphaned_table_rows</a>
+    
+    <li ><a href="#method-i-reset_database">#reset_database</a>
+    
+    <li ><a href="#method-i-start_new_year">#start_new_year</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-CandidateImportsController">
+  <h1 id="class-CandidateImportsController" class="class">
+    class CandidateImportsController
+  </h1>
+
+  <section class="description">
+    
+<p>Handles <a href="CandidateImport.html">CandidateImport</a> tasks</p>
+
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-candidate_import" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">candidate_import</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section>
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-check_events" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_events</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Checks for missing ConfirmationEvents if :missing is supplied then update
+system with missing ConfirmationEvents.</p>
+
+<h3 id="method-i-check_events-label-Attributes-3A">Attributes:<span><a href="#method-i-check_events-label-Attributes-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:commit</code> legal values</p>
+</li></ul>
+
+<p>** <code>views.imports.check_events</code>  Check to see if all
+ConfirmationEvents are present **
+<code>views.imports.add_missing_events</code> legal values ***
+<code>:missing</code> list of missing events</p>
+          
+          
+
+          
+          <div class="method-source-code" id="check_events-source">
+            <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">check_events</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.add_missing_events&#39;</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate_import</span>][<span class="ruby-value">:missing</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&#39;</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:alert</span>] = <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.check_events_first&#39;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">add_missing_events</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate_import</span>][<span class="ruby-value">:missing</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;:&#39;</span>))
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@candidate_import</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">check_events</span>
+  <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-export_to_excel" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">export_to_excel</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>export whole database to excel.  Optionally, don&#39;t include scanned
+pictures</p>
+
+<h3 id="method-i-export_to_excel-label-Attributes-3A">Attributes:<span><a href="#method-i-export_to_excel-label-Attributes-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:commit</code> legal values</p>
+</li></ul>
+
+<p>** <code>views.imports.excel_no_pict</code></p>
+          
+          
+
+          
+          <div class="method-source-code" id="export_to_excel-source">
+            <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">export_to_excel</span>
+  <span class="ruby-constant">ExportExcelJob</span>.<span class="ruby-identifier">perform_async</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>], <span class="ruby-identifier">current_admin</span>)
+
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_candidate_import_path</span>, <span class="ruby-value">notice:</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.export_to_excel&#39;</span>, <span class="ruby-value">commit:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>])
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_candidate_import_path</span>, <span class="ruby-value">alert:</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-import_candidates" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">import_candidates</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>load in an zip file which is an excel spreadsheet with pictures or an
+initial file which is the initial import of candidates</p>
+
+<h3 id="method-i-import_candidates-label-Attributes-3A">Attributes:<span><a href="#method-i-import_candidates-label-Attributes-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:candidate_import</code> the file being uploaded</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="import_candidates-source">
+            <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 59</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">import_candidates</span>
+  <span class="ruby-identifier">import_file_param</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:candidate_import</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">import_file_param</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_candidate_import_url</span>, <span class="ruby-value">alert:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.select_excel_file&#39;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@candidate_import</span>.<span class="ruby-identifier">load_initial_file</span>(<span class="ruby-identifier">import_file_param</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">first</span>)
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_url</span>, <span class="ruby-value">notice:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.import_successful&#39;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:new</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>new candidate import</p>
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">new</span>
+  <span class="ruby-ivar">@candidate_import</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-orphaned_table_rows" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">orphaned_table_rows</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>find orphaned table rows – table rows with foriegn key ids in other tables
+but other tables do not refernce it.</p>
+
+<h3 id="method-i-orphaned_table_rows-label-Attributes-3A">Attributes:<span><a href="#method-i-orphaned_table_rows-label-Attributes-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:commit</code> legal values</p>
+</li></ul>
+
+<p>** <code>views.imports.check_orphaned_table_rows</code>  show info on
+orphaned rows ** <code>views.imports.remove_orphaned_table_rows</code>
+remove orphaned rows *** <code>:missing</code> list of missing events</p>
+          
+          
+
+          
+          <div class="method-source-code" id="orphaned_table_rows-source">
+            <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">orphaned_table_rows</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:commit</span>]
+  <span class="ruby-keyword">when</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.check_orphaned_table_rows&#39;</span>)
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">add_orphaned_table_rows</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.imports.remove_orphaned_table_rows&#39;</span>)
+    <span class="ruby-ivar">@candidate_import</span> = <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">remove_orphaned_table_rows</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-reset_database" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">reset_database</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Reset the database.  End up with only an admin + confirmation events and
+the candidate vickikristoff</p>
+          
+          
+
+          
+          <div class="method-source-code" id="reset_database-source">
+            <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">reset_database</span>
+  <span class="ruby-identifier">sign_out</span> <span class="ruby-identifier">current_admin</span>
+  <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">reset_database</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_url</span>, <span class="ruby-value">notice:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.database_reset&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-start_new_year" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">start_new_year</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Starts new school year</p>
+          
+          
+
+          
+          <div class="method-source-code" id="start_new_year-source">
+            <pre><span class="ruby-comment"># File app/controllers/candidate_imports_controller.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">start_new_year</span>
+  <span class="ruby-constant">CandidateImport</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">start_new_year</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_url</span>, <span class="ruby-value">notice:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;messages.candidates_removed&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

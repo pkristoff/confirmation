@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class AppFactory - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="Object.html">Object</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-add_candidate_events">::add_candidate_events</a>
+    
+    <li ><a href="#method-c-add_confirmation_event">::add_confirmation_event</a>
+    
+    <li ><a href="#method-c-add_confirmation_event_due_date">::add_confirmation_event_due_date</a>
+    
+    <li ><a href="#method-c-create">::create</a>
+    
+    <li ><a href="#method-c-create_admin">::create_admin</a>
+    
+    <li ><a href="#method-c-create_candidate">::create_candidate</a>
+    
+    <li ><a href="#method-c-generate_seed">::generate_seed</a>
+    
+    <li ><a href="#method-c-revert_confirmation_event">::revert_confirmation_event</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-AppFactory">
+  <h1 id="class-AppFactory" class="class">
+    class AppFactory
+  </h1>
+
+  <section class="description">
+    
+<p><a href="AppFactory.html">AppFactory</a></p>
+
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-add_candidate_events" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_candidate_events</span><span
+            class="method-args">(candidate)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>add candidate events to candidate based on ConfirmationEvents</p>
+
+<h3 id="method-c-add_candidate_events-label-Parameters-3A">Parameters:<span><a href="#method-c-add_candidate_events-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:candidate</code> options for a new <a href="Admin.html">Admin</a></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="add_candidate_events-source">
+            <pre><span class="ruby-comment"># File app/app_factories/app_factory.rb, line 56</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">add_candidate_events</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Cannot add candidate_events because some already exist.&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+  <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">confirmation_event</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">add_candidate_event</span>(<span class="ruby-identifier">confirmation_event</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-add_confirmation_event" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_confirmation_event</span><span
+            class="method-args">(event_name)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>create a new <a href="Admin.html">Admin</a></p>
+
+<h3 id="method-c-add_confirmation_event-label-Parameters-3A">Parameters:<span><a href="#method-c-add_confirmation_event-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:options</code> options for a new <a href="Admin.html">Admin</a></p>
+</li></ul>
+
+<h3 id="method-c-add_confirmation_event-label-Returns-3A">Returns:<span><a href="#method-c-add_confirmation_event-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>New instance</p>
+          
+          
+
+          
+          <div class="method-source-code" id="add_confirmation_event-source">
+            <pre><span class="ruby-comment"># File app/app_factories/app_factory.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">add_confirmation_event</span>(<span class="ruby-identifier">event_name</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-string">&#39;add_confirmation_event: event_name cannot be nil&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">event_name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">event_name</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-comment"># no longer an error so can migrate from a new db.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">name:</span> <span class="ruby-identifier">event_name</span>)
+    <span class="ruby-comment"># puts(&quot;add_confirmation_event: event_name already defined: #{event_name}&quot;)</span>
+    <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">revert_confirmation_event</span>(<span class="ruby-identifier">event_name</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># puts &#39;starting event_name&#39;</span>
+  <span class="ruby-identifier">new_confirmation_event</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_or_create_by!</span>(<span class="ruby-value">name:</span> <span class="ruby-identifier">event_name</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">confirmation_event</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">event_name</span>
+    <span class="ruby-comment"># puts &#39;attempting the_way_due_date&#39;</span>
+    <span class="ruby-identifier">today</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>
+    <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">the_way_due_date</span> = <span class="ruby-identifier">today</span>
+    <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">chs_due_date</span> = <span class="ruby-identifier">today</span>
+    <span class="ruby-comment"># puts &#39;done attempting the_way_due_date&#39;</span>
+    <span class="ruby-identifier">new_confirmation_event</span> = <span class="ruby-identifier">confirmation_event</span>
+    <span class="ruby-comment"># puts &quot;new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}&quot;</span>
+    <span class="ruby-comment"># puts &quot;new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.chs_due_date}&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">new_confirmation_event</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-comment"># puts &#39;adding to candidates&#39;</span>
+    <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">add_candidate_event</span>(<span class="ruby-identifier">new_confirmation_event</span>)
+      <span class="ruby-comment"># puts &quot;adding to candidate: #{candidate.account_name}  candidate=#{candidate}&quot;</span>
+      <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># puts &#39;ending event_name&#39;</span>
+  <span class="ruby-identifier">event</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-add_confirmation_event_due_date" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_confirmation_event_due_date</span><span
+            class="method-args">(event_name)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>create or update <a href="ConfirmationEvent.html">ConfirmationEvent</a>. 
+Update all candidates with new <a
+href="ConfirmationEvent.html">ConfirmationEvent</a></p>
+
+<h3 id="method-c-add_confirmation_event_due_date-label-Parameters-3A">Parameters:<span><a href="#method-c-add_confirmation_event_due_date-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:event_name</code> <a
+href="ConfirmationEvent.html">ConfirmationEvent</a> name</p>
+</li></ul>
+
+<h3 id="method-c-add_confirmation_event_due_date-label-Returns-3A">Returns:<span><a href="#method-c-add_confirmation_event_due_date-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><a href="CandidateEvent.html">CandidateEvent</a></p>
+          
+          
+
+          
+          <div class="method-source-code" id="add_confirmation_event_due_date-source">
+            <pre><span class="ruby-comment"># File app/app_factories/app_factory.rb, line 142</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">add_confirmation_event_due_date</span>(<span class="ruby-identifier">event_name</span>)
+  <span class="ruby-comment"># puts &#39;starting event_name&#39;</span>
+  <span class="ruby-identifier">new_confirmation_event</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_or_create_by!</span>(<span class="ruby-value">name:</span> <span class="ruby-identifier">event_name</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">confirmation_event</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">event_name</span>
+    <span class="ruby-comment"># puts &#39;attempting due_date&#39;</span>
+    <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">due_date</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>
+    <span class="ruby-comment"># puts &#39;done attempting due_date&#39;</span>
+    <span class="ruby-identifier">new_confirmation_event</span> = <span class="ruby-identifier">confirmation_event</span>
+    <span class="ruby-comment"># puts &quot;new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.the_way_due_date}&quot;</span>
+    <span class="ruby-comment"># puts &quot;new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.chs_due_date}&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">new_confirmation_event</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-comment"># puts &#39;adding to candidates&#39;</span>
+    <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">add_candidate_event</span>(<span class="ruby-identifier">new_confirmation_event</span>)
+      <span class="ruby-comment"># puts &quot;adding to candidate: #{candidate.account_name}&quot;</span>
+      <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># puts &#39;ending event_name&#39;</span>
+  <span class="ruby-identifier">event</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-create" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create</span><span
+            class="method-args">(resource_class)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>create a resource_class</p>
+
+<h3 id="method-c-create-label-Parameters-3A">Parameters:<span><a href="#method-c-create-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:resource_class</code> <a href="Candidate.html">Candidate</a> or <a
+href="Admin.html">Admin</a></p>
+</li></ul>
+
+<h3 id="method-c-create-label-Returns-3A">Returns:<span><a href="#method-c-create-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>New instance</p>
+          
+          
+
+          
+          <div class="method-source-code" id="create-source">
+            <pre><span class="ruby-comment"># File app/app_factories/app_factory.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create</span>(<span class="ruby-identifier">resource_class</span>)
+  <span class="ruby-identifier">resource_class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">create_candidate</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">create_admin</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-create_admin" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_admin</span><span
+            class="method-args">(options={})</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>create a new <a href="Admin.html">Admin</a></p>
+
+<h3 id="method-c-create_admin-label-Parameters-3A">Parameters:<span><a href="#method-c-create_admin-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:options</code> options for a new <a href="Admin.html">Admin</a></p>
+</li></ul>
+
+<h3 id="method-c-create_admin-label-Returns-3A">Returns:<span><a href="#method-c-create_admin-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>New instance</p>
+          
+          
+
+          
+          <div class="method-source-code" id="create_admin-source">
+            <pre><span class="ruby-comment"># File app/app_factories/app_factory.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_admin</span>(<span class="ruby-identifier">options</span>={})
+  <span class="ruby-constant">Admin</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-create_candidate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_candidate</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>create a new <a href="Candidate.html">Candidate</a> and then add the
+candidate_events</p>
+
+<h3 id="method-c-create_candidate-label-Returns-3A">Returns:<span><a href="#method-c-create_candidate-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>New instance</p>
+          
+          
+
+          
+          <div class="method-source-code" id="create_candidate-source">
+            <pre><span class="ruby-comment"># File app/app_factories/app_factory.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_candidate</span>
+  <span class="ruby-identifier">candidate</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">add_candidate_events</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-identifier">candidate</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-generate_seed" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">generate_seed</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>create or find the <a href="Admin.html">Admin</a> - reseting password. 
+Then create the seed</p>
+          
+          
+
+          
+          <div class="method-source-code" id="generate_seed-source">
+            <pre><span class="ruby-comment"># File app/app_factories/app_factory.rb, line 168</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">generate_seed</span>
+  <span class="ruby-constant">Admin</span>.<span class="ruby-identifier">find_or_create_by!</span>(<span class="ruby-value">email:</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">secrets</span>.<span class="ruby-identifier">admin_email</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">admin</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">name</span> = <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">secrets</span>.<span class="ruby-identifier">admin_name</span>
+    <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">password</span> = <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">secrets</span>.<span class="ruby-identifier">admin_password</span>
+    <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">password_confirmation</span> = <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">secrets</span>.<span class="ruby-identifier">admin_password</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">create_seed_candidate</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-revert_confirmation_event" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">revert_confirmation_event</span><span
+            class="method-args">(event_name)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>destroy candidate_event from candidates.</p>
+
+<h3 id="method-c-revert_confirmation_event-label-Parameters-3A">Parameters:<span><a href="#method-c-revert_confirmation_event-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:event_name</code> options for a new <a href="Admin.html">Admin</a></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="revert_confirmation_event-source">
+            <pre><span class="ruby-comment"># File app/app_factories/app_factory.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">revert_confirmation_event</span>(<span class="ruby-identifier">event_name</span>)
+  <span class="ruby-comment"># puts &quot;reverting: #{event_name}&quot;</span>
+  <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment"># puts &quot;reverting candidate: #{candidate.account_name}&quot;</span>
+    <span class="ruby-identifier">founds</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">candidate_event</span><span class="ruby-operator">|</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">event_name</span> }
+    <span class="ruby-identifier">founds</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">found</span><span class="ruby-operator">|</span>
+      <span class="ruby-comment"># puts &quot;found candidate_event: #{found.name}&quot; unless found.confirmation_event.nil?</span>
+      <span class="ruby-comment"># puts &quot;found empty confirmation_event&quot; if found.confirmation_event.nil?</span>
+      <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_events</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">found</span>)
+      <span class="ruby-identifier">found</span>.<span class="ruby-identifier">destroy</span>
+    <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># puts &#39;about to destroy ConfirmationEvent&#39;</span>
+  <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">name:</span> <span class="ruby-identifier">event_name</span>)
+  <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">destroy</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-comment"># puts &quot;done reverting: #{event_name}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

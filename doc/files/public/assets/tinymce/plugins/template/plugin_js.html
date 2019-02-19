@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/template/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>tinymce.PluginManager.add(“template”,function(a){function b(b){return
+function(){var c=a.settings.templates;return“function”==typeof c?void
+c(b):void(“string”==typeof
+c?tinymce.util.XHR.send({url:c,success:function(a){b(tinymce.util.JSON.parse(a))}}):b©)}}function
+c(b){function c(b){function c(b){if(-1==b.indexOf(“&lt;html&gt;”)){var
+c=“”;tinymce.each(a.contentCSS,function(b){c+=&#39;&lt;link type=“text/css”
+rel=“stylesheet”
+href=“&#39;+a.documentBaseURI.toAbsolute(b)+&#39;”&gt;&#39;});var <a
+href="a.id">e=a.settings.body_class||“”;-1!=e.indexOf(“=”)&&(e=a.getParam(“body_class”,“”,“hash”),e=e</a>||“”),b=“&lt;!DOCTYPE
+html&gt;&lt;html&gt;&lt;head&gt;”<code>c</code>&#39;&lt;/head&gt;&lt;body
+class=“&#39;<code>e</code>&#39;”&gt;&#39;<code>b</code>“&lt;/body&gt;&lt;/html&gt;”}b=f(b,“template_preview_replace_values”);var
+<a
+href="0">g=d.find(“iframe”)</a>.getEl().contentWindow.document;g.open(),g.write(b),g.close()}var
+g=b.control.value();g.url?tinymce.util.XHR.send({url:g.url,success:function(a){e=a,c(e)}}):(<a
+href="0">e=g.content,c(e)),d.find(“#description”)</a>.text(b.control.value().description)}var
+d,e,h=[];if(!b||0===b.length){var i=a.translate(“No templates
+defined.”);return void
+a.notificationManager.open({text:i,type:“info”})}tinymce.each(b,function(a){h.push({selected:!h.length,text:a.title,value:{url:a.url,content:a.content,description:a.description}})}),d=a.windowManager.open({title:“Insert
+<a
+href="{type:"container",label:"Templates",items:{type:"listbox",label:"Templates",name:"template",values:h,onselect:c}}">template”,layout:“flex”,direction:“column”,align:“stretch”,padding:15,spacing:10,items:[{type:“form”,flex:0,padding:0,items:</a>},{type:“label”,name:“description”,label:“Description”,text:“xa0”},{type:“iframe”,flex:1,border:1}],onsubmit:function(){g(!1,e)},width:a.getParam(“template_popup_width”,600),height:a.getParam(“template_popup_height”,500)}),<a
+href="0">d.find(“listbox”)</a>.fire(“select”)}function d(b,c){function
+d(a,b){if(a=“”+a,a.length&lt;b)for(var
+c=0;c&lt;b-a.length;c++)a=“0”+a;return a}var e=“Sun Mon Tue Wed Thu Fri Sat
+Sun”.split(“ ”),f=“Sunday Monday Tuesday Wednesday Thursday Friday Saturday
+Sunday”.split(“ ”),g=“Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov
+Dec”.split(“ ”),h=“January February March April May June July August
+September October November December”.split(“ ”);return c=c||new
+Date,b=b.replace(“%D”,“%m/%d/%Y”),b=b.replace(“%r”,“%I:%M:%S %<a
+href="c.getMonth()">p”),b=b.replace(“%Y”,“”+c.getFullYear()),b=b.replace(“%y”,“”+c.getYear()),b=b.replace(“%m”,d(c.getMonth()+1,2)),b=b.replace(“%d”,d(c.getDate(),2)),b=b.replace(“%H”,“”+d(c.getHours(),2)),b=b.replace(“%M”,“”+d(c.getMinutes(),2)),b=b.replace(“%S”,“”+d(c.getSeconds(),2)),b=b.replace(“%I”,“”+((c.getHours()+11)%12+1)),b=b.replace(“%p”,“”+(c.getHours()<12?"AM":"PM")),b=b.replace("%B",""+a.translate(h</a>)),<a
+href="c.getMonth()">b=b.replace(“%b”,“”+a.translate(g</a>)),<a
+href="c.getDay()">b=b.replace(“%A”,“”+a.translate(f</a>)),<a
+href="c.getDay()">b=b.replace(“%a”,“”+a.translate(e</a>)),b=b.replace(“%%”,“%”)}function
+e(b){var
+c=a.dom,d=a.getParam(“template_replace_values”);h(c.select(“*”,b),function(a){h(d,function(b,e){c.hasClass(a,e)&amp;&amp;“function”==typeof
+<a href="e">d</a>&amp;&amp;<a href="e">d</a>(a)})})}function f(b,c){return
+h(a.getParam©,function(a,c){“function”==typeof
+a&amp;&amp;(a=a©),b=b.replace(new
+RegExp(“\{\$”<code>c</code>“\}”,“g”),a)}),b}function g(b,c){function
+g(a,b){return new RegExp(“\b”<code>b</code>“\b”,“g”).test(a.className)}var
+<a
+href="0">i,j,k=a.dom,l=a.selection.getContent();c=f(c,“template_replace_values”),i=k.create(“div”,null,c),j=k.select(“.mceTmpl”,i),j&&j.length>0&&(i=k.create(“div”,null),i.appendChild(j</a>.cloneNode(!0))),h(k.select(“*”,i),function(b){g(b,a.getParam(“template_cdate_classes”,“cdate”).replace(/s+/g,“|”))&amp;&amp;(b.innerHTML=d(a.getParam(“template_cdate_format”,a.getLang(“template.cdate_format”)))),g(b,a.getParam(“template_mdate_classes”,“mdate”).replace(/s+/g,“|”))&amp;&amp;(b.innerHTML=d(a.getParam(“template_mdate_format”,a.getLang(“template.mdate_format”)))),g(b,a.getParam(“template_selected_content_classes”,“selcontent”).replace(/s+/g,“|”))&amp;&amp;(b.innerHTML=l)}),e(i),a.execCommand(“mceInsertContent”,!1,i.innerHTML),a.addVisual()}var
+h=tinymce.each;a.addCommand(“mceInsertTemplate”,g),a.addButton(“template”,{title:“Insert
+template”,onclick:b©}),a.addMenuItem(“template”,{text:“Insert
+template”,onclick:b©,context:“insert”}),a.on(“PreProcess”,function(b){var
+c=a.dom;h(c.select(“div”,b.node),function(b){c.hasClass(b,“mceTmpl”)&amp;&amp;(h(c.select(“*”,b),function(b){c.hasClass(b,a.getParam(“template_mdate_classes”,“mdate”).replace(/s+/g,“|”))&amp;&amp;(b.innerHTML=d(a.getParam(“template_mdate_format”,a.getLang(“template.mdate_format”))))}),e(b))})})});</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

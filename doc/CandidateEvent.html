@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class CandidateEvent - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="ApplicationRecord.html">ApplicationRecord</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-awaiting_admin-3F">::awaiting_admin?</a>
+    
+    <li ><a href="#method-c-awaiting_candidate-3F">::awaiting_candidate?</a>
+    
+    <li ><a href="#method-c-coming_due-3F">::coming_due?</a>
+    
+    <li ><a href="#method-c-completed-3F">::completed?</a>
+    
+    <li ><a href="#method-c-late-3F">::late?</a>
+    
+    <li ><a href="#method-c-permitted_params">::permitted_params</a>
+    
+    <li ><a href="#method-c-started-3F">::started?</a>
+    
+    <li ><a href="#method-c-status">::status</a>
+    
+    <li ><a href="#method-i-awaiting_admin-3F">#awaiting_admin?</a>
+    
+    <li ><a href="#method-i-awaiting_candidate-3F">#awaiting_candidate?</a>
+    
+    <li ><a href="#method-i-coming_due-3F">#coming_due?</a>
+    
+    <li ><a href="#method-i-completed-3F">#completed?</a>
+    
+    <li ><a href="#method-i-due_date">#due_date</a>
+    
+    <li ><a href="#method-i-late-3F">#late?</a>
+    
+    <li ><a href="#method-i-mark_completed">#mark_completed</a>
+    
+    <li ><a href="#method-i-route">#route</a>
+    
+    <li ><a href="#method-i-started-3F">#started?</a>
+    
+    <li ><a href="#method-i-status">#status</a>
+    
+    <li ><a href="#method-i-verifiable_info">#verifiable_info</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-CandidateEvent">
+  <h1 id="class-CandidateEvent" class="class">
+    class CandidateEvent
+  </h1>
+
+  <section class="description">
+    
+<p><a href="Candidate.html">Candidate</a> specific of a <a
+href="ConfirmationEvent.html">ConfirmationEvent</a></p>
+
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-awaiting_admin-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">awaiting_admin?</span><span
+            class="method-args">(due_date, completed_date, verified)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event waiting verification from admin</p>
+
+<h3 id="method-c-awaiting_admin-3F-label-Parameters-3A">Parameters:<span><a href="#method-c-awaiting_admin-3F-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:due_date</code> Date: The <a
+href="CandidateEvent.html#method-i-due_date">#due_date</a> -if nil then not
+started.</p>
+</li><li>
+<p><code>:completed_date</code> Date: When all the information is filled in.</p>
+</li><li>
+<p><code>:verified</code> Boolean: Has admin verified</p>
+</li></ul>
+
+<h3 id="method-c-awaiting_admin-3F-label-Returns-3A">Returns:<span><a href="#method-c-awaiting_admin-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="awaiting_admin-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">awaiting_admin?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">verified</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-awaiting_candidate-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">awaiting_candidate?</span><span
+            class="method-args">(due_date, completed_date)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event waiting for information from the candidate</p>
+
+<h3 id="method-c-awaiting_candidate-3F-label-Parameters-3A">Parameters:<span><a href="#method-c-awaiting_candidate-3F-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:due_date</code> Date: The <a
+href="CandidateEvent.html#method-i-due_date">#due_date</a> -if nil then not
+started.</p>
+</li><li>
+<p><code>:completed_date</code> Date: When all the information is filled in.</p>
+</li></ul>
+
+<h3 id="method-c-awaiting_candidate-3F-label-Returns-3A">Returns:<span><a href="#method-c-awaiting_candidate-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="awaiting_candidate-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-coming_due-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">coming_due?</span><span
+            class="method-args">(due_date, completed_date)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event coming due within the next 30 days.</p>
+
+<h3 id="method-c-coming_due-3F-label-Parameters-3A">Parameters:<span><a href="#method-c-coming_due-3F-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:due_date</code> Date: The <a
+href="CandidateEvent.html#method-i-due_date">#due_date</a> -if nil then not
+started.</p>
+</li><li>
+<p><code>:completed_date</code> Date: When all the information is filled in.</p>
+</li></ul>
+
+<h3 id="method-c-coming_due-3F-label-Returns-3A">Returns:<span><a href="#method-c-coming_due-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="coming_due-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 142</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">coming_due?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-identifier">today</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">today</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">today</span> <span class="ruby-operator">+</span> <span class="ruby-value">30</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-completed-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">completed?</span><span
+            class="method-args">(due_date, verified)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event done</p>
+
+<h3 id="method-c-completed-3F-label-Parameters-3A">Parameters:<span><a href="#method-c-completed-3F-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:due_date</code> Date: The <a
+href="CandidateEvent.html#method-i-due_date">#due_date</a> -if nil then not
+started.</p>
+</li><li>
+<p><code>:verified</code> Boolean: Has admin verified</p>
+</li></ul>
+
+<h3 id="method-c-completed-3F-label-Returns-3A">Returns:<span><a href="#method-c-completed-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="completed-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 168</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">completed?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">verified</span>)
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">verified</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-late-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">late?</span><span
+            class="method-args">(due_date, completed_date)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event past due.</p>
+
+<h3 id="method-c-late-3F-label-Parameters-3A">Parameters:<span><a href="#method-c-late-3F-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:due_date</code> Date: The <a
+href="CandidateEvent.html#method-i-due_date">#due_date</a> -if nil then not
+started.</p>
+</li><li>
+<p><code>:completed_date</code> Date: When all the information is filled in.</p>
+</li></ul>
+
+<h3 id="method-c-late-3F-label-Returns-3A">Returns:<span><a href="#method-c-late-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="late-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 193</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">late?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">due_date</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-permitted_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">permitted_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Editable attributes</p>
+
+<h3 id="method-c-permitted_params-label-Returns-3A">Returns:<span><a href="#method-c-permitted_params-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Array</code> of attributes</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="permitted_params-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 235</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">permitted_params</span>
+  [<span class="ruby-value">:id</span>, <span class="ruby-value">:completed_date</span>, <span class="ruby-value">:verified</span>,
+   <span class="ruby-value">confirmation_event_attributes:</span> <span class="ruby-constant">ConfirmationEvent</span>.<span class="ruby-identifier">permitted_params</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-started-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">started?</span><span
+            class="method-args">(due_date)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Has the event been started</p>
+
+<h3 id="method-c-started-3F-label-Parameters-3A">Parameters:<span><a href="#method-c-started-3F-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:due_date</code> Date: The <a
+href="CandidateEvent.html#method-i-due_date">#due_date</a> -if nil then not
+started.</p>
+</li></ul>
+
+<h3 id="method-c-started-3F-label-Returns-3A">Returns:<span><a href="#method-c-started-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="started-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 66</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">started?</span>(<span class="ruby-identifier">due_date</span>)
+  <span class="ruby-operator">!</span><span class="ruby-identifier">due_date</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-status" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">status</span><span
+            class="method-args">(due_date, completed_date, verified)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>What is the status of this event.</p>
+
+<h3 id="method-c-status-label-Parameters-3A">Parameters:<span><a href="#method-c-status-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:due_date</code> Date: The <a
+href="CandidateEvent.html#method-i-due_date">#due_date</a> -if nil then not
+started.</p>
+</li><li>
+<p><code>:completed_date</code> Date: When all the information is filled in.</p>
+</li><li>
+<p><code>:verified</code> Boolean: Has admin verified</p>
+</li></ul>
+
+<h3 id="method-c-status-label-Returns-3A">Returns:<span><a href="#method-c-status-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>String</p>
+          
+          
+
+          
+          <div class="method-source-code" id="status-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 209</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">status</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.not_started&#39;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.coming_due&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">coming_due?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.late&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">late?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.awaiting_candidate&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.awaiting_admin&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">awaiting_admin?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;status.verified&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">completed?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">verified</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-string">&#39;Unknown candidate_event status&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-awaiting_admin-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">awaiting_admin?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event waiting verification from admin</p>
+
+<h3 id="method-i-awaiting_admin-3F-label-Returns-3A">Returns:<span><a href="#method-i-awaiting_admin-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="awaiting_admin-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 101</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">awaiting_admin?</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_admin?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-awaiting_candidate-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">awaiting_candidate?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event waiting for information from the candidate</p>
+
+<h3 id="method-i-awaiting_candidate-3F-label-Returns-3A">Returns:<span><a href="#method-i-awaiting_candidate-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="awaiting_candidate-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 76</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">awaiting_candidate?</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">awaiting_candidate?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-coming_due-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">coming_due?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event coming due within the next 30 days.</p>
+
+<h3 id="method-i-coming_due-3F-label-Returns-3A">Returns:<span><a href="#method-i-coming_due-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="coming_due-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 127</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">coming_due?</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">coming_due?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-completed-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">completed?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event completed</p>
+
+<h3 id="method-i-completed-3F-label-Returns-3A">Returns:<span><a href="#method-i-completed-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="completed-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 153</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">completed?</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">completed?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">verified</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-due_date" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">due_date</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Shortcut to due date of the confirmation event based on attending</p>
+
+<h3 id="method-i-due_date-label-Returns-3A">Returns:<span><a href="#method-i-due_date-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Date</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="due_date-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">due_date</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">attending</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;The Way&#39;</span>
+    <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">the_way_due_date</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">chs_due_date</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-late-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">late?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is the candidate event past due.</p>
+
+<h3 id="method-i-late-3F-label-Returns-3A">Returns:<span><a href="#method-i-late-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="late-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 178</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">late?</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">late?</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-mark_completed" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">mark_completed</span><span
+            class="method-args">(validated, cand_assoc_class)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Mark candidated complete by setting the completed date Some associations
+can be automatically makred as verified.</p>
+
+<h3 id="method-i-mark_completed-label-Parameters-3A">Parameters:<span><a href="#method-i-mark_completed-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:validated</code> All the required information has be supplied</p>
+</li><li>
+<p><code>:cand_assoc_class</code> the class of the association in which is
+being marked complete</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="mark_completed-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 288</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mark_completed</span>(<span class="ruby-identifier">validated</span>, <span class="ruby-identifier">cand_assoc_class</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">validated</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">completed_date</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>
+      <span class="ruby-comment"># automatically mark verified when completed.</span>
+      <span class="ruby-comment"># TODO: move to association class</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">verified</span> = <span class="ruby-node">%w[CandidateSheet ChristianMinistry]</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">cand_assoc_class</span>.<span class="ruby-identifier">to_s</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">completed_date</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">completed_date</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">verified</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-route" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">route</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>mapping from confirmation event name to a routing symbol</p>
+
+<h3 id="method-i-route-label-Returns-3A">Returns:<span><a href="#method-i-route-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Symbol</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="route-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 256</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">route</span>
+  <span class="ruby-comment"># TODO: maybe move to constants</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">name</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">CANDIDATE_COVENANT_AGREEMENT</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">CANDIDATE_INFORMATION_SHEET</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">CHRISTIAN_MINISTRY</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRMATION_NAME</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.parent_meeting&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Other</span><span class="ruby-operator">::</span><span class="ruby-constant">PARENT_INFORMATION_MEETING</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>)
+    <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown event to route: #{name}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-started-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">started?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Has the event been started</p>
+
+<h3 id="method-i-started-3F-label-Returns-3A">Returns:<span><a href="#method-i-started-3F-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Boolean</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="started-3F-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 52</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">started?</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">started?</span>(<span class="ruby-identifier">due_date</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-status" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">status</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>What is the status of this event.</p>
+
+<h3 id="method-i-status-label-Returns-3A">Returns:<span><a href="#method-i-status-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>String</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="status-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 225</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status</span>
+  <span class="ruby-constant">CandidateEvent</span>.<span class="ruby-identifier">status</span>(<span class="ruby-identifier">due_date</span>, <span class="ruby-identifier">completed_date</span>, <span class="ruby-identifier">verified</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-verifiable_info" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">verifiable_info</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>information to be verified by admin</p>
+
+<h3 id="method-i-verifiable_info-label-Returns-3A">Returns:<span><a href="#method-i-verifiable_info-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Hash</code> of information to be verified</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="verifiable_info-source">
+            <pre><span class="ruby-comment"># File app/models/candidate_event.rb, line 246</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">verifiable_info</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_event_association</span>(<span class="ruby-identifier">route</span>).<span class="ruby-identifier">verifiable_info</span>(<span class="ruby-identifier">candidate</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

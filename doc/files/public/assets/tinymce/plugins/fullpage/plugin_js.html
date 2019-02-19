@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/fullpage/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>tinymce.PluginManager.add(“fullpage”,function(a){function b(){var
+b=c();a.windowManager.open({title:“Document
+properties”,data:b,defaults:{type:“textbox”,size:40},<a
+href="{name:"title",label:"Title"},{name:"keywords",label:"Keywords"},{name:"description",label:"Description"},{name:"robots",label:"Robots"},{name:"author",label:"Author"},{name:"docencoding",label:"Encoding"}">body:</a>,onSubmit:function(a){d(tinymce.extend(b,a.data))}})}function
+c(){function b(a,b){var c=a.attr(b);return c||“”}var c,d,f=e(),g={};return
+<a
+href="^"">g.fontface=a.getParam(“fullpage_default_fontface”,“”),g.fontsize=a.getParam(“fullpage_default_fontsize”,“”),c=f.firstChild,7==c.type&&(g.xml_pi=!0,d=/encoding=“(</a>+)”/.<a
+href="1">exec(c.value),d&&(g.docencoding=d</a>)),<a
+href="0">c=f.getAll(“#doctype”)</a>,<a
+href="0">c&&(g.doctype=“<!DOCTYPE"c.value">”),c=f.getAll(“title”)</a>,c&amp;&amp;c.firstChild&amp;&amp;(g.title=c.firstChild.value),k(f.getAll(“meta”),function(a){var
+<a
+href="c.toLowerCase()">b,c=a.attr(“name”),d=a.attr(“http-equiv”);c?g</a>=<a
+href="1">a.attr(“content”):“Content-Type”==d&&(b=/charsets*=s*(.*)s*/gi.exec(a.attr(“content”)),b&&(g.docencoding=b</a>))}),<a
+href="0">c=f.getAll(“html”)</a>,<a
+href="0">c&&(g.langcode=b(c,“lang”)||b(c,“xml:lang”)),g.stylesheets=[],tinymce.each(f.getAll(“link”),function(a){“stylesheet”==a.attr(“rel”)&&g.stylesheets.push(a.attr(“href”))}),c=f.getAll(“body”)</a>,c&amp;&amp;(g.langdir=b(c,“dir”),g.style=b(c,“style”),g.visited_color=b(c,“vlink”),g.link_color=b(c,“link”),g.active_color=b(c,“alink”)),g}function
+d(b){function c(a,b,c){a.attr(b,c?c:void 0)}function
+d(a){g.firstChild?g.insert(a,g.firstChild):g.append(a)}var <a
+href="0">f,g,h,j,m,n=a.dom;f=e(),g=f.getAll(“head”)</a>,<a
+href="0">g||(j=f.getAll(“html”)</a>,g=new
+l(“head”,1),j.firstChild?j.insert(g,j.firstChild,!0):j.append(g)),j=f.firstChild,b.xml_pi?(m=&#39;version=“1.0”&#39;,b.docencoding&amp;&amp;(m+=&#39;
+encoding=“&#39;<code>b.docencoding</code>&#39;”&#39;),7!=j.type&amp;&amp;(j=new
+<a
+href="0">l(“xml”,7),f.insert(j,f.firstChild,!0)),j.value=m):j&&7==j.type&&j.remove(),j=f.getAll(“#doctype”)</a>,b.doctype?(j||(j=new
+l(“#doctype”,10),b.xml_pi?f.insert(j,f.firstChild):d(j)),j.value=b.doctype.substring(9,b.doctype.length-1)):j&amp;&amp;j.remove(),j=null,k(f.getAll(“meta”),function(a){“Content-Type”==a.attr(“http-equiv”)&amp;&amp;(j=a)}),b.docencoding?(j||(j=new
+l(“meta”,1),j.attr(“http-equiv”,“Content-Type”),j.shortEnded=!0,d(j)),j.attr(“content”,“text/html;
+<a
+href="0">charset=”+b.docencoding)):j&&j.remove(),j=f.getAll(“title”)</a>,b.title?(j?j.empty():(j=new
+l(“title”,1),d(j)),j.append(new
+l(“#text”,3)).value=b.title):j&amp;&amp;j.remove(),k(“keywords,description,author,copyright,robots”.split(“,”),function(a){var
+<a href="a">c,e,g=f.getAll(“meta”),h=b</a>;<a
+href="c">for(c=0;c<g.length;c++)if(e=g</a>,e.attr(“name”)==a)return
+void(h?e.attr(“content”,h):e.remove());h&amp;&amp;(j=new
+l(“meta”,1),j.attr(“name”,a),j.attr(“content”,h),j.shortEnded=!0,d(j))});var
+o={};tinymce.each(f.getAll(“link”),function(a){“<a
+href="a.attr("href")">stylesheet”==a.attr(“rel”)&&(o</a>=a)}),tinymce.each(b.stylesheets,function(a){<a
+href="a">o</a>||(j=new
+l(“link”,1),j.attr({rel:“stylesheet”,text:“text/css”,href:a}),j.shortEnded=!0,d(j)),delete
+<a href="a">o</a>}),tinymce.each(o,function(a){a.remove()}),<a
+href="0">j=f.getAll(“body”)</a>,j&amp;&amp;(c(j,“dir”,b.langdir),c(j,“style”,b.style),c(j,“vlink”,b.visited_color),c(j,“link”,b.link_color),c(j,“alink”,b.active_color),n.setAttribs(a.getBody(),{style:b.style,dir:b.dir,vLink:b.visited_color,<a
+href="../../../../../../b.link_color,aLink:b.active_color})),j=f.getAll("html")[0],j&&(c(j,"lang",b.langcode),c(j,"xml:lang",b.langcode)),g.firstChild||g.remove(),h=new">b.link_color,aLink:b.active_color})),j=f.getAll(“html”)[0],j&&(c(j,“lang”,b.langcode),c(j,“xml:lang”,b.langcode)),g.firstChild||g.remove(),h=new</a>
+tinymce.html.Serializer({validate:!1,indent:!0,apply_source_formatting:!0,indent_before:“head,html,body,meta,title,script,link,style”,indent_after:“head,html,body,meta,title,script,link,style”}).serialize(f),i=h.substring(0,h.indexOf(“&lt;/body&gt;”))}function
+e(){return new
+tinymce.html.DomParser({validate:!1,root_name:“#document”}).parse(i)}function
+f(b){function c(a){return <a
+href="A-Z">a.replace(/<\/?</a>+/g,function(a){return a.toLowerCase()})}var
+d,f,h,l,m=b.content,n=“”,o=a.dom;if(!b.selection&amp;&amp;!(“raw”==b.format&amp;&amp;i||b.source_view&amp;&amp;a.getParam(“fullpage_hide_in_source_view”))){0!==m.length||b.source_view||(m=tinymce.trim(i)+“n”+tinymce.trim(m)+“n”+tinymce.trim(j)),m=m.replace(/&lt;(/?)BODY/gi,“&lt;$1body”),d=m.indexOf(“&lt;body”),-1!=d?(d=m.indexOf(“&gt;”,d),i=c(m.substring(0,d+1)),f=m.indexOf(“&lt;/body”,d),-1==f&amp;&amp;(f=m.length),b.content=m.substring(d+1,f),j=c(m.substring(f))):(i=g(),j=“n&lt;/body&gt;n&lt;/html&gt;”),h=e(),k(h.getAll(“style”),function(a){a.firstChild&amp;&amp;(n+=a.firstChild.value)}),<a
+href="0">l=h.getAll(“body”)</a>,l&amp;&amp;o.setAttribs(a.getBody(),{style:l.attr(“style”)||“”,dir:l.attr(“dir”)||“”,vLink:l.attr(“vlink”)||“”,<a
+href="../../../../../../l.attr("link")||"",aLink:l.attr("alink")||""}),o.remove("fullpage_styles");var">l.attr(“link”)||“”,aLink:l.attr(“alink”)||“”}),o.remove(“fullpage_styles”);var</a>
+<a
+href="0">p=a.getDoc().getElementsByTagName(“head”)</a>;n&amp;&amp;(o.add(p,“style”,{id:“fullpage_styles”},n),l=o.get(“fullpage_styles”),l.styleSheet&amp;&amp;(l.styleSheet.cssText=n));var
+q={};tinymce.each(p.getElementsByTagName(“link”),function(a){“<a
+href="a.href">stylesheet”==a.rel&&a.getAttribute(“data-mce-fullpage”)&&(q</a>=a)}),tinymce.each(h.getAll(“link”),function(a){var
+<a
+href="b">b=a.attr(“href”);q</a>||“stylesheet”!=a.attr(“rel”)||o.add(p,“link”,{rel:“stylesheet”,text:“text/css”,href:b,“data-mce-fullpage”:“1”}),delete
+<a
+href="b">q</a>}),tinymce.each(q,function(a){a.parentNode.removeChild(a)})}}function
+g(){var b,c=“”,d=“”;return
+a.getParam(“fullpage_default_xml_pi”)&amp;&amp;(c+=&#39;&lt;?xml
+version=“1.0”
+encoding=“&#39;+a.getParam(”fullpage_default_encoding“,”ISO-8859-1“)+&#39;”
+?&gt;n&#39;),c+=a.getParam(“fullpage_default_doctype”,“&lt;!DOCTYPE
+html&gt;”),c+=“n&lt;html&gt;n&lt;head&gt;n”,(b=a.getParam(“fullpage_default_title”))&amp;&amp;(c+=“&lt;title&gt;”<code>b</code>“&lt;/title&gt;n”),(b=a.getParam(“fullpage_default_encoding”))&amp;&amp;(c+=&#39;&lt;meta
+http-equiv=“Content-Type” content=“text/html;
+charset=&#39;<code>b</code>&#39;”
+/&gt;n&#39;),(b=a.getParam(“fullpage_default_font_family”))&amp;&amp;(d+=“font-family:
+”<code>b</code>“;”),(b=a.getParam(“fullpage_default_font_size”))&amp;&amp;(d+=“font-size:
+”<code>b</code>“;”),(b=a.getParam(“fullpage_default_text_color”))&amp;&amp;(d+=“color:
+”<code>b</code>“;”),c+=“&lt;/head&gt;n&lt;body”+(d?&#39;
+style=“&#39;<code>d</code>&#39;”&#39;:“”)+“&gt;n”}function
+h(b){b.selection||b.source_view&amp;&amp;a.getParam(“fullpage_hide_in_source_view”)||(b.content=tinymce.trim(i)+“n”+tinymce.trim(b.content)+“n”+tinymce.trim(j))}var
+i,j,k=tinymce.each,l=tinymce.html.Node;a.addCommand(“mceFullPageProperties”,b),a.addButton(“fullpage”,{title:“Document
+properties”,cmd:“mceFullPageProperties”}),a.addMenuItem(“fullpage”,{text:“Document
+properties”,cmd:“mceFullPageProperties”,context:“file”}),a.on(“BeforeSetContent”,f),a.on(“GetContent”,h)});</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

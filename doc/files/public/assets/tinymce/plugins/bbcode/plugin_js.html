@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/bbcode/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>!function(){tinymce.create(“tinymce.plugins.BBCodePlugin”,{init:function(a){var
+b=this,c=a.getParam(“bbcode_dialect”,“punbb”).toLowerCase();a.on(“beforeSetContent”,function(a){<a
+href=""_"c"_bbcode2html"">a.content=b</a>(a.content)}),a.on(“postProcess”,function(a){<a
+href=""_"c"_bbcode2html"">a.set&&(a.content=b</a>(<a
+href=""_"c"_html2bbcode"">a.content)),a.get&&(a.content=b</a>(a.content))})},getInfo:function(){return{longname:“BBCode
+Plugin”,author:“Ephox Corp”,authorurl:“<a
+href="http://www.tinymce.com",infourl:"http://www.tinymce.com/wiki.php/Plugin:bbcode"}},_punbb_html2bbcode:function(a){function">www.tinymce.com”,infourl:“http://www.tinymce.com/wiki.php/Plugin:bbcode”}},_punbb_html2bbcode:function(a){function</a>
+b(b,c){a=a.replace(b,c)}return <a
+href="url=$1">a=tinymce.trim(a),b(/<a.*?href=\"(.*?)\".*?>(.*?)<\/a>/gi,“</a>$<a
+href="/url">2</a>”),<a
+href="code">b(/<font.*?color=\"(.*?)\".*?class=\"codeStyle\".*?>(.*?)<\/font>/gi,“</a>[<a
+href="/color">color=$1]$2</a>[/<a
+href="quote">code]”),b(/<font.*?color=\"(.*?)\".*?class=\"quoteStyle\".*?>(.*?)<\/font>/gi,“</a>[<a
+href="/color">color=$1]$2</a>[/<a
+href="code">quote]”),b(/<font.*?class=\"codeStyle\".*?color=\"(.*?)\".*?>(.*?)<\/font>/gi,“</a>[<a
+href="/color">color=$1]$2</a>[/<a
+href="quote">code]”),b(/<font.*?class=\"quoteStyle\".*?color=\"(.*?)\".*?>(.*?)<\/font>/gi,“</a>[<a
+href="/color">color=$1]$2</a>[/quote]”),b(/&lt;span style=&quot;color:
+?(.*?);&quot;&gt;(.*?)&lt;/<a href="color=$1">span>/gi,“</a>$<a
+href="/color">2</a>”),<a
+href="color=$1">b(/<font.*?color=\"(.*?)\".*?>(.*?)<\/font>/gi,“</a>$<a
+href="/color">2</a>”),b(/&lt;span <a
+href="size=$1">style="font-size:(.*?);">(.*?)<\/span>/gi,“</a>$<a
+href="/size">2</a>”),<a
+href="img">b(/<font>(.*?)<\/font>/gi,“$1”),b(/<img.*?src=\"(.*?)\".*?\/>/gi,“</a>$<a
+href="/img">1</a>”),b(/&lt;span <a
+href="code">class="codeStyle">(.*?)<\/span>/gi,“</a>$<a
+href="/code">1</a>”),b(/&lt;span <a
+href="quote">class="quoteStyle">(.*?)<\/span>/gi,“</a>$<a
+href="/quote">1</a>”),b(/&lt;strong <a
+href="code">class="codeStyle">(.*?)<\/strong>/gi,“</a>[<a
+href="/b">b]$1</a>[/code]”),b(/&lt;strong <a
+href="quote">class="quoteStyle">(.*?)<\/strong>/gi,“</a>[<a
+href="/b">b]$1</a>[/quote]”),b(/&lt;em <a
+href="code">class="codeStyle">(.*?)<\/em>/gi,“</a>[<a
+href="/i">i]$1</a>[/code]”),b(/&lt;em <a
+href="quote">class="quoteStyle">(.*?)<\/em>/gi,“</a>[<a
+href="/i">i]$1</a>[/quote]”),b(/&lt;u <a
+href="code">class="codeStyle">(.*?)<\/u>/gi,“</a>[<a
+href="/u">u]$1</a>[/code]”),b(/&lt;u <a
+href="quote">class="quoteStyle">(.*?)<\/u>/gi,“</a>[<a
+href="/u">u]$1</a>[/<a href="/b">quote]”),b(/<\/(strong|b)>/gi,“</a>”),<a
+href="b">b(/<(strong|b)>/gi,“</a>”),<a
+href="/i">b(/<\/(em|i)>/gi,“</a>”),<a href="i">b(/<(em|i)>/gi,“</a>”),<a
+href="/u">b(/<\/u>/gi,“</a>”),b(/&lt;span style=&quot;text-decoration: ?<a
+href="u">underline;">(.*?)<\/span>/gi,“</a>$<a href="/u">1</a>”),<a
+href="u">b(/<u>/gi,“</a>”),<a href="^>“>b(/<blockquote</a>*&gt;/<a
+href="quote">gi,”</a>“),<a
+href="/quote">b(/<\/blockquote>/gi,”</a>“),b(/&lt;br
+/&gt;/gi,”n“),b(/&lt;br/&gt;/gi,”n“),b(/<br>/gi,”n“),b(/&lt;p&gt;/gi,”“),b(/&lt;/p&gt;/gi,”n“),b(/&amp;nbsp;|u00a0/gi,”
+“),b(/&amp;quot;/gi,&#39;”&#39;),b(/&amp;lt;/gi,“&lt;”),b(/&amp;gt;/gi,“&gt;”),b(/&amp;amp;/gi,“&amp;”),a},_punbb_bbcode2html:function(a){function
+b(b,c){a=a.replace(b,c)}return a=tinymce.trim(a),b(/n/gi,“&lt;br /&gt;”),<a
+href="b\">b(/</a>/<a href="\/b\">gi,“<strong>”),b(/</a>/<a
+href="i\">gi,“</strong>”),b(/</a>/<a href="\/i\">gi,“”),b(/</a><em>/<a
+href="u\">gi,“”),b(/</a></em>/<a href="\/u\">gi,“<u>”),b(/</a>/<a
+href="^\">gi,“</u>”),b(/[url=(</a>]+)](.*?)[/url]/gi,&#39;&lt;a <a
+href="url\">href=“$1”>$2</a>’),b(/</a>(.*?)[/url]/gi,&#39;&lt;a <a
+href="img\">href=“$1”>$1</a>’),b(/</a>(.*?)[/img]/gi,&#39;&lt;img src=“$1”
+/&gt;&#39;),<a href="color=(.*?)\">b(/</a>(.*?)[/color]/gi,&#39;&lt;font <a
+href="code\">color=“$1”>$2</font>’),b(/</a>(.*?)[/code]/gi,&#39;&lt;span <a
+href="quote.*?\">class=“codeStyle”>$1</span>&nbsp;‘),b(/</a>(.*?)[/quote]/gi,&#39;&lt;span
+class=“quoteStyle”&gt;$1&lt;/span&gt;&amp;nbsp;&#39;),a}}),tinymce.PluginManager.add(“bbcode”,tinymce.plugins.BBCodePlugin)}();</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class SponsorCovenant - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="ApplicationRecord.html">ApplicationRecord</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-attends_stmm_params">::attends_stmm_params</a>
+    
+    <li ><a href="#method-c-attends_stmm_validation_params">::attends_stmm_validation_params</a>
+    
+    <li ><a href="#method-c-basic_permitted_params">::basic_permitted_params</a>
+    
+    <li ><a href="#method-c-event_name">::event_name</a>
+    
+    <li ><a href="#method-c-not_attends_stmm_params">::not_attends_stmm_params</a>
+    
+    <li ><a href="#method-c-permitted_params">::permitted_params</a>
+    
+    <li ><a href="#method-c-validate_event_complete">::validate_event_complete</a>
+    
+    <li ><a href="#method-i-validate_event_complete">#validate_event_complete</a>
+    
+    <li ><a href="#method-i-verifiable_info">#verifiable_info</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-SponsorCovenant">
+  <h1 id="class-SponsorCovenant" class="class">
+    class SponsorCovenant
+  </h1>
+
+  <section class="description">
+    
+<p>Active Record</p>
+
+  </section>
+
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-remove_sponsor_covenant_picture" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">remove_sponsor_covenant_picture</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-remove_sponsor_eligibility_picture" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">remove_sponsor_eligibility_picture</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-sponsor_eligibility_picture" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">sponsor_eligibility_picture</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section>
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-attends_stmm_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">attends_stmm_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Editable attributes when sponsor belongs to stmm</p>
+
+<h3 id="method-c-attends_stmm_params-label-Returns-3A">Returns:<span><a href="#method-c-attends_stmm_params-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Array</code> of attributes</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="attends_stmm_params-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 67</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">attends_stmm_params</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-identifier">basic_permitted_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:sponsor_church</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scanned_eligibility</span>)
+  <span class="ruby-identifier">params</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-attends_stmm_validation_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">attends_stmm_validation_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Required attributes when sponsor belongs to stmm</p>
+
+<h3 id="method-c-attends_stmm_validation_params-label-Returns-3A">Returns:<span><a href="#method-c-attends_stmm_validation_params-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Array</code> of attributes</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="attends_stmm_validation_params-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">attends_stmm_validation_params</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">attends_stmm_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:sponsor_attends_stmm</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:remove_sponsor_eligibility_picture</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:remove_sponsor_covenant_picture</span>)
+  <span class="ruby-identifier">params</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-basic_permitted_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">basic_permitted_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Editable attributes</p>
+
+<h3 id="method-c-basic_permitted_params-label-Returns-3A">Returns:<span><a href="#method-c-basic_permitted_params-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Array</code> of attributes</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="basic_permitted_params-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 57</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">basic_permitted_params</span>
+  <span class="ruby-node">%i[sponsor_name sponsor_attends_stmm sponsor_church scanned_covenant scanned_eligibility id]</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-event_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">event_name</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>associated confirmation event name</p>
+
+<h3 id="method-c-event_name-label-Returns-3A">Returns:<span><a href="#method-c-event_name-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>String</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="event_name-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">event_name</span>
+  <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-not_attends_stmm_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">not_attends_stmm_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Editable attributes when sponsor does NOT belongs to stmm</p>
+
+<h3 id="method-c-not_attends_stmm_params-label-Returns-3A">Returns:<span><a href="#method-c-not_attends_stmm_params-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Array</code> of attributes</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="not_attends_stmm_params-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 94</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">not_attends_stmm_params</span>
+  <span class="ruby-identifier">params</span> = <span class="ruby-identifier">basic_permitted_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:sponsor_name</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scanned_covenant</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:sponsor_attends_stmm</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:remove_sponsor_eligibility_picture</span>)
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:remove_sponsor_covenant_picture</span>)
+  <span class="ruby-identifier">params</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-permitted_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">permitted_params</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Editable attributes</p>
+
+<h3 id="method-c-permitted_params-label-Returns-3A">Returns:<span><a href="#method-c-permitted_params-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Array</code> of attributes</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="permitted_params-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">permitted_params</span>
+  <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">attends_stmm_params</span>.<span class="ruby-identifier">concat</span>(
+    <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">not_attends_stmm_params</span>.<span class="ruby-identifier">concat</span>(
+      [<span class="ruby-value">scanned_eligibility_attributes:</span> <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">permitted_params</span>,
+       <span class="ruby-value">scanned_covenant_attributes:</span> <span class="ruby-constant">ScannedImage</span>.<span class="ruby-identifier">permitted_params</span>]
+    )
+  ) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">:sponsor_eligibility_picture</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">:remove_sponsor_eligibility_picture</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">:remove_sponsor_covenant_picture</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-validate_event_complete" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">validate_event_complete</span><span
+            class="method-args">(candidate)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Validate whether event is complete by adding validation errors to active
+record</p>
+
+<h3 id="method-c-validate_event_complete-label-Parameters-3A">Parameters:<span><a href="#method-c-validate_event_complete-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:candidate</code> owner of association</p>
+</li></ul>
+
+<h3 id="method-c-validate_event_complete-label-Returns-3A">Returns:<span><a href="#method-c-validate_event_complete-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>SponsorCovenant</code> with validation errors</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="validate_event_complete-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 124</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">validate_event_complete</span>(<span class="ruby-identifier">candidate</span>)
+  <span class="ruby-identifier">sponsor_covenant</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">sponsor_covenant</span>
+  <span class="ruby-identifier">sponsor_covenant</span>.<span class="ruby-identifier">validate_event_complete</span>
+  <span class="ruby-identifier">sponsor_covenant</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-validate_event_complete" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">validate_event_complete</span><span
+            class="method-args">(_options = {})</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Validate if event is complete by adding validation errors to active record</p>
+
+<h3 id="method-i-validate_event_complete-label-Parameters-3A">Parameters:<span><a href="#method-i-validate_event_complete-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:options</code></p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="validate_event_complete-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_event_complete</span>(<span class="ruby-identifier">_options</span> = {})
+  <span class="ruby-identifier">event_complete_validator</span> = <span class="ruby-constant">EventCompleteValidator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">!</span><span class="ruby-identifier">sponsor_attends_stmm</span>)
+  <span class="ruby-identifier">event_complete_validator</span>.<span class="ruby-identifier">validate</span>(<span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">attends_stmm_validation_params</span>, <span class="ruby-constant">SponsorCovenant</span>.<span class="ruby-identifier">not_attends_stmm_params</span>)
+
+  <span class="ruby-comment"># convert empty picture attributes to something the user can understand</span>
+  <span class="ruby-identifier">found</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">found</span> <span class="ruby-operator">|=</span> <span class="ruby-operator">!</span><span class="ruby-identifier">errors</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scanned_covenant</span>).<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">errors</span>[<span class="ruby-value">:base</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;Scanned sponsor covenant form can\&#39;t be blank&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">found</span>
+
+  <span class="ruby-identifier">found</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">found</span> <span class="ruby-operator">|=</span> <span class="ruby-operator">!</span><span class="ruby-identifier">errors</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:scanned_eligibility</span>).<span class="ruby-identifier">nil?</span>
+  <span class="ruby-identifier">errors</span>[<span class="ruby-value">:base</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;Scanned sponsor eligibility form can\&#39;t be blank&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">found</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-verifiable_info" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">verifiable_info</span><span
+            class="method-args">(_candidate)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>information to be verified by admin</p>
+
+<h3 id="method-i-verifiable_info-label-Parameters-3A">Parameters:<span><a href="#method-i-verifiable_info-label-Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>:candidate</code> owner of this association</p>
+</li></ul>
+
+<h3 id="method-i-verifiable_info-label-Returns-3A">Returns:<span><a href="#method-i-verifiable_info-label-Returns-3A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>Hash</code> of information to be verified</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="verifiable_info-source">
+            <pre><span class="ruby-comment"># File app/models/sponsor_covenant.rb, line 140</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">verifiable_info</span>(<span class="ruby-identifier">_candidate</span>)
+  { <span class="ruby-value">&#39;Sponsor name&#39;:</span> <span class="ruby-identifier">sponsor_name</span>,
+    <span class="ruby-value">&#39;Sponsor attends&#39;:</span> (<span class="ruby-identifier">sponsor_attends_stmm</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;St. Mary Magdalene&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">sponsor_church</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.4.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

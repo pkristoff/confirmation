@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>ControllerMacros</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Module</span>
+            ControllerMacros
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/spec/support/controller_macros_rb.html">spec/support/controller_macros.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>L</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-login_admin">login_admin</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-login_candidate">login_candidate</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-login_admin">
+            
+              <b>login_admin</b>()
+            
+            <a href="../classes/ControllerMacros.html#method-i-login_admin" name="method-i-login_admin" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-login_admin_source')" id="l_method-i-login_admin_source">show</a>
+                
+              </p>
+              <div id="method-i-login_admin_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/controller_macros.rb, line 2</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">login_admin</span>
+  <span class="ruby-ivar">@request</span>.<span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;devise.mapping&#39;</span>] = <span class="ruby-constant">Devise</span>.<span class="ruby-identifier">mappings</span>[<span class="ruby-value">:admin</span>]
+  <span class="ruby-identifier">xxxadmin</span> = <span class="ruby-constant">FactoryBot</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:admin</span>)
+  <span class="ruby-identifier">sign_in</span> <span class="ruby-identifier">xxxadmin</span>
+  <span class="ruby-identifier">xxxadmin</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-login_candidate">
+            
+              <b>login_candidate</b>()
+            
+            <a href="../classes/ControllerMacros.html#method-i-login_candidate" name="method-i-login_candidate" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-login_candidate_source')" id="l_method-i-login_candidate_source">show</a>
+                
+              </p>
+              <div id="method-i-login_candidate_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/controller_macros.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">login_candidate</span>
+  <span class="ruby-ivar">@request</span>.<span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;devise.mapping&#39;</span>] = <span class="ruby-constant">Devise</span>.<span class="ruby-identifier">mappings</span>[<span class="ruby-value">:candidate</span>]
+  <span class="ruby-identifier">xxxcandidate</span> = <span class="ruby-constant">FactoryBot</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:candidate</span>)
+  <span class="ruby-identifier">sign_in</span> <span class="ruby-identifier">xxxcandidate</span>
+  <span class="ruby-identifier">xxxcandidate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

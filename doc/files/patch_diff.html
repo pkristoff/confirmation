@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>patch.diff</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            patch.diff
+        </h1>
+        <ul class="files">
+            <li>patch.diff</li>
+            <li>Last modified: 2018-02-27 09:14:13 -0500</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>diff –git a/app/controllers/export_lists_controller.rb
+b/app/controllers/export_lists_controller.rb index 9110222..e793dbe 100644
+— a/app/controllers/export_lists_controller.rb +++
+b/app/controllers/export_lists_controller.rb @@ -5,75 +5,120 @@</p>
+
+<pre><code>#
+class ExportListsController &lt; ApplicationController
+  def baptism</code></pre>
+<ul><li>
+<p>candidates = Candidate.order(:account_name).select do |candidate|</p>
+</li><li>
+<p>Candidate.baptismal_external_verification?(candidate)</p>
+</li><li>
+<p>end</p>
+</li></ul>
+
+<p>+    external, to_be_verified, verified, not_complete = <a
+href="../classes/Candidate.html#method-c-baptismal_external_verification">Candidate.baptismal_external_verification</a></p>
+<ul><li>
+<p>p = create_xlsx(candidates, &#39;Baptized&#39;)</p>
+</li></ul>
+
+<p>+    p = create_xlsx(external, to_be_verified, verified, not_complete,
+&#39;Baptized&#39;, +                   
+[I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.baptized_at_stmm&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.first_comm_at_stmm&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.birth_date&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.baptismal_date&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_first&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_middle&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.father_last&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_first&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_middle&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_maiden&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.mother_last&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.street_1&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.street_2&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.city&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.state&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.church_address.zip_code&#39;),
++                    
+I18n.t(&#39;label.baptismal_certificate.baptismal_certificate.certificate_picture&#39;)],
++                    [-&gt;(candidate)
+{candidate.baptismal_certificate.baptized_at_stmm}, +                    
+-&gt;(candidate) {candidate.baptismal_certificate.first_comm_at_stmm}, +   
+-&gt;(candidate) {candidate.baptismal_certificate.birth_date}, +           
+-&gt;(candidate) {candidate.baptismal_certificate.baptismal_date}, +       
+-&gt;(candidate) {candidate.baptismal_certificate.father_first}, +         
+-&gt;(candidate) {candidate.baptismal_certificate.father_middle}, +        
+-&gt;(candidate) {candidate.baptismal_certificate.father_last}, +          
+-&gt;(candidate) {candidate.baptismal_certificate.mother_first}, +         
+-&gt;(candidate) {candidate.baptismal_certificate.mother_middle}, +        
+-&gt;(candidate) {candidate.baptismal_certificate.mother_maiden}, +        
+-&gt;(candidate) {candidate.baptismal_certificate.mother_last}, +          
+-&gt;(candidate) {candidate.baptismal_certificate.church_address.street_1},
++                     -&gt;(candidate)
+{candidate.baptismal_certificate.church_address.street_2}, +               
+-&gt;(candidate) {candidate.baptismal_certificate.church_address.city}, +  
+-&gt;(candidate) {candidate.baptismal_certificate.church_address.state}, + 
+-&gt;(candidate) {candidate.baptismal_certificate.church_address.zip_code},
++                     -&gt;(candidate)
+{!candidate.baptismal_certificate.certificate_picture.nil?}])</p>
+
+<pre><code>  send_data p.to_stream.read, type: &#39;application/xlsx&#39;, filename: &#39;baptized.xlsx&#39;
+end
+
+def confirmation_name</code></pre>
+<ul><li>
+<p>candidates = Candidate.order(:account_name).select do |candidate|</p>
+</li><li>
+<p>Candidate.confirmation_name_external_verification?(candidate)</p>
+</li><li>
+<p>end</p>
+</li></ul>
+
+<p>-</p>
+<ul><li>
+<p>p = create_xlsx(candidates, &#39;Confirmation Names&#39;,</p>
+</li></ul>
+
+<p>+    external, to_be_verified, verified, not_complete = <a
+href="../classes/Candidate.html#method-c-confirmation_name_external_verification">Candidate.confirmation_name_external_verification</a>
++    p = create_xlsx(external, to_be_verified, verified, not_complete,
+&#39;Confirmation Names&#39;,</p>
+
+<pre><code>[I18n.t(&#39;label.confirmation_name.saint_name&#39;)],</code></pre>
+<ul><li>
+<p>[-&gt;(candidate) { candidate.pick_confirmation_name.saint_name }])</p>
+</li></ul>
+
+<p>+                    [-&gt;(candidate)
+{candidate.pick_confirmation_name.saint_name}])</p>
+
+<pre><code>  send_data p.to_stream.read, type: &#39;application/xlsx&#39;, filename: &#39;confirmation_name.xlsx&#39;
+end
+
+def retreat</code></pre>
+<ul><li>
+<p>candidates = Candidate.order(:account_name).select do |candidate|</p>
+</li><li>
+<p>Candidate.retreat_external_verification?(candidate)</p>
+</li><li>
+<p>end</p>
+</li></ul>
+
+<p>+    external, to_be_verified, verified, not_complete = <a
+href="../classes/Candidate.html#method-c-retreat_external_verification">Candidate.retreat_external_verification</a></p>
+<ul><li>
+<p>p = create_xlsx(candidates, &#39;Retreat&#39;)</p>
+</li></ul>
+
+<p>+    p = create_xlsx(external, to_be_verified, verified, not_complete,
+&#39;Retreat&#39;, +                   
+[I18n.t(&#39;label.retreat_verification.retreat_held_at_stmm&#39;), +      
+I18n.t(&#39;label.retreat_verification.start_date&#39;), +                 
+I18n.t(&#39;label.retreat_verification.end_date&#39;), +                   
+I18n.t(&#39;label.retreat_verification.who_held_retreat&#39;), +           
+I18n.t(&#39;label.retreat_verification.where_held_retreat&#39;)], +        
+[-&gt;(candidate) {candidate.retreat_verification.retreat_held_at_stmm}, + 
+-&gt;(candidate) {candidate.retreat_verification.start_date}, +            
+-&gt;(candidate) {candidate.retreat_verification.end_date}, +              
+-&gt;(candidate) {candidate.retreat_verification.who_held_retreat}, +      
+-&gt;(candidate) {candidate.retreat_verification.where_held_retreat}])</p>
+
+<pre><code>  send_data p.to_stream.read, type: &#39;application/xlsx&#39;, filename: &#39;retreat.xlsx&#39;
+end
+
+def sponsor</code></pre>
+<ul><li>
+<p>candidates = Candidate.order(:account_name).select do |candidate|</p>
+</li><li>
+<p>Candidate.sponsor_external_verification?(candidate)</p>
+</li><li>
+<p>end</p>
+</li></ul>
+
+<p>-</p>
+<ul><li>
+<p>p = create_xlsx(candidates, &#39;Sponsor&#39;,</p>
+</li><li>
+<p>[I18n.t(&#39;label.sponsor_covenant.sponsor_name&#39;)],</p>
+</li><li>
+<p>[-&gt;(candidate) { candidate.sponsor_covenant.sponsor_name }])</p>
+</li></ul>
+
+<p>+    external, to_be_verified, verified, not_complete = <a
+href="../classes/Candidate.html#method-c-sponsor_external_verification">Candidate.sponsor_external_verification</a>
++    p = create_xlsx(external, to_be_verified, verified, not_complete,
+&#39;Sponsor&#39;, +                   
+[I18n.t(&#39;label.sponsor_covenant.sponsor_attends_stmm&#39;), +          
+I18n.t(&#39;label.sponsor_covenant.sponsor_name&#39;), +                   
+I18n.t(&#39;label.sponsor_covenant.sponsor_church&#39;), +                 
+I18n.t(&#39;label.sponsor_covenant.sponsor_eligibility_picture&#39;)], +   
+[-&gt;(candidate) {candidate.sponsor_covenant.sponsor_attends_stmm}, +     
+-&gt;(candidate) {candidate.sponsor_covenant.sponsor_name}, +              
+-&gt;(candidate) {candidate.sponsor_covenant.sponsor_church}, +            
+-&gt;(candidate) {!candidate.sponsor_covenant.scanned_eligibility.nil?}])</p>
+
+<pre><code>  send_data p.to_stream.read, type: &#39;application/xlsx&#39;, filename: &#39;sponsor.xlsx&#39;
+end
+
+def events</code></pre>
+<ul><li>
+<p>candidates = Candidate.order(:account_name).select do |candidate|</p>
+</li><li>
+<p>Candidate.events_external_verification?(candidate)</p>
+</li><li>
+<p>end</p>
+</li></ul>
+
+<p>+    external, to_be_verified, verified, not_complete = <a
+href="../classes/Candidate.html#method-c-events_external_verification">Candidate.events_external_verification</a></p>
+<ul><li>
+<p>confirmation_even_names = ConfirmationEvent.order(:name).map {
+|candidate_event| candidate_event.name }</p>
+</li><li>
+<p>p = create_xlsx(candidates, &#39;Events&#39;,</p>
+</li></ul>
+
+<p>+    confirmation_even_names = ConfirmationEvent.order(:name).map
+{|candidate_event| candidate_event.name} +    p = create_xlsx(external,
+to_be_verified, verified, not_complete, &#39;Events&#39;,</p>
+
+<pre><code>confirmation_even_names,</code></pre>
+<ul><li>
+<p>confirmation_even_names.map { |candidate_event_name|
+candidate_event_state(candidate_event_name) })</p>
+</li></ul>
+
+<p>+                    confirmation_even_names.map {|candidate_event_name|
+candidate_event_state(candidate_event_name)})</p>
+
+<pre><code>  send_data p.to_stream.read, type: &#39;application/xlsx&#39;, filename: &#39;events.xlsx&#39;
+end
+
+def candidate_event_state(event_name)</code></pre>
+<ul><li>
+<p>-&gt;(candidate) { candidate.get_candidate_event(event_name).status }</p>
+</li></ul>
+
+<p>+    -&gt;(candidate) {candidate.get_candidate_event(event_name).status}</p>
+
+<pre><code>end</code></pre>
+<ul><li>
+<p>def create_xlsx(candidates, sheet_name, extra_columns = [], value_lambdas =
+[])</p>
+</li></ul>
+
+<p>+  def create_xlsx(external_verify, verify, verified, not_complete, title,
+extra_columns = [], value_lambdas = [])</p>
+
+<pre><code>p = Axlsx::Package.new(author: &#39;Admin&#39;)
+wb = p.workbook
+</code></pre>
+<ul><li>
+<p>wb.add_worksheet(name: sheet_name) do |sheet|</p>
+</li></ul>
+
+<p>+    add_wb(wb, external_verify, “#{title} Ext Verify”, extra_columns,
+value_lambdas) +    add_wb(wb, verify, “#{title} Verify”, extra_columns,
+value_lambdas) +    add_wb(wb, verified, “#{title} Verified”,
+extra_columns, value_lambdas) +    add_wb(wb, not_complete, “#{title} Not
+Complete”, extra_columns, value_lambdas) +    p +  end + +  def add_wb (wb,
+candidates, title, extra_columns, value_lambdas) +   
+wb.add_worksheet(name: title) do |sheet|</p>
+
+<pre><code>headers = [I18n.t(&#39;label.candidate_sheet.first_name&#39;), I18n.t(&#39;label.candidate_sheet.last_name&#39;)]
+</code></pre>
+<ul><li>
+<p>extra_columns.each { |extra_column| headers.push(extra_column) }</p>
+</li></ul>
+
+<p>+      extra_columns.each {|extra_column| headers.push(extra_column)}</p>
+
+<pre><code>sheet.add_row(headers)
+candidates.each do |candidate|
+  values = [candidate.candidate_sheet.first_name,
+            candidate.candidate_sheet.last_name]</code></pre>
+<ul><li>
+<p>value_lambdas.each { |value_lambda|
+values.push(value_lambda.call(candidate)) }</p>
+</li></ul>
+
+<p>+        value_lambdas.each {|value_lambda|
+values.push(value_lambda.call(candidate))}</p>
+
+<pre><code>    sheet.add_row(values)
+  end
+end</code></pre>
+<ul><li>
+<p>p</p>
+</li></ul>
+
+<pre><code>  end
+end</code></pre>
+
+<p>diff –git a/app/models/candidate.rb b/app/models/candidate.rb index
+26feae1..cec0375 100644 — a/app/models/candidate.rb +++
+b/app/models/candidate.rb @@ -43,7 +43,7 @@ class <a
+href="../classes/Candidate.html">Candidate</a> &lt; ActiveRecord::Base</p>
+
+<pre><code>validates :account_name,
+          presence: true,
+          uniqueness: {</code></pre>
+<ul><li>
+<p>case_sensitive: false</p>
+</li></ul>
+
+<p>+                case_sensitive: false</p>
+
+<pre><code>          }
+#
+# turn off sending verify instructions until admin sends it.</code></pre>
+
+<p>@@ -316,10 +316,10 @@ class <a
+href="../classes/Candidate.html">Candidate</a> &lt; ActiveRecord::Base</p>
+
+<pre><code># Boolean
+#
+def get_candidate_event(event_name)</code></pre>
+<ul><li>
+<p>event = candidate_events.find { |candidate_event| candidate_event.name ==
+event_name }</p>
+</li></ul>
+
+<p>+    event = candidate_events.find {|candidate_event| candidate_event.name
+== event_name}</p>
+
+<pre><code>if event.nil?
+  Rails.logger.info(&quot;Could not find event: #{event_name}&quot;)</code></pre>
+<ul><li>
+<p>candidate_events.find { |candidate_event| Rails.logger.info
+candidate_event.name }</p>
+</li></ul>
+
+<p>+      candidate_events.find {|candidate_event| Rails.logger.info
+candidate_event.name}</p>
+
+<pre><code>  raise &quot;Unknown candidate_event named: #{event_name}&quot;
+end
+event</code></pre>
+
+<p>@@ -337,22 +337,22 @@ class <a
+href="../classes/Candidate.html">Candidate</a> &lt; ActiveRecord::Base</p>
+
+<pre><code>#
+def get_event_association(event_route_name)
+  case event_route_name.to_sym</code></pre>
+<ul><li>
+<p>when Event::Route::BAPTISMAL_CERTIFICATE</p>
+</li><li>
+<p>baptismal_certificate</p>
+</li><li>
+<p>when Event::Route::CHRISTIAN_MINISTRY</p>
+</li><li>
+<p>christian_ministry</p>
+</li><li>
+<p>when Event::Route::CONFIRMATION_NAME</p>
+</li><li>
+<p>pick_confirmation_name</p>
+</li><li>
+<p>when Event::Route::SPONSOR_COVENANT</p>
+</li><li>
+<p>sponsor_covenant</p>
+</li><li>
+<p>when Event::Route::RETREAT_VERIFICATION</p>
+</li><li>
+<p>retreat_verification</p>
+</li><li>
+<p>when Event::Other::CANDIDATE_INFORMATION_SHEET</p>
+</li><li>
+<p>candidate_sheet</p>
+</li><li>
+<p>when Event::Other::PARENT_INFORMATION_MEETING,
+Event::Other::ATTEND_RETREAT, Event::Other::CANDIDATE_COVENANT_AGREEMENT,
+Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION</p>
+</li><li>
+<p>self</p>
+</li><li>
+<p>else</p>
+</li><li>
+<p>raise “Unknown event association: #{event_route_name}”</p>
+</li></ul>
+
+<p>+      when Event::Route::BAPTISMAL_CERTIFICATE +       
+baptismal_certificate +      when Event::Route::CHRISTIAN_MINISTRY +       
+christian_ministry +      when Event::Route::CONFIRMATION_NAME +       
+pick_confirmation_name +      when Event::Route::SPONSOR_COVENANT +       
+sponsor_covenant +      when Event::Route::RETREAT_VERIFICATION +       
+retreat_verification +      when Event::Other::CANDIDATE_INFORMATION_SHEET
++        candidate_sheet +      when
+Event::Other::PARENT_INFORMATION_MEETING, Event::Other::ATTEND_RETREAT,
+Event::Other::CANDIDATE_COVENANT_AGREEMENT,
+Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION +        self +      else
++        raise “Unknown event association: #{event_route_name}”</p>
+
+<pre><code>  end
+end</code></pre>
+
+<p>@@ -432,10 +432,8 @@ class <a
+href="../classes/Candidate.html">Candidate</a> &lt; ActiveRecord::Base</p>
+
+<pre><code>#
+# Boolean
+#
+</code></pre>
+<ul><li>
+<p>def self.baptismal_external_verification?(candidate)</p>
+</li><li>
+<p># TODO: use awaiting_admin?</p>
+</li><li>
+<p>candidate_event =
+candidate.get_candidate_event(I18n.t(&#39;events.baptismal_certificate&#39;))</p>
+</li><li>
+<p>(candidate.baptismal_certificate.baptized_at_stmm ||
+candidate.baptismal_certificate.first_comm_at_stmm) &amp;&amp;
+candidate_event.completed_date &amp;&amp; !candidate_event.verified</p>
+</li></ul>
+
+<p>+  def self.baptismal_external_verification +   
+external_verification(I18n.t(&#39;events.baptismal_certificate&#39;),
+-&gt;(candidate) {candidate.baptismal_certificate.baptized_at_stmm ||
+candidate.baptismal_certificate.first_comm_at_stmm})</p>
+
+<pre><code>end
+
+# retreat needs admin verification</code></pre>
+
+<p>@@ -448,10 +446,8 @@ class <a
+href="../classes/Candidate.html">Candidate</a> &lt; ActiveRecord::Base</p>
+
+<pre><code>#
+# Boolean
+#
+</code></pre>
+<ul><li>
+<p>def self.retreat_external_verification?(candidate)</p>
+</li><li>
+<p># TODO: use awaiting_admin?</p>
+</li><li>
+<p>candidate_event =
+candidate.get_candidate_event(I18n.t(&#39;events.retreat_verification&#39;))</p>
+</li><li>
+<p>candidate.retreat_verification.retreat_held_at_stmm &amp;&amp;
+candidate_event.completed_date &amp;&amp; !candidate_event.verified</p>
+</li></ul>
+
+<p>+  def self.retreat_external_verification +   
+external_verification(I18n.t(&#39;events.retreat_verification&#39;),
+-&gt;(candidate) {candidate.retreat_verification.retreat_held_at_stmm})</p>
+
+<pre><code>end
+
+# confirmation name needs admin verification</code></pre>
+
+<p>@@ -464,12 +460,30 @@ class <a
+href="../classes/Candidate.html">Candidate</a> &lt; ActiveRecord::Base</p>
+
+<pre><code>#
+# Boolean
+#
+</code></pre>
+<ul><li>
+<p>def self.confirmation_name_external_verification?(candidate)</p>
+</li><li>
+<p># TODO: use awaiting_admin?</p>
+</li><li>
+<p>candidate_event =
+candidate.get_candidate_event(I18n.t(&#39;events.confirmation_name&#39;))</p>
+</li><li>
+<p>candidate.pick_confirmation_name.saint_name &amp;&amp;</p>
+</li><li>
+<p>candidate_event.completed_date &amp;&amp;</p>
+</li><li>
+<p>!candidate_event.verified</p>
+</li></ul>
+
+<p>+  def self.confirmation_name_external_verification +   
+external_verification(I18n.t(&#39;events.confirmation_name&#39;)) +  end +
++  def self.external_verification(candidate_event_name,
+external_verification = -&gt;(_candidate) {false}) +    external = [] +   
+to_be_verified = [] +    verified = [] +    not_complete = [] +   
+Candidate.order(:account_name).each do |candidate| +      candidate_event =
+candidate.get_candidate_event(candidate_event_name) +      if
+candidate_event.verified +        verified.push(candidate) +      elsif
+candidate_event.completed_date +        if
+external_verification.call(candidate) +          external.push(candidate) +
+else +          to_be_verified.push(candidate) +        end +      else +  
+not_complete.push(candidate) +      end +    end +    return external,
+to_be_verified, verified, not_complete</p>
+
+<pre><code>end
+
+# sponsor needs admin verification</code></pre>
+
+<p>@@ -482,10 +496,8 @@ class <a
+href="../classes/Candidate.html">Candidate</a> &lt; ActiveRecord::Base</p>
+
+<pre><code>#
+# Boolean
+#
+</code></pre>
+<ul><li>
+<p>def self.sponsor_external_verification?(candidate)</p>
+</li><li>
+<p># TODO: use awaiting_admin?</p>
+</li><li>
+<p>candidate_event =
+candidate.get_candidate_event(I18n.t(&#39;events.sponsor_covenant&#39;))</p>
+</li><li>
+<p>candidate.sponsor_covenant.sponsor_attends_stmm &amp;&amp;
+candidate_event.completed_date &amp;&amp; !candidate_event.verified</p>
+</li></ul>
+
+<p>+  def self.sponsor_external_verification +   
+external_verification(I18n.t(&#39;events.sponsor_covenant&#39;),
+-&gt;(candidate) {candidate.sponsor_covenant.sponsor_attends_stmm})</p>
+
+<pre><code>end
+
+# candidate events needs admin verification</code></pre>
+
+<p>@@ -498,8 +510,8 @@ class <a href="../classes/Candidate.html">Candidate</a>
+&lt; ActiveRecord::Base</p>
+
+<pre><code>#
+# Boolean
+#
+</code></pre>
+<ul><li>
+<p>def self.events_external_verification?(_candidate)</p>
+</li><li>
+<p>true</p>
+</li></ul>
+
+<p>+  def self.events_external_verification +    return [],
+Candidate.order(:account_name), [], []</p>
+
+<pre><code>end
+
+# This comes via devise/password_controller</code></pre>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

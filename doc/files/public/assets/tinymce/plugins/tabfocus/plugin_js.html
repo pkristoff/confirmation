@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/tabfocus/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>tinymce.PluginManager.add(“tabfocus”,function(a){function
+b(a){9!==a.keyCode||a.ctrlKey||a.altKey||a.metaKey||a.preventDefault()}function
+c(b){function c©{function
+f(a){return“BODY”===a.nodeName||“hidden”!=a.type&amp;&amp;“none”!=a.style.display&amp;&amp;“hidden”!=a.style.visibility&amp;&amp;f(a.parentNode)}function
+i(a){return/INPUT|TEXTAREA|BUTTON/.test(a.tagName)&amp;&amp;tinymce.get(b.id)&amp;&amp;-1!=a.tabIndex&amp;&amp;f(a)}<a
+href="tabindex">if(h=d.select(“:input:enabled,*</a>:not(iframe)”),e(h,function(b,c){return
+b.id==a.id?(g=c,!1):void 0}),c&gt;0){<a
+href="j">for(j=g+1;j<h.length;j++)if(i(h</a>))return <a href="j">h</a>}else
+<a href="j">for(j=g-1;j>=0;j–)if(i(h</a>))return <a href="j">h</a>;return
+null}var <a
+href="1">g,h,i,j;if(!(9!==b.keyCode||b.ctrlKey||b.altKey||b.metaKey||b.isDefaultPrevented())&&(i=f(a.getParam(“tab_focus”,a.getParam(“tabfocus_elements”,“:prev,:next”))),1==i.length&&(i</a>=<a
+href="0">i</a>,<a href="0">i</a>=“:<a
+href="0">prev”),h=b.shiftKey?“:prev”==i</a>?<a
+href="0">c(-1):d.get(i</a>):“:<a href="1">next”==i</a>?<a
+href="1">c(1):d.get(i</a>))){var
+k=tinymce.get(h.id||h.name);h.id&amp;&amp;k?k.focus():tinymce.util.Delay.setTimeout(function(){tinymce.Env.webkit||window.focus(),h.focus()},10),b.preventDefault()}}var
+d=tinymce.DOM,e=tinymce.each,f=tinymce.explode;a.on(“init”,function(){a.inline&amp;&amp;tinymce.DOM.setAttrib(a.getBody(),“tabIndex”,null),a.on(“keyup”,b),tinymce.Env.gecko?a.on(“keypress
+keydown”,c):a.on(“keydown”,c)})});</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>

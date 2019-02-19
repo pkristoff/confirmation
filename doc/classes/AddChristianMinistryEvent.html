@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>AddChristianMinistryEvent</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Class</span>
+            AddChristianMinistryEvent
+            
+                <span class="parent">&lt;
+                    
+                    ActiveRecord::Migration
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/db/migrate/20160830211438_add_christian_ministry_event_rb.html">db/migrate/20160830211438_add_christian_ministry_event.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>D</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-down">down</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>U</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-up">up</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-down">
+            
+              <b>down</b>()
+            
+            <a href="../classes/AddChristianMinistryEvent.html#method-i-down" name="method-i-down" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-down_source')" id="l_method-i-down_source">show</a>
+                
+              </p>
+              <div id="method-i-down_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File db/migrate/20160830211438_add_christian_ministry_event.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">down</span>
+  <span class="ruby-identifier">remove_foreign_key</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:christian_ministries</span>)
+  <span class="ruby-identifier">remove_reference</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:christian_ministry</span>)
+  <span class="ruby-identifier">drop_table</span>(<span class="ruby-value">:christian_ministries</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-up">
+            
+              <b>up</b>()
+            
+            <a href="../classes/AddChristianMinistryEvent.html#method-i-up" name="method-i-up" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-up_source')" id="l_method-i-up_source">show</a>
+                
+              </p>
+              <div id="method-i-up_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File db/migrate/20160830211438_add_christian_ministry_event.rb, line 2</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">up</span>
+  <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>))
+  <span class="ruby-identifier">create_table</span> <span class="ruby-value">:christian_ministries</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">boolean</span> <span class="ruby-value">:signed</span>, <span class="ruby-identifier">null</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>, <span class="ruby-identifier">default</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">text</span> <span class="ruby-value">:what_service</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">text</span> <span class="ruby-value">:where_service</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">text</span> <span class="ruby-value">:when_service</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">text</span> <span class="ruby-value">:helped_me</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">string</span> <span class="ruby-value">:christian_ministry_filename</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">string</span> <span class="ruby-value">:christian_ministry_content_type</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">binary</span> <span class="ruby-value">:christian_ministry_file_contents</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">timestamps</span> <span class="ruby-identifier">null</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">add_reference</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:christian_ministry</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">add_foreign_key</span>(<span class="ruby-value">:candidates</span>, <span class="ruby-value">:christian_ministries</span>)
+
+  <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">build_christian_ministry</span>
+    <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">save</span>(<span class="ruby-identifier">validate</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>)
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

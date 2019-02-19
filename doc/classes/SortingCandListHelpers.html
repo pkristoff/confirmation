@@ -1,0 +1,1008 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>SortingCandListHelpers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Module</span>
+            SortingCandListHelpers
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/spec/support/helpers/sorting_cand_list_helper_rb.html">spec/support/helpers/sorting_cand_list_helper.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-candidate_events_columns">candidate_events_columns</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-candidates_columns">candidates_columns</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-common_columns">common_columns</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-common_event_columns">common_event_columns</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-common_non_event_columns">common_non_event_columns</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-confirmation_events_columns">confirmation_events_columns</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-event_name_to_path">event_name_to_path</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-event_name_to_path_verify">event_name_to_path_verify</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_christian_ministry_form">expect_christian_ministry_form</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_event">expect_event</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_heading">expect_heading</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_mass_edit_candidates_event">expect_mass_edit_candidates_event</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_pick_confirmation_name_form">expect_pick_confirmation_name_form</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_select_checkbox">expect_select_checkbox</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_sorting_candidate_list">expect_sorting_candidate_list</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-candidate_events_columns">
+            
+              <b>candidate_events_columns</b>(confirmation_event = nil)
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-candidate_events_columns" name="method-i-candidate_events_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-candidate_events_columns_source')" id="l_method-i-candidate_events_columns_source">show</a>
+                
+              </p>
+              <div id="method-i-candidate_events_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 190</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">candidate_events_columns</span>(<span class="ruby-identifier">confirmation_event</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">common_columns</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">common_non_event_columns</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-number">1</span>,
+              [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.events.completed_date&#39;</span>), <span class="ruby-keyword">true</span>, [<span class="ruby-value">:completed_date</span>]],
+              [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.events.verified&#39;</span>), <span class="ruby-keyword">true</span>, [<span class="ruby-value">:verified</span>]])
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">append</span>(
+        [<span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span>, <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span>, <span class="ruby-keyword">true</span>)]
+    )
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">cols</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-candidates_columns">
+            
+              <b>candidates_columns</b>()
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-candidates_columns" name="method-i-candidates_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-candidates_columns_source')" id="l_method-i-candidates_columns_source">show</a>
+                
+              </p>
+              <div id="method-i-candidates_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 182</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">candidates_columns</span>
+  <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">common_columns</span>
+  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-number">1</span>, [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.nav.edit&#39;</span>), <span class="ruby-keyword">false</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">rendered</span>, <span class="ruby-identifier">td_index</span><span class="ruby-operator">|</span> <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;td[id=&#39;tr#{candidate.id}_td#{td_index}&#39;]&quot;</span>}])
+  <span class="ruby-identifier">cols</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.candidates.account_confirmed&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_account_confirmed</span>]
+  <span class="ruby-identifier">cols</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.candidates.password_changed&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_password_changed</span>]
+  <span class="ruby-identifier">cols</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-common_columns">
+            
+              <b>common_columns</b>()
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-common_columns" name="method-i-common_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-common_columns_source')" id="l_method-i-common_columns_source">show</a>
+                
+              </p>
+              <div id="method-i-common_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 220</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">common_columns</span>
+  <span class="ruby-identifier">columns</span> = <span class="ruby-identifier">common_non_event_columns</span>
+  <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">columns</span>.<span class="ruby-identifier">length</span><span class="ruby-operator">-</span><span class="ruby-number">1</span>, [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_sheet.grade&#39;</span>), <span class="ruby-keyword">true</span>, [<span class="ruby-value">:candidate_sheet</span>, <span class="ruby-value">:grade</span>]])
+  <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">concat</span> <span class="ruby-identifier">common_event_columns</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-common_event_columns">
+            
+              <b>common_event_columns</b>()
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-common_event_columns" name="method-i-common_event_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-common_event_columns_source')" id="l_method-i-common_event_columns_source">show</a>
+                
+              </p>
+              <div id="method-i-common_event_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 235</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">common_event_columns</span>
+  [
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>))],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>))],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>))],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>))],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>))],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_agreement&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_agreement&#39;</span>))],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>))],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>))],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.parent_meeting&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.parent_meeting&#39;</span>))]
+  ]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-common_non_event_columns">
+            
+              <b>common_non_event_columns</b>()
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-common_non_event_columns" name="method-i-common_non_event_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-common_non_event_columns_source')" id="l_method-i-common_non_event_columns_source">show</a>
+                
+              </p>
+              <div id="method-i-common_non_event_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 226</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">common_non_event_columns</span>
+  [
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_event.select&#39;</span>), <span class="ruby-keyword">false</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_select_checkbox</span>],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_sheet.last_name&#39;</span>), <span class="ruby-keyword">true</span>, [<span class="ruby-value">:candidate_sheet</span>, <span class="ruby-value">:last_name</span>]],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_sheet.first_name&#39;</span>), <span class="ruby-keyword">true</span>, [<span class="ruby-value">:candidate_sheet</span>, <span class="ruby-value">:first_name</span>]],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_sheet.attending&#39;</span>), <span class="ruby-keyword">true</span>, [<span class="ruby-value">:candidate_sheet</span>, <span class="ruby-value">:attending</span>]],
+  ]
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-confirmation_events_columns">
+            
+              <b>confirmation_events_columns</b>(confirmation_event_name)
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-confirmation_events_columns" name="method-i-confirmation_events_columns" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-confirmation_events_columns_source')" id="l_method-i-confirmation_events_columns_source">show</a>
+                
+              </p>
+              <div id="method-i-confirmation_events_columns_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 207</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">confirmation_events_columns</span> (<span class="ruby-identifier">confirmation_event_name</span>)
+  <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">common_non_event_columns</span>
+  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">insert</span>(
+      <span class="ruby-number">1</span>,
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.events.completed_date&#39;</span>), <span class="ruby-keyword">true</span>, [<span class="ruby-value">:candidate_event</span>, <span class="ruby-identifier">confirmation_event_name</span>, <span class="ruby-value">:completed_date</span>]],
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.events.verified&#39;</span>), <span class="ruby-keyword">true</span>, [<span class="ruby-value">:candidate_event</span>, <span class="ruby-identifier">confirmation_event_name</span>, <span class="ruby-value">:verified</span>]]
+  )
+  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">append</span>(
+      [<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>), <span class="ruby-keyword">true</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">expect_event</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>), <span class="ruby-keyword">true</span>)]
+  )
+  <span class="ruby-identifier">cols</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-event_name_to_path">
+            
+              <b>event_name_to_path</b>(event_name, candidate_id)
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-event_name_to_path" name="method-i-event_name_to_path" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>class <a href="CandidateSheet.html">CandidateSheet</a></p>
+
+<pre><code>def route_path(candidate_id)
+  candidate_sheet_path(candidate_id)
+end
+def route_path_verify(candidate_id)
+  candidate_sheet_path(candidate_id)
+end
+</code></pre>
+
+<p>end</p>
+
+<p>class <a href="BaptismalCertificate.html">BaptismalCertificate</a></p>
+
+<pre><code>def route_path(candidate_id)
+  event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
+end
+def route_path_verify(candidate_id)
+  event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
+end
+</code></pre>
+
+<p>end</p>
+
+<p>class <a href="SponsorCovenant.html">SponsorCovenant</a></p>
+
+<pre><code>def route_path(candidate_id)
+  event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+end
+def route_path_verify(candidate_id)
+  event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+end
+</code></pre>
+
+<p>end</p>
+
+<p>class <a href="PickConfirmationName.html">PickConfirmationName</a></p>
+
+<pre><code>def route_path(candidate_id)
+  pick_confirmation_name_path(candidate_id)
+end
+def route_path_verify(candidate_id)
+  pick_confirmation_name_verify_path(candidate_id)
+end
+</code></pre>
+
+<p>end</p>
+
+<p>class <a href="SponsorCovenant.html">SponsorCovenant</a></p>
+
+<pre><code>def route_path(candidate_id)
+  sponsor_agreement_path(candidate_id)
+end
+def route_path_verify(candidate_id)
+  sponsor_agreement_path(candidate_id)
+end
+</code></pre>
+
+<p>end</p>
+
+<p>class <a href="ChristianMinistry.html">ChristianMinistry</a></p>
+
+<pre><code>def route_path(candidate_id)
+  christian_ministry_path(candidate_id)
+end
+def route_path_verify(candidate_id)
+  christian_ministry_path(candidate_id)
+end
+</code></pre>
+
+<p>end</p>
+
+<p>class <a href="RetreatVerification.html">RetreatVerification</a></p>
+
+<pre><code>def route_path(candidate_id)
+  event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
+end
+def route_path_verify(candidate_id)
+  event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
+end
+</code></pre>
+
+<p>end</p>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-event_name_to_path_source')" id="l_method-i-event_name_to_path_source">show</a>
+                
+              </p>
+              <div id="method-i-event_name_to_path_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 116</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">event_name_to_path</span> (<span class="ruby-identifier">event_name</span>, <span class="ruby-identifier">candidate_id</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">event_name</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)
+      <span class="ruby-identifier">sign_agreement_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>)
+      <span class="ruby-identifier">candidate_sheet_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>)
+      <span class="ruby-identifier">event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)
+      <span class="ruby-identifier">event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>)
+      <span class="ruby-identifier">pick_confirmation_name_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_agreement&#39;</span>)
+      <span class="ruby-identifier">sponsor_agreement_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)
+      <span class="ruby-identifier">sign_agreement_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>)
+      <span class="ruby-identifier">christian_ministry_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>)
+      <span class="ruby-identifier">event_with_picture_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.parent_meeting&#39;</span>)
+      <span class="ruby-identifier">event_candidate_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-identifier">anchor</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;event_id_#{ConfirmationEvent.find_by(name: event_name).id}&quot;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-node">&quot;Unknown event_name: #{event_name}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-event_name_to_path_verify">
+            
+              <b>event_name_to_path_verify</b>(event_name, candidate_id)
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-event_name_to_path_verify" name="method-i-event_name_to_path_verify" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-event_name_to_path_verify_source')" id="l_method-i-event_name_to_path_verify_source">show</a>
+                
+              </p>
+              <div id="method-i-event_name_to_path_verify_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 143</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">event_name_to_path_verify</span> (<span class="ruby-identifier">event_name</span>, <span class="ruby-identifier">candidate_id</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">event_name</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)
+      <span class="ruby-identifier">sign_agreement_verify_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_information_sheet&#39;</span>)
+      <span class="ruby-identifier">candidate_sheet_verify_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.baptismal_certificate&#39;</span>)
+      <span class="ruby-identifier">event_with_picture_verify_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">BAPTISMAL_CERTIFICATE</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>)
+      <span class="ruby-identifier">event_with_picture_verify_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">SPONSOR_COVENANT</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>)
+      <span class="ruby-identifier">pick_confirmation_name_verify_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.sponsor_agreement&#39;</span>)
+      <span class="ruby-identifier">sponsor_agreement_verify_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.candidate_covenant_agreement&#39;</span>)
+      <span class="ruby-identifier">sign_agreement_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>)
+      <span class="ruby-identifier">christian_ministry_verify_path</span>(<span class="ruby-identifier">candidate_id</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.retreat_verification&#39;</span>)
+      <span class="ruby-identifier">event_with_picture_verify_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Route</span><span class="ruby-operator">::</span><span class="ruby-constant">RETREAT_VERIFICATION</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.parent_meeting&#39;</span>)
+      <span class="ruby-identifier">event_candidate_path</span>(<span class="ruby-identifier">candidate_id</span>, <span class="ruby-identifier">anchor</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;event_id_#{ConfirmationEvent.find_by(name: event_name).id}&quot;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-node">&quot;Unknown event_name: #{event_name}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_christian_ministry_form">
+            
+              <b>expect_christian_ministry_form</b>(cand_id, path_str, dev_path, update_id, values = {})
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-expect_christian_ministry_form" name="method-i-expect_christian_ministry_form" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_christian_ministry_form_source')" id="l_method-i-expect_christian_ministry_form_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_christian_ministry_form_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 307</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_christian_ministry_form</span>(<span class="ruby-identifier">cand_id</span>, <span class="ruby-identifier">path_str</span>, <span class="ruby-identifier">dev_path</span>, <span class="ruby-identifier">update_id</span>, <span class="ruby-identifier">values</span> = {})
+
+  <span class="ruby-identifier">with_values</span> = <span class="ruby-operator">!</span>(<span class="ruby-identifier">values</span>[<span class="ruby-value">:what_service</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:what_service</span>].<span class="ruby-identifier">empty?</span>)
+  <span class="ruby-identifier">with_values</span> = <span class="ruby-identifier">with_values</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">values</span>[<span class="ruby-value">:where_service</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:where_service</span>].<span class="ruby-identifier">empty?</span>)
+  <span class="ruby-identifier">with_values</span> = <span class="ruby-identifier">with_values</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">values</span>[<span class="ruby-value">:when_service</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:when_service</span>].<span class="ruby-identifier">empty?</span>)
+  <span class="ruby-identifier">with_values</span> = <span class="ruby-identifier">with_values</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">values</span>[<span class="ruby-value">:helped_me</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:helped_me</span>].<span class="ruby-identifier">empty?</span>)
+
+  <span class="ruby-identifier">expect_messages</span>(<span class="ruby-identifier">values</span>[<span class="ruby-value">:expect_messages</span>]) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:expect_messages</span>].<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">cand</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">cand_id</span>)
+  <span class="ruby-identifier">expect_heading</span>(<span class="ruby-identifier">cand</span>, <span class="ruby-identifier">dev_path</span>.<span class="ruby-identifier">empty?</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.christian_ministry&#39;</span>))
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_selector</span>(<span class="ruby-node">&quot;form[id=edit_candidate][action=\&quot;/#{dev_path}#{path_str}.#{cand_id}\&quot;]&quot;</span>)
+
+  <span class="ruby-identifier">expect_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.christian_ministry.what_service&#39;</span>), <span class="ruby-identifier">with_values</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:what_service</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">expect_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.christian_ministry.where_service&#39;</span>), <span class="ruby-identifier">with_values</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:where_service</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">expect_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.christian_ministry.when_service&#39;</span>), <span class="ruby-identifier">with_values</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:when_service</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">expect_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.christian_ministry.helped_me&#39;</span>), <span class="ruby-identifier">with_values</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:helped_me</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_button</span>(<span class="ruby-identifier">update_id</span>)
+  <span class="ruby-identifier">expect_download_button</span>(<span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span><span class="ruby-operator">::</span><span class="ruby-constant">CHRISTIAN_MINISTRY</span>, <span class="ruby-identifier">cand_id</span>, <span class="ruby-identifier">dev_path</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_event">
+            
+              <b>expect_event</b>(event_name, verify=false)
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-expect_event" name="method-i-expect_event" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_event_source')" id="l_method-i-expect_event_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_event_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 170</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_event</span>(<span class="ruby-identifier">event_name</span>, <span class="ruby-identifier">verify</span>=<span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">rendered</span>, <span class="ruby-identifier">td_index</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">href</span> = <span class="ruby-identifier">verify</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">event_name_to_path_verify</span>(<span class="ruby-identifier">event_name</span>, <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">id</span>)<span class="ruby-operator">:</span><span class="ruby-identifier">event_name_to_path</span>(<span class="ruby-identifier">event_name</span>, <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span>(<span class="ruby-node">&quot;table[id=&#39;candidate_list_table&#39;] tr[id=&#39;candidate_list_tr_#{candidate.id}&#39;] td[id=tr#{candidate.id}_td#{td_index}] a[href=&#39;#{href}&#39;]&quot;</span>,
+                                 <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">event_name</span>).<span class="ruby-identifier">status</span>)
+  }
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_heading">
+            
+              <b>expect_heading</b>(cand, isDev, event_name)
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-expect_heading" name="method-i-expect_heading" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_heading_source')" id="l_method-i-expect_heading_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_heading_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 295</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_heading</span>(<span class="ruby-identifier">cand</span>, <span class="ruby-identifier">isDev</span>, <span class="ruby-identifier">event_name</span>)
+  <span class="ruby-identifier">first</span> = <span class="ruby-identifier">cand</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">first_name</span>
+  <span class="ruby-identifier">last</span> = <span class="ruby-identifier">cand</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">last_name</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">isDev</span>
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_selector</span>(<span class="ruby-string">&quot;h2[id=heading]&quot;</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{I18n.t(&#39;views.events.heading&#39;, event_name: event_name, first: first, last: last)}&quot;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_selector</span>(<span class="ruby-string">&quot;h2[id=heading]&quot;</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{event_name}&quot;</span>)
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">not_to</span> <span class="ruby-identifier">have_selector</span>(<span class="ruby-string">&quot;h2[id=heading]&quot;</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{I18n.t(&#39;views.events.heading&#39;, event_name: event_name, first: first, last: last)}&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_mass_edit_candidates_event">
+            
+              <b>expect_mass_edit_candidates_event</b>(confirmation_event, candidate, updated_message)
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-expect_mass_edit_candidates_event" name="method-i-expect_mass_edit_candidates_event" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_mass_edit_candidates_event_source')" id="l_method-i-expect_mass_edit_candidates_event_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_mass_edit_candidates_event_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 249</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_mass_edit_candidates_event</span>(<span class="ruby-identifier">confirmation_event</span>, <span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">updated_message</span>)
+  <span class="ruby-identifier">expect_message</span>(<span class="ruby-value">:flash_notice</span>, <span class="ruby-identifier">updated_message</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">updated_message</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;form[action=&#39;/mass_edit_candidates_event_update/#{confirmation_event.id}&#39;]&quot;</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span>(<span class="ruby-node">&quot;input[type=&#39;submit&#39;][value=&#39;#{I18n.t(&#39;views.common.update&#39;)}&#39;]&quot;</span>, <span class="ruby-identifier">count</span><span class="ruby-operator">:</span> <span class="ruby-number">2</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span>(<span class="ruby-node">&quot;input[id=&#39;top-update&#39;][type=&#39;submit&#39;][value=&#39;#{I18n.t(&#39;views.common.update&#39;)}&#39;]&quot;</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-string">&#39;input[type=checkbox][id=verified][value=&quot;1&quot;]&#39;</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.events.verified&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.events.completed_date&#39;</span>))
+
+  <span class="ruby-identifier">expect_sorting_candidate_list</span>(
+      <span class="ruby-identifier">candidate_events_columns</span>(<span class="ruby-identifier">confirmation_event</span>),
+      [<span class="ruby-identifier">candidate</span>],
+      <span class="ruby-identifier">page</span>,
+      <span class="ruby-identifier">confirmation_event</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span>).<span class="ruby-identifier">completed_date</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">updated_message</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span>).<span class="ruby-identifier">verified</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">eq</span>(<span class="ruby-keyword">true</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">updated_message</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_pick_confirmation_name_form">
+            
+              <b>expect_pick_confirmation_name_form</b>(cand_id, path_str, dev_path, update_id, values = {})
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-expect_pick_confirmation_name_form" name="method-i-expect_pick_confirmation_name_form" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_pick_confirmation_name_form_source')" id="l_method-i-expect_pick_confirmation_name_form_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_pick_confirmation_name_form_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 272</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_pick_confirmation_name_form</span>(<span class="ruby-identifier">cand_id</span>, <span class="ruby-identifier">path_str</span>, <span class="ruby-identifier">dev_path</span>, <span class="ruby-identifier">update_id</span>, <span class="ruby-identifier">values</span> = {})
+
+  <span class="ruby-identifier">with_values</span> = <span class="ruby-operator">!</span>(<span class="ruby-identifier">values</span>[<span class="ruby-value">:saint_name</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:saint_name</span>].<span class="ruby-identifier">empty?</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">with_values</span>
+    <span class="ruby-identifier">saint_name</span> = <span class="ruby-constant">SAINT_NAME</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">saint_name</span> = <span class="ruby-identifier">values</span>[<span class="ruby-value">:saint_name</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">expect_messages</span>(<span class="ruby-identifier">values</span>[<span class="ruby-value">:expect_messages</span>]) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">values</span>[<span class="ruby-value">:expect_messages</span>].<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">cand</span> = <span class="ruby-constant">Candidate</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">cand_id</span>)
+  <span class="ruby-identifier">expect_heading</span>(<span class="ruby-identifier">cand</span>, <span class="ruby-identifier">dev_path</span>.<span class="ruby-identifier">empty?</span>, <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;events.confirmation_name&#39;</span>))
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_selector</span>(<span class="ruby-node">&quot;form[id=edit_candidate][action=\&quot;/#{dev_path}#{path_str}.#{cand_id}\&quot;]&quot;</span>)
+
+  <span class="ruby-identifier">expect_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.confirmation_name.saint_name&#39;</span>), <span class="ruby-identifier">with_values</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">saint_name</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_button</span>(<span class="ruby-identifier">update_id</span>)
+  <span class="ruby-identifier">expect_download_button</span>(<span class="ruby-constant">Event</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIRMATION_NAME</span>, <span class="ruby-identifier">cand_id</span>, <span class="ruby-identifier">dev_path</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_select_checkbox">
+            
+              <b>expect_select_checkbox</b>()
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-expect_select_checkbox" name="method-i-expect_select_checkbox" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_select_checkbox_source')" id="l_method-i-expect_select_checkbox_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_select_checkbox_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 178</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_select_checkbox</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">rendered</span>, <span class="ruby-identifier">td_index</span><span class="ruby-operator">|</span> <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;td[id=tr#{candidate.id}_td#{td_index}] input[type=checkbox][id=candidate_candidate_ids_#{candidate.id}]&quot;</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_sorting_candidate_list">
+            
+              <b>expect_sorting_candidate_list</b>(column_headers_in_order, candidates_in_order, rendered_or_page, confirmation_event = nil)
+            
+            <a href="../classes/SortingCandListHelpers.html#method-i-expect_sorting_candidate_list" name="method-i-expect_sorting_candidate_list" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_sorting_candidate_list_source')" id="l_method-i-expect_sorting_candidate_list_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_sorting_candidate_list_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/sorting_cand_list_helper.rb, line 3</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_sorting_candidate_list</span>(<span class="ruby-identifier">column_headers_in_order</span>, <span class="ruby-identifier">candidates_in_order</span>, <span class="ruby-identifier">rendered_or_page</span>, <span class="ruby-identifier">confirmation_event</span> = <span class="ruby-keyword">nil</span>)
+
+  <span class="ruby-identifier">table_id</span> = <span class="ruby-string">&quot;table[id=&#39;candidate_list_table&#39;]&quot;</span>
+  <span class="ruby-identifier">tr_header_id</span> = <span class="ruby-string">&quot;tr[id=&#39;candidate_list_header&#39;]&quot;</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span>(<span class="ruby-node">&quot;#{table_id}&quot;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span>(<span class="ruby-node">&quot;#{table_id} #{tr_header_id}&quot;</span>)
+
+  <span class="ruby-identifier">column_headers_in_order</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">info</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">i18n_name</span> = <span class="ruby-identifier">info</span>[<span class="ruby-number">0</span>]
+    <span class="ruby-identifier">sort_enabled</span> = <span class="ruby-identifier">info</span>[<span class="ruby-number">1</span>]
+    <span class="ruby-identifier">th_header_id</span> = <span class="ruby-node">&quot;candidate_list_header_th_#{index + 1}&quot;</span>
+    <span class="ruby-identifier">basic_th_css</span> = <span class="ruby-node">&quot;#{table_id} #{tr_header_id} [id=&#39;#{th_header_id}&#39;]&quot;</span>
+    <span class="ruby-comment"># expect headers</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">sort_enabled</span>
+      <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-identifier">basic_th_css</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">i18n_name</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;#{basic_th_css}[class=&#39;sorter-false filter-false#{i18n_name === I18n.t(&#39;views.nav.edit&#39;) ? &#39; edit_column_header&#39; : &#39;&#39;}&#39;]&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">i18n_name</span> <span class="ruby-operator">===</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_event.select&#39;</span>)
+      <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;#{basic_th_css}[class=&#39;sorter-false filter-false select_column_header&#39;] input[id=&#39;select_all_none_input&#39;]&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">i18n_name</span> <span class="ruby-operator">===</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;label.candidate_event.select&#39;</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;#{table_id} #{tr_header_id} th&quot;</span>, <span class="ruby-identifier">count</span><span class="ruby-operator">:</span> <span class="ruby-identifier">column_headers_in_order</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment">#  checkbox</span>
+  <span class="ruby-comment">#expect table cells</span>
+  <span class="ruby-identifier">candidates_in_order</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">tr_id</span> = <span class="ruby-node">&quot;tr[id=&#39;candidate_list_tr_#{candidate.id}&#39;]&quot;</span>
+    <span class="ruby-identifier">column_headers_in_order</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">info</span>, <span class="ruby-identifier">td_index</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">td_index_adj</span> = <span class="ruby-identifier">td_index</span>
+      <span class="ruby-identifier">td_id</span> = <span class="ruby-node">&quot;td[id=tr#{candidate.id}_td#{td_index_adj}]&quot;</span>
+      <span class="ruby-identifier">text</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">cell_access_path</span> = <span class="ruby-identifier">info</span>[<span class="ruby-number">2</span>]
+      <span class="ruby-identifier">cell_expect_function</span> = <span class="ruby-identifier">info</span>[<span class="ruby-number">3</span>]
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">cell_access_path</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">cell_expect_function</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">rendered_or_page</span>, <span class="ruby-identifier">td_index_adj</span>)
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">confirmation_event</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">===</span> <span class="ruby-value">:completed_date</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">===</span> <span class="ruby-value">:verified</span>)
+        <span class="ruby-identifier">text</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">confirmation_event</span>.<span class="ruby-identifier">name</span>).<span class="ruby-identifier">method</span>(<span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">0</span>]).<span class="ruby-identifier">call</span>
+        <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;#{table_id} #{tr_id} #{td_id}&quot;</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">text</span>
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">0</span>] <span class="ruby-operator">===</span> <span class="ruby-value">:candidate_event</span>
+        <span class="ruby-identifier">candidate_event</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">get_candidate_event</span>(<span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">1</span>])
+        <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;#{table_id} #{tr_id} #{td_id}&quot;</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate_event</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">2</span>]).<span class="ruby-identifier">call</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">text</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">0</span>]).<span class="ruby-identifier">call</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cell_access_path</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">===</span> <span class="ruby-number">1</span>
+        <span class="ruby-identifier">text</span> = <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">0</span>]).<span class="ruby-identifier">call</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">cell_access_path</span>[<span class="ruby-number">1</span>]).<span class="ruby-identifier">call</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cell_access_path</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">===</span> <span class="ruby-number">2</span>
+        <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;#{table_id} #{tr_id} #{td_id}&quot;</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">text</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;#{table_id} #{tr_id} td&quot;</span>, <span class="ruby-identifier">count</span><span class="ruby-operator">:</span> <span class="ruby-identifier">column_headers_in_order</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment">#  checkbox</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;#{table_id} tr&quot;</span>, <span class="ruby-identifier">count</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidates_in_order</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">+</span> <span class="ruby-number">1</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

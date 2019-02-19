@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>ViewsHelpers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            <span class="type">Module</span>
+            ViewsHelpers
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../files/spec/support/helpers/views_helpers_rb.html">spec/support/helpers/views_helpers.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+    <!-- Method ref -->
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+      
+        <dt>C</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-create_candidate">create_candidate</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-expect_account_confirmed">expect_account_confirmed</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_edit_and_new_view">expect_edit_and_new_view</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_mass_mailing_html">expect_mass_mailing_html</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-expect_password_changed">expect_password_changed</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>S</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-setup_unknown_missing_events">setup_unknown_missing_events</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+    </dl>
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+      <!-- Section constants -->
+      <div class="sectiontitle">Constants</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class="attr-name">LATE_INITIAL_TEXT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;email.late_initial_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">COMING_DUE_INITIAL_TEXT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;email.coming_due_initial_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">COMPLETE_AWAITING_INITIAL_TEXT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;email.completed_awaiting_initial_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">COMPLETE_INITIAL_TEXT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;email.completed_initial_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">CLOSING_INITIAL_TEXT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;email.closing_initial_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">SALUTATION_INITIAL_TEXT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;email.salutation_initial_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">FROM_EMAIL_TEXT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;email.from_initial_text_html&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">SUBJECT</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;email.subject_initial_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">FROM_EMAIL</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;views.top_bar.contact_admin_mail_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+          <tr valign='top'>
+            <td class="attr-name">REPLY_TO_EMAIL</td>
+            <td>=</td>
+            <td class="attr-value">I18n.t(&#39;views.top_bar.contact_admin_mail_text&#39;)</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+      </table>
+    
+
+
+    
+
+
+    <!-- Methods -->
+        
+      <div class="sectiontitle">Instance Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-i-create_candidate">
+            
+              <b>create_candidate</b>(first_name, middle_name, last_name)
+            
+            <a href="../classes/ViewsHelpers.html#method-i-create_candidate" name="method-i-create_candidate" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-create_candidate_source')" id="l_method-i-create_candidate_source">show</a>
+                
+              </p>
+              <div id="method-i-create_candidate_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/views_helpers.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">create_candidate</span>(<span class="ruby-identifier">first_name</span>, <span class="ruby-identifier">middle_name</span>, <span class="ruby-identifier">last_name</span>)
+  <span class="ruby-identifier">candidate</span> = <span class="ruby-constant">FactoryBot</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:candidate</span>, <span class="ruby-identifier">account_name</span><span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{first_name.downcase}#{last_name.downcase}&quot;</span>)
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">first_name</span> = <span class="ruby-identifier">first_name</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">middle_name</span> = <span class="ruby-identifier">middle_name</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">last_name</span> = <span class="ruby-identifier">last_name</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">candidate_email</span> = <span class="ruby-node">&quot;#{first_name.downcase}@yyy.com&quot;</span>
+
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">birth_date</span> = <span class="ruby-string">&#39;1999-03-05&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">baptismal_date</span> = <span class="ruby-string">&#39;1999-05-05&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">father_first</span> = <span class="ruby-string">&#39;A&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">father_middle</span> = <span class="ruby-string">&#39;B&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">father_last</span> = <span class="ruby-string">&#39;C&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">mother_first</span> = <span class="ruby-string">&#39;Z&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">mother_middle</span> = <span class="ruby-string">&#39;Y&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">mother_maiden</span> = <span class="ruby-string">&#39;X&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">mother_last</span> = <span class="ruby-string">&#39;W&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">church_name</span> = <span class="ruby-string">&#39;St Pete&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">street_1</span> = <span class="ruby-string">&#39;The Holy Way&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">street_2</span> = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">city</span> = <span class="ruby-string">&#39;Very Wet City&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">state</span> = <span class="ruby-string">&#39;HA&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">baptismal_certificate</span>.<span class="ruby-identifier">church_address</span>.<span class="ruby-identifier">zip_code</span> = <span class="ruby-string">&#39;12345&#39;</span>
+
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">sponsor_covenant</span>.<span class="ruby-identifier">sponsor_name</span> = <span class="ruby-string">&#39;The Boss&#39;</span>
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">sponsor_covenant</span>.<span class="ruby-identifier">sponsor_attends_stmm</span> = <span class="ruby-keyword">true</span>
+
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">pick_confirmation_name</span>.<span class="ruby-identifier">saint_name</span> = <span class="ruby-string">&#39;Bolt&#39;</span>
+
+  <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-identifier">candidate</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_account_confirmed">
+            
+              <b>expect_account_confirmed</b>()
+            
+            <a href="../classes/ViewsHelpers.html#method-i-expect_account_confirmed" name="method-i-expect_account_confirmed" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_account_confirmed_source')" id="l_method-i-expect_account_confirmed_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_account_confirmed_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/views_helpers.rb, line 131</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_account_confirmed</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">rendered</span>, <span class="ruby-identifier">td_index</span><span class="ruby-operator">|</span> <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;td[id=tr#{candidate.id}_td#{td_index}]&quot;</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">account_confirmed?</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_edit_and_new_view">
+            
+              <b>expect_edit_and_new_view</b>(rendered, candidate, action, submit_button, is_candidate_signed_in, is_new)
+            
+            <a href="../classes/ViewsHelpers.html#method-i-expect_edit_and_new_view" name="method-i-expect_edit_and_new_view" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_edit_and_new_view_source')" id="l_method-i-expect_edit_and_new_view_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_edit_and_new_view_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/views_helpers.rb, line 14</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_edit_and_new_view</span>(<span class="ruby-identifier">rendered</span>, <span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">action</span>, <span class="ruby-identifier">submit_button</span>, <span class="ruby-identifier">is_candidate_signed_in</span>, <span class="ruby-identifier">is_new</span>)
+
+  <span class="ruby-identifier">form_id</span> = <span class="ruby-identifier">is_new</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;new_candidate&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;edit_candidate&#39;</span>
+
+  <span class="ruby-comment"># this matches the partial: candidates/shared/edit_and_new_candidate</span>
+  <span class="ruby-identifier">is_candidate_signed_in_and_not_new</span> = (<span class="ruby-identifier">is_candidate_signed_in</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">is_new</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_selector</span>(<span class="ruby-node">&quot;form[id=#{form_id}][action=\&quot;#{action}\&quot;]&quot;</span>)
+
+  <span class="ruby-identifier">first_name_autofocus</span> = <span class="ruby-identifier">is_candidate_signed_in_and_not_new</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;[autofocus=&quot;autofocus&quot;]&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-identifier">candidate_autofocus</span> = <span class="ruby-identifier">is_candidate_signed_in_and_not_new</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;[autofocus=&quot;autofocus&quot;]&#39;</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Account name&#39;</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>, <span class="ruby-identifier">readonly</span><span class="ruby-operator">:</span> <span class="ruby-identifier">is_candidate_signed_in_and_not_new</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_selector</span>(<span class="ruby-node">&quot;input[id=candidate_account_name]#{candidate_autofocus}&quot;</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;First name&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">first_name</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_selector</span>(<span class="ruby-node">&quot;input[id=candidate_candidate_sheet_attributes_first_name]#{first_name_autofocus}&quot;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Middle name&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">middle_name</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Last name&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">last_name</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Street 1&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">address</span>.<span class="ruby-identifier">street_1</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Street 2&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">address</span>.<span class="ruby-identifier">street_2</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;City&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">address</span>.<span class="ruby-identifier">city</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;Apex&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;State&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">address</span>.<span class="ruby-identifier">state</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;NC&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Zip code&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">address</span>.<span class="ruby-identifier">zip_code</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;27502&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;text&#39;</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span>
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Grade&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">grade</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;number&#39;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Grade&#39;</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;number&#39;</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">candidate</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">attending</span> <span class="ruby-operator">==</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.candidates.attending_catholic_high_school&#39;</span>)
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_checked_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.candidates.attending_catholic_high_school&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;radio&#39;</span>)
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_unchecked_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.candidates.attending_the_way&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;radio&#39;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_unchecked_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.candidates.attending_catholic_high_school&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;radio&#39;</span>)
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_checked_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;views.candidates.attending_the_way&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;radio&#39;</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Candidate email&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">candidate_email</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;email&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Parent email 1&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">parent_email_1</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;email&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Parent email 2&#39;</span>, <span class="ruby-identifier">with</span><span class="ruby-operator">:</span> (<span class="ruby-identifier">candidate</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">candidate</span>.<span class="ruby-identifier">candidate_sheet</span>.<span class="ruby-identifier">parent_email_2</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;email&#39;</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Password&#39;</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;password&#39;</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Password confirmation&#39;</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;password&#39;</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_candidate_signed_in_and_not_new</span>
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Current password&#39;</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;password&#39;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">not_to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-string">&#39;Current password&#39;</span>, <span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;password&#39;</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_button</span>(<span class="ruby-identifier">submit_button</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_mass_mailing_html">
+            
+              <b>expect_mass_mailing_html</b>(candidates, rendered_or_page)
+            
+            <a href="../classes/ViewsHelpers.html#method-i-expect_mass_mailing_html" name="method-i-expect_mass_mailing_html" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_mass_mailing_html_source')" id="l_method-i-expect_mass_mailing_html_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_mass_mailing_html_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/views_helpers.rb, line 101</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_mass_mailing_html</span>(<span class="ruby-identifier">candidates</span>, <span class="ruby-identifier">rendered_or_page</span>)
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-string">&quot;form[action=&#39;/monthly_mass_mailing_update&#39;]&quot;</span>
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span>(<span class="ruby-node">&quot;input[type=&#39;submit&#39;][value=&#39;#{I18n.t(&#39;email.monthly_mail&#39;)}&#39;]&quot;</span>, <span class="ruby-identifier">count</span><span class="ruby-operator">:</span> <span class="ruby-number">2</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span>(<span class="ruby-node">&quot;input[id=&#39;top-update&#39;][type=&#39;submit&#39;][value=&#39;#{I18n.t(&#39;email.monthly_mail&#39;)}&#39;]&quot;</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.subject_label&#39;</span>), <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.subject_initial_text&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.pre_late_text_label&#39;</span>), <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.late_initial_text&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.pre_coming_due_text_label&#39;</span>), <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.coming_due_initial_text&#39;</span>))
+  <span class="ruby-comment"># had to break this into two parts because it could not be found together.  I think it is a bug with RSpec.</span>
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.completed_awaiting_text_label&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_content</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.completed_awaiting_initial_text&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.completed_text_label&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_content</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.completed_initial_text&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.closing_text_label&#39;</span>), <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.closing_initial_text&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.salutation_text_label&#39;</span>), <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.salutation_initial_text&#39;</span>))
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_field</span>(<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;email.from_text_label&#39;</span>), <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;Vicki Kristoff&#39;</span>)
+
+  <span class="ruby-identifier">expect_sorting_candidate_list</span>(<span class="ruby-identifier">common_columns</span>,
+                                <span class="ruby-identifier">candidates</span>,
+                                <span class="ruby-identifier">rendered_or_page</span>)
+
+  <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered_or_page</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span>(<span class="ruby-node">&quot;input[id=&#39;bottom-update&#39;][type=&#39;submit&#39;][value=&#39;#{I18n.t(&#39;email.monthly_mail&#39;)}&#39;]&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-expect_password_changed">
+            
+              <b>expect_password_changed</b>()
+            
+            <a href="../classes/ViewsHelpers.html#method-i-expect_password_changed" name="method-i-expect_password_changed" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-expect_password_changed_source')" id="l_method-i-expect_password_changed_source">show</a>
+                
+              </p>
+              <div id="method-i-expect_password_changed_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/views_helpers.rb, line 127</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">expect_password_changed</span>
+  <span class="ruby-identifier">lambda</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">candidate</span>, <span class="ruby-identifier">rendered</span>, <span class="ruby-identifier">td_index</span><span class="ruby-operator">|</span> <span class="ruby-identifier">expect</span>(<span class="ruby-identifier">rendered</span>).<span class="ruby-identifier">to</span> <span class="ruby-identifier">have_css</span> <span class="ruby-node">&quot;td[id=tr#{candidate.id}_td#{td_index}]&quot;</span>, <span class="ruby-identifier">text</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;true&#39;</span>}
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-setup_unknown_missing_events">
+            
+              <b>setup_unknown_missing_events</b>()
+            
+            <a href="../classes/ViewsHelpers.html#method-i-setup_unknown_missing_events" name="method-i-setup_unknown_missing_events" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-setup_unknown_missing_events_source')" id="l_method-i-setup_unknown_missing_events_source">show</a>
+                
+              </p>
+              <div id="method-i-setup_unknown_missing_events_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File spec/support/helpers/views_helpers.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">setup_unknown_missing_events</span>
+  <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">all_i18n_confirmation_event_names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i18n_name</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">i18n_confirmation_name</span> = <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-identifier">i18n_name</span>)
+    <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_event</span>(<span class="ruby-identifier">i18n_confirmation_name</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">i18n_name</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;events.sponsor_covenant&#39;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">AppFactory</span>.<span class="ruby-identifier">add_confirmation_event</span>(<span class="ruby-string">&#39;unknown event&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                    </div>
+
+    </div>
+  </body>
+</html>

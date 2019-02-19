@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>plugin.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../../../../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../../../css/github.css" type="text/css" media="screen" />
+<script src="../../../../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        
+        <h1>
+            plugin.js
+        </h1>
+        <ul class="files">
+            <li>public/assets/tinymce/plugins/spellchecker/plugin.js</li>
+            <li>Last modified: 2016-09-23 19:31:46 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<p>!function(a,b){“use strict”;function c(a,b){for(var <a
+href="f">c,d=[],f=0;f<a.length;++f){if(c=g[a</a>]||<a
+href="f">e(a</a>),!c)throw“module definition dependecy not found: ”+<a
+href="f">a</a>;d.push©}b.apply(null,d)}function
+d(a,d,e){if(“string”!=typeof a)throw“invalid module definition, module id
+must be defined and be a string”;if(d===b)throw“invalid module definition,
+dependencies must be specified”;if(e===b)throw“invalid module definition,
+definition function must be specified”;c(d,function(){<a
+href="a">g</a>=e.apply(null,arguments)})}function e(b){for(var <a
+href=".\/">c=a,d=b.split(/</a>/),e=0;e&lt;d.length;++e){<a
+href="e">if(!c[d</a>])<a href="e">return;c=c[d</a>]}return c}function
+f©{var d,e,f,h,i;for(d=0;d&lt;c.length;d++){<a href="d">e=a,f=c</a>,<a
+href=".\/">h=f.split(/</a>/);for(var <a
+href="j">j=0;j<h.length-1;++j)e[h</a>]===<a href="j">b&&(e[h</a>]={}),<a
+href="j">e=e[h</a>];<a href="h.length-1">e[h</a>]=<a
+href="f">g</a>}if(a.AMDLC_TESTS){i=a.privateModules||{};for(f in <a
+href="f">g)i</a>=<a href="f">g</a>;for(d=0;d&lt;c.length;d++)delete <a
+href="d">i[c</a>];a.privateModules=i}}var
+g={};d(“tinymce/spellcheckerplugin/DomTextMatcher”,[],function(){function
+a(a){return
+a&amp;&amp;1==a.nodeType&amp;&amp;“false”===a.contentEditable}return
+function(b,c){function d(a,b){<a
+href="0">if(!a</a>)throw“findAndReplaceDOMText cannot handle zero-length
+matches”;return{<a href="0">start:a.index,end:a.index+a</a>.<a
+href="0">length,text:a</a>,data:b}}function e(b){var
+c;if(3===b.nodeType)return <a
+href="b.nodeName">b.data;if(y</a>&amp;&amp;!<a href="b.nodeName">x</a>)<a
+href="b.nodeName">return“”;if(a(b))return“n”;if(c=“”,(x</a>||<a
+href="b.nodeName">z</a>)&amp;&amp;(c+=“n”),b=b.firstChild)do
+c+=e(b);while(b=b.nextSibling);return c}function f(b,c,d){var
+e,f,g,h,i,j=[],k=0,l=b,m=0;c=c.slice(0),c.sort(function(a,b){return
+a.start-b.start}),i=c.shift();a:for(;;){<a href="l.nodeName">if((x</a>||<a
+href="l.nodeName">z</a>||a(l))&amp;&amp;k++,3===l.nodeType&amp;&amp;(!f&amp;&amp;l.length+k&gt;=i.end?(f=l,h=i.end-k):e&amp;&amp;j.push(l),!e&amp;&amp;l.length+k&gt;i.start&amp;&amp;(e=l,g=i.start-k),k+=l.length),e&amp;&amp;f){if(l=d({startNode:e,startNodeIndex:g,endNode:f,endNodeIndex:h,innerNodes:j,match:i.text,matchIndex:m}),k-=f.length-h,e=null,f=null,j=[],i=c.shift(),m++,!i)break}else
+<a href="l.nodeName">if(y</a>&amp;&amp;!<a
+href="l.nodeName">x</a>||!l.firstChild){if(l.nextSibling){l=l.nextSibling;continue}}else
+if(!a(l)){l=l.firstChild;continue}for(;;){if(l.nextSibling){l=l.nextSibling;break}if(l.parentNode===b)break
+a;l=l.parentNode}}}function g(a){function b(b,c){var <a
+href="c">d=A</a>;d.stencil||(d.stencil=a(d));var
+e=d.stencil.cloneNode(!1);return
+e.setAttribute(“data-mce-index”,c),b&amp;&amp;e.appendChild(B.doc.createTextNode(b)),e}return
+function(a){var
+c,d,e,f=a.startNode,g=a.endNode,h=a.matchIndex,i=B.doc;if(f===g){var
+j=f;e=j.parentNode,a.startNodeIndex&gt;0&amp;&amp;(c=i.createTextNode(j.data.substring(0,a.startNodeIndex)),e.insertBefore(c,j));var
+k=b(a.match,h);return
+e.insertBefore(k,j),a.endNodeIndex&lt;j.length&amp;&amp;(d=i.createTextNode(j.data.substring(a.endNodeIndex)),e.insertBefore(d,j)),j.parentNode.removeChild(j),k}c=i.createTextNode(f.data.substring(0,a.startNodeIndex)),d=i.createTextNode(g.data.substring(a.endNodeIndex));for(var
+l=b(f.data.substring(a.startNodeIndex),h),m=[],n=0,o=a.innerNodes.length;o&gt;n;++n){var
+<a
+href="n">p=a.innerNodes</a>,q=b(p.data,h);p.parentNode.replaceChild(q,p),m.push(q)}var
+r=b(g.data.substring(0,a.endNodeIndex),h);return
+e=f.parentNode,e.insertBefore(c,f),e.insertBefore(l,f),e.removeChild(f),e=g.parentNode,e.insertBefore(r,g),e.insertBefore(d,g),e.removeChild(g),r}}function
+h(a){var
+b=a.parentNode;b.insertBefore(a.firstChild,a),a.parentNode.removeChild(a)}function
+i(a){var c=b.getElementsByTagName(“*”),d=[];a=“number”==typeof
+a?“”+a:null;for(var e=0;e&lt;c.length;e++){var <a
+href="e">f=c</a>,g=f.getAttribute(“data-mce-index”);null!==g&amp;&amp;g.length&amp;&amp;(g!==a&amp;&amp;null!==a||d.push(f))}return
+d}function j(a){for(var <a href="b">b=A.length;b–;)if(A</a>===a)return
+b;return-1}function k(a){var b=[];return
+l(function(c,d){a(c,d)&amp;&amp;b.push©}),A=b,this}function l(a){for(var <a
+href="b">b=0,c=A.length;c>b&&a(A</a>,b)!==!1;b++);return this}function
+m(a){return A.length&amp;&amp;f(b,A,g(a)),this}function
+n(a,b){if(w&amp;&amp;a.global)for(;v=a.exec(w);)A.push(d(v,b));return
+this}function o(a){var <a
+href="b">b,c=i(a?j(a):null);for(b=c.length;b–;)h(c</a>);return
+this}function p(a){return <a
+href="a.getAttribute("data-mce-index")">A</a>}function q(a){return <a
+href="0">i(j(a))</a>}function r(a,b,c){return
+A.push({start:a,end:a+b,text:w.substr(a,b),data:c}),this}function s(a){var
+b=i(j(a)),d=c.dom.createRng();return <a href="0">d.setStartBefore(b</a>),<a
+href="b.length-1">d.setEndAfter(b</a>),d}function t(a,b){var d=s(a);return
+d.deleteContents(),b.length&gt;0&amp;&amp;d.insertNode(c.dom.doc.createTextNode(b)),d}function
+u(){return A.splice(0,A.length),o(),this}var v,w,x,y,z,A=[],B=c.dom;return
+x=c.schema.getBlockElements(),y=c.schema.getWhiteSpaceElements(),z=c.schema.getShortEndedElements(),w=e(b),{text:w,matches:A,each:l,filter:k,reset:u,matchFromElement:p,elementFromMatch:q,find:n,add:r,wrap:m,unwrap:o,replace:t,rangeFromMatch:s,indexOf:j}}}),<a
+href=""tinymce/spellcheckerplugin/DomTextMatcher","tinymce/PluginManager","tinymce/util/Tools","tinymce/ui/Menu","tinymce/dom/DOMUtils","tinymce/util/XHR","tinymce/util/URI","tinymce/util/JSON"">d(“tinymce/spellcheckerplugin/Plugin”,</a>,function(a,b,c,d,e,f,g,h){b.add(“spellchecker”,function(b,i){function
+j(){return E.textMatcher||(E.textMatcher=new
+a(b.getBody(),b)),E.textMatcher}function k(a,b){var d=[];return
+c.each(b,function(a){d.push({selectable:!0,text:a.name,data:a.value})}),d}function
+l(a){for(var b in a)return!1;return!0}function m(a,f){var <a
+href="a">g=[],h=A</a>;c.each(h,function(a){g.push({text:a,onclick:function(){b.insertContent(b.dom.encode(a)),b.dom.remove(f),r()}})}),g.push({text:“-”}),D&amp;&amp;g.push({text:“Add
+to
+Dictionary”,onclick:function(){s(a,f)}}),g.push.apply(g,[{text:“Ignore”,onclick:function(){t(a,f)}},{text:“Ignore
+all”,onclick:function(){t(a,f,!0)}}]),C=new
+d({items:g,context:“contextmenu”,onautohide:function(a){-1!=a.target.className.indexOf(“spellchecker”)&amp;&amp;a.preventDefault()},onhide:function(){C.remove(),C=null}}),C.renderTo(document.body);var
+<a
+href="0">i=e.DOM.getPos(b.getContentAreaContainer()),j=b.dom.getPos(f</a>),<a
+href="0">k=b.dom.getRoot();“BODY”==k.nodeName?(j.x-=k.ownerDocument.documentElement.scrollLeft||k.scrollLeft,j.y-=k.ownerDocument.documentElement.scrollTop||k.scrollTop):(j.x-=k.scrollLeft,j.y-=k.scrollTop),i.x+=j.x,i.y+=j.y,C.moveTo(i.x,i.y+f</a>.offsetHeight)}function
+n(){return b.getParam(“spellchecker_wordchar_pattern”)||new <a
+href="\\">RegExp(‘[^\s!“#$%&()*+,-./:;<=>?@</a>^_{|}`xa7xa9xabxaexb1xb6xb7xb8xbbxbcxbdxbexbfxd7xf7xa4u201du201cu201exa0u2002u2003u2009]+&#39;,”g“)}function
+o(a,d,e,j){var k={method:a,lang:F.spellchecker_language},<a
+href=""addToDictionary"==a?"word":"text"">l=”“;k</a>=d,c.each(k,function(a,b){l&amp;&amp;(l+=”&amp;“),l+=b+”=“+encodeURIComponent(a)}),f.send({url:new
+g(i).toAbsolute(F.spellchecker_rpc_url),type:”post“,content_type:”application/x-www-form-urlencoded“,data:l,success:function(a){if(a=h.parse(a))a.error?j(a.error):e(a);else{var
+c=b.translate(”Server response wasn&#39;t proper
+JSON.“);j©}},error:function(){var a=b.translate(”The spelling service was
+not found: (“)+F.spellchecker_rpc_url+b.translate(”)“);j(a)}})}function
+p(a,b,c,d){var e=F.spellchecker_callback||o;e.call(E,a,b,c,d)}function
+q(){function
+a(a){b.notificationManager.open({text:a,type:”error“}),b.setProgressState(!1),u()}u()||(b.setProgressState(!0),p(”spellcheck“,j().text,y,a),b.focus())}function
+r(){b.dom.select(”span.mce-spellchecker-word“).length||u()}function
+s(a,c){b.setProgressState(!0),p(”addToDictionary“,a,function(){b.setProgressState(!1),b.dom.remove(c,!0),r()},function(a){b.notificationManager.open({text:a,type:”error“}),b.setProgressState(!1)})}function
+t(a,d,e){b.selection.collapse(),e?c.each(b.dom.select(”span.mce-spellchecker-word“),function©{c.getAttribute(”data-mce-word“)==a&amp;&amp;b.dom.remove(c,!0)}):b.dom.remove(d,!0),r()}function
+u(){return
+j().reset(),E.textMatcher=null,B?(B=!1,b.fire(”SpellcheckEnd“),!0):void
+0}function v(a){var
+b=a.getAttribute(”data-mce-index“);return”number“==typeof b?”“+b:b}function
+w(a){var
+d,e=[];if(d=c.toArray(b.getBody().getElementsByTagName(”span“)),d.length)for(var
+f=0;f&lt;d.length;f++){var <a href="f">g=v(d</a>);<a
+href="f">null!==g&&g.length&&g===a.toString()&&e.push(d</a>)}return
+e}function x(a){var
+b=F.spellchecker_language;a.control.items().each(function(a){a.active(a.settings.data===b)})}function
+y(a){var
+c;if(a.words?(D=!!a.dictionary,c=a.words):c=a,b.setProgressState(!1),l©){var
+d=b.translate(”No misspellings found.“);return
+b.notificationManager.open({text:d,type:”info“}),void(B=!1)}A=c,j().find(n()).filter(function(a){<a
+href="a.text">return!!c</a>}).wrap(function(a){return
+b.dom.create(”span“,{”class“:”mce-spellchecker-word“,”data-mce-bogus“:1,”data-mce-word“:a.text})}),B=!0,b.fire(”SpellcheckStart“)}var
+z,A,B,C,D,E=this,F=b.settings,G=F.spellchecker_languages||”English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr_FR,German=de,Italian=it,Polish=pl,Portuguese=pt_BR,Spanish=es,Swedish=sv“;z=k(”Language“,c.map(G.split(”,“),function(a){return
+a=a.split(”=“),{<a href="0">name:a</a>,<a
+href="1">value:a</a>}})),b.on(”click“,function(a){var
+c=a.target;if(”mce-spellchecker-word“==c.className){a.preventDefault();var
+d=w(v©);if(d.length&gt;0){var <a
+href="0">e=b.dom.createRng();e.setStartBefore(d</a>),<a
+href="d.length-1">e.setEndAfter(d</a>),b.selection.setRng(e),m(c.getAttribute(”data-mce-word“),d)}}}),b.addMenuItem(”spellchecker“,{text:”Spellcheck“,context:”tools“,onclick:q,selectable:!0,onPostRender:function(){var
+a=this;a.active(B),b.on(”SpellcheckStart
+SpellcheckEnd“,function(){a.active(B)})}});var
+H={tooltip:”Spellcheck“,onclick:q,onPostRender:function(){var
+a=this;b.on(”SpellcheckStart
+SpellcheckEnd“,function(){a.active(B)})}};z.length&gt;1&amp;&amp;(H.type=”splitbutton“,H.menu=z,H.onshow=x,H.onselect=function(a){F.spellchecker_language=a.control.settings.data}),b.addButton(”spellchecker“,H),b.addCommand(”mceSpellCheck“,q),b.on(”remove“,function(){C&amp;&amp;(C.remove(),C=null)}),b.on(”change“,r),this.getTextMatcher=j,this.getWordCharPattern=n,this.markErrors=y,this.getLanguage=function(){return
+F.spellchecker_language},F.spellchecker_language=F.spellchecker_language||F.language||”en“})}),<a
+href=""tinymce/spellcheckerplugin/DomTextMatcher"">f(</a>)}(this);</p>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+
+    </div>
+  </body>
+</html>
