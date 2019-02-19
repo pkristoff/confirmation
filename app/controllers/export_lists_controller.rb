@@ -71,7 +71,7 @@ class ExportListsController < ApplicationController
   #
   def confirmation_name
     external, to_be_verified, verified, not_complete = Candidate.confirmation_name_external_verification
-    p = create_xlsx(external, to_be_verified, verified, not_complete, 'Confirmation Names',
+    p = create_xlsx(external, to_be_verified, verified, not_complete, 'Confirm Names',
                     ExportListsController::CONFIRMATION_NAME_NAMES,
                     ExportListsController::CONFIRMATION_NAME_VALUES)
     send_data p.to_stream.read, type: 'application/xlsx', filename: 'confirmation_name.xlsx'
@@ -189,7 +189,7 @@ class ExportListsController < ApplicationController
   def create_xlsx(external_verify, verify, verified, not_complete, pre_title, extra_columns = [], value_lambdas = [])
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
-    add_wb(wb, external_verify, "#{pre_title} Ext Verify", extra_columns, value_lambdas)
+    add_wb(wb, external_verify, "#{pre_title} Externally Verify", extra_columns, value_lambdas)
     add_wb(wb, verify, "#{pre_title} Verify", extra_columns, value_lambdas)
     add_wb(wb, verified, "#{pre_title} Verified", extra_columns, value_lambdas)
     add_wb(wb, not_complete, "#{pre_title} Not Complete", extra_columns, value_lambdas)

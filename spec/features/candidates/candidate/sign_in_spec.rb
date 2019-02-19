@@ -71,7 +71,7 @@ feature 'Sign in', :devise do
                                        text: 'Resend initial instructions?')
     expect(page.html).to have_selector('a[href="/dev/candidates/password/new"]',
                                        text: 'Forgot your password?')
-    click_link 'Resend confirmation instructions?'
+    click_link 'Resend initial instructions?'
     expect(page.html).to have_button('Resend initial instructions')
     expect_field('Email', '')
     fill_in('Email', with: 'aaa@bbb.com')
@@ -88,7 +88,7 @@ feature 'Sign in', :devise do
     AppFactory.add_confirmation_events
     create_candidate('c1', false)
     visit new_candidate_session_path
-    click_link 'Resend confirmation instructions?'
+    click_link 'Resend initial instructions?'
     expect(page.html).to have_button('Resend initial instructions')
     fill_in('Email', with: 'c3last_name.c3first_name@test.com')
     click_button('Resend initial instructions')

@@ -62,7 +62,7 @@ describe ExportListsController do
     @c1.get_candidate_event(I18n.t('events.confirmation_name')).completed_date = @today
     @c1.save
 
-    expect_send_data([], [@c1], [], [@c2], 'Confirmation Names', 'confirmation_name.xlsx', :confirmation_name,
+    expect_send_data([], [@c1], [], [@c2], 'Confirm Names', 'confirmation_name.xlsx', :confirmation_name,
                      ExportListsController::CONFIRMATION_NAME_NAMES,
                      ExportListsController::CONFIRMATION_NAME_VALUES)
   end
@@ -91,7 +91,7 @@ end
 def check_workbook(package, extra_colum = nil, column_values = nil)
   package.workbook do |wb|
     expect(wb.worksheets.size).to eq(4)
-    ['Ext Verify', 'Verify', 'Verified', 'Not Complete'].each_with_index do |str, i|
+    ['Externally Verify', 'Verify', 'Verified', 'Not Complete'].each_with_index do |str, i|
       expect(wb.worksheets[i].name).to eq("foo #{str}")
     end
     ws = wb.worksheets.second
