@@ -230,7 +230,7 @@ describe Candidate do
       @c4.get_candidate_event(event_key).completed_date = @today
       @c4.save
 
-      expect_external_verification(Candidate.baptismal_external_verification, [@c2, @c4], [@c1], [], [@c3])
+      expect_external_verification(Candidate.baptismal_external_verification, [@c2], [@c1, @c4], [], [@c3])
     end
 
     it 'confirmation_name_external_verification' do
