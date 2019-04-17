@@ -155,7 +155,7 @@ class CandidateSheet < ApplicationRecord
     self.parent_email_1 = value
   end
 
-  # returns false - used by Factory Girl
+  # returns true - used by Factory Girl
   #
   # === Returns:
   #

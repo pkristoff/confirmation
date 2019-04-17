@@ -367,11 +367,12 @@ class SendGridMail
   def send_email(subject_mail_part, attach_file, body_mail_part, email_type, delivery_call, test_subject = nil)
     last_failed_response = nil
     response = nil
+    content = attach_file.read unless attach_file.nil?
 
     @candidates.each do |candidate|
       sg_mail = create_mail((test_subject.nil? ? subject_mail_part : MailPart.new_subject(test_subject.call(candidate))), email_type, candidate.account_name)
 
-      add_attachment_file(attach_file, sg_mail) unless attach_file.nil?
+      add_attachment_file(attach_file, sg_mail, content) unless attach_file.nil?
 
       create_personalization(candidate, sg_mail, test_subject ? @admin : nil)
 
@@ -380,10 +381,9 @@ class SendGridMail
       sg_mail.add_content(SendGrid::Content.new(type: 'text/html', value: expanded_text))
 
       response = post_email(sg_mail)
-
-      next if response.status_code[0] != '2'
+      next if response.status_code[0].to_s == '2'
       last_failed_response = response
-      Rails.logger.info("Skipping sending #{email_type} message for #{candidate.account_name} because of a bad response")
+      Rails.logger.info("Bad response for #{email_type} message for #{candidate.account_name} because of a bad response: #{response.status_code}")
       Rails.logger.info("Status=#{response.status_code} body=#{response.body}")
     end
     last_failed_response || response
@@ -435,29 +435,20 @@ class SendGridMail
     Rails.logger.info("Status=#{response.status_code} body=#{response.body}") if response.status_code[0] != '2'
   end
 
-  def add_attachment_file(attach_file, sg_mail)
-    uploaded_file = attach_file
-
+  def add_attachment_file(attach_file, sg_mail, content)
     attachment = Attachment.new
-    content = uploaded_file.read
-    # Rails.logger.info("content.encoding=#{content.encoding}")
     content64 = Base64.strict_encode64(content)
-    # Rails.logger.info("content64.encoding=#{content64.encoding}")
     attachment.content = content64
-    attachment.type = uploaded_file.content_type
-    attachment.filename = uploaded_file.original_filename
+    attachment.type = attach_file.content_type
+    attachment.filename = attach_file.original_filename
     attachment.disposition = 'attachment'
     sg_mail.add_attachment(attachment)
   end
 
   def add_attachment_file_xlxs(attach_file, sg_mail, path)
-    uploaded_file = attach_file
-
     attachment = Attachment.new
-    content = uploaded_file.read
-    # Rails.logger.info("content.encoding=#{content.encoding}")
+    content = attach_file.read
     content64 = Base64.strict_encode64(content)
-    # Rails.logger.info("content64.encoding=#{content64.encoding}")
     attachment.content = content64
     attachment.type = 'application/xlsx'
     attachment.filename = path
@@ -465,20 +456,18 @@ class SendGridMail
     sg_mail.add_attachment(attachment)
   end
 
-  def add_attachment_file_zip(attach_file, sg_mail, path)
-    uploaded_file = attach_file
-
-    attachment = Attachment.new
-    content = uploaded_file.read
-    # Rails.logger.info("content.encoding=#{content.encoding}")
-    content64 = Base64.strict_encode64(content)
-    # Rails.logger.info("content64.encoding=#{content64.encoding}")
-    attachment.content = content64
-    attachment.type = 'application/zip'
-    attachment.filename = path
-    attachment.disposition = 'attachment'
-    sg_mail.add_attachment(attachment)
-  end
+  # def add_attachment_file_zip(attach_file, sg_mail, path)
+  #   uploaded_file = attach_file
+  #
+  #   attachment = Attachment.new
+  #   content = uploaded_file.read
+  #   content64 = Base64.strict_encode64(content)
+  #   attachment.content = content64
+  #   attachment.type = 'application/zip'
+  #   attachment.filename = path
+  #   attachment.disposition = 'attachment'
+  #   sg_mail.add_attachment(attachment)
+  # end
 
   #
   # Generates email body for adhoc email
