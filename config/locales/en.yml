@@ -62,9 +62,9 @@ en:
       mother: Mother name
       scan: Baptismal certificate
     candidate_sheet:
-      address: "Candidate's Address"
-      email: "Email Addresses - Do NOT enter the same address on more than one line."
-      name: "Candidate's name (as it appears on your Baptismal Certificate):"
+      address: Candidate's Address
+      email: Email Addresses - Do NOT enter the same address on more than one line.
+      name: 'Candidate''s name (as it appears on your Baptismal Certificate):'
       other: Other
     christian_ministry:
       questions: Answer questions
