@@ -75,7 +75,7 @@ en:
       info: Info
       scan: Retreat Verification Form
     sponsor_covenant:
-      sponsor_covenant: Sponsor covenant & Sponsor Eligibility
+      sponsor_covenant: Sponsor covenant
       sponsor_eligibility: Sponsor eligibility
   home_parish:
     name: St. Mary Magdalene
@@ -155,7 +155,7 @@ en:
     sponsor_covenant:
       sponsor_attends_stmm: Sponsor registered at Saint Mary Magdalene
       sponsor_church: Sponsor's church
-      sponsor_covenant_picture: Sponsor Covenant & Sponsor Eligibility
+      sponsor_covenant_picture: Sponsor Covenant
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
       sponsor_name: Sponsor's Name
     visitor:

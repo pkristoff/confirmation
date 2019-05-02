@@ -107,14 +107,16 @@ class ExportListsController < ApplicationController
   end
 
   SPONSOR_COLUMNS =
-    [I18n.t('label.sponsor_covenant.sponsor_attends_stmm'),
-     I18n.t('label.sponsor_covenant.sponsor_name'),
+    [I18n.t('label.sponsor_covenant.sponsor_name'),
+     I18n.t('label.sponsor_covenant.sponsor_covenant_picture'),
+     I18n.t('label.sponsor_covenant.sponsor_attends_stmm'),
      I18n.t('label.sponsor_covenant.sponsor_church'),
      I18n.t('label.sponsor_covenant.sponsor_eligibility_picture')].freeze
 
   SPONSOR_VALUES =
-    [->(candidate) { candidate.sponsor_covenant.sponsor_attends_stmm },
-     ->(candidate) { candidate.sponsor_covenant.sponsor_name },
+    [->(candidate) { candidate.sponsor_covenant.sponsor_name },
+     ->(candidate) { !candidate.sponsor_covenant.scanned_covenant.nil? },
+     ->(candidate) { candidate.sponsor_covenant.sponsor_attends_stmm },
      ->(candidate) { candidate.sponsor_covenant.sponsor_church },
      ->(candidate) { !candidate.sponsor_covenant.scanned_eligibility.nil? }].freeze
 
