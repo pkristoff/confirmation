@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.5.1'
+ruby '2.5.5'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'bootstrap-sass'
 gem 'coffee-rails'

@@ -48,7 +48,7 @@ class Candidate < ApplicationRecord
 
   # turn off sending verify instructions until admin sends it.
   #
-  def send_on_create_confirmation_instructions() end
+  def send_on_create_confirmation_instructions(); end
 
   # Sorts candidate events in priorty order (to be cmpleted first)
   #
@@ -331,9 +331,8 @@ class Candidate < ApplicationRecord
   #
   def self.reset_password_by_token(resource_params)
     candidate = super(resource_params)
-    if candidate.errors.empty? && !candidate.account_confirmed?
-      candidate.skip_confirmation!
-    end
+    candidate.skip_confirmation! if candidate.errors.empty? && !candidate.account_confirmed?
+
     candidate
   end
 

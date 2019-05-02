@@ -191,6 +191,7 @@ class CandidateImport
   #
   def clean_associations(clazz, checked = [], do_not_destroy = [Admin, ConfirmationEvent])
     return if (checked.include? clazz) || (do_not_destroy.include? clazz)
+
     checked << clazz
     begin
       clazz.destroy_all
@@ -282,6 +283,7 @@ class CandidateImport
     @cache = {} if @cache.nil?
     ids = @cache[class_sym]
     return ids unless ids.nil?
+
     ids = case class_sym
           when :Candidate
             Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id,
@@ -538,6 +540,7 @@ class CandidateImport
 
   def content_type(type)
     return type if type.blank?
+
     type.split('/')[1]
   end
 
@@ -653,10 +656,12 @@ class CandidateImport
   #
   def get_columns(params, columns, prefix = '')
     return columns if params.empty?
+
     params.each do |param|
       if param.is_a?(Hash)
         param.each_key do |key|
           next if key == :candidate_events_attributes
+
           key_str = key.to_s
           xxx = key_str[0, key_str.size - 11] # 11 = ('_attributes'.size)
           get_columns(param[key], columns, (prefix.empty? ? xxx : "#{prefix}.#{xxx}"))
@@ -686,6 +691,7 @@ class CandidateImport
   def load_imported_candidates
     # uploaded_file is an xlsx, either initial file or an exported file.
     return unless uploaded_file
+
     candidates = []
     @candidate_to_row = {}
     spreadsheet = open_spreadsheet
@@ -818,6 +824,7 @@ class CandidateImport
         column_name_split = header_row[index].split('.')
         next if cell.nil?
         next if column_name_split[0] == 'index'
+
         confirmation_event.send("#{column_name_split[0]}=", cell)
       end
       confirmation_event.save
@@ -910,9 +917,8 @@ class CandidateImport
         candidate_sheet_params[:first_name] = first_name
         candidate_sheet_params[:grade] = grade.empty? ? 10 : grade.slice(/^\D*[\d]*/)
         clean_item = ActionView::Base.full_sanitizer.sanitize(candidate_email)
-        unless clean_item.empty?
-          candidate_sheet_params[:candidate_email] = clean_item
-        end
+        candidate_sheet_params[:candidate_email] = clean_item unless clean_item.empty?
+
         clean_item = ActionView::Base.full_sanitizer.sanitize(parent_email)
         unless clean_item.empty?
           item_split = clean_item.split(',')

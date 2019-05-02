@@ -97,6 +97,7 @@ class ExportExcelCandJob
   #
   def content_type(type)
     return type if type.blank?
+
     type.split('/')[1]
   end
 

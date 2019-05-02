@@ -34,10 +34,12 @@ class BaptismalCertificate < ApplicationRecord
       false
     when 1
       return true if baptized_at_stmm
+
       errors[:base] << 'I received First Communion at Saint Mary Magdalene should be checked.' # TODO: I18n
       false
     when 2
       return true if first_comm_at_stmm
+
       validate_other_info
     else
       raise("Unknown show_empty_radio value: #{show_empty_radio}")

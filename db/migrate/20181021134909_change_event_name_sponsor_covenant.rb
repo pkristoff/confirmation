@@ -6,13 +6,13 @@ class ChangeEventNameSponsorCovenant < ActiveRecord::Migration[5.2]
     new_value = I18n.t('events.sponsor_covenant')
     ce.name = new_value if ce
     ce.save if ce
-    raise(RuntimeError, "Confirmation Event not found: #{OLD_VALUE} (old value") unless ce
+    raise(RuntimeError, "Confirmation Event not found: #{OLD_VALUE} (old value)") unless ce
   end
   def self.down
     new_value = I18n.t('events.sponsor_covenant')
     ce = ConfirmationEvent.find_by(name: new_value)
     ce.name = OLD_VALUE if ce
     ce.save if ce
-    raise(RuntimeError, "Confirmation Event not found: #{new_value} (new value") unless ce
+    raise(RuntimeError, "Confirmation Event not found: #{new_value} (new value)") unless ce
   end
 end

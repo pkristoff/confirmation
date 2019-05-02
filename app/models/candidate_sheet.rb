@@ -193,6 +193,7 @@ class CandidateSheet < ApplicationRecord
   #
   def validate_email(email)
     return true if email.blank?
+
     email =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   end
 
@@ -229,6 +230,7 @@ class CandidateSheet < ApplicationRecord
   def to_email
     return candidate_email if candidate_email.present?
     return parent_email_1 if parent_email_1.present?
+
     parent_email_2
   end
 
@@ -244,9 +246,11 @@ class CandidateSheet < ApplicationRecord
   def cc_email
     if candidate_email.blank?
       return parent_email_2 if parent_email_1.present?
+
       ''
     else
       return parent_email_1 if parent_email_1.present?
+
       parent_email_2
     end
   end
@@ -261,6 +265,7 @@ class CandidateSheet < ApplicationRecord
   #
   def cc_email_2
     return parent_email_2 unless candidate_email.blank? || parent_email_1.blank?
+
     ''
   end
 end

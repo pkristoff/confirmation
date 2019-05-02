@@ -168,6 +168,7 @@ class MailPart
   #
   def checkbox_checked
     return 'checked=checked' if show
+
     ''
   end
 

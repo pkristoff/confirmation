@@ -29,9 +29,8 @@ class ConfirmationEvent < ApplicationRecord
   def scrub_instructions
     # the UI should do this but it always good make sure here.
     # depending on migration this may not have instructions
-    if respond_to?(:instructions)
-      self.instructions = Loofah.fragment(instructions).scrub!(:prune).scrub!(:whitewash)
-    end
+    self.instructions = Loofah.fragment(instructions).scrub!(:prune).scrub!(:whitewash) if respond_to?(:instructions)
+
     true
   end
 end

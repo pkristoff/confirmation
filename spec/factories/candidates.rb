@@ -21,12 +21,9 @@ FactoryBot.define do
       # overwrite the already created address
       candidate.candidate_sheet.address&.destroy
       candidate.candidate_sheet.address = FactoryBot.create(:address)
-      if evaluator.add_new_confirmation_events && candidate.candidate_events.size <= 0
-        candidate.candidate_events = create_candidate_events
-      end
-      if evaluator.add_candidate_events
-        AppFactory.add_candidate_events(candidate)
-      end
+      candidate.candidate_events = create_candidate_events if evaluator.add_new_confirmation_events && candidate.candidate_events.size <= 0
+
+      AppFactory.add_candidate_events(candidate) if evaluator.add_candidate_events
     end
   end
 end

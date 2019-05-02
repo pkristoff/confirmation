@@ -42,6 +42,7 @@ module RuboCop
 
         def check(node)
           return if non_public?(node)
+
           # return if documentation_comment?(node)
           prk_documentation_comment(node)
         end
@@ -83,12 +84,12 @@ module RuboCop
         MSG_RANGE_BODY_EMPTY = '%s body is empty.'
 
         #   https://regex101.com/
-        DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}
-        DOC_RET_REGEXP = %r{^# \* <tt>([:\w]+)</tt>}
-        DOC_SUB_PARM_REGEXP = %r{^# \** <code>([\.:\w ]+-*[\.:\w ]+)<\/code>([\.:\w ]*-*[\.:\w ]*)}
-        RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/
-        ATTR_REGEXP = /^[ ]*#[ ]*===[ ]*Attributes:/
-        PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/
+        DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}.freeze
+        DOC_RET_REGEXP = %r{^# \* <tt>([:\w]+)</tt>}.freeze
+        DOC_SUB_PARM_REGEXP = %r{^# \** <code>([\.:\w ]+-*[\.:\w ]+)<\/code>([\.:\w ]*-*[\.:\w ]*)}.freeze
+        RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/.freeze
+        ATTR_REGEXP = /^[ ]*#[ ]*===[ ]*Attributes:/.freeze
+        PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/.freeze
 
         def add_format(message)
           format(message, @method_name)
@@ -100,6 +101,7 @@ module RuboCop
 
         def before(beg1, beg2)
           return true if beg1.empty? || beg2.empty?
+
           beg1[1] < beg2[1]
         end
 
@@ -167,6 +169,7 @@ module RuboCop
           body.each_with_index do |line, _i|
             # puts "check_body loop text=#{line.text}"
             next if range.empty_comm?(line)
+
             found = true
             text = line.text.to_s
             if range.returns?
@@ -254,6 +257,7 @@ module RuboCop
         def match_parms_to_args(args, pns)
           pns.each_with_index do |param_pair, i|
             break if args[i].nil?
+
             arg_name = get_arg_name(args[i])
             param_line = param_pair[0]
             param_name = param_pair[1]
@@ -266,6 +270,7 @@ module RuboCop
           name = arg.node_parts[0].to_s
           # handle unused arguments, which begin with _
           return name[1...name.size] if name[0] == '_'
+
           name
         end
       end
@@ -276,7 +281,7 @@ end
 class MethodDocRange
   attr_accessor(:end, :start, :type)
 
-  DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}
+  DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}.freeze
   PARM_START = '# * <tt>:'
   PARM_END = '</tt>'
 
@@ -287,6 +292,7 @@ class MethodDocRange
 
   def before?(method_doc_range)
     return true if missing? || method_doc_range.missing?
+
     @start < method_doc_range.start
   end
 

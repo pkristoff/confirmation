@@ -33,18 +33,16 @@ class RegistrationsController < Devise::RegistrationsController
   # destroy Candidate
   #
   def destroy
-    unless admin_signed_in?
-      return redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.remove_candidate'))
-    end
+    return redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.remove_candidate')) unless admin_signed_in?
+
     super
   end
 
   # new Candidate
   #
   def new
-    unless admin_signed_in?
-      return redirect_back fallback_location: new_admin_registration_path, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin'))
-    end
+    return redirect_back fallback_location: new_admin_registration_path, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin')) unless admin_signed_in?
+
     super
   end
 
