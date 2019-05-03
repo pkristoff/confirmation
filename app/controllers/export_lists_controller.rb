@@ -42,6 +42,19 @@ class ExportListsController < ApplicationController
      ->(candidate) { candidate.baptismal_certificate.church_address.zip_code },
      ->(candidate) { !candidate.baptismal_certificate.scanned_certificate.nil? }].freeze
 
+  # downloads pdf file with candidate name and scanned Bap Cert if ready to be verified.
+  #
+  # === Returns:
+  #
+  # * <tt>send_data</tt> for spreadsheet
+  #
+  def bap_name
+    pdf = CandidateNamePDFDocument.new
+    send_data pdf.render,
+              filename: pdf.document_name,
+              type: 'application/pdf'
+  end
+
   # downloads spreadsheet for event baptism per candidate
   #
   # === Returns:

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'export_lists/baptism'
   get 'export_lists/sponsor'
   get 'export_lists/events'
+  get 'export_lists/bap_name'
 
   resources :candidate_imports
 
