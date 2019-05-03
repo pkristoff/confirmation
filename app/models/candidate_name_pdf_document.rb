@@ -10,7 +10,7 @@ class CandidateNamePDFDocument < Prawn::Document
   #
   def initialize
     super()
-    @candidates = Candidate.reject do |cand|
+    @candidates = Candidate.all.reject do |cand|
       ev = cand.get_candidate_event(I18n.t('events.baptismal_certificate'))
       ev.completed_date.nil?
     end
