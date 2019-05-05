@@ -51,7 +51,7 @@ class ExportListsController < ApplicationController
   def bap_name
     pdf = CandidateNamePDFDocument.new
     send_data pdf.render,
-              filename: pdf.document_name,
+              filename: CandidateNamePDFDocument.document_name,
               type: 'application/pdf'
   end
 

@@ -4,6 +4,52 @@ require 'rails_helper'
 
 describe CandidatePDFDocument, type: :model do
   before(:each) do
+    @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
+    @candidate1.candidate_sheet.first_name='cc1'
+    @candidate2 = FactoryBot.create(:candidate, account_name: 'c2', add_new_confirmation_events: false)
+    @candidate2.candidate_sheet.first_name='cc2'
+    @candidate1.save
+    @candidate2.save
+    puts @candidate1.account_name
+    puts @candidate2.account_name
+    AppFactory.add_confirmation_events
+  end
+  it 'should generate document name' do
+    document_name = CandidateNamePDFDocument.document_name
+    expect(document_name).to eq('Compare Baptismal Name.pdf')
+  end
+  it 'should generate a document' do
+    ev = @candidate1.get_candidate_event(I18n.t('events.baptismal_certificate'))
+    ev.completed_date = Date.today
+    bc = @candidate1.baptismal_certificate
+    bc.baptized_at_stmm=true
+    bc.save
+    ev.save
+    ev = @candidate2.get_candidate_event(I18n.t('events.baptismal_certificate'))
+    ev.completed_date = Date.today
+    ev.verified = true
+    picture = nil
+    bc = @candidate2.baptismal_certificate
+    filename = 'actions.png'
+    File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+      picture = f.read
+      end
+    bc.scanned_certificate = ::ScannedImage.new(
+      filename: filename,
+      content_type: 'image/png',
+      content: picture
+    )
+    bc.save
+    ev.save
+    pdf = CandidateNamePDFDocument.new
+    expect(pdf.candidates.size).to eq(1)
+    expect(pdf.candidates[0].bap_first_name).to eq('cc1')
+    pdf
+  end
+
+end
+describe CandidatePDFDocument, type: :model do
+  before(:each) do
     AppFactory.add_confirmation_events
   end
   describe 'other tests that dont generate the file' do

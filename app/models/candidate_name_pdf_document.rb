@@ -6,20 +6,23 @@
 class CandidateNamePDFDocument < Prawn::Document
   include Magick
 
+  attr_accessor :candidates
+
   # init
   #
   def initialize
     super()
-    @candidates = Candidate.all.reject do |cand|
-      ev = cand.get_candidate_event(I18n.t('events.baptismal_certificate'))
-      ev.completed_date.nil?
+    bc_id = ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')).id
+    candidate_infos = PluckCan.pluck_bap_candidates
+    @candidates = candidate_infos.select do |pluck_can|
+      !pluck_can.verified & !pluck_can.completed_date.nil?
     end
     do_document
   end
 
   # name of pdf
   #
-  def document_name
+  def self.document_name
     'Compare Baptismal Name.pdf'
   end
 
@@ -39,13 +42,16 @@ class CandidateNamePDFDocument < Prawn::Document
   # * <tt>:candidate</tt> candidate waiting verification
   #
   def page(candidate)
-    start_new_page
-    define_grid_page
-    grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", candidate.candidate_sheet.first_name)
-    grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.middle_name')}:", candidate.candidate_sheet.middle_name)
-    grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.last_name')}:", candidate.candidate_sheet.last_name)
+    baptismal_certificate = BaptismalCertificate.find_by(id: candidate.bap_bc_id)
+    unless baptismal_certificate.baptized_at_stmm
+      start_new_page
+      define_grid_page
+      grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", candidate.bap_first_name)
+      grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.middle_name')}:", candidate.bap_middle_name)
+      grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.last_name')}:", candidate.bap_last_name)
 
-    common_image(candidate.baptismal_certificate.scanned_certificate)
+      common_image(baptismal_certificate.scanned_certificate)
+    end
   end
 
   # Generate title page

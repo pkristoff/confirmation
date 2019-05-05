@@ -56,6 +56,34 @@ class PluckCan
     end
   end
 
+  def bap_first_name
+    @cand_info[1]
+  end
+
+  def bap_middle_name
+    @cand_info[2]
+  end
+
+  def bap_last_name
+    @cand_info[3]
+  end
+
+  def bap_bc_id
+    @cand_info[4]
+  end
+
+  def self.pluck_bap_candidates
+    candidate_events = pluck_cand_events
+    Rails.logger.info("candidate_events=#{candidate_events}")
+    Candidate.joins(:candidate_sheet).pluck(:id, :first_name, :middle_name, :last_name, :baptismal_certificate_id).map do |cand_info|
+      candidate_id = cand_info[0]
+      event = candidate_events[candidate_id].find do |cand_event_for_cand|
+        cand_event_for_cand[3] == I18n.t('events.baptismal_certificate')
+      end
+      PluckCan.new(cand_info, candidate_events, event)
+    end
+  end
+
   # Gather candidate_events information
   #
   # === Parameters:
