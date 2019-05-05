@@ -12,10 +12,20 @@ class CandidateNamePDFDocument < Prawn::Document
   #
   def initialize
     super()
-    bc_id = ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')).id
     candidate_infos = PluckCan.pluck_bap_candidates
     @candidates = candidate_infos.select do |pluck_can|
-      !pluck_can.verified & !pluck_can.completed_date.nil?
+      baptismal_certificate = BaptismalCertificate.find_by(id: pluck_can.bap_bc_id)
+      if pluck_can.verified
+        false
+      elsif pluck_can.completed_date.nil?
+        false
+      elsif baptismal_certificate.baptized_at_stmm
+        false
+      elsif baptismal_certificate.first_comm_at_stmm
+        false
+      else
+        true
+      end
     end
     do_document
   end
@@ -43,15 +53,13 @@ class CandidateNamePDFDocument < Prawn::Document
   #
   def page(candidate)
     baptismal_certificate = BaptismalCertificate.find_by(id: candidate.bap_bc_id)
-    unless baptismal_certificate.baptized_at_stmm
-      start_new_page
-      define_grid_page
-      grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", candidate.bap_first_name)
-      grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.middle_name')}:", candidate.bap_middle_name)
-      grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.last_name')}:", candidate.bap_last_name)
+    start_new_page
+    define_grid_page
+    grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", candidate.bap_first_name)
+    grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.middle_name')}:", candidate.bap_middle_name)
+    grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.last_name')}:", candidate.bap_last_name)
 
-      common_image(baptismal_certificate.scanned_certificate)
-    end
+    common_image(baptismal_certificate.scanned_certificate)
   end
 
   # Generate title page

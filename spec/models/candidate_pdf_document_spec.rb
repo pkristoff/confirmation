@@ -2,16 +2,57 @@
 
 require 'rails_helper'
 
+def setup_candidate1
+  ev = @candidate1.get_candidate_event(I18n.t('events.baptismal_certificate'))
+  ev.completed_date = Time.zone.today
+  bc = @candidate1.baptismal_certificate
+  bc.baptized_at_stmm = true
+  bc.save
+  ev.save
+end
+
+def setup_candidate2
+  ev = @candidate2.get_candidate_event(I18n.t('events.baptismal_certificate'))
+  ev.completed_date = Time.zone.today
+  ev.verified = false
+  picture = nil
+  bc = @candidate2.baptismal_certificate
+  filename = 'actions.png'
+  File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+    picture = f.read
+  end
+  bc.baptized_at_stmm = false
+  bc.first_comm_at_stmm = false
+  bc.scanned_certificate = ::ScannedImage.new(
+    filename: filename,
+    content_type: 'image/png',
+    content: picture
+  )
+  bc.save
+  ev.save
+end
+
+def setup_candidate3
+  ev = @candidate3.get_candidate_event(I18n.t('events.baptismal_certificate'))
+  ev.completed_date = Time.zone.today
+  bc = @candidate3.baptismal_certificate
+  bc.baptized_at_stmm = false
+  bc.first_comm_at_stmm = true
+  bc.save
+  ev.save
+end
+
 describe CandidatePDFDocument, type: :model do
   before(:each) do
     @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
-    @candidate1.candidate_sheet.first_name='cc1'
+    @candidate1.candidate_sheet.first_name = 'cc1'
     @candidate2 = FactoryBot.create(:candidate, account_name: 'c2', add_new_confirmation_events: false)
-    @candidate2.candidate_sheet.first_name='cc2'
+    @candidate2.candidate_sheet.first_name = 'cc2'
+    @candidate3 = FactoryBot.create(:candidate, account_name: 'c3', add_new_confirmation_events: false)
+    @candidate3.candidate_sheet.first_name = 'cc3'
     @candidate1.save
     @candidate2.save
-    puts @candidate1.account_name
-    puts @candidate2.account_name
+    @candidate3.save
     AppFactory.add_confirmation_events
   end
   it 'should generate document name' do
@@ -19,35 +60,16 @@ describe CandidatePDFDocument, type: :model do
     expect(document_name).to eq('Compare Baptismal Name.pdf')
   end
   it 'should generate a document' do
-    ev = @candidate1.get_candidate_event(I18n.t('events.baptismal_certificate'))
-    ev.completed_date = Date.today
-    bc = @candidate1.baptismal_certificate
-    bc.baptized_at_stmm=true
-    bc.save
-    ev.save
-    ev = @candidate2.get_candidate_event(I18n.t('events.baptismal_certificate'))
-    ev.completed_date = Date.today
-    ev.verified = true
-    picture = nil
-    bc = @candidate2.baptismal_certificate
-    filename = 'actions.png'
-    File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
-      picture = f.read
-      end
-    bc.scanned_certificate = ::ScannedImage.new(
-      filename: filename,
-      content_type: 'image/png',
-      content: picture
-    )
-    bc.save
-    ev.save
+    setup_candidate1
+    setup_candidate2
+    setup_candidate3
     pdf = CandidateNamePDFDocument.new
     expect(pdf.candidates.size).to eq(1)
-    expect(pdf.candidates[0].bap_first_name).to eq('cc1')
+    expect(pdf.candidates[0].bap_first_name).to eq('cc2')
     pdf
   end
-
 end
+
 describe CandidatePDFDocument, type: :model do
   before(:each) do
     AppFactory.add_confirmation_events

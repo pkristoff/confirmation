@@ -56,22 +56,52 @@ class PluckCan
     end
   end
 
+  # return first name based on pluck_bap_candidates
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>first name
+  #
   def bap_first_name
     @cand_info[1]
   end
 
+  # return middle name based on pluck_bap_candidates
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>middle name
+  #
   def bap_middle_name
     @cand_info[2]
   end
 
+  # return last name based on pluck_bap_candidates
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>last name
+  #
   def bap_last_name
     @cand_info[3]
   end
 
+  # return baptismal certificate id based on pluck_bap_candidates
+  #
+  # === Returns:
+  #
+  # * <tt>Integer</tt>baptismal certificate id
+  #
   def bap_bc_id
     @cand_info[4]
   end
 
+  # Gather baptismal certificate info
+  #
+  # === Returns:
+  #
+  # Array of baptismal certificate information
+  #
   def self.pluck_bap_candidates
     candidate_events = pluck_cand_events
     Rails.logger.info("candidate_events=#{candidate_events}")
