@@ -15,9 +15,7 @@ class CandidateNamePDFDocument < Prawn::Document
     candidate_infos = PluckCan.pluck_bap_candidates
     @candidates = candidate_infos.select do |pluck_can|
       baptismal_certificate = BaptismalCertificate.find_by(id: pluck_can.bap_bc_id)
-      if pluck_can.verified
-        false
-      elsif pluck_can.completed_date.nil?
+      if pluck_can.completed_date.nil?
         false
       elsif baptismal_certificate.baptized_at_stmm
         false

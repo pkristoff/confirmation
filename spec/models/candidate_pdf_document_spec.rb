@@ -42,30 +42,56 @@ def setup_candidate3
   ev.save
 end
 
+def setup_candidate4
+  ev = @candidate4.get_candidate_event(I18n.t('events.baptismal_certificate'))
+  ev.completed_date = Time.zone.today
+  ev.verified = true
+  picture = nil
+  bc = @candidate4.baptismal_certificate
+  filename = 'actions.png'
+  File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+    picture = f.read
+  end
+  bc.baptized_at_stmm = false
+  bc.first_comm_at_stmm = false
+  bc.scanned_certificate = ::ScannedImage.new(
+    filename: filename,
+    content_type: 'image/png',
+    content: picture
+  )
+  bc.save
+  ev.save
+end
+
 describe CandidatePDFDocument, type: :model do
   before(:each) do
-    @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
-    @candidate1.candidate_sheet.first_name = 'cc1'
-    @candidate2 = FactoryBot.create(:candidate, account_name: 'c2', add_new_confirmation_events: false)
-    @candidate2.candidate_sheet.first_name = 'cc2'
-    @candidate3 = FactoryBot.create(:candidate, account_name: 'c3', add_new_confirmation_events: false)
-    @candidate3.candidate_sheet.first_name = 'cc3'
-    @candidate1.save
-    @candidate2.save
-    @candidate3.save
-    AppFactory.add_confirmation_events
   end
   it 'should generate document name' do
     document_name = CandidateNamePDFDocument.document_name
     expect(document_name).to eq('Compare Baptismal Name.pdf')
   end
   it 'should generate a document' do
+    @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
+    @candidate1.candidate_sheet.first_name = 'cc1'
+    @candidate2 = FactoryBot.create(:candidate, account_name: 'c2', add_new_confirmation_events: false)
+    @candidate2.candidate_sheet.first_name = 'cc2'
+    @candidate3 = FactoryBot.create(:candidate, account_name: 'c3', add_new_confirmation_events: false)
+    @candidate3.candidate_sheet.first_name = 'cc3'
+    @candidate4 = FactoryBot.create(:candidate, account_name: 'c4', add_new_confirmation_events: false)
+    @candidate4.candidate_sheet.first_name = 'cc4'
+    @candidate1.save
+    @candidate2.save
+    @candidate3.save
+    @candidate4.save
+    AppFactory.add_confirmation_events
     setup_candidate1
     setup_candidate2
     setup_candidate3
+    setup_candidate4
     pdf = CandidateNamePDFDocument.new
-    expect(pdf.candidates.size).to eq(1)
+    expect(pdf.candidates.size).to eq(2)
     expect(pdf.candidates[0].bap_first_name).to eq('cc2')
+    expect(pdf.candidates[1].bap_first_name).to eq('cc4')
     pdf
   end
 end
