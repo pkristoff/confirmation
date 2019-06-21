@@ -8,9 +8,7 @@ end
 def expect_messages(messages, rendered_page = page)
   ids = messages.map { |mp| mp[0] }
   %i[flash_alert flash_notice error_explanation].each do |my_id|
-    unless ids.include? my_id
-      expect(rendered_page).not_to have_selector("div[id=#{my_id}]")
-    end
+    expect(rendered_page).not_to have_selector("div[id=#{my_id}]") unless ids.include? my_id
   end
   messages.each do |message_pair|
     id = message_pair[0]
@@ -28,9 +26,7 @@ end
 
 def expect_message(id, message, rendered_page = page)
   %i[flash_alert flash_notice error_explanation].each do |my_id|
-    unless my_id == id
-      expect(rendered_page).not_to have_selector("div[id=#{my_id}]")
-    end
+    expect(rendered_page).not_to have_selector("div[id=#{my_id}]") unless my_id == id
   end
   if (id == :error_explanation) && message.is_a?(Array)
     expect(rendered_page).to have_selector("div[id=#{id}] h2", text: message[0])

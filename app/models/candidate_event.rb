@@ -213,6 +213,7 @@ class CandidateEvent < ApplicationRecord
     return I18n.t('status.awaiting_candidate') if awaiting_candidate?(due_date, completed_date)
     return I18n.t('status.awaiting_admin') if awaiting_admin?(due_date, completed_date, verified)
     return I18n.t('status.verified') if completed?(due_date, verified)
+
     raise('Unknown candidate_event status')
   end
 

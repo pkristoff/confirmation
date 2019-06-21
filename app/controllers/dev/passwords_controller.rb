@@ -39,6 +39,7 @@ module Dev
     #
     def respond_with(*args)
       raise('PasswordsController.respond_with called with no args') if args.empty?
+
       candidate = args[0]
       parms = resource_params
       if candidate.respond_to?(:account_confirmed?) && candidate.account_confirmed? && !parms['was_confirmed']

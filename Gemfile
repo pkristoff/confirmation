@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.5.1'
+ruby '2.5.5'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
-gem 'bootstrap-sass'
+# gem 'bootstrap-sass'
 gem 'coffee-rails'
 gem 'devise'
 # Avoid issues with turbolinks and jquery
@@ -16,7 +16,7 @@ gem 'jquery-turbolinks'
 gem 'pg', '=0.20'
 gem 'prawn'
 gem 'puma'
-gem 'rails', '5.2'
+gem 'rails', '5.2.3'
 gem 'rmagick'
 gem 'roo', '~> 2.4.0'
 gem 'sass-rails'
@@ -46,7 +46,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rails_real_favicon'
   gem 'rspec-rails'
-  gem 'rubocop', require: false
+  gem 'rubocop-rails'
   gem 'rubocop-rspec'
 end
 group :production do

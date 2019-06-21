@@ -13,7 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.turbolinks
-//= require bootstrap-sprockets
-//= require jquery-tablesorter
 //= require_tree .
 //= require tinymce

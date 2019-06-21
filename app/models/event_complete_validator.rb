@@ -38,10 +38,12 @@ class EventCompleteValidator
   def validate_either(attributes, other_attributes)
     @association.validates_presence_of attributes
     return unless @association.errors.any?
+
     # if we find errors the try the other_attributes
     @association.errors.clear
     @association.validates_presence_of other_attributes
     return unless @association.errors.any?
+
     # if find errors in other_attributes then add the attribute errors back in.
     @association.validates_presence_of attributes
   end
@@ -55,6 +57,7 @@ class EventCompleteValidator
   #
   def sub_validate(sub_association, attributes)
     return unless @validate_others
+
     sub_association.validates_presence_of attributes
     sub_association.errors.full_messages.each do |msg|
       @association.errors[:base] << msg

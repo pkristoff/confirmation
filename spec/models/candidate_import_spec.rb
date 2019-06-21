@@ -219,6 +219,7 @@ def expect_initial_conf_events
   expect_confirmation_event(I18n.t('events.christian_ministry'), today, today)
 
   return unless ConfirmationEvent.all.size != 8
+
   ConfirmationEvent.all.each { |x| puts x.name }
   expect(ConfirmationEvent.all.size).to eq(8), '"Wrong number of Confirmation Events" '
 end
@@ -805,9 +806,7 @@ def expect_import_with_events
   expect_confirmation_event(I18n.t('events.confirmation_name'), '2016-11-30', '2016-11-20')
   expect_confirmation_event(I18n.t('events.christian_ministry'), '2017-01-31', '2017-01-22')
 
-  if ConfirmationEvent.all.size != 8
-    ConfirmationEvent.all.each { |x| puts x.name }
-  end
+  ConfirmationEvent.all.each { |x| puts x.name } if ConfirmationEvent.all.size != 8
 
   expect(ConfirmationEvent.all.size).to eq(8)
 
@@ -847,6 +846,7 @@ def expect_table_rows(clazz, expected_sizes, checked = [], do_not_include = [Adm
     end
   end
   return unless top
+
   unless checked.size == expected_sizes.size
     puts checked
     puts expected_sizes
@@ -1045,6 +1045,7 @@ end
 
 def clean_dir(dir)
   return unless Dir.exist?(dir)
+
   Dir.foreach(dir) do |entry|
     unless ['.', '..'].include?(entry)
       filename = "#{dir}/#{entry}"

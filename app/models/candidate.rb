@@ -331,9 +331,9 @@ class Candidate < ApplicationRecord
   #
   def self.reset_password_by_token(resource_params)
     candidate = super(resource_params)
-    if candidate.errors.empty? && !candidate.account_confirmed?
-      candidate.skip_confirmation!
-    end
+
+    candidate.skip_confirmation! if candidate.errors.empty? && !candidate.account_confirmed?
+
     candidate
   end
 

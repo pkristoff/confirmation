@@ -1,4 +1,5 @@
 require:
+  - rubocop-rails
   - ./spec/rubocop_handle_error.rb
   - ./spec/rubocop/cop/style/method_documentation.rb
 

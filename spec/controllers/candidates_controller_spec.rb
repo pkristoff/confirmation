@@ -282,7 +282,6 @@ describe CandidatesController do
          }
        end]
     ].each do |event_info|
-
       event_name_key = event_info[0]
       valid_setter = event_info[1]
       generate_cand_parms = event_info[2]

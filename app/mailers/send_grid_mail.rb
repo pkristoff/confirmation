@@ -382,6 +382,7 @@ class SendGridMail
 
       response = post_email(sg_mail)
       next if response.status_code[0].to_s == '2'
+
       last_failed_response = response
       Rails.logger.info("Bad response for #{email_type} message for #{candidate.account_name} because of a bad response: #{response.status_code}")
       Rails.logger.info("Status=#{response.status_code} body=#{response.body}")

@@ -132,9 +132,9 @@ class CommonCandidatesController < ApplicationController
         baptismal_certificate = @candidate.baptismal_certificate
         unless baptized_at_stmm
           baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
-          if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
-            baptismal_certificate.scanned_certificate = nil
-          end
+
+          baptismal_certificate.scanned_certificate = nil if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
+
           setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, params[:candidate][:baptismal_certificate_attributes])
         end
 
@@ -143,9 +143,9 @@ class CommonCandidatesController < ApplicationController
       when Event::Route::RETREAT_VERIFICATION
         retreat_verification = @candidate.retreat_verification
         retreat_verification_params = params[:candidate][:retreat_verification_attributes]
-        if retreat_verification_params[:remove_retreat_verification_picture] == 'Remove'
-          retreat_verification.scanned_retreat = nil
-        end
+
+        retreat_verification.scanned_retreat = nil if retreat_verification_params[:remove_retreat_verification_picture] == 'Remove'
+
         setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, :scanned_retreat_attributes, retreat_verification_params)
 
         render_called = event_with_picture_update_private(RetreatVerification, is_verify)
@@ -306,6 +306,7 @@ class CommonCandidatesController < ApplicationController
     @is_verify = false
     rendered_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'))
     return if rendered_called
+
     @resource = @candidate
     render :sign_agreement
   end
@@ -488,6 +489,7 @@ class CommonCandidatesController < ApplicationController
 
   def render_event_with_picture(render_called, event_name, is_verify = false)
     return if render_called
+
     @event_with_picture_name = event_name
     @is_dev = !admin?
 
@@ -574,6 +576,7 @@ class CommonCandidatesController < ApplicationController
       raise "Unknown scanned_image_attributes #{scanned_image_attributes}"
     end
     return if scanned_filename.nil?
+
     picture_params = ActionController::Parameters.new
     picture_params[:filename] = scanned_filename
     picture_params[:content_type] = scanned_content_type

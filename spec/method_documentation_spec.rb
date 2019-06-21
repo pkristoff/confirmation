@@ -146,9 +146,8 @@ describe 'method_documentation' do
     else
       expect($CHILD_STATUS.success?).to eq(false), "expected rubocop offenses but got exit code: #{$CHILD_STATUS}"
       actual_offenses = offenses(output)
-      unless expected_offenses.size == actual_offenses.size
-        actual_offenses.each { |off| puts off }
-      end
+      actual_offenses.each { |off| puts off } unless expected_offenses.size == actual_offenses.size
+
       expect(expected_offenses.size).to eq(actual_offenses.size), "expected #{expected_offenses.size} offense got #{actual_offenses.size}"
       expected_offenses.each_with_index do |off_a, i|
         expect(actual_offenses[i][0]).to eq("#{file}#{off_a[0]}")
@@ -162,6 +161,7 @@ describe 'method_documentation' do
     begin_offenses = lines.index('Offenses:')
     offs = []
     return offs if begin_offenses.nil?
+
     i = begin_offenses + 2
     while i < lines.size && i + 3 < lines.size && !lines[i + 1].include?('file inspected')
       offs.push([lines[i], lines[i + 1]])

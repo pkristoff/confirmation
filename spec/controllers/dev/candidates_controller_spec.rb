@@ -13,8 +13,8 @@ describe Dev::CandidatesController do
     it 'index does not exist for a candidate' do
       get :index
       expect(false).to eq(true) # should never be executed.
-    rescue ActionController::UrlGenerationError => err
-      expect(err.message).to eq('No route matches {:action=>"index", :controller=>"dev/candidates"}')
+    rescue ActionController::UrlGenerationError => e
+      expect(e.message).to eq('No route matches {:action=>"index", :controller=>"dev/candidates"}')
     end
   end
 
@@ -24,9 +24,9 @@ describe Dev::CandidatesController do
         rescue_called = false
         get :edit, params: { id: @login_candidate.id }
         expect(false).to eq(true) # should never be executed.
-      rescue ActionController::UrlGenerationError => err
+      rescue ActionController::UrlGenerationError => e
         rescue_called = true
-        expect(err.message).to eq("No route matches {:action=>\"edit\", :controller=>\"dev/candidates\", :id=>#{@login_candidate.id}}")
+        expect(e.message).to eq("No route matches {:action=>\"edit\", :controller=>\"dev/candidates\", :id=>#{@login_candidate.id}}")
       end
       expect(rescue_called).to eq(true)
     end

@@ -58,9 +58,8 @@ class AdminsController < ApplicationController
     expected_params = { mail: %i[subject body_input],
                         candidate: [:candidate_ids] }
     missing_params = expected_params.select { |expected_param, _sub_params| params[expected_param].nil? }
-    unless missing_params.empty?
-      return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
-    end
+
+    return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}" unless missing_params.empty?
 
     commit = params.require(:commit)
 
@@ -329,9 +328,8 @@ class AdminsController < ApplicationController
     expected_params = { mail: %i[subject pre_late_input pre_coming_due_input completed_input salutation_input closing_input from_input],
                         candidate: [:candidate_ids] }
     missing_params = expected_params.select { |expected_param, _sub_params| params[expected_param].nil? }
-    unless missing_params.empty?
-      return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}"
-    end
+
+    return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}" unless missing_params.empty?
 
     commit = params.require(:commit)
 
@@ -440,9 +438,9 @@ class AdminsController < ApplicationController
     case commit
     when t('views.common.update_home')
       visitor = visitor_db_or_new
-      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
-        flash[:notice] = t('messages.home_updated')
-      end
+
+      flash[:notice] = t('messages.home_updated') if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+
     when t('views.common.update_about')
       visitor = visitor_db_or_new
       Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{params.permit(Visitor.basic_permitted_params)}")
