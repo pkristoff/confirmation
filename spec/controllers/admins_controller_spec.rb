@@ -306,7 +306,7 @@ describe AdminsController do
               params: { candidate: { candidate_ids: [@c2.id, @c3.id] },
                         commit: AdminsController::INITIAL_EMAIL }
 
-          expect_message(:notice, I18n.t('messages.initial_email_sent'))
+          expect_message(:notice, I18n.t('messages.confirmation_email_sent'))
         end
       end
     end

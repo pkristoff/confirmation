@@ -139,11 +139,13 @@ Rails.application.routes.draw do
     get 'edit_multiple_confirmation_events/', to: 'admins#edit_multiple_confirmation_events', as: 'edit_multiple_confirmation_events'
     post 'update_multiple_confirmation_events/', to: 'admins#update_multiple_confirmation_events', as: 'update_multiple_confirmation_events'
 
+
   end
 
   # candidate account confirmation
 
   get 'cand_account_confirmation/:id/:errors', to: 'visitors#cand_account_confirmation', as: 'cand_account_confirmation'
+  post 'resend_confirmation_instructions', to: 'visitors#resend_confirmation_instructions', as: 'resend_confirmation_instructions'
 
   # Sign in ADMIN
   resources :candidates

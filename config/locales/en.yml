@@ -179,6 +179,7 @@ en:
     candidate_updated: Candidate %{name} updated successfully
     candidates_deleted: Candidates deleted
     candidates_removed: All candidates successfully removed.
+    confirmation_email_sent: Confirmation email sent.
     confirmation_events_updated: Updated ConfirmationEvents!
     contact_information_updated: Contact information updated
     database_reset: Database successfully reset.
@@ -187,7 +188,6 @@ en:
     generate_pdf_error: Only select one candidate
     home_updated: Home updated
     import_successful: Imported candidates successfully.
-    initial_email_sent: Initial email sent.
     monthly_mailing_progress: Monthly mailing in progress
     monthly_mailing_test_sent: Monthly mailing test sent
     no_candidate_selected: No candidate was selected.

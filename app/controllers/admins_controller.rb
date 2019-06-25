@@ -246,13 +246,13 @@ class AdminsController < ApplicationController
         response, _token = send_grid_mail.confirmation_instructions
         if response.nil? && Rails.env.test?
           # not connected to the internet
-          flash[:notice] = t('messages.initial_email_sent')
+          flash[:notice] = t('messages.confirmation_email_sent')
         elsif response.status_code[0] == '2'
-          flash[:notice] = t('messages.initial_email_sent')
+          flash[:notice] = t('messages.confirmation_email_sent')
         else
           flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
         end
-        redirect_back fallback_location: ref_url, notice: t('messages.initial_email_sent')
+        redirect_back fallback_location: ref_url, notice: t('messages.confirmation_email_sent')
       when AdminsController::CONFIRM_ACCOUNT
         confirmed = 0
         candidates.each do |candidate|
