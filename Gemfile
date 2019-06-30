@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 ruby '2.5.5'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
-# gem 'bootstrap-sass'
+gem 'bootstrap'
 gem 'coffee-rails'
 gem 'devise'
 # Avoid issues with turbolinks and jquery

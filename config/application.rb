@@ -48,7 +48,7 @@ module Confirmation
     end
 
     config.sass
-    config.sass.preferred_syntax = :sass
+    config.sass.preferred_syntax = :scss
 
     # config.action_dispatch.perform_deep_munge = false
   end

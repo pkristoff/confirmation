@@ -1,6 +1,7 @@
-<h2><%= t('views.nav.events') %></h2>
+
 
 <%= form_tag update_multiple_confirmation_events_path method: :put do %>
+  <h2><%= t('views.nav.events') %></h2>
   <% @confirmation_events.each do |confirmation_event| %>
     <%= fields_for "confirmation_events[]", confirmation_event do |f| %>
 

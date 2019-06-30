@@ -195,6 +195,17 @@ Time consuming bugs
      * https://realfavicongenerator.net/favicon_result?file_id=p1c10406bt1t7r1c1mmts1pes18vb6#.Wi5pULQ-fOS
      * select RoR
 
+Other Links
+---------------
+- Bootstrap 4.1
+  * https://getbootstrap.com/docs/4.1/getting-started/introduction
+- Aside
+  * https://www.codeply.com/go/Rgq96HykJ2/sidebar-that-changes-to-navbar
+- sorting table
+  * https://mottie.github.io/tablesorter/docs/example-option-theme-bootstrap-v3.html
+  * _sorting_candidate_selection.html.erb
+  * tablesorter.js.coffee
+
 Getting Started
 ---------------
 

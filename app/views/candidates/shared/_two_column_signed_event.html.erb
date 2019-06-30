@@ -1,24 +1,25 @@
-<% candidate = @candidate %>
-
-<h2 id="heading">
-  <% if is_dev %>
-    <%= candidate_event.name %>
-  <% else %>
-    <% first = candidate.candidate_sheet.first_name %>
-    <% last = candidate.candidate_sheet.last_name %>
-    <%= "#{I18n.t('views.events.heading', event_name: candidate_event.name, first: first, last: last)}" %>
-  <% end %>
-</h2>
-
-<%= render 'candidates/shared/show_error_message',
-           event_association: event_association %>
-
-<div class="actions">
-  <%= button_to t('views.common.download'), download_doc, { method: :put } %>
-</div>
 
 
 <div id="two_column">
+  <% candidate = @candidate %>
+
+  <h2 id="heading">
+    <% if is_dev %>
+      <%= candidate_event.name %>
+    <% else %>
+      <% first = candidate.candidate_sheet.first_name %>
+      <% last = candidate.candidate_sheet.last_name %>
+      <%= "#{I18n.t('views.events.heading', event_name: candidate_event.name, first: first, last: last)}" %>
+    <% end %>
+  </h2>
+
+  <%= render 'candidates/shared/show_error_message',
+             event_association: event_association %>
+
+  <div class="actions">
+    <%= button_to t('views.common.download'), download_doc, { method: :put } %>
+  </div>
+
   <div id="left-col" class="left_col">
 
     <%= render 'candidates/shared/event_form',

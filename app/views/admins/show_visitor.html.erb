@@ -1,39 +1,40 @@
-<section id="home">
-  <h2><%= t('views.nav.visitors') %></h2>
+<article>
+  <section id="home">
+    <h2><%= t('views.nav.visitors') %></h2>
 
-  <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
-    <%= f.submit t('views.common.update_home'), id: "top-update-home" %>
-    <br/>
-    <%= f.label(:home, t('label.visitor.home')) %>
-    <%= f.text_area :home, class: "tinymce_home", rows: 20, cols: 120 %>
+    <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
+      <%= f.submit t('views.common.update_home'), id: "top-update-home" %>
+      <br/>
+      <%= f.label(:home, t('label.visitor.home')) %>
+      <%= f.text_area :home, class: "tinymce_home", rows: 20, cols: 120 %>
 
-    <%= f.submit t('views.common.update_home'), id: "bottom-update-home" %>
-  <% end %>
+      <%= f.submit t('views.common.update_home'), id: "bottom-update-home" %>
+    <% end %>
 
-</section>
+  </section>
 
-<section id="about">
-  <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
-    <%= f.submit t('views.common.update_about'), id: "top-update-about" %>
-    <br/>
-    <%= f.label(:about, t('label.visitor.about')) %>
-    <%= f.text_area :about, class: "tinymce_about", rows: 20, cols: 120 %>
+  <section id="about">
+    <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
+      <%= f.submit t('views.common.update_about'), id: "top-update-about" %>
+      <br/>
+      <%= f.label(:about, t('label.visitor.about')) %>
+      <%= f.text_area :about, class: "tinymce_about", rows: 20, cols: 120 %>
 
-    <%= f.submit t('views.common.update_about'), id: "bottom-update-about" %>
-  <% end %>
-</section>
+      <%= f.submit t('views.common.update_about'), id: "bottom-update-about" %>
+    <% end %>
+  </section>
 
-<section id="contact">
-  <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
-    <%= f.submit t('views.common.update_information_contact'), id: "top-update-contact" %>
-    <br/>
-    <%= f.label(:contact, t('label.visitor.contact_information')) %>
-    <%= f.text_area :contact, class: "tinymce_contact", rows: 20, cols: 120 %>
+  <section id="contact">
+    <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
+      <%= f.submit t('views.common.update_information_contact'), id: "top-update-contact" %>
+      <br/>
+      <%= f.label(:contact, t('label.visitor.contact_information')) %>
+      <%= f.text_area :contact, class: "tinymce_contact", rows: 20, cols: 120 %>
 
-    <%= f.submit t('views.common.update_information_contact'), id: "bottom-update-contact" %>
-  <% end %>
-</section>
-
+      <%= f.submit t('views.common.update_information_contact'), id: "bottom-update-contact" %>
+    <% end %>
+  </section>
+</article>
 
 <script type="text/javascript">
     var toolbar = ["insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"];

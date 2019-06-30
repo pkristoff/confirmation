@@ -8,51 +8,83 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= render 'application/favicon' %>
   <%= csrf_meta_tags %>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          console.log('doc ready');
+          // $("#sidebar").mCustomScrollbar({
+          //     theme: "minimal"
+          // });
+
+          $('#dismiss, .overlay').on('click', function () {
+              // hide sidebar
+              $('#sidebar').removeClass('active');
+              // hide overlay
+              $('.overlay').removeClass('active');
+          });
+
+          $('#sidebarCollapse').on('click', function () {
+              var sidebar = $('#sidebar');
+              if (sidebar.hasClass('active')) {
+                  // open sidebar
+                  sidebar.removeClass('active');
+                  // fade in the overlay
+                  $('.overlay').removeClass('active');
+                  $('.collapse.in').toggleClass('in');
+                  $('a[aria-expanded=true]').attr('aria-expanded', 'true');
+              } else {
+                  // open sidebar
+                  sidebar.addClass('active');
+                  // fade in the overlay
+                  $('.overlay').addClass('active');
+                  $('.collapse.in').toggleClass('in');
+                  $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+              }
+          });
+      });
+  </script>
 </head>
 <body>
 <header>
   <%= render 'layouts/navigation' %>
 </header>
-<main role="main">
-  <%= render 'layouts/messages' %>
-  <div id="wrapper">
+<%= render 'layouts/messages' %>
+<div class="container-fluid">
+  <div class="row min-vh-100">
 
     <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-      <header>
-        <% if admin_signed_in? %>
-          <p class="sidebar-header no-link">Admin: <%= "#{current_admin.name}" %></p>
-        <% end %>
-        <% if candidate_signed_in? %>
-          <p class="sidebar-header no-link">Candidate: <%= "#{current_candidate.account_name}" %></p>
-        <% end %>
+    <aside class="col-10 col-md-2 p-0 bg-dark">
+      <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column flex-row align-items-start py-2">
+        <div class="collapse navbar-collapse">
 
-      </header>
-
-      <ul class="nav sidebar-nav">
-        <%= render 'layouts/side_bar' %>
-      </ul>
-    </div>
+          <div id="sidebar-header" class="sidebar-header" style="color:red">
+            <% if admin_signed_in? %>
+              <h6 id="admin" class="sidebar-header no-link">Admin: <%= "#{current_admin.name}" %></h6>
+            <% end %>
+            <% if candidate_signed_in? %>
+              <h6 id="candidate" class="sidebar-header no-link">Candidate: <%= "#{current_candidate.account_name}" %></h6>
+            <% end %>
+          </div>
+          <%= render 'layouts/side_bar' %>
+        </div>
+      </nav>
+    </aside>
     <!-- /#sidebar-wrapper -->
 
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <%= link_to '#', class: 'btn btn-default menu-toggle', id: "menu-toggle", onclick: 'confirmation_toggle().sidebar(event, this)', data: {name: 'show'} do %>
-              <span id="menu-toggle-span">&laquo;</span>
-            <% end %>
+    <main role="main">
+      <!-- Page Content -->
+      <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+
             <%= yield %>
           </div>
-        </div>
+        </nav>
       </div>
-    </div>
+    </main>
     <!-- /#page-content-wrapper -->
 
   </div>
   <!-- /#wrapper -->
-
-</main>
+</div>
 </body>
 </html>
