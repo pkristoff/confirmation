@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   post 'candidate_imports/import_candidates'
 
   devise_for :admins,
+             path_names: {
+               sign_out: 'logout'
+             },
              controllers: {registrations: 'registrations',
                            confirmations: 'confirmations'
                            }

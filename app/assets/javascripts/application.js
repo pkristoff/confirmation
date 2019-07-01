@@ -22,6 +22,6 @@
 //= require jquery-tablesorter/jquery.tablesorter.widgets
 
 // require jquery
-// require jquery_ujs
+//= require jquery_ujs
 // require turbolinks
 //= require tinymce

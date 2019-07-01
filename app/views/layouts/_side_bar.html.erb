@@ -33,12 +33,10 @@
       <i class="fa fa-address-card-o fa-fw"></i> <span class=""> Export</span>
     </a>
     <div class="collapse" id="m1">
-      <ul class="flex-column nav">
+      <ul id="export-sidebar" class="flex-column nav">
         <% export_info.each do |arr| %>
           <%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2], class: 'nav-link px-0 text-truncate' %>
         <% end %>
-        <a class="nav-link px-0 text-truncate" href="#">Sub</a>
-        <a class="nav-link px-0 text-truncate" href="#">Sub longer</a>
       </ul>
     </div>
     </li>
