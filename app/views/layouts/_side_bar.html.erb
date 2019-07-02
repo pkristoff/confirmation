@@ -35,12 +35,13 @@
     <div class="collapse" id="m1">
       <ul id="export-sidebar" class="flex-column nav">
         <% export_info.each do |arr| %>
-          <%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2], class: 'nav-link px-0 text-truncate' %>
+          <li class="nav-item"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2], class: 'nav-link px-0 text-truncate' %></li>
         <% end %>
       </ul>
     </div>
     </li>
 
+    <% resource = @resource if @resource %>
     <% if defined?(resource) && (!resource.nil?) && (!resource.new_record?) && (resource.is_a? Candidate) %>
 
       <% candidate_info = [
@@ -56,8 +57,8 @@
           [I18n.t('views.nav.edit'), edit_candidate_path(resource.id), I18n.t('views.nav.edit'),],
           [I18n.t('views.nav.events'), event_candidate_path(resource.id), I18n.t('views.nav.events')]
       ] %>
+      <p id="candidate">Candidate: <%= "#{resource.candidate_sheet.first_name} #{resource.candidate_sheet.last_name}" %></p>
       <ul id="candidate-sidebar" class="flex-md-column flex-row navbar-nav w-100 justify-content-betwe">
-        <p id="candidate">Candidate: <%= "#{resource.candidate_sheet.first_name} #{resource.candidate_sheet.last_name}" %></p>
         <% candidate_info.each do |arr| %>
           <li class="nav-item"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2], class: 'nav-link pl-0 text-nowrap' %></li>
         <% end %>

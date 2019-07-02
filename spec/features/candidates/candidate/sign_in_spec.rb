@@ -76,7 +76,6 @@ feature 'Sign in', :devise do
     expect_field('Email', '')
     fill_in('Email', with: 'aaa@bbb.com')
     click_button('Resend confirmation instructions')
-    puts page.html
     expect_messages([
                       [:flash_alert, 'email not associated candidate']
                     ])

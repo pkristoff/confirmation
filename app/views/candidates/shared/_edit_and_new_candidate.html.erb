@@ -1,6 +1,6 @@
 <% is_candidate_signed_in_and_not_new = (by_candidate and !is_new) %>
 
-<%= devise_error_messages! %>
+<%= render 'devise/shared/error_messages' %>
 
 <div class="field">
   <%= f.label :account_name %><br/>

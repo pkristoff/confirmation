@@ -29,7 +29,6 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
       render
 
       expect(rendered).to have_selector('li', count: 2)
-      puts rendered
       expect(rendered).to have_link(I18n.t('views.top_bar.sign_out'), href: '/admins/logout')
       expect(rendered).to have_link(I18n.t('views.top_bar.send_grid'), href: 'https://app.sendgrid.com')
     end
