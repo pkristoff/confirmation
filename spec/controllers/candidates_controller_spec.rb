@@ -236,12 +236,12 @@ describe CandidatesController do
     [
       ['baptismal_certificate',
        lambda do |candidate|
-         candidate.baptismal_certificate.baptized_at_stmm = true
+         candidate.baptismal_certificate.baptized_at_home_parish = true
        end,
        lambda do |candidate|
          {
            baptismal_certificate_attributes: {
-             baptized_at_stmm: 1,
+             baptized_at_home_parish: 1,
              show_empty_radio: 1,
              id: candidate.id
            }
@@ -249,19 +249,19 @@ describe CandidatesController do
        end],
       ['retreat_verification',
        lambda do |candidate|
-         candidate.retreat_verification.retreat_held_at_stmm = true
+         candidate.retreat_verification.retreat_held_at_home_parish = true
        end,
        lambda do |candidate|
          {
            retreat_verification_attributes: {
-             retreat_held_at_stmm: candidate.retreat_verification.retreat_held_at_stmm,
+             retreat_held_at_stmm: candidate.retreat_verification.retreat_held_at_home_parish,
              id: candidate.retreat_verification.id
            }
          }
        end],
       ['sponsor_covenant', lambda do |candidate|
         candidate.sponsor_covenant.sponsor_name = 'mmm'
-        candidate.sponsor_covenant.sponsor_attends_stmm = true
+        candidate.sponsor_covenant.sponsor_attends_home_parish = true
         File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
           candidate.sponsor_covenant.scanned_covenant =
             candidate.sponsor_covenant.build_scanned_covenant(
@@ -276,7 +276,7 @@ describe CandidatesController do
          {
            sponsor_covenant_attributes: {
              sponsor_name: candidate.sponsor_covenant.sponsor_name,
-             sponsor_attends_stmm: candidate.sponsor_covenant.sponsor_attends_stmm,
+             sponsor_attends_home_parish: candidate.sponsor_covenant.sponsor_attends_home_parish,
              id: candidate.sponsor_covenant.id
            }
          }

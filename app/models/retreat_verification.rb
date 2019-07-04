@@ -16,7 +16,7 @@ class RetreatVerification < ApplicationRecord
   # * <tt>:options</tt>
   #
   def validate_event_complete(_options = {})
-    event_complete_validator = EventCompleteValidator.new(self, !retreat_held_at_stmm)
+    event_complete_validator = EventCompleteValidator.new(self, !retreat_held_at_home_parish)
     event_complete_validator.validate([], RetreatVerification.basic_validation_params)
     # event_complete_validator = EventCompleteValidator.new(self).validate(RetreatVerification.basic_validation_params)
     # convert empty picture attributes to something the user can understand
@@ -43,7 +43,7 @@ class RetreatVerification < ApplicationRecord
   # Array of attributes
   #
   def self.basic_permitted_params
-    %i[retreat_held_at_stmm start_date end_date who_held_retreat where_held_retreat retreat_verification_picture remove_retreat_verification_picture scanned_retreat id]
+    %i[retreat_held_at_home_parish start_date end_date who_held_retreat where_held_retreat retreat_verification_picture remove_retreat_verification_picture scanned_retreat id]
   end
 
   # Required attributes
@@ -54,7 +54,7 @@ class RetreatVerification < ApplicationRecord
   #
   def self.basic_validation_params
     params = basic_permitted_params
-    params.delete(:retreat_held_at_stmm)
+    params.delete(:retreat_held_at_home_parish)
     params.delete(:retreat_verification_picture)
     params.delete(:remove_retreat_verification_picture)
     params

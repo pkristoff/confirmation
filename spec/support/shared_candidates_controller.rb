@@ -28,13 +28,13 @@ shared_context 'baptismal_certificate' do
     put :event_with_picture_update,
         params: { id: candidate.id,
                   event_name: Event::Route::BAPTISMAL_CERTIFICATE,
-                  candidate: { baptismal_certificate_attributes: { baptized_at_stmm: '1', show_empty_radio: 1 } } }
+                  candidate: { baptismal_certificate_attributes: { baptized_at_home_parish: '1', show_empty_radio: 1 } } }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
-    expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(true)
+    expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(true)
     expect(candidate_event.completed_date).to eq(@today)
   end
 
@@ -43,7 +43,7 @@ shared_context 'baptismal_certificate' do
     candidate.baptismal_certificate = BaptismalCertificate.new
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(candidate_event.completed_date).to eq(nil)
-    expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
+    expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
 
     put :event_with_picture_update, params: { id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE }
 
@@ -51,7 +51,7 @@ shared_context 'baptismal_certificate' do
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
-    expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
+    expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
     expect(candidate_event.completed_date).to eq(nil)
 
     # expect(response).to render_template('candidates/event_with_picture')
@@ -66,7 +66,7 @@ shared_context 'baptismal_certificate' do
     put :event_with_picture_update,
         params: { id: candidate.id,
                   event_name: Event::Route::BAPTISMAL_CERTIFICATE,
-                  candidate: { baptismal_certificate_attributes: { baptized_at_stmm: '0' } } }
+                  candidate: { baptismal_certificate_attributes: { baptized_at_home_parish: '0' } } }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
@@ -74,7 +74,7 @@ shared_context 'baptismal_certificate' do
 
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
-    expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
+    expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate_event.completed_date.to_s).to eq('')
 
@@ -90,7 +90,7 @@ shared_context 'baptismal_certificate' do
     put :event_with_picture_update,
         params: { id: candidate.id,
                   event_name: Event::Route::BAPTISMAL_CERTIFICATE,
-                  candidate: { baptized_at_stmm: '0',
+                  candidate: { baptized_at_home_parish: '0',
                                baptismal_certificate_attributes: vps } }
 
     expect(response.status).to eq(200)
@@ -177,7 +177,7 @@ shared_context 'baptismal_certificate' do
 
   def make_valid_bc(candidate)
     baptismal_certificate = candidate.baptismal_certificate
-    baptismal_certificate.baptized_at_stmm = false
+    baptismal_certificate.baptized_at_home_parish = false
     baptismal_certificate.birth_date = @today
     baptismal_certificate.baptismal_date = @today
     baptismal_certificate.church_name = 'St. me'
@@ -291,7 +291,7 @@ shared_context 'retreat_verification' do
 
   def valid_parameters_rv(id)
     {
-      retreat_held_at_stmm: '0',
+      retreat_held_at_home_parish: '0',
       start_date: @today.to_s,
       end_date: @today.to_s,
       who_held_retreat: 'c',
@@ -303,7 +303,7 @@ shared_context 'retreat_verification' do
 
   def make_valid_rv(candidate)
     retreat_verification = candidate.retreat_verification
-    retreat_verification.retreat_held_at_stmm = false
+    retreat_verification.retreat_held_at_home_parish = false
     retreat_verification.start_date = @today
     retreat_verification.end_date = @today
     retreat_verification.who_held_retreat = 'St. Paul'
@@ -401,7 +401,7 @@ shared_context 'sponsor_covenant' do
   def valid_parameters_sc(id)
     {
       sponsor_name: '1',
-      sponsor_attends_stmm: '1',
+      sponsor_attends_home_parish: '1',
       remove_sponsor_covenant_picture: 'Remove',
       remove_sponsor_eligibility_picture: '',
       id: id.to_s
@@ -411,7 +411,7 @@ shared_context 'sponsor_covenant' do
   def valid_parameters_sc_eligibility(id)
     {
       sponsor_name: 'youyoou',
-      sponsor_attends_stmm: '0',
+      sponsor_attends_home_parish: '0',
       sponsor_church: 'St. youyou',
       remove_sponsor_covenant_picture: '',
       remove_sponsor_eligibility_picture: 'Remove',
@@ -421,7 +421,7 @@ shared_context 'sponsor_covenant' do
 
   def make_valid_sc(candidate)
     sponsor_covenant = candidate.sponsor_covenant
-    sponsor_covenant.sponsor_attends_stmm = true
+    sponsor_covenant.sponsor_attends_home_parish = true
     sponsor_covenant.sponsor_name = 'meme'
     sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
     sponsor_covenant
@@ -429,7 +429,7 @@ shared_context 'sponsor_covenant' do
 
   def make_valid_sc_eligibility(candidate)
     sponsor_covenant = candidate.sponsor_covenant
-    sponsor_covenant.sponsor_attends_stmm = false
+    sponsor_covenant.sponsor_attends_home_parish = false
     sponsor_covenant.sponsor_name = 'meme'
     sponsor_covenant.sponsor_church = 'St. meme'
     sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'lll')

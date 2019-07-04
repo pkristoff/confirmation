@@ -5,8 +5,8 @@
 #
 class ExportListsController < ApplicationController
   BAPTISM_COLUMNS =
-    [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_stmm'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_stmm'),
+    [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: I18n.t('home_parish.name')),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.father_first'),
@@ -24,8 +24,8 @@ class ExportListsController < ApplicationController
      I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture')].freeze
 
   BAPTISM_VALUES =
-    [->(candidate) { candidate.baptismal_certificate.baptized_at_stmm },
-     ->(candidate) { candidate.baptismal_certificate.first_comm_at_stmm },
+    [->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish },
+     ->(candidate) { candidate.baptismal_certificate.first_comm_at_home_parish },
      ->(candidate) { candidate.baptismal_certificate.birth_date },
      ->(candidate) { candidate.baptismal_certificate.baptismal_date },
      ->(candidate) { candidate.baptismal_certificate.father_first },
@@ -91,14 +91,14 @@ class ExportListsController < ApplicationController
   end
 
   RETREAT_COLUMNS =
-    [I18n.t('label.retreat_verification.retreat_held_at_stmm'),
+    [I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: I18n.t('home_parish.name')),
      I18n.t('label.retreat_verification.start_date'),
      I18n.t('label.retreat_verification.end_date'),
      I18n.t('label.retreat_verification.who_held_retreat'),
      I18n.t('label.retreat_verification.where_held_retreat')].freeze
 
   RETREAT_VALUES =
-    [->(candidate) { candidate.retreat_verification.retreat_held_at_stmm },
+    [->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish },
      ->(candidate) { candidate.retreat_verification.start_date },
      ->(candidate) { candidate.retreat_verification.end_date },
      ->(candidate) { candidate.retreat_verification.who_held_retreat },
@@ -122,14 +122,14 @@ class ExportListsController < ApplicationController
   SPONSOR_COLUMNS =
     [I18n.t('label.sponsor_covenant.sponsor_name'),
      I18n.t('label.sponsor_covenant.sponsor_covenant_picture'),
-     I18n.t('label.sponsor_covenant.sponsor_attends_stmm'),
+     I18n.t('label.sponsor_covenant.sponsor_attends_home_parish'),
      I18n.t('label.sponsor_covenant.sponsor_church'),
      I18n.t('label.sponsor_covenant.sponsor_eligibility_picture')].freeze
 
   SPONSOR_VALUES =
     [->(candidate) { candidate.sponsor_covenant.sponsor_name },
      ->(candidate) { !candidate.sponsor_covenant.scanned_covenant.nil? },
-     ->(candidate) { candidate.sponsor_covenant.sponsor_attends_stmm },
+     ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish },
      ->(candidate) { candidate.sponsor_covenant.sponsor_church },
      ->(candidate) { !candidate.sponsor_covenant.scanned_eligibility.nil? }].freeze
 

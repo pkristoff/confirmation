@@ -44,10 +44,10 @@ describe Candidate do
       expect(candidate.candidate_events.size).to eq 0
     end
 
-    it 'baptized_at_stmm' do
+    it 'baptized_at_home_parish' do
       candidate = AppFactory.create_candidate
-      expect(candidate.baptismal_certificate.baptized_at_stmm).to eq(false)
-      expect(candidate.baptismal_certificate.first_comm_at_stmm).to eq(false)
+      expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
+      expect(candidate.baptismal_certificate.first_comm_at_home_parish).to eq(false)
     end
   end
 
@@ -213,20 +213,20 @@ describe Candidate do
 
     it 'baptismal_external_verification?' do
       event_key = I18n.t('events.baptismal_certificate')
-      @c1.baptismal_certificate.baptized_at_stmm = false
-      @c1.baptismal_certificate.first_comm_at_stmm = false
+      @c1.baptismal_certificate.baptized_at_home_parish = false
+      @c1.baptismal_certificate.first_comm_at_home_parish = false
       @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
-      @c2.baptismal_certificate.baptized_at_stmm = true
-      @c2.baptismal_certificate.first_comm_at_stmm = false
+      @c2.baptismal_certificate.baptized_at_home_parish = true
+      @c2.baptismal_certificate.first_comm_at_home_parish = false
       @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
-      @c3.baptismal_certificate.baptized_at_stmm = true
-      @c3.baptismal_certificate.first_comm_at_stmm = false
+      @c3.baptismal_certificate.baptized_at_home_parish = true
+      @c3.baptismal_certificate.first_comm_at_home_parish = false
       @c3.get_candidate_event(event_key).completed_date = nil
       @c3.save
-      @c4.baptismal_certificate.baptized_at_stmm = false
-      @c4.baptismal_certificate.first_comm_at_stmm = true
+      @c4.baptismal_certificate.baptized_at_home_parish = false
+      @c4.baptismal_certificate.first_comm_at_home_parish = true
       @c4.get_candidate_event(event_key).completed_date = @today
       @c4.save
 
@@ -257,13 +257,13 @@ describe Candidate do
 
     it 'retreat_external_verification??' do
       event_key = I18n.t('events.retreat_verification')
-      @c1.retreat_verification.retreat_held_at_stmm = false
+      @c1.retreat_verification.retreat_held_at_home_parish = false
       @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
-      @c2.retreat_verification.retreat_held_at_stmm = true
+      @c2.retreat_verification.retreat_held_at_home_parish = true
       @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
-      @c3.retreat_verification.retreat_held_at_stmm = true
+      @c3.retreat_verification.retreat_held_at_home_parish = true
       @c3.get_candidate_event(event_key).completed_date = nil
       @c3.save
 
@@ -272,13 +272,13 @@ describe Candidate do
 
     it 'sponsor_external_verification?' do
       event_key = I18n.t('events.sponsor_covenant')
-      @c1.sponsor_covenant.sponsor_attends_stmm = false
+      @c1.sponsor_covenant.sponsor_attends_home_parish = false
       @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
-      @c2.sponsor_covenant.sponsor_attends_stmm = true
+      @c2.sponsor_covenant.sponsor_attends_home_parish = true
       @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
-      @c3.sponsor_covenant.sponsor_attends_stmm = true
+      @c3.sponsor_covenant.sponsor_attends_home_parish = true
       @c3.get_candidate_event(event_key).completed_date = nil
       @c3.save
 

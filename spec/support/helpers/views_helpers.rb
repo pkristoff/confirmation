@@ -105,7 +105,7 @@ module ViewsHelpers
     candidate.baptismal_certificate.church_address.zip_code = '12345'
 
     candidate.sponsor_covenant.sponsor_name = 'The Boss'
-    candidate.sponsor_covenant.sponsor_attends_stmm = true
+    candidate.sponsor_covenant.sponsor_attends_home_parish = true
 
     candidate.pick_confirmation_name.saint_name = 'Bolt'
 

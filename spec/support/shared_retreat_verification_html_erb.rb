@@ -49,7 +49,7 @@ shared_context 'retreat_verification_html_erb' do
     end
 
     retreat_verification = candidate.retreat_verification
-    expect(retreat_verification.retreat_held_at_stmm).to eq(true)
+    expect(retreat_verification.retreat_held_at_home_parish).to eq(true)
     expect(retreat_verification.who_held_retreat).to eq(WHO_HELD_RETREAT)
     expect(retreat_verification.where_held_retreat).to eq(WHERE_HELD_RETREAT)
     expect(retreat_verification.start_date).to eq(START_DATE)
@@ -103,7 +103,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_db(1, 8, 0)
     candidate = Candidate.find(@cand_id)
-    candidate.retreat_verification.retreat_held_at_stmm = false
+    candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
     visit @path
 
@@ -134,7 +134,7 @@ shared_context 'retreat_verification_html_erb' do
 
   scenario 'admin logs in and selects a candidate, fills in form except picture.' do
     candidate = Candidate.find(@cand_id)
-    candidate.retreat_verification.retreat_held_at_stmm = false
+    candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
 
     visit @path
@@ -151,14 +151,13 @@ shared_context 'retreat_verification_html_erb' do
     # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
     # update_retreat_verification(false)
     candidate = Candidate.find(@cand_id)
-    candidate.retreat_verification.retreat_held_at_stmm = false
+    candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
     visit @path
 
     fill_in_form(true, false)
 
-    # check(I18n.t('label.retreat_verification.retreat_held_at_stmm')) # make it false
-    fill_in(I18n.t('label.retreat_verification.who_held_retreat'), with: nil)
+    fill_in(I18n.t('label.retreat_verification.who_held_retreat', home_parish: I18n.t('home_parish.name')), with: nil)
     click_button @update_id
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
@@ -172,7 +171,7 @@ shared_context 'retreat_verification_html_erb' do
 
     event_name = I18n.t('events.retreat_verification')
     candidate = Candidate.find(@cand_id)
-    candidate.retreat_verification.retreat_held_at_stmm = true
+    candidate.retreat_verification.retreat_held_at_home_parish = true
     candidate.get_candidate_event(event_name).completed_date = @today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
@@ -210,7 +209,6 @@ shared_context 'retreat_verification_html_erb' do
                                          start_date: START_DATE,
                                          end_date: END_DATE
                                        })
-
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
@@ -237,12 +235,11 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   def fill_in_form(retreat_verification_attach_file, check_checkbox = true)
-    check(I18n.t('label.retreat_verification.retreat_held_at_stmm')) if check_checkbox
+    check(I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: I18n.t('home_parish.name'))) if check_checkbox
     fill_in(I18n.t('label.retreat_verification.who_held_retreat'), with: WHO_HELD_RETREAT)
     fill_in(I18n.t('label.retreat_verification.where_held_retreat'), with: WHERE_HELD_RETREAT)
     fill_in(I18n.t('label.retreat_verification.start_date'), with: START_DATE)
     fill_in(I18n.t('label.retreat_verification.end_date'), with: END_DATE)
-
     attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions for spec testing.png') if retreat_verification_attach_file
   end
 

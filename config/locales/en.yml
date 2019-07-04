@@ -84,7 +84,7 @@ en:
     baptismal_certificate:
       baptismal_certificate:
         baptismal_date: Baptismal date
-        baptized_at_stmm: I was Baptized at Saint Mary Magdalene
+        baptized_at_home_parish: I was Baptized at %{home_parish}
         birth_date: Birth date
         certificate_picture: Baptismal certificate
         church_address:
@@ -97,7 +97,7 @@ en:
         father_first: Father first
         father_last: Father last
         father_middle: Father middle
-        first_comm_at_stmm: I received First Communion at Saint Mary Magdalene
+        first_comm_at_home_parish: I received First Communion at %{home_parish}
         mother_first: Mother first
         mother_last: Mother last
         mother_maiden: Mother maiden
@@ -136,7 +136,7 @@ en:
       attach_file: Attach file
     retreat_verification:
       end_date: Retreat end date
-      retreat_held_at_stmm: Did you attend a St. Mary Magdalene confirmation retreat?
+      retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
       retreat_verification_picture: Retreat Verification Form
       start_date: Retreat start date
       where_held_retreat: Where was the retreat held?
@@ -153,7 +153,7 @@ en:
     sign_agreement:
       signed_agreement: By checking you agree to the above.
     sponsor_covenant:
-      sponsor_attends_stmm: Sponsor registered at Saint Mary Magdalene
+      sponsor_attends_home_parish: Sponsor registered at %{home_parish}
       sponsor_church: Sponsor's church
       sponsor_covenant_picture: Sponsor Covenant
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
@@ -302,10 +302,10 @@ en:
       email: Email
       events: Events
       export_attend_retreat_title: Retreat at %{home_parish}
-      export_baptized_at_stmm_title: Baptized at %{home_parish}
+      export_baptized_at_home_parish_title: Baptized at %{home_parish}
       export_candidate_event_status_title: Candidate Events Status
       export_confirmation_name: Confirmation Names
-      export_sponsor_at_stmm_title: Sponsor at %{home_parish}
+      export_sponsor_at_home_parish_title: Sponsor at %{home_parish}
       monthly_mass_mailing: Monthly Mailing
       other: Other
       pdf_baptismal_name: PDF for matching candidate name to bap. name

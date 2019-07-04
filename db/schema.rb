@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_21_134909) do
+ActiveRecord::Schema.define(version: 2019_07_02_083758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,8 +59,8 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
     t.datetime "updated_at", null: false
     t.integer "church_address_id"
     t.integer "scanned_certificate_id"
-    t.boolean "first_comm_at_stmm", default: false, null: false
-    t.boolean "baptized_at_stmm", default: false, null: false
+    t.boolean "first_comm_at_home_parish", default: false, null: false
+    t.boolean "baptized_at_home_parish", default: false, null: false
     t.integer "show_empty_radio", default: 0, null: false
     t.index ["church_address_id"], name: "index_baptismal_certificates_on_church_address_id"
     t.index ["scanned_certificate_id"], name: "index_baptismal_certificates_on_scanned_certificate_id"
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.text "candidate_note", default: "", null: false
+    t.string "home_parish"
     t.index ["account_name"], name: "index_candidates_on_account_name", unique: true
     t.index ["baptismal_certificate_id"], name: "index_candidates_on_baptismal_certificate_id"
     t.index ["candidate_sheet_id"], name: "index_candidates_on_candidate_sheet_id"
@@ -151,7 +152,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
   end
 
   create_table "retreat_verifications", id: :serial, force: :cascade do |t|
-    t.boolean "retreat_held_at_stmm", default: false, null: false
+    t.boolean "retreat_held_at_home_parish", default: false, null: false
     t.date "start_date"
     t.date "end_date"
     t.string "who_held_retreat"
@@ -172,7 +173,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
 
   create_table "sponsor_covenants", id: :serial, force: :cascade do |t|
     t.string "sponsor_name"
-    t.boolean "sponsor_attends_stmm", default: true, null: false
+    t.boolean "sponsor_attends_home_parish", default: true, null: false
     t.string "sponsor_church"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

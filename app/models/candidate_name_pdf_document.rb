@@ -17,9 +17,9 @@ class CandidateNamePDFDocument < Prawn::Document
       baptismal_certificate = BaptismalCertificate.find_by(id: pluck_can.bap_bc_id)
       if pluck_can.completed_date.nil?
         false
-      elsif baptismal_certificate.baptized_at_stmm
+      elsif baptismal_certificate.baptized_at_home_parish
         false
-      elsif baptismal_certificate.first_comm_at_stmm
+      elsif baptismal_certificate.first_comm_at_home_parish
         false
       else
         true

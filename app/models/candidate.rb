@@ -465,7 +465,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.baptismal_external_verification
-    external_verification(I18n.t('events.baptismal_certificate'), ->(candidate) { candidate.baptismal_certificate.baptized_at_stmm })
+    external_verification(I18n.t('events.baptismal_certificate'), ->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish })
   end
 
   # retreat needs admin verification
@@ -479,7 +479,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.retreat_external_verification
-    external_verification(I18n.t('events.retreat_verification'), ->(candidate) { candidate.retreat_verification.retreat_held_at_stmm })
+    external_verification(I18n.t('events.retreat_verification'), ->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish })
   end
 
   # confirmation name needs admin verification
@@ -533,7 +533,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.sponsor_external_verification
-    external_verification(I18n.t('events.sponsor_covenant'), ->(candidate) { candidate.sponsor_covenant.sponsor_attends_stmm })
+    external_verification(I18n.t('events.sponsor_covenant'), ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish })
   end
 
   # candidate events needs admin verification

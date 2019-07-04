@@ -102,8 +102,8 @@ class CommonCandidatesController < ApplicationController
 
       when Event::Route::BAPTISMAL_CERTIFICATE
         cand_parms = params.require(:candidate).permit(baptismal_certificate_attributes: [:id,
-                                                                                          :baptized_at_stmm,
-                                                                                          :first_comm_at_stmm,
+                                                                                          :baptized_at_home_parish,
+                                                                                          :first_comm_at_home_parish,
                                                                                           :show_empty_radio,
                                                                                           :remove_certificate_picture,
                                                                                           :certificate_picture,
@@ -128,9 +128,9 @@ class CommonCandidatesController < ApplicationController
                                                                                     :middle_name,
                                                                                     :last_name])
 
-        baptized_at_stmm = cand_parms[:baptismal_certificate_attributes][:baptized_at_stmm] == '1'
+        baptized_at_home_parish = cand_parms[:baptismal_certificate_attributes][:baptized_at_home_parish] == '1'
         baptismal_certificate = @candidate.baptismal_certificate
-        unless baptized_at_stmm
+        unless baptized_at_home_parish
           baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
 
           baptismal_certificate.scanned_certificate = nil if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
@@ -404,7 +404,7 @@ class CommonCandidatesController < ApplicationController
       # TODO: Move logic out of common code
       if clazz == BaptismalCertificate
         bc = @candidate.baptismal_certificate
-        if bc.show_empty_radio > 1 && !bc.baptized_at_stmm? && !bc.first_comm_at_stmm?
+        if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
           candidate_info_sheet_event = @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
           candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
           @candidate.keep_bc_errors

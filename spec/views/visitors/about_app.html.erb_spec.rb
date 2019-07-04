@@ -10,6 +10,9 @@ describe 'visitors/about_app.html.erb' do
       if split_dash.size == 1
         next_version = '01'
         minor_version = split_v[1]
+      elsif split_dash.size == 3 && split_dash[2][0] == 'g'
+        next_version = '01'
+        minor_version = split_dash[0]
       else
         minor_version = split_dash[0]
         n = Integer(split_dash[1])

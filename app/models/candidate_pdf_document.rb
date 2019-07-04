@@ -106,10 +106,10 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.baptismal_certificate'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(I18n.t('events.baptismal_certificate')), [1, 0], [1, 3])
 
-    if @candidate.baptismal_certificate.baptized_at_stmm
-      text 'Baptized at St. Mary Magdalene'
-    elsif @candidate.baptismal_certificate.first_comm_at_stmm
-      text 'Received First Communion at St. Mary Magdalene'
+    if @candidate.baptismal_certificate.baptized_at_home_parish
+      text "Baptized at #{@candidate.home_parish}"
+    elsif @candidate.baptismal_certificate.first_comm_at_home_parish
+      text "Received First Communion at #{@candidate.home_parish}"
     else
       grid_label_value([2, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
       grid_label_value([2, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
@@ -203,9 +203,9 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.retreat_verification'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(I18n.t('events.retreat_verification')), [1, 0], [1, 3])
 
-    grid_label_value2([2, 0], "#{I18n.t('label.retreat_verification.retreat_held_at_stmm')}:", rv.retreat_held_at_stmm)
+    grid_label_value2([2, 0], "#{I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: I18n.t('home_parish.name'))}:", rv.retreat_held_at_home_parish)
 
-    return if rv.retreat_held_at_stmm
+    return if rv.retreat_held_at_home_parish
 
     grid_label_value2([3, 0], "#{I18n.t('label.retreat_verification.start_date')}:", rv.start_date)
     grid_label_value2([4, 0], "#{I18n.t('label.retreat_verification.end_date')}:", rv.end_date)
@@ -225,9 +225,9 @@ class CandidatePDFDocument < Prawn::Document
     common_event(@candidate.get_candidate_event(I18n.t('events.sponsor_covenant')), [1, 0], [1, 3])
 
     grid_label_value2([2, 0], "#{I18n.t('label.sponsor_covenant.sponsor_name')}:", sc.sponsor_name)
-    grid_label_value2([3, 0], "#{I18n.t('label.sponsor_covenant.sponsor_attends_stmm')}:", sc.sponsor_attends_stmm)
+    grid_label_value2([3, 0], "#{I18n.t('label.sponsor_covenant.sponsor_attends_home_parish')}:", sc.sponsor_attends_home_parish)
 
-    unless sc.sponsor_attends_stmm
+    unless sc.sponsor_attends_home_parish
       grid_label_value([4, 0], "#{I18n.t('label.sponsor_covenant.sponsor_church')}:", sc.sponsor_church)
       common_image(sc.scanned_covenant, I18n.t('field_set.sponsor_covenant.sponsor_covenant'))
     end

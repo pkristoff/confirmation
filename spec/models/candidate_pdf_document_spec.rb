@@ -6,7 +6,7 @@ def setup_candidate1
   ev = @candidate1.get_candidate_event(I18n.t('events.baptismal_certificate'))
   ev.completed_date = Time.zone.today
   bc = @candidate1.baptismal_certificate
-  bc.baptized_at_stmm = true
+  bc.baptized_at_home_parish = true
   bc.save
   ev.save
 end
@@ -21,8 +21,8 @@ def setup_candidate2
   File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
     picture = f.read
   end
-  bc.baptized_at_stmm = false
-  bc.first_comm_at_stmm = false
+  bc.baptized_at_home_parish = false
+  bc.first_comm_at_home_parish = false
   bc.scanned_certificate = ::ScannedImage.new(
     filename: filename,
     content_type: 'image/png',
@@ -36,8 +36,8 @@ def setup_candidate3
   ev = @candidate3.get_candidate_event(I18n.t('events.baptismal_certificate'))
   ev.completed_date = Time.zone.today
   bc = @candidate3.baptismal_certificate
-  bc.baptized_at_stmm = false
-  bc.first_comm_at_stmm = true
+  bc.baptized_at_home_parish = false
+  bc.first_comm_at_home_parish = true
   bc.save
   ev.save
 end
@@ -52,8 +52,8 @@ def setup_candidate4
   File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
     picture = f.read
   end
-  bc.baptized_at_stmm = false
-  bc.first_comm_at_stmm = false
+  bc.baptized_at_home_parish = false
+  bc.first_comm_at_home_parish = false
   bc.scanned_certificate = ::ScannedImage.new(
     filename: filename,
     content_type: 'image/png',
