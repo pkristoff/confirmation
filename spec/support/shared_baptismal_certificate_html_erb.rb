@@ -460,8 +460,8 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_heading(cand, dev_path.empty?, I18n.t('events.baptismal_certificate'))
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/baptismal_certificate\"]")
-    expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: cand.home_parish))
-    expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish', home_parish: cand.home_parish))
+    expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish))
+    expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish', home_parish: Visitor.home_parish))
 
     yes_id = 'candidate_baptismal_certificate_attributes_baptized_at_home_parish_1'
     no_id = 'candidate_baptismal_certificate_attributes_baptized_at_home_parish_0'

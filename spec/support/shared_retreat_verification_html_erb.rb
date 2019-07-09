@@ -14,6 +14,9 @@ shared_context 'retreat_verification_html_erb' do
     @candidate_event_id = @candidate.get_candidate_event(I18n.t('events.retreat_verification')).id
     @cand_id = @candidate.id
     @today = Time.zone.today
+    v = Visitor.create!
+    v.home_parish = 'St. Mary Magdalene'
+    v.save
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -157,7 +160,7 @@ shared_context 'retreat_verification_html_erb' do
 
     fill_in_form(true, false)
 
-    fill_in(I18n.t('label.retreat_verification.who_held_retreat', home_parish: I18n.t('home_parish.name')), with: nil)
+    fill_in(I18n.t('label.retreat_verification.who_held_retreat', home_parish: Visitor.home_parish), with: nil)
     click_button @update_id
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
@@ -235,7 +238,7 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   def fill_in_form(retreat_verification_attach_file, check_checkbox = true)
-    check(I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: I18n.t('home_parish.name'))) if check_checkbox
+    check(I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish)) if check_checkbox
     fill_in(I18n.t('label.retreat_verification.who_held_retreat'), with: WHO_HELD_RETREAT)
     fill_in(I18n.t('label.retreat_verification.where_held_retreat'), with: WHERE_HELD_RETREAT)
     fill_in(I18n.t('label.retreat_verification.start_date'), with: START_DATE)

@@ -5,7 +5,7 @@
 #
 class ExportListsController < ApplicationController
   BAPTISM_COLUMNS =
-    [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: I18n.t('home_parish.name')),
+    [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish),
      I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'),
@@ -91,7 +91,7 @@ class ExportListsController < ApplicationController
   end
 
   RETREAT_COLUMNS =
-    [I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: I18n.t('home_parish.name')),
+    [I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish),
      I18n.t('label.retreat_verification.start_date'),
      I18n.t('label.retreat_verification.end_date'),
      I18n.t('label.retreat_verification.who_held_retreat'),

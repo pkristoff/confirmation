@@ -455,6 +455,12 @@ class AdminsController < ApplicationController
         flash[:notice] = t('messages.contact_information_updated')
         Rails.logger.info "visitor.contact=#{visitor.contact}"
       end
+    when t('views.common.update_home_parish')
+      visitor = visitor_db_or_new
+      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+        flash[:notice] = t('messages.home_parish_updated')
+        Rails.logger.info "visitor.contact=#{visitor.contact}"
+      end
     else
       flash[:alert] = "Unkown commit param: #{commit}"
     end

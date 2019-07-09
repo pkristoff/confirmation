@@ -1067,7 +1067,7 @@ end
 def save(candidate_import, uploaded_file)
   import_result = candidate_import.load_initial_file(uploaded_file)
   candidate_import.errors.each do |candidate|
-    puts "Errors:  #{candidate[1]}"
+    raise "Errors:  #{candidate[1]}"
   end
   import_result
 end

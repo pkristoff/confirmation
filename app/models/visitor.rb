@@ -12,7 +12,14 @@ class Visitor < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.basic_permitted_params
-    %i[home about contact]
+    %i[home about contact home_parish]
+  end
+
+  def self.home_parish
+    vs = Visitor.all
+    #  this is mostly here for testing
+    Visitor.create! if vs.empty?
+    Visitor.all.first.home_parish
   end
 
   private

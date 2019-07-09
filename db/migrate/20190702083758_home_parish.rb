@@ -1,6 +1,6 @@
 class HomeParish < ActiveRecord::Migration[5.2]
   def change
-    change_table :candidates do |t|
+    change_table :visitors do |t|
       t.string :home_parish
     end
 

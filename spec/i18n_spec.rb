@@ -30,7 +30,6 @@ RSpec.describe 'I18n' do
   }
 
   it 'does not have missing keys' do
-    puts "missing_keys=#{missing_keys}"
     # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
     notMissing = ['en.errors.messages.not_saved.one', 'en.errors.messages.not_saved.other']
     y = missing_keys.subtract_keys(notMissing)

@@ -118,7 +118,6 @@ describe CandidateSheet, type: :model do
         fill_in_cand(candidate_sheet)
         candidate_sheet.parent_email_2 = 'foo'
         candidate_sheet.validate_emails
-        puts candidate_sheet.errors.full_messages
         expect(candidate_sheet.errors.full_messages.size).to eq(2)
         expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is an invalid email: foo')
       end
@@ -149,7 +148,6 @@ describe CandidateSheet, type: :model do
       candidate_sheet = FactoryBot.create(:candidate_sheet)
 
       msgs = candidate_sheet.errors.full_messages
-      puts "msgs=#{msgs}"
       expect(candidate_sheet.validate_event_complete).to eq(true)
       expect(msgs.empty?).to eq(true), "msgs not empty=#{msgs}"
     end

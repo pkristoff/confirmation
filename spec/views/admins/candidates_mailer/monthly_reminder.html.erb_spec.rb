@@ -76,7 +76,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Confirmation name', 'Bolt']
       when I18n.t('events.sponsor_covenant')
         info << ['Sponsor name', 'The Boss']
-        info << ['Sponsor attends', @candidate.home_parish]
+        info << ['Sponsor attends', Visitor.home_parish]
       when I18n.t('events.baptismal_certificate')
         info << ['Birthday', '1999-03-05']
         info << ['Baptismal date', '1999-05-05']
@@ -96,6 +96,16 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:city, 'Apex']
         info << [:state, 'NC']
         info << [:zipcode, '27502']
+      when I18n.t('events.christian_ministry')
+        'no info' # rubiocop
+      when I18n.t('events.parent_meeting')
+        'no info' # rubiocop
+      when I18n.t('events.retreat_verification')
+        'no info' # rubiocop
+      when I18n.t('events.candidate_covenant_agreement')
+        'no info' # rubiocop
+      else
+        raise("Unknown event name:  #{ce.name}")
       end
       [ce.name, ce.id, info]
     end
@@ -117,7 +127,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Confirmation name', 'Bolt']
       when I18n.t('events.sponsor_covenant')
         info << ['Sponsor name', 'The Boss']
-        info << ['Sponsor attends', @candidate.home_parish]
+        info << ['Sponsor attends', Visitor.home_parish]
       when I18n.t('events.baptismal_certificate')
         info << ['Birthday', '1999-03-05']
         info << ['Baptismal date', '1999-05-05']
@@ -137,6 +147,16 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:city, 'Apex']
         info << [:state, 'NC']
         info << [:zipcode, '27502']
+      when I18n.t('events.christian_ministry')
+        'no info' # rubiocop
+      when I18n.t('events.parent_meeting')
+        'no info' # rubiocop
+      when I18n.t('events.retreat_verification')
+        'no info' # rubiocop
+      when I18n.t('events.candidate_covenant_agreement')
+        'no info' # rubiocop
+      else
+        raise("Unknown event name:  #{ce.name}")
       end
       [ce.name, ce.id, info]
     end

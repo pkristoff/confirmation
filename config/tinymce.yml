@@ -16,6 +16,5 @@ plugins:
   - insertdatetime
   - media
   - table
-  - contextmenu
   - paste
   - code

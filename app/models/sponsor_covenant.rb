@@ -137,8 +137,8 @@ class SponsorCovenant < ApplicationRecord
   #
   # * <tt>Hash</tt> of information to be verified
   #
-  def verifiable_info(candidate)
+  def verifiable_info(_candidate)
     { 'Sponsor name': sponsor_name,
-      'Sponsor attends': (sponsor_attends_home_parish ? candidate.home_parish : sponsor_church) }
+      'Sponsor attends': (sponsor_attends_home_parish ? Visitor.home_parish : sponsor_church) }
   end
 end

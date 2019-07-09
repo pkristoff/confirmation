@@ -107,9 +107,9 @@ class CandidatePDFDocument < Prawn::Document
     common_event(@candidate.get_candidate_event(I18n.t('events.baptismal_certificate')), [1, 0], [1, 3])
 
     if @candidate.baptismal_certificate.baptized_at_home_parish
-      text "Baptized at #{@candidate.home_parish}"
+      text "Baptized at #{Visitor.home_parish}"
     elsif @candidate.baptismal_certificate.first_comm_at_home_parish
-      text "Received First Communion at #{@candidate.home_parish}"
+      text "Received First Communion at #{Visitor.home_parish}"
     else
       grid_label_value([2, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
       grid_label_value([2, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
@@ -203,7 +203,7 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.retreat_verification'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(I18n.t('events.retreat_verification')), [1, 0], [1, 3])
 
-    grid_label_value2([2, 0], "#{I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: I18n.t('home_parish.name'))}:", rv.retreat_held_at_home_parish)
+    grid_label_value2([2, 0], "#{I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish)}:", rv.retreat_held_at_home_parish)
 
     return if rv.retreat_held_at_home_parish
 

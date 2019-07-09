@@ -1,7 +1,18 @@
 <article>
-  <section id="home">
+  <section id="home_parish">
     <h2><%= t('views.nav.visitors') %></h2>
 
+    <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
+      <%= f.submit t('views.common.update_home_parish'), id: "top-update-home-parish" %>
+      <br/>
+      <%= f.label :home_parish, t('label.visitor.home_parish') %>
+      <%= f.text_field :home_parish %>
+
+      <%= f.submit t('views.common.update_home_parish'), id: "bottom-update-home-parish" %>
+    <% end %>
+  </section>
+
+  <section id="home">
     <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
       <%= f.submit t('views.common.update_home'), id: "top-update-home" %>
       <br/>

@@ -30,19 +30,19 @@ class BaptismalCertificate < ApplicationRecord
     # 2: user has made changes to to both
     case show_empty_radio
     when 0
-      errors[:base] << "I was Baptized at #{I18n.t('home_parish.name')} should be checked." # TODO: I18n
+      errors[:base] << I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish)
       false
     when 1
       return true if baptized_at_home_parish
 
-      errors[:base] << "I received First Communion at #{I18n.t('home_parish.name')} should be checked." # TODO: I18n
+      errors[:base] << I18n.t('messages.error.first_cpmmunion_should_be_checked', home_parish: Visitor.home_parish)
       false
     when 2
       return true if first_comm_at_home_parish
 
       validate_other_info
     else
-      raise("Unknown show_empty_radio value: #{show_empty_radio}")
+      raise(I18n.t('messages.error.unknown_show_empty_radio', show_empty_radio: show_empty_radio))
     end
   end
 
@@ -158,7 +158,7 @@ class BaptismalCertificate < ApplicationRecord
   def verifiable_info(candidate)
     if candidate.baptismal_certificate.baptized_at_home_parish
       {
-        Church: I18n.t('home_parish.name')
+        Church: Visitor.home_parish
       }
     else
       {

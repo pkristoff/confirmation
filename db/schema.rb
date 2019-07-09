@@ -114,7 +114,6 @@ ActiveRecord::Schema.define(version: 2019_07_02_083758) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.text "candidate_note", default: "", null: false
-    t.string "home_parish"
     t.index ["account_name"], name: "index_candidates_on_account_name", unique: true
     t.index ["baptismal_certificate_id"], name: "index_candidates_on_baptismal_certificate_id"
     t.index ["candidate_sheet_id"], name: "index_candidates_on_candidate_sheet_id"
@@ -198,6 +197,7 @@ ActiveRecord::Schema.define(version: 2019_07_02_083758) do
     t.text "contact", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "home_parish"
   end
 
   add_foreign_key "candidates", "baptismal_certificates"

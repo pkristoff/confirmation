@@ -2,7 +2,7 @@
     <%= f.fields_for :retreat_verification do |rv_fields| %>
 
           <%= rv_fields.check_box :retreat_held_at_home_parish, onclick: 'confirmation_toggle().toggle_top(\'#retreat_verification-top\', \'toggle\')' %>
-          <%= rv_fields.label :retreat_held_at_home_parish, t('label.retreat_verification.retreat_held_at_home_parish', home_parish: I18n.t('home_parish.name')) %>
+          <%= rv_fields.label :retreat_held_at_home_parish, t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish) %>
 
 
         <div id="retreat_verification-top" class="<%= rv_fields.object.retreat_held_at_home_parish ? 'hide-div' : 'show-div' %>">

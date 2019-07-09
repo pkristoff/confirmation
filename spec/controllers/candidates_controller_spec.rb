@@ -66,6 +66,8 @@ describe CandidatesController do
       candidate.candidate_sheet.first_name = 'c1first_name'
       candidate.candidate_sheet.middle_name = 'c3middle_name'
       candidate.candidate_sheet.last_name = 'c2last_name'
+    else
+      raise 'unknown prefix'
     end
     candidate.save
     candidate

@@ -77,9 +77,6 @@ en:
     sponsor_covenant:
       sponsor_covenant: Sponsor covenant
       sponsor_eligibility: Sponsor eligibility
-  home_parish:
-    name: St. Mary Magdalene
-    nick_name: St. MM
   label:
     baptismal_certificate:
       baptismal_certificate:
@@ -162,6 +159,7 @@ en:
       about: About
       contact_information: Contact Information
       home: Home
+      home_parish: Home parish
   messages:
     about_updated: About updated
     accessed_denied: Accessed denied.
@@ -183,9 +181,15 @@ en:
     confirmation_events_updated: Updated ConfirmationEvents!
     contact_information_updated: Contact information updated
     database_reset: Database successfully reset.
+    error:
+      baptized_should_be_checked: I was Baptized at %{home_parish} should be checked.
+      first_cpmmunion_should_be_checked: I received First Communion at %{home_parish}
+        should be checked.
+      unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
     export_to_excel: Working in background.  An email with spreadsheet will be sent
       upon completion with %{commit}.
     generate_pdf_error: Only select one candidate
+    home_parish_updated: Home parish updated
     home_updated: Home updated
     import_successful: Imported candidates successfully.
     monthly_mailing_progress: Monthly mailing in progress
@@ -265,6 +269,7 @@ en:
       update_about: Update about
       update_candidates_event: Update event for candidates
       update_home: Update home
+      update_home_parish: Update home parish
       update_information_contact: Update contact information
       update_verify: Update & Verify
     events:

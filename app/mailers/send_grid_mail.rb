@@ -425,7 +425,7 @@ class SendGridMail
   # * <tt>:candidate</tt> Candidate
   #
   def expand_text_rp(candidate)
-    expand_text(candidate, MailPart.new_subject("#{candidate.home_parish} website for Confirmation Candidates - Reset password instructions"), MailPart.new_body(''),
+    expand_text(candidate, MailPart.new_subject("#{Visitor.home_parish} website for Confirmation Candidates - Reset password instructions"), MailPart.new_body(''),
                 reset_pass_call)
   end
 

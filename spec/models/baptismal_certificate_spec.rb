@@ -51,7 +51,7 @@ describe BaptismalCertificate, type: :model do
     candidate.baptismal_certificate.baptized_at_home_parish = true
     verifiables = FactoryBot.create(:baptismal_certificate).verifiable_info(candidate)
     expected_verifiables = {
-      Church: I18n.t('home_parish.name')
+      Church: Visitor.home_parish
     }
     expect(verifiables).to eq(expected_verifiables)
   end
@@ -190,6 +190,11 @@ describe BaptismalCertificate, type: :model do
     end
   end
   describe 'validate_event_complete' do
+    before(:each) do
+      v = Visitor.create!
+      v.home_parish = 'St. Mary Magdalene'
+      v.save
+    end
     it 'should fail validation - new baptismal_certificate validated' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)
 
