@@ -183,8 +183,11 @@ en:
     database_reset: Database successfully reset.
     error:
       baptized_should_be_checked: I was Baptized at %{home_parish} should be checked.
+      duplicate_email: is a duplicate email, which is not allowed for a candidate.
       first_cpmmunion_should_be_checked: I received First Communion at %{home_parish}
         should be checked.
+      invalid_email: 'is an invalid email: %{email}'
+      one_email: at least one email must be supplied.
       unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
     export_to_excel: Working in background.  An email with spreadsheet will be sent
       upon completion with %{commit}.
