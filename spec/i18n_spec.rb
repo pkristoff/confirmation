@@ -15,7 +15,6 @@ RSpec.describe 'I18n' do
         email.pre_coming_due_input_label
         email.pre_late_input_label
         email.salutation_input_label
-        label.candidate_event.select
         views.admins.current_password
         views.admins.email
         views.candidates.account_name

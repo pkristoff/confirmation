@@ -7,7 +7,6 @@ module SortingCandListHelpers
 
     expect(rendered_or_page).to have_css(table_id.to_s)
     expect(rendered_or_page).to have_css("#{table_id} #{tr_header_id}")
-
     column_headers_in_order.each_with_index do |info, index|
       i18n_name = info[0]
       sort_enabled = info[1]
@@ -17,8 +16,16 @@ module SortingCandListHelpers
       if sort_enabled
         expect(rendered_or_page).to have_css basic_th_css, text: i18n_name
       else
-        expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false#{i18n_name == I18n.t('views.nav.edit') ? ' edit_column_header' : ''}']" unless i18n_name == I18n.t('label.candidate_event.select')
-        expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false select_column_header'] input[id='select_all_none_input']" if i18n_name == I18n.t('label.candidate_event.select')
+        case i18n_name
+        when I18n.t('views.nav.edit')
+          expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false edit_column_header']"
+        when I18n.t('views.nav.note')
+          expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false']"
+        when I18n.t('label.candidate_event.select')
+          expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false select_column_header'] input[id='select_all_none_input']"
+        else
+          raise("unhandled i18n_name=#{i18n_name}")
+        end
       end
     end
     expect(rendered_or_page).to have_css "#{table_id} #{tr_header_id} th", count: column_headers_in_order.size #  checkbox
@@ -113,6 +120,7 @@ module SortingCandListHelpers
   def candidates_columns
     cols = common_columns
     cols.insert(1, [I18n.t('views.nav.edit'), false, '', ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id='tr#{cand_id}_td#{td_index}']" }])
+    cols.insert(2, [I18n.t('views.nav.note'), false, '', ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id='tr#{cand_id}_td#{td_index}']" }])
     cols << [I18n.t('views.candidates.account_confirmed'), true, '', expect_account_confirmed]
     cols << [I18n.t('views.candidates.password_changed'), true, '', expect_password_changed]
     cols

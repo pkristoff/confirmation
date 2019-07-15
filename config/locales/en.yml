@@ -315,6 +315,7 @@ en:
       export_confirmation_name: Confirmation Names
       export_sponsor_at_home_parish_title: Sponsor at %{home_parish}
       monthly_mass_mailing: Monthly Mailing
+      note: Note
       other: Other
       pdf_baptismal_name: PDF for matching candidate name to bap. name
       toggle_navigation: Toggle navigation

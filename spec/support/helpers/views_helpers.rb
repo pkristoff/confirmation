@@ -140,6 +140,10 @@ module ViewsHelpers
     ->(cand_id, rendered_or_page, td_index) { expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true' }
   end
 
+  def expect_note
+    ->(cand_id, rendered_or_page, td_index) { expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: I18n.t('label.sidebar.candidate_note') }
+  end
+
   def expect_account_confirmed
     lambda { |cand_id, rendered_or_page, td_index|
       candidate = Candidate.find_by(id: cand_id)

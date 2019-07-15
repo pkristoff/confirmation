@@ -13,10 +13,12 @@
              confirmation_event: nil,
              other_columns: {
                  headers: [
-                     t('views.nav.edit')
+                     t('views.nav.edit'),
+                     t('views.nav.note')
                  ],
                  rows: [
-                     lambda { |id| link_to t('views.nav.edit'), event_candidate_path(id) }
+                     lambda { |id| link_to t('views.nav.edit'), event_candidate_path(id) },
+                     lambda { |id| link_to t('views.nav.note'), candidate_note_path(id) }
                  ]
              },
              route: :candidates,
