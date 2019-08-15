@@ -342,6 +342,18 @@ describe Candidate do
     end
   end
 
+  describe 'candidate_name' do
+    it 'should return a candidate_name' do
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
+      expect(c1.candidate_name).to eq('Paul Kristoff')
+    end
+    it 'should return a candidate_name' do
+      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
+      c1.candidate_sheet = nil
+      expect(c1.candidate_name).to eq('No candidate_sheet')
+    end
+  end
+
   def create_candidate_local(account_name, first, last)
     candidate = FactoryBot.create(:candidate, account_name: account_name)
     candidate.candidate_sheet.first_name = first

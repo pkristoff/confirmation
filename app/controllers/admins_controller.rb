@@ -211,9 +211,13 @@ class AdminsController < ApplicationController
         render 'candidates/index'
       when AdminsController::GENERATE_PDF
         if candidates.size > 1
-          redirect_to :back, notice: t('messages.generate_pdf_error')
+          x = candidate_ids.select(&:present?)
+          candidates_info(selected_candidate_ids: x)
+          flash[:notice] = t('messages.processing_pdf_background', num: candidates.size)
+          render 'candidates/index'
         else
-          pdf = CandidatePDFDocument.new(candidates.first)
+          candidate = candidates.first
+          pdf = CandidatePDFDocument.new(candidate)
           send_data pdf.render,
                     filename: pdf.document_name,
                     type: 'application/pdf'
@@ -231,7 +235,7 @@ class AdminsController < ApplicationController
         if response.nil? && Rails.env.test?
           # not connected to the internet
           flash[:notice] = I18n.t('messages.reset_password_message_sent')
-        elsif response.status_code[0] == '2'
+        elsif response.status_code.starts_with?('20')
           flash[:notice] = I18n.t('messages.reset_password_message_sent')
         else
           flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
@@ -247,7 +251,7 @@ class AdminsController < ApplicationController
         if response.nil? && Rails.env.test?
           # not connected to the internet
           flash[:notice] = t('messages.confirmation_email_sent')
-        elsif response.status_code[0] == '2'
+        elsif response.status_code.starts_with?('20')
           flash[:notice] = t('messages.confirmation_email_sent')
         else
           flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
@@ -255,14 +259,14 @@ class AdminsController < ApplicationController
         redirect_back fallback_location: ref_url, notice: t('messages.confirmation_email_sent')
       when AdminsController::CONFIRM_ACCOUNT
         confirmed = 0
-        candidates.each do |candidate|
-          if candidate.account_confirmed?
-            Rails.logger.info("Candidate account already confirmed: #{candidate.account_name}")
+        candidates.each do |cand|
+          if cand.account_confirmed?
+            Rails.logger.info("Candidate account already confirmed: #{cand.account_name}")
           else
-            candidate.confirm_account
-            candidate.save
+            cand.confirm_account
+            cand.save
             confirmed += 1
-            Rails.logger.info("Candidate account confirmed: #{candidate.account_name}")
+            Rails.logger.info("Candidate account confirmed: #{cand.account_name}")
           end
         end
         redirect_back fallback_location: ref_url, notice: t('messages.account_confirmed', number_confirmed: confirmed, number_not_confirmed: candidates.size - confirmed)

@@ -596,6 +596,18 @@ class Candidate < ApplicationRecord
     devise_mailer.confirmation_instructions(self, token)
   end
 
+  # get candidate 'first last' name
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> first last
+  #
+  def candidate_name
+    return "#{candidate_sheet.first_name} #{candidate_sheet.last_name}" if candidate_sheet
+
+    'No candidate_sheet' unless candidate_sheet
+  end
+
   # 5.0 hack with devise
   #
   def will_save_change_to_email?

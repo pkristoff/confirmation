@@ -191,7 +191,6 @@ en:
       unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
     export_to_excel: Working in background.  An email with spreadsheet will be sent
       upon completion with %{commit}.
-    generate_pdf_error: Only select one candidate
     home_parish_updated: Home parish updated
     home_updated: Home updated
     import_successful: Imported candidates successfully.
@@ -204,6 +203,7 @@ en:
         name (%{name}) confirmed and you are now signed in.
       token_expired: The reset password email has either expired or has been used.  Please
         contact Admin via email stmm.confirmation@kristoffs.com
+    processing_pdf_background: Processing pdfs %{num} in background.
     remove_candidate: remove a candidate
     reset_password_message_sent: Reset password messages sent
     save_failed: Save failed

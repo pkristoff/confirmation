@@ -30,8 +30,9 @@ RSpec.describe 'I18n' do
 
   it 'does not have missing keys' do
     # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
-    notMissing = ['en.errors.messages.not_saved.one', 'en.errors.messages.not_saved.other']
-    y = missing_keys.subtract_keys(notMissing)
+    not_missing = ['en.errors.messages.not_saved.one', 'en.errors.messages.not_saved.other']
+    y = missing_keys.subtract_keys(not_missing)
+    puts y unless y.empty?
     expect(y).to be_empty,
                             "Missing #{missing_keys.leaves.count} i18n keys, run `i18n-tasks missing' to show them"
   end
