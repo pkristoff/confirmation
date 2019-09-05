@@ -203,7 +203,6 @@ en:
         name (%{name}) confirmed and you are now signed in.
       token_expired: The reset password email has either expired or has been used.  Please
         contact Admin via email stmm.confirmation@kristoffs.com
-    processing_pdf_background: Processing pdfs %{num} in background.
     remove_candidate: remove a candidate
     reset_password_message_sent: Reset password messages sent
     save_failed: Save failed

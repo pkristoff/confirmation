@@ -51,5 +51,10 @@ module Confirmation
     config.sass.preferred_syntax = :scss
 
     # config.action_dispatch.perform_deep_munge = false
+
+    # https://stackoverflow.com/questions/38198668/rails-5-load-lib-files-in-production
+    # BaptismalCertificate causing circular loading dependency
+    # config.eager_load_paths += ["#{config.root}/app/modules/"]
+
   end
 end

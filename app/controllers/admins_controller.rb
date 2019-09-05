@@ -211,13 +211,17 @@ class AdminsController < ApplicationController
         render 'candidates/index'
       when AdminsController::GENERATE_PDF
         if candidates.size > 1
-          x = candidate_ids.select(&:present?)
-          candidates_info(selected_candidate_ids: x)
-          flash[:notice] = t('messages.processing_pdf_background', num: candidates.size)
-          render 'candidates/index'
+          # produce pdfs for candidates & return zip file of pdfs
+          archive_folder, filename = MultiPDFJob.generate_pdfs(candidates, current_admin)
+          # flash[:notice] = I18n.t('messages.processing_pdf_background', num: candidates.size)
+          # Send the archive as an attachment
+          send_file(archive_folder,
+                    type: 'application/zip',
+                    filename: filename,
+                    disposition: 'attachment')
         else
           candidate = candidates.first
-          pdf = CandidatePDFDocument.new(candidate)
+          pdf = ::CandidatePDFDocument.new(candidate)
           send_data pdf.render,
                     filename: pdf.document_name,
                     type: 'application/pdf'

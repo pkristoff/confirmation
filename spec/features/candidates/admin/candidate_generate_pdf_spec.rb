@@ -60,15 +60,7 @@ feature 'Candidate email', :devise do
     check("candidate_candidate_ids_#{@candidate2.id}")
 
     click_button('top-update-generate-pdf')
-
-    expect_message(:flash_notice, I18n.t('messages.processing_pdf_background', num: 2))
-    expect_sorting_candidate_list(
-      candidates_columns,
-      @candidates,
-      page
-    )
-
-    expect(page).to have_checked_field("candidate_candidate_ids_#{@candidate1.id}")
-    expect(page).to have_checked_field("candidate_candidate_ids_#{@candidate2.id}")
+    # send_file sent back
+    expect(page.html.include?('2019_kristoff_vicki.pdf')).to be_truthy
   end
 end

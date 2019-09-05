@@ -15,6 +15,10 @@ module FileHelper
   # * <tt>Array</tt> of PluckCan
   #
   def delete_dir(dir)
+    FileHelper.delete_dir(dir)
+  end
+
+  def self.delete_dir(dir)
     return unless Dir.exist? dir
 
     Dir.foreach(dir) do |filename|

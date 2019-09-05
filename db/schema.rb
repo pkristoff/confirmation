@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_02_083758) do
+ActiveRecord::Schema.define(version: 2019_08_16_100151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,14 @@ ActiveRecord::Schema.define(version: 2019_07_02_083758) do
     t.text "instructions", default: "", null: false
     t.date "chs_due_date"
     t.index ["name"], name: "index_confirmation_events_on_name"
+  end
+
+  create_table "pdf_documents", force: :cascade do |t|
+    t.string "filename"
+    t.string "run_name"
+    t.binary "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pick_confirmation_names", id: :serial, force: :cascade do |t|

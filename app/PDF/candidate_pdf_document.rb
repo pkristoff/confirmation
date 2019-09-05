@@ -18,7 +18,7 @@ class CandidatePDFDocument < Prawn::Document
   # * <tt>String</tt>
   #
   def self.document_name(candidate)
-    "2019 #{candidate.candidate_sheet.last_name} #{candidate.candidate_sheet.first_name}.pdf"
+    "2019_#{candidate.candidate_sheet.last_name}_#{candidate.candidate_sheet.first_name}.pdf"
   end
 
   # Instantiation
@@ -263,43 +263,61 @@ class CandidatePDFDocument < Prawn::Document
         # stroke_bounds
       end
       # convert pdf to jpg which Prawn handles.
-    elsif scanned_image.content_type == 'application/pdf'
-      Dir.mkdir('tmp') unless Dir.exist?('tmp')
-      pdf_file_path = "tmp/#{scanned_image.filename}".downcase
-      jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
-      File.open(pdf_file_path, 'wb') do |f|
-        f.write(scanned_image.content)
-      end
-      begin
-        pdf = Magick::ImageList.new(pdf_file_path)
-
-        pdf.each do |page_img|
-          page_img.write jpg_file_path
-
-          bounding_box([image_x, image_y], width: image_width, height: image_height) do
-            # stroke_bounds
-            image jpg_file_path, width: image_width, height: image_height
-          end
-        end
-      ensure
-        File.delete(pdf_file_path) if File.exist?(pdf_file_path)
-        File.delete(jpg_file_path) if File.exist?(jpg_file_path)
-      end
     else
-      Dir.mkdir('tmp') unless Dir.exist?('tmp')
-      file_path = "tmp/#{scanned_image.filename}"
-      File.open(file_path, 'wb') do |f|
-        f.write(scanned_image.content)
-      end
-      begin
-        # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
-        bounding_box([image_x, image_y], width: image_width, height: image_height) do
-          # stroke_bounds
-          image file_path, width: image_width, height: image_height
+      # this should match the allowed types for image upload
+      case scanned_image.content_type
+      when 'application/pdf'
+
+        puts "scanned_image.content_type=#{scanned_image.content_type}"
+        Dir.mkdir('tmp') unless Dir.exist?('tmp')
+        pdf_file_path = "tmp/#{scanned_image.filename}".downcase
+        jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
+        File.open(pdf_file_path, 'wb') do |f|
+          f.write(scanned_image.content)
         end
-      ensure
-        File.delete(file_path) if File.exist?(file_path)
+        begin
+          pdf = Magick::ImageList.new(pdf_file_path)
+
+          pdf.each do |page_img|
+            page_img.write jpg_file_path
+
+            bounding_box([image_x, image_y], width: image_width, height: image_height) do
+              # stroke_bounds
+              image jpg_file_path, width: image_width, height: image_height
+            end
+          end
+        ensure
+          File.delete(pdf_file_path) if File.exist?(pdf_file_path)
+          File.delete(jpg_file_path) if File.exist?(jpg_file_path)
+        end
+      when 'image/jpg'
+        image_box(scanned_image, image_x, image_y, image_width, image_height)
+      when 'image/jpeg'
+        image_box(scanned_image, image_x, image_y, image_width, image_height)
+      when 'image/png'
+        image_box(scanned_image, image_x, image_y, image_width, image_height)
+      else
+        # somehow a type was let through the image upload
+        bounding_box([image_x, image_y], width: image_width, height: bounds.height - 25) do
+          text "<Unhandled image type: #{scanned_image.content_type}>", align: :center, valign: :center
+        end
       end
+    end
+  end
+
+  def image_box scanned_image, image_x, image_y, image_width, image_height
+    Dir.mkdir('tmp') unless Dir.exist?('tmp')
+    file_path = "tmp/#{scanned_image.filename}"
+    File.open(file_path, 'wb') do |f|
+      f.write(scanned_image.content)
+    end
+    begin
+      bounding_box([image_x, image_y], width: image_width, height: image_height) do
+        # stroke_bounds
+        image file_path, width: image_width, height: image_height
+      end
+    ensure
+      File.delete(file_path) if File.exist?(file_path)
     end
   end
 

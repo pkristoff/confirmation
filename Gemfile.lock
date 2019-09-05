@@ -357,8 +357,6 @@ GEM
     websocket-extensions (0.1.4)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zip-zip (0.3)
-      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -397,6 +395,7 @@ DEPENDENCIES
   rspec-rails
   rubocop-rails
   rubocop-rspec
+  rubyzip (>= 1.0.0)
   sass-rails
   sdoc
   selenium-webdriver
@@ -410,7 +409,6 @@ DEPENDENCIES
   uglifier
   unicorn
   web-console
-  zip-zip
 
 RUBY VERSION
    ruby 2.5.5p157

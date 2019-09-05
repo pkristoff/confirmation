@@ -390,6 +390,20 @@ class SendGridMail
     last_failed_response || response
   end
 
+  # Send the attach_file to admin.
+  #
+  # === Parameters:
+  #
+  # * <tt>:attach_file_path</tt> zipped pdf files
+  #
+  # === Returns:
+  #
+  # * <tt>Number</tt> response code from sending an email.
+  #
+  def multi_pdf_message(attach_file_path)
+    send_email_admin(MailPart.new_subject('Candidate summaries'), 'Please see attached', attach_file_path)
+  end
+
   # Generates email body with expansion
   #
   # === Parameters:
@@ -456,19 +470,6 @@ class SendGridMail
     attachment.disposition = 'attachment'
     sg_mail.add_attachment(attachment)
   end
-
-  # def add_attachment_file_zip(attach_file, sg_mail, path)
-  #   uploaded_file = attach_file
-  #
-  #   attachment = Attachment.new
-  #   content = uploaded_file.read
-  #   content64 = Base64.strict_encode64(content)
-  #   attachment.content = content64
-  #   attachment.type = 'application/zip'
-  #   attachment.filename = path
-  #   attachment.disposition = 'attachment'
-  #   sg_mail.add_attachment(attachment)
-  # end
 
   #
   # Generates email body for adhoc email
