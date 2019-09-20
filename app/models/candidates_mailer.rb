@@ -4,8 +4,10 @@
 # Used to send(expand) emails
 #
 class CandidatesMailer < ActionMailer::Base
-  default from: 'stmm.confirmation@kristoffs.com'
-  default reply_to: 'stmm.confirmation@kristoffs.com'
+  # these should always be overriden since the Admin has the
+  # contact info.
+  default from: 'default.confirmation@kristoffs.com'
+  default reply_to: 'default.confirmation@kristoffs.com'
 
   # generate email body for adhoc message - basically a free format
   # email.
@@ -19,12 +21,14 @@ class CandidatesMailer < ActionMailer::Base
   #
   # * <tt>String</tt> expanded body text
   #
-  def adhoc(_admin, candidate_mailer_text)
+  def adhoc(admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
 
     mail(
       to: "#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}",
-      subject: candidate_mailer_text.subject.text
+      subject: candidate_mailer_text.subject.text,
+      from: admin.email,
+      reply_to: admin.email
     ) do |format|
       format.html
     end
@@ -48,7 +52,9 @@ class CandidatesMailer < ActionMailer::Base
     @subject = candidate_mailer_text.subject.text
 
     mail(to: admin.email.to_s,
-         subject: I18n.t('email.test_adhoc_subject_initial_input', candidate_account_name: candidate_mailer_text.candidate.account_name)) do |format|
+         subject: I18n.t('email.test_adhoc_subject_initial_input', candidate_account_name: candidate_mailer_text.candidate.account_name),
+         from: admin.email,
+         reply_to: admin.email) do |format|
       format.html
     end
   end
@@ -65,13 +71,13 @@ class CandidatesMailer < ActionMailer::Base
   #
   # * <tt>String</tt> expanded body text
   #
-  def monthly_reminder(_admin, candidate_mailer_text)
+  def monthly_reminder(admin, candidate_mailer_text)
     setup_message_info(candidate_mailer_text)
 
-    mail(
-      to: "#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}",
-      subject: candidate_mailer_text.subject.text
-    ) do |format|
+    mail(to: "#{candidate_mailer_text.candidate.candidate_sheet.candidate_email}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_1}, #{candidate_mailer_text.candidate.candidate_sheet.parent_email_2}",
+         subject: candidate_mailer_text.subject.text,
+         from: admin.email,
+         reply_to: admin.email) do |format|
       format.html
     end
   end
@@ -95,7 +101,9 @@ class CandidatesMailer < ActionMailer::Base
     @subject = candidate_mailer_text.subject.text
 
     mail(to: admin.email.to_s,
-         subject: I18n.t('email.test_monthly_mail_subject_initial_input', candidate_account_name: candidate_mailer_text.candidate.account_name)) do |format|
+         subject: I18n.t('email.test_monthly_mail_subject_initial_input', candidate_account_name: candidate_mailer_text.candidate.account_name),
+         from: admin.email,
+         reply_to: admin.email) do |format|
       format.html
     end
   end

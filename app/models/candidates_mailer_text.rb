@@ -28,7 +28,6 @@ class CandidatesMailerText
     @subject = parms[:subject]
     @body_text = parms[:body_text]
 
-    # @body_text = @body_text.text unless @body_text.is_a? Hash
     return unless @body_text.is_a? Hash
 
     @pre_late_input = @body_text[:pre_late_input]

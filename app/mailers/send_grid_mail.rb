@@ -79,7 +79,10 @@ class SendGridMail
   # Generate and send candidate user id confirmation email
   #
   def confirmation_instructions
-    [send_email(MailPart.new_subject(I18n.t('email.confirmation_instructions_subject')), nil, MailPart.new_body(''), EmailStuff::TYPES[:confirmation_instructions],
+    [send_email(MailPart.new_subject(I18n.t('email.confirmation_instructions_subject')),
+                nil,
+                MailPart.new_body(''),
+                EmailStuff::TYPES[:confirmation_instructions],
                 conf_insts_call),
      @candidate_mailer_text.token]
   end
@@ -247,7 +250,7 @@ class SendGridMail
   # * <tt>Array</tt> In production - Array of passed in email addresses else - Array of legal non-production email addresses
   #
   def expand_text(candidate, subject_mail_part, body_input_mail_part, delivery_call)
-    @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: subject_mail_part, body_text: body_input_mail_part)
+    @candidate_mailer_text = CandidatesMailerText.new(admin: @admin, candidate: candidate, subject: subject_mail_part, body_text: body_input_mail_part)
 
     delivery = delivery_call.call(@admin, @candidate_mailer_text)
     text(delivery)
@@ -368,7 +371,6 @@ class SendGridMail
     last_failed_response = nil
     response = nil
     content = attach_file.read unless attach_file.nil?
-
     @candidates.each do |candidate|
       sg_mail = create_mail((test_subject.nil? ? subject_mail_part : MailPart.new_subject(test_subject.call(candidate))), email_type, candidate.account_name)
 
@@ -520,7 +522,10 @@ class SendGridMail
   # A lambda
   #
   def conf_insts_call
-    ->(_admin, candidate_mailer_text) { candidate_mailer_text.candidate.confirmation_instructions(candidate_mailer_text) }
+    lambda do |admin, candidate_mailer_text|
+      # @admin = admin
+      candidate_mailer_text.candidate.confirmation_instructions(admin, candidate_mailer_text)
+    end
   end
 
   #
@@ -563,7 +568,10 @@ class SendGridMail
   end
 
   def reset_pass_call
-    ->(_admin, candidate_mailer_text) { candidate_mailer_text.candidate.password_reset_message(candidate_mailer_text) }
+    lambda do |admin, candidate_mailer_text|
+      # @admin = admin
+      candidate_mailer_text.candidate.password_reset_message(admin, candidate_mailer_text)
+    end
   end
 end
 

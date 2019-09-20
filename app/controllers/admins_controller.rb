@@ -298,6 +298,7 @@ class AdminsController < ApplicationController
   # * <tt>:selected_ids</tt>  Optional
   #
   def setup_monthly_mailing_render_default(selected_ids = [])
+    admin = current_admin
     subject = MailPart.new_subject(t('email.subject_initial_input'))
     pre_late_input = MailPart.new_pre_late_input(t('email.late_initial_input'))
     pre_coming_due_input = MailPart.new_pre_coming_due_input(t('email.coming_due_initial_input'))
@@ -305,7 +306,7 @@ class AdminsController < ApplicationController
     completed_input = MailPart.new_completed_input(t('email.completed_initial_input'))
     salutation_input = MailPart.new_closing_input(t('email.closing_initial_input'))
     closing_input = MailPart.new_salutation_input(t('email.salutation_initial_input'))
-    from_input = MailPart.new_from_input(t('email.from_initial_input_html'))
+    from_input = MailPart.new_from_input(t('email.from_initial_input_html', name: admin.contact_name, email: admin.email, phone: admin.contact_phone))
 
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_input, salutation_input, from_input, selected_ids)
   end
@@ -404,7 +405,7 @@ class AdminsController < ApplicationController
     flash.now[:notice] = if send_mail_response.status_code[0] == '2'
                            flash_message
                          else
-                           "Send emai failed - see logs for more info - last failed response: Status=#{send_mail_response.status_code} body=#{send_mail_response.body}"
+                           "Send email failed - see logs for more info - last failed response: Status=#{send_mail_response.status_code} body=#{send_mail_response.body}"
                          end
 
     set_confirmation_events

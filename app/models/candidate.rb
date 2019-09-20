@@ -554,12 +554,16 @@ class Candidate < ApplicationRecord
   # The user has clicked on the Forgot Password link
   # on the sign in pane
   #
+  # === Parameters:
+  #
+  # * <tt>:admin</tt> used for attributes
+  #
   # === Returns:
   #
   # * <tt>password</tt> reset token
   #
-  def send_reset_password_instructions
-    send_grid_mail = SendGridMail.new(nil, [self])
+  def send_reset_password_instructions(admin)
+    send_grid_mail = SendGridMail.new(admin, [self])
     _response, token = send_grid_mail.reset_password
     token
   end
@@ -568,32 +572,34 @@ class Candidate < ApplicationRecord
   #
   # === Parameters:
   #
+  # * <tt>:admin</tt> used for attributes
   # * <tt>:candidate_mailer_text</tt> expands instructions
   #
   # === Returns:
   #
   # * <tt>String</tt>
   #
-  def password_reset_message(candidate_mailer_text)
+  def password_reset_message(admin, candidate_mailer_text)
     token = set_reset_password_token
     candidate_mailer_text.token = token
-    devise_mailer.reset_password_instructions(self, token)
+    devise_mailer.reset_password_instructions(self, token, admin: admin)
   end
 
   # get expanded account confirmation instructions
   #
   # === Parameters:
   #
+  # * <tt>:admin</tt> used for attributes
   # * <tt>:candidate_mailer_text</tt> expands instructions
   #
   # === Returns:
   #
   # * <tt>String</tt>
   #
-  def confirmation_instructions(candidate_mailer_text)
+  def confirmation_instructions(admin, candidate_mailer_text)
     token = generate_confirmation_token
     candidate_mailer_text.token = token
-    devise_mailer.confirmation_instructions(self, token)
+    devise_mailer.confirmation_instructions(self, token, admin: admin)
   end
 
   # 5.0 hack with devise

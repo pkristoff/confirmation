@@ -224,7 +224,11 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     expect(rendered).to have_css('p[id=closing_input][ style="white-space: pre;"]', text: '')
     expect(rendered).to have_css('p[id=salutation_input][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_input'))
-    expect(rendered).to have_css('p[id=from_input][ style="white-space: pre;"]', text: I18n.t('email.from_initial_input_html'))
+    expect(rendered).to have_css('p[id=from_input][ style="white-space: pre;"]',
+                                 text: I18n.t('email.from_initial_input_html',
+                                              name: @admin.contact_name,
+                                              email: @admin.email,
+                                              phone: @admin.contact_phone))
   end
 
   def expect_table(_field_id, field_text, event_prefix, column_headers, cell_values)
@@ -265,6 +269,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   def render_setup
+    @admin = login_admin
     @candidate_mailer_text = CandidatesMailerText.new(
       candidate: @candidate,
       subject: MailPart.new_subject(''),
@@ -273,7 +278,11 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
         completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
         completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
-        salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT)
+        salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT),
+        from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N,
+                                                   name: @admin.contact_name,
+                                                   email: @admin.email,
+                                                   phone: @admin.contact_phone))
       }
     )
   end

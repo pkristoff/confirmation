@@ -12,6 +12,8 @@ class CustomDeviseMailer < Devise::Mailer
   # * <tt>:opts</tt> legal values
   #
   def headers_for(action, opts)
+    # adds admin so it is asvailable for mail expansion
+    @admin = opts[:admin]
     headers = super
     headers = headers.merge(to: resource.emails,
                             bcc: resource.bcc_email)

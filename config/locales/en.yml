@@ -23,9 +23,9 @@ en:
     due_date: Due date
     events: Events
     from_initial_input_html: |
-      Vicki Kristoff
-      stmm.confirmation@kristoffs.com
-      919-249-5629
+      %{name}
+      %{email}
+      %{phone}
     from_input_label: From
     information_entered: Information Entered
     late_initial_input: Here is the status of your Confirmation forms(events) that
@@ -203,7 +203,7 @@ en:
       reset_and_confirmed: Your password has been changed successfully, your user
         name (%{name}) confirmed and you are now signed in.
       token_expired: The reset password email has either expired or has been used.  Please
-        contact Admin via email stmm.confirmation@kristoffs.com
+        contact Admin via email %{email}
     remove_candidate: remove a candidate
     reset_password_message_sent: Reset password messages sent
     save_failed: Save failed
@@ -326,9 +326,8 @@ en:
       about: About
       aboutApp: About Confirmation App
       candidate_checklist: Candidate checklist
-      contact_admin_mail: mailto:stmm.confirmation@kristoffs.com?subject=%{subject}
-      contact_admin_mail_text: stmm.confirmation@kristoffs.com
-      contact_admin_phone: 919-249-5629
+      contact_admin_mail: mailto:%{email}?subject=%{subject}
+      contact_admin_mail_text: "%{email}"
       contact_information: Contact Information
       help: Help
       home: Home

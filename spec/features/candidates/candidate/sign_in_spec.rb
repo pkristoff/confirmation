@@ -86,6 +86,9 @@ feature 'Sign in', :devise do
   scenario 'Resend confirmation instructions: good email' do
     AppFactory.add_confirmation_events
     create_candidate('c1', false)
+    # need admin contact info even though candidate is logged in
+    FactoryBot.create(:admin)
+
     visit new_candidate_session_path
     click_link 'Resend confirmation instructions?'
     expect(page.html).to have_selector('a[href="/dev/candidates/confirmation/new"]', text: 'Resend confirmation instructions')

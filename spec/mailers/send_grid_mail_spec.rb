@@ -90,7 +90,11 @@ describe SendGridMail, type: :model do
                                           pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
                                           completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
                                           completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
-                                          salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT))
+                                          salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT),
+                                          from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N,
+                                                                                     name: @admin.contact_name,
+                                                                                     email: @admin.email,
+                                                                                     phone: @admin.contact_phone)))
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('p[id=past_due_input]', text: ViewsHelpers::LATE_INITIAL_INPUT)
@@ -99,7 +103,11 @@ describe SendGridMail, type: :model do
       expect(body).to have_css('p[id=closing_input]', text: ViewsHelpers::CLOSING_INITIAL_INPUT)
       expect(body).to have_css('p[id=completed_events_input]', text: ViewsHelpers::COMPLETE_INITIAL_INPUT)
       expect(body).to have_css('p[id=salutation_input]', text: ViewsHelpers::SALUTATION_INITIAL_INPUT)
-      expect(body).to have_css('p[id=from_input]', text: ViewsHelpers::FROM_EMAIL_INPUT)
+      expect(body).to have_css('p[id=from_input]',
+                               text: I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N,
+                                            name: @admin.contact_name,
+                                            email: @admin.email,
+                                            phone: @admin.contact_phone))
 
       expect(send_grid_mail.attachments.empty?).to eq(true)
     end
@@ -112,7 +120,11 @@ describe SendGridMail, type: :model do
                                           pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
                                           completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
                                           completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
-                                          salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT))
+                                          salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT),
+                                          from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N,
+                                                                                     name: @admin.contact_name,
+                                                                                     email: @admin.email,
+                                                                                     phone: @admin.contact_phone)))
 
       body = Capybara.string(send_grid_mail.expanded_text)
       expect(body).to have_css('p[id=past_due_input]', text: ViewsHelpers::LATE_INITIAL_INPUT)
@@ -121,7 +133,11 @@ describe SendGridMail, type: :model do
       expect(body).to have_css('p[id=closing_input]', text: ViewsHelpers::CLOSING_INITIAL_INPUT)
       expect(body).to have_css('p[id=completed_events_input]', text: ViewsHelpers::COMPLETE_INITIAL_INPUT)
       expect(body).to have_css('p[id=salutation_input]', text: ViewsHelpers::SALUTATION_INITIAL_INPUT)
-      expect(body).to have_css('p[id=from_input]', text: ViewsHelpers::FROM_EMAIL_INPUT)
+      expect(body).to have_css('p[id=from_input]',
+                               text: I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N,
+                                            name: @admin.contact_name,
+                                            email: @admin.email,
+                                            phone: @admin.contact_phone))
 
       expect(send_grid_mail.attachments.size).to eq(1)
       attachment = send_grid_mail.attachments[0]
@@ -315,7 +331,7 @@ describe SendGridMail, type: :model do
                                             pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
                                             completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
                                             completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
-                                            salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT))
+                                            salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N, name: @admin.contact_name, email: @admin.email, phone: @admin.contact_phone)))
 
         body = Capybara.string(send_grid_mail.expanded_text)
         expect(body).not_to have_css('p[id=past_due_input]')
@@ -324,7 +340,7 @@ describe SendGridMail, type: :model do
         expect(body).to have_css('p[id=closing_input]', text: ViewsHelpers::CLOSING_INITIAL_INPUT)
         expect(body).to have_css('p[id=completed_events_input]', text: ViewsHelpers::COMPLETE_INITIAL_INPUT)
         expect(body).to have_css('p[id=salutation_input]', text: ViewsHelpers::SALUTATION_INITIAL_INPUT)
-        expect(body).to have_css('p[id=from_input]', text: ViewsHelpers::FROM_EMAIL_INPUT)
+        expect(body).to have_css('p[id=from_input]', text: I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N, name: @admin.contact_name, email: @admin.email, phone: @admin.contact_phone))
 
         expect(send_grid_mail.attachments.empty?).to eq(true)
       end
@@ -340,7 +356,7 @@ describe SendGridMail, type: :model do
                                               completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT, entry != :completed_input),
                                               closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT, entry != :closing_input),
                                               salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT, entry != :salutation_input),
-                                              from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT, entry != :from_input))
+                                              from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N, name: @admin.contact_name, email: @admin.email, phone: @admin.contact_phone)))
 
           body = Capybara.string(send_grid_mail.expanded_text)
           expect(body).to have_css('p[id=past_due_input]', text: ViewsHelpers::LATE_INITIAL_INPUT) unless entry == :pre_late_input
@@ -369,8 +385,8 @@ describe SendGridMail, type: :model do
           expect(body).to have_css('p[id=salutation_input]', text: ViewsHelpers::SALUTATION_INITIAL_INPUT) unless entry == :salutation_input
           expect(body).not_to have_css('p[id=salutation_input]') if entry == :salutation_input
 
-          expect(body).to have_css('p[id=from_input]', text: ViewsHelpers::FROM_EMAIL_INPUT) unless entry == :from_input
-          expect(body).not_to have_css('p[id=from_input]') if entry == :from_input
+          expect(body).to have_css('p[id=from_input]', text: I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N, name: @admin.contact_name, email: @admin.email, phone: @admin.contact_phone)) unless entry == :from_input
+          expect(body).not_to have_css('p[id=from_input]', text: 'Vicki Kristoff test@example.com 919-249-5629 ') if entry == :from_input
 
           expect(send_grid_mail.attachments.empty?).to eq(true)
         end
@@ -380,9 +396,9 @@ describe SendGridMail, type: :model do
 
   def expect_basic_admin_info(body, subject)
     expect(body).to have_css('p[id=admin-info]', text: 'Vicki Kristoff')
-    expect(body).to have_css('p[id=admin-info]', text: I18n.t('views.top_bar.contact_admin_mail_text'))
-    expect(body).to have_css("a[id=admin-email][href='#{I18n.t('views.top_bar.contact_admin_mail', subject: subject)}']", text: I18n.t('views.top_bar.contact_admin_mail_text'))
-    expect(body).to have_css('p[id=admin-info]', text: I18n.t('views.top_bar.contact_admin_phone'))
+    expect(body).to have_css('p[id=admin-info]', text: I18n.t('views.top_bar.contact_admin_mail_text', email: @admin.email))
+    expect(body).to have_css("a[id=admin-email][href='#{I18n.t('views.top_bar.contact_admin_mail', email: @admin.email, subject: subject)}']", text: I18n.t('views.top_bar.contact_admin_mail_text', email: @admin.email))
+    expect(body).to have_css('p[id=admin-info]', text: '919-249-5629')
   end
 
   def expect_basic_candidate_info(body, candidate)

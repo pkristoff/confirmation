@@ -3,6 +3,7 @@
 describe 'admins/monthly_mass_mailing.html.erb' do
   include ViewsHelpers
   before(:each) do
+    @admin = FactoryBot.create(:admin)
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
@@ -22,7 +23,7 @@ describe 'admins/monthly_mass_mailing.html.erb' do
     @completed_input = MailPart.new_completed_input(t('email.completed_initial_input'))
     @closing_input = MailPart.new_closing_input(t('email.closing_initial_input'))
     @salutation_input = MailPart.new_salutation_input(t('email.salutation_initial_input'))
-    @from_input = MailPart.new_from_input(t('email.from_initial_input_html'))
+    @from_input = MailPart.new_from_input(t('email.from_initial_input_html', name: @admin.contact_name, email: @admin.email, phone: @admin.contact_phone))
 
     render
 

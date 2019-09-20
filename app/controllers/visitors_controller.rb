@@ -50,7 +50,9 @@ class VisitorsController < ApplicationController
       return redirect_to show_visitor_url alert: @errors
     end
 
-    send_grid_mail = SendGridMail.new(current_admin, [@candidate])
+    # need admin contact info even though candidate or no one is logged in
+    admin = current_admin || Admin.all.first
+    send_grid_mail = SendGridMail.new(admin, [@candidate])
     response, _token = send_grid_mail.reset_password
     if response.nil? && Rails.env.test?
       # not connected to the internet while testing
@@ -79,7 +81,8 @@ class VisitorsController < ApplicationController
     return redirect_to '/dev/candidates/sign_in', params if cs.blank?
 
     candidate = Candidate.find_by(candidate_sheet_id: cs.id)
-    send_grid_mail = SendGridMail.new(current_admin, [candidate])
+    admin = current_admin || Admin.all.first
+    send_grid_mail = SendGridMail.new(admin, [candidate])
     response, _token = send_grid_mail.confirmation_instructions
     if response.nil? && Rails.env.test?
       # not connected to the internet

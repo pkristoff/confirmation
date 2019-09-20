@@ -9,7 +9,9 @@ describe 'export_excel_job' do
   end
   it 'should raise unknow type message' do
     export_excel_job_spec = ExportExcelJobSpec.new
-    expect(export_excel_job_spec.perform('foo', @admin).status_code).to eq('200')
+
+    status_code = export_excel_job_spec.perform('foo', @admin).status_code
+    expect(status_code.to_s.start_with?('20')).to eq(true)
 
     expect(export_excel_job_spec.admin).to eq(@admin)
     expect(export_excel_job_spec.message).to eq("ExportExcelJob unknown type 'foo'")
@@ -18,7 +20,7 @@ describe 'export_excel_job' do
   end
   it 'should attach file without scanned pictures' do
     export_excel_job_spec = ExportExcelJobSpec.new
-    expect(export_excel_job_spec.perform(I18n.t('views.imports.excel_no_pict'), @admin).status_code).to eq('200')
+    expect(export_excel_job_spec.perform(I18n.t('views.imports.excel_no_pict'), @admin).status_code.start_with?('20')).to eq(true)
     expect(export_excel_job_spec.admin).to eq(@admin)
     expect(export_excel_job_spec.dir).to eq('xlsx_export')
     expect(export_excel_job_spec.export_to_excel_no_pictures_called).to eq(true)
@@ -29,7 +31,7 @@ end
 class ExportExcelJobSpec < ExportExcelJob
   attr_accessor :email_error_message_called, :export_to_excel_no_pictures_called, :admin, :dir, :type, :message, :backtrace
 
-  def inialize
+  def initialize
     @email_error_message_called = false
     @export_to_excel_no_pictures_called = false
     @admin = nil
