@@ -19,11 +19,11 @@ describe 'layouts/_side_bar.html.erb' do
 
     @admin_export_link_names_in_order = [
       [I18n.t('views.nav.export_confirmation_name'), '/export_lists/confirmation_name'],
-      [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), '/export_lists/retreat'],
-      [I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/baptism'],
-      [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/sponsor'],
-      [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events'],
-      [I18n.t('views.nav.pdf_baptismal_name'), '/export_lists/bap_name']
+      [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), '/export_lists/retreat', nil, 'Retreat at St. Ma...'],
+      [I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/baptism', nil, 'Baptized at St. M...'],
+      [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/sponsor', nil, 'Sponsor at St. Ma...'],
+      [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events', nil, 'Candidate Events ...'],
+      [I18n.t('views.nav.pdf_baptismal_name'), '/export_lists/bap_name', nil, 'DF for matching ...']
     ]
 
     @candidate_link_names_in_order = [
@@ -92,6 +92,7 @@ describe 'layouts/_side_bar.html.erb' do
   def expect_links_in_order(link_names_in_order, sidebar_id, dev, total_num_links, candidate_id = '')
     link_names_in_order.each_with_index do |info, index|
       event_name = info[0]
+      event_name_trunc = info[3] if info.size == 4
       href = if (info.size == 3) && !dev.empty?
                info[2].gsub('<dev>', dev)
              elsif info.size == 2
@@ -100,7 +101,7 @@ describe 'layouts/_side_bar.html.erb' do
       href = href.gsub('<id>', candidate_id) unless href.nil?
 
       event_name = event_name.gsub(/([\w\s]{17}).+/, '\1...') if event_name.size > SideBar::TRUNCATELENGTH
-      expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index + 1})", text: event_name)
+      expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index + 1})", text: event_name_trunc.nil? ? event_name : event_name_trunc)
       expect(rendered).to have_link(event_name, href: href) unless href.nil?
     end
     expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li", count: total_num_links)

@@ -16,7 +16,8 @@ class CustomDeviseMailer < Devise::Mailer
     @admin = opts[:admin]
     headers = super
     headers = headers.merge(to: resource.emails,
-                            bcc: resource.bcc_email)
+                            # always send email to admin
+                            bcc: @admin.email)
     @email = headers[:to]
     headers
   end

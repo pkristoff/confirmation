@@ -228,7 +228,7 @@ class BaptismalCertificate < ApplicationRecord
     chosen_baptized_at_home_parish? && !baptized_at_home_parish
   end
 
-  # Whether candidate has chosen that they were baptised at St MM
+  # Whether candidate has chosen that they were baptised at home parish
   #
   # === Returns:
   #
@@ -238,7 +238,7 @@ class BaptismalCertificate < ApplicationRecord
     show_empty_radio.positive?
   end
 
-  # Whether candidate has chosen that they received first communion at St MM
+  # Whether candidate has chosen that they received first communion at home parish
   #
   # === Returns:
   #

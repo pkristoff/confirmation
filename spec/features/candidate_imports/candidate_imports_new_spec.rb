@@ -68,7 +68,6 @@ feature 'Other', :devise do
 
   describe 'Reset the Database' do
     scenario 'admin can reset the database' do
-      FactoryBot.create(:visitor)
       FactoryBot.create(:candidate)
       FactoryBot.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) # prove there are only 2

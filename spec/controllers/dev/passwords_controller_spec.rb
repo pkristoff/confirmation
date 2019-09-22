@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 describe Dev::PasswordsController do
+  before(:each) do
+    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+  end
+
   describe 'edit' do
     it 'should error if token has expired' do
       admin = login_admin

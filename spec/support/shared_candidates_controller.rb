@@ -3,6 +3,7 @@
 shared_context 'baptismal_certificate' do
   include ViewsHelpers
   before(:each) do
+    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
     AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
     @today = Time.zone.today
   end

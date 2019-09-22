@@ -220,16 +220,6 @@ class Candidate < ApplicationRecord
     complete
   end
 
-  # If bcc is called use this email  address
-  #
-  # === Returns:
-  #
-  # * <tt>String</tt>
-  #
-  def bcc_email
-    'stmm.confirmation@kristoffs.com'
-  end
-
   # Array of email addresses ignoring the fact they could be nil - devise
   #
   # === Returns:

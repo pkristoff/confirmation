@@ -144,7 +144,7 @@ class SendGridMail
       mail_settings.sandbox_mode = SendGrid::SandBoxMode.new(enable: true)
       mail.mail_settings = mail_settings
     end
-    mail.from = SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: 'St MM Confirmation')
+    mail.from = SendGrid::Email.new(email: @admin.email, name: "#{Visitor.home_parish} Confirmation")
     mail.subject = subject_mail_part.text
     cat_env = ''
     cat_env = 'test' if Rails.env.test?
@@ -174,9 +174,9 @@ class SendGridMail
       personalization.add_to(SendGrid::Email.new(email: converted_emails[0], name: "#{sheet.first_name} #{sheet.last_name}"))
       personalization.add_cc(SendGrid::Email.new(email: converted_emails[1])) unless converted_emails[1].nil?
       personalization.add_cc(SendGrid::Email.new(email: converted_emails[2])) unless converted_emails[2].nil?
-      personalization.add_bcc(SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: 'St MM Confirmation'))
+      personalization.add_bcc(SendGrid::Email.new(email: @admin.email, name: "#{Visitor.home_parish} Confirmation"))
     else
-      personalization.add_to(SendGrid::Email.new(email: admin.email, name: 'admin'))
+      personalization.add_to(SendGrid::Email.new(email: admin.email, name: "#{Visitor.home_parish} Confirmation"))
     end
     subs.each { |sub| personalization.add_substitution(sub) }
     sg_mail.add_personalization(personalization)

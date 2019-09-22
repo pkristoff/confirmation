@@ -14,15 +14,10 @@ feature 'admins/show_visitor.html.erb' do
   CONTACT_INIT_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
   CONTACT_CHANGED_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" id="foo" style="bold" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
   before(:each) do
-    @visitor = FactoryBot.create(:visitor)
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
 
-    @visitor.home_parish = HOME_PARISH_INIT_VALUE
-    @visitor.home = HOME_INIT_VALUE
-    @visitor.about = ABOUT_INIT_VALUE
-    @visitor.contact = CONTACT_INIT_VALUE
-    @visitor.save
+    @visitor = Visitor.visitor(HOME_PARISH_INIT_VALUE, HOME_INIT_VALUE, ABOUT_INIT_VALUE, CONTACT_INIT_VALUE)
   end
 
   after(:each) do
@@ -63,26 +58,25 @@ feature 'admins/show_visitor.html.erb' do
 
     expect(page).to have_css("section[id='home_parish']")
     expect(page).to have_css "section[id='home_parish'] form[action='/update_visitor/#{@visitor.id}']"
-    expect(page).to have_css "input[id='visitor_home_parish'][value='#{home_parish}']"
-    expect(page).to have_field(I18n.t('label.visitor.home_parish'))
+    expect(page).to have_field(I18n.t('label.visitor.home_parish'), with: home_parish)
     expect(page).to have_css("section[id='home_parish'] input[id='top-update-home-parish'][type='submit'][value='#{I18n.t('views.common.update_home_parish')}']")
     expect(page).to have_css("section[id='home_parish'] input[id='bottom-update-home-parish'][type='submit'][value='#{I18n.t('views.common.update_home_parish')}']")
 
     expect(page).to have_css("section[id='home']")
     expect(page).to have_css "section[id='home'] form[action='/update_visitor/#{@visitor.id}']"
-    expect(page).to have_field(I18n.t('label.visitor.home'), text: home)
+    expect(page).to have_field(I18n.t('label.visitor.home'), with: home)
     expect(page).to have_css("section[id='home'] input[id='top-update-home'][type='submit'][value='#{I18n.t('views.common.update_home')}']")
     expect(page).to have_css("section[id='home'] input[id='bottom-update-home'][type='submit'][value='#{I18n.t('views.common.update_home')}']")
 
     expect(page).to have_css("section[id='about']")
     expect(page).to have_css "section[id='about'] form[action='/update_visitor/#{@visitor.id}']"
-    expect(page).to have_field(I18n.t('label.visitor.about'), text: about)
+    expect(page).to have_field(I18n.t('label.visitor.about'), with: about)
     expect(page).to have_css("section[id='about'] input[id='top-update-about'][type='submit'][value='#{I18n.t('views.common.update_about')}']")
     expect(page).to have_css("section[id='about'] input[id='bottom-update-about'][type='submit'][value='#{I18n.t('views.common.update_about')}']")
 
     expect(page).to have_css("section[id='contact']")
     expect(page).to have_css "section[id='contact'] form[action='/update_visitor/#{@visitor.id}']"
-    expect(page).to have_field(I18n.t('label.visitor.contact_information'), text: contact)
+    expect(page).to have_field(I18n.t('label.visitor.contact_information'), with: contact)
     expect(page).to have_css("section[id='contact'] input[id='top-update-contact'][type='submit'][value='#{I18n.t('views.common.update_information_contact')}']")
     expect(page).to have_css("section[id='contact'] input[id='bottom-update-contact'][type='submit'][value='#{I18n.t('views.common.update_information_contact')}']")
 

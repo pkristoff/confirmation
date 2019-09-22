@@ -191,9 +191,7 @@ describe BaptismalCertificate, type: :model do
   end
   describe 'validate_event_complete' do
     before(:each) do
-      v = Visitor.create!
-      v.home_parish = 'St. Mary Magdalene'
-      v.save
+      Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
     end
     it 'should fail validation - new baptismal_certificate validated' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)

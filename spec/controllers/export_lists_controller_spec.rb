@@ -2,6 +2,8 @@
 
 describe ExportListsController do
   before(:each) do
+    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+
     c1 = FactoryBot.create(:candidate, account_name: 'c1')
     c1.candidate_sheet.first_name = 'Paul'
     c1.candidate_sheet.last_name = 'Kristoff'

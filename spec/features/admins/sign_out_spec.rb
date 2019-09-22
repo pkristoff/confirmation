@@ -11,7 +11,6 @@ feature 'Sign out', :devise do
   #   Then I see a signed out message
   scenario 'candidate signs out successfully' do
     admin = FactoryBot.create(:admin)
-    FactoryBot.create(:visitor)
     signin_admin(admin.email, admin.password)
     expect_message(:flash_notice, I18n.t('devise.sessions.signed_in'))
     click_link I18n.t('views.top_bar.sign_out')

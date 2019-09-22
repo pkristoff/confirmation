@@ -14,7 +14,7 @@ shared_context 'retreat_verification_html_erb' do
     @candidate_event_id = @candidate.get_candidate_event(I18n.t('events.retreat_verification')).id
     @cand_id = @candidate.id
     @today = Time.zone.today
-    v = Visitor.create!
+    v = Visitor.all.first
     v.home_parish = 'St. Mary Magdalene'
     v.save
   end
