@@ -7,7 +7,7 @@ SPONSOR_COVENANT_EVENT = I18n.t('events.sponsor_covenant')
 
 UPDATED_MESSAGE = I18n.t('messages.updated', cand_name: 'Sophia Agusta')
 
-ATTENDS_STMM_LABEL = I18n.t('label.sponsor_covenant.sponsor_attends_home_parish')
+ATTENDS_STMM_LABEL_I18N = 'label.sponsor_covenant.sponsor_attends_home_parish'
 COVENANT_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_covenant_picture')
 ELEGIBILITY_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_eligibility_picture')
 SPONSOR_CHURCH_LABEL = I18n.t('label.sponsor_covenant.sponsor_church')
@@ -96,7 +96,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate_db = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate_db.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 2 empty fields need to be filled in on the form to be verfied:', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank']]])
+                                                   [:error_explanation, ['Your changes were saved!! 2 empty fields need to be filled in on the form to be verified:', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank']]])
 
     expect(candidate_db.sponsor_covenant).not_to eq(nil)
     expect(candidate_db.sponsor_covenant.sponsor_attends_home_parish).to eq(false)
@@ -141,7 +141,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Sponsor eligibility form can\'t be blank', 'Sponsor eligibility content type can\'t be blank', 'Sponsor eligibility file contents can\'t be blank']]])
+                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Scanned sponsor covenant form can\'t be blank']]])
 
     expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
     expect(page).not_to have_selector(img_src_selector)
@@ -175,7 +175,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Sponsor name can\'t be blank']]],
+                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Sponsor name can\'t be blank']]],
                                  sponsor_name: '')
   end
 
@@ -190,9 +190,9 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(page).to have_selector("div[id=sponsor-covenant-top][class=\"#{visibility}\"]")
 
     if cand.sponsor_covenant.sponsor_attends_home_parish
-      expect(page).to have_checked_field(ATTENDS_STMM_LABEL)
+      expect(page).to have_checked_field(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
     else
-      expect(page).not_to have_checked_field(ATTENDS_STMM_LABEL)
+      expect(page).not_to have_checked_field(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
     end
 
     expect_field(COVENANT_PICTURE_LABEL, nil)

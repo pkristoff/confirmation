@@ -42,7 +42,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     expect_christian_ministry_form(@cand_id, @path_str, @dev, @update_id, @is_verify,
                                    saint_name: '',
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
+                                                     [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verified:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
     candidate = Candidate.find(@cand_id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.christian_ministry'))
     expect(candidate_event.completed_date).to eq(nil)

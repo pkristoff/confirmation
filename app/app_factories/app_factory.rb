@@ -165,9 +165,12 @@ class AppFactory
 
   # create or find the Admin - reseting password.  Then create the seed
   #
-  def self.generate_seed
-    Admin.find_or_create_by!(email: Rails.application.secrets.admin_email) do |admin|
+  def self.generate_seed(contact_name='Vicki Kristoff', contact_phone='919-249-5629', email='stmm.confirmation@kristoffs.com')
+    Admin.find_or_create_by!(email: email) do |admin|
       admin.name = Rails.application.secrets.admin_name
+      admin.contact_name = contact_name
+      admin.contact_phone = contact_phone
+      admin.email = email
       admin.password = Rails.application.secrets.admin_password
       admin.password_confirmation = Rails.application.secrets.admin_password
     end

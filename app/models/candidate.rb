@@ -169,7 +169,7 @@ class Candidate < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    [:account_name, :password, :password_confirmation,
+    [:id, :account_name, :password, :password_confirmation,
      :signed_agreement, :candidate_note,
      candidate_sheet_attributes: CandidateSheet.permitted_params,
      baptismal_certificate_attributes: BaptismalCertificate.permitted_params,

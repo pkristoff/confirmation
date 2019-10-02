@@ -13,7 +13,7 @@ describe 'admins/sessions/new.html.erb' do
 
     expect(rendered).to have_selector('form[id=new_admin][action="/admins/sign_in"]')
 
-    expect(rendered).to have_field(I18n.t('views.common.email'), with: '', type: 'email')
+    expect(rendered).to have_field(I18n.t('views.admins.email'), with: '', type: 'email')
     expect(rendered).to have_field(I18n.t('views.common.password'), type: 'password')
     expect(rendered).to have_unchecked_field('Remember me')
     expect(rendered).to have_button(I18n.t('views.top_bar.sign_in', name: 'admin'))

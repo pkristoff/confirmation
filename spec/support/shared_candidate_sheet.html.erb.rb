@@ -21,7 +21,7 @@ shared_context 'candidate_sheet_html_erb' do
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expect_messages: [
                                   [:flash_notice, @updated_failed_verification],
-                                  [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Candidate email is an invalid email: m']]
+                                  [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Candidate email is an invalid email: m']]
                                 ])
   end
 
@@ -34,7 +34,7 @@ shared_context 'candidate_sheet_html_erb' do
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expect_messages: [
                                   [:flash_notice, @updated_failed_verification],
-                                  [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Candidate email is an invalid email: mm']]
+                                  [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Candidate email is an invalid email: mm']]
                                 ])
   end
 

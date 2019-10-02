@@ -23,7 +23,7 @@ module Features
 
     def sign_up_admin_with(email, password, confirmation)
       visit new_admin_registration_path
-      fill_in I18n.t('views.common.email'), with: email
+      fill_in I18n.t('views.admins.email'), with: email
       fill_in I18n.t('views.common.password'), with: password
       fill_in 'Password confirmation', with: confirmation
       click_button I18n.t('views.top_bar.sign_up')
@@ -31,7 +31,7 @@ module Features
 
     def signin_admin(email, password)
       visit new_admin_session_path
-      fill_in I18n.t('views.common.email'), with: email
+      fill_in I18n.t('views.admins.email'), with: email
       fill_in I18n.t('views.common.password'), with: password
       click_button I18n.t('views.top_bar.sign_in', name: '')
     end

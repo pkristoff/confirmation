@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     if devise_mapping.name == :admin
       devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :password, :password_confirmation, :remember_me) }
       devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:name, :password, :remember_me) }
-      devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :password, :password_confirmation, :current_password) }
+      devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :contact_name, :contact_phone, :password, :password_confirmation, :current_password) }
     else
       # admin is editing a candidate's account info
       devise_parameter_sanitizer.permit(:sign_in) do |candidate_parms|
@@ -59,6 +59,7 @@ class ApplicationController < ActionController::Base
   end
 
   def candidate_params
+    # sponsor_covenant_picture - remove
     params.require(:candidate).permit(candidate_permitted_params)
   end
 

@@ -113,7 +113,7 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '',
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
+                                                     [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verified:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
 
     candidate = Candidate.find(@cand_id)
     expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(nil)
@@ -141,7 +141,7 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME,
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'What service can\'t be blank']]])
+                                                     [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'What service can\'t be blank']]])
 
     expect_db(1, 8, 0) # make sure DB does not increase in size.
   end

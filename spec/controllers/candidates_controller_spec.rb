@@ -101,7 +101,8 @@ describe CandidatesController do
 
     it 'should stay on pick_confirmation_name_verify, since it should not pass validation' do
       put :pick_confirmation_name_verify_update,
-          params: { id: @c1_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c1_id,
+                    candidate: { pick_confirmation_name_attributes: { saint_name: '', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -124,7 +125,8 @@ describe CandidatesController do
       cand.save
 
       put :pick_confirmation_name_verify_update,
-          params: { id: @c1_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c1_id,
+                    candidate: { pick_confirmation_name_attributes: { saint_name: 'george', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -139,7 +141,7 @@ describe CandidatesController do
     it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
       put :pick_confirmation_name_verify_update,
           params: { id: @c1_id,
-                    candidate: { pick_confirmation_name_attributes: { saint_name: 'foo' } } }
+                    candidate: { pick_confirmation_name_attributes: { saint_name: 'foo', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(cand.pick_confirmation_name.saint_name).to eq('foo')
@@ -256,7 +258,7 @@ describe CandidatesController do
        lambda do |candidate|
          {
            retreat_verification_attributes: {
-             retreat_held_at_stmm: candidate.retreat_verification.retreat_held_at_home_parish,
+             retreat_held_at_home_parish: candidate.retreat_verification.retreat_held_at_home_parish,
              id: candidate.retreat_verification.id
            }
          }
@@ -357,7 +359,7 @@ describe CandidatesController do
 
     it 'should stay on christian_ministry_verify, since it should not pass validation' do
       put :christian_ministry_verify_update,
-          params: { id: @c1_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c1_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: Candidate.find(@c1_id).christian_ministry } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -383,7 +385,7 @@ describe CandidatesController do
       cand.save
 
       put :christian_ministry_verify_update,
-          params: { id: @c1_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c1_id, candidate: { christian_ministry_attributes: { what_service: 'xxx', where_service: 'yyy', when_service: 'zzz', helped_me: 'eee', id: Candidate.find(@c1_id).christian_ministry } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -443,7 +445,7 @@ describe CandidatesController do
       cand.save(validate: false)
 
       put :candidate_sheet_verify_update,
-          params: { id: @c0_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c0_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: cand.christian_ministry_id } } }
 
       cand = Candidate.find(@c0_id)
       expect(controller.candidate).to eq(cand)
@@ -466,7 +468,7 @@ describe CandidatesController do
       cand.save
 
       put :candidate_sheet_verify_update,
-          params: { id: @c0_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c0_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: cand.christian_ministry_id } } }
 
       cand = Candidate.find(@c0_id)
       expect(controller.candidate).to eq(cand)

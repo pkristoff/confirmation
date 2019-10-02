@@ -15,9 +15,10 @@ class CustomDeviseMailer < Devise::Mailer
     # adds admin so it is asvailable for mail expansion
     @admin = opts[:admin]
     headers = super
-    headers = headers.merge(to: resource.emails,
-                            # always send email to admin
-                            bcc: @admin.email)
+
+    headers = headers.merge(to: resource.email) if resource.class == Admin
+    # always send email to admin
+    headers = headers.merge(to: resource.emails, bcc: @admin.email) unless resource.class == Admin
     @email = headers[:to]
     headers
   end

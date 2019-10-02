@@ -91,8 +91,7 @@ shared_context 'baptismal_certificate' do
     put :event_with_picture_update,
         params: { id: candidate.id,
                   event_name: Event::Route::BAPTISMAL_CERTIFICATE,
-                  candidate: { baptized_at_home_parish: '0',
-                               baptismal_certificate_attributes: vps } }
+                  candidate: { baptismal_certificate_attributes: vps } }
 
     expect(response.status).to eq(200)
     expect(flash[:notice]).to eq(I18n.t('messages.updated', cand_name: 'Sophia Agusta'))
@@ -154,6 +153,7 @@ shared_context 'baptismal_certificate' do
 
   def valid_parameters_bc(id)
     {
+      baptized_at_home_parish: '0',
       birth_date: '2000-07-01',
       baptismal_date: '2000-09-27',
       church_name: 'St. Paul',

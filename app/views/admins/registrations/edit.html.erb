@@ -4,8 +4,18 @@
   <%= render 'devise/shared/error_messages' %>
 
   <div class="field">
+    <%= f.label :contact_name %><br />
+    <%= f.text_field :contact_name, autofocus: true %>
+  </div>
+
+  <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.email_field :email, autofocus: false %>
+  </div>
+
+  <div class="field">
+    <%= f.label :contact_phone %><br />
+    <%= f.text_field :contact_phone, autofocus: false %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -28,6 +38,6 @@
   </div>
 
   <div class="actions">
-    <%= f.submit t('views.common.update') %>
+    <%= f.submit t('views.common.update'), id: 'update' %>
   </div>
 <% end %>

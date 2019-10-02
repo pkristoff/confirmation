@@ -100,7 +100,7 @@ describe CandidateImport do
       expect(Candidate.all.size).to eq(1)
       expect(Candidate.find_by(account_name: 'vickikristoff')).not_to eq(nil)
       expect(Admin.all.size).to eq(1)
-      expect(Admin.find_by(email: 'stmm.confirmation@kristoffs.com')).not_to eq(nil)
+      expect(Admin.find_by(email: Admin.first.email)).not_to eq(nil)
     end
   end
 
@@ -226,6 +226,7 @@ end
 
 describe 'combinations' do
   it 'initial import followed by initial import should update and add' do
+    FactoryBot.create(:admin)
     uploaded_file = fixture_file_upload('Initial candidates.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     candidate_import = CandidateImport.new
     candidate_import.reset_database
@@ -324,6 +325,7 @@ end
 
 describe 'image_filename' do
   before(:each) do
+    FactoryBot.create(:admin)
     CandidateImport.new.reset_database
     candidate = Candidate.first
     add_baptismal_certificate_image(candidate)

@@ -212,11 +212,17 @@ class CandidateImport
 
     remove_all_confirmation_events
 
+    # save admin info because deleting all Admins
+    admin = Admin.first
+    contact_name = admin.contact_name
+    contact_phone = admin.contact_phone
+    admin_email = admin.email
+
     Admin.find_each(&:delete)
 
     AppFactory.add_confirmation_events
 
-    AppFactory.generate_seed
+    AppFactory.generate_seed(contact_name, contact_phone, admin_email)
   end
 
   # exporting the DB tables to excel.

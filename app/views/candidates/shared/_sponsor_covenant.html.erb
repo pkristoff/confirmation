@@ -26,7 +26,7 @@
             <div class="fieldset-div">
               <div class="field">
                 <%= sc_fields.check_box :sponsor_attends_home_parish, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\', \'toggle\');' %>
-                <%= sc_fields.label :sponsor_attends_home_parish, t('label.sponsor_covenant.sponsor_attends_home_parish') %>
+                <%= sc_fields.label :sponsor_attends_home_parish, t('label.sponsor_covenant.sponsor_attends_home_parish', home_parish: Visitor.home_parish) %>
               </div>
 
               <div id="sponsor-covenant-top" class="<%= @candidate.sponsor_covenant.sponsor_attends_home_parish ? 'hide-div' : 'show-div' %>">

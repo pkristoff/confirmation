@@ -78,6 +78,9 @@ en:
       sponsor_covenant: Sponsor covenant
       sponsor_eligibility: Sponsor eligibility
   label:
+    admin:
+      contact_name: Contact name
+      contact_phone: Contact phone
     baptismal_certificate:
       baptismal_certificate:
         baptismal_date: Baptismal date
