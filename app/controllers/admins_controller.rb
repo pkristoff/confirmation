@@ -150,7 +150,8 @@ class AdminsController < ApplicationController
     confirmation_event = ConfirmationEvent.find(params[:id])
     params.delete(:id)
 
-    candidate_ids = params[:candidate].nil? ? [] : params[:candidate][:candidate_ids]
+    candidate_ids = params[:candidate_ids].nil? ? [] : params[:candidate_ids]
+    params.delete(:candidate_ids)
     candidates = []
     # with upgrade to 5.0 params will remove
     # candidate from params if candidate_ids is empty
@@ -436,6 +437,7 @@ class AdminsController < ApplicationController
   def update_visitor
     Rails.logger.info "params=#{params}"
     commit = params.require(:commit)
+    visitor_param = params[:visitor]
     case commit
     when t('views.common.update_home')
       visitor = visitor_db_or_new
@@ -444,21 +446,21 @@ class AdminsController < ApplicationController
 
     when t('views.common.update_about')
       visitor = visitor_db_or_new
-      Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{params.permit(Visitor.basic_permitted_params)}")
-      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+      Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{visitor_param.permit(Visitor.basic_permitted_params)}")
+      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
         flash[:notice] = t('messages.about_updated')
         Rails.logger.info "visitor.about=#{visitor.about}"
       end
     when t('views.common.update_information_contact')
       visitor = visitor_db_or_new
-      Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{params.permit(Visitor.basic_permitted_params)}")
-      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+      Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{visitor_param.permit(Visitor.basic_permitted_params)}")
+      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
         flash[:notice] = t('messages.contact_information_updated')
         Rails.logger.info "visitor.contact=#{visitor.contact}"
       end
     when t('views.common.update_home_parish')
       visitor = visitor_db_or_new
-      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
         flash[:notice] = t('messages.home_parish_updated')
         Rails.logger.info "visitor.contact=#{visitor.contact}"
       end

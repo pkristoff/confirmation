@@ -16,7 +16,7 @@ module DevisePermittedParameters
     else
       # admin is editing a candidate's account info
       devise_parameter_sanitizer.permit(:sign_in) do |candidate_parms|
-        candidate_parms.permit(:account_name, :parent_email_1)
+        candidate_parms.permit(:account_name, :password, :remember_me, :parent_email_1)
       end
       devise_parameter_sanitizer.permit(:sign_up) do |candidate_parms|
         candidate_parms.permit(*candidate_permitted_params)

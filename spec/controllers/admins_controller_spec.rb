@@ -112,7 +112,7 @@ describe AdminsController do
           params: { id: @confirmation_event.id,
                     completed_date: '2016-09-04',
                     verified: true,
-                    candidate: { candidate_ids: [@c2.id] } }
+                    candidate_ids: [@c2.id] }
 
       expect_candidate_event(@c1, '2016-06-09', false)
       expect_candidate_event(@c2, '2016-09-04', true)
@@ -123,7 +123,7 @@ describe AdminsController do
           params: { id: @confirmation_event.id,
                     completed_date: '2016-09-04',
                     verified: false,
-                    candidate: { candidate_ids: [@c1.id, @c3.id] } }
+                    candidate_ids: [@c1.id, @c3.id] }
 
       expect_candidate_event(@c1, '2016-09-04', false)
       expect_candidate_event(@c2, '', false)

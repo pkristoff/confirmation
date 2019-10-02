@@ -60,7 +60,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     candidate = Candidate.find(@candidate.id)
 
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                                                                                                 [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Saint name can\'t be blank']]])
+                                                                                                                                 [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Saint name can\'t be blank']]])
     expect(candidate.pick_confirmation_name.saint_name).to eq('')
 
     fill_in_form # no picture
