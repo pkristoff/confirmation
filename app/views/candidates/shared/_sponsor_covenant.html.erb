@@ -12,7 +12,7 @@
                              url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)),
                              candidate: candidate,
 
-                             fieldset_text: '',
+                             fieldset_text: t('field_set.sponsor_covenant.sponsor_covenant'),
                              field: :sponsor_covenant_picture,
                              remove_id: :candidate_sponsor_covenant_attributes_remove_sponsor_covenant_picture,
                              remove_field: sc_fields.hidden_field(:remove_sponsor_covenant_picture, value: ''),

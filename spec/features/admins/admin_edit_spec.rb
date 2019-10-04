@@ -49,7 +49,7 @@ feature 'Admin edit', :devise do
     fill_in(I18n.t('label.admin.contact_phone'), with: '919-555-5555')
     fill_in(I18n.t('views.admins.email'), with: 'xxx@yyy.com')
     click_button('update')
-    puts page.html
+
     expect(page).to have_selector('p', text: "#{I18n.t('label.admin.contact_name')}: Paul")
   end
 
@@ -59,7 +59,6 @@ feature 'Admin edit', :devise do
     visit edit_admin_registration_path(me)
     fill_in(I18n.t('label.admin.contact_name'), with: '')
     click_button('update')
-    # puts page.html
 
     expect_messages([[:error_explanation, ['1 error prohibited this admin from being saved:', 'Contact name can\'t be blank']]])
   end
@@ -70,7 +69,6 @@ feature 'Admin edit', :devise do
     visit edit_admin_registration_path(me)
     fill_in(I18n.t('label.admin.contact_phone'), with: '')
     click_button('update')
-    # puts page.html
 
     expect_messages([[:error_explanation, ['1 error prohibited this admin from being saved:', 'Contact phone can\'t be blank']]])
   end
@@ -81,7 +79,6 @@ feature 'Admin edit', :devise do
     visit edit_admin_registration_path(me)
     fill_in(I18n.t('views.admins.email'), with: '')
     click_button('update')
-    puts page.html
 
     expect_messages([[:error_explanation, ['1 error prohibited this admin from being saved:', 'Email can\'t be blank']]])
   end
@@ -92,7 +89,6 @@ feature 'Admin edit', :devise do
     visit edit_admin_registration_path(me)
     fill_in(I18n.t('views.admins.email'), with: '@ddd.com')
     click_button('update')
-    puts page.html
 
     expect_messages([[:error_explanation, ['1 error prohibited this admin from being saved:', 'Email is invalid']]])
   end

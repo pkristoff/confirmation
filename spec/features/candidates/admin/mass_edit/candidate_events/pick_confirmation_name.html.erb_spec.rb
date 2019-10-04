@@ -78,9 +78,9 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
 
     visit mass_edit_candidates_event_path(@confirmation_event.id)
     expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
-    # puts page.html
+
     click_link("pick-#{@cand_id}")
-    # puts page.html
+
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
 
     click_button @update_id

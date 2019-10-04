@@ -61,7 +61,6 @@ end
 
 def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
   page_or_rendered = respond_to?(:page) ? page : rendered
-  # puts (self.respond_to?(:page) ? page.html : rendered)
 
   if id_css == 'fieldset'
     name_selector = "fieldset[id=event_id_#{confirmation_event_id}]"

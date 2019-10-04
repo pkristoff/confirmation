@@ -94,7 +94,7 @@ feature 'Sign in', :devise do
     expect(page.html).to have_selector('a[href="/dev/candidates/confirmation/new"]', text: 'Resend confirmation instructions')
     fill_in('Email', with: 'c3last_name.c3first_name@test.com')
     click_button('Resend confirmation instructions')
-    # puts page.html
+
     expect_messages([
                       [:flash_notice, I18n.t('messages.confirmation_email_sent')]
                     ])

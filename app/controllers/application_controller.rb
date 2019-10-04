@@ -59,7 +59,6 @@ class ApplicationController < ActionController::Base
   end
 
   def candidate_params
-    # sponsor_covenant_picture - remove
     params.require(:candidate).permit(candidate_permitted_params)
   end
 

@@ -22,7 +22,6 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-update')
 
-    # puts page.html
     expect_message(:flash_alert, I18n.t('messages.no_candidate_selected'))
     have_css('form[enctype="multipart/form-data"]')
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
@@ -85,7 +84,6 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-test')
 
-    # puts page.html
     expect_message(:flash_alert, I18n.t('messages.no_candidate_selected'))
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')

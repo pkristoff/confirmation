@@ -68,7 +68,7 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
 
     visit @path
-    check(ATTENDS_STMM_LABEL)
+    check(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])

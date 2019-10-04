@@ -81,9 +81,9 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
 
     visit mass_edit_candidates_event_path(@confirmation_event.id)
     expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
-    # puts page.html
+
     click_link("cma-#{@cand_id}")
-    # puts page.html
+
     expect_christian_ministry_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
 
     click_button @update_id

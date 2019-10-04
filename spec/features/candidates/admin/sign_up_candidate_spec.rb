@@ -82,7 +82,6 @@ feature 'Sign Up', :devise do
 
       click_button 'Update'
 
-      # puts page.html
       expect(Candidate.all.size).to eq(1)
     end
   end
