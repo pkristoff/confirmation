@@ -1,5 +1,7 @@
-<h3><%= t('views.admins.admin') %></h3>
-<p><%= t('views.common.name') %>: <%= @admin.name if @admin.name %></p>
-<p><%= t('views.admins.email') %>: <%= @admin.email if @admin.email %></p>
-<p><%= t('label.admin.contact_name') %>: <%= @admin.contact_name if @admin.contact_name %></p>
-<p><%= t('label.admin.contact_phone') %>: <%= @admin.contact_phone if @admin.contact_phone %></p>
+<div>
+  <h3><%= t('views.admins.admin') %></h3><br/>
+  <div><p><%= t('views.common.name') %>: <%= @admin.name if @admin.name %></p></div>
+  <div><p><%= t('views.admins.email') %>: <%= @admin.email if @admin.email %></p></div>
+  <div><p><%= t('label.admin.contact_name') %>: <%= @admin.contact_name if @admin.contact_name %></p></div>
+  <div><p><%= t('label.admin.contact_phone') %>: <%= @admin.contact_phone if @admin.contact_phone %></p></div>
+</div>
