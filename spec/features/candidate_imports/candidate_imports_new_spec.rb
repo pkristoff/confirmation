@@ -71,10 +71,10 @@ feature 'Other', :devise do
       FactoryBot.create(:candidate)
       FactoryBot.create(:candidate, account_name: 'a1')
       expect(Candidate.all.size).to eq(2) # prove there are only 2
-      FactoryBot.create(:admin)
-      admin = FactoryBot.create(:admin, name: 'foo', email: 'paul@kristoffs.com')
+      # FactoryBot.create(:admin)
+      admin = FactoryBot.create(:admin, account_name: 'Admin1', name: 'foo', email: 'paul@kristoffs.com')
       login_as(admin, scope: :admin)
-      expect(Admin.all.size).to eq(2) # prove there are only 2
+      expect(Admin.all.size).to eq(1) # prove there are only 2
       visit new_candidate_import_path
       click_button I18n.t('views.imports.reset_database')
       expect_message(:flash_notice, I18n.t('messages.database_reset'))

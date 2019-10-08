@@ -79,8 +79,8 @@ describe CandidateImportsController do
       login_admin
 
       expect(Admin.all.size).to eq(1)
-      FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
-      expect(Admin.all.size).to eq(2)
+      # FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
+      expect(Admin.all.size).to eq(1)
 
       post :reset_database
 

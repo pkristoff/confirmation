@@ -232,6 +232,7 @@ en:
     verified: Verified
   views:
     admins:
+      account_name: Account name
       admin: Admin
       current_password: Current password
       email: Email

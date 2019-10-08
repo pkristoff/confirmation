@@ -1,8 +1,8 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <h2><%= t('views.top_bar.sign_in', name: resource_name) %></h2>
   <div class="field">
-    <%= f.label :email %><br/>
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.label :account_name %><br/>
+    <%= f.text_field :account_name, autofocus: true %>
   </div>
 
   <div class="field">

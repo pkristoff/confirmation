@@ -91,8 +91,8 @@ describe CandidateImport do
       expect(Candidate.all.size).to eq(3)
 
       expect(Admin.all.size).to eq(0)
-      FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
-      FactoryBot.create(:admin, email: 'vicki@kristoffs.com', name: 'Vicki')
+      FactoryBot.create(:admin, account_name: 'AdminV', email: 'paul@kristoffs.com', name: 'Paul')
+      FactoryBot.create(:admin, account_name: 'AdminP', email: 'vicki@kristoffs.com', name: 'Vicki')
       expect(Admin.all.size).to eq(2)
 
       CandidateImport.new.reset_database

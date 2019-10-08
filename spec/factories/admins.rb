@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :admin, class: Admin do
+    account_name { 'Admin' }
     name { 'Admin Candidate' }
     email { 'test@example.com' }
     contact_name { 'Vicki Kristoff' }

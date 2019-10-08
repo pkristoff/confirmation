@@ -18,7 +18,7 @@ feature 'Sign Up', :devise do
   describe 'Sign in admin' do
     before(:each) do
       admin = FactoryBot.create(:admin)
-      signin_admin(admin.email, admin.password)
+      signin_admin(admin.account_name, admin.password)
     end
 
     # Scenario: Visitor can sign up with valid email address and password

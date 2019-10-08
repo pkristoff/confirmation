@@ -8,8 +8,14 @@ class Admin < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable,
-         authentication_keys: [:email],
-         reset_password_keys: [:email]
+         authentication_keys: [:account_name],
+         reset_password_keys: [:account_name]
+
+  validates :account_name,
+            presence: true,
+            uniqueness: {
+              case_sensitive: false
+            }
 
   validates :contact_name,
             presence: true
@@ -33,7 +39,7 @@ class Admin < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    %i[email contact_name contact_phone]
+    %i[email contact_name contact_phone account_name]
   end
 
   private

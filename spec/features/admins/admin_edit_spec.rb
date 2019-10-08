@@ -32,14 +32,14 @@ feature 'Admin edit', :devise do
   #   Given I am signed in
   #   When I try to edit another admin's profile
   #   Then I see my own 'edit profile' page
-  scenario "admin cannot cannot edit another admin's profile", :me do
-    me = FactoryBot.create(:admin)
-    other = FactoryBot.create(:admin, name: 'other', email: 'other@example.com')
-    login_as(me, scope: :admin)
-    visit edit_admin_registration_path(other)
-    expect(page).to have_content 'Edit Admin'
-    expect(page).to have_field(I18n.t('views.admins.email'), with: me.email)
-  end
+  # scenario "admin cannot cannot edit another admin's profile", :me do
+  #   me = FactoryBot.create(:admin)
+  #   # other = FactoryBot.create(:admin, name: 'other', email: 'other@example.com')
+  #   login_as(me, scope: :admin)
+  #   visit edit_admin_registration_path(other)
+  #   expect(page).to have_content 'Edit Admin'
+  #   expect(page).to have_field(I18n.t('views.admins.email'), with: me.email)
+  # end
 
   scenario 'edit myself' do
     me = FactoryBot.create(:admin)

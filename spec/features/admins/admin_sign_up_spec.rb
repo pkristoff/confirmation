@@ -42,7 +42,7 @@ feature 'Admin sign up', :devise do
   describe 'Sign in admin' do
     before(:each) do
       admin = FactoryBot.create(:admin)
-      signin_admin(admin.email, admin.password)
+      signin_admin(admin.account_name, admin.password)
     end
 
     # Scenario: Admin  can sign up another admin

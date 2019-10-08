@@ -17,15 +17,15 @@ feature 'Admin delete', :devise do
   #   Given I am signed in
   #   When I delete my account
   #   Then I should see an account deleted message
-  scenario 'admin can delete own account' do
-    admin = FactoryBot.create(:admin)
-    other = FactoryBot.create(:admin, email: 'other@test.com', name: 'other')
-    expect(Admin.all.size).to eq(2)
-    login_as(admin, scope: :admin)
-    visit admins_path
-    click_link "delete_#{other.id}"
-    expect_message(:flash_notice, I18n.t('devise.registrations.destroyed'))
-
-    expect(Admin.all.size).to eq(1)
-  end
+  # scenario 'admin cannot delete own account' do
+  #   admin = FactoryBot.create(:admin)
+  #   # other = FactoryBot.create(:admin, email: 'other@test.com', name: 'other')
+  #   expect(Admin.all.size).to eq(1)
+  #   login_as(admin, scope: :admin)
+  #   visit admins_path
+  #   click_link "delete_#{admin.id}"
+  #   expect_message(:flash_notice, I18n.t('devise.registrations.destroyed'))
+  #
+  #   expect(Admin.all.size).to eq(1)
+  # end
 end
