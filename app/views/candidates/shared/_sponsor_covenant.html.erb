@@ -12,7 +12,7 @@
                              url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_name) : event_with_picture_image_path(candidate.id, @event_with_picture_name)),
                              candidate: candidate,
 
-                             fieldset_text: '',
+                             fieldset_text: t('field_set.sponsor_covenant.sponsor_covenant'),
                              field: :sponsor_covenant_picture,
                              remove_id: :candidate_sponsor_covenant_attributes_remove_sponsor_covenant_picture,
                              remove_field: sc_fields.hidden_field(:remove_sponsor_covenant_picture, value: ''),
@@ -25,11 +25,11 @@
         <%= field_set_tag t('field_set.sponsor_covenant.sponsor_eligibility'), class: 'fieldset' do %>
             <div class="fieldset-div">
               <div class="field">
-                <%= sc_fields.check_box :sponsor_attends_stmm, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\', \'toggle\');' %>
-                <%= sc_fields.label :sponsor_attends_stmm, t('label.sponsor_covenant.sponsor_attends_stmm') %>
+                <%= sc_fields.check_box :sponsor_attends_home_parish, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-covenant-top\', \'toggle\');' %>
+                <%= sc_fields.label :sponsor_attends_home_parish, t('label.sponsor_covenant.sponsor_attends_home_parish', home_parish: Visitor.home_parish) %>
               </div>
 
-              <div id="sponsor-covenant-top" class="<%= @candidate.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div' %>">
+              <div id="sponsor-covenant-top" class="<%= @candidate.sponsor_covenant.sponsor_attends_home_parish ? 'hide-div' : 'show-div' %>">
                 <div class="field">
                   <%= sc_fields.label :sponsor_church, t('label.sponsor_covenant.sponsor_church') %><br/>
                   <%= sc_fields.text_field :sponsor_church %>

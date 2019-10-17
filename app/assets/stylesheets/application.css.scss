@@ -10,10 +10,10 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require jquery-tablesorter/theme.blue
- *= require_tree .
- *= require_self
  */
+@import "bootstrap";
+@import "bootstrap-reboot";
+@import "simple-sidebar";
 
 fieldset {
   padding-bottom: 10px;
@@ -80,7 +80,7 @@ textarea {
   padding-bottom: 20px;
 }
 
-.field_with_errors{
+.field_with_errors {
   display: inline;
 }
 
@@ -115,4 +115,107 @@ input[id=total_selected] {
 
 #candidate-sidebar {
   height: 450px;
+}
+
+// tablesorter
+/* rows hidden by filtering (needed for child rows) */
+.tablesorter .filtered {
+  display: none;
+}
+
+.tablesorter .tablesorter-errorRow td {
+  text-align: center;
+  cursor: pointer;
+  background-color: #e6bf99;
+}
+
+// application
+
+main {
+  width: 80%;
+}
+
+// other
+
+#orphaned-table-rows {
+  border-style: solid;
+  border-width: 2px;
+  //top: 0;
+  //position: absolute;
+  //width: 100%;
+  //height: 200px;
+}
+
+#export {
+  border-style: solid;
+  border-width: 2px;
+  //top:200px;
+  //position: relative;
+  //height: 150px;
+  //width: 100%
+}
+
+#import {
+  border-style: solid;
+  border-width: 2px;
+  //top: 200px;
+  //position: relative;
+  //height: 150px;
+  //width: 100%
+}
+
+#start_new_year {
+  border-style: solid;
+  border-width: 2px;
+  //top: 200px;
+  //position: relative;
+  //height: 150px;
+  //width: 100%
+}
+
+#reset_database {
+  border-style: solid;
+  border-width: 2px;
+  //top: 200px;
+  //position: relative;
+  //height: 150px;
+  //width: 100%
+}
+
+#check_events {
+  border-style: solid;
+  border-width: 2px;
+  //top: 200px;
+  //position: relative;
+  //height: 150px;
+  //width: 100%
+}
+
+// Visitor
+
+#home {
+  border-style: solid;
+  border-width: 2px;
+  //top: 200px;
+  //position: relative;
+  //height: 150px;
+  //width: 100%
+}
+
+#about {
+  border-style: solid;
+  border-width: 2px;
+  //top: 200px;
+  //position: relative;
+  //height: 150px;
+  //width: 100%
+}
+
+#contact {
+  border-style: solid;
+  border-width: 2px;
+  //top: 200px;
+  //position: relative;
+  //height: 150px;
+  //width: 100%
 }

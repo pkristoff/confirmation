@@ -10,7 +10,8 @@ feature 'About page' do
   #   When I visit the about page
   #   Then I see "about text"
   before(:each) do
-    @visitor_id = FactoryBot.create(:visitor).id
+    v = Visitor.visitor('St. Mary Magdalene', 'replace me - home', '<p>about text</p>', 'replace me - contaclt')
+    @visitor_id = v.id
   end
   scenario 'a visitor visits the about page' do
     visit about_path

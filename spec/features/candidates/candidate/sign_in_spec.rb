@@ -68,15 +68,14 @@ feature 'Sign in', :devise do
     AppFactory.add_confirmation_events
     visit new_candidate_session_path
     expect(page.html).to have_selector('a[href="/dev/candidates/confirmation/new"]',
-                                       text: 'Resend initial instructions?')
+                                       text: 'Resend confirmation instructions?')
     expect(page.html).to have_selector('a[href="/dev/candidates/password/new"]',
                                        text: 'Forgot your password?')
-    click_link 'Resend initial instructions?'
-    expect(page.html).to have_button('Resend initial instructions')
+    click_link 'Resend confirmation instructions?'
+    expect(page.html).to have_selector('a[href="/dev/candidates/confirmation/new"]', text: 'Resend confirmation instructions')
     expect_field('Email', '')
     fill_in('Email', with: 'aaa@bbb.com')
-    click_button('Resend initial instructions')
-    # puts page.html
+    click_button('Resend confirmation instructions')
     expect_messages([
                       [:flash_alert, 'email not associated candidate']
                     ])
@@ -87,14 +86,17 @@ feature 'Sign in', :devise do
   scenario 'Resend confirmation instructions: good email' do
     AppFactory.add_confirmation_events
     create_candidate('c1', false)
+    # need admin contact info even though candidate is logged in
+    FactoryBot.create(:admin)
+
     visit new_candidate_session_path
-    click_link 'Resend initial instructions?'
-    expect(page.html).to have_button('Resend initial instructions')
+    click_link 'Resend confirmation instructions?'
+    expect(page.html).to have_selector('a[href="/dev/candidates/confirmation/new"]', text: 'Resend confirmation instructions')
     fill_in('Email', with: 'c3last_name.c3first_name@test.com')
-    click_button('Resend initial instructions')
-    # puts page.html
+    click_button('Resend confirmation instructions')
+
     expect_messages([
-                      [:flash_notice, I18n.t('messages.initial_email_sent')]
+                      [:flash_notice, I18n.t('messages.confirmation_email_sent')]
                     ])
   end
 

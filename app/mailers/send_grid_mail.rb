@@ -79,7 +79,10 @@ class SendGridMail
   # Generate and send candidate user id confirmation email
   #
   def confirmation_instructions
-    [send_email(MailPart.new_subject(I18n.t('email.confirmation_instructions_subject')), nil, MailPart.new_body(''), EmailStuff::TYPES[:confirmation_instructions],
+    [send_email(MailPart.new_subject(I18n.t('email.confirmation_instructions_subject')),
+                nil,
+                MailPart.new_body(''),
+                EmailStuff::TYPES[:confirmation_instructions],
                 conf_insts_call),
      @candidate_mailer_text.token]
   end
@@ -141,7 +144,7 @@ class SendGridMail
       mail_settings.sandbox_mode = SendGrid::SandBoxMode.new(enable: true)
       mail.mail_settings = mail_settings
     end
-    mail.from = SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: 'St MM Confirmation')
+    mail.from = SendGrid::Email.new(email: @admin.email, name: "#{Visitor.home_parish} Confirmation")
     mail.subject = subject_mail_part.text
     cat_env = ''
     cat_env = 'test' if Rails.env.test?
@@ -171,9 +174,9 @@ class SendGridMail
       personalization.add_to(SendGrid::Email.new(email: converted_emails[0], name: "#{sheet.first_name} #{sheet.last_name}"))
       personalization.add_cc(SendGrid::Email.new(email: converted_emails[1])) unless converted_emails[1].nil?
       personalization.add_cc(SendGrid::Email.new(email: converted_emails[2])) unless converted_emails[2].nil?
-      personalization.add_bcc(SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: 'St MM Confirmation'))
+      personalization.add_bcc(SendGrid::Email.new(email: @admin.email, name: "#{Visitor.home_parish} Confirmation"))
     else
-      personalization.add_to(SendGrid::Email.new(email: admin.email, name: 'admin'))
+      personalization.add_to(SendGrid::Email.new(email: admin.email, name: "#{Visitor.home_parish} Confirmation"))
     end
     subs.each { |sub| personalization.add_substitution(sub) }
     sg_mail.add_personalization(personalization)
@@ -247,7 +250,7 @@ class SendGridMail
   # * <tt>Array</tt> In production - Array of passed in email addresses else - Array of legal non-production email addresses
   #
   def expand_text(candidate, subject_mail_part, body_input_mail_part, delivery_call)
-    @candidate_mailer_text = CandidatesMailerText.new(candidate: candidate, subject: subject_mail_part, body_text: body_input_mail_part)
+    @candidate_mailer_text = CandidatesMailerText.new(admin: @admin, candidate: candidate, subject: subject_mail_part, body_text: body_input_mail_part)
 
     delivery = delivery_call.call(@admin, @candidate_mailer_text)
     text(delivery)
@@ -368,7 +371,6 @@ class SendGridMail
     last_failed_response = nil
     response = nil
     content = attach_file.read unless attach_file.nil?
-
     @candidates.each do |candidate|
       sg_mail = create_mail((test_subject.nil? ? subject_mail_part : MailPart.new_subject(test_subject.call(candidate))), email_type, candidate.account_name)
 
@@ -425,7 +427,7 @@ class SendGridMail
   # * <tt>:candidate</tt> Candidate
   #
   def expand_text_rp(candidate)
-    expand_text(candidate, MailPart.new_subject('StMM website for Confirmation Candidates - Reset password instructions'), MailPart.new_body(''),
+    expand_text(candidate, MailPart.new_subject("#{Visitor.home_parish} website for Confirmation Candidates - Reset password instructions"), MailPart.new_body(''),
                 reset_pass_call)
   end
 
@@ -520,7 +522,10 @@ class SendGridMail
   # A lambda
   #
   def conf_insts_call
-    ->(_admin, candidate_mailer_text) { candidate_mailer_text.candidate.confirmation_instructions(candidate_mailer_text) }
+    lambda do |admin, candidate_mailer_text|
+      # @admin = admin
+      candidate_mailer_text.candidate.confirmation_instructions(admin, candidate_mailer_text)
+    end
   end
 
   #
@@ -563,7 +568,10 @@ class SendGridMail
   end
 
   def reset_pass_call
-    ->(_admin, candidate_mailer_text) { candidate_mailer_text.candidate.password_reset_message(candidate_mailer_text) }
+    lambda do |admin, candidate_mailer_text|
+      # @admin = admin
+      candidate_mailer_text.candidate.password_reset_message(admin, candidate_mailer_text)
+    end
   end
 end
 

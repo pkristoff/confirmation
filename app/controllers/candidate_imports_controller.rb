@@ -24,6 +24,8 @@ class CandidateImportsController < ApplicationController
       @candidate_import = CandidateImport.new.add_orphaned_table_rows
     when t('views.imports.remove_orphaned_table_rows')
       @candidate_import = CandidateImport.new.remove_orphaned_table_rows
+    else
+      raise('unknown orphaned_table_rows commit')
     end
   end
 

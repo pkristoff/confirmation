@@ -1,12 +1,12 @@
 <% if candidate_signed_in? %>
-    <li><%= link_to I18n.t('views.top_bar.sign_out'), destroy_candidate_session_path, :method => 'delete' %></li>
+    <li class="nav-item active"><%= link_to I18n.t('views.top_bar.sign_out'), destroy_candidate_session_path, :method => 'delete', class: "nav-link"  %></li>
 <% end %>
 <% if admin_signed_in? %>
-    <li><%= link_to I18n.t('views.top_bar.sign_out'), destroy_admin_session_path, :method => 'delete' %></li>
-    <li><%= link_to I18n.t('views.top_bar.send_grid'), 'https://app.sendgrid.com', target: '_blank' %></li>
+    <li class="nav-item active"><%= link_to I18n.t('views.top_bar.sign_out'), destroy_admin_session_path, :method => 'delete', class: 'nav-link'%></li>
+    <li class="nav-item active"><%= link_to I18n.t('views.top_bar.send_grid'), 'https://app.sendgrid.com', target: '_blank', class: "nav-link"  %></li>
 <% end %>
 
 <% if ! (admin_signed_in? or candidate_signed_in?) %>
-    <li><%= link_to I18n.t('views.top_bar.sign_in', name: ''), new_candidate_session_path %></li>
-    <li><%= link_to I18n.t('views.admins.sign_in'), new_admin_session_path %></li>
+    <li class="nav-item active"><%= link_to I18n.t('views.top_bar.sign_in', name: ''), new_candidate_session_path, class: "nav-link"  %></li>
+    <li class="nav-item active"><%= link_to I18n.t('views.admins.sign_in'), new_admin_session_path, class: "nav-link"  %></li>
 <% end %>

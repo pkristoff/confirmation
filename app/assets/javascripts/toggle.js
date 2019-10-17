@@ -140,7 +140,7 @@ confirmation_toggle = function () {
 
     function baptised_no() {
         toggle_top( '#first-communion-top', 'show' );
-        if ( document.getElementById( 'candidate_baptismal_certificate_attributes_first_comm_at_stmm_0' ).checked ) {
+        if ( document.getElementById( 'candidate_baptismal_certificate_attributes_first_comm_at_home_parish_0' ).checked ) {
             confirmation_toggle().toggle_top( '#baptismal-certificate-top', 'show' )
         }
         update_show_empty_radio( 'baptism' );
@@ -178,7 +178,7 @@ confirmation_toggle = function () {
     }
 
     function clear_attached_file() {
-        $('#attach-file-container').html($('#attach-file-container').html());
+        $( '#attach-file-container' ).html( $( '#attach-file-container' ).html() );
     }
 
     return {
@@ -195,5 +195,4 @@ confirmation_toggle = function () {
         sidebar:               sidebar,
         toggle_top:            toggle_top
     }
-}
-;
+};

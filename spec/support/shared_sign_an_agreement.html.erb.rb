@@ -19,7 +19,7 @@ shared_context 'sign_an_agreement_html_erb' do
     candidate = Candidate.find(@cand_id)
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @documant_key, @event_name, @update_id, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'By checking you agree to the above. needs to be checked']]])
+                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'By checking you agree to the above. needs to be checked']]])
   end
 
   scenario 'user(candidate or admin) logs in, selects signing an agreement, has signed agreement previously' do
@@ -66,7 +66,7 @@ shared_context 'sign_an_agreement_html_erb' do
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @documant_key, @event_name, @update_id, @is_verify,
                                  expect_messages: [
                                    [:flash_notice, @updated_failed_verification],
-                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'By checking you agree to the above. needs to be checked']]
+                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'By checking you agree to the above. needs to be checked']]
                                  ])
   end
 

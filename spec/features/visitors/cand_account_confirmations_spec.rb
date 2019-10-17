@@ -12,6 +12,7 @@ feature 'Home page' do
   scenario 'visit the home page' do
     candidate = FactoryBot.create(:candidate, should_confirm: false)
     candidate.save
+    FactoryBot.create(:admin)
 
     visit cand_account_confirmation_url(candidate.id, 'noerrors')
 

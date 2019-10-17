@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 describe AdminsController do
+  before(:each) do
+    Visitor.visitor('St. Mary Magdalene', '<p>home text</p>', '<p>about text</p>', '<p>contact me</p>')
+    @admin = login_admin
+  end
   it 'should NOT have a current_candidate' do
     expect(subject.current_candidate).to eq(nil)
   end
@@ -13,7 +17,6 @@ describe AdminsController do
     end
 
     it 'should pass authentication and set @admins' do
-      login_admin
       get :index
       expect(subject.admins.size).to eq(1)
     end
@@ -88,7 +91,6 @@ describe AdminsController do
 
   describe 'mass_edit_candidates_event_update' do
     before(:each) do
-      @admdin = login_admin
       @confirmation_event = AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
@@ -110,7 +112,7 @@ describe AdminsController do
           params: { id: @confirmation_event.id,
                     completed_date: '2016-09-04',
                     verified: true,
-                    candidate: { candidate_ids: [@c2.id] } }
+                    candidate_ids: [@c2.id] }
 
       expect_candidate_event(@c1, '2016-06-09', false)
       expect_candidate_event(@c2, '2016-09-04', true)
@@ -121,7 +123,7 @@ describe AdminsController do
           params: { id: @confirmation_event.id,
                     completed_date: '2016-09-04',
                     verified: false,
-                    candidate: { candidate_ids: [@c1.id, @c3.id] } }
+                    candidate_ids: [@c1.id, @c3.id] }
 
       expect_candidate_event(@c1, '2016-09-04', false)
       expect_candidate_event(@c2, '', false)
@@ -154,7 +156,6 @@ describe AdminsController do
 
   describe 'mass monthly mailing update' do
     before(:each) do
-      @admin = login_admin
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')
@@ -194,7 +195,7 @@ describe AdminsController do
         put :mass_edit_candidates_update,
             params: { commit: AdminsController::DELETE }
 
-        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect_message(:alert, I18n.t('messages.no_candidate_selected'))
         expect(render_template('edit_multiple_confirmation_events'))
         expect(response.status).to eq(302)
       end
@@ -203,7 +204,7 @@ describe AdminsController do
         put :mass_edit_candidates_update,
             params: { commit: AdminsController::EMAIL }
 
-        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect_message(:alert, I18n.t('messages.no_candidate_selected'))
         expect(render_template('edit_multiple_confirmation_events'))
         expect(response.status).to eq(302)
       end
@@ -212,7 +213,7 @@ describe AdminsController do
         put :mass_edit_candidates_update,
             params: { commit: AdminsController::RESET_PASSWORD }
 
-        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect_message(:alert, I18n.t('messages.no_candidate_selected'))
         expect(render_template('edit_multiple_confirmation_events'))
         expect(response.status).to eq(302)
       end
@@ -221,17 +222,13 @@ describe AdminsController do
         put :mass_edit_candidates_update,
             params: { commit: AdminsController::INITIAL_EMAIL }
 
-        expect_message(:alert, I18n.t('devise.failure.unauthenticated'))
+        expect_message(:alert, I18n.t('messages.no_candidate_selected'))
         expect(render_template('edit_multiple_confirmation_events'))
         expect(response.status).to eq(302)
       end
     end
 
     describe 'admin login' do
-      before(:each) do
-        @admin = login_admin
-      end
-
       describe 'No candidate selected' do
         it 'delete should return no_candidate_selected if none selected' do
           put :mass_edit_candidates_update,
@@ -306,7 +303,7 @@ describe AdminsController do
               params: { candidate: { candidate_ids: [@c2.id, @c3.id] },
                         commit: AdminsController::INITIAL_EMAIL }
 
-          expect_message(:notice, I18n.t('messages.initial_email_sent'))
+          expect_message(:notice, I18n.t('messages.confirmation_email_sent'))
         end
       end
     end
@@ -314,7 +311,6 @@ describe AdminsController do
 
   describe 'confirm account' do
     before(:each) do
-      @admin = login_admin
       @c1 = create_candidate('c1', false)
       @c2 = create_candidate('c2', false)
       @c3 = create_candidate('c3', false)

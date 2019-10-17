@@ -14,6 +14,9 @@ shared_context 'retreat_verification_html_erb' do
     @candidate_event_id = @candidate.get_candidate_event(I18n.t('events.retreat_verification')).id
     @cand_id = @candidate.id
     @today = Time.zone.today
+    v = Visitor.all.first
+    v.home_parish = 'St. Mary Magdalene'
+    v.save
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -49,7 +52,7 @@ shared_context 'retreat_verification_html_erb' do
     end
 
     retreat_verification = candidate.retreat_verification
-    expect(retreat_verification.retreat_held_at_stmm).to eq(true)
+    expect(retreat_verification.retreat_held_at_home_parish).to eq(true)
     expect(retreat_verification.who_held_retreat).to eq(WHO_HELD_RETREAT)
     expect(retreat_verification.where_held_retreat).to eq(WHERE_HELD_RETREAT)
     expect(retreat_verification.start_date).to eq(START_DATE)
@@ -103,7 +106,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_db(1, 8, 0)
     candidate = Candidate.find(@cand_id)
-    candidate.retreat_verification.retreat_held_at_stmm = false
+    candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
     visit @path
 
@@ -112,7 +115,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verfied:', 'Start date can\'t be blank', 'End date can\'t be blank', 'Who held retreat can\'t be blank', 'Where held retreat can\'t be blank']]],
+                                                       [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verified:', 'Start date can\'t be blank', 'End date can\'t be blank', 'Who held retreat can\'t be blank', 'Where held retreat can\'t be blank']]],
                                      who_held_retreat: '',
                                      where_held_retreat: '',
                                      start_date: '',
@@ -134,7 +137,7 @@ shared_context 'retreat_verification_html_erb' do
 
   scenario 'admin logs in and selects a candidate, fills in form except picture.' do
     candidate = Candidate.find(@cand_id)
-    candidate.retreat_verification.retreat_held_at_stmm = false
+    candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
 
     visit @path
@@ -144,26 +147,25 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Scanned retreat verification can\'t be blank']]])
+                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Scanned retreat verification can\'t be blank']]])
   end
 
   scenario 'admin logs in and selects a candidate, fills in template, except Who held retreat' do
     # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
     # update_retreat_verification(false)
     candidate = Candidate.find(@cand_id)
-    candidate.retreat_verification.retreat_held_at_stmm = false
+    candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
     visit @path
 
     fill_in_form(true, false)
 
-    # check(I18n.t('label.retreat_verification.retreat_held_at_stmm')) # make it false
-    fill_in(I18n.t('label.retreat_verification.who_held_retreat'), with: nil)
+    fill_in(I18n.t('label.retreat_verification.who_held_retreat', home_parish: Visitor.home_parish), with: nil)
     click_button @update_id
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Who held retreat can\'t be blank']]],
+                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Who held retreat can\'t be blank']]],
                                      who_held_retreat: '')
   end
 
@@ -172,7 +174,7 @@ shared_context 'retreat_verification_html_erb' do
 
     event_name = I18n.t('events.retreat_verification')
     candidate = Candidate.find(@cand_id)
-    candidate.retreat_verification.retreat_held_at_stmm = true
+    candidate.retreat_verification.retreat_held_at_home_parish = true
     candidate.get_candidate_event(event_name).completed_date = @today
     candidate.get_candidate_event(event_name).verified = true
     candidate.save
@@ -210,7 +212,6 @@ shared_context 'retreat_verification_html_erb' do
                                          start_date: START_DATE,
                                          end_date: END_DATE
                                        })
-
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
@@ -237,12 +238,11 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   def fill_in_form(retreat_verification_attach_file, check_checkbox = true)
-    check(I18n.t('label.retreat_verification.retreat_held_at_stmm')) if check_checkbox
+    check(I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish)) if check_checkbox
     fill_in(I18n.t('label.retreat_verification.who_held_retreat'), with: WHO_HELD_RETREAT)
     fill_in(I18n.t('label.retreat_verification.where_held_retreat'), with: WHERE_HELD_RETREAT)
     fill_in(I18n.t('label.retreat_verification.start_date'), with: START_DATE)
     fill_in(I18n.t('label.retreat_verification.end_date'), with: END_DATE)
-
     attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions for spec testing.png') if retreat_verification_attach_file
   end
 

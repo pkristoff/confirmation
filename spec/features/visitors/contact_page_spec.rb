@@ -9,7 +9,7 @@ feature 'Contact page' do
   #   When I visit the contact page
   #   Then I see "Welcome"
   before(:each) do
-    @visitor_id = FactoryBot.create(:visitor).id
+     @visitor_id = Visitor.visitor('St. Mary Magdalene', I18n.t('views.top_bar.home'), I18n.t('views.top_bar.about'), '<p>contact me</p>').id
   end
   scenario 'a visitor visits the home page' do
     visit contact_information_path

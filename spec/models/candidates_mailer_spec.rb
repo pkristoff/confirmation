@@ -4,6 +4,7 @@ describe CandidatesMailer, type: :model do
   include ViewsHelpers
   describe 'monthly_reminder testing' do
     before(:each) do
+      admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
@@ -12,12 +13,12 @@ describe CandidatesMailer, type: :model do
                                                     pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
                                                     completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
                                                     completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
-                                                    salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT) })
+                                                    salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N, name: admin.contact_name, email: admin.email, phone: admin.contact_phone)) })
     end
 
     describe 'monthly_reminder' do
       it 'should create a mail form' do
-        admin = AppFactory.create_admin(email: 'candidate@example.com')
+        admin = AppFactory.create_admin(email: 'candidate@example.com', contact_name: 'Vicki Kristoff', contact_phone: '919-911-9191')
 
         coming_due_values = @candidate.candidate_events.map do |ce|
           [ce.name, ce.id, ce.due_date]
@@ -25,8 +26,8 @@ describe CandidatesMailer, type: :model do
 
         mail = CandidatesMailer.monthly_reminder(admin, @text)
         expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email, @candidate.candidate_sheet.parent_email_1])
-        expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
-        expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
+        expect(mail.from).to eq([I18n.t(ViewsHelpers::FROM_EMAIL_I18N, email: admin.email)])
+        expect(mail.reply_to).to eq([I18n.t(ViewsHelpers::REPLY_TO_EMAIL_I18N, email: admin.email)])
         expect(mail.subject).to eq(ViewsHelpers::SUBJECT)
 
         body = Capybara.string(mail.body.encoded)
@@ -49,8 +50,8 @@ describe CandidatesMailer, type: :model do
 
         mail = CandidatesMailer.monthly_reminder_test(admin, @text)
         expect(mail.to).to eq([admin.email])
-        expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
-        expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
+        expect(mail.from).to eq([I18n.t(ViewsHelpers::FROM_EMAIL_I18N, email: admin.email)])
+        expect(mail.reply_to).to eq([I18n.t(ViewsHelpers::REPLY_TO_EMAIL_I18N, email: admin.email)])
         expect(mail.subject).to eq(I18n.t('email.test_monthly_mail_subject_initial_input', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)
@@ -73,17 +74,19 @@ describe CandidatesMailer, type: :model do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
-      @text = CandidatesMailerText.new(candidate: @candidate, subject: MailPart.new_subject(ViewsHelpers::SUBJECT), body_text: MailPart.new_body('some body'))
+      @admin = AppFactory.create_admin(email: 'candidate@example.com')
+      @text = CandidatesMailerText.new(candidate: @candidate,
+                                       subject: MailPart.new_subject(ViewsHelpers::SUBJECT),
+                                       body_text: MailPart.new_body('some body'),
+                                       admin: @admin)
     end
 
     describe 'adhoc' do
       it 'should create an adhoc mail form' do
-        admin = AppFactory.create_admin(email: 'candidate@example.com')
-
-        mail = CandidatesMailer.adhoc(admin, @text)
+        mail = CandidatesMailer.adhoc(@admin, @text)
         expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email, @candidate.candidate_sheet.parent_email_1])
-        expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
-        expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
+        expect(mail.from).to eq([I18n.t(ViewsHelpers::FROM_EMAIL_I18N, email: @admin.email)])
+        expect(mail.reply_to).to eq([I18n.t(ViewsHelpers::REPLY_TO_EMAIL_I18N, email: @admin.email)])
         expect(mail.subject).to eq(ViewsHelpers::SUBJECT)
 
         body = Capybara.string(mail.body.encoded)
@@ -99,8 +102,8 @@ describe CandidatesMailer, type: :model do
 
         mail = CandidatesMailer.adhoc_test(admin, @text)
         expect(mail.to).to eq([admin.email])
-        expect(mail.from).to eq([ViewsHelpers::FROM_EMAIL])
-        expect(mail.reply_to).to eq([ViewsHelpers::REPLY_TO_EMAIL])
+        expect(mail.from).to eq([I18n.t(ViewsHelpers::FROM_EMAIL_I18N, email: admin.email)])
+        expect(mail.reply_to).to eq([I18n.t(ViewsHelpers::REPLY_TO_EMAIL_I18N, email: admin.email)])
         expect(mail.subject).to eq(I18n.t('email.test_adhoc_subject_initial_input', candidate_account_name: @candidate.account_name))
 
         body = Capybara.string(mail.body.encoded)

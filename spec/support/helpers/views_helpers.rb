@@ -7,10 +7,10 @@ module ViewsHelpers
   COMPLETE_INITIAL_INPUT = I18n.t('email.completed_initial_input')
   CLOSING_INITIAL_INPUT = I18n.t('email.closing_initial_input')
   SALUTATION_INITIAL_INPUT = I18n.t('email.salutation_initial_input')
-  FROM_EMAIL_INPUT = I18n.t('email.from_initial_input_html')
+  FROM_EMAIL_INPUT_I18N = 'email.from_initial_input_html'
   SUBJECT = I18n.t('email.subject_initial_input')
-  FROM_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
-  REPLY_TO_EMAIL = I18n.t('views.top_bar.contact_admin_mail_text')
+  FROM_EMAIL_I18N = 'views.top_bar.contact_admin_mail_text'
+  REPLY_TO_EMAIL_I18N = 'views.top_bar.contact_admin_mail_text'
 
   def expect_create_candidate(rendered_or_page)
     expect(rendered_or_page).to have_selector('h2', text: 'Create new Candidate')
@@ -105,7 +105,7 @@ module ViewsHelpers
     candidate.baptismal_certificate.church_address.zip_code = '12345'
 
     candidate.sponsor_covenant.sponsor_name = 'The Boss'
-    candidate.sponsor_covenant.sponsor_attends_stmm = true
+    candidate.sponsor_covenant.sponsor_attends_home_parish = true
 
     candidate.pick_confirmation_name.saint_name = 'Bolt'
 
@@ -113,31 +113,35 @@ module ViewsHelpers
     candidate
   end
 
-  def expect_mass_mailing_html(candidates, rendered_or_page_or_page)
-    expect(rendered_or_page_or_page).to have_css "form[action='/monthly_mass_mailing_update']"
+  def expect_mass_mailing_html(candidates, rendered_or_page)
+    expect(rendered_or_page).to have_css "form[action='/monthly_mass_mailing_update']"
 
-    expect(rendered_or_page_or_page).to have_css("input[type='submit'][value='#{I18n.t('email.monthly_mail')}']", count: 2)
+    expect(rendered_or_page).to have_css("input[type='submit'][value='#{I18n.t('email.monthly_mail')}']", count: 2)
 
-    expect(rendered_or_page_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
+    expect(rendered_or_page).to have_css("input[id='top-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
 
-    expect(rendered_or_page_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_input'))
-    expect(rendered_or_page_or_page).to have_field(I18n.t('email.pre_late_input_label'), text: I18n.t('email.late_initial_input'))
-    expect(rendered_or_page_or_page).to have_field(I18n.t('email.pre_coming_due_input_label'), text: I18n.t('email.coming_due_initial_input'))
-    expect(rendered_or_page_or_page).to have_field(I18n.t('email.completed_awaiting_input_label'), text: I18n.t('email.completed_awaiting_initial_input'))
-    expect(rendered_or_page_or_page).to have_field(I18n.t('email.completed_input_label'), text: I18n.t('email.completed_initial_input'))
-    expect(rendered_or_page_or_page).to have_field(I18n.t('email.closing_input_label'), text: I18n.t('email.closing_initial_input'))
-    expect(rendered_or_page_or_page).to have_field(I18n.t('email.salutation_input_label'), text: I18n.t('email.salutation_initial_input'))
-    expect(rendered_or_page_or_page).to have_field(I18n.t('email.from_input_label'), text: 'Vicki Kristoff')
+    expect(rendered_or_page).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.pre_late_input_label'), text: I18n.t('email.late_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.pre_coming_due_input_label'), text: I18n.t('email.coming_due_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.completed_awaiting_input_label'), text: I18n.t('email.completed_awaiting_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.completed_input_label'), text: I18n.t('email.completed_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.closing_input_label'), text: I18n.t('email.closing_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.salutation_input_label'), text: I18n.t('email.salutation_initial_input'))
+    expect(rendered_or_page).to have_field(I18n.t('email.from_input_label'), text: 'Vicki Kristoff')
 
     expect_sorting_candidate_list(common_columns,
                                   candidates,
-                                  rendered_or_page_or_page)
+                                  rendered_or_page)
 
-    expect(rendered_or_page_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
+    expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
   end
 
   def expect_password_changed
     ->(cand_id, rendered_or_page, td_index) { expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true' }
+  end
+
+  def expect_note
+    ->(cand_id, rendered_or_page, td_index) { expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: I18n.t('label.sidebar.candidate_note') }
   end
 
   def expect_account_confirmed

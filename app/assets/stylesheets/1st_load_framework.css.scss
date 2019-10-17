@@ -1,10 +1,11 @@
 // import the CSS framework
-@import "bootstrap-sprockets";
+
 @import "bootstrap";
+@import "bootstrap-reboot";
 
 // make all images responsive by default
 img {
-  @extend .img-responsive;
+  @extend .img-fluid;
   margin: 0 auto;
   }
 // override for the 'Home' navigation link
@@ -31,6 +32,7 @@ img {
   @extend .btn-primary;
   @extend .btn-lg;
   }
+
 // apply styles to HTML elements
 // to make views framework-neutral
 main {
@@ -54,8 +56,7 @@ section {
   margin: 0 auto;
 }
 .authform form {
-  @extend .well;
-  @extend .well-lg;
+  @extend .card;
   padding-bottom: 40px;
 }
 .authform .right {
@@ -66,7 +67,7 @@ section {
   @extend .btn-primary;
 }
 .authform fieldset {
-  @extend .well;
+  @extend .card;
   border-bottom-width: 2px;
   border-top-width: 2px;
   border-left-width: 2px;
@@ -82,5 +83,5 @@ section {
 .button-xs {
   @extend .btn;
   @extend .btn-primary;
-  @extend .btn-xs;
 }
+

@@ -1,73 +1,74 @@
+<article>
+  <section id="orphaned-table-rows">
+    <h2><%= t('views.imports.orphaned_table_rows') %></h2>
 
-
-<section id="orphaned-table-rows">
-  <h2><%= t('views.imports.orphaned_table_rows') %></h2>
-
-  <%= form_for(@candidate_import, url: candidate_imports_orphaned_table_rows_path, method: :post) do |f| %>
+    <%= form_for(@candidate_import, url: candidate_imports_orphaned_table_rows_path, method: :post) do |f| %>
       <div id="div_missing_confirmation_events">
         <h3><%= t('views.imports.missing') %>:</h3>
         <ul id="add_orphaned_table_rows">
           <% @candidate_import.orphaned_table_rows.each do |key, missing_id_list| %>
-              <li><%= key %>: <%= missing_id_list.size %></li>
-              <ul id="add_orphaned_table_rows_"<%= key %>>
-                <li><% missing_id_list.each do | missing_id | %>
-                    <%= missing_id %>
+            <li><%= key %>: <%= missing_id_list.size %></li>
+            <ul id="add_orphaned_table_rows_"<%= key %>>
+              <li>
+                <% missing_id_list.each do |missing_id| %>
+                  <%= missing_id %>
                 <% end %></li>
-              </ul>
+            </ul>
           <% end %>
         </ul>
       </div>
-      <div class="buttons"><%= f.submit t('views.imports.check_orphaned_table_rows')  %></div>
+      <div class="buttons"><%= f.submit t('views.imports.check_orphaned_table_rows') %></div>
       <div class="buttons"><%= f.submit t('views.imports.remove_orphaned_table_rows') %></div>
-  <% end %>
-</section>
+    <% end %>
+  </section>
 
-<section id="export">
-  <h2><%= t('views.imports.candidates_export') %></h2>
-  <p>
-    Export current data to a zipped excel spreadsheet with scanned pictures or an excel spreadsheet without scanned pictures
-  </p>
-  <%= form_for @candidate_import, url: candidate_imports_export_to_excel_path(format: 'xlsx') do |f| %>
+  <section id="export">
+    <h2><%= t('views.imports.candidates_export') %></h2>
+    <p>
+      Export current data to a zipped excel spreadsheet with scanned pictures or an excel spreadsheet without scanned
+      pictures
+    </p>
+    <%= form_for @candidate_import, url: candidate_imports_export_to_excel_path(format: 'xlsx') do |f| %>
 
       <div class="buttons"><%= f.submit t('views.imports.excel_no_pict') %></div>
 
-  <% end %>
-</section>
+    <% end %>
+  </section>
 
-<section id="import">
+  <section id="import">
 
-  <h2><%= t('views.imports.candidates_import') %></h2>
+    <h2><%= t('views.imports.candidates_import') %></h2>
 
-  <p>
-    You can import an
-  <ul>
-    <li>xlxs file which represents the initial candidates which will come from the church</li>
-  </ul>
-  </p>
+    <p>
+      You can import an
+    <ul>
+      <li>xlxs file which represents the initial candidates which will come from the church</li>
+    </ul>
+    </p>
 
 
-  <%= form_for @candidate_import, url: candidate_imports_import_candidates_path do |f| %>
+    <%= form_for @candidate_import, url: candidate_imports_import_candidates_path do |f| %>
       <% if @candidate_import.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@candidate_import.errors.count, "error") %> prohibited this import from completing:</h2>
-            <ul>
-              <% @candidate_import.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </div>
+        <div id="error_explanation">
+          <h2><%= pluralize(@candidate_import.errors.count, "error") %> prohibited this import from completing:</h2>
+          <ul>
+            <% @candidate_import.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
       <% end %>
 
       <div class="field">
         <%= f.file_field :file %>
       </div>
       <div class="buttons"><%= f.submit t('views.imports.import') %></div>
-  <% end %>
-</section>
+    <% end %>
+  </section>
 
-<section id="start_new_year">
+  <section id="start_new_year">
 
-  <%= form_for @candidate_import, url: candidate_imports_start_new_year_path do |f| %>
+    <%= form_for @candidate_import, url: candidate_imports_start_new_year_path do |f| %>
       <h2><%= t('views.imports.start_new_year') %></h2>
 
       <h3><%= t('views.imports.cannot_recover') %></h3>
@@ -76,18 +77,19 @@
       </p>
       <ul>
         <li>Candidates: All will be removed from the database</li>
-        <li>Confirmation events will remail with instrutions staying the same however due dates will be set to today</li>
+        <li>Confirmation events will remail with instrutions staying the same however due dates will be set to today
+        </li>
         <li>Admins: not affected</li>
         <li>Remain logged in: yes</li>
       </ul>
-      <div class="buttons"><%= f.submit t('views.imports.start_new_year'), data: {confirm: 'Are you sure?'} %></div>
-  <% end %>
-</section>
+      <div class="buttons"><%= f.submit t('views.imports.start_new_year'), data: { confirm: 'Are you sure?' } %></div>
+    <% end %>
+  </section>
 
-<section id="reset_database">
-  <h2><%= t('views.imports.reset_database') %></h2>
+  <section id="reset_database">
+    <h2><%= t('views.imports.reset_database') %></h2>
 
-  <%= form_for @candidate_import, url: candidate_imports_reset_database_path do |f| %>
+    <%= form_for @candidate_import, url: candidate_imports_reset_database_path do |f| %>
 
       <h3><%= t('views.imports.cannot_recover') %></h3>
       <p>
@@ -99,44 +101,45 @@
         <li>Admins: All will be removed from the database. The default Admin will be added.</li>
         <li>Remain logged in: NO</li>
       </ul>
-      <div class="buttons"><%= f.submit t('views.imports.reset_database'), data: {confirm: 'Are you sure?'} %></div>
-  <% end %>
-</section>
+      <div class="buttons"><%= f.submit t('views.imports.reset_database'), data: { confirm: 'Are you sure?' } %></div>
+    <% end %>
+  </section>
 
-<section id="check_events">
-  <h2><%= t('views.imports.check_events') %></h2>
+  <section id="check_events">
+    <h2><%= t('views.imports.check_events') %></h2>
 
-  <%= form_for(@candidate_import, url: candidate_imports_check_events_path, method: :post) do |f| %>
+    <%= form_for(@candidate_import, url: candidate_imports_check_events_path, method: :post) do |f| %>
       <div id="div_missing_confirmation_events">
-        <%= f.hidden_field :missing, :value => @candidate_import.missing_confirmation_events.join(":")%>
+        <%= f.hidden_field :missing, :value => @candidate_import.missing_confirmation_events.join(":") %>
         <h3><%= t('views.imports.missing') %>:</h3>
         <ul id="missing_confirmation_events">
           <% @candidate_import.missing_confirmation_events.map do |confirmation_event_name| %>
-              <li><%= confirmation_event_name %></li>
+            <li><%= confirmation_event_name %></li>
           <% end %>
         </ul>
       </div>
 
       <div id="div_unknown_confirmation_events">
-        <%= f.hidden_field :unknown, :value => @candidate_import.unknown_confirmation_events.join(":")%>
+        <%= f.hidden_field :unknown, :value => @candidate_import.unknown_confirmation_events.join(":") %>
         <h3><%= t('views.imports.unknown') %>:</h3>
         <ul id="unknown_confirmation_events">
           <% @candidate_import.unknown_confirmation_events.map do |confirmation_event_name| %>
-              <li><%= confirmation_event_name %></li>
+            <li><%= confirmation_event_name %></li>
           <% end %>
         </ul>
       </div>
 
       <div id="div_found_confirmation_events">
-        <%= f.hidden_field :found, :value => @candidate_import.found_confirmation_events.join(":")%>
+        <%= f.hidden_field :found, :value => @candidate_import.found_confirmation_events.join(":") %>
         <h3><%= t('views.imports.found') %>:</h3>
         <ul id="found_confirmation_events">
           <% @candidate_import.found_confirmation_events.map do |confirmation_event_name| %>
-              <li><%= confirmation_event_name %></li>
+            <li><%= confirmation_event_name %></li>
           <% end %>
         </ul>
       </div>
-      <div class="buttons"><%= f.submit t('views.imports.check_events')  %></div>
+      <div class="buttons"><%= f.submit t('views.imports.check_events') %></div>
       <div class="buttons"><%= f.submit t('views.imports.add_missing_events') %></div>
-  <% end %>
-</section>
+    <% end %>
+  </section>
+</article>

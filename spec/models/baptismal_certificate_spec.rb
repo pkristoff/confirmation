@@ -28,7 +28,7 @@ describe BaptismalCertificate, type: :model do
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value' do
       candidate = FactoryBot.create(:candidate)
-      candidate.baptismal_certificate.baptized_at_stmm = false
+      candidate.baptismal_certificate.baptized_at_home_parish = false
       verifiables = FactoryBot.create(:baptismal_certificate).verifiable_info(candidate)
       expected_verifiables = {
         Birthday: Date.parse('1983-08-20'),
@@ -48,87 +48,87 @@ describe BaptismalCertificate, type: :model do
 
   it 'should return a hash of :attribute => value' do
     candidate = FactoryBot.create(:candidate)
-    candidate.baptismal_certificate.baptized_at_stmm = true
+    candidate.baptismal_certificate.baptized_at_home_parish = true
     verifiables = FactoryBot.create(:baptismal_certificate).verifiable_info(candidate)
     expected_verifiables = {
-      Church: I18n.t('home_parish.name')
+      Church: Visitor.home_parish
     }
     expect(verifiables).to eq(expected_verifiables)
   end
 
   describe 'show check and divs' do
-    describe 'baptized_at_stmm_show_yes' do
-      it 'should not show yes if has_chosen_baptized_at_stmm has not happend: false 0' do
+    describe 'baptized_at_home_parish_show_yes' do
+      it 'should not show yes if has_chosen_baptized_at_home_parish has not happend: false 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = false
+        baptismal_certificate.baptized_at_home_parish = false
         baptismal_certificate.show_empty_radio = 0
 
-        expect(baptismal_certificate.baptized_at_stmm_show_yes).to eq(false)
+        expect(baptismal_certificate.baptized_at_home_parish_show_yes).to eq(false)
       end
 
-      it 'should not show yes if has_chosen_baptized_at_stmm has not happend: true 0' do
+      it 'should not show yes if has_chosen_baptized_at_home_parish has not happend: true 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = true
+        baptismal_certificate.baptized_at_home_parish = true
         baptismal_certificate.show_empty_radio = 0
 
-        expect(baptismal_certificate.baptized_at_stmm_show_yes).to eq(false)
+        expect(baptismal_certificate.baptized_at_home_parish_show_yes).to eq(false)
       end
 
-      it 'should not show yes if has_chosen_baptized_at_stmm has not happend: false 1' do
+      it 'should not show yes if has_chosen_baptized_at_home_parish has not happend: false 1' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = false
+        baptismal_certificate.baptized_at_home_parish = false
         baptismal_certificate.show_empty_radio = 1
 
-        expect(baptismal_certificate.baptized_at_stmm_show_yes).to eq(false)
+        expect(baptismal_certificate.baptized_at_home_parish_show_yes).to eq(false)
       end
 
-      it 'should show yes if has_chosen_baptized_at_stmm has not happend: true 1' do
+      it 'should show yes if has_chosen_baptized_at_home_parish has not happend: true 1' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = true
+        baptismal_certificate.baptized_at_home_parish = true
         baptismal_certificate.show_empty_radio = 1
 
-        expect(baptismal_certificate.baptized_at_stmm_show_yes).to eq(true)
+        expect(baptismal_certificate.baptized_at_home_parish_show_yes).to eq(true)
       end
     end
 
-    describe 'baptized_at_stmm_show_no' do
-      it 'should not show no if has_chosen_baptized_at_stmm has not happend: false 0' do
+    describe 'baptized_at_home_parish_show_no' do
+      it 'should not show no if has_chosen_baptized_at_home_parish has not happend: false 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = false
+        baptismal_certificate.baptized_at_home_parish = false
         baptismal_certificate.show_empty_radio = 0
 
-        expect(baptismal_certificate.baptized_at_stmm_show_no).to eq(false)
+        expect(baptismal_certificate.baptized_at_home_parish_show_no).to eq(false)
       end
 
-      it 'should not show no if has_chosen_baptized_at_stmm has not happend: true 0' do
+      it 'should not show no if has_chosen_baptized_at_home_parish has not happend: true 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = true
+        baptismal_certificate.baptized_at_home_parish = true
         baptismal_certificate.show_empty_radio = 0
 
-        expect(baptismal_certificate.baptized_at_stmm_show_no).to eq(false)
+        expect(baptismal_certificate.baptized_at_home_parish_show_no).to eq(false)
       end
 
-      it 'should show no if has_chosen_baptized_at_stmm has not happend: false 1' do
+      it 'should show no if has_chosen_baptized_at_home_parish has not happend: false 1' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = false
+        baptismal_certificate.baptized_at_home_parish = false
         baptismal_certificate.show_empty_radio = 1
 
-        expect(baptismal_certificate.baptized_at_stmm_show_no).to eq(true)
+        expect(baptismal_certificate.baptized_at_home_parish_show_no).to eq(true)
       end
 
-      it 'should not show no if has_chosen_baptized_at_stmm has not happend: true 1' do
+      it 'should not show no if has_chosen_baptized_at_home_parish has not happend: true 1' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = true
+        baptismal_certificate.baptized_at_home_parish = true
         baptismal_certificate.show_empty_radio = 1
 
-        expect(baptismal_certificate.baptized_at_stmm_show_no).to eq(false)
+        expect(baptismal_certificate.baptized_at_home_parish_show_no).to eq(false)
       end
     end
 
     describe 'first_comm_show' do
       it 'should not show: false 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = false
+        baptismal_certificate.baptized_at_home_parish = false
         baptismal_certificate.show_empty_radio = 0
 
         expect(baptismal_certificate.first_comm_show).to eq(false)
@@ -136,7 +136,7 @@ describe BaptismalCertificate, type: :model do
 
       it 'should not show: true 0' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = true
+        baptismal_certificate.baptized_at_home_parish = true
         baptismal_certificate.show_empty_radio = 0
 
         expect(baptismal_certificate.first_comm_show).to eq(false)
@@ -144,7 +144,7 @@ describe BaptismalCertificate, type: :model do
 
       it 'should show: false 1' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = false
+        baptismal_certificate.baptized_at_home_parish = false
         baptismal_certificate.show_empty_radio = 1
 
         expect(baptismal_certificate.first_comm_show).to eq(true)
@@ -152,7 +152,7 @@ describe BaptismalCertificate, type: :model do
 
       it 'should not show: true 1' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = true
+        baptismal_certificate.baptized_at_home_parish = true
         baptismal_certificate.show_empty_radio = 1
 
         expect(baptismal_certificate.first_comm_show).to eq(false)
@@ -162,7 +162,7 @@ describe BaptismalCertificate, type: :model do
     describe 'info_show' do
       it 'should show: true' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = true
+        baptismal_certificate.baptized_at_home_parish = true
         baptismal_certificate.show_empty_radio = 1
 
         expect(baptismal_certificate.info_show).to eq(false)
@@ -170,38 +170,41 @@ describe BaptismalCertificate, type: :model do
 
       it 'should show: true' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = false
+        baptismal_certificate.baptized_at_home_parish = false
         baptismal_certificate.show_empty_radio = 2
 
-        baptismal_certificate.first_comm_at_stmm = true
+        baptismal_certificate.first_comm_at_home_parish = true
 
         expect(baptismal_certificate.info_show).to eq(true)
       end
 
       it 'should show: true' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        baptismal_certificate.baptized_at_stmm = false
+        baptismal_certificate.baptized_at_home_parish = false
         baptismal_certificate.show_empty_radio = 2
 
-        baptismal_certificate.first_comm_at_stmm = false
+        baptismal_certificate.first_comm_at_home_parish = false
 
         expect(baptismal_certificate.info_show).to eq(true)
       end
     end
   end
   describe 'validate_event_complete' do
+    before(:each) do
+      Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+    end
     it 'should fail validation - new baptismal_certificate validated' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)
 
       expect(baptismal_certificate.validate_event_complete).to eq(false)
       msgs = baptismal_certificate.errors.full_messages
-      expect(msgs[0]).to eq('I was Baptized at Saint Mary Magdalene should be checked.')
+      expect(msgs[0]).to eq('I was Baptized at St. Mary Magdalene should be checked.')
       expect(msgs.size).to eq(1)
     end
 
     it 'should pass validation - user selects Yes and saves' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-      baptismal_certificate.baptized_at_stmm = true
+      baptismal_certificate.baptized_at_home_parish = true
       baptismal_certificate.show_empty_radio = 1
 
       expect(baptismal_certificate.validate_event_complete).to eq(true)
@@ -210,18 +213,18 @@ describe BaptismalCertificate, type: :model do
     end
     it 'should fail validation - user selects No and saves' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-      baptismal_certificate.baptized_at_stmm = false
+      baptismal_certificate.baptized_at_home_parish = false
       baptismal_certificate.show_empty_radio = 1
 
       expect(baptismal_certificate.validate_event_complete).to eq(false)
       msgs = baptismal_certificate.errors.full_messages
-      expect(msgs[0]).to eq('I received First Communion at Saint Mary Magdalene should be checked.')
+      expect(msgs[0]).to eq('I received First Communion at St. Mary Magdalene should be checked.')
       expect(msgs.size).to eq(1)
     end
     it 'should pass validation - user selects No, Yes and saves' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-      baptismal_certificate.baptized_at_stmm = false
-      baptismal_certificate.first_comm_at_stmm = true
+      baptismal_certificate.baptized_at_home_parish = false
+      baptismal_certificate.first_comm_at_home_parish = true
       baptismal_certificate.show_empty_radio = 2
 
       expect(baptismal_certificate.validate_event_complete).to eq(true)
@@ -230,8 +233,8 @@ describe BaptismalCertificate, type: :model do
     end
     it 'should pass validation - user selects No, No and saves' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-      baptismal_certificate.baptized_at_stmm = false
-      baptismal_certificate.first_comm_at_stmm = false
+      baptismal_certificate.baptized_at_home_parish = false
+      baptismal_certificate.first_comm_at_home_parish = false
       baptismal_certificate.show_empty_radio = 2
 
       expect(baptismal_certificate.validate_event_complete).to eq(true)
@@ -240,8 +243,8 @@ describe BaptismalCertificate, type: :model do
     end
     it 'should fail validation - user selects No, No, removes mother_first and saves' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-      baptismal_certificate.baptized_at_stmm = false
-      baptismal_certificate.first_comm_at_stmm = false
+      baptismal_certificate.baptized_at_home_parish = false
+      baptismal_certificate.first_comm_at_home_parish = false
       baptismal_certificate.show_empty_radio = 2
       baptismal_certificate.mother_first = ''
 

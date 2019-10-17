@@ -150,7 +150,8 @@ class AdminsController < ApplicationController
     confirmation_event = ConfirmationEvent.find(params[:id])
     params.delete(:id)
 
-    candidate_ids = params[:candidate].nil? ? [] : params[:candidate][:candidate_ids]
+    candidate_ids = params[:candidate_ids].nil? ? [] : params[:candidate_ids]
+    params.delete(:candidate_ids)
     candidates = []
     # with upgrade to 5.0 params will remove
     # candidate from params if candidate_ids is empty
@@ -246,13 +247,13 @@ class AdminsController < ApplicationController
         response, _token = send_grid_mail.confirmation_instructions
         if response.nil? && Rails.env.test?
           # not connected to the internet
-          flash[:notice] = t('messages.initial_email_sent')
+          flash[:notice] = t('messages.confirmation_email_sent')
         elsif response.status_code[0] == '2'
-          flash[:notice] = t('messages.initial_email_sent')
+          flash[:notice] = t('messages.confirmation_email_sent')
         else
           flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
         end
-        redirect_back fallback_location: ref_url, notice: t('messages.initial_email_sent')
+        redirect_back fallback_location: ref_url, notice: t('messages.confirmation_email_sent')
       when AdminsController::CONFIRM_ACCOUNT
         confirmed = 0
         candidates.each do |candidate|
@@ -295,9 +296,10 @@ class AdminsController < ApplicationController
   #
   # === Parameters:
   #
-  # * <tt>:selected_ids</tt>  Optional
+  # * <tt>:selected_ids</tt>  Array of selected Candidate ids.
   #
   def setup_monthly_mailing_render_default(selected_ids = [])
+    admin = current_admin
     subject = MailPart.new_subject(t('email.subject_initial_input'))
     pre_late_input = MailPart.new_pre_late_input(t('email.late_initial_input'))
     pre_coming_due_input = MailPart.new_pre_coming_due_input(t('email.coming_due_initial_input'))
@@ -305,7 +307,7 @@ class AdminsController < ApplicationController
     completed_input = MailPart.new_completed_input(t('email.completed_initial_input'))
     salutation_input = MailPart.new_closing_input(t('email.closing_initial_input'))
     closing_input = MailPart.new_salutation_input(t('email.salutation_initial_input'))
-    from_input = MailPart.new_from_input(t('email.from_initial_input_html'))
+    from_input = MailPart.new_from_input(t('email.from_initial_input_html', name: admin.contact_name, email: admin.email, phone: admin.contact_phone))
 
     setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_input, salutation_input, from_input, selected_ids)
   end
@@ -404,7 +406,7 @@ class AdminsController < ApplicationController
     flash.now[:notice] = if send_mail_response.status_code[0] == '2'
                            flash_message
                          else
-                           "Send emai failed - see logs for more info - last failed response: Status=#{send_mail_response.status_code} body=#{send_mail_response.body}"
+                           "Send email failed - see logs for more info - last failed response: Status=#{send_mail_response.status_code} body=#{send_mail_response.body}"
                          end
 
     set_confirmation_events
@@ -435,24 +437,29 @@ class AdminsController < ApplicationController
   def update_visitor
     Rails.logger.info "params=#{params}"
     commit = params.require(:commit)
+    visitor_param = params[:visitor]
     case commit
     when t('views.common.update_home')
       visitor = visitor_db_or_new
+
       flash[:notice] = t('messages.home_updated') if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
 
     when t('views.common.update_about')
       visitor = visitor_db_or_new
-      Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{params.permit(Visitor.basic_permitted_params)}")
-      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
         flash[:notice] = t('messages.about_updated')
         Rails.logger.info "visitor.about=#{visitor.about}"
       end
     when t('views.common.update_information_contact')
       visitor = visitor_db_or_new
-      Rails.logger.info("params.permit(Visitor.basic_permitted_params=#{params.permit(Visitor.basic_permitted_params)}")
-      if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
         flash[:notice] = t('messages.contact_information_updated')
         Rails.logger.info "visitor.contact=#{visitor.contact}"
+      end
+    when t('views.common.update_home_parish')
+      visitor = visitor_db_or_new
+      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
+        flash[:notice] = t('messages.home_parish_updated')
       end
     else
       flash[:alert] = "Unkown commit param: #{commit}"

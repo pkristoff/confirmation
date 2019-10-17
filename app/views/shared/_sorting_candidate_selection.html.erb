@@ -57,8 +57,13 @@
         <a onclick="select_all_none('select_all_none_input');" href="#"><input type="checkbox" id="select_all_none_input"></a>
       </th>
       <% column_headers_in_order.each_with_index do |sort_header, index| %>
-        <% if column_headers_in_order[index] === t('views.nav.edit') %>
+        <% case column_headers_in_order[index] %>
+      <% when t('views.nav.edit') %>
           <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-false edit_column_header"><%= column_headers_in_order[index] %></th>
+        <% when t('views.nav.note') %>
+          <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-false"><%= column_headers_in_order[index] %></th>
+        <% when I18n.t('label.candidate_event.select') %>
+          <th id="candidate_list_header_th_<%= index + 2 %>"><%= column_headers_in_order[index] %></th>
         <% else %>
           <th id="candidate_list_header_th_<%= index + 2 %>"><%= column_headers_in_order[index] %></th>
         <% end %>
@@ -105,7 +110,7 @@
         <% if confirmation_event %>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= attending %></td>
           <% case confirmation_event.name %>
-          <% when t('events.candidate_covenant_agreement') %>
+        <% when t('events.candidate_covenant_agreement') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.candidate_covenant_agreement'), attending)}", sign_agreement_verify_path(candidate_id) %></td>
           <% when t('events.candidate_information_sheet') %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, t('events.candidate_information_sheet'), attending)}", candidate_sheet_verify_path(candidate_id) %></td>

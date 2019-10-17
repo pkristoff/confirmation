@@ -66,6 +66,8 @@ describe CandidatesController do
       candidate.candidate_sheet.first_name = 'c1first_name'
       candidate.candidate_sheet.middle_name = 'c3middle_name'
       candidate.candidate_sheet.last_name = 'c2last_name'
+    else
+      raise 'unknown prefix'
     end
     candidate.save
     candidate
@@ -99,7 +101,8 @@ describe CandidatesController do
 
     it 'should stay on pick_confirmation_name_verify, since it should not pass validation' do
       put :pick_confirmation_name_verify_update,
-          params: { id: @c1_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c1_id,
+                    candidate: { pick_confirmation_name_attributes: { saint_name: '', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -122,7 +125,8 @@ describe CandidatesController do
       cand.save
 
       put :pick_confirmation_name_verify_update,
-          params: { id: @c1_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c1_id,
+                    candidate: { pick_confirmation_name_attributes: { saint_name: 'george', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -137,7 +141,7 @@ describe CandidatesController do
     it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
       put :pick_confirmation_name_verify_update,
           params: { id: @c1_id,
-                    candidate: { pick_confirmation_name_attributes: { saint_name: 'foo' } } }
+                    candidate: { pick_confirmation_name_attributes: { saint_name: 'foo', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(cand.pick_confirmation_name.saint_name).to eq('foo')
@@ -236,12 +240,12 @@ describe CandidatesController do
     [
       ['baptismal_certificate',
        lambda do |candidate|
-         candidate.baptismal_certificate.baptized_at_stmm = true
+         candidate.baptismal_certificate.baptized_at_home_parish = true
        end,
        lambda do |candidate|
          {
            baptismal_certificate_attributes: {
-             baptized_at_stmm: 1,
+             baptized_at_home_parish: 1,
              show_empty_radio: 1,
              id: candidate.id
            }
@@ -249,19 +253,19 @@ describe CandidatesController do
        end],
       ['retreat_verification',
        lambda do |candidate|
-         candidate.retreat_verification.retreat_held_at_stmm = true
+         candidate.retreat_verification.retreat_held_at_home_parish = true
        end,
        lambda do |candidate|
          {
            retreat_verification_attributes: {
-             retreat_held_at_stmm: candidate.retreat_verification.retreat_held_at_stmm,
+             retreat_held_at_home_parish: candidate.retreat_verification.retreat_held_at_home_parish,
              id: candidate.retreat_verification.id
            }
          }
        end],
       ['sponsor_covenant', lambda do |candidate|
         candidate.sponsor_covenant.sponsor_name = 'mmm'
-        candidate.sponsor_covenant.sponsor_attends_stmm = true
+        candidate.sponsor_covenant.sponsor_attends_home_parish = true
         File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
           candidate.sponsor_covenant.scanned_covenant =
             candidate.sponsor_covenant.build_scanned_covenant(
@@ -276,13 +280,12 @@ describe CandidatesController do
          {
            sponsor_covenant_attributes: {
              sponsor_name: candidate.sponsor_covenant.sponsor_name,
-             sponsor_attends_stmm: candidate.sponsor_covenant.sponsor_attends_stmm,
+             sponsor_attends_home_parish: candidate.sponsor_covenant.sponsor_attends_home_parish,
              id: candidate.sponsor_covenant.id
            }
          }
        end]
     ].each do |event_info|
-
       event_name_key = event_info[0]
       valid_setter = event_info[1]
       generate_cand_parms = event_info[2]
@@ -356,7 +359,7 @@ describe CandidatesController do
 
     it 'should stay on christian_ministry_verify, since it should not pass validation' do
       put :christian_ministry_verify_update,
-          params: { id: @c1_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c1_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: Candidate.find(@c1_id).christian_ministry } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -382,7 +385,7 @@ describe CandidatesController do
       cand.save
 
       put :christian_ministry_verify_update,
-          params: { id: @c1_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c1_id, candidate: { christian_ministry_attributes: { what_service: 'xxx', where_service: 'yyy', when_service: 'zzz', helped_me: 'eee', id: Candidate.find(@c1_id).christian_ministry } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -442,7 +445,7 @@ describe CandidatesController do
       cand.save(validate: false)
 
       put :candidate_sheet_verify_update,
-          params: { id: @c0_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c0_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: cand.christian_ministry_id } } }
 
       cand = Candidate.find(@c0_id)
       expect(controller.candidate).to eq(cand)
@@ -465,7 +468,7 @@ describe CandidatesController do
       cand.save
 
       put :candidate_sheet_verify_update,
-          params: { id: @c0_id, candidate: { candidate_ids: [-1] } }
+          params: { id: @c0_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: cand.christian_ministry_id } } }
 
       cand = Candidate.find(@c0_id)
       expect(controller.candidate).to eq(cand)

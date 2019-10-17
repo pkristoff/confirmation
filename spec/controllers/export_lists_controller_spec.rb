@@ -2,6 +2,8 @@
 
 describe ExportListsController do
   before(:each) do
+    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+
     c1 = FactoryBot.create(:candidate, account_name: 'c1')
     c1.candidate_sheet.first_name = 'Paul'
     c1.candidate_sheet.last_name = 'Kristoff'
@@ -38,7 +40,7 @@ describe ExportListsController do
   end
 
   it 'should return a xlxs Baptized attachment' do
-    @c1.baptismal_certificate.baptized_at_stmm = true
+    @c1.baptismal_certificate.baptized_at_home_parish = true
     @c1.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date = @today
     @c1.save
 
@@ -48,7 +50,7 @@ describe ExportListsController do
   end
 
   it 'should return a xlxs retreat attachment' do
-    @c1.retreat_verification.retreat_held_at_stmm = true
+    @c1.retreat_verification.retreat_held_at_home_parish = true
     @c1.get_candidate_event(I18n.t('events.retreat_verification')).completed_date = @today
     @c1.save
 
@@ -68,7 +70,7 @@ describe ExportListsController do
   end
 
   it 'should return a xlxs sponsor attachment' do
-    @c1.sponsor_covenant.sponsor_attends_stmm = true
+    @c1.sponsor_covenant.sponsor_attends_home_parish = true
     @c1.get_candidate_event(I18n.t('events.sponsor_covenant')).completed_date = @today
     @c1.save
 

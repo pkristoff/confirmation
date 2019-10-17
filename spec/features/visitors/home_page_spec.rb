@@ -10,7 +10,7 @@ feature 'Home page' do
   #   When I visit the home page
   #   Then I see "Welcome"
   before(:each) do
-    @visitor_id = FactoryBot.create(:visitor).id
+    @visitor_id = Visitor.visitor('St. Mary Magdalene', '<p>home text</p>', 'replace me - about', 'replace me - contaclt').id
   end
   scenario 'a visitor visits the home page' do
     visit root_path

@@ -10,12 +10,13 @@ def expect_messages(messages, rendered_page = page)
   %i[flash_alert flash_notice error_explanation].each do |my_id|
     expect(rendered_page).not_to have_selector("div[id=#{my_id}]") unless ids.include? my_id
   end
+
   messages.each do |message_pair|
     id = message_pair[0]
     message = message_pair[1]
     if id == :error_explanation && message.is_a?(Array)
       expect(rendered_page).to have_selector("div[id=#{id}] h2", text: message[0])
-      2..message.size do |i|
+      (1..message.size).each do |i|
         expect(rendered_page).to have_selector("div[id=#{id}] li", text: message[i])
       end
     else
@@ -60,7 +61,6 @@ end
 
 def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
   page_or_rendered = respond_to?(:page) ? page : rendered
-  # puts (self.respond_to?(:page) ? page.html : rendered)
 
   if id_css == 'fieldset'
     name_selector = "fieldset[id=event_id_#{confirmation_event_id}]"

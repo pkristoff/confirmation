@@ -47,6 +47,8 @@ module Confirmation
       end if File.exists?(env_file)
     end
 
+    config.sass
+    config.sass.preferred_syntax = :scss
 
     # config.action_dispatch.perform_deep_munge = false
   end

@@ -25,28 +25,28 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def validate_event_complete(_options = {})
-    # 0: user has never saved this thus when baptized_at_stmm will not show yes or no as selected
-    # 1: user has saved a selection for baptized_at_stmm but not for first_comm_at_stmm
+    # 0: user has never saved this thus when baptized_at_home_parish will not show yes or no as selected
+    # 1: user has saved a selection for baptized_at_home_parish but not for first_comm_at_home_parish
     # 2: user has made changes to to both
     case show_empty_radio
     when 0
-      errors[:base] << 'I was Baptized at Saint Mary Magdalene should be checked.' # TODO: I18n
+      errors[:base] << I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish)
       false
     when 1
-      return true if baptized_at_stmm
+      return true if baptized_at_home_parish
 
-      errors[:base] << 'I received First Communion at Saint Mary Magdalene should be checked.' # TODO: I18n
+      errors[:base] << I18n.t('messages.error.first_cpmmunion_should_be_checked', home_parish: Visitor.home_parish)
       false
     when 2
-      return true if first_comm_at_stmm
+      return true if first_comm_at_home_parish
 
       validate_other_info
     else
-      raise("Unknown show_empty_radio value: #{show_empty_radio}")
+      raise(I18n.t('messages.error.unknown_show_empty_radio', show_empty_radio: show_empty_radio))
     end
   end
 
-  # This validates all the information needed when St. MM does not have the baptismal certificate
+  # This validates all the information needed when home parish does not have the baptismal certificate
   #
   # === Returns:
   #
@@ -54,9 +54,9 @@ class BaptismalCertificate < ApplicationRecord
   #
   def validate_other_info
     event_complete = true
-    event_complete_validator = EventCompleteValidator.new(self, !first_comm_at_stmm)
+    event_complete_validator = EventCompleteValidator.new(self, !first_comm_at_home_parish)
     event_complete_validator.validate([], BaptismalCertificate.basic_validation_params)
-    unless baptized_at_stmm
+    unless baptized_at_home_parish
       church_address.validate_event_complete
       church_address.errors.full_messages.each do |msg|
         errors[:base] << msg
@@ -94,7 +94,7 @@ class BaptismalCertificate < ApplicationRecord
   def self.basic_permitted_params
     %I[birth_date baptismal_date church_name father_first father_middle father_last
        mother_first mother_middle mother_maiden mother_last certificate_picture remove_certificate_picture
-       scanned_certificate id baptized_at_stmm first_comm_at_stmm show_empty_radio]
+       scanned_certificate id baptized_at_home_parish first_comm_at_home_parish show_empty_radio]
   end
 
   # Required attributes
@@ -107,8 +107,8 @@ class BaptismalCertificate < ApplicationRecord
     params = BaptismalCertificate.basic_permitted_params
     params.delete(:certificate_picture)
     params.delete(:remove_certificate_picture)
-    params.delete(:baptized_at_stmm)
-    params.delete(:first_comm_at_stmm)
+    params.delete(:baptized_at_home_parish)
+    params.delete(:first_comm_at_home_parish)
     params
   end
 
@@ -156,9 +156,9 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(candidate)
-    if candidate.baptismal_certificate.baptized_at_stmm
+    if candidate.baptismal_certificate.baptized_at_home_parish
       {
-        Church: I18n.t('home_parish.name')
+        Church: Visitor.home_parish
       }
     else
       {
@@ -184,8 +184,8 @@ class BaptismalCertificate < ApplicationRecord
   #
   # * <tt>Boolean</tt>
   #
-  def baptized_at_stmm_show_yes
-    chosen_baptized_at_stmm? && baptized_at_stmm
+  def baptized_at_home_parish_show_yes
+    chosen_baptized_at_home_parish? && baptized_at_home_parish
   end
 
   # Whether to show baptized as no
@@ -194,8 +194,8 @@ class BaptismalCertificate < ApplicationRecord
   #
   # * <tt>Boolean</tt>
   #
-  def baptized_at_stmm_show_no
-    chosen_baptized_at_stmm? && !baptized_at_stmm
+  def baptized_at_home_parish_show_no
+    chosen_baptized_at_home_parish? && !baptized_at_home_parish
   end
 
   # Whether to show first communion as yes
@@ -204,8 +204,8 @@ class BaptismalCertificate < ApplicationRecord
   #
   # * <tt>Boolean</tt>
   #
-  def first_comm_at_stmm_show_yes
-    chosen_first_comm_at_stmm? && first_comm_at_stmm
+  def first_comm_at_home_parish_show_yes
+    chosen_first_comm_at_home_parish? && first_comm_at_home_parish
   end
 
   # Whether to show first communion as no
@@ -214,8 +214,8 @@ class BaptismalCertificate < ApplicationRecord
   #
   # * <tt>Boolean</tt>
   #
-  def first_comm_at_stmm_show_no
-    chosen_first_comm_at_stmm? && !first_comm_at_stmm
+  def first_comm_at_home_parish_show_no
+    chosen_first_comm_at_home_parish? && !first_comm_at_home_parish
   end
 
   # Whether to show first communion info
@@ -225,26 +225,26 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def first_comm_show
-    chosen_baptized_at_stmm? && !baptized_at_stmm
+    chosen_baptized_at_home_parish? && !baptized_at_home_parish
   end
 
-  # Whether candidate has chosen that they were baptised at St MM
+  # Whether candidate has chosen that they were baptised at home parish
   #
   # === Returns:
   #
   # * <tt>Boolean</tt>
   #
-  def chosen_baptized_at_stmm?
+  def chosen_baptized_at_home_parish?
     show_empty_radio.positive?
   end
 
-  # Whether candidate has chosen that they received first communion at St MM
+  # Whether candidate has chosen that they received first communion at home parish
   #
   # === Returns:
   #
   # * <tt>Boolean</tt>
   #
-  def chosen_first_comm_at_stmm?
+  def chosen_first_comm_at_home_parish?
     show_empty_radio > 1
   end
 
@@ -255,6 +255,6 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def info_show
-    chosen_first_comm_at_stmm? && !baptized_at_stmm
+    chosen_first_comm_at_home_parish? && !baptized_at_home_parish
   end
 end

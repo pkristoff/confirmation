@@ -23,9 +23,6 @@ Metrics:
 Naming:
   Enabled: true
 
-Performance:
-  Enabled: true
-
 Rails:
   Enabled: true
 Rails/ApplicationRecord:

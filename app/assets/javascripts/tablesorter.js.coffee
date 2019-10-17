@@ -2,50 +2,41 @@ $(document).ready ->
   $ ->
     textMatcher = (e, n, f, i, $r, c, data) ->
       e.toLowerCase() == f.toLowerCase()
-    $.extend $.tablesorter.defaults,
-      widgets: [
-        "zebra"
-        "columns"
-        "filter"
-      ]
     $("#candidate_list_table").tablesorter({
+
+# this will apply the bootstrap theme if "uitheme" widget is included
+# the widgetOptions.uitheme is no longer required to be set
+      theme: "bootstrap",
+
+      widthFixed: false,
+
+      headerTemplate: '{content} {icon}', # new in v2.7. Needed to add the bootstrap icon!
+
+# widget code contained in the jquery.tablesorter.widgets.js file
+# use the zebra stripe widget if you plan on hiding any rows (filter widget)
+      widgets: ["uitheme", "filter", "columns", "zebra"],
+
+
       sortList: [[2, 0]],
-      theme: 'blue',
-      headerTemplate: '{content}{icon}',
       widthFixed: false,
       widgetOptions: {
+# using the default zebra striping class name, so it actually isn't included in the theme variable above
+# this is ONLY needed for bootstrap theming if you are using the filter widget, because rows are hidden
+        zebra: ["even", "odd"],
 
-# extra css class applied to the table row containing the filters & the inputs within that row
-        filter_cssFilter: '',
+# class names added to columns when sorted
+        columns: ["primary", "secondary", "tertiary"],
 
-# If there are child rows in the table (rows with class name from "cssChildRow" option)
-# and this option is true and a match is found anywhere in the child row, then it will make that row
-# visible; default is false
-        filter_childRows: false,
+# reset filters button
+        filter_reset: ".reset",
 
-# if true, filters are collapsed initially, but can be revealed by hovering over the grey bar immediately
-# below the header row. Additionally, tabbing through the document will open the filter row when an input gets focus
-        filter_hideFilters: false,
+# extra css class name (string or array) added to the filter element (input or select)
+        filter_cssFilter: "form-control",
 
-# Set this option to false to make the searches case sensitive
-        filter_ignoreCase: true,
-
-# jQuery selector string of an element used to reset the filters
-        filter_reset: '.reset',
-
-# Use the $.tablesorter.storage utility to save the most recent filters
-        filter_saveFilters: false,
-
-# Delay in milliseconds before the filter widget starts searching; This option prevents searching for
-# every character while typing and should make searching large tables faster.
-        filter_searchDelay: 300,
-
-# Set this option to true to use the filter to find text from the start of the column
-# So typing in "a" will find "albert" but not "frank", both have a's; default is false
-        filter_startsWith: false
-
+# set the uitheme widget to use the bootstrap theme class names
+# this is no longer required, if theme is set
+# ,uitheme : "bootstrap"
+        filter_columnFilters: true,
       }
     })
-    update_total_selections()
-
-    return
+    update_total_selections();

@@ -27,7 +27,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     @candidate.baptismal_certificate.church_address.zip_code = '12345'
 
     @candidate.sponsor_covenant.sponsor_name = 'The Boss'
-    @candidate.sponsor_covenant.sponsor_attends_stmm = true
+    @candidate.sponsor_covenant.sponsor_attends_home_parish = true
 
     @candidate.pick_confirmation_name.saint_name = 'Bolt'
 
@@ -76,7 +76,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Confirmation name', 'Bolt']
       when I18n.t('events.sponsor_covenant')
         info << ['Sponsor name', 'The Boss']
-        info << ['Sponsor attends', 'St. Mary Magdalene']
+        info << ['Sponsor attends', Visitor.home_parish]
       when I18n.t('events.baptismal_certificate')
         info << ['Birthday', '1999-03-05']
         info << ['Baptismal date', '1999-05-05']
@@ -96,6 +96,16 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:city, 'Apex']
         info << [:state, 'NC']
         info << [:zipcode, '27502']
+      when I18n.t('events.christian_ministry')
+        'no info' # rubiocop
+      when I18n.t('events.parent_meeting')
+        'no info' # rubiocop
+      when I18n.t('events.retreat_verification')
+        'no info' # rubiocop
+      when I18n.t('events.candidate_covenant_agreement')
+        'no info' # rubiocop
+      else
+        raise("Unknown event name:  #{ce.name}")
       end
       [ce.name, ce.id, info]
     end
@@ -117,7 +127,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Confirmation name', 'Bolt']
       when I18n.t('events.sponsor_covenant')
         info << ['Sponsor name', 'The Boss']
-        info << ['Sponsor attends', 'St. Mary Magdalene']
+        info << ['Sponsor attends', Visitor.home_parish]
       when I18n.t('events.baptismal_certificate')
         info << ['Birthday', '1999-03-05']
         info << ['Baptismal date', '1999-05-05']
@@ -137,6 +147,16 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:city, 'Apex']
         info << [:state, 'NC']
         info << [:zipcode, '27502']
+      when I18n.t('events.christian_ministry')
+        'no info' # rubiocop
+      when I18n.t('events.parent_meeting')
+        'no info' # rubiocop
+      when I18n.t('events.retreat_verification')
+        'no info' # rubiocop
+      when I18n.t('events.candidate_covenant_agreement')
+        'no info' # rubiocop
+      else
+        raise("Unknown event name:  #{ce.name}")
       end
       [ce.name, ce.id, info]
     end
@@ -204,7 +224,11 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     expect(rendered).to have_css('p[id=closing_input][ style="white-space: pre;"]', text: '')
     expect(rendered).to have_css('p[id=salutation_input][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_input'))
-    expect(rendered).to have_css('p[id=from_input][ style="white-space: pre;"]', text: I18n.t('email.from_initial_input_html'))
+    expect(rendered).to have_css('p[id=from_input][ style="white-space: pre;"]',
+                                 text: I18n.t('email.from_initial_input_html',
+                                              name: @admin.contact_name,
+                                              email: @admin.email,
+                                              phone: @admin.contact_phone))
   end
 
   def expect_table(_field_id, field_text, event_prefix, column_headers, cell_values)
@@ -245,6 +269,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   def render_setup
+    @admin = login_admin
     @candidate_mailer_text = CandidatesMailerText.new(
       candidate: @candidate,
       subject: MailPart.new_subject(''),
@@ -253,7 +278,11 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
         completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
         completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
-        salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT), from_input: MailPart.new_from_input(ViewsHelpers::FROM_EMAIL_INPUT)
+        salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT),
+        from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N,
+                                                   name: @admin.contact_name,
+                                                   email: @admin.email,
+                                                   phone: @admin.contact_phone))
       }
     )
   end

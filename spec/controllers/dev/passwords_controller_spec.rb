@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 describe Dev::PasswordsController do
+  before(:each) do
+    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+  end
+
   describe 'edit' do
     it 'should error if token has expired' do
+      admin = login_admin
+
       candidate = FactoryBot.create(:candidate)
       token = 'xxx'
       candidate.confirmed_at = nil
@@ -15,12 +21,13 @@ describe Dev::PasswordsController do
       get :edit, params: { reset_password_token: token }
 
       expect(response).to redirect_to('/dev/candidates/sign_in')
-      expect(flash[:alert]).to eq(I18n.t('messages.password.token_expired'))
+      expect(flash[:alert]).to eq(I18n.t('messages.password.token_expired', email: admin.email))
     end
 
     it 'should bring up then the edit password pane if token ok' do
+      admin = login_admin
       candidate = FactoryBot.create(:candidate)
-      token = candidate.send_reset_password_instructions
+      token = candidate.send_reset_password_instructions(admin)
       candidate.save
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
@@ -33,9 +40,10 @@ describe Dev::PasswordsController do
 
   describe 'update' do
     it 'should reset password' do
+      admin = login_admin
       candidate = FactoryBot.create(:candidate, should_confirm: true)
       expect(candidate.account_confirmed?).to eq(true)
-      token = candidate.send_reset_password_instructions
+      token = candidate.send_reset_password_instructions(admin)
       candidate.save
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
@@ -49,9 +57,10 @@ describe Dev::PasswordsController do
     end
 
     it 'should reset password and confirm candidate account' do
+      admin = login_admin
       candidate = FactoryBot.create(:candidate, should_confirm: false)
       expect(candidate.account_confirmed?).to eq(false)
-      token = candidate.send_reset_password_instructions
+      token = candidate.send_reset_password_instructions(admin)
       candidate.save
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]

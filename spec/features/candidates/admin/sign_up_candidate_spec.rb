@@ -18,7 +18,7 @@ feature 'Sign Up', :devise do
   describe 'Sign in admin' do
     before(:each) do
       admin = FactoryBot.create(:admin)
-      signin_admin(admin.email, admin.password)
+      signin_admin(admin.account_name, admin.password)
     end
 
     # Scenario: Visitor can sign up with valid email address and password
@@ -43,7 +43,7 @@ feature 'Sign Up', :devise do
 
       click_button 'Update'
 
-      expect_messages([[:error_explanation, ['1 error prohibited this candidate from being saved:', 'Candidate sheet first name can\t be blank']],
+      expect_messages([[:error_explanation, ['1 error prohibited this candidate from being saved:', 'Candidate sheet first name can\'t be blank']],
                        [:flash_alert, 'Save of creation of candidate failed: Smith']])
 
       expect(Candidate.all.size).to eq(0)
@@ -62,11 +62,12 @@ feature 'Sign Up', :devise do
 
       click_button 'Update'
 
-      expect_messages([[:error_explanation, ['1 error prohibited this candidate from being saved:', 'Candidate sheet first name can\t be blank']],
+      expect_messages([[:error_explanation, ['1 error prohibited this candidate from being saved:', 'Candidate sheet last name can\'t be blank']],
                        [:flash_alert, 'Save of creation of candidate failed: George']])
 
       expect(Candidate.all.size).to eq(0)
     end
+
     scenario 'admin cannot create candidate with an invalid email' do
       AppFactory.add_confirmation_events
       visit new_candidate_path
@@ -81,7 +82,6 @@ feature 'Sign Up', :devise do
 
       click_button 'Update'
 
-      # puts page.html
       expect(Candidate.all.size).to eq(1)
     end
   end

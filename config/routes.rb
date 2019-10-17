@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'export_lists/baptism'
   get 'export_lists/sponsor'
   get 'export_lists/events'
+  get 'export_lists/bap_name'
 
   resources :candidate_imports
 
@@ -16,6 +17,9 @@ Rails.application.routes.draw do
   post 'candidate_imports/import_candidates'
 
   devise_for :admins,
+             path_names: {
+               sign_out: 'logout'
+             },
              controllers: {registrations: 'registrations',
                            confirmations: 'confirmations'
                            }
@@ -143,6 +147,7 @@ Rails.application.routes.draw do
   # candidate account confirmation
 
   get 'cand_account_confirmation/:id/:errors', to: 'visitors#cand_account_confirmation', as: 'cand_account_confirmation'
+  post 'resend_confirmation_instructions', to: 'visitors#resend_confirmation_instructions', as: 'resend_confirmation_instructions'
 
   # Sign in ADMIN
   resources :candidates

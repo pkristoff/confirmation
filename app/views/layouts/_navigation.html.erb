@@ -1,33 +1,34 @@
 <%# navigation styled for Bootstrap 3.0 %>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
     <div class="navbar-header">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only"><%= I18n.t('views.nav.toggle_navigation') %></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
       </button>
-      <%= link_to I18n.t('views.top_bar.home'), root_path, class: 'navbar-brand' %>
     </div>
     <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><%= link_to I18n.t('views.top_bar.about'), about_path %></li>
-        <%= render 'layouts/nav_links_for_auth' %>
-        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          <%= I18n.t('views.top_bar.help') %> <span class="caret"></span>
+      <ul class="navbar-nav mr-auto">
+      <li class="nav-item active"><%= link_to I18n.t('views.top_bar.home'), root_path, class: "nav-link"%></li>
+      <li class="nav-item active"><%= link_to I18n.t('views.top_bar.about'), about_path, class: "nav-link" %></li>
+      <%= render 'layouts/nav_links_for_auth' %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= I18n.t('views.top_bar.help') %>
         </a>
-          <ul class="dropdown-menu">
-          <li><%= link_to I18n.t('views.top_bar.contact_information'), contact_information_path %></li>
-            <% if candidate_signed_in? %>
-                <li><%= link_to I18n.t('views.top_bar.candidate_checklist'), dev_download_document_path(current_candidate.id, Event::Document::CANDIDATE_CHECKLIST), {method: :put} %></li>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <%= link_to I18n.t('views.top_bar.contact_information'), contact_information_path, class: "nav-link"  %>
+          <% if candidate_signed_in? %>
+            <%= link_to I18n.t('views.top_bar.candidate_checklist'), dev_download_document_path(current_candidate.id, Event::Document::CANDIDATE_CHECKLIST), { class: "dropdown-item nav-link", method: :put } %>
           <% end %>
-            <% if admin_signed_in? %>
-                <li><%= link_to I18n.t('views.top_bar.candidate_checklist'), download_document_path(current_admin.id, Event::Document::CANDIDATE_CHECKLIST), {method: :put} %></li>
+          <% if admin_signed_in? %>
+            <%= link_to I18n.t('views.top_bar.candidate_checklist'), download_document_path(current_admin.id, Event::Document::CANDIDATE_CHECKLIST), { class: "dropdown-item nav-link", method: :put } %>
           <% end %>
-            <li><%= link_to I18n.t('views.top_bar.aboutApp'), about_app_path %></li>
-          </ul>
-        </li>
+          <%= link_to I18n.t('views.top_bar.aboutApp'), about_app_path, html_options: { class: "dropdown-item nav-link" } %>
+        </div>
+      </li>
       </ul>
     </div>
   </div>

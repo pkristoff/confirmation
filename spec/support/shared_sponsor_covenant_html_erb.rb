@@ -7,7 +7,7 @@ SPONSOR_COVENANT_EVENT = I18n.t('events.sponsor_covenant')
 
 UPDATED_MESSAGE = I18n.t('messages.updated', cand_name: 'Sophia Agusta')
 
-ATTENDS_STMM_LABEL = I18n.t('label.sponsor_covenant.sponsor_attends_stmm')
+ATTENDS_STMM_LABEL_I18N = 'label.sponsor_covenant.sponsor_attends_home_parish'
 COVENANT_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_covenant_picture')
 ELEGIBILITY_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_eligibility_picture')
 SPONSOR_CHURCH_LABEL = I18n.t('label.sponsor_covenant.sponsor_church')
@@ -20,8 +20,8 @@ shared_context 'sponsor_covenant_html_erb' do
     AppFactory.add_confirmation_events
   end
 
-  scenario 'admin logs in and selects a candidate, checks sponsor_attends_stmm, nothing else showing' do
-    @candidate.sponsor_covenant.sponsor_attends_stmm = true
+  scenario 'admin logs in and selects a candidate, checks sponsor_attends_home_parish, nothing else showing' do
+    @candidate.sponsor_covenant.sponsor_attends_home_parish = true
     @candidate.save
     update_sponsor_covenant(false)
     visit @path
@@ -29,8 +29,8 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify)
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, rest showing' do
-    @candidate.sponsor_covenant.sponsor_attends_stmm = false
+  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, rest showing' do
+    @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_covenant(true)
     visit @path
@@ -38,11 +38,11 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify)
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, fills in template' do
-    @candidate.sponsor_covenant.sponsor_attends_stmm = false
+  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template' do
+    @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_covenant(false)
-    expect(@candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
+    expect(@candidate.sponsor_covenant.sponsor_attends_home_parish).to eq(false)
 
     visit @path
     fill_in_form(true, true)
@@ -54,8 +54,8 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(candidate.sponsor_covenant.sponsor_church).to eq(SPONSOR_CHURCH)
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, fills in template then changes mind she was baptized at stmm' do
-    @candidate.sponsor_covenant.sponsor_attends_stmm = false
+  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template then changes mind she was baptized at stmm' do
+    @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_covenant(false)
 
@@ -68,20 +68,20 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
 
     visit @path
-    check(ATTENDS_STMM_LABEL)
+    check(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
 
     candidate = Candidate.find(@candidate.id)
-    expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(true)
+    expect(candidate.sponsor_covenant.sponsor_attends_home_parish).to eq(true)
     expect(candidate.sponsor_covenant).not_to eq(nil)
 
     expect_db(1, 8, 2) # make sure DB does not increase in size.
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, adds picture, updates, adds rest of valid data, updates - everything is saved' do
-    @candidate.sponsor_covenant.sponsor_attends_stmm = false
+  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
+    @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_covenant(false)
 
@@ -96,10 +96,10 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate_db = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate_db.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 2 empty fields need to be filled in on the form to be verfied:', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank']]])
+                                                   [:error_explanation, ['Your changes were saved!! 2 empty fields need to be filled in on the form to be verified:', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank']]])
 
     expect(candidate_db.sponsor_covenant).not_to eq(nil)
-    expect(candidate_db.sponsor_covenant.sponsor_attends_stmm).to eq(false)
+    expect(candidate_db.sponsor_covenant.sponsor_attends_home_parish).to eq(false)
     expect(candidate_db.sponsor_covenant.scanned_eligibility.filename).to eq('actions.png')
     expect(candidate_db.sponsor_covenant.scanned_covenant.filename).to eq('actions.png')
     expect(candidate_db.sponsor_covenant.sponsor_name).to eq('')
@@ -111,7 +111,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate_db_update = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate_db_update.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
     expect(candidate_db_update.sponsor_covenant).not_to eq(nil)
-    expect(candidate_db_update.sponsor_covenant.sponsor_attends_stmm).to eq(false)
+    expect(candidate_db_update.sponsor_covenant.sponsor_attends_home_parish).to eq(false)
     expect(candidate_db_update.sponsor_covenant.scanned_eligibility.filename).to eq('Baptismal Certificate.png')
     expect(candidate_db_update.sponsor_covenant.scanned_covenant.filename).to eq('actions.png')
     expect(candidate_db_update.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
@@ -130,8 +130,8 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_db(1, 8, 2) # make sure DB does not increase in size.
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, adds non-picture data, updates, adds picture, updates - everything is saved' do
-    @candidate.sponsor_covenant.sponsor_attends_stmm = false
+  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds non-picture data, updates, adds picture, updates - everything is saved' do
+    @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_covenant(false)
     visit @path
@@ -141,7 +141,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Sponsor eligibility form can\'t be blank', 'Sponsor eligibility content type can\'t be blank', 'Sponsor eligibility file contents can\'t be blank']]])
+                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Scanned sponsor covenant form can\'t be blank']]])
 
     expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
     expect(page).not_to have_selector(img_src_selector)
@@ -152,7 +152,7 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_message]])
     candidate = Candidate.find(@candidate.id)
-    expect(candidate.sponsor_covenant.sponsor_attends_stmm).to eq(false)
+    expect(candidate.sponsor_covenant.sponsor_attends_home_parish).to eq(false)
     expect(candidate.sponsor_covenant).not_to eq(nil)
     expect(candidate.sponsor_covenant.scanned_eligibility.filename).not_to eq(nil)
 
@@ -161,8 +161,8 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify)
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_stmm, fills in template, except sponsor_name' do
-    @candidate.sponsor_covenant.sponsor_attends_stmm = false
+  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template, except sponsor_name' do
+    @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_covenant(false)
     visit @path
@@ -175,7 +175,7 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Sponsor name can\'t be blank']]],
+                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Sponsor name can\'t be blank']]],
                                  sponsor_name: '')
   end
 
@@ -185,19 +185,19 @@ shared_context 'sponsor_covenant_html_erb' do
     cand = Candidate.find(cand_id)
     expect_heading(cand, dev_path.empty?, I18n.t('events.sponsor_covenant'))
 
-    visibility = cand.sponsor_covenant.sponsor_attends_stmm ? 'hide-div' : 'show-div'
+    visibility = cand.sponsor_covenant.sponsor_attends_home_parish ? 'hide-div' : 'show-div'
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/sponsor_covenant\"]")
     expect(page).to have_selector("div[id=sponsor-covenant-top][class=\"#{visibility}\"]")
 
-    if cand.sponsor_covenant.sponsor_attends_stmm
-      expect(page).to have_checked_field(ATTENDS_STMM_LABEL)
+    if cand.sponsor_covenant.sponsor_attends_home_parish
+      expect(page).to have_checked_field(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
     else
-      expect(page).not_to have_checked_field(ATTENDS_STMM_LABEL)
+      expect(page).not_to have_checked_field(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
     end
 
     expect_field(COVENANT_PICTURE_LABEL, nil)
 
-    expect_field(SPONSOR_NAME_LABEL, cand.sponsor_covenant.sponsor_attends_stmm ? nil : values[:sponsor_name])
+    expect_field(SPONSOR_NAME_LABEL, cand.sponsor_covenant.sponsor_attends_home_parish ? nil : values[:sponsor_name])
 
     expect(page).to have_button(@update_id)
 

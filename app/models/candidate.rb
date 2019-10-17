@@ -48,7 +48,7 @@ class Candidate < ApplicationRecord
 
   # turn off sending verify instructions until admin sends it.
   #
-  def send_on_create_confirmation_instructions(); end
+  def send_on_create_confirmation_instructions() end
 
   # Sorts candidate events in priorty order (to be cmpleted first)
   #
@@ -169,7 +169,7 @@ class Candidate < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    [:account_name, :password, :password_confirmation,
+    [:id, :account_name, :password, :password_confirmation,
      :signed_agreement, :candidate_note,
      candidate_sheet_attributes: CandidateSheet.permitted_params,
      baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
@@ -218,16 +218,6 @@ class Candidate < ApplicationRecord
       complete = false
     end
     complete
-  end
-
-  # If bcc is called use this email  address
-  #
-  # === Returns:
-  #
-  # * <tt>String</tt>
-  #
-  def bcc_email
-    'stmm.confirmation@kristoffs.com'
   end
 
   # Array of email addresses ignoring the fact they could be nil - devise
@@ -331,6 +321,7 @@ class Candidate < ApplicationRecord
   #
   def self.reset_password_by_token(resource_params)
     candidate = super(resource_params)
+
     candidate.skip_confirmation! if candidate.errors.empty? && !candidate.account_confirmed?
 
     candidate
@@ -464,7 +455,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.baptismal_external_verification
-    external_verification(I18n.t('events.baptismal_certificate'), ->(candidate) { candidate.baptismal_certificate.baptized_at_stmm })
+    external_verification(I18n.t('events.baptismal_certificate'), ->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish })
   end
 
   # retreat needs admin verification
@@ -478,7 +469,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.retreat_external_verification
-    external_verification(I18n.t('events.retreat_verification'), ->(candidate) { candidate.retreat_verification.retreat_held_at_stmm })
+    external_verification(I18n.t('events.retreat_verification'), ->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish })
   end
 
   # confirmation name needs admin verification
@@ -532,7 +523,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.sponsor_external_verification
-    external_verification(I18n.t('events.sponsor_covenant'), ->(candidate) { candidate.sponsor_covenant.sponsor_attends_stmm })
+    external_verification(I18n.t('events.sponsor_covenant'), ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish })
   end
 
   # candidate events needs admin verification
@@ -553,12 +544,16 @@ class Candidate < ApplicationRecord
   # The user has clicked on the Forgot Password link
   # on the sign in pane
   #
+  # === Parameters:
+  #
+  # * <tt>:admin</tt> used for attributes
+  #
   # === Returns:
   #
   # * <tt>password</tt> reset token
   #
-  def send_reset_password_instructions
-    send_grid_mail = SendGridMail.new(nil, [self])
+  def send_reset_password_instructions(admin)
+    send_grid_mail = SendGridMail.new(admin, [self])
     _response, token = send_grid_mail.reset_password
     token
   end
@@ -567,32 +562,34 @@ class Candidate < ApplicationRecord
   #
   # === Parameters:
   #
+  # * <tt>:admin</tt> used for attributes
   # * <tt>:candidate_mailer_text</tt> expands instructions
   #
   # === Returns:
   #
   # * <tt>String</tt>
   #
-  def password_reset_message(candidate_mailer_text)
+  def password_reset_message(admin, candidate_mailer_text)
     token = set_reset_password_token
     candidate_mailer_text.token = token
-    devise_mailer.reset_password_instructions(self, token)
+    devise_mailer.reset_password_instructions(self, token, admin: admin)
   end
 
   # get expanded account confirmation instructions
   #
   # === Parameters:
   #
+  # * <tt>:admin</tt> used for attributes
   # * <tt>:candidate_mailer_text</tt> expands instructions
   #
   # === Returns:
   #
   # * <tt>String</tt>
   #
-  def confirmation_instructions(candidate_mailer_text)
+  def confirmation_instructions(admin, candidate_mailer_text)
     token = generate_confirmation_token
     candidate_mailer_text.token = token
-    devise_mailer.confirmation_instructions(self, token)
+    devise_mailer.confirmation_instructions(self, token, admin: admin)
   end
 
   # 5.0 hack with devise

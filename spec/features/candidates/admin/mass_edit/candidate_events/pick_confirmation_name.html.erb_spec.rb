@@ -44,7 +44,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
                                        saint_name: '',
                                        expect_messages: [
                                          [:flash_notice, @updated_failed_verification],
-                                         [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verfied:', 'Saint name can\'t be blank']]
+                                         [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Saint name can\'t be blank']]
                                        ])
     candidate_event = candidate.get_candidate_event(I18n.t('events.confirmation_name'))
     expect(candidate_event.completed_date).to eq(nil)
@@ -78,9 +78,9 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
 
     visit mass_edit_candidates_event_path(@confirmation_event.id)
     expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
-    # puts page.html
+
     click_link("pick-#{@cand_id}")
-    # puts page.html
+
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify)
 
     click_button @update_id

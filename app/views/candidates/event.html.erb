@@ -1,10 +1,10 @@
-<h2>Status <%= "#{resource.account_name}" %></h2>
-
-<%= devise_error_messages! %>
-
 <%= form_for(resource, as: :candidate, url: update_candidate_path(resource), html: {method: :put}) do |f| %>
+  <h2>Status <%= "#{resource.account_name}" %></h2>
 
-    <%= f.fields_for :candidate_events, resource.candidate_events_sorted.to_a do |candidate_event_fields| %>
+  <%= render 'devise/shared/error_messages' %>
+
+
+  <%= f.fields_for :candidate_events, resource.candidate_events_sorted.to_a do |candidate_event_fields| %>
         <%= candidate_event_fields.fields_for :confirmation_event do |confirmation_event_fields| %>
             <% confirmation_event_id = confirmation_event_fields.object.id %>
             <% legend_object = if confirmation_event_fields.object.name === t('events.parent_meeting') %>

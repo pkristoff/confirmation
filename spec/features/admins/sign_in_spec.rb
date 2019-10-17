@@ -11,8 +11,8 @@ feature 'Sign in', :devise do
     #   When I sign in with valid credentials
     #   Then I see an invalid credentials message
     scenario 'admin cannot sign in if not registered' do
-      signin_admin('test@example.com', 'please123')
-      expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
+      signin_admin('Admin', 'please123')
+      expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Account name'))
     end
   end
 
@@ -24,8 +24,8 @@ feature 'Sign in', :devise do
     #   Then I see an invalid email message
     scenario 'admin cannot sign in with wrong email' do
       admin = FactoryBot.create(:admin)
-      signin_admin('invalid@email.com', admin.password)
-      expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
+      signin_admin('invalid', admin.password)
+      expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Account name'))
     end
 
     # Scenario: Admin cannot sign in with wrong password
@@ -36,7 +36,7 @@ feature 'Sign in', :devise do
     scenario 'admin cannot sign in with wrong password' do
       admin = FactoryBot.create(:admin)
       signin_admin(admin.email, 'invalidpass')
-      expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Email'))
+      expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Account name'))
     end
     # Scenario: Admin can sign in with valid credentials
     #   Given I exist as a admin
@@ -45,7 +45,7 @@ feature 'Sign in', :devise do
     #   Then I see a success message
     scenario 'admin can sign in with valid credentials' do
       FactoryBot.create(:admin) do |admin|
-        signin_admin(admin.email, admin.password)
+        signin_admin(admin.account_name, admin.password)
         expect_message(:flash_notice, I18n.t('devise.sessions.signed_in'))
       end
     end

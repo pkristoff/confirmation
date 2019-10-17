@@ -23,9 +23,9 @@ en:
     due_date: Due date
     events: Events
     from_initial_input_html: |
-      Vicki Kristoff
-      stmm.confirmation@kristoffs.com
-      919-249-5629
+      %{name}
+      %{email}
+      %{phone}
     from_input_label: From
     information_entered: Information Entered
     late_initial_input: Here is the status of your Confirmation forms(events) that
@@ -75,16 +75,16 @@ en:
       info: Info
       scan: Retreat Verification Form
     sponsor_covenant:
-      sponsor_covenant: Sponsor covenant & Sponsor Eligibility
+      sponsor_covenant: Sponsor covenant
       sponsor_eligibility: Sponsor eligibility
-  home_parish:
-    name: St. Mary Magdalene
-    nick_name: St. MM
   label:
+    admin:
+      contact_name: Contact name
+      contact_phone: Contact phone
     baptismal_certificate:
       baptismal_certificate:
         baptismal_date: Baptismal date
-        baptized_at_stmm: I was Baptized at Saint Mary Magdalene
+        baptized_at_home_parish: I was Baptized at %{home_parish}
         birth_date: Birth date
         certificate_picture: Baptismal certificate
         church_address:
@@ -97,7 +97,7 @@ en:
         father_first: Father first
         father_last: Father last
         father_middle: Father middle
-        first_comm_at_stmm: I received First Communion at Saint Mary Magdalene
+        first_comm_at_home_parish: I received First Communion at %{home_parish}
         mother_first: Mother first
         mother_last: Mother last
         mother_maiden: Mother maiden
@@ -136,7 +136,7 @@ en:
       attach_file: Attach file
     retreat_verification:
       end_date: Retreat end date
-      retreat_held_at_stmm: Did you attend a St. Mary Magdalene confirmation retreat?
+      retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
       retreat_verification_picture: Retreat Verification Form
       start_date: Retreat start date
       where_held_retreat: Where was the retreat held?
@@ -153,15 +153,16 @@ en:
     sign_agreement:
       signed_agreement: By checking you agree to the above.
     sponsor_covenant:
-      sponsor_attends_stmm: Sponsor registered at Saint Mary Magdalene
+      sponsor_attends_home_parish: Sponsor registered at %{home_parish}
       sponsor_church: Sponsor's church
-      sponsor_covenant_picture: Sponsor Covenant & Sponsor Eligibility
+      sponsor_covenant_picture: Sponsor Covenant
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
       sponsor_name: Sponsor's Name
     visitor:
       about: About
       contact_information: Contact Information
       home: Home
+      home_parish: Home parish
   messages:
     about_updated: About updated
     accessed_denied: Accessed denied.
@@ -179,15 +180,24 @@ en:
     candidate_updated: Candidate %{name} updated successfully
     candidates_deleted: Candidates deleted
     candidates_removed: All candidates successfully removed.
+    confirmation_email_sent: Confirmation email sent.
     confirmation_events_updated: Updated ConfirmationEvents!
     contact_information_updated: Contact information updated
     database_reset: Database successfully reset.
+    error:
+      baptized_should_be_checked: I was Baptized at %{home_parish} should be checked.
+      duplicate_email: is a duplicate email, which is not allowed for a candidate.
+      first_cpmmunion_should_be_checked: I received First Communion at %{home_parish}
+        should be checked.
+      invalid_email: 'is an invalid email: %{email}'
+      one_email: at least one email must be supplied.
+      unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
     export_to_excel: Working in background.  An email with spreadsheet will be sent
       upon completion with %{commit}.
     generate_pdf_error: Only select one candidate
+    home_parish_updated: Home parish updated
     home_updated: Home updated
     import_successful: Imported candidates successfully.
-    initial_email_sent: Initial email sent.
     monthly_mailing_progress: Monthly mailing in progress
     monthly_mailing_test_sent: Monthly mailing test sent
     no_candidate_selected: No candidate was selected.
@@ -196,7 +206,7 @@ en:
       reset_and_confirmed: Your password has been changed successfully, your user
         name (%{name}) confirmed and you are now signed in.
       token_expired: The reset password email has either expired or has been used.  Please
-        contact Admin via email stmm.confirmation@kristoffs.com
+        contact Admin via email %{email}
     remove_candidate: remove a candidate
     reset_password_message_sent: Reset password messages sent
     save_failed: Save failed
@@ -222,6 +232,7 @@ en:
     verified: Verified
   views:
     admins:
+      account_name: Account name
       admin: Admin
       current_password: Current password
       email: Email
@@ -265,6 +276,7 @@ en:
       update_about: Update about
       update_candidates_event: Update event for candidates
       update_home: Update home
+      update_home_parish: Update home parish
       update_information_contact: Update contact information
       update_verify: Update & Verify
     events:
@@ -302,12 +314,14 @@ en:
       email: Email
       events: Events
       export_attend_retreat_title: Retreat at %{home_parish}
-      export_baptized_at_stmm_title: Baptized at %{home_parish}
+      export_baptized_at_home_parish_title: Baptized at %{home_parish}
       export_candidate_event_status_title: Candidate Events Status
       export_confirmation_name: Confirmation Names
-      export_sponsor_at_stmm_title: Sponsor at %{home_parish}
+      export_sponsor_at_home_parish_title: Sponsor at %{home_parish}
       monthly_mass_mailing: Monthly Mailing
+      note: Note
       other: Other
+      pdf_baptismal_name: PDF for matching candidate name to bap. name
       toggle_navigation: Toggle navigation
       visitors: Visitors
     title:
@@ -316,9 +330,8 @@ en:
       about: About
       aboutApp: About Confirmation App
       candidate_checklist: Candidate checklist
-      contact_admin_mail: mailto:stmm.confirmation@kristoffs.com?subject=%{subject}
-      contact_admin_mail_text: stmm.confirmation@kristoffs.com
-      contact_admin_phone: 919-249-5629
+      contact_admin_mail: mailto:%{email}?subject=%{subject}
+      contact_admin_mail_text: "%{email}"
       contact_information: Contact Information
       help: Help
       home: Home

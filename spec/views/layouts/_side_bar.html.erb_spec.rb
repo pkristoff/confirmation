@@ -19,10 +19,11 @@ describe 'layouts/_side_bar.html.erb' do
 
     @admin_export_link_names_in_order = [
       [I18n.t('views.nav.export_confirmation_name'), '/export_lists/confirmation_name'],
-      [I18n.t('views.nav.export_attend_retreat_title', home_parish: I18n.t('home_parish.nick_name')), '/export_lists/retreat'],
-      [I18n.t('views.nav.export_baptized_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), '/export_lists/baptism'],
-      [I18n.t('views.nav.export_sponsor_at_stmm_title', home_parish: I18n.t('home_parish.nick_name')), '/export_lists/sponsor'],
-      [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events']
+      [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), '/export_lists/retreat', nil, 'Retreat at St. Ma...'],
+      [I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/baptism', nil, 'Baptized at St. M...'],
+      [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/sponsor', nil, 'Sponsor at St. Ma...'],
+      [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events', nil, 'Candidate Events ...'],
+      [I18n.t('views.nav.pdf_baptismal_name'), '/export_lists/bap_name', nil, 'DF for matching ...']
     ]
 
     @candidate_link_names_in_order = [
@@ -52,7 +53,7 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '/dev', 0, candidate.id.to_s)
+      expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '/dev', 9, candidate.id.to_s)
     end
   end
 
@@ -62,9 +63,14 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', @admin_export_link_names_in_order.size)
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 17)
+
+      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 6)
+
+      expect(rendered).to_not have_selector('p[id="candidate: Sophia Agusta"]')
     end
   end
+
   context 'login as admin and editing a candidate' do
     it 'nav links layout for admin' do
       login_admin
@@ -74,22 +80,19 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      # the admin UL now includes the candidates UL.
-      all_admin_links = @admin_link_names_in_order + @candidate_link_names_in_order
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 27) # +1 is for candidate
 
-      expect_links_in_order(@admin_export_link_names_in_order, 'admin-sidebar', '', all_admin_links.size + 1) # +1 is for candidate
+      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 6)
+      expect(rendered).to have_selector('p[id="candidate"]', text: 'Candidate: Sophia Agusta')
 
-      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 0)
-
-      expect(rendered).to have_selector("li[class='no-link']", text: 'Candidate: Sophia Agusta')
-
-      expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '', 0, @resource.id.to_s)
+      expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '', 10, @resource.id.to_s)
     end
   end
 
-  def expect_links_in_order(link_names_in_order, sidebar_id, dev, li_offset, candidate_id = '')
+  def expect_links_in_order(link_names_in_order, sidebar_id, dev, total_num_links, candidate_id = '')
     link_names_in_order.each_with_index do |info, index|
       event_name = info[0]
+      event_name_trunc = info[3] if info.size == 4
       href = if (info.size == 3) && !dev.empty?
                info[2].gsub('<dev>', dev)
              elsif info.size == 2
@@ -98,11 +101,9 @@ describe 'layouts/_side_bar.html.erb' do
       href = href.gsub('<id>', candidate_id) unless href.nil?
 
       event_name = event_name.gsub(/([\w\s]{17}).+/, '\1...') if event_name.size > SideBar::TRUNCATELENGTH
-
-      expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index + 1})", text: event_name)
+      expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index + 1})", text: event_name_trunc.nil? ? event_name : event_name_trunc)
       expect(rendered).to have_link(event_name, href: href) unless href.nil?
     end
-    number_of_links = link_names_in_order.size + li_offset
-    expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li", count: number_of_links)
+    expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li", count: total_num_links)
   end
 end

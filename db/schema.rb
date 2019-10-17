@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_21_134909) do
+ActiveRecord::Schema.define(version: 2019_10_08_131313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,9 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", default: "", null: false
+    t.string "contact_name", default: "", null: false
+    t.string "contact_phone", default: "", null: false
+    t.string "account_name", default: "Admin", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["name"], name: "index_admins_on_name", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
@@ -59,8 +62,8 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
     t.datetime "updated_at", null: false
     t.integer "church_address_id"
     t.integer "scanned_certificate_id"
-    t.boolean "first_comm_at_stmm", default: false, null: false
-    t.boolean "baptized_at_stmm", default: false, null: false
+    t.boolean "first_comm_at_home_parish", default: false, null: false
+    t.boolean "baptized_at_home_parish", default: false, null: false
     t.integer "show_empty_radio", default: 0, null: false
     t.index ["church_address_id"], name: "index_baptismal_certificates_on_church_address_id"
     t.index ["scanned_certificate_id"], name: "index_baptismal_certificates_on_scanned_certificate_id"
@@ -144,6 +147,14 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
     t.index ["name"], name: "index_confirmation_events_on_name"
   end
 
+  create_table "pdf_documents", force: :cascade do |t|
+    t.string "filename"
+    t.string "run_name"
+    t.binary "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "pick_confirmation_names", id: :serial, force: :cascade do |t|
     t.string "saint_name"
     t.datetime "created_at", null: false
@@ -151,7 +162,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
   end
 
   create_table "retreat_verifications", id: :serial, force: :cascade do |t|
-    t.boolean "retreat_held_at_stmm", default: false, null: false
+    t.boolean "retreat_held_at_home_parish", default: false, null: false
     t.date "start_date"
     t.date "end_date"
     t.string "who_held_retreat"
@@ -172,7 +183,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
 
   create_table "sponsor_covenants", id: :serial, force: :cascade do |t|
     t.string "sponsor_name"
-    t.boolean "sponsor_attends_stmm", default: true, null: false
+    t.boolean "sponsor_attends_home_parish", default: true, null: false
     t.string "sponsor_church"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -197,6 +208,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_134909) do
     t.text "contact", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "home_parish"
   end
 
   add_foreign_key "candidates", "baptismal_certificates"

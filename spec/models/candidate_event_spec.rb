@@ -286,7 +286,6 @@ describe CandidateEvent, type: :model do
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
        [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]].each do |association_class_pair|
-
         candidate_event.completed_date = nil
         candidate_event.verified = false
 
@@ -306,7 +305,6 @@ describe CandidateEvent, type: :model do
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
        [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]].each do |association_class_pair|
-
         candidate_event.completed_date = @today
         candidate_event.verified = true
 
@@ -326,10 +324,8 @@ describe CandidateEvent, type: :model do
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
        [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]].each do |association_class_pair|
-
         candidate_event.completed_date = nil
         candidate_event.verified = false
-
         candidate_event.mark_completed(false, association_class_pair[0])
 
         expect(candidate_event.completed_date).to eq(nil)

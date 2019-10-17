@@ -147,6 +147,7 @@ describe 'method_documentation' do
       expect($CHILD_STATUS.success?).to eq(false), "expected rubocop offenses but got exit code: #{$CHILD_STATUS}"
       actual_offenses = offenses(output)
       actual_offenses.each { |off| puts off } unless expected_offenses.size == actual_offenses.size
+
       expect(expected_offenses.size).to eq(actual_offenses.size), "expected #{expected_offenses.size} offense got #{actual_offenses.size}"
       expected_offenses.each_with_index do |off_a, i|
         expect(actual_offenses[i][0]).to eq("#{file}#{off_a[0]}")
