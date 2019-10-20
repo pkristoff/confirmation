@@ -31,10 +31,12 @@ gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
 gem 'sucker_punch'
 group :development do
   gem 'better_errors'
+  gem 'debase'
   gem 'hub', require: nil
   # does not exist in rails 5.0
   # gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'ruby-debug-ide'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'web-console'

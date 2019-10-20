@@ -458,9 +458,7 @@ class AdminsController < ApplicationController
       end
     when t('views.common.update_home_parish')
       visitor = visitor_db_or_new
-      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
-        flash[:notice] = t('messages.home_parish_updated')
-      end
+      flash[:notice] = t('messages.home_parish_updated') if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
     else
       flash[:alert] = "Unkown commit param: #{commit}"
     end
