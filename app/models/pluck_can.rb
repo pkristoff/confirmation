@@ -35,22 +35,27 @@ class PluckCan
   #
   # === Parameters:
   #
-  # * <tt>:confirmation_event_id</tt> The event being edited in mass_edit_candidates_event.html.erb
+  # * <tt>:event_id</tt> The event being edited in mass_edit_candidates_event.html.erb
+  # * <tt>:sort</tt> the column sorting
+  # * <tt>:direction</tt> The direction of the sort asc or desc
   #
   # === Returns:
   #
   # * <tt>Array</tt> of PluckCan
   #
-  def self.pluck_candidates(confirmation_event_id = nil)
+  def self.pluck_candidates(args = {})
+    args = { event_id: nil }.merge { args }
     candidate_events = pluck_cand_events
     Rails.logger.info("candidate_events=#{candidate_events}")
-    Candidate.joins(:candidate_sheet).pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending).map do |cand_info|
+    join = Candidate.joins(:candidate_sheet)
+    sorted = args[:sort].nil? ? join : join.order("#{args[:sort]} #{args[:direction]}")
+    sorted.pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending).map do |cand_info|
       candidate_id = cand_info[0]
       Rails.logger.info("cand_info=#{cand_info}")
       Rails.logger.info("account_name=#{cand_info[1]}")
       Rails.logger.info("candidate_events=#{candidate_events[candidate_id]}")
       event = candidate_events[candidate_id].find do |cand_event_for_cand|
-        cand_event_for_cand[1] == confirmation_event_id
+        cand_event_for_cand[1] == agrs[:event_id]
       end
       PluckCan.new(cand_info, candidate_events, event)
     end

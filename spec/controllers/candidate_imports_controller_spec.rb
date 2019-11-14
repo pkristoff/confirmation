@@ -64,6 +64,31 @@ describe CandidateImportsController do
         expect(ce.the_way_due_date).to eq(Time.zone.today)
       end
     end
+    it 'It should keep the visitor info the same' do
+      Visitor.visitor('xxx', '<home></home>', '<about></about>', '919-999-9999')
+      login_admin
+
+      post :start_new_year
+
+      expect(Visitor.visitor.home_parish).to eq('xxx')
+      expect(Visitor.visitor.home).to eq('<home></home>')
+      expect(Visitor.visitor.about).to eq('<about></about>')
+      expect(Visitor.visitor.contact).to eq('919-999-9999')
+    end
+    it 'It should keep the admins info the same' do
+      admin = login_admin
+      admin.email = 'foo@bar.com'
+      admin.contact_name = 'ccc yyy'
+      admin.contact_phone = '919-999-9999'
+      admin.save
+
+      post :start_new_year
+
+      ad = Admin.find(admin.id)
+      expect(ad.email).to eq('foo@bar.com')
+      expect(ad.contact_name).to eq('ccc yyy')
+      expect(ad.contact_phone).to eq('919-999-9999')
+    end
   end
 
   describe 'reset_database' do
@@ -105,6 +130,29 @@ describe CandidateImportsController do
       expect_event_association_local(candidate.sponsor_covenant)
 
       expect(Admin.all.size).to eq(1)
+    end
+
+    it 'should reset database Visitor and Admin are reset' do
+      admin = login_admin
+
+      admin.email = 'foo@bar.com'
+      admin.contact_name = 'ccc yyy'
+      admin.contact_phone = '919-999-9999'
+      admin.save
+
+      Visitor.visitor('xxx', '<home></home>', '<about></about>', '919-999-9999')
+
+      post :reset_database
+
+      expect(Visitor.visitor.home_parish).to eq('Change to home parish of confirmation')
+      expect(Visitor.visitor.home).to eq('HTML for home page')
+      expect(Visitor.visitor.about).to eq('HTML for about page')
+      expect(Visitor.visitor.contact).to eq('HTML for contact page')
+
+      admin = Admin.first
+      expect(admin.email).to eq('foo@bar.com')
+      expect(admin.contact_name).to eq('ccc yyy')
+      expect(admin.contact_phone).to eq('919-999-9999')
     end
 
     it 'should remove all ConfirmationEvent and related ToDo & CandidateEvent' do

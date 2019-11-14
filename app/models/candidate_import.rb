@@ -220,6 +220,12 @@ class CandidateImport
 
     Admin.find_each(&:delete)
 
+    # clean out Visitor
+    Visitor.visitor('Change to home parish of confirmation',
+                    'HTML for home page',
+                    'HTML for about page',
+                    'HTML for contact page')
+
     AppFactory.add_confirmation_events
 
     AppFactory.generate_seed(contact_name, contact_phone, admin_email)

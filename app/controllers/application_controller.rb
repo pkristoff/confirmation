@@ -103,9 +103,10 @@ class ApplicationController < ActionController::Base
   #
   def candidates_info(args = {})
     args = { confirmation_event: nil, selected_candidate_ids: [] }.merge(args)
+    args = args.merge(direction: params[:direction], sort: params[:sort])
     @confirmation_event = args[:confirmation_event]
     @selected_candidate_ids = args[:selected_candidate_ids]
     ce_id = @confirmation_event.nil? ? nil : @confirmation_event.id
-    @candidate_info = PluckCan.pluck_candidates(ce_id)
+    @candidate_info = PluckCan.pluck_candidates(event_id: ce_id)
   end
 end

@@ -27,13 +27,13 @@ describe CandidatesController do
     c1 = create_candidate('c1')
     c2 = create_candidate('c2')
     c3 = create_candidate('c3')
-    get :index, params: { direction: 'asc', sort: 'candidate_sheet.first_name' }
+    get :index, params: { direction: 'asc', sort: 'candidate_sheets.first_name' }
     # expect(response).to render_template('index')
     expect(response.status).to eq(200)
     # order not important js will do it
     expect(controller.candidate_info.size).to eq(3)
-    [c1, c2, c3].each_with_index do |candidate, index|
-      expect(controller.candidate_info[index].id).to eq(candidate.id), "Candidate id '#{candidate.id}' [#{candidate.account_name}] did not match expected: #{controller.candidate_info[index].id}[#{controller.candidate_info[index].account_name}] "
+    [c3, c1, c2].each_with_index do |candidate, index|
+      expect(controller.candidate_info[index].account_name).to eq(candidate.account_name)
     end
   end
 
@@ -41,13 +41,13 @@ describe CandidatesController do
     c1 = create_candidate('c1')
     c2 = create_candidate('c2')
     c3 = create_candidate('c3')
-    get :index, params: { direction: 'asc', sort: 'candidate_sheet.last_name' }
+    get :index, params: { direction: 'asc', sort: 'candidate_sheets.last_name' }
     # expect(response).to render_template('index')
     expect(response.status).to eq(200)
     # order not important js will do it
     expect(controller.candidate_info.size).to eq(3)
-    [c1, c2, c3].each_with_index do |candidate, index|
-      expect(controller.candidate_info[index].id).to eq(candidate.id)
+    [c2, c3, c1].each_with_index do |candidate, index|
+      expect(controller.candidate_info[index].account_name).to eq(candidate.account_name)
     end
   end
 

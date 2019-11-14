@@ -3,12 +3,13 @@
 require 'i18n/tasks'
 
 RSpec.describe 'I18n' do
-  let(:i18n) { I18n::Tasks::BaseTask.new }
-  let(:missing_keys) { i18n.missing_keys }
-  let(:unused_keys) { i18n.unused_keys }
-  # these keys are used even though this says otherwise.
-  # email... are used via MailPart.i18n_label
-  let(:used_keys) { %w[
+  before(:each) do
+    @i18n = I18n::Tasks::BaseTask.new
+    @missing_keys = @i18n.missing_keys(locales: ['en']).key_names
+    @unused_keys = @i18n.unused_keys(locales: ['en'])
+    # these keys are used even though this says otherwise.
+    # email... are used via MailPart.i18n_label
+    @used_keys = %w[
         email.closing_input_label
         email.completed_awaiting_input_label
         email.from_input_label
@@ -25,25 +26,24 @@ RSpec.describe 'I18n' do
         views.common.password_confirmation
         views.top_bar.contact_admin_mail
     ].to_set
-  }
-
+  end
   it 'does not have missing keys' do
     # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
-    not_missing = ['en.errors.messages.not_saved.one', 'en.errors.messages.not_saved.other']
-    y = missing_keys.subtract_keys(not_missing)
-    expect(y).to be_empty, "Missing #{missing_keys.leaves.count} i18n keys, run `i18n-tasks missing' to show them"
+    not_missing = ['errors.messages.not_saved.one', 'errors.messages.not_saved.other']
+    y = @missing_keys - not_missing
+    expect(y).to be_empty, "Missing #{@missing_keys.count} i18n keys, run `i18n-tasks missing' to show them"
   end
 
   it 'does not have unused keys' do
-    unused_key_names = unused_keys.key_names
+    unused_key_names = @unused_keys.key_names
     # expect(unused_key_names.count).to eq(used_keys.count)
-    xxx = used_keys - unused_key_names
+    xxx = @used_keys - unused_key_names
     puts "used_keys#{xxx}" unless xxx.empty?
     expect(xxx).to be_empty
   end
 
   it 'files are normalized' do
-    non_normalized = i18n.non_normalized_paths
+    non_normalized = @i18n.non_normalized_paths
     error_message = "The following files need to be normalized:\n" \
                     "#{non_normalized.map { |path| "  #{path}" }.join("\n")}\n" \
                     'Please run `i18n-tasks normalize` to fix'
