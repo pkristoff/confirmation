@@ -44,7 +44,7 @@ class PluckCan
   # * <tt>Array</tt> of PluckCan
   #
   def self.pluck_candidates(args = {})
-    args = { event_id: nil }.merge { args }
+    args = { event_id: nil }.merge(args)
     candidate_events = pluck_cand_events
     Rails.logger.info("candidate_events=#{candidate_events}")
     join = Candidate.joins(:candidate_sheet)
@@ -55,7 +55,7 @@ class PluckCan
       Rails.logger.info("account_name=#{cand_info[1]}")
       Rails.logger.info("candidate_events=#{candidate_events[candidate_id]}")
       event = candidate_events[candidate_id].find do |cand_event_for_cand|
-        cand_event_for_cand[1] == agrs[:event_id]
+        cand_event_for_cand[1] == args[:event_id]
       end
       PluckCan.new(cand_info, candidate_events, event)
     end

@@ -18,9 +18,9 @@ describe CandidatesController do
     # expect(response).to render_template('index')
     expect(response.status).to eq(200)
     expect(controller.candidate_info.size).to eq(3)
-    expect(controller.candidate_info[0].id).to eq(c1.id)
-    expect(controller.candidate_info[1].id).to eq(c2.id)
-    expect(controller.candidate_info[2].id).to eq(c3.id)
+    expect(controller.candidate_info[0].account_name).to eq(c1.account_name)
+    expect(controller.candidate_info[1].account_name).to eq(c2.account_name)
+    expect(controller.candidate_info[2].account_name).to eq(c3.account_name)
   end
 
   it 'should show sorted list of candidates based on first_name' do

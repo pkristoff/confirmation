@@ -107,6 +107,7 @@ class ApplicationController < ActionController::Base
     @confirmation_event = args[:confirmation_event]
     @selected_candidate_ids = args[:selected_candidate_ids]
     ce_id = @confirmation_event.nil? ? nil : @confirmation_event.id
-    @candidate_info = PluckCan.pluck_candidates(event_id: ce_id)
+    args[:event_id] = ce_id
+    @candidate_info = PluckCan.pluck_candidates(args)
   end
 end
