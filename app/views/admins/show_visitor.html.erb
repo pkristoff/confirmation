@@ -1,6 +1,6 @@
 <article>
   <section id="home_parish">
-    <h2><%= t('views.nav.visitors') %></h2>
+    <h2><%= t('views.nav.users') %></h2>
 
     <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
       <%= f.submit t('views.common.update_home_parish'), id: "top-update-home-parish" %>

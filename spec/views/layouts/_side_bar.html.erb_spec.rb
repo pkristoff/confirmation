@@ -12,7 +12,7 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.add_new_candidate'), '/candidates/new'],
       [I18n.t('views.nav.admins'), '/admins'],
       [I18n.t('views.nav.events'), '/edit_multiple_confirmation_events'],
-      [I18n.t('views.nav.visitors'), '/show_visitor'],
+      [I18n.t('views.nav.users'), '/show_visitor'],
       [I18n.t('views.nav.other'), '/candidate_imports/new'],
       ['Export']
     ]
