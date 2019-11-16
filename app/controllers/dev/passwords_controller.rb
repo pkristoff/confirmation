@@ -13,7 +13,8 @@ module Dev
       if candidate
         super
       else
-        flash[:alert] = ActionView::Base.full_sanitizer.sanitize(t('messages.password.token_expired', email: current_admin.email))
+        admin = current_admin || Admin.first
+        flash[:alert] = ActionView::Base.full_sanitizer.sanitize(t('messages.password.token_expired', email: admin.email))
         redirect_to new_session_path(resource_name)
       end
     end
