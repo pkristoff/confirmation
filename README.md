@@ -102,6 +102,7 @@ Copy production db to staging
 
 Copy production(confirmation-production) db to staging(confirmation-staging)
 -  heroku pg:copy confirmation-production::DATABASE_URL DATABASE_URL -a confirmation-staging
+-  heroku pg:copy stmichael-confirmation-prod::DATABASE_URL DATABASE_URL -a stmichael-confirmation-staging
 
 Production => local
 - heroku pg:backups:download --app confirmation-production
@@ -139,6 +140,9 @@ Install postgres
     * if not reboot
   * create role for current login
     * CREATE ROLE paulkristoff LOGIN SUPERUSER CREATEROLE CREATEDB REPLICATION BYPASSRLS;
+    
+Devise emails
+- views/devise/mailer/*.html.erb
 
 Upgrade local DB
 - su - administrator

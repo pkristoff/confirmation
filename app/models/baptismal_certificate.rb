@@ -35,7 +35,7 @@ class BaptismalCertificate < ApplicationRecord
     when 1
       return true if baptized_at_home_parish
 
-      errors[:base] << I18n.t('messages.error.first_cpmmunion_should_be_checked', home_parish: Visitor.home_parish)
+      errors[:base] << I18n.t('messages.error.first_communion_should_be_checked', home_parish: Visitor.home_parish)
       false
     when 2
       return true if first_comm_at_home_parish

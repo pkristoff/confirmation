@@ -144,7 +144,7 @@ describe CandidateSheet, type: :model do
         candidate_sheet.parent_email_2 = 'baz@bar.com'
         candidate_sheet.validate_emails
         expect(candidate_sheet.errors.full_messages.size).to eq(1)
-        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate.')
+        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
       end
       it 'no duplicate emails parent_email_2' do
         candidate_sheet = CandidateSheet.new
@@ -154,7 +154,7 @@ describe CandidateSheet, type: :model do
         candidate_sheet.parent_email_2 = 'foo@bar.com'
         candidate_sheet.validate_emails
         expect(candidate_sheet.errors.full_messages.size).to eq(1)
-        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 1 is a duplicate email, which is not allowed for a candidate.')
+        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 1 is a duplicate email, which is not allowed for a candidate - x x x.')
       end
       it 'no duplicate emails parent_email_2' do
         candidate_sheet = CandidateSheet.new
@@ -164,7 +164,7 @@ describe CandidateSheet, type: :model do
         candidate_sheet.parent_email_2 = 'baz@bar.com'
         candidate_sheet.validate_emails
         expect(candidate_sheet.errors.full_messages.size).to eq(1)
-        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate.')
+        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
       end
       it 'no duplicate emails parent_email_2' do
         candidate_sheet = CandidateSheet.new
@@ -174,9 +174,9 @@ describe CandidateSheet, type: :model do
         candidate_sheet.parent_email_2 = 'baz@bar.com'
         candidate_sheet.validate_emails
         expect(candidate_sheet.errors.full_messages.size).to eq(3)
-        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 1 is a duplicate email, which is not allowed for a candidate.')
-        expect(candidate_sheet.errors.full_messages[1]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate.')
-        expect(candidate_sheet.errors.full_messages[2]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate.')
+        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 1 is a duplicate email, which is not allowed for a candidate - x x x.')
+        expect(candidate_sheet.errors.full_messages[1]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
+        expect(candidate_sheet.errors.full_messages[2]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
       end
     end
     def fill_in_cand(cand)

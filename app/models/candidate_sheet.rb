@@ -185,9 +185,10 @@ class CandidateSheet < ApplicationRecord
     errors.add(:candidate_email, I18n.t('messages.error.one_email')) if candidate_email.blank? & parent_email_1.blank? & parent_email_2
 
     # Do not allow duplicate emails for a candidate
-    errors.add(:parent_email_1, I18n.t('messages.error.duplicate_email')) if candidate_email == parent_email_1 && candidate_email.present?
-    errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email')) if candidate_email == parent_email_2 && candidate_email.present?
-    errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email')) if parent_email_1 == parent_email_2 && parent_email_1.present?
+    cand_name = "#{first_name} #{middle_name} #{last_name}"
+    errors.add(:parent_email_1, I18n.t('messages.error.duplicate_email', name: cand_name)) if (candidate_email == parent_email_1) && candidate_email.present?
+    errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email', name: cand_name)) if (candidate_email == parent_email_2) && candidate_email.present?
+    errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email', name: cand_name)) if (parent_email_1 == parent_email_2) && parent_email_1.present?
   end
 
   # Validate if email is a valid email addrress.

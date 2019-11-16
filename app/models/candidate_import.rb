@@ -963,11 +963,11 @@ class CandidateImport
   # Boolean:
   #
   def validate_and_save_import
-    if imported_candidates.map do |cand|
+    if (imported_candidates.map do |cand|
       cand.valid?
       cand.candidate_sheet.validate_emails # no longer part of save
-      cand.errors.none?
-    end.all?
+      cand.errors.none? && cand.candidate_sheet.errors.none?
+    end).all?
       imported_candidates.each(&:save!)
       true
     else
