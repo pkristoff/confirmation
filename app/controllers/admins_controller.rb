@@ -150,19 +150,17 @@ class AdminsController < ApplicationController
     confirmation_event = ConfirmationEvent.find(params[:id])
     params.delete(:id)
 
-    candidate_ids = params[:candidate_ids].nil? ? [] : params[:candidate_ids]
-    params.delete(:candidate_ids)
-    candidates = []
+    candidates = cands
     # with upgrade to 5.0 params will remove
     # candidate from params if candidate_ids is empty
     # so we force it to have something.  This is a test only
     # hack - productions does not seem to be a problem.
-    candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? || id == '-1' }
     if candidates.empty?
       candidates_info(confirmation_event: confirmation_event)
       flash[:notice] = t('messages.no_candidate_selected')
       return render :mass_edit_candidates_event
     end
+    clean_params
     params[:confirmation_event_attributes] = { id: confirmation_event.id }
     candidates.each do |candidate|
       candidate_event = candidate.get_candidate_event(confirmation_event.name)
@@ -600,6 +598,25 @@ class AdminsController < ApplicationController
 
   private
 
+  def cands
+    candidate_ids = params[:candidate_ids].nil? ? [] : params[:candidate_ids]
+    params.delete(:candidate_ids)
+    if params[:candidate]
+      if params[:candidate][:candidate_ids]
+        candidate_ids = params[:candidate][:candidate_ids]
+        params[:candidate].delete(:candidate_ids)
+        params.delete(:candidate) if params[:candidate].empty?
+      end
+    end
+    if candidate_ids.nil?
+      []
+    else
+      candidates = []
+      candidate_ids.each { |id| candidates << Candidate.find(id) unless id.empty? }
+      candidates
+    end
+  end
+
   def visitor_db_or_new
     Visitor.first
   end
@@ -614,5 +631,12 @@ class AdminsController < ApplicationController
       # need to have a default in case referrer is not given
     end
     referrer_url
+  end
+
+  def clean_params
+    params.delete(:utf8)
+    params.delete(:_method)
+    params.delete(:authenticity_token)
+    params.delete(:commit)
   end
 end
