@@ -20,6 +20,7 @@ class AdminsController < ApplicationController
   AdminsController::INITIAL_EMAIL = I18n.t('views.common.initial_email')
   AdminsController::GENERATE_PDF = I18n.t('views.common.generate_pdf')
   AdminsController::CONFIRM_ACCOUNT = I18n.t('views.common.confirm_account')
+  AdminsController::UNCONFIRM_ACCOUNT = I18n.t('views.common.unconfirm_account')
 
   # edit adhoc email
   #
@@ -266,6 +267,19 @@ class AdminsController < ApplicationController
           end
         end
         redirect_back fallback_location: ref_url, notice: t('messages.account_confirmed', number_confirmed: confirmed, number_not_confirmed: candidates.size - confirmed)
+      when AdminsController::UNCONFIRM_ACCOUNT
+        unconfirmed = 0
+        candidates.each do |cand|
+          if cand.account_confirmed?
+            cand.confirmed_at = nil
+            cand.save
+            unconfirmed += 1
+          else
+            Rails.logger.info("Candidate account already confirmed: #{cand.account_name}")
+            Rails.logger.info("Candidate account confirmed: #{cand.account_name}")
+          end
+        end
+        redirect_back fallback_location: ref_url, notice: t('messages.account_confirmed', number_confirmed: unconfirmed, number_not_confirmed: candidates.size - unconfirmed)
       else
         redirect_back fallback_location: ref_url, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
       end

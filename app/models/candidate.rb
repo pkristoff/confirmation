@@ -552,7 +552,7 @@ class Candidate < ApplicationRecord
   #
   # * <tt>password</tt> reset token
   #
-  def send_reset_password_instructions(admin)
+  def send_reset_password_instructions(admin = Admin.first)
     send_grid_mail = SendGridMail.new(admin, [self])
     _response, token = send_grid_mail.reset_password
     token

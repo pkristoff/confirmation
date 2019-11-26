@@ -257,6 +257,7 @@ en:
         candidate(s)?
       clear_attach_file: Clear choosen file
       confirm_account: Confirm Account
+      unconfirm_account: Unconfirm Account
       delete: Delete
       download: Download document
       email: Email
