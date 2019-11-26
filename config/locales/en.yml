@@ -173,8 +173,8 @@ en:
     admin_login_needed: Please login as admin to %{message}.
     another_admin: create another admin
     another_candidate: create another candidate
-    cand_account_confirmed_next: The next step is to change your password. You should
-      have gotten another e-mail explaining how to do this.
+    cand_account_confirmed_next: The next step is to setup your password. Another
+      email was just sent explaining how to do this.
     cand_account_is_confirmed: Congratulations %{account_name} on confirming your
       account.
     candidate_updated: Candidate %{name} updated successfully
@@ -257,7 +257,6 @@ en:
         candidate(s)?
       clear_attach_file: Clear choosen file
       confirm_account: Confirm Account
-      unconfirm_account: Unconfirm Account
       delete: Delete
       download: Download document
       email: Email
@@ -274,6 +273,7 @@ en:
       reset_password: Reset Password
       status: Status
       un_verify: Unverify
+      unconfirm_account: Unconfirm Account
       update: Update
       update_about: Update about
       update_candidates_event: Update event for candidates

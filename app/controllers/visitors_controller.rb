@@ -45,22 +45,17 @@ class VisitorsController < ApplicationController
     @candidate = params[:id].to_i.equal?('-1'.to_i) ? Candidate.create : Candidate.find(params[:id])
     @errors = params[:errors]
 
-    if @errors && @errors != 'noerrors'
-      # flash[:alert] = @errors
-      return redirect_to show_visitor_url alert: @errors
-    end
-
     # need admin contact info even though candidate or no one is logged in
-    admin = current_admin || Admin.all.first
-    send_grid_mail = SendGridMail.new(admin, [@candidate])
-    response, _token = send_grid_mail.reset_password
+    admin = current_admin || Admin.first unless @errors && @errors != 'noerrors'
+    send_grid_mail = SendGridMail.new(admin, [@candidate]) unless @errors && @errors != 'noerrors'
+    response, _token = send_grid_mail.reset_password unless @errors && @errors != 'noerrors'
     if response.nil? && Rails.env.test?
       # not connected to the internet while testing
-      flash[:notice] = I18n.t('messages.reset_password_message_sent')
+      flash[:notice] = I18n.t('messages.reset_password_message_sent') unless @errors && @errors != 'noerrors'
     elsif response.status_code[0] == '2'
-      flash[:notice] = I18n.t('messages.reset_password_message_sent')
+      flash[:notice] = I18n.t('messages.reset_password_message_sent') unless @errors && @errors != 'noerrors'
     else
-      flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
+      flash[:alert] = "Status=#{response.status_code} body=#{response.body}" unless @errors && @errors != 'noerrors'
     end
 
     sign_out current_admin if admin_signed_in?

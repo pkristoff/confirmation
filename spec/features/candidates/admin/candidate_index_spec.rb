@@ -36,7 +36,8 @@ feature 'Candidate index page', :devise do
       [AdminsController::RESET_PASSWORD, 'reset-password'],
       [AdminsController::INITIAL_EMAIL, 'initial-email'],
       [AdminsController::GENERATE_PDF, 'generate-pdf'],
-      [AdminsController::CONFIRM_ACCOUNT, 'confirm-account']
+      [AdminsController::CONFIRM_ACCOUNT, 'confirm-account'],
+      [AdminsController::UNCONFIRM_ACCOUNT, 'unconfirm-account']
     ]
 
     buttons.each do |button_info|

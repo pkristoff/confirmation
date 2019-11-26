@@ -44,7 +44,7 @@ describe VisitorsController do
     it 'error' do
       get :cand_account_confirmation, params: { id: -1, errors: 'Confirmation token is invalid' }
       # puts response.body
-      expect(response).to redirect_to('http://test.host/show_visitor?alert=Confirmation+token+is+invalid')
+      expect(response.status).to eq(200)
     end
   end
 end
