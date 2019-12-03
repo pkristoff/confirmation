@@ -52,6 +52,8 @@ class VisitorsController < ApplicationController
     if response.nil? && Rails.env.test?
       # not connected to the internet while testing
       flash[:notice] = I18n.t('messages.reset_password_message_sent') unless @errors && @errors != 'noerrors'
+    elsif response.nil? && @errors && @errors != 'noerrors'
+      flash[:alert] = @errors
     elsif response.status_code[0] == '2'
       flash[:notice] = I18n.t('messages.reset_password_message_sent') unless @errors && @errors != 'noerrors'
     else
