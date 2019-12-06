@@ -147,16 +147,17 @@ class CandidatePDFDocument < Prawn::Document
 
     # grade attending
     grid_label_value([4, 0], "#{I18n.t('label.candidate_sheet.grade')}:", cs.grade.to_s)
-    grid_label_value([4, 2], "#{I18n.t('label.candidate_sheet.attending')}:", cs.attending)
+    grid_label_value([4, 2], "#{I18n.t('label.candidate_sheet.program_year')}:", cs.program_year.to_s)
+    grid_label_value([5, 0], "#{I18n.t('label.candidate_sheet.attending')}:", cs.attending)
 
     # email
-    grid_label_value([5, 0], "#{I18n.t('label.candidate_sheet.candidate_email')}:", cs.candidate_email)
-    grid_label_value([5, 2], "#{I18n.t('label.candidate_sheet.parent_email_1')}:", cs.parent_email_1)
-    grid_label_value([6, 0], "#{I18n.t('label.candidate_sheet.parent_email_2')}:", cs.parent_email_2)
+    grid_label_value([6, 0], "#{I18n.t('label.candidate_sheet.candidate_email')}:", cs.candidate_email)
+    grid_label_value([6, 2], "#{I18n.t('label.candidate_sheet.parent_email_1')}:", cs.parent_email_1)
+    grid_label_value([7, 0], "#{I18n.t('label.candidate_sheet.parent_email_2')}:", cs.parent_email_2)
 
     # address
-    grid_label([7, 0], [7, 0], 'Address')
-    grid_address([8, 0], 'label.candidate_sheet.address', cs.address)
+    grid_label([8, 0], [8, 0], 'Address')
+    grid_address([9, 0], 'label.candidate_sheet.address', cs.address)
   end
 
   # Generate Christian Ministry
