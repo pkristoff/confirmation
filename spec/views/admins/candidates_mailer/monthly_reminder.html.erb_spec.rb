@@ -91,6 +91,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       when I18n.t('events.candidate_information_sheet')
         info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
+        info << [:program_year, '2']
         info << [:street_1, '2120 Frissell Ave.']
         info << [:street_2, 'Apt. 456']
         info << [:city, 'Apex']
@@ -142,6 +143,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       when I18n.t('events.candidate_information_sheet')
         info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
+        info << [:program_year, '2']
         info << [:street_1, '2120 Frissell Ave.']
         info << [:street_2, 'Apt. 456']
         info << [:city, 'Apex']

@@ -70,7 +70,7 @@ class CandidateSheet < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.basic_permitted_params
-    %i[first_name middle_name last_name candidate_email parent_email_1 parent_email_2 grade attending id]
+    %i[first_name middle_name last_name candidate_email parent_email_1 parent_email_2 grade program_year attending id]
   end
 
   # Required attributes
@@ -216,6 +216,7 @@ class CandidateSheet < ApplicationRecord
   def verifiable_info(_candidate)
     { name: "#{first_name} #{middle_name} #{last_name}",
       grade: grade,
+      program_year: 2,
       street_1: address.street_1,
       street_2: address.street_2,
       city: address.city,

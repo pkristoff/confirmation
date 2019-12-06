@@ -467,6 +467,7 @@ shared_context 'candidate_information_sheet' do
                         middle_name: 'Richard',
                         last_name: 'Foo',
                         grade: 10,
+                        program_year: 2,
                         candidate_email: 'foo@bar.com',
                         parent_email_1: 'baz@bar.com',
                         attending: 'The Way',

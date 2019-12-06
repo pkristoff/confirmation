@@ -79,6 +79,10 @@
             <%= cs_fields.label :grade %><br/>
             <%= cs_fields.number_field :grade, min: 8, max: 12 %>
           </div>
+          <div class="field">
+            <%= cs_fields.label :program_year %><br/>
+            <%= cs_fields.number_field :program_year, min: 1, max: 2 %>
+          </div>
 
           <%= field_set_tag 'Attending', class: 'fieldset' do %>
               <div class="fieldset-div">

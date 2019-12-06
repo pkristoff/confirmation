@@ -42,6 +42,7 @@ describe CandidateImport do
       expect(the_way_candidate.candidate_sheet.first_name).to eq('Annie')
       expect(the_way_candidate.candidate_sheet.last_name).to eq('Daw')
       expect(the_way_candidate.candidate_sheet.grade).to eq(10)
+      expect(the_way_candidate.candidate_sheet.program_year).to eq(2)
       expect(the_way_candidate.candidate_sheet.candidate_email).to eq('financial@kristoffs.com')
       expect(the_way_candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
       expect(the_way_candidate.candidate_sheet.parent_email_2).to eq('')
@@ -51,6 +52,7 @@ describe CandidateImport do
       expect(chs_candidate.candidate_sheet.first_name).to eq('Abbie')
       expect(chs_candidate.candidate_sheet.last_name).to eq('Clavijo')
       expect(chs_candidate.candidate_sheet.grade).to eq(10)
+      expect(chs_candidate.candidate_sheet.program_year).to eq(2)
       expect(the_way_candidate.candidate_sheet.candidate_email).to eq('financial@kristoffs.com')
       expect(chs_candidate.candidate_sheet.parent_email_1).to eq('retail@kristoffs.com')
       expect(chs_candidate.candidate_sheet.parent_email_2).to eq('stmm-confirmation@kristoffs.com')
@@ -248,6 +250,7 @@ describe 'combinations' do
         first_name: 'Makenzie',
         last_name: 'Corgan',
         grade: 10,
+        program_year: 2,
         attending: I18n.t('model.candidate.attending_catholic_high_school')
       }
     )
@@ -257,6 +260,7 @@ describe 'combinations' do
         first_name: 'Carlos',
         last_name: 'Barrero',
         grade: 11,
+        program_year: 2,
         attending: I18n.t('model.candidate.attending_the_way')
       }
     )
@@ -266,6 +270,7 @@ describe 'combinations' do
         first_name: 'Julia',
         last_name: 'Agius',
         grade: 10,
+        program_year: 2,
         attending: I18n.t('model.candidate.attending_the_way')
       }
     )
@@ -275,6 +280,7 @@ describe 'combinations' do
         first_name: 'Noah',
         last_name: 'Brixey',
         grade: 11,
+        program_year: 2,
         attending: I18n.t('model.candidate.attending_catholic_high_school')
       }
     )
@@ -284,6 +290,7 @@ describe 'combinations' do
         first_name: 'Maddy',
         last_name: 'Barone',
         grade: 10,
+        program_year: 2,
         attending: I18n.t('model.candidate.attending_catholic_high_school')
       }
     )
@@ -643,6 +650,7 @@ def expect_candidates(wks, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.parent_email_1')].value).to eq('test@example.com')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.parent_email_2')].value).to eq('')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.grade')].value).to eq(10)
+  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.program_year')].value).to eq(2)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.attending')].value).to eq(I18n.t('model.candidate.attending_the_way'))
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_1')].value).to eq('2120 Frissell Ave.')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_2')].value).to eq('Apt. 456')
@@ -715,6 +723,7 @@ def expect_candidates_empty(wks, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.parent_email_1')].value).to eq('test@example.com')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.parent_email_2')].value).to eq('')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.grade')].value).to eq(10)
+  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.program_year')].value).to eq(2)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.attending')].value).to eq(I18n.t('model.candidate.attending_the_way'))
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_1')].value).to eq('2120 Frissell Ave.')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_2')].value).to eq('Apt. 456')
@@ -751,7 +760,7 @@ def expect_candidates_empty(wks, candidate_import)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(69)
+  expect(c1_row.size).to eq(70)
 end
 
 def expect_confirmation_events_empty(wks, candidate_import)
@@ -883,6 +892,7 @@ def foo_bar
       parent_email_1: 'foo@bar.com',
       parent_email_2: '',
       grade: 10,
+      program_year: 2,
       attending: I18n.t('model.candidate.attending_the_way'),
       address: {
         street_1: '',
@@ -940,6 +950,7 @@ def paul_kristoff
       parent_email_1: 'vicki@kristoffs.com',
       parent_email_2: 'vicki@kristoffs.com',
       grade: 9,
+      program_year: 1,
       attending: I18n.t('model.candidate.attending_the_way'),
       address: {
         street_1: '2116 Frissell Ave',
@@ -997,6 +1008,7 @@ def vicki_kristoff
       parent_email_1: 'paul@kristoffs.com',
       parent_email_2: 'paul@kristoffs.com',
       grade: 12,
+      program_year: 2,
       attending: I18n.t('model.candidate.attending_catholic_high_school'),
       address: {
         street_1: '2120 Frissell Ave',

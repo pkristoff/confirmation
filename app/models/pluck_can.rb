@@ -49,7 +49,7 @@ class PluckCan
     Rails.logger.info("candidate_events=#{candidate_events}")
     join = Candidate.joins(:candidate_sheet)
     sorted = args[:sort].nil? ? join : join.order("#{args[:sort]} #{args[:direction]}")
-    sorted.pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :attending).map do |cand_info|
+    sorted.pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :program_year, :attending).map do |cand_info|
       candidate_id = cand_info[0]
       Rails.logger.info("cand_info=#{cand_info}")
       Rails.logger.info("account_name=#{cand_info[1]}")
@@ -267,10 +267,20 @@ class PluckCan
   #
   # === Returns:
   #
-  # * <tt>Integer</tt>
+  # * <tt>Integer</tt> 8-12
   #
   def grade
     @cand_info[6]
+  end
+
+  # program_year
+  #
+  # === Returns:
+  #
+  # * <tt>Integer</tt> 1 or 2
+  #
+  def program_year
+    @cand_info[7]
   end
 
   # attending
@@ -280,6 +290,6 @@ class PluckCan
   # * <tt>Symbol</tt> :attending
   #
   def attending
-    @cand_info[7]
+    @cand_info[8]
   end
 end

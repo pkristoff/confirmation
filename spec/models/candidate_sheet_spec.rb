@@ -29,7 +29,7 @@ describe CandidateSheet, type: :model do
     it 'should return a hash of :attribute => value' do
       candidate = FactoryBot.create(:candidate)
       verifiables = FactoryBot.create(:candidate_sheet).verifiable_info(candidate)
-      expected_verifiables = { name: 'Sophia Saraha Young', grade: 10, street_1: '555 Xxx Ave.', street_2: '<nothing>', city: 'Clarksville', state: 'IN', zipcode: '47529' }
+      expected_verifiables = { name: 'Sophia Saraha Young', grade: 10, program_year: 2, street_1: '555 Xxx Ave.', street_2: '<nothing>', city: 'Clarksville', state: 'IN', zipcode: '47529' }
       expect(verifiables).to eq(expected_verifiables)
     end
   end
@@ -179,6 +179,7 @@ describe CandidateSheet, type: :model do
         expect(candidate_sheet.errors.full_messages[2]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
       end
     end
+
     def fill_in_cand(cand)
       cand.first_name = 'x'
       cand.middle_name = 'x'

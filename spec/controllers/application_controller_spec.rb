@@ -75,6 +75,7 @@ describe ApplicationController do
       expect(controller.sort_column('candidate_sheet.parent_email_1')).to eq('candidate_sheet.parent_email_1')
       expect(controller.sort_column('candidate_sheet.parent_email_2')).to eq('candidate_sheet.parent_email_2')
       expect(controller.sort_column('candidate_sheet.grade')).to eq('candidate_sheet.grade')
+      expect(controller.sort_column('candidate_sheet.program_year')).to eq('candidate_sheet.program_year')
       expect(controller.sort_column('candidate_sheet.attending')).to eq('candidate_sheet.attending')
     end
   end

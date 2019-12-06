@@ -156,6 +156,7 @@ module SortingCandListHelpers
   def common_columns
     columns = common_non_event_columns
     columns.insert(columns.length - 1, [I18n.t('label.candidate_sheet.grade'), true, %i[candidate_sheet grade]])
+    columns.insert(columns.length - 1, [I18n.t('label.candidate_sheet.program_year'), true, %i[candidate_sheet program_year]])
     columns.concat common_event_columns
   end
 

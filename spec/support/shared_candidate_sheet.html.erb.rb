@@ -112,6 +112,7 @@ shared_context 'candidate_sheet_html_erb' do
     expect(page).to have_field(I18n.t('label.candidate_sheet.address.zip_code'), with: candidate_sheet.address.zip_code, type: 'text')
 
     expect(page).to have_field(I18n.t('label.candidate_sheet.grade'), with: candidate_sheet.grade, type: 'number')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.program_year'), with: candidate_sheet.program_year, type: 'number')
 
     expect(page).to have_field(I18n.t('label.candidate_sheet.candidate_email'), with: candidate_sheet.candidate_email, type: 'email')
     expect(page).to have_field(I18n.t('label.candidate_sheet.parent_email_1'), with: candidate_sheet.parent_email_1, type: 'email')
