@@ -1,4 +1,4 @@
 <p id="home-link">Save this link to the website so you can access it
-  later: <%= link_to I18n.t('email.website_name'), root_url %></p>
+  later: <%= link_to I18n.t('email.website_name', home_parish: Visitor.home_parish), root_url %></p>
 
 <p id="account-name">Your Username is: <%= local_assigns[:candidate].account_name %></p>

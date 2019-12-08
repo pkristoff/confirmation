@@ -73,7 +73,7 @@ class CandidatesController < CommonCandidatesController
   # show candidates
   #
   def index
-    candidates_info
+    candidates_info ({ direction: :asc, sort: :account_name })
   end
 
   # show candidate

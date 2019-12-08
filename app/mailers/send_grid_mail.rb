@@ -79,7 +79,7 @@ class SendGridMail
   # Generate and send candidate user id confirmation email
   #
   def confirmation_instructions
-    [send_email(MailPart.new_subject(I18n.t('email.confirmation_instructions_subject')),
+    [send_email(MailPart.new_subject(I18n.t('email.confirmation_instructions_subject', home_parish: Visitor.home_parish)),
                 nil,
                 MailPart.new_body(''),
                 EmailStuff::TYPES[:confirmation_instructions],
@@ -117,7 +117,7 @@ class SendGridMail
   # Generate and send reset password email
   #
   def reset_password
-    [send_email(MailPart.new_subject(I18n.t('email.reset_password_subject')), nil, MailPart.new_body(''), EmailStuff::TYPES[:reset_password],
+    [send_email(MailPart.new_subject(I18n.t('email.reset_password_subject', Visitor.home_parish)), nil, MailPart.new_body(''), EmailStuff::TYPES[:reset_password],
                 reset_pass_call),
      @candidate_mailer_text.token]
   end
@@ -415,7 +415,7 @@ class SendGridMail
   # * <tt>:candidate</tt> Candidate
   #
   def expand_text_ci(candidate)
-    expand_text(candidate, MailPart.new_subject('StMM website for Confirmation Candidates - User Verification instructions'), MailPart.new_body(''),
+    expand_text(candidate, MailPart.new_subject("#{Visitor.home_parish} website for Confirmation Candidates - User Verification instructions"), MailPart.new_body(''),
                 conf_insts_call)
   end
 

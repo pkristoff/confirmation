@@ -5,6 +5,7 @@
 #
 class ApplicationController < ActionController::Base
   include ApplicationHelper
+  before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   # Prevent CSRF attacks by raising an exception.
@@ -109,5 +110,15 @@ class ApplicationController < ActionController::Base
     ce_id = @confirmation_event.nil? ? nil : @confirmation_event.id
     args[:event_id] = ce_id
     @candidate_info = PluckCan.pluck_candidates(args)
+  end
+
+  private
+
+  def extract_locale_from_accept_language_header
+    request.env['HTTP_ACCEPT_LANGUAGE'].nil? ? nil : request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+  end
+
+  def set_locale
+    I18n.locale = extract_locale_from_accept_language_header || I18n.default_locale
   end
 end

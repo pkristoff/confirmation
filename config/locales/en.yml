@@ -18,8 +18,8 @@ en:
     completed_initial_input: These are the completed events. Please verify that the
       information you entered is correct, if any.
     completed_input_label: Completed events
-    confirmation_instructions_subject: StMM website for Confirmation Candidates -
-      User Verification instructions
+    confirmation_instructions_subject: "%{home_parish} website for Confirmation Candidates
+      - User Verification instructions"
     due_date: Due date
     events: Events
     from_initial_input_html: |
@@ -32,7 +32,7 @@ en:
       you need to submit.
     monthly_mail: Monthly Mail
     past_due: Past due events
-    pre_coming_due_input_label: The pre-coming text
+    pre_coming_due_input_label: The pre-coming due text
     pre_late_input_label: The pre-late text
     reset_password_subject: StMM website for Confirmation Candidates - Reset password
       instructions
@@ -44,7 +44,7 @@ en:
     test_adhoc_subject_initial_input: Adhoc test email for %{candidate_account_name}
     test_monthly_mail: Test monthly mail
     test_monthly_mail_subject_initial_input: Monthly mailing test email for %{candidate_account_name}
-    website_name: StMM website for Confirmation Candidates
+    website_name: "%{home_parish} website for Confirmation Candidates"
   events:
     baptismal_certificate: Baptismal Certificate
     candidate_covenant_agreement: Candidate Covenant Agreement

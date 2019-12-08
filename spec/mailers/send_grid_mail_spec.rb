@@ -402,8 +402,8 @@ describe SendGridMail, type: :model do
   end
 
   def expect_basic_candidate_info(body, candidate)
-    expect(body).to have_css('p[id=home-link]', text: I18n.t('email.website_name'))
-    expect(body).to have_css("p[id=home-link] a[href='http://localhost:3000/']", text: I18n.t('email.website_name'))
+    expect(body).to have_css('p[id=home-link]', text: I18n.t('email.website_name', home_parish: Visitor.home_parish))
+    expect(body).to have_css("p[id=home-link] a[href='http://localhost:3000/']", text: I18n.t('email.website_name', home_parish: Visitor.home_parish))
     expect(body).to have_css('p[id=account-name]', text: candidate.account_name)
   end
 end

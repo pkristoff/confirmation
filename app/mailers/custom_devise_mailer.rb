@@ -33,9 +33,9 @@ class CustomDeviseMailer < Devise::Mailer
   #
   def subject_for(key)
     if key == :reset_password_instructions
-      'StMM website for Confirmation Candidates - Reset password instructions'
+      "#{Visitor.home_parish} website for Confirmation Candidates - Reset password instructions"
     elsif key == :confirmation_instructions
-      'StMM website for Confirmation Candidates - User Verification instructions'
+      "#{Visitor.home_parish} website for Confirmation Candidates - User Verification instructions"
     else
       super
     end
