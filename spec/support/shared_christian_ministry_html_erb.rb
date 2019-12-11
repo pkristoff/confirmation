@@ -149,7 +149,7 @@ shared_context 'christian_ministry_html_erb' do
   scenario 'admin un-verifies a verified christian ministry event' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
-    event_name = I18n.t('events.christian_ministry')
+    event_name = ChristianMinistry.event_name
     candidate = Candidate.find(@cand_id)
     candidate.christian_ministry.what_service = 'lll'
     candidate.christian_ministry.when_service = 'kkk'

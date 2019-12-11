@@ -60,21 +60,21 @@ module SortingCandListHelpers
 
   def event_name_to_path(event_name, candidate_id)
     case event_name
-    when I18n.t('events.candidate_covenant_agreement')
+    when Candidate.covenant_agreement_event_name
       sign_agreement_path(candidate_id)
-    when I18n.t('events.candidate_information_sheet')
+    when CandidateSheet.event_name
       candidate_sheet_path(candidate_id)
-    when I18n.t('events.baptismal_certificate')
+    when BaptismalCertificate.event_name
       event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
-    when I18n.t('events.sponsor_covenant')
+    when SponsorCovenant.event_name
       event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
-    when I18n.t('events.confirmation_name')
+    when PickConfirmationName.event_name
       pick_confirmation_name_path(candidate_id)
-    when I18n.t('events.christian_ministry')
+    when ChristianMinistry.event_name
       christian_ministry_path(candidate_id)
-    when I18n.t('events.retreat_verification')
+    when RetreatVerification.event_name
       event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
-    when I18n.t('events.parent_meeting')
+    when Candidate.parent_meeting_event_name
       event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(name: event_name).id}")
     else
       "Unknown event_name: #{event_name}"
@@ -83,21 +83,21 @@ module SortingCandListHelpers
 
   def event_name_to_path_verify(event_name, candidate_id)
     case event_name
-    when I18n.t('events.candidate_covenant_agreement')
+    when Candidate.covenant_agreement_event_name
       sign_agreement_verify_path(candidate_id)
-    when I18n.t('events.candidate_information_sheet')
+    when CandidateSheet.event_name
       candidate_sheet_verify_path(candidate_id)
-    when I18n.t('events.baptismal_certificate')
+    when BaptismalCertificate.event_name
       event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
-    when I18n.t('events.sponsor_covenant')
+    when SponsorCovenant.event_name
       event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT)
-    when I18n.t('events.confirmation_name')
+    when PickConfirmationName.event_name
       pick_confirmation_name_verify_path(candidate_id)
-    when I18n.t('events.christian_ministry')
+    when ChristianMinistry.event_name
       christian_ministry_verify_path(candidate_id)
-    when I18n.t('events.retreat_verification')
+    when RetreatVerification.event_name
       event_with_picture_verify_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
-    when I18n.t('events.parent_meeting')
+    when Candidate.parent_meeting_event_name
       event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(name: event_name).id}")
     else
       "Unknown event_name: #{event_name}"
@@ -148,7 +148,7 @@ module SortingCandListHelpers
       [I18n.t('views.events.verified'), true, [:candidate_event, confirmation_event_name, :verified]]
     )
     cols.append(
-      [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'), true)]
+      [PickConfirmationName.event_name, true, '', expect_event(I18n.t('events.confirmation_name'), true)]
     )
     cols
   end
@@ -171,14 +171,14 @@ module SortingCandListHelpers
 
   def common_event_columns
     [
-      [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
-      [I18n.t('events.candidate_information_sheet'), true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
-      [I18n.t('events.baptismal_certificate'), true, '', expect_event(I18n.t('events.baptismal_certificate'))],
-      [I18n.t('events.sponsor_covenant'), true, '', expect_event(I18n.t('events.sponsor_covenant'))],
-      [I18n.t('events.confirmation_name'), true, '', expect_event(I18n.t('events.confirmation_name'))],
-      [I18n.t('events.christian_ministry'), true, '', expect_event(I18n.t('events.christian_ministry'))],
-      [I18n.t('events.retreat_verification'), true, '', expect_event(I18n.t('events.retreat_verification'))],
-      [I18n.t('events.parent_meeting'), true, '', expect_event(I18n.t('events.parent_meeting'))]
+      [Candidate.covenant_agreement_event_name, true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
+      [CandidateSheet.event_name, true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
+      [BaptismalCertificate.event_name, true, '', expect_event(I18n.t('events.baptismal_certificate'))],
+      [SponsorCovenant.event_name, true, '', expect_event(I18n.t('events.sponsor_covenant'))],
+      [PickConfirmationName.event_name, true, '', expect_event(I18n.t('events.confirmation_name'))],
+      [ChristianMinistry.event_name, true, '', expect_event(I18n.t('events.christian_ministry'))],
+      [RetreatVerification.event_name, true, '', expect_event(I18n.t('events.retreat_verification'))],
+      [Candidate.parent_meeting_event_name, true, '', expect_event(I18n.t('events.parent_meeting'))]
     ]
   end
 

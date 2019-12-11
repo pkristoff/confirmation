@@ -27,11 +27,37 @@ RSpec.describe 'I18n' do
         views.top_bar.contact_admin_mail
     ].to_set
   end
+
+  it 'all locale files should have the same keys' do
+    en_file = File.join(Rails.root, 'config', 'locales', 'en.yml')
+    es_file = File.join(Rails.root, 'config', 'locales', 'es.yml')
+    YAML.load(File.open(en_file)).each do |en_key, en_value|
+      YAML.load(File.open(es_file)).each do |es_key, es_value|
+        expect(en_key).to eq('en')
+        expect(es_key).to eq('es')
+        compare_locale_files(en_value, es_value)
+      end
+    end
+  end
+
+  def compare_locale_files(en_value, es_value)
+    expect(es_value.is_a? String).to eq(true) if (en_value.is_a? String)
+    unless en_value.is_a? String
+      expect(en_value.count).to eq(es_value.count), "English count diff: #{en_value} from Spanish #{es_value}"
+      en_value.each do |en_key, en_val|
+        es_val = es_value[en_key]
+        compare_locale_files(en_val,es_val)
+      end
+    end
+  end
+
   it 'does not have missing keys' do
     # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
-    not_missing = ['errors.messages.not_saved.one', 'errors.messages.not_saved.other']
+    not_missing = %w[errors.messages.not_saved.one
+                     errors.messages.not_saved.other
+                     devise.mailer.reset_password_instructions.subject]
     y = @missing_keys - not_missing
-    expect(y).to be_empty, "Missing #{@missing_keys.count} i18n keys, run `i18n-tasks missing' to show them"
+    expect(y).to be_empty, "Missing #{y.count} i18n keys missing #{y}, run `i18n-tasks missing' to show them"
   end
 
   it 'does not have unused keys' do

@@ -68,7 +68,7 @@ shared_context 'candidate_sheet_html_erb' do
   scenario 'admin un-verifies a verified candidate sheet event' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
-    event_name = I18n.t('events.candidate_information_sheet')
+    event_name = CandidateSheet.event_name
     today = Time.zone.today
     @candidate.get_candidate_event(event_name).completed_date = today
     @candidate.get_candidate_event(event_name).verified = true

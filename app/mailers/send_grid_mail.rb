@@ -117,7 +117,7 @@ class SendGridMail
   # Generate and send reset password email
   #
   def reset_password
-    [send_email(MailPart.new_subject(I18n.t('email.reset_password_subject', Visitor.home_parish)), nil, MailPart.new_body(''), EmailStuff::TYPES[:reset_password],
+    [send_email(MailPart.new_subject(I18n.t('devise.mailer.reset_password_instructions.subject', Visitor.home_parish)), nil, MailPart.new_body(''), EmailStuff::TYPES[:reset_password],
                 reset_pass_call),
      @candidate_mailer_text.token]
   end

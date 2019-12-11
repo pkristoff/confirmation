@@ -87,49 +87,49 @@ module ApplicationHelper
     # admin vs. candidate.
     is_candidate_logged_in = current_admin.nil?
     case confirmation_event_name
-    when I18n.t('events.candidate_covenant_agreement')
+    when Candidate.covenant_agreement_event_name
       if is_candidate_logged_in
         dev_sign_agreement_path(candidate_id)
       else
         sign_agreement_path(candidate_id)
       end
-    when I18n.t('events.candidate_information_sheet')
+    when CandidateSheet.event_name
       if is_candidate_logged_in
         dev_candidate_sheet_path(candidate_id)
       else
         candidate_sheet_path(candidate_id)
       end
-    when I18n.t('events.baptismal_certificate')
+    when BaptismalCertificate.event_name
       if is_candidate_logged_in
         dev_event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
       else
         event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
       end
-    when I18n.t('events.sponsor_covenant')
+    when SponsorCovenant.event_name
       if is_candidate_logged_in
         dev_event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
       else
         event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
       end
-    when I18n.t('events.confirmation_name')
+    when PickConfirmationName.event_name
       if is_candidate_logged_in
         dev_pick_confirmation_name_path(candidate_id)
       else
         pick_confirmation_name_path(candidate_id)
       end
-    when I18n.t('events.christian_ministry')
+    when ChristianMinistry.event_name
       if is_candidate_logged_in
         dev_christian_ministry_path(candidate_id)
       else
         christian_ministry_path(candidate_id)
       end
-    when I18n.t('events.retreat_verification')
+    when RetreatVerification.event_name
       if is_candidate_logged_in
         dev_event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
       else
         event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
       end
-    when I18n.t('events.parent_meeting')
+    when Candidate.parent_meeting_event_name
       if is_candidate_logged_in
         dev_event_with_picture_path(candidate_id, Event::Other::PARENT_INFORMATION_MEETING)
       else

@@ -108,7 +108,7 @@ class SponsorCovenant < ApplicationRecord
   # * <tt>String</tt>
   #
   def self.event_name
-    I18n.t('events.sponsor_covenant')
+    'Sponsor Covenant & Sponsor Eligibility'
   end
 
   # Validate whether event is complete by adding validation errors to active record

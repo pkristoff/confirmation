@@ -404,7 +404,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     @candidate.baptismal_certificate.baptized_at_home_parish = true
     @candidate.baptismal_certificate.show_empty_radio = 1
-    event_name = I18n.t('events.baptismal_certificate')
+    event_name = BaptismalCertificate.event_name
     @candidate.get_candidate_event(event_name).completed_date = @today
     @candidate.get_candidate_event(event_name).verified = true
     @candidate.save

@@ -135,7 +135,7 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>String</tt>
   #
   def self.event_name
-    I18n.t('events.baptismal_certificate')
+    'Baptismal Certificate'
   end
 
   # build church address

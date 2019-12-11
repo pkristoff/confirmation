@@ -162,6 +162,14 @@ class Candidate < ApplicationRecord
     true
   end
 
+  def self.covenant_agreement_event_name
+    'Candidate Covenant Agreement'
+  end
+
+  def self.parent_meeting_event_name
+    'Parent Information Meeting'
+  end
+
   # Editable attributes
   #
   # === Returns:
@@ -347,6 +355,29 @@ class Candidate < ApplicationRecord
     event
   end
 
+  def self.event_route(event_name)
+    case event_name
+    when Candidate.parent_meeting_event_name
+      :parent_meeting
+    when RetreatVerification.event_name
+      :retreat_verification
+    when Candidate.covenant_agreement_event_name
+      :candidate_covenant_agreement
+    when CandidateSheet.event_name
+      :candidate_information_sheet
+    when BaptismalCertificate.event_name
+      :baptismal_certificate
+    when SponsorCovenant.event_name
+      :sponsor_covenant
+    when PickConfirmationName.event_name
+      :confirmation_name
+    when ChristianMinistry.event_name
+      :christian_ministry
+    else
+      "unknown_event_name_#{event_name}"
+    end
+  end
+
   # returns the association based on event name
   #
   # === Parameters:
@@ -455,7 +486,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.baptismal_external_verification
-    external_verification(I18n.t('events.baptismal_certificate'), ->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish })
+    external_verification(BaptismalCertificate.event_name, ->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish })
   end
 
   # retreat needs admin verification
@@ -469,7 +500,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.retreat_external_verification
-    external_verification(I18n.t('events.retreat_verification'), ->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish })
+    external_verification(RetreatVerification.event_name, ->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish })
   end
 
   # confirmation name needs admin verification
@@ -523,7 +554,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.sponsor_external_verification
-    external_verification(I18n.t('events.sponsor_covenant'), ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish })
+    external_verification(SponsorCovenant.event_name, ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish })
   end
 
   # candidate events needs admin verification

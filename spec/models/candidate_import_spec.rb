@@ -211,14 +211,14 @@ end
 def expect_initial_conf_events
   today = Time.zone.today.to_s
 
-  expect_confirmation_event(I18n.t('events.parent_meeting'), today, today)
-  expect_confirmation_event(I18n.t('events.retreat_verification'), today, today)
-  expect_confirmation_event(I18n.t('events.candidate_covenant_agreement'), today, today)
-  expect_confirmation_event(I18n.t('events.candidate_information_sheet'), today, today)
-  expect_confirmation_event(I18n.t('events.baptismal_certificate'), today, today)
-  expect_confirmation_event(I18n.t('events.sponsor_covenant'), today, today)
-  expect_confirmation_event(I18n.t('events.confirmation_name'), today, today)
-  expect_confirmation_event(I18n.t('events.christian_ministry'), today, today)
+  expect_confirmation_event(Candidate.parent_meeting_event_name, today, today)
+  expect_confirmation_event(RetreatVerification.event_name, today, today)
+  expect_confirmation_event(Candidate.covenant_agreement_event_name, today, today)
+  expect_confirmation_event(CandidateSheet.event_name, today, today)
+  expect_confirmation_event(BaptismalCertificate.event_name, today, today)
+  expect_confirmation_event(SponsorCovenant.event_name, today, today)
+  expect_confirmation_event(PickConfirmationName.event_name, today, today)
+  expect_confirmation_event(ChristianMinistry.event_name, today, today)
 
   return unless ConfirmationEvent.all.size != 8
 
@@ -317,7 +317,7 @@ describe 'check_events' do
     candidate_import = CandidateImport.new
     candidate_import.start_new_year
     setup_unknown_missing_events
-    sponsor_covenant_event_name = I18n.t('events.sponsor_covenant')
+    sponsor_covenant_event_name = SponsorCovenant.event_name
 
     candidate_import.add_missing_events([sponsor_covenant_event_name])
 
@@ -806,20 +806,20 @@ def expect_confirmation_events(wks, candidate_import)
 end
 
 def expect_import_with_events
-  expect_confirmation_event(I18n.t('events.parent_meeting'), '2016-06-30', '2016-06-03')
-  expect_confirmation_event(I18n.t('events.retreat_verification'), '2016-05-31', '2016-05-03')
-  expect_confirmation_event(I18n.t('events.candidate_covenant_agreement'), '2016-07-31', '2016-07-13')
-  expect_confirmation_event(I18n.t('events.candidate_information_sheet'), '2016-02-29', '2016-02-16')
-  expect_confirmation_event(I18n.t('events.baptismal_certificate'), '2016-08-31', '2016-08-12')
-  expect_confirmation_event(I18n.t('events.sponsor_covenant'), '2016-10-31', '2016-10-15')
-  expect_confirmation_event(I18n.t('events.confirmation_name'), '2016-11-30', '2016-11-20')
-  expect_confirmation_event(I18n.t('events.christian_ministry'), '2017-01-31', '2017-01-22')
+  expect_confirmation_event(Candidate.parent_meeting_event_name, '2016-06-30', '2016-06-03')
+  expect_confirmation_event(RetreatVerification.event_name, '2016-05-31', '2016-05-03')
+  expect_confirmation_event(Candidate.covenant_agreement_event_name, '2016-07-31', '2016-07-13')
+  expect_confirmation_event(CandidateSheet.event_name, '2016-02-29', '2016-02-16')
+  expect_confirmation_event(BaptismalCertificate.event_name, '2016-08-31', '2016-08-12')
+  expect_confirmation_event(SponsorCovenant.event_name, '2016-10-31', '2016-10-15')
+  expect_confirmation_event(PickConfirmationName.event_name, '2016-11-30', '2016-11-20')
+  expect_confirmation_event(ChristianMinistry.event_name, '2017-01-31', '2017-01-22')
 
   ConfirmationEvent.all.each { |x| puts x.name } if ConfirmationEvent.all.size != 8
 
   expect(ConfirmationEvent.all.size).to eq(8)
 
-  confirmation_event2 = ConfirmationEvent.find_by(name: 'Attend Retreat')
+  confirmation_event2 = ConfirmationEvent.find_by(name: RetreatVerification.event_name)
   expect(confirmation_event2.the_way_due_date.to_s).to eq('2016-05-31')
   expect(confirmation_event2.chs_due_date.to_s).to eq('2016-05-03')
   expect(confirmation_event2.instructions).to eq("<h1>a heading</h1>\n<ul>\n<li>step 1</li>\n<li>step 2</li>\n</ul>\n<p> </p>\n<p> </p>")
@@ -904,35 +904,35 @@ def foo_bar
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
-        name: I18n.t('events.candidate_information_sheet'),
+        name: CandidateSheet.event_name,
         due_date: '2016-02-29',
         verified: false },
       { completed_date: '', # Attend Retreat 5/31/16
-        name: I18n.t('events.retreat_verification'),
+        name: RetreatVerification.event_name,
         due_date: '2016-05-31',
         verified: false },
       { completed_date: '', # Parent Information Meeting 6/30/16
-        name: I18n.t('events.parent_meeting'),
+        name: Candidate.parent_meeting_event_name,
         due_date: '2016-06-30',
         verified: false },
       { completed_date: '', # Sign Agreement 7/31/2016
-        name: I18n.t('events.candidate_covenant_agreement'),
+        name: Candidate.covenant_agreement_event_name,
         due_date: '2016-07-31',
         verified: false },
       { completed_date: '', # Baptismal Certificate 8/31/16
-        name: I18n.t('events.baptismal_certificate'),
+        name: BaptismalCertificate.event_name,
         due_date: '2016-08-31',
         verified: false },
       { completed_date: '', # Christian Ministry Awareness 1/31/17
-        name: I18n.t('events.christian_ministry'),
+        name: ChristianMinistry.event_name,
         due_date: '2017-01-31',
         verified: false },
       { completed_date: '2017-01-01', # Sponsor Covenant 10/31/16
-        name: I18n.t('events.sponsor_covenant'),
+        name: SponsorCovenant.event_name,
         due_date: '2016-10-31',
         verified: false },
       { completed_date: '2016-12-25', # Confirmation Name
-        name: I18n.t('events.confirmation_name'),
+        name: PickConfirmationName.event_name,
         due_date: '2016-11-30',
         verified: true }
     ]
@@ -962,34 +962,34 @@ def paul_kristoff
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
-        name: I18n.t('events.candidate_information_sheet'),
+        name: CandidateSheet.event_name,
         due_date: '2016-02-29',
         verified: false },
       { completed_date: '', # Sign Agreement 7/31/16
-        name: I18n.t('events.candidate_covenant_agreement'),
+        name: Candidate.covenant_agreement_event_name,
         due_date: '2016-07-31',
         verified: false },
       { completed_date: '', #  Baptismal Certificate 8/31/16
-        name: I18n.t('events.baptismal_certificate'),
+        name: BaptismalCertificate.event_name,
         due_date: '2016-08-31',
         verified: false },
       { completed_date: '', # Sponsor Covenant 10/31/16
-        name: I18n.t('events.sponsor_covenant'),
+        name: SponsorCovenant.event_name,
         due_date: '2016-10-31',
         verified: false },
       { completed_date: '', # Confirmation Name
-        name: I18n.t('events.confirmation_name'),
+        name: PickConfirmationName.event_name,
         due_date: '2016-11-30',
         verified: false },
       { completed_date: '', # Christian Ministry Awareness 1/31/17
-        name: I18n.t('events.christian_ministry'),
+        name: ChristianMinistry.event_name,
         due_date: '2017-01-31',
         verified: false },
-      { name: I18n.t('events.retreat_verification'),
+      { name: RetreatVerification.event_name,
         completed_date: '2016-05-02', # Attend Retreat 5/31/16
         due_date: '2016-05-31',
         verified: true },
-      { name: I18n.t('events.parent_meeting'),
+      { name: Candidate.parent_meeting_event_name,
         completed_date: '2016-07-07', # Parent Information Meeting 6/30/16
         due_date: '2016-06-30',
         verified: false }
@@ -1020,35 +1020,35 @@ def vicki_kristoff
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet
-        name: I18n.t('events.candidate_information_sheet'),
+        name: CandidateSheet.event_name,
         due_date: '2016-02-16',
         verified: false },
       { completed_date: '', # Attend Retreat
-        name: I18n.t('events.retreat_verification'),
+        name: RetreatVerification.event_name,
         due_date: '2016-05-03',
         verified: false },
       { completed_date: '', # Parent Information Meeting
-        name: I18n.t('events.parent_meeting'),
+        name: Candidate.parent_meeting_event_name,
         due_date: '2016-06-03',
         verified: false },
       { completed_date: '', # Baptismal Certificate
-        name: I18n.t('events.baptismal_certificate'),
+        name: BaptismalCertificate.event_name,
         due_date: '2016-08-12',
         verified: false },
       { completed_date: '', # Sponsor Covenant
-        name: I18n.t('events.sponsor_covenant'),
+        name: SponsorCovenant.event_name,
         due_date: '2016-10-15',
         verified: false },
       { completed_date: '', # Confirmation Name
-        name: I18n.t('events.confirmation_name'),
+        name: PickConfirmationName.event_name,
         due_date: '2016-11-20',
         verified: false },
       { completed_date: '', # Christian Ministry Awareness 1/31/17
-        name: I18n.t('events.christian_ministry'),
+        name: ChristianMinistry.event_name,
         due_date: '2017-01-22',
         verified: false },
       { completed_date: '2016-06-06', # Sign Agreement
-        name: I18n.t('events.candidate_covenant_agreement'),
+        name: Candidate.covenant_agreement_event_name,
         due_date: '2016-07-13',
         verified: true }
     ]

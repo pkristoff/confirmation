@@ -36,7 +36,7 @@ class ChristianMinistry < ApplicationRecord
   # * <tt>String</tt>
   #
   def self.event_name
-    I18n.t('events.christian_ministry')
+    'Christian Ministry Awareness'
   end
 
   # Validate if event is complete by adding validation errors to active record

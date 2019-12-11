@@ -126,7 +126,7 @@ class CandidateSheet < ApplicationRecord
   # * <tt>String</tt>
   #
   def self.event_name
-    I18n.t('events.candidate_information_sheet')
+    'Candidate Information Sheet'
   end
 
   # build address

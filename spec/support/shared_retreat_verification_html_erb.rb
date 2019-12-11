@@ -172,7 +172,7 @@ shared_context 'retreat_verification_html_erb' do
   scenario 'admin un-verifies a verified retreat verification event' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
-    event_name = I18n.t('events.retreat_verification')
+    event_name = RetreatVerification.event_name
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = true
     candidate.get_candidate_event(event_name).completed_date = @today

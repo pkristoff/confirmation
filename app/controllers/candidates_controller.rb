@@ -73,7 +73,7 @@ class CandidatesController < CommonCandidatesController
   # show candidates
   #
   def index
-    candidates_info ({ direction: :asc, sort: :account_name })
+    candidates_info(direction: :asc, sort: :account_name)
   end
 
   # show candidate
@@ -147,7 +147,7 @@ class CandidatesController < CommonCandidatesController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = I18n.t('events.candidate_information_sheet')
+    event_name = CandidateSheet.event_name
     @candidate = Candidate.find(candidate_id)
     candidate_event = @candidate.get_candidate_event(event_name)
 
@@ -182,7 +182,7 @@ class CandidatesController < CommonCandidatesController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = I18n.t('events.christian_ministry')
+    event_name = ChristianMinistry.event_name
     @candidate = Candidate.find(candidate_id)
     candidate_event = @candidate.get_candidate_event(event_name)
 
@@ -217,7 +217,7 @@ class CandidatesController < CommonCandidatesController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = I18n.t('events.confirmation_name')
+    event_name = PickConfirmationName.event_name
     @candidate = Candidate.find(candidate_id)
     candidate_event = @candidate.get_candidate_event(event_name)
 

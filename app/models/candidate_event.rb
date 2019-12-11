@@ -257,21 +257,21 @@ class CandidateEvent < ApplicationRecord
   def route
     # TODO: maybe move to constants
     case name
-    when I18n.t('events.baptismal_certificate')
+    when BaptismalCertificate.event_name
       Event::Route::BAPTISMAL_CERTIFICATE
-    when I18n.t('events.candidate_covenant_agreement')
+    when Candidate.covenant_agreement_event_name
       Event::Other::CANDIDATE_COVENANT_AGREEMENT
-    when I18n.t('events.candidate_information_sheet')
+    when CandidateSheet.event_name
       Event::Other::CANDIDATE_INFORMATION_SHEET
-    when I18n.t('events.christian_ministry')
+    when ChristianMinistry.event_name
       Event::Route::CHRISTIAN_MINISTRY
-    when I18n.t('events.confirmation_name')
+    when PickConfirmationName.event_name
       Event::Route::CONFIRMATION_NAME
-    when I18n.t('events.parent_meeting')
+    when Candidate.parent_meeting_event_name
       Event::Other::PARENT_INFORMATION_MEETING
-    when I18n.t('events.sponsor_covenant')
+    when SponsorCovenant.event_name
       Event::Route::SPONSOR_COVENANT
-    when I18n.t('events.retreat_verification')
+    when RetreatVerification.event_name
       Event::Route::RETREAT_VERIFICATION
     else
       raise "Unknown event to route: #{name}"

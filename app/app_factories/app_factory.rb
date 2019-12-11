@@ -29,7 +29,7 @@ class AppFactory
   #
   # New instance
   #
-  def self.create_admin(options={})
+  def self.create_admin(options = {})
     Admin.new(options)
   end
 
@@ -165,7 +165,7 @@ class AppFactory
 
   # create or find the Admin - reseting password.  Then create the seed
   #
-  def self.generate_seed(contact_name='Vicki Kristoff', contact_phone='919-249-5629', email='stmm.confirmation@kristoffs.com')
+  def self.generate_seed(contact_name = 'Vicki Kristoff', contact_phone = '919-249-5629', email = 'stmm.confirmation@kristoffs.com')
     Admin.find_or_create_by!(email: email) do |admin|
       admin.name = Rails.application.secrets.admin_name
       admin.contact_name = contact_name
@@ -233,7 +233,7 @@ class AppFactory
       AppFactory.revert_confirmation_event(ce_name)
     end
     every_event_names = all_i18n_confirmation_event_names
-    every_event_names.each { |event_name| self.add_confirmation_event(I18n.t(event_name)) }
+    every_event_names.each { |event_name| self.add_confirmation_event(event_name) }
     every_event_names
   end
 
@@ -245,22 +245,22 @@ class AppFactory
   #
   def self.all_i18n_confirmation_event_names
     [
-        # matches 20160603111604_add_parent_information_meeting.rb
-        'events.parent_meeting',
-        # matches 20160603161241_add_attend_retreat.rb
-        'events.retreat_verification',
-        # matches 20160701175828_add_covenant_agreement.rb
-        'events.candidate_covenant_agreement',
-        # matches 20160712191417_add_candidate_information_sheet.rb
-        'events.candidate_information_sheet',
-        # matches 20160712191417_add_candidate_information_sheet.rb
-        'events.baptismal_certificate',
-        # matches 20160821215148_add_sponsor_covenant.rb
-        'events.sponsor_covenant',
-        # matches 20160825130031_add_pick_confirmation_name_event.rb
-        'events.confirmation_name',
-        # 20160830211438_add_christian_ministry_event.rb
-        'events.christian_ministry'
+      # matches 20160603111604_add_parent_information_meeting.rb
+      Candidate.parent_meeting_event_name,
+      # matches 20160603161241_add_attend_retreat.rb
+      RetreatVerification.event_name,
+      # matches 20160701175828_add_covenant_agreement.rb
+      Candidate.covenant_agreement_event_name,
+      # matches 20160712191417_add_candidate_information_sheet.rb
+      CandidateSheet.event_name,
+      # matches 20160712191417_add_candidate_information_sheet.rb
+      BaptismalCertificate.event_name,
+      # matches 20160821215148_add_sponsor_covenant.rb
+      SponsorCovenant.event_name,
+      # matches 20160825130031_add_pick_confirmation_name_event.rb
+      PickConfirmationName.event_name,
+      # 20160830211438_add_christian_ministry_event.rb
+      ChristianMinistry.event_name
     ]
   end
 

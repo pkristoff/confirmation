@@ -34,8 +34,8 @@ en:
     past_due: Past due events
     pre_coming_due_input_label: The pre-coming due text
     pre_late_input_label: The pre-late text
-    reset_password_subject: StMM website for Confirmation Candidates - Reset password
-      instructions
+    reset_password_subject: "%{home_parish} website for Confirmation Candidates -
+      Reset password instructions"
     salutation_initial_input: Please email me if you have any questions
     salutation_input_label: Salutation text
     subject_initial_input: Confirmation Information Status

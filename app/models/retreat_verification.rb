@@ -67,7 +67,7 @@ class RetreatVerification < ApplicationRecord
   # String
   #
   def self.event_name
-    I18n.t('events.retreat_verification')
+    'Attend Retreat'
   end
 
   # Validate if event is complete by adding validation errors to active record

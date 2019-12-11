@@ -107,7 +107,7 @@ describe AppFactory do
       every_event_names = all_event_names
       AppFactory.add_confirmation_events
       every_event_names.each do |event_name|
-        expect(ConfirmationEvent.find_by(name: I18n.t(event_name))).not_to eq(nil)
+        expect(ConfirmationEvent.find_by(name: event_name)).not_to eq(nil)
       end
       expect(ConfirmationEvent.all.size).to eq(all_event_names.size)
     end
@@ -117,7 +117,7 @@ describe AppFactory do
     config = YAML.load_file('config/locales/en.yml')
     every_event_names = []
     config['en']['events'].each do |event_name_entry|
-      every_event_names << "events.#{event_name_entry[0]}"
+      every_event_names << event_name_entry[1]
     end
     every_event_names
   end

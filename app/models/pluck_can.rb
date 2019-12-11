@@ -113,7 +113,7 @@ class PluckCan
     Candidate.joins(:candidate_sheet).pluck(:id, :first_name, :middle_name, :last_name, :baptismal_certificate_id).map do |cand_info|
       candidate_id = cand_info[0]
       event = candidate_events[candidate_id].find do |cand_event_for_cand|
-        cand_event_for_cand[3] == I18n.t('events.baptismal_certificate')
+        cand_event_for_cand[3] == BaptismalCertificate.event_name
       end
       PluckCan.new(cand_info, candidate_events, event)
     end

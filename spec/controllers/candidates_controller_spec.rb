@@ -109,7 +109,7 @@ describe CandidatesController do
       # expect(response).to render_template('candidates/pick_confirmation_name_verify')
       expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
+      cand_event = cand.get_candidate_event(PickConfirmationName.event_name)
       expect(cand_event.completed_date).to eq(nil)
       expect(cand_event.verified).to eq(false)
     end

@@ -304,7 +304,7 @@ class CommonCandidatesController < ApplicationController
   def sign_agreement_update
     @candidate = Candidate.find(params[:id])
     @is_verify = false
-    rendered_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'))
+    rendered_called = agreement_update_private(Candidate.covenant_agreement_event_name, 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'))
     return if rendered_called
 
     @resource = @candidate
@@ -339,7 +339,7 @@ class CommonCandidatesController < ApplicationController
 
     @candidate = Candidate.find(params[:id])
     @is_verify = true
-    render_called = agreement_update_private(I18n.t('events.candidate_covenant_agreement'), 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'), true)
+    render_called = agreement_update_private(Candidate.covenant_agreement_event_name, 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'), true)
     render :sign_agreement_verify unless render_called
   end
 

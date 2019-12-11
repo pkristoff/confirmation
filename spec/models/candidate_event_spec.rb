@@ -213,8 +213,8 @@ describe CandidateEvent, type: :model do
     end
     context 'routes' do
       it 'mapping candidate_event.name to route' do
-        AppFactory.all_i18n_confirmation_event_names.each do |i18n_name|
-          expect(@candidate.get_candidate_event(I18n.t(i18n_name)).route).to eq(i18n_name.split('.')[1].to_sym)
+        AppFactory.all_i18n_confirmation_event_names.each do |event_name|
+          expect(@candidate.get_candidate_event(event_name).route).to eq(Candidate.event_route(event_name))
         end
       end
     end
@@ -223,7 +223,7 @@ describe CandidateEvent, type: :model do
   describe 'status' do
     before(:each) do
       candidate = FactoryBot.create(:candidate)
-      event_key = I18n.t('events.candidate_covenant_agreement')
+      event_key = Candidate.covenant_agreement_event_name
       AppFactory.add_confirmation_event(event_key)
       @candidate = Candidate.find_by(account_name: candidate.account_name)
       @candidate_event = @candidate.get_candidate_event(event_key)
@@ -279,7 +279,7 @@ describe CandidateEvent, type: :model do
   describe 'mark_completed' do
     it 'validated event will be completed and verified.' do
       candidate = FactoryBot.create(:candidate)
-      event_key = I18n.t('events.baptismal_certificate')
+      event_key = BaptismalCertificate.event_name
       AppFactory.add_confirmation_event(event_key)
       candidate = Candidate.find_by(account_name: candidate.account_name)
       candidate_event = candidate.get_candidate_event(event_key)
@@ -298,7 +298,7 @@ describe CandidateEvent, type: :model do
 
     it 'validated event will be uncompleted and unverified.' do
       candidate = FactoryBot.create(:candidate)
-      event_key = I18n.t('events.baptismal_certificate')
+      event_key = BaptismalCertificate.event_name
       AppFactory.add_confirmation_event(event_key)
       candidate = Candidate.find_by(account_name: candidate.account_name)
       candidate_event = candidate.get_candidate_event(event_key)
@@ -317,7 +317,7 @@ describe CandidateEvent, type: :model do
 
     it 'validated event will be uncompleted and unverified.' do
       candidate = FactoryBot.create(:candidate)
-      event_key = I18n.t('events.baptismal_certificate')
+      event_key = BaptismalCertificate.event_name
       AppFactory.add_confirmation_event(event_key)
       candidate = Candidate.find_by(account_name: candidate.account_name)
       candidate_event = candidate.get_candidate_event(event_key)

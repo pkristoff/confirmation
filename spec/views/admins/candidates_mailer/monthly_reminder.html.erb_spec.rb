@@ -72,12 +72,12 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       ce.completed_date = @today
       info = []
       case ce.name
-      when I18n.t('events.confirmation_name')
+      when PickConfirmationName.event_name
         info << ['Confirmation name', 'Bolt']
-      when I18n.t('events.sponsor_covenant')
+      when SponsorCovenant.event_name
         info << ['Sponsor name', 'The Boss']
         info << ['Sponsor attends', Visitor.home_parish]
-      when I18n.t('events.baptismal_certificate')
+      when BaptismalCertificate.event_name
         info << ['Birthday', '1999-03-05']
         info << ['Baptismal date', '1999-05-05']
         info << ['Father\'s name', 'A B C']
@@ -88,7 +88,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['City', 'Very Wet City']
         info << %w[State HA]
         info << ['Zip Code', '12345']
-      when I18n.t('events.candidate_information_sheet')
+      when CandidateSheet.event_name
         info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
         info << [:program_year, '2']
@@ -97,13 +97,13 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:city, 'Apex']
         info << [:state, 'NC']
         info << [:zipcode, '27502']
-      when I18n.t('events.christian_ministry')
+      when ChristianMinistry.event_name
         'no info' # rubiocop
-      when I18n.t('events.parent_meeting')
+      when Candidate.parent_meeting_event_name
         'no info' # rubiocop
-      when I18n.t('events.retreat_verification')
+      when RetreatVerification.event_name
         'no info' # rubiocop
-      when I18n.t('events.candidate_covenant_agreement')
+      when Candidate.covenant_agreement_event_name
         'no info' # rubiocop
       else
         raise("Unknown event name:  #{ce.name}")
@@ -124,12 +124,12 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       ce.completed_date = @today
       info = []
       case ce.name
-      when I18n.t('events.confirmation_name')
+      when PickConfirmationName.event_name
         info << ['Confirmation name', 'Bolt']
-      when I18n.t('events.sponsor_covenant')
+      when SponsorCovenant.event_name
         info << ['Sponsor name', 'The Boss']
         info << ['Sponsor attends', Visitor.home_parish]
-      when I18n.t('events.baptismal_certificate')
+      when BaptismalCertificate.event_name
         info << ['Birthday', '1999-03-05']
         info << ['Baptismal date', '1999-05-05']
         info << ['Father\'s name', 'A B C']
@@ -140,7 +140,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['City', 'Very Wet City']
         info << %w[State HA]
         info << ['Zip Code', '12345']
-      when I18n.t('events.candidate_information_sheet')
+      when CandidateSheet.event_name
         info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
         info << [:program_year, '2']
@@ -149,13 +149,13 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:city, 'Apex']
         info << [:state, 'NC']
         info << [:zipcode, '27502']
-      when I18n.t('events.christian_ministry')
+      when ChristianMinistry.event_name
         'no info' # rubiocop
-      when I18n.t('events.parent_meeting')
+      when Candidate.parent_meeting_event_name
         'no info' # rubiocop
-      when I18n.t('events.retreat_verification')
+      when RetreatVerification.event_name
         'no info' # rubiocop
-      when I18n.t('events.candidate_covenant_agreement')
+      when Candidate.covenant_agreement_event_name
         'no info' # rubiocop
       else
         raise("Unknown event name:  #{ce.name}")
@@ -193,8 +193,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |i18n_name| i18n_name != 'events.parent_meeting' && i18n_name != 'events.retreat_verification' && i18n_name != 'events.christian_ministry' }.map do |i18n_name|
-      name = I18n.t(i18n_name)
+    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |event_name| event_name != Candidate.parent_meeting_event_name && event_name != RetreatVerification.event_name && event_name != ChristianMinistry.event_name }.map do |event_name|
+      name = event_name
       id = @candidate.get_candidate_event(name).id
       [name, id, @today]
     end
