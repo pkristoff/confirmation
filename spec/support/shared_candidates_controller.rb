@@ -11,7 +11,7 @@ shared_context 'baptismal_certificate' do
   it 'should show baptismal_certificate for the candidate.' do
     expect(@candidate.baptismal_certificate).not_to eq(nil)
 
-    put :event_with_picture, params: { id: @candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE }
+    put :event_with_picture, params: { id: @candidate.id, event_key: Event::Route::BAPTISMAL_CERTIFICATE }
 
     # expect(response).to render_template('event_with_picture')
     expect(controller.candidate).to eq(@candidate)
@@ -28,7 +28,7 @@ shared_context 'baptismal_certificate' do
 
     put :event_with_picture_update,
         params: { id: candidate.id,
-                  event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+                  event_key: Event::Route::BAPTISMAL_CERTIFICATE,
                   candidate: { baptismal_certificate_attributes: { baptized_at_home_parish: '1', show_empty_radio: 1 } } }
 
     candidate = Candidate.find(@candidate.id)
@@ -46,7 +46,7 @@ shared_context 'baptismal_certificate' do
     expect(candidate_event.completed_date).to eq(nil)
     expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
 
-    put :event_with_picture_update, params: { id: candidate.id, event_name: Event::Route::BAPTISMAL_CERTIFICATE }
+    put :event_with_picture_update, params: { id: candidate.id, event_key: Event::Route::BAPTISMAL_CERTIFICATE }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(I18n.t('events.baptismal_certificate'))
@@ -66,7 +66,7 @@ shared_context 'baptismal_certificate' do
 
     put :event_with_picture_update,
         params: { id: candidate.id,
-                  event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+                  event_key: Event::Route::BAPTISMAL_CERTIFICATE,
                   candidate: { baptismal_certificate_attributes: { baptized_at_home_parish: '0' } } }
 
     candidate = Candidate.find(@candidate.id)
@@ -90,7 +90,7 @@ shared_context 'baptismal_certificate' do
     vps[:certificate_picture] = fixture_file_upload('Baptismal Certificate.png', 'image/png')
     put :event_with_picture_update,
         params: { id: candidate.id,
-                  event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+                  event_key: Event::Route::BAPTISMAL_CERTIFICATE,
                   candidate: { baptismal_certificate_attributes: vps } }
 
     expect(response.status).to eq(200)
@@ -112,7 +112,7 @@ shared_context 'baptismal_certificate' do
       put :event_with_picture_update,
           params: { id: candidate.id,
                     commit: commit_value,
-                    event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+                    event_key: Event::Route::BAPTISMAL_CERTIFICATE,
                     candidate: { baptismal_certificate_attributes: cand_bc_params } }
 
       candidate = Candidate.find(@candidate.id)
@@ -138,7 +138,7 @@ shared_context 'baptismal_certificate' do
 
       put :event_with_picture_update,
           params: { id: candidate.id,
-                    event_name: Event::Route::BAPTISMAL_CERTIFICATE,
+                    event_key: Event::Route::BAPTISMAL_CERTIFICATE,
                     candidate: { baptismal_certificate_attributes: cand_bc_params } }
 
       candidate = Candidate.find(@candidate.id)
@@ -251,7 +251,7 @@ shared_context 'retreat_verification' do
       put :event_with_picture_update,
           params: { id: candidate.id,
                     commit: commit_value,
-                    event_name: Event::Route::RETREAT_VERIFICATION,
+                    event_key: Event::Route::RETREAT_VERIFICATION,
                     candidate: { retreat_verification_attributes: cand_rv_params } }
 
       candidate = Candidate.find(@candidate.id)
@@ -277,7 +277,7 @@ shared_context 'retreat_verification' do
 
       put :event_with_picture_update,
           params: { id: candidate.id,
-                    event_name: Event::Route::RETREAT_VERIFICATION,
+                    event_key: Event::Route::RETREAT_VERIFICATION,
                     candidate: { retreat_verification_attributes: cand_bc_params } }
 
       candidate = Candidate.find(@candidate.id)
@@ -334,7 +334,7 @@ shared_context 'sponsor_covenant' do
       put :event_with_picture_update,
           params: { id: candidate.id,
                     commit: commit_value,
-                    event_name: Event::Route::SPONSOR_COVENANT,
+                    event_key: Event::Route::SPONSOR_COVENANT,
                     candidate: { sponsor_covenant_attributes: cand_sc_params } }
 
       candidate = Candidate.find(@candidate.id)
@@ -360,7 +360,7 @@ shared_context 'sponsor_covenant' do
 
       put :event_with_picture_update,
           params: { id: candidate.id,
-                    event_name: Event::Route::SPONSOR_COVENANT,
+                    event_key: Event::Route::SPONSOR_COVENANT,
                     candidate: { sponsor_covenant_attributes: cand_sc_params } }
 
       candidate = Candidate.find(@candidate.id)
@@ -384,7 +384,7 @@ shared_context 'sponsor_covenant' do
       put :event_with_picture_update,
           params: { id: candidate.id,
                     commit: commit_value,
-                    event_name: Event::Route::SPONSOR_COVENANT,
+                    event_key: Event::Route::SPONSOR_COVENANT,
                     candidate: { sponsor_covenant_attributes: cand_sc_params } }
 
       candidate = Candidate.find(@candidate.id)

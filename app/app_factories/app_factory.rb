@@ -65,13 +65,13 @@ class AppFactory
   #
   # === Parameters:
   #
-  # * <tt>:event_name</tt> options for a new Admin
+  # * <tt>:event_key</tt> options for a new Admin
   #
-  def self.revert_confirmation_event(event_name)
-    # puts "reverting: #{event_name}"
+  def self.revert_confirmation_event(event_key)
+    # puts "reverting: #{event_key}"
     Candidate.all.each do |candidate|
       # puts "reverting candidate: #{candidate.account_name}"
-      founds = candidate.candidate_events.select { |candidate_event| candidate_event.confirmation_event.nil? or candidate_event.name == event_name }
+      founds = candidate.candidate_events.select { |candidate_event| candidate_event.confirmation_event.nil? or candidate_event.name == event_key }
       founds.each do |found|
         # puts "found candidate_event: #{found.name}" unless found.confirmation_event.nil?
         # puts "found empty confirmation_event" if found.confirmation_event.nil?
@@ -81,7 +81,7 @@ class AppFactory
 
     end
     # puts 'about to destroy ConfirmationEvent'
-    confirmation_event = ConfirmationEvent.find_by(name: event_name)
+    confirmation_event = ConfirmationEvent.find_by(name: event_key)
     confirmation_event.destroy unless confirmation_event.nil?
     # puts "done reverting: #{event_name}"
   end
@@ -97,18 +97,15 @@ class AppFactory
   #
   # New instance
   #
-  def self.add_confirmation_event(event_name)
-    raise('add_confirmation_event: event_name cannot be nil') if event_name.nil? || event_name.empty?
+  def self.add_confirmation_event(event_key)
+    raise('add_confirmation_event: event_key cannot be nil') if event_key.nil? || event_key.empty?
     # no longer an error so can migrate from a new db.
-    if ConfirmationEvent.find_by(name: event_name)
-      # puts("add_confirmation_event: event_name already defined: #{event_name}")
-      AppFactory.revert_confirmation_event(event_name)
+    if ConfirmationEvent.find_by(name: event_key)
+      AppFactory.revert_confirmation_event(event_key)
     end
-    # puts 'starting event_name'
     new_confirmation_event = nil
-    event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
-      confirmation_event.name = event_name
-      # puts 'attempting the_way_due_date'
+    event = ConfirmationEvent.find_or_create_by!(name: event_key) do |confirmation_event|
+      confirmation_event.name = event_key
       today = Time.zone.today
       confirmation_event.the_way_due_date = today
       confirmation_event.chs_due_date = today
@@ -125,7 +122,6 @@ class AppFactory
         candidate.save
       end
     end
-    # puts 'ending event_name'
     event
   end
 
@@ -133,17 +129,16 @@ class AppFactory
   #
   # === Parameters:
   #
-  # * <tt>:event_name</tt> ConfirmationEvent name
+  # * <tt>:event_key</tt> ConfirmationEvent name
   #
   # === Returns:
   #
   # CandidateEvent
   #
-  def self.add_confirmation_event_due_date(event_name)
-    # puts 'starting event_name'
+  def self.add_confirmation_event_due_date(event_key)
     new_confirmation_event = nil
-    event = ConfirmationEvent.find_or_create_by!(name: event_name) do |confirmation_event|
-      confirmation_event.name = event_name
+    event = ConfirmationEvent.find_or_create_by!(name: event_key) do |confirmation_event|
+      confirmation_event.name = event_key
       # puts 'attempting due_date'
       confirmation_event.due_date = Time.zone.today
       # puts 'done attempting due_date'
@@ -152,14 +147,12 @@ class AppFactory
       # puts "new created #{confirmation_event.name} id: #{confirmation_event.id} due_date = #{confirmation_event.chs_due_date}"
     end
     unless new_confirmation_event.nil?
-      # puts 'adding to candidates'
       Candidate.all.each do |candidate|
         candidate.add_candidate_event(new_confirmation_event)
         # puts "adding to candidate: #{candidate.account_name}"
         candidate.save
       end
     end
-    # puts 'ending event_name'
     event
   end
 
@@ -176,8 +169,6 @@ class AppFactory
     end
     create_seed_candidate
   end
-
-  private
 
   # Create CandidateEvent based on confirmation_event
   #
@@ -226,6 +217,7 @@ class AppFactory
   # === Returns:
   #
   # Array: ConfirmationEvent name
+  # @todo change all_confirmation_event_names
   #
   def self.add_confirmation_events
     all_confirmation_event_names = ConfirmationEvent.all.map { |ce| ce.name }
@@ -246,21 +238,21 @@ class AppFactory
   def self.all_i18n_confirmation_event_names
     [
       # matches 20160603111604_add_parent_information_meeting.rb
-      Candidate.parent_meeting_event_name,
+      Candidate.parent_meeting_event_key,
       # matches 20160603161241_add_attend_retreat.rb
-      RetreatVerification.event_name,
+      RetreatVerification.event_key,
       # matches 20160701175828_add_covenant_agreement.rb
-      Candidate.covenant_agreement_event_name,
+      Candidate.covenant_agreement_event_key,
       # matches 20160712191417_add_candidate_information_sheet.rb
-      CandidateSheet.event_name,
+      CandidateSheet.event_key,
       # matches 20160712191417_add_candidate_information_sheet.rb
-      BaptismalCertificate.event_name,
+      BaptismalCertificate.event_key,
       # matches 20160821215148_add_sponsor_covenant.rb
-      SponsorCovenant.event_name,
+      SponsorCovenant.event_key,
       # matches 20160825130031_add_pick_confirmation_name_event.rb
-      PickConfirmationName.event_name,
+      PickConfirmationName.event_key,
       # 20160830211438_add_christian_ministry_event.rb
-      ChristianMinistry.event_name
+      ChristianMinistry.event_key
     ]
   end
 

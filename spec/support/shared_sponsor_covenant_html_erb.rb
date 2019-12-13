@@ -3,7 +3,7 @@
 SPONSOR_NAME = 'George Sponsor'
 SPONSOR_CHURCH = 'St. George'
 
-SPONSOR_COVENANT_EVENT = SponsorCovenant.event_name
+SPONSOR_COVENANT_EVENT = SponsorCovenant.event_key
 
 UPDATED_MESSAGE = I18n.t('messages.updated', cand_name: 'Sophia Agusta')
 

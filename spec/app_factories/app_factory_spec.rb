@@ -104,21 +104,21 @@ describe AppFactory do
     end
 
     it 'should add all confirmation events' do
-      every_event_names = all_event_names
+      every_event_names = all_event_keys
       AppFactory.add_confirmation_events
-      every_event_names.each do |event_name|
-        expect(ConfirmationEvent.find_by(name: event_name)).not_to eq(nil)
+      every_event_names.each do |event_key|
+        expect(ConfirmationEvent.find_by(name: event_key)).not_to eq(nil)
       end
-      expect(ConfirmationEvent.all.size).to eq(all_event_names.size)
+      expect(ConfirmationEvent.all.size).to eq(all_event_keys.size)
     end
   end
 
-  def all_event_names
+  def all_event_keys
     config = YAML.load_file('config/locales/en.yml')
-    every_event_names = []
+    every_event_keys = []
     config['en']['events'].each do |event_name_entry|
-      every_event_names << event_name_entry[1]
+      every_event_keys << event_name_entry[1]
     end
-    every_event_names
+    every_event_keys
   end
 end

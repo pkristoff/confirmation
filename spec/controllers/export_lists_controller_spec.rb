@@ -41,7 +41,7 @@ describe ExportListsController do
 
   it 'should return a xlxs Baptized attachment' do
     @c1.baptismal_certificate.baptized_at_home_parish = true
-    @c1.get_candidate_event(BaptismalCertificate.event_name).completed_date = @today
+    @c1.get_candidate_event(BaptismalCertificate.event_key).completed_date = @today
     @c1.save
 
     expect_send_data([@c1], [], [], [@c2], 'Baptized', 'baptized.xlsx', :baptism,
@@ -51,7 +51,7 @@ describe ExportListsController do
 
   it 'should return a xlxs retreat attachment' do
     @c1.retreat_verification.retreat_held_at_home_parish = true
-    @c1.get_candidate_event(RetreatVerification.event_name).completed_date = @today
+    @c1.get_candidate_event(RetreatVerification.event_key).completed_date = @today
     @c1.save
 
     expect_send_data([@c1], [], [], [@c2], 'Retreat', 'retreat.xlsx', :retreat,
@@ -61,7 +61,7 @@ describe ExportListsController do
 
   it 'should return a xlxs confirmation name attachment' do
     @c1.pick_confirmation_name.saint_name = 'Paul'
-    @c1.get_candidate_event(PickConfirmationName.event_name).completed_date = @today
+    @c1.get_candidate_event(PickConfirmationName.event_key).completed_date = @today
     @c1.save
 
     expect_send_data([], [@c1], [], [@c2], 'Confirm Names', 'confirmation_name.xlsx', :confirmation_name,
@@ -71,7 +71,7 @@ describe ExportListsController do
 
   it 'should return a xlxs sponsor attachment' do
     @c1.sponsor_covenant.sponsor_attends_home_parish = true
-    @c1.get_candidate_event(SponsorCovenant.event_name).completed_date = @today
+    @c1.get_candidate_event(SponsorCovenant.event_key).completed_date = @today
     @c1.save
 
     expect_send_data([@c1], [], [], [@c2], 'Sponsor', 'sponsor.xlsx', :sponsor,

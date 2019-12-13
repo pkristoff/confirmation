@@ -107,7 +107,7 @@ class SponsorCovenant < ApplicationRecord
   #
   # * <tt>String</tt>
   #
-  def self.event_name
+  def self.event_key
     'Sponsor Covenant & Sponsor Eligibility'
   end
 

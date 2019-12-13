@@ -147,9 +147,9 @@ class CandidatesController < CommonCandidatesController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = CandidateSheet.event_name
+    event_key = CandidateSheet.event_key
     @candidate = Candidate.find(candidate_id)
-    candidate_event = @candidate.get_candidate_event(event_name)
+    candidate_event = @candidate.get_candidate_event(event_key)
 
     return admin_unverified_private(@candidate, candidate_event) if is_unverify
 
@@ -182,9 +182,9 @@ class CandidatesController < CommonCandidatesController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = ChristianMinistry.event_name
+    event_key = ChristianMinistry.event_key
     @candidate = Candidate.find(candidate_id)
-    candidate_event = @candidate.get_candidate_event(event_name)
+    candidate_event = @candidate.get_candidate_event(event_key)
 
     return admin_unverified_private(@candidate, candidate_event) if is_unverify
 
@@ -217,9 +217,9 @@ class CandidatesController < CommonCandidatesController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = PickConfirmationName.event_name
+    event_key = PickConfirmationName.event_key
     @candidate = Candidate.find(candidate_id)
-    candidate_event = @candidate.get_candidate_event(event_name)
+    candidate_event = @candidate.get_candidate_event(event_key)
 
     return admin_unverified_private(@candidate, candidate_event) if is_unverify
 

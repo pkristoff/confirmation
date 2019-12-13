@@ -87,49 +87,49 @@ module ApplicationHelper
     # admin vs. candidate.
     is_candidate_logged_in = current_admin.nil?
     case confirmation_event_name
-    when Candidate.covenant_agreement_event_name
+    when Candidate.covenant_agreement_event_key
       if is_candidate_logged_in
         dev_sign_agreement_path(candidate_id)
       else
         sign_agreement_path(candidate_id)
       end
-    when CandidateSheet.event_name
+    when CandidateSheet.event_key
       if is_candidate_logged_in
         dev_candidate_sheet_path(candidate_id)
       else
         candidate_sheet_path(candidate_id)
       end
-    when BaptismalCertificate.event_name
+    when BaptismalCertificate.event_key
       if is_candidate_logged_in
         dev_event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
       else
         event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
       end
-    when SponsorCovenant.event_name
+    when SponsorCovenant.event_key
       if is_candidate_logged_in
         dev_event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
       else
         event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
       end
-    when PickConfirmationName.event_name
+    when PickConfirmationName.event_key
       if is_candidate_logged_in
         dev_pick_confirmation_name_path(candidate_id)
       else
         pick_confirmation_name_path(candidate_id)
       end
-    when ChristianMinistry.event_name
+    when ChristianMinistry.event_key
       if is_candidate_logged_in
         dev_christian_ministry_path(candidate_id)
       else
         christian_ministry_path(candidate_id)
       end
-    when RetreatVerification.event_name
+    when RetreatVerification.event_key
       if is_candidate_logged_in
         dev_event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
       else
         event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
       end
-    when Candidate.parent_meeting_event_name
+    when Candidate.parent_meeting_event_key
       if is_candidate_logged_in
         dev_event_with_picture_path(candidate_id, Event::Other::PARENT_INFORMATION_MEETING)
       else

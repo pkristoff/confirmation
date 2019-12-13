@@ -154,7 +154,7 @@ module ViewsHelpers
   def setup_unknown_missing_events
     AppFactory.all_i18n_confirmation_event_names.each do |event_name|
       i18n_confirmation_name = event_name
-      AppFactory.add_confirmation_event(i18n_confirmation_name) unless event_name == SponsorCovenant.event_name
+      AppFactory.add_confirmation_event(i18n_confirmation_name) unless event_name == SponsorCovenant.event_key
     end
     AppFactory.add_confirmation_event('unknown event')
   end

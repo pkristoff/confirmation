@@ -212,7 +212,7 @@ describe Candidate do
     end
 
     it 'baptismal_external_verification?' do
-      event_key = BaptismalCertificate.event_name
+      event_key = BaptismalCertificate.event_key
       @c1.baptismal_certificate.baptized_at_home_parish = false
       @c1.baptismal_certificate.first_comm_at_home_parish = false
       @c1.get_candidate_event(event_key).completed_date = @today
@@ -234,7 +234,7 @@ describe Candidate do
     end
 
     it 'confirmation_name_external_verification' do
-      event_key = PickConfirmationName.event_name
+      event_key = PickConfirmationName.event_key
       @c1.pick_confirmation_name.saint_name = 'xxx'
       @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
@@ -256,7 +256,7 @@ describe Candidate do
     end
 
     it 'retreat_external_verification??' do
-      event_key = RetreatVerification.event_name
+      event_key = RetreatVerification.event_key
       @c1.retreat_verification.retreat_held_at_home_parish = false
       @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
@@ -271,7 +271,7 @@ describe Candidate do
     end
 
     it 'sponsor_external_verification?' do
-      event_key = SponsorCovenant.event_name
+      event_key = SponsorCovenant.event_key
       @c1.sponsor_covenant.sponsor_attends_home_parish = false
       @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save

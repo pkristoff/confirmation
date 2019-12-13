@@ -21,8 +21,8 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture_verify
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
-    event_name = params[:event_name]
-    render_event_with_picture(false, event_name, true)
+    event_key = params[:event_key]
+    render_event_with_picture(false, event_key, true)
   end
 
   # update event_with_picture verify event
@@ -53,7 +53,7 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
-    event_name = params[:event_name]
+    event_name = params[:event_key]
     render_event_with_picture(false, event_name)
   end
 
@@ -74,7 +74,7 @@ class CommonCandidatesController < ApplicationController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = params.require(:event_name)
+    event_name = params.require(:event_key)
     @candidate = Candidate.find(candidate_id)
     candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
 
@@ -304,7 +304,7 @@ class CommonCandidatesController < ApplicationController
   def sign_agreement_update
     @candidate = Candidate.find(params[:id])
     @is_verify = false
-    rendered_called = agreement_update_private(Candidate.covenant_agreement_event_name, 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'))
+    rendered_called = agreement_update_private(Candidate.covenant_agreement_event_key, 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'))
     return if rendered_called
 
     @resource = @candidate
@@ -339,7 +339,7 @@ class CommonCandidatesController < ApplicationController
 
     @candidate = Candidate.find(params[:id])
     @is_verify = true
-    render_called = agreement_update_private(Candidate.covenant_agreement_event_name, 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'), true)
+    render_called = agreement_update_private(Candidate.covenant_agreement_event_key, 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'), true)
     render :sign_agreement_verify unless render_called
   end
 
@@ -357,8 +357,8 @@ class CommonCandidatesController < ApplicationController
 
   private
 
-  def agreement_update_private(event_name, signed_param_name, field_name, admin_verified = false)
-    candidate_event = @candidate.get_candidate_event(event_name)
+  def agreement_update_private(event_key, signed_param_name, field_name, admin_verified = false)
+    candidate_event = @candidate.get_candidate_event(event_key)
     if params['candidate']
       # TODO: move logic to association instance.
       if params['candidate'][signed_param_name] == '1'
@@ -381,12 +381,12 @@ class CommonCandidatesController < ApplicationController
       @candidate.errors.add :base, I18n.t('messages.signed_agreement_val', field_name: field_name) if candidate_event.completed_date.nil?
       if candidate_event.save
         if admin_verified
-          render_called = admin_verified_private(candidate_event, event_name)
+          render_called = admin_verified_private(candidate_event, event_key)
         else
           flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
         end
       else
-        flash['alert'] = "Save of #{event_name} failed"
+        flash['alert'] = "Save of #{event_key} failed"
       end
       render_called
     else
@@ -397,7 +397,7 @@ class CommonCandidatesController < ApplicationController
 
   def event_with_picture_update_private(clazz, admin_verified = false)
     render_called = false
-    event_name = clazz.event_name
+    event_key = clazz.event_key
 
     if @candidate.update(candidate_params)
 
@@ -414,17 +414,17 @@ class CommonCandidatesController < ApplicationController
         end
       end
 
-      candidate_event = @candidate.get_candidate_event(event_name)
+      candidate_event = @candidate.get_candidate_event(event_key)
       candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
       if candidate_event.save
         # @resource = @candidate
         if admin_verified
-          render_called = admin_verified_private(candidate_event, event_name)
+          render_called = admin_verified_private(candidate_event, event_key)
         else
           flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
         end
       else
-        flash['alert'] = "Save of #{event_name} failed"
+        flash['alert'] = "Save of #{event_key} failed"
       end
     else
       flash['alert'] = 'Update_attributes fails'
@@ -438,13 +438,13 @@ class CommonCandidatesController < ApplicationController
   # === Parameters:
   #
   # * <tt>:candidate_event</tt> CandidateEvent
-  # * <tt>:event_name</tt> ConfirmationEvent name
+  # * <tt>:event_key</tt> ConfirmationEvent name
   #
   # === Returns:
   #
   # Boolean:  whether render was called
   #
-  def admin_verified_private(candidate_event, event_name)
+  def admin_verified_private(candidate_event, event_key)
     render_called = false
     cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
     if @candidate.errors.any?
@@ -457,7 +457,7 @@ class CommonCandidatesController < ApplicationController
         candidates_info(confirmation_event: candidate_event.confirmation_event)
         render(:'admins/mass_edit_candidates_event')
       else
-        flash['alert'] = "Save of #{event_name} failed"
+        flash['alert'] = "Save of #{event_key} failed"
       end
     end
     render_called
@@ -469,7 +469,7 @@ class CommonCandidatesController < ApplicationController
   # === Parameters:
   #
   # * <tt>:candidate_event</tt> CandidateEvent
-  # * <tt>:event_name</tt> ConfirmationEvent name
+  # * <tt>:event_key</tt> ConfirmationEvent name
   #
   # === Returns:
   #
@@ -487,14 +487,14 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  def render_event_with_picture(render_called, event_name, is_verify = false)
+  def render_event_with_picture(render_called, event_key, is_verify = false)
     return if render_called
 
-    @event_with_picture_name = event_name
+    @event_with_picture_name = event_key
     @is_dev = !admin?
 
-    @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
-    flash[:alert] = "Internal Error: unknown event: #{event_name}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?
+    @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_key}"))
+    flash[:alert] = "Internal Error: unknown event: #{event_key}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?
     render :event_with_picture unless is_verify
     render :event_with_picture_verify if is_verify
   end

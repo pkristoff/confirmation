@@ -404,9 +404,9 @@ shared_context 'baptismal_certificate_html_erb' do
 
     @candidate.baptismal_certificate.baptized_at_home_parish = true
     @candidate.baptismal_certificate.show_empty_radio = 1
-    event_name = BaptismalCertificate.event_name
-    @candidate.get_candidate_event(event_name).completed_date = @today
-    @candidate.get_candidate_event(event_name).verified = true
+    event_key = BaptismalCertificate.event_key
+    @candidate.get_candidate_event(event_key).completed_date = @today
+    @candidate.get_candidate_event(event_key).verified = true
     @candidate.save
 
     visit @path
@@ -418,13 +418,13 @@ shared_context 'baptismal_certificate_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(@today)
-    expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
+    expect(candidate.get_candidate_event(event_key).completed_date).to eq(@today)
+    expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
   def expect_baptismal_certificate_form(cand_id, dev_path, path_str, button_name, is_verify, hide_first_comm, hide_baptismal_certificate, dont_show_values,

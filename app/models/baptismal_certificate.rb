@@ -134,7 +134,7 @@ class BaptismalCertificate < ApplicationRecord
   #
   # * <tt>String</tt>
   #
-  def self.event_name
+  def self.event_key
     'Baptismal Certificate'
   end
 

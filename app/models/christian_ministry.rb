@@ -35,7 +35,7 @@ class ChristianMinistry < ApplicationRecord
   #
   # * <tt>String</tt>
   #
-  def self.event_name
+  def self.event_key
     'Christian Ministry Awareness'
   end
 

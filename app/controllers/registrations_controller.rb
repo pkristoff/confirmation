@@ -17,13 +17,13 @@ class RegistrationsController < Devise::RegistrationsController
     params['candidate'][:password_confirmation] = '12345678'
 
     if @candidate.update(candidate_params)
-      event_name = CandidateSheet.event_name
-      candidate_event = @candidate.get_candidate_event(event_name)
+      event_key = CandidateSheet.event_key
+      candidate_event = @candidate.get_candidate_event(event_key)
       candidate_event.mark_completed(@candidate.validate_creation_complete(CandidateSheet), CandidateSheet)
       if candidate_event.save
         flash['notice'] = "Created #{cs['first_name']} #{cs['last_name']}"
       else
-        flash['alert'] = "Save of #{event_name} failed"
+        flash['alert'] = "Save of #{event_key} failed"
       end
     else
       flash['alert'] = "Save of creation of candidate failed: #{cs['first_name']} #{cs['last_name']} "

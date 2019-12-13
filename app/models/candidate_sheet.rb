@@ -125,7 +125,7 @@ class CandidateSheet < ApplicationRecord
   #
   # * <tt>String</tt>
   #
-  def self.event_name
+  def self.event_key
     'Candidate Information Sheet'
   end
 

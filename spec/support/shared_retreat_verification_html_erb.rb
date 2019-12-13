@@ -172,11 +172,11 @@ shared_context 'retreat_verification_html_erb' do
   scenario 'admin un-verifies a verified retreat verification event' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
-    event_name = RetreatVerification.event_name
+    event_key = RetreatVerification.event_key
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = true
-    candidate.get_candidate_event(event_name).completed_date = @today
-    candidate.get_candidate_event(event_name).verified = true
+    candidate.get_candidate_event(event_key).completed_date = @today
+    candidate.get_candidate_event(event_key).verified = true
     candidate.save
 
     visit @path
@@ -192,7 +192,7 @@ shared_context 'retreat_verification_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                        who_held_retreat: '',
@@ -201,8 +201,8 @@ shared_context 'retreat_verification_html_erb' do
                                        end_date: '')
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(@today)
-    expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
+    expect(candidate.get_candidate_event(event_key).completed_date).to eq(@today)
+    expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
   def expect_retreat_verification_form(cand_id, dev_path, path_str, is_verify,

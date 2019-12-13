@@ -72,12 +72,12 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       ce.completed_date = @today
       info = []
       case ce.name
-      when PickConfirmationName.event_name
+      when PickConfirmationName.event_key
         info << ['Confirmation name', 'Bolt']
-      when SponsorCovenant.event_name
+      when SponsorCovenant.event_key
         info << ['Sponsor name', 'The Boss']
         info << ['Sponsor attends', Visitor.home_parish]
-      when BaptismalCertificate.event_name
+      when BaptismalCertificate.event_key
         info << ['Birthday', '1999-03-05']
         info << ['Baptismal date', '1999-05-05']
         info << ['Father\'s name', 'A B C']
@@ -88,7 +88,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['City', 'Very Wet City']
         info << %w[State HA]
         info << ['Zip Code', '12345']
-      when CandidateSheet.event_name
+      when CandidateSheet.event_key
         info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
         info << [:program_year, '2']
@@ -97,13 +97,13 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:city, 'Apex']
         info << [:state, 'NC']
         info << [:zipcode, '27502']
-      when ChristianMinistry.event_name
+      when ChristianMinistry.event_key
         'no info' # rubiocop
-      when Candidate.parent_meeting_event_name
+      when Candidate.parent_meeting_event_key
         'no info' # rubiocop
-      when RetreatVerification.event_name
+      when RetreatVerification.event_key
         'no info' # rubiocop
-      when Candidate.covenant_agreement_event_name
+      when Candidate.covenant_agreement_event_key
         'no info' # rubiocop
       else
         raise("Unknown event name:  #{ce.name}")
@@ -124,12 +124,12 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       ce.completed_date = @today
       info = []
       case ce.name
-      when PickConfirmationName.event_name
+      when PickConfirmationName.event_key
         info << ['Confirmation name', 'Bolt']
-      when SponsorCovenant.event_name
+      when SponsorCovenant.event_key
         info << ['Sponsor name', 'The Boss']
         info << ['Sponsor attends', Visitor.home_parish]
-      when BaptismalCertificate.event_name
+      when BaptismalCertificate.event_key
         info << ['Birthday', '1999-03-05']
         info << ['Baptismal date', '1999-05-05']
         info << ['Father\'s name', 'A B C']
@@ -140,7 +140,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['City', 'Very Wet City']
         info << %w[State HA]
         info << ['Zip Code', '12345']
-      when CandidateSheet.event_name
+      when CandidateSheet.event_key
         info << [:name, 'Sophia Saraha Agusta']
         info << [:grade, '10']
         info << [:program_year, '2']
@@ -149,13 +149,13 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:city, 'Apex']
         info << [:state, 'NC']
         info << [:zipcode, '27502']
-      when ChristianMinistry.event_name
+      when ChristianMinistry.event_key
         'no info' # rubiocop
-      when Candidate.parent_meeting_event_name
+      when Candidate.parent_meeting_event_key
         'no info' # rubiocop
-      when RetreatVerification.event_name
+      when RetreatVerification.event_key
         'no info' # rubiocop
-      when Candidate.covenant_agreement_event_name
+      when Candidate.covenant_agreement_event_key
         'no info' # rubiocop
       else
         raise("Unknown event name:  #{ce.name}")
@@ -193,8 +193,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |event_name| event_name != Candidate.parent_meeting_event_name && event_name != RetreatVerification.event_name && event_name != ChristianMinistry.event_name }.map do |event_name|
-      name = event_name
+    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |event_key| event_key != Candidate.parent_meeting_event_key && event_key != RetreatVerification.event_key && event_key != ChristianMinistry.event_key }.map do |event_key|
+      name = event_key
       id = @candidate.get_candidate_event(name).id
       [name, id, @today]
     end

@@ -202,8 +202,8 @@ def expected_orphans
   }
 end
 
-def expect_confirmation_event(event_name, way_date, chs_date)
-  confirmation_event = ConfirmationEvent.find_by(name: event_name)
+def expect_confirmation_event(event_key, way_date, chs_date)
+  confirmation_event = ConfirmationEvent.find_by(name: event_key)
   expect(confirmation_event.the_way_due_date.to_s).to eq(way_date)
   expect(confirmation_event.chs_due_date.to_s).to eq(chs_date)
 end
@@ -211,14 +211,14 @@ end
 def expect_initial_conf_events
   today = Time.zone.today.to_s
 
-  expect_confirmation_event(Candidate.parent_meeting_event_name, today, today)
-  expect_confirmation_event(RetreatVerification.event_name, today, today)
-  expect_confirmation_event(Candidate.covenant_agreement_event_name, today, today)
-  expect_confirmation_event(CandidateSheet.event_name, today, today)
-  expect_confirmation_event(BaptismalCertificate.event_name, today, today)
-  expect_confirmation_event(SponsorCovenant.event_name, today, today)
-  expect_confirmation_event(PickConfirmationName.event_name, today, today)
-  expect_confirmation_event(ChristianMinistry.event_name, today, today)
+  expect_confirmation_event(Candidate.parent_meeting_event_key, today, today)
+  expect_confirmation_event(RetreatVerification.event_key, today, today)
+  expect_confirmation_event(Candidate.covenant_agreement_event_key, today, today)
+  expect_confirmation_event(CandidateSheet.event_key, today, today)
+  expect_confirmation_event(BaptismalCertificate.event_key, today, today)
+  expect_confirmation_event(SponsorCovenant.event_key, today, today)
+  expect_confirmation_event(PickConfirmationName.event_key, today, today)
+  expect_confirmation_event(ChristianMinistry.event_key, today, today)
 
   return unless ConfirmationEvent.all.size != 8
 
@@ -317,11 +317,11 @@ describe 'check_events' do
     candidate_import = CandidateImport.new
     candidate_import.start_new_year
     setup_unknown_missing_events
-    sponsor_covenant_event_name = SponsorCovenant.event_name
+    sponsor_covenant_event_key = SponsorCovenant.event_key
 
-    candidate_import.add_missing_events([sponsor_covenant_event_name])
+    candidate_import.add_missing_events([sponsor_covenant_event_key])
 
-    expect(ConfirmationEvent.find_by(name: sponsor_covenant_event_name).name).to eq(sponsor_covenant_event_name)
+    expect(ConfirmationEvent.find_by(name: sponsor_covenant_event_key).name).to eq(sponsor_covenant_event_key)
 
     expect(candidate_import.missing_confirmation_events.length).to be(0)
     expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_names.length)
@@ -622,7 +622,7 @@ def expect_candidate(values)
       expect(candidate.send(key)).to eq(value)
     end
   end
-  expect(candidate.candidate_events.size).to eq(all_event_names.size)
+  expect(candidate.candidate_events.size).to eq(all_event_keys.size)
 end
 
 def expect_candidates(wks, candidate_import)
@@ -806,20 +806,20 @@ def expect_confirmation_events(wks, candidate_import)
 end
 
 def expect_import_with_events
-  expect_confirmation_event(Candidate.parent_meeting_event_name, '2016-06-30', '2016-06-03')
-  expect_confirmation_event(RetreatVerification.event_name, '2016-05-31', '2016-05-03')
-  expect_confirmation_event(Candidate.covenant_agreement_event_name, '2016-07-31', '2016-07-13')
-  expect_confirmation_event(CandidateSheet.event_name, '2016-02-29', '2016-02-16')
-  expect_confirmation_event(BaptismalCertificate.event_name, '2016-08-31', '2016-08-12')
-  expect_confirmation_event(SponsorCovenant.event_name, '2016-10-31', '2016-10-15')
-  expect_confirmation_event(PickConfirmationName.event_name, '2016-11-30', '2016-11-20')
-  expect_confirmation_event(ChristianMinistry.event_name, '2017-01-31', '2017-01-22')
+  expect_confirmation_event(Candidate.parent_meeting_event_key, '2016-06-30', '2016-06-03')
+  expect_confirmation_event(RetreatVerification.event_key, '2016-05-31', '2016-05-03')
+  expect_confirmation_event(Candidate.covenant_agreement_event_key, '2016-07-31', '2016-07-13')
+  expect_confirmation_event(CandidateSheet.event_key, '2016-02-29', '2016-02-16')
+  expect_confirmation_event(BaptismalCertificate.event_key, '2016-08-31', '2016-08-12')
+  expect_confirmation_event(SponsorCovenant.event_key, '2016-10-31', '2016-10-15')
+  expect_confirmation_event(PickConfirmationName.event_key, '2016-11-30', '2016-11-20')
+  expect_confirmation_event(ChristianMinistry.event_key, '2017-01-31', '2017-01-22')
 
   ConfirmationEvent.all.each { |x| puts x.name } if ConfirmationEvent.all.size != 8
 
   expect(ConfirmationEvent.all.size).to eq(8)
 
-  confirmation_event2 = ConfirmationEvent.find_by(name: RetreatVerification.event_name)
+  confirmation_event2 = ConfirmationEvent.find_by(name: RetreatVerification.event_key)
   expect(confirmation_event2.the_way_due_date.to_s).to eq('2016-05-31')
   expect(confirmation_event2.chs_due_date.to_s).to eq('2016-05-03')
   expect(confirmation_event2.instructions).to eq("<h1>a heading</h1>\n<ul>\n<li>step 1</li>\n<li>step 2</li>\n</ul>\n<p> </p>\n<p> </p>")
@@ -872,13 +872,13 @@ def find_cell_offset(header_row, column_name)
   index
 end
 
-def all_event_names
+def all_event_keys
   config = YAML.load_file('config/locales/en.yml')
-  all_events_names = []
-  config['en']['events'].each do |event_name_entry|
-    all_events_names << "events.#{event_name_entry[0]}"
+  every_event_keys = []
+  config['en']['events'].each do |event_key_entry|
+    every_event_keys << "events.#{event_key_entry[0]}"
   end
-  all_events_names
+  every_event_keys
 end
 
 def foo_bar
@@ -904,35 +904,35 @@ def foo_bar
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
-        name: CandidateSheet.event_name,
+        name: CandidateSheet.event_key,
         due_date: '2016-02-29',
         verified: false },
       { completed_date: '', # Attend Retreat 5/31/16
-        name: RetreatVerification.event_name,
+        name: RetreatVerification.event_key,
         due_date: '2016-05-31',
         verified: false },
       { completed_date: '', # Parent Information Meeting 6/30/16
-        name: Candidate.parent_meeting_event_name,
+        name: Candidate.parent_meeting_event_key,
         due_date: '2016-06-30',
         verified: false },
       { completed_date: '', # Sign Agreement 7/31/2016
-        name: Candidate.covenant_agreement_event_name,
+        name: Candidate.covenant_agreement_event_key,
         due_date: '2016-07-31',
         verified: false },
       { completed_date: '', # Baptismal Certificate 8/31/16
-        name: BaptismalCertificate.event_name,
+        name: BaptismalCertificate.event_key,
         due_date: '2016-08-31',
         verified: false },
       { completed_date: '', # Christian Ministry Awareness 1/31/17
-        name: ChristianMinistry.event_name,
+        name: ChristianMinistry.event_key,
         due_date: '2017-01-31',
         verified: false },
       { completed_date: '2017-01-01', # Sponsor Covenant 10/31/16
-        name: SponsorCovenant.event_name,
+        name: SponsorCovenant.event_key,
         due_date: '2016-10-31',
         verified: false },
       { completed_date: '2016-12-25', # Confirmation Name
-        name: PickConfirmationName.event_name,
+        name: PickConfirmationName.event_key,
         due_date: '2016-11-30',
         verified: true }
     ]
@@ -962,34 +962,34 @@ def paul_kristoff
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet 2/29/16
-        name: CandidateSheet.event_name,
+        name: CandidateSheet.event_key,
         due_date: '2016-02-29',
         verified: false },
       { completed_date: '', # Sign Agreement 7/31/16
-        name: Candidate.covenant_agreement_event_name,
+        name: Candidate.covenant_agreement_event_key,
         due_date: '2016-07-31',
         verified: false },
       { completed_date: '', #  Baptismal Certificate 8/31/16
-        name: BaptismalCertificate.event_name,
+        name: BaptismalCertificate.event_key,
         due_date: '2016-08-31',
         verified: false },
       { completed_date: '', # Sponsor Covenant 10/31/16
-        name: SponsorCovenant.event_name,
+        name: SponsorCovenant.event_key,
         due_date: '2016-10-31',
         verified: false },
       { completed_date: '', # Confirmation Name
-        name: PickConfirmationName.event_name,
+        name: PickConfirmationName.event_key,
         due_date: '2016-11-30',
         verified: false },
       { completed_date: '', # Christian Ministry Awareness 1/31/17
-        name: ChristianMinistry.event_name,
+        name: ChristianMinistry.event_key,
         due_date: '2017-01-31',
         verified: false },
-      { name: RetreatVerification.event_name,
+      { name: RetreatVerification.event_key,
         completed_date: '2016-05-02', # Attend Retreat 5/31/16
         due_date: '2016-05-31',
         verified: true },
-      { name: Candidate.parent_meeting_event_name,
+      { name: Candidate.parent_meeting_event_key,
         completed_date: '2016-07-07', # Parent Information Meeting 6/30/16
         due_date: '2016-06-30',
         verified: false }
@@ -1020,35 +1020,35 @@ def vicki_kristoff
     },
     candidate_events_sorted: [
       { completed_date: '', # Fill Out Candidate Information Sheet
-        name: CandidateSheet.event_name,
+        name: CandidateSheet.event_key,
         due_date: '2016-02-16',
         verified: false },
       { completed_date: '', # Attend Retreat
-        name: RetreatVerification.event_name,
+        name: RetreatVerification.event_key,
         due_date: '2016-05-03',
         verified: false },
       { completed_date: '', # Parent Information Meeting
-        name: Candidate.parent_meeting_event_name,
+        name: Candidate.parent_meeting_event_key,
         due_date: '2016-06-03',
         verified: false },
       { completed_date: '', # Baptismal Certificate
-        name: BaptismalCertificate.event_name,
+        name: BaptismalCertificate.event_key,
         due_date: '2016-08-12',
         verified: false },
       { completed_date: '', # Sponsor Covenant
-        name: SponsorCovenant.event_name,
+        name: SponsorCovenant.event_key,
         due_date: '2016-10-15',
         verified: false },
       { completed_date: '', # Confirmation Name
-        name: PickConfirmationName.event_name,
+        name: PickConfirmationName.event_key,
         due_date: '2016-11-20',
         verified: false },
       { completed_date: '', # Christian Ministry Awareness 1/31/17
-        name: ChristianMinistry.event_name,
+        name: ChristianMinistry.event_key,
         due_date: '2017-01-22',
         verified: false },
       { completed_date: '2016-06-06', # Sign Agreement
-        name: Candidate.covenant_agreement_event_name,
+        name: Candidate.covenant_agreement_event_key,
         due_date: '2016-07-13',
         verified: true }
     ]

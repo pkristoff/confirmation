@@ -66,7 +66,7 @@ class RetreatVerification < ApplicationRecord
   #
   # String
   #
-  def self.event_name
+  def self.event_key
     'Attend Retreat'
   end
 

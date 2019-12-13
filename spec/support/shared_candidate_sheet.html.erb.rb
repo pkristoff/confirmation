@@ -68,10 +68,10 @@ shared_context 'candidate_sheet_html_erb' do
   scenario 'admin un-verifies a verified candidate sheet event' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
-    event_name = CandidateSheet.event_name
+    event_key = CandidateSheet.event_key
     today = Time.zone.today
-    @candidate.get_candidate_event(event_name).completed_date = today
-    @candidate.get_candidate_event(event_name).verified = true
+    @candidate.get_candidate_event(event_key).completed_date = today
+    @candidate.get_candidate_event(event_key).verified = true
     @candidate.save
 
     visit @path
@@ -83,13 +83,13 @@ shared_context 'candidate_sheet_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(today)
-    expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
+    expect(candidate.get_candidate_event(event_key).completed_date).to eq(today)
+    expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
   def expect_candidate_sheet_form(cand_id, path_str, dev_path, update_id, is_verify, values = {})

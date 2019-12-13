@@ -149,15 +149,15 @@ shared_context 'christian_ministry_html_erb' do
   scenario 'admin un-verifies a verified christian ministry event' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
-    event_name = ChristianMinistry.event_name
+    event_key = ChristianMinistry.event_key
     candidate = Candidate.find(@cand_id)
     candidate.christian_ministry.what_service = 'lll'
     candidate.christian_ministry.when_service = 'kkk'
     candidate.christian_ministry.where_service = 'ppp'
     candidate.christian_ministry.helped_me = 'ooo'
 
-    candidate.get_candidate_event(event_name).completed_date = @today
-    candidate.get_candidate_event(event_name).verified = true
+    candidate.get_candidate_event(event_key).completed_date = @today
+    candidate.get_candidate_event(event_key).verified = true
     candidate.save
     update_christian_ministry(true)
 
@@ -170,13 +170,13 @@ shared_context 'christian_ministry_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_name), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end
 
-    expect(candidate.get_candidate_event(event_name).completed_date).to eq(@today)
-    expect(candidate.get_candidate_event(event_name).verified).to eq(!@is_verify)
+    expect(candidate.get_candidate_event(event_key).completed_date).to eq(@today)
+    expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
   def fill_in_form

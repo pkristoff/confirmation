@@ -162,11 +162,11 @@ class Candidate < ApplicationRecord
     true
   end
 
-  def self.covenant_agreement_event_name
+  def self.covenant_agreement_event_key
     'Candidate Covenant Agreement'
   end
 
-  def self.parent_meeting_event_name
+  def self.parent_meeting_event_key
     'Parent Information Meeting'
   end
 
@@ -335,46 +335,46 @@ class Candidate < ApplicationRecord
     candidate
   end
 
-  # returns candidate_event whose name is event_name
+  # returns candidate_event whose name is event_key
   #
   # === Parameters:
   #
-  # * <tt>:event_name</tt> owner of association
+  # * <tt>:event_key</tt> owner of association
   #
   # === Returns:
   #
   # * <tt>Boolean</tt>
   #
-  def get_candidate_event(event_name)
-    event = candidate_events.find { |candidate_event| candidate_event.name == event_name }
+  def get_candidate_event(event_key)
+    event = candidate_events.find { |candidate_event| candidate_event.name == event_key }
     if event.nil?
-      Rails.logger.info("Could not find event: #{event_name}")
+      Rails.logger.info("Could not find event: #{event_key}")
       candidate_events.find { |candidate_event| Rails.logger.info candidate_event.name }
-      raise "Unknown candidate_event named: #{event_name}"
+      raise "Unknown candidate_event named: #{event_key}"
     end
     event
   end
 
-  def self.event_route(event_name)
-    case event_name
-    when Candidate.parent_meeting_event_name
+  def self.event_route(event_key)
+    case event_key
+    when Candidate.parent_meeting_event_key
       :parent_meeting
-    when RetreatVerification.event_name
+    when RetreatVerification.event_key
       :retreat_verification
-    when Candidate.covenant_agreement_event_name
+    when Candidate.covenant_agreement_event_key
       :candidate_covenant_agreement
-    when CandidateSheet.event_name
+    when CandidateSheet.event_key
       :candidate_information_sheet
-    when BaptismalCertificate.event_name
+    when BaptismalCertificate.event_key
       :baptismal_certificate
-    when SponsorCovenant.event_name
+    when SponsorCovenant.event_key
       :sponsor_covenant
-    when PickConfirmationName.event_name
+    when PickConfirmationName.event_key
       :confirmation_name
-    when ChristianMinistry.event_name
+    when ChristianMinistry.event_key
       :christian_ministry
     else
-      "unknown_event_name_#{event_name}"
+      "unknown_event_key_#{event_key}"
     end
   end
 
@@ -486,7 +486,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.baptismal_external_verification
-    external_verification(BaptismalCertificate.event_name, ->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish })
+    external_verification(BaptismalCertificate.event_key, ->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish })
   end
 
   # retreat needs admin verification
@@ -500,7 +500,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.retreat_external_verification
-    external_verification(RetreatVerification.event_name, ->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish })
+    external_verification(RetreatVerification.event_key, ->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish })
   end
 
   # confirmation name needs admin verification
@@ -517,26 +517,22 @@ class Candidate < ApplicationRecord
     external_verification(I18n.t('events.confirmation_name'))
   end
 
-  def self.external_verification(candidate_event_name, external_verification = ->(_candidate) { false })
+  def self.external_verification(candidate_event_key, external_verification = ->(_candidate) { false })
     external = []
     to_be_verified = []
     verified = []
     not_complete = []
     Candidate.order(:account_name).each do |candidate|
-      candidate_event = candidate.get_candidate_event(candidate_event_name)
+      candidate_event = candidate.get_candidate_event(candidate_event_key)
       if candidate_event.verified
-        # puts "#{candidate.account_name} verified"
         verified.push(candidate)
       elsif candidate_event.completed_date
         if external_verification.call(candidate)
-          # puts "#{candidate.account_name} external"
           external.push(candidate)
         else
-          # puts "#{candidate.account_name} to be verified"
           to_be_verified.push(candidate)
         end
       else
-        # puts "#{candidate.account_name} not complete"
         not_complete.push(candidate)
       end
     end
@@ -554,7 +550,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.sponsor_external_verification
-    external_verification(SponsorCovenant.event_name, ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish })
+    external_verification(SponsorCovenant.event_key, ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish })
   end
 
   # candidate events needs admin verification

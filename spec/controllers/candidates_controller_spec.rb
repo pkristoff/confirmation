@@ -109,7 +109,7 @@ describe CandidatesController do
       # expect(response).to render_template('candidates/pick_confirmation_name_verify')
       expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(PickConfirmationName.event_name)
+      cand_event = cand.get_candidate_event(PickConfirmationName.event_key)
       expect(cand_event.completed_date).to eq(nil)
       expect(cand_event.verified).to eq(false)
     end
@@ -291,7 +291,7 @@ describe CandidatesController do
       generate_cand_parms = event_info[2]
 
       it "should set @candidate: #{event_name_key}" do
-        get :event_with_picture_verify, params: { id: @c1_id, event_name: event_name_key }
+        get :event_with_picture_verify, params: { id: @c1_id, event_key: event_name_key }
 
         cand = Candidate.find(@c1_id)
         expect(controller.candidate).to eq(cand)
@@ -300,7 +300,7 @@ describe CandidatesController do
       end
 
       it "should stay on event_with_picture_verify, since it should not pass validation: #{event_name_key}" do
-        put :event_with_picture_verify_update, params: { id: @c1_id, event_name: event_name_key }
+        put :event_with_picture_verify_update, params: { id: @c1_id, event_key: event_name_key }
 
         cand = Candidate.find(@c1_id)
         expect(controller.candidate).to eq(cand)
@@ -326,7 +326,7 @@ describe CandidatesController do
 
         put :event_with_picture_verify_update,
             params: { id: @c1_id,
-                      event_name: event_name_key,
+                      event_key: event_name_key,
                       candidate: cand_parms }
 
         cand = Candidate.find(@c1_id)

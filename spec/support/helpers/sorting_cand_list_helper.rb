@@ -58,58 +58,58 @@ module SortingCandListHelpers
     expect(rendered_or_page).to have_css "#{table_id} tr", count: candidates_in_order.size + 1
   end
 
-  def event_name_to_path(event_name, candidate_id)
-    case event_name
-    when Candidate.covenant_agreement_event_name
+  def event_key_to_path(event_key, candidate_id)
+    case event_key
+    when Candidate.covenant_agreement_event_key
       sign_agreement_path(candidate_id)
-    when CandidateSheet.event_name
+    when CandidateSheet.event_key
       candidate_sheet_path(candidate_id)
-    when BaptismalCertificate.event_name
+    when BaptismalCertificate.event_key
       event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
-    when SponsorCovenant.event_name
+    when SponsorCovenant.event_key
       event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
-    when PickConfirmationName.event_name
+    when PickConfirmationName.event_key
       pick_confirmation_name_path(candidate_id)
-    when ChristianMinistry.event_name
+    when ChristianMinistry.event_key
       christian_ministry_path(candidate_id)
-    when RetreatVerification.event_name
+    when RetreatVerification.event_key
       event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
-    when Candidate.parent_meeting_event_name
-      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(name: event_name).id}")
+    when Candidate.parent_meeting_event_key
+      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(name: event_key).id}")
     else
-      "Unknown event_name: #{event_name}"
+      "Unknown event_key: #{event_key}"
     end
   end
 
-  def event_name_to_path_verify(event_name, candidate_id)
-    case event_name
-    when Candidate.covenant_agreement_event_name
+  def event_key_to_path_verify(event_key, candidate_id)
+    case event_key
+    when Candidate.covenant_agreement_event_key
       sign_agreement_verify_path(candidate_id)
-    when CandidateSheet.event_name
+    when CandidateSheet.event_key
       candidate_sheet_verify_path(candidate_id)
-    when BaptismalCertificate.event_name
+    when BaptismalCertificate.event_key
       event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
-    when SponsorCovenant.event_name
+    when SponsorCovenant.event_key
       event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT)
-    when PickConfirmationName.event_name
+    when PickConfirmationName.event_key
       pick_confirmation_name_verify_path(candidate_id)
-    when ChristianMinistry.event_name
+    when ChristianMinistry.event_key
       christian_ministry_verify_path(candidate_id)
-    when RetreatVerification.event_name
+    when RetreatVerification.event_key
       event_with_picture_verify_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
-    when Candidate.parent_meeting_event_name
-      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(name: event_name).id}")
+    when Candidate.parent_meeting_event_key
+      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(name: event_key).id}")
     else
-      "Unknown event_name: #{event_name}"
+      "Unknown event_key: #{event_key}"
     end
   end
 
-  def expect_event(event_name, verify = false)
+  def expect_event(event_key, verify = false)
     lambda { |cand_id, rendered, td_index|
       cand = Candidate.find_by(id: cand_id)
-      href = verify ? event_name_to_path_verify(event_name, cand_id) : event_name_to_path(event_name, cand_id)
+      href = verify ? event_key_to_path_verify(event_key, cand_id) : event_key_to_path(event_key, cand_id)
       expect(rendered).to have_css("table[id='candidate_list_table'] tr[id='candidate_list_tr_#{cand_id}'] td[id=tr#{cand_id}_td#{td_index}] a[href='#{href}']",
-                                   text: cand.get_candidate_event(event_name).status)
+                                   text: cand.get_candidate_event(event_key).status)
     }
   end
 
@@ -140,15 +140,15 @@ module SortingCandListHelpers
     cols
   end
 
-  def confirmation_events_columns(confirmation_event_name)
+  def confirmation_events_columns(confirmation_event_key)
     cols = common_non_event_columns
     cols.insert(
       1,
-      [I18n.t('views.events.completed_date'), true, [:candidate_event, confirmation_event_name, :completed_date]],
-      [I18n.t('views.events.verified'), true, [:candidate_event, confirmation_event_name, :verified]]
+      [I18n.t('views.events.completed_date'), true, [:candidate_event, confirmation_event_key, :completed_date]],
+      [I18n.t('views.events.verified'), true, [:candidate_event, confirmation_event_key, :verified]]
     )
     cols.append(
-      [PickConfirmationName.event_name, true, '', expect_event(I18n.t('events.confirmation_name'), true)]
+      [PickConfirmationName.event_key, true, '', expect_event(I18n.t('events.confirmation_name'), true)]
     )
     cols
   end
@@ -171,14 +171,14 @@ module SortingCandListHelpers
 
   def common_event_columns
     [
-      [Candidate.covenant_agreement_event_name, true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
-      [CandidateSheet.event_name, true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
-      [BaptismalCertificate.event_name, true, '', expect_event(I18n.t('events.baptismal_certificate'))],
-      [SponsorCovenant.event_name, true, '', expect_event(I18n.t('events.sponsor_covenant'))],
-      [PickConfirmationName.event_name, true, '', expect_event(I18n.t('events.confirmation_name'))],
-      [ChristianMinistry.event_name, true, '', expect_event(I18n.t('events.christian_ministry'))],
-      [RetreatVerification.event_name, true, '', expect_event(I18n.t('events.retreat_verification'))],
-      [Candidate.parent_meeting_event_name, true, '', expect_event(I18n.t('events.parent_meeting'))]
+      [Candidate.covenant_agreement_event_key, true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
+      [CandidateSheet.event_key, true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
+      [BaptismalCertificate.event_key, true, '', expect_event(I18n.t('events.baptismal_certificate'))],
+      [SponsorCovenant.event_key, true, '', expect_event(I18n.t('events.sponsor_covenant'))],
+      [PickConfirmationName.event_key, true, '', expect_event(I18n.t('events.confirmation_name'))],
+      [ChristianMinistry.event_key, true, '', expect_event(I18n.t('events.christian_ministry'))],
+      [RetreatVerification.event_key, true, '', expect_event(I18n.t('events.retreat_verification'))],
+      [Candidate.parent_meeting_event_key, true, '', expect_event(I18n.t('events.parent_meeting'))]
     ]
   end
 
