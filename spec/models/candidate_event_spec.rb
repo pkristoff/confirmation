@@ -213,7 +213,7 @@ describe CandidateEvent, type: :model do
     end
     context 'routes' do
       it 'mapping candidate_event.name to route' do
-        AppFactory.all_i18n_confirmation_event_names.each do |event_key|
+        AppFactory.all_i18n_confirmation_event_keys.each do |event_key|
           expect(@candidate.get_candidate_event(event_key).route).to eq(Candidate.event_route(event_key))
         end
       end

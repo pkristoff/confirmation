@@ -193,7 +193,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    coming_due_values = AppFactory.all_i18n_confirmation_event_names.select { |event_key| event_key != Candidate.parent_meeting_event_key && event_key != RetreatVerification.event_key && event_key != ChristianMinistry.event_key }.map do |event_key|
+    coming_due_values = AppFactory.all_i18n_confirmation_event_keys.select { |event_key| event_key != Candidate.parent_meeting_event_key && event_key != RetreatVerification.event_key && event_key != ChristianMinistry.event_key }.map do |event_key|
       name = event_key
       id = @candidate.get_candidate_event(name).id
       [name, id, @today]

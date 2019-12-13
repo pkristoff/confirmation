@@ -9,7 +9,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
     AppFactory.add_confirmation_events
   end
 
-  AppFactory.all_i18n_confirmation_event_names.each do |confirmation_event_name|
+  AppFactory.all_i18n_confirmation_event_keys.each do |confirmation_event_name|
     it "display the list of candidates for #{confirmation_event_name}" do
       @confirmation_event = ConfirmationEvent.find_by(name: confirmation_event_name)
       @candidate_info = PluckCan.pluck_candidates(event_id: @confirmation_event.id)

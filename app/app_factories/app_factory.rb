@@ -224,7 +224,7 @@ class AppFactory
     all_confirmation_event_names.each do |ce_name|
       AppFactory.revert_confirmation_event(ce_name)
     end
-    every_event_names = all_i18n_confirmation_event_names
+    every_event_names = all_i18n_confirmation_event_keys
     every_event_names.each { |event_name| self.add_confirmation_event(event_name) }
     every_event_names
   end
@@ -235,7 +235,7 @@ class AppFactory
   #
   # CandidateEvent
   #
-  def self.all_i18n_confirmation_event_names
+  def self.all_i18n_confirmation_event_keys
     [
       # matches 20160603111604_add_parent_information_meeting.rb
       Candidate.parent_meeting_event_key,

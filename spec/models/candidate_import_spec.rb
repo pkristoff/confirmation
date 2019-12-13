@@ -324,7 +324,7 @@ describe 'check_events' do
     expect(ConfirmationEvent.find_by(name: sponsor_covenant_event_key).name).to eq(sponsor_covenant_event_key)
 
     expect(candidate_import.missing_confirmation_events.length).to be(0)
-    expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_names.length)
+    expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_keys.length)
     expect(candidate_import.unknown_confirmation_events.length).to be(1)
     expect(candidate_import.unknown_confirmation_events[0]).to eq('unknown event')
   end
