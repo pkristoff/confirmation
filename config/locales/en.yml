@@ -1,5 +1,58 @@
 ---
 en:
+  date:
+    abbr_day_names:
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
+    abbr_month_names:
+    - 
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+    day_names:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
+    formats:
+      default: "%Y-%m-%d"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+    order:
+    - year
+    - month
+    - day
   devise:
     failure:
       timeout: Your session expired. Please sign in again to continue.
@@ -47,13 +100,13 @@ en:
     website_name: "%{home_parish} website for Confirmation Candidates"
   events:
     baptismal_certificate: Baptismal Certificate
-    candidate_covenant_agreement: Candidate Covenant Agreement
-    candidate_information_sheet: Candidate Information Sheet
-    christian_ministry: Christian Ministry Awareness
+    candidate_covenant_agreement: Covenant Agreement
+    candidate_information_sheet: Information Sheet
+    christian_ministry: Christian Ministry
     confirmation_name: Confirmation Name
     parent_meeting: Parent Information Meeting
     retreat_verification: Attend Retreat
-    sponsor_covenant: Sponsor Covenant & Sponsor Eligibility
+    sponsor_covenant: Sponsor's Covenant
   field_set:
     baptismal_certificate:
       church: Church
@@ -149,6 +202,7 @@ en:
       candidate_note: Note
       christian_ministry: Christian Ministry
       confirmation_name: Confirmation Name
+      parent_meeting: Parent Information Meeting
       retreat_verification: Attend Retreat
       sponsor_covenant: Sponsor's Covenant
     sign_agreement:
@@ -232,6 +286,13 @@ en:
     late: Late
     not_started: Not Started
     verified: Verified
+  time:
+    am: am
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+    pm: pm
   views:
     admins:
       account_name: Account name

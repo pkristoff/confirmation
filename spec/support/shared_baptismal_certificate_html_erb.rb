@@ -230,8 +230,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect(candidate.baptismal_certificate).not_to eq(nil) # always created now
     expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(true)
-    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(@today)
-    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).verified).to eq(@is_verify)
+    expect(candidate.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(@today)
+    expect(candidate.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(@is_verify)
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
@@ -277,7 +277,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
@@ -317,11 +317,11 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
 
-    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).verified).to eq(false), 'Baptismal certificate not verified.'
-    expect(candidate.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(Time.zone.today)
+    expect(candidate.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(false), 'Baptismal certificate not verified.'
+    expect(candidate.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
 
-    expect(candidate.get_candidate_event(I18n.t('events.candidate_information_sheet')).verified).to eq(false)
-    expect(candidate.get_candidate_event(I18n.t('events.candidate_information_sheet')).completed_date).to eq(nil)
+    expect(candidate.get_candidate_event(CandidateSheet.event_key).verified).to eq(false)
+    expect(candidate.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(nil)
 
     fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
 
@@ -329,19 +329,19 @@ shared_context 'baptismal_certificate_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
     end
 
     cand = Candidate.find_by(id: candidate.id)
-    expect(cand.get_candidate_event(I18n.t('events.baptismal_certificate')).verified).to eq(@is_verify), 'Baptismal certificate not verified.'
-    expect(cand.get_candidate_event(I18n.t('events.baptismal_certificate')).completed_date).to eq(Time.zone.today)
+    expect(cand.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(@is_verify), 'Baptismal certificate not verified.'
+    expect(cand.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
 
     # candidate_information_sheet if completed is automatically verified
-    expect(cand.get_candidate_event(I18n.t('events.candidate_information_sheet')).verified?).to eq(true)
-    expect(cand.get_candidate_event(I18n.t('events.candidate_information_sheet')).completed_date).to eq(Time.zone.today)
+    expect(cand.get_candidate_event(CandidateSheet.event_key).verified?).to eq(true)
+    expect(cand.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(Time.zone.today)
   end
 
   scenario 'admin logs in and selects a candidate, checks no for baptized_at_home_parish and updates' do
@@ -382,7 +382,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
 

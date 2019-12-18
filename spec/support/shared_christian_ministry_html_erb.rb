@@ -44,7 +44,7 @@ shared_context 'christian_ministry_html_erb' do
 
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.christian_ministry')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: ChristianMinistry.event_key), candidate.id, @updated_message)
 
     else
 
@@ -54,8 +54,8 @@ shared_context 'christian_ministry_html_erb' do
                                      expect_messages: [[:flash_notice, @updated_message]])
     end
 
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(@today)
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(@today)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to eq(true)
 
     visit @path
 
@@ -78,7 +78,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@cand_id)
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.christian_ministry')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: ChristianMinistry.event_key), candidate.id, @updated_message)
 
     else
 
@@ -88,8 +88,8 @@ shared_context 'christian_ministry_html_erb' do
                                      expect_messages: [[:flash_notice, @updated_message]])
     end
 
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(@today)
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(true)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(@today)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to eq(true)
 
     visit @path
     expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
@@ -116,8 +116,8 @@ shared_context 'christian_ministry_html_erb' do
                                                      [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verified:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
 
     candidate = Candidate.find(@cand_id)
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).completed_date).to eq(nil)
-    expect(candidate.get_candidate_event(I18n.t('events.christian_ministry')).verified).to eq(false)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(nil)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to eq(false)
 
     visit @path
     expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,

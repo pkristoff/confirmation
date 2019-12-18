@@ -50,10 +50,9 @@ describe AppFactory do
 
   context 'confirmation events' do
     it 'should create a confirmation_event, an admin and a candidate' do
-      AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
-      AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
-      AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
-      # AppFactory.add_confirmation_event(I18n.t('events.sponsor_agreement'))
+      AppFactory.add_confirmation_event(Candidate.parent_meeting_event_key)
+      AppFactory.add_confirmation_event(RetreatVerification.event_key)
+      AppFactory.add_confirmation_event(Candidate.covenant_agreement_event_key)
 
       AppFactory.generate_seed
 
@@ -66,18 +65,18 @@ describe AppFactory do
       candidate = candidate_events[0]
       expect(candidate.account_name).to eq('vickikristoff')
       expect(candidate.candidate_events.size).to eq(3)
-      expect(candidate.candidate_events_sorted[0].name).to eq(I18n.t('events.retreat_verification'))
-      expect(candidate.candidate_events_sorted[1].name).to eq(I18n.t('events.candidate_covenant_agreement'))
-      expect(candidate.candidate_events_sorted[2].name).to eq(I18n.t('events.parent_meeting'))
+      expect(candidate.candidate_events_sorted[0].name).to eq(RetreatVerification.event_key)
+      expect(candidate.candidate_events_sorted[1].name).to eq(Candidate.covenant_agreement_event_key)
+      expect(candidate.candidate_events_sorted[2].name).to eq(Candidate.parent_meeting_event_key)
     end
 
     it 'should create 2 confirmation_event, an admin and a candidate then remove retreat_weekend event' do
-      AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
-      AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
+      AppFactory.add_confirmation_event(Candidate.parent_meeting_event_key)
+      AppFactory.add_confirmation_event(RetreatVerification.event_key)
 
       AppFactory.generate_seed
 
-      AppFactory.revert_confirmation_event(I18n.t('events.retreat_verification'))
+      AppFactory.revert_confirmation_event(RetreatVerification.event_key)
 
       candidate_events = Candidate.all
       expect(candidate_events.size).to eq(1)
@@ -88,37 +87,28 @@ describe AppFactory do
     end
 
     it 'should create 2 confirmation_event, an admin and a candidate then remove parent_meeting event' do
-      AppFactory.add_confirmation_event(I18n.t('events.parent_meeting'))
-      AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
+      AppFactory.add_confirmation_event(Candidate.parent_meeting_event_key)
+      AppFactory.add_confirmation_event(RetreatVerification.event_key)
 
       AppFactory.generate_seed
 
-      AppFactory.revert_confirmation_event(I18n.t('events.parent_meeting'))
+      AppFactory.revert_confirmation_event(Candidate.parent_meeting_event_key)
 
       candidate_events = Candidate.all
       expect(candidate_events.size).to eq(1)
       candidate = candidate_events[0]
       expect(candidate.account_name).to eq('vickikristoff')
       expect(candidate.candidate_events.size).to eq(1)
-      expect(candidate.candidate_events[0].name).to eq(I18n.t('events.retreat_verification'))
+      expect(candidate.candidate_events[0].name).to eq(RetreatVerification.event_key)
     end
 
     it 'should add all confirmation events' do
-      every_event_names = all_event_keys
+      every_event_names = AppFactory.all_i18n_confirmation_event_keys
       AppFactory.add_confirmation_events
       every_event_names.each do |event_key|
-        expect(ConfirmationEvent.find_by(name: event_key)).not_to eq(nil)
+        expect(ConfirmationEvent.find_by(name: event_key)).not_to eq(nil), "Unknown event_key=#{event_key}"
       end
-      expect(ConfirmationEvent.all.size).to eq(all_event_keys.size)
+      expect(ConfirmationEvent.all.size).to eq(every_event_names.size)
     end
-  end
-
-  def all_event_keys
-    config = YAML.load_file('config/locales/en.yml')
-    every_event_keys = []
-    config['en']['events'].each do |event_name_entry|
-      every_event_keys << event_name_entry[1]
-    end
-    every_event_keys
   end
 end

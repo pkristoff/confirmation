@@ -113,8 +113,8 @@
         <%= f.hidden_field :missing, :value => @candidate_import.missing_confirmation_events.join(":") %>
         <h3><%= t('views.imports.missing') %>:</h3>
         <ul id="missing_confirmation_events">
-          <% @candidate_import.missing_confirmation_events.map do |confirmation_event_name| %>
-            <li><%= confirmation_event_name %></li>
+          <% @candidate_import.missing_confirmation_events.map do |event_key| %>
+            <li><%= Candidate.i18n_event_name(event_key) %></li>
           <% end %>
         </ul>
       </div>

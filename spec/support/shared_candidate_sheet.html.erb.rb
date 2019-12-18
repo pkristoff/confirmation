@@ -53,7 +53,7 @@ shared_context 'candidate_sheet_html_erb' do
     if @admin_verified
 
       candidate = Candidate.find(@candidate.id)
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.candidate_information_sheet')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: CandidateSheet.event_key), candidate.id, @updated_message)
 
     else
 
@@ -96,7 +96,7 @@ shared_context 'candidate_sheet_html_erb' do
     cand = Candidate.find(cand_id)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-    expect_heading(cand, dev_path.empty?, I18n.t('events.candidate_information_sheet'))
+    expect_heading(cand, dev_path.empty?, CandidateSheet.event_key)
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 

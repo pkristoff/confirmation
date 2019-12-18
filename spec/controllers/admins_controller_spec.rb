@@ -91,7 +91,7 @@ describe AdminsController do
 
   describe 'mass_edit_candidates_event_update' do
     before(:each) do
-      @confirmation_event = AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
+      @confirmation_event = AppFactory.add_confirmation_event(CandidateSheet.event_key)
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')

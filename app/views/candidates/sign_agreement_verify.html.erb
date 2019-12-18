@@ -4,7 +4,7 @@
            path: sign_agreement_verify_update_path(@candidate.id),
            event_association: @candidate,
            shared_html_file: 'candidate_covenant_agreement',
-           candidate_event: @candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement')),
+           candidate_event: @candidate.get_candidate_event(Candidate.covenant_agreement_event_key),
            download_doc: download_document_path(@candidate.id, Event::Document::CANDIDATE_COVENANT),
            is_dev: false,
            is_verify: true

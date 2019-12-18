@@ -4,7 +4,7 @@
            path: pick_confirmation_name_path(@candidate.id),
            event_association: @candidate.pick_confirmation_name,
            shared_html_file: 'pick_confirmation_name',
-           candidate_event: @candidate.get_candidate_event(I18n.t('events.confirmation_name')),
+           candidate_event: @candidate.get_candidate_event(PickConfirmationName.event_key),
            download_doc: download_document_path(@candidate.id, Event::Document::CONFIRMATION_NAME),
            is_dev: false,
            is_verify: false

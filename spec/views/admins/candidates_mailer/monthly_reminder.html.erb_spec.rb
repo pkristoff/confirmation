@@ -171,19 +171,19 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   it 'display with mixture of events' do
-    late_events_event = @candidate.get_candidate_event(I18n.t('events.parent_meeting'))
+    late_events_event = @candidate.get_candidate_event(Candidate.parent_meeting_event_key)
     late_events_event.confirmation_event.chs_due_date = @today - 2
     late_events_event.confirmation_event.the_way_due_date = @today - 2
     late_events_event.save
     late_events_values = [[late_events_event.name, late_events_event.id]]
 
-    completed_awaiting_event = @candidate.get_candidate_event(I18n.t('events.retreat_verification'))
+    completed_awaiting_event = @candidate.get_candidate_event(RetreatVerification.event_key)
     completed_awaiting_event.completed_date = @today - 2
     completed_awaiting_event.verified = false
     completed_awaiting_event.save
     completed_awaiting_values = [[completed_awaiting_event.name, completed_awaiting_event.id, []]]
 
-    completed_events_event = @candidate.get_candidate_event(I18n.t('events.christian_ministry'))
+    completed_events_event = @candidate.get_candidate_event(ChristianMinistry.event_key)
     completed_events_event.completed_date = @today - 2
     completed_events_event.verified = true
     completed_events_event.save

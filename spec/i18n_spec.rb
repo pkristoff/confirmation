@@ -35,18 +35,18 @@ RSpec.describe 'I18n' do
       YAML.load(File.open(es_file)).each do |es_key, es_value|
         expect(en_key).to eq('en')
         expect(es_key).to eq('es')
-        compare_locale_files(en_value, es_value)
+        compare_locale_files(en_key, en_value, es_value)
       end
     end
   end
 
-  def compare_locale_files(en_value, es_value)
+  def compare_locale_files(en_key, en_value, es_value)
     expect(es_value.is_a? String).to eq(true) if (en_value.is_a? String)
     unless en_value.is_a? String
-      expect(en_value.count).to eq(es_value.count), "English count diff: #{en_value} from Spanish #{es_value}"
+      expect(en_value.count).to eq(es_value.count), "key: #{en_key} English count diff: #{en_value} \n from Spanish #{es_value}"
       en_value.each do |en_key, en_val|
         es_val = es_value[en_key]
-        compare_locale_files(en_val,es_val)
+        compare_locale_files(en_key, en_val,es_val) if en_val.is_a? Hash
       end
     end
   end

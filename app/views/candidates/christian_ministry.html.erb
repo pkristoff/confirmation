@@ -4,7 +4,7 @@
            path: christian_ministry_path(@candidate.id),
            event_association: @candidate.christian_ministry,
            shared_html_file: 'christian_ministry',
-           candidate_event: @candidate.get_candidate_event(I18n.t('events.christian_ministry')),
+           candidate_event: @candidate.get_candidate_event(ChristianMinistry.event_key),
            download_doc: download_document_path(@candidate.id, Event::Document::CHRISTIAN_MINISTRY),
            is_dev: false,
            is_verify: false

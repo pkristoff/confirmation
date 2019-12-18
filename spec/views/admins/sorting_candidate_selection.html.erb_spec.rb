@@ -10,7 +10,7 @@ describe 'shared/sorting_candidate_selection' do
 
     @table_id = "table[id='candidate_list_table']"
 
-    @confirmation_event = ConfirmationEvent.find_by(name: I18n.t('events.candidate_covenant_agreement'))
+    @confirmation_event = ConfirmationEvent.find_by(name: Candidate.covenant_agreement_event_key)
     @candidate_info = PluckCan.pluck_candidates(event_id: @confirmation_event.id)
   end
 

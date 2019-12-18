@@ -9,7 +9,8 @@
         <% legend_object = if confirmation_event.name == t('events.parent_meeting') %>
             <% confirmation_event.name %>
         <% else %>
-            <% link_to "#{confirmation_event.name}", candidate_event_to_path(confirmation_event.name, candidate_event.candidate.id) %>
+            <% path, i18n = candidate_event_to_path(confirmation_event.name, candidate_event.candidate.id)
+               link_to i18n, path %>
         <% end %>
         <h3><%= legend_object %></h3>
       </div>

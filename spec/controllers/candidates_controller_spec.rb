@@ -87,7 +87,7 @@ describe CandidatesController do
     before(:each) do
       c1 = create_candidate('c1')
       @c1_id = c1.id
-      AppFactory.add_confirmation_event(I18n.t('events.confirmation_name'))
+      AppFactory.add_confirmation_event(PickConfirmationName.event_key)
     end
 
     it 'should set @candidate' do
@@ -120,7 +120,7 @@ describe CandidatesController do
       cand.pick_confirmation_name.saint_name = 'george'
       cand.save
 
-      cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
+      cand_event = cand.get_candidate_event(PickConfirmationName.event_key)
       cand_event.completed_date = completed_date
       cand.save
 
@@ -133,7 +133,7 @@ describe CandidatesController do
       # expect(response).to render_template('admins/mass_edit_candidates_event')
       expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
+      cand_event = cand.get_candidate_event(PickConfirmationName.event_key)
       expect(cand_event.completed_date).to eq(completed_date)
       expect(cand_event.verified).to eq(true)
     end
@@ -150,7 +150,7 @@ describe CandidatesController do
       # expect(response).to render_template('admins/mass_edit_candidates_event')
       expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.confirmation_name'))
+      cand_event = cand.get_candidate_event(PickConfirmationName.event_key)
       expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
@@ -160,7 +160,7 @@ describe CandidatesController do
     before(:each) do
       c1 = create_candidate('c1')
       @c1_id = c1.id
-      AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
+      AppFactory.add_confirmation_event(Candidate.covenant_agreement_event_key)
     end
 
     it 'should set @candidate' do
@@ -181,7 +181,7 @@ describe CandidatesController do
       # expect(response).to render_template('candidates/sign_agreement_verify')
       expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+      cand_event = cand.get_candidate_event(Candidate.covenant_agreement_event_key)
       expect(cand_event.completed_date).to eq(nil)
       expect(cand_event.verified).to eq(false)
     end
@@ -192,7 +192,7 @@ describe CandidatesController do
       cand.signed_agreement = true
       cand.save
 
-      cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+      cand_event = cand.get_candidate_event(Candidate.covenant_agreement_event_key)
       cand_event.completed_date = completed_date
       cand_event.verified = false
       cand.save
@@ -205,7 +205,7 @@ describe CandidatesController do
       # expect(response).to render_template('admins/mass_edit_candidates_event')
       expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+      cand_event = cand.get_candidate_event(Candidate.covenant_agreement_event_key)
       expect(cand_event.completed_date).to eq(completed_date)
       expect(cand_event.verified).to eq(true)
     end
@@ -222,7 +222,7 @@ describe CandidatesController do
       # expect(response).to render_template('admins/mass_edit_candidates_event')
       expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+      cand_event = cand.get_candidate_event(Candidate.covenant_agreement_event_key)
       expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
@@ -232,13 +232,13 @@ describe CandidatesController do
     before(:each) do
       c1 = create_candidate('c1')
       @c1_id = c1.id
-      AppFactory.add_confirmation_event(I18n.t('events.baptismal_certificate'))
-      AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
-      AppFactory.add_confirmation_event(I18n.t('events.sponsor_covenant'))
+      AppFactory.add_confirmation_event(BaptismalCertificate.event_key)
+      AppFactory.add_confirmation_event(RetreatVerification.event_key)
+      AppFactory.add_confirmation_event(SponsorCovenant.event_key)
     end
 
     [
-      ['baptismal_certificate',
+      [Event::Route::BAPTISMAL_CERTIFICATE,
        lambda do |candidate|
          candidate.baptismal_certificate.baptized_at_home_parish = true
        end,
@@ -251,7 +251,7 @@ describe CandidatesController do
            }
          }
        end],
-      ['retreat_verification',
+      [Event::Route::RETREAT_VERIFICATION,
        lambda do |candidate|
          candidate.retreat_verification.retreat_held_at_home_parish = true
        end,
@@ -263,7 +263,7 @@ describe CandidatesController do
            }
          }
        end],
-      ['sponsor_covenant', lambda do |candidate|
+      [Event::Route::SPONSOR_COVENANT, lambda do |candidate|
         candidate.sponsor_covenant.sponsor_name = 'mmm'
         candidate.sponsor_covenant.sponsor_attends_home_parish = true
         File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
@@ -286,39 +286,39 @@ describe CandidatesController do
          }
        end]
     ].each do |event_info|
-      event_name_key = event_info[0]
+      event_route = event_info[0]
       valid_setter = event_info[1]
       generate_cand_parms = event_info[2]
 
-      it "should set @candidate: #{event_name_key}" do
-        get :event_with_picture_verify, params: { id: @c1_id, event_key: event_name_key }
+      it "should set @candidate: #{event_route}" do
+        get :event_with_picture_verify, params: { id: @c1_id, event_route: event_route }
 
         cand = Candidate.find(@c1_id)
         expect(controller.candidate).to eq(cand)
         # expect(response).to render_template('candidates/event_with_picture_verify')
-        expect(@request.fullpath).to eq("/event_with_picture_verify/#{cand.id}/#{event_name_key}")
+        expect(@request.fullpath).to eq("/event_with_picture_verify/#{cand.id}/#{event_route}")
       end
 
-      it "should stay on event_with_picture_verify, since it should not pass validation: #{event_name_key}" do
-        put :event_with_picture_verify_update, params: { id: @c1_id, event_key: event_name_key }
+      it "should stay on event_with_picture_verify, since it should not pass validation: #{event_route}" do
+        put :event_with_picture_verify_update, params: { id: @c1_id, event_route: event_route }
 
         cand = Candidate.find(@c1_id)
         expect(controller.candidate).to eq(cand)
         # expect(response).to render_template('candidates/event_with_picture_verify')
-        expect(@request.fullpath).to eq("/event_with_picture_verify/#{cand.id}/#{event_name_key}")
+        expect(@request.fullpath).to eq("/event_with_picture_verify/#{cand.id}/#{event_route}")
 
-        cand_event = cand.get_candidate_event(I18n.t("events.#{event_name_key}"))
+        cand_event = cand.get_candidate_event(Candidate.event_key_from_route(event_route))
         expect(cand_event.completed_date).to eq(nil)
         expect(cand_event.verified).to eq(false)
       end
 
-      it "should goes back to mass_edit_candidates_event, updating verified: #{event_name_key}" do
+      it "should goes back to mass_edit_candidates_event, updating verified: #{event_route}" do
         completed_date = @today - 20
         cand = Candidate.find(@c1_id)
         valid_setter.call(cand)
         cand.save
 
-        cand_event = cand.get_candidate_event(I18n.t("events.#{event_name_key}"))
+        cand_event = cand.get_candidate_event(Candidate.event_key_from_route(event_route))
         cand_event.completed_date = completed_date
         cand.save
 
@@ -326,15 +326,15 @@ describe CandidatesController do
 
         put :event_with_picture_verify_update,
             params: { id: @c1_id,
-                      event_key: event_name_key,
+                      event_route: event_route,
                       candidate: cand_parms }
 
         cand = Candidate.find(@c1_id)
         expect(controller.candidate).to eq(cand)
         # expect(response).to render_template('admins/mass_edit_candidates_event')
-        expect(@request.fullpath).to include("/event_with_picture_verify/#{cand.id}/#{event_name_key}")
+        expect(@request.fullpath).to include("/event_with_picture_verify/#{cand.id}/#{event_route}")
 
-        cand_event = cand.get_candidate_event(I18n.t("events.#{event_name_key}"))
+        cand_event = cand.get_candidate_event(Candidate.event_key_from_route(event_route))
         expect(cand_event.completed_date).to eq(completed_date)
         expect(cand_event.verified).to eq(true)
       end
@@ -345,7 +345,7 @@ describe CandidatesController do
     before(:each) do
       c1 = create_candidate('c1')
       @c1_id = c1.id
-      AppFactory.add_confirmation_event(I18n.t('events.christian_ministry'))
+      AppFactory.add_confirmation_event(ChristianMinistry.event_key)
     end
 
     it 'should set @candidate' do
@@ -366,7 +366,7 @@ describe CandidatesController do
       # expect(response).to render_template('candidates/christian_ministry_verify')
       expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      cand_event = cand.get_candidate_event(ChristianMinistry.event_key)
       expect(cand_event.completed_date).to eq(nil)
       expect(cand_event.verified).to eq(false)
     end
@@ -380,7 +380,7 @@ describe CandidatesController do
       cand.christian_ministry.helped_me = 'eee'
       cand.save
 
-      cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      cand_event = cand.get_candidate_event(ChristianMinistry.event_key)
       cand_event.completed_date = completed_date
       cand.save
 
@@ -392,7 +392,7 @@ describe CandidatesController do
       # expect(response).to render_template('admins/mass_edit_candidates_event')
       expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      cand_event = cand.get_candidate_event(ChristianMinistry.event_key)
       expect(cand_event.completed_date).to eq(completed_date)
       expect(cand_event.verified).to eq(true)
     end
@@ -417,7 +417,7 @@ describe CandidatesController do
 
       expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.christian_ministry'))
+      cand_event = cand.get_candidate_event(ChristianMinistry.event_key)
       expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end
@@ -427,7 +427,7 @@ describe CandidatesController do
     before(:each) do
       c0 = FactoryBot.create(:candidate)
       @c0_id = c0.id
-      AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
+      AppFactory.add_confirmation_event(CandidateSheet.event_key)
     end
 
     it 'should set @candidate' do
@@ -452,7 +452,7 @@ describe CandidatesController do
       # expect(response).to render_template('candidates/candidate_sheet_verify')
       expect(@request.fullpath).to eq("/candidate_sheet_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+      cand_event = cand.get_candidate_event(CandidateSheet.event_key)
       expect(cand_event.completed_date).to eq(nil)
       expect(cand_event.verified).to eq(false)
     end
@@ -463,7 +463,7 @@ describe CandidatesController do
       cand.candidate_sheet.candidate_email = 'foo@kristoffs.com'
       cand.save
 
-      cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+      cand_event = cand.get_candidate_event(CandidateSheet.event_key)
       cand_event.completed_date = completed_date
       cand.save
 
@@ -475,7 +475,7 @@ describe CandidatesController do
       # expect(response).to render_template('admins/mass_edit_candidates_event')
       expect(@request.fullpath).to eq("/candidate_sheet_verify.#{cand.id}")
 
-      cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+      cand_event = cand.get_candidate_event(CandidateSheet.event_key)
       expect(cand_event.completed_date).to eq(completed_date)
       expect(cand_event.verified).to eq(true)
     end
@@ -510,7 +510,7 @@ describe CandidatesController do
 
       expect(@request.fullpath.include?("/candidate_sheet_verify.#{cand.id}")).to eq(true)
 
-      cand_event = cand.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+      cand_event = cand.get_candidate_event(CandidateSheet.event_key)
       expect(cand_event.completed_date).to eq(@today)
       expect(cand_event.verified).to eq(true)
     end

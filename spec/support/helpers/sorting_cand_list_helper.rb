@@ -171,14 +171,14 @@ module SortingCandListHelpers
 
   def common_event_columns
     [
-      [Candidate.covenant_agreement_event_key, true, '', expect_event(I18n.t('events.candidate_covenant_agreement'))],
-      [CandidateSheet.event_key, true, '', expect_event(I18n.t('events.candidate_information_sheet'))],
-      [BaptismalCertificate.event_key, true, '', expect_event(I18n.t('events.baptismal_certificate'))],
-      [SponsorCovenant.event_key, true, '', expect_event(I18n.t('events.sponsor_covenant'))],
-      [PickConfirmationName.event_key, true, '', expect_event(I18n.t('events.confirmation_name'))],
-      [ChristianMinistry.event_key, true, '', expect_event(I18n.t('events.christian_ministry'))],
-      [RetreatVerification.event_key, true, '', expect_event(I18n.t('events.retreat_verification'))],
-      [Candidate.parent_meeting_event_key, true, '', expect_event(I18n.t('events.parent_meeting'))]
+      [I18n.t('events.candidate_covenant_agreement'), true, '', expect_event(Candidate.covenant_agreement_event_key)],
+      [I18n.t('events.candidate_information_sheet'), true, '', expect_event(CandidateSheet.event_key)],
+      [I18n.t('events.baptismal_certificate'), true, '', expect_event(BaptismalCertificate.event_key)],
+      [I18n.t('events.sponsor_covenant'), true, '', expect_event(SponsorCovenant.event_key)],
+      [I18n.t('events.confirmation_name'), true, '', expect_event(PickConfirmationName.event_key)],
+      [I18n.t('events.christian_ministry'), true, '', expect_event(ChristianMinistry.event_key)],
+      [I18n.t('events.retreat_verification'), true, '', expect_event(RetreatVerification.event_key)],
+      [I18n.t('events.parent_meeting'), true, '', expect_event(Candidate.parent_meeting_event_key)]
     ]
   end
 
@@ -227,15 +227,17 @@ module SortingCandListHelpers
     expect_download_button(Event::Document::CONFIRMATION_NAME, cand_id, dev_path)
   end
 
-  def expect_heading(cand, is_dev, event_name)
+  def expect_heading(cand, is_dev, event_key)
+    # This is testing _two_column_signed_event.html.erb & _two_column_event.html.erb
     first = cand.candidate_sheet.first_name
     last = cand.candidate_sheet.last_name
 
+    i18n_event_name = Candidate.i18n_event_name(event_key)
     if is_dev
-      expect(page).to have_selector('h2[id=heading]', text: I18n.t('views.events.heading', event_name: event_name, first: first, last: last))
+      expect(page).to have_selector('h2[id=heading]', text: I18n.t('views.events.heading', event_name: i18n_event_name, first: first, last: last))
     else
-      expect(page).to have_selector('h2[id=heading]', text: event_name.to_s)
-      expect(page).not_to have_selector('h2[id=heading]', text: I18n.t('views.events.heading', event_name: event_name, first: first, last: last))
+      expect(page).to have_selector('h2[id=heading]', text: i18n_event_name.to_s)
+      expect(page).not_to have_selector('h2[id=heading]', text: I18n.t('views.events.heading', event_name: i18n_event_name, first: first, last: last))
     end
   end
 
@@ -248,7 +250,7 @@ module SortingCandListHelpers
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
-    expect_heading(cand, dev_path.empty?, I18n.t('events.christian_ministry'))
+    expect_heading(cand, dev_path.empty?, ChristianMinistry.event_key)
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 

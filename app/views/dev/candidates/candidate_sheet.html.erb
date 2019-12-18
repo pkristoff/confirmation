@@ -4,7 +4,7 @@
            path: dev_candidate_sheet_update_path(@candidate.id),
            event_association: @candidate.candidate_sheet,
            shared_html_file: 'candidate_sheet',
-           candidate_event: @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet')),
+           candidate_event: @candidate.get_candidate_event(CandidateSheet.event_key),
            download_doc: download_document_path(@candidate.id, Event::Document::CANDIDATE_INFORMATION_SHEET),
            update_name: I18n.t('views.common.update'),
            id_postfix: '',

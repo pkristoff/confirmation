@@ -1,15 +1,15 @@
-
+<% i18n_event_name = Candidate.i18n_event_name(candidate_event.name) %>
 
 <div id="two_column">
   <% candidate = @candidate %>
 
   <h2 id="heading">
     <% if is_dev %>
-      <%= candidate_event.name %>
+      <%= i18n_event_name %>
     <% else %>
       <% first = candidate.candidate_sheet.first_name %>
       <% last = candidate.candidate_sheet.last_name %>
-      <%= "#{I18n.t('views.events.heading', event_name: candidate_event.name, first: first, last: last)}" %>
+      <%= "#{I18n.t('views.events.heading', event_name: i18n_event_name, first: first, last: last)}" %>
     <% end %>
   </h2>
 

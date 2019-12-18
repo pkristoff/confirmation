@@ -27,12 +27,12 @@ describe 'layouts/_side_bar.html.erb' do
     ]
 
     @candidate_link_names_in_order = [
-      [I18n.t('label.sidebar.candidate_covenant_agreement'), '<dev>/sign_agreement.<id>'],
-      [I18n.t('label.sidebar.candidate_information_sheet'), '<dev>/candidate_sheet.<id>'],
+      [I18n.t('label.sidebar.candidate_covenant_agreement'), '<dev>/sign_agreement.<id>.covenant_agreement'],
+      [I18n.t('label.sidebar.candidate_information_sheet'), '<dev>/candidate_sheet.<id>.candidate_information_sheet'],
       [I18n.t('label.sidebar.baptismal_certificate'), '<dev>/event_with_picture/<id>/baptismal_certificate'],
       [I18n.t('label.sidebar.sponsor_covenant'), '<dev>/event_with_picture/<id>/sponsor_covenant'],
-      [I18n.t('label.sidebar.confirmation_name'), '<dev>/pick_confirmation_name.<id>'],
-      [I18n.t('label.sidebar.christian_ministry'), '<dev>/christian_ministry.<id>'],
+      [I18n.t('label.sidebar.confirmation_name'), '<dev>/pick_confirmation_name.<id>.confirmation_name'],
+      [I18n.t('label.sidebar.christian_ministry'), '<dev>/christian_ministry.<id>.christian_ministry'],
       [I18n.t('label.sidebar.retreat_verification'), '<dev>/event_with_picture/<id>/retreat_verification'],
       [I18n.t('views.nav.edit'), '/candidates/<id>/edit', '<dev>/candidates/edit'],
       [I18n.t('views.nav.events'), '/event/<id>', '/dev/registrations/event/<id>']

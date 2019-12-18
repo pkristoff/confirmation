@@ -3,8 +3,8 @@
            is_verify: true,
            candidate: @candidate,
            candidate_event: @candidate_event,
-           event_association: @candidate.get_event_association(@event_with_picture_name),
-           error_msgs: (@event_with_picture_name == 'baptismal_certificate' ? @candidate : @candidate.get_event_association(@event_with_picture_name)),
-           event_with_picture_name: @event_with_picture_name,
-           download_doc: download_document_path(@candidate.id, @event_with_picture_name)
+           event_association: @candidate.get_event_association(@event_with_picture_route),
+           error_msgs: (@event_with_picture_route == Event::Route::BAPTISMAL_CERTIFICATE ? @candidate : @candidate.get_event_association(@event_with_picture_route)),
+           event_with_picture_route: @event_with_picture_route,
+           download_doc: download_document_path(@candidate.id, @event_with_picture_route)
 %>

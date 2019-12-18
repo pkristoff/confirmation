@@ -68,7 +68,7 @@ module ApplicationHelper
   #
   # === Parameters:
   #
-  # * <tt>:confirmation_event_name</tt>
+  # * <tt>:confirmation_event_key</tt>
   # ** <code>events.candidate_covenant_agreement</code>
   # ** <code>events.candidate_information_sheet</code>
   # ** <code>events.baptismal_certificate</code>
@@ -80,60 +80,61 @@ module ApplicationHelper
   #
   # === Returns:
   #
-  # * <tt>String</tt>
+  # * <tt>String</tt> path(route)
+  # * <tt>String</tt> I18n translation
   #
-  def candidate_event_to_path(confirmation_event_name, candidate_id)
+  def candidate_event_to_path(confirmation_event_key, candidate_id)
     # for some reason when this was in-lined in _side_bar it handled
     # admin vs. candidate.
     is_candidate_logged_in = current_admin.nil?
-    case confirmation_event_name
+    case confirmation_event_key
     when Candidate.covenant_agreement_event_key
       if is_candidate_logged_in
-        dev_sign_agreement_path(candidate_id)
+        [dev_sign_agreement_path(candidate_id, Event::Other::CANDIDATE_COVENANT_AGREEMENT), t('label.sidebar.candidate_covenant_agreement')]
       else
-        sign_agreement_path(candidate_id)
+        [sign_agreement_path(candidate_id, Event::Other::CANDIDATE_COVENANT_AGREEMENT), t('label.sidebar.candidate_covenant_agreement')]
       end
     when CandidateSheet.event_key
       if is_candidate_logged_in
-        dev_candidate_sheet_path(candidate_id)
+        [dev_candidate_sheet_path(candidate_id, Event::Other::CANDIDATE_INFORMATION_SHEET), t('label.sidebar.candidate_information_sheet')]
       else
-        candidate_sheet_path(candidate_id)
+        [candidate_sheet_path(candidate_id, Event::Other::CANDIDATE_INFORMATION_SHEET), t('label.sidebar.candidate_information_sheet')]
       end
     when BaptismalCertificate.event_key
       if is_candidate_logged_in
-        dev_event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
+        [dev_event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE), t('label.sidebar.baptismal_certificate')]
       else
-        event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
+        [event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE), t('label.sidebar.baptismal_certificate')]
       end
     when SponsorCovenant.event_key
       if is_candidate_logged_in
-        dev_event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+        [dev_event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT), I18n.t('label.sidebar.sponsor_covenant')]
       else
-        event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+        [event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT), I18n.t('label.sidebar.sponsor_covenant')]
       end
     when PickConfirmationName.event_key
       if is_candidate_logged_in
-        dev_pick_confirmation_name_path(candidate_id)
+        [dev_pick_confirmation_name_path(candidate_id, Event::Route::CONFIRMATION_NAME), t('label.sidebar.confirmation_name')]
       else
-        pick_confirmation_name_path(candidate_id)
+        [pick_confirmation_name_path(candidate_id, Event::Route::CONFIRMATION_NAME), t('label.sidebar.confirmation_name')]
       end
     when ChristianMinistry.event_key
       if is_candidate_logged_in
-        dev_christian_ministry_path(candidate_id)
+        [dev_christian_ministry_path(candidate_id, Event::Route::CHRISTIAN_MINISTRY), t('label.sidebar.christian_ministry')]
       else
-        christian_ministry_path(candidate_id)
+        [christian_ministry_path(candidate_id, Event::Route::CHRISTIAN_MINISTRY), t('label.sidebar.christian_ministry')]
       end
     when RetreatVerification.event_key
       if is_candidate_logged_in
-        dev_event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
+        [dev_event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION), t('label.sidebar.retreat_verification')]
       else
-        event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
+        [event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION), t('label.sidebar.retreat_verification')]
       end
     when Candidate.parent_meeting_event_key
       if is_candidate_logged_in
-        dev_event_with_picture_path(candidate_id, Event::Other::PARENT_INFORMATION_MEETING)
+        [dev_event_with_picture_path(candidate_id, Event::Other::PARENT_INFORMATION_MEETING), t('label.sidebar.parent_meeting')]
       else
-        event_with_picture_path(candidate_id, Event::Other::PARENT_INFORMATION_MEETING)
+        [event_with_picture_path(candidate_id, Event::Other::PARENT_INFORMATION_MEETING), t('label.sidebar.parent_meeting')]
       end
     else
       raise "Unknown candidate_event_to_path: #{confirmation_event_name}"

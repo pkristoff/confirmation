@@ -70,7 +70,7 @@ shared_context 'sign_an_agreement_html_erb' do
                                  ])
   end
 
-  scenario 'admin un-verifies a verified sponsor agreemtn event' do
+  scenario 'admin un-verifies a verified sponsor agreement event' do
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
     event_key = @event_key

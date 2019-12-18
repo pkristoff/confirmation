@@ -59,7 +59,7 @@ def expect_download_button(name, cand_id, dev_path)
   expect(page).to have_button(I18n.t('views.common.download'))
 end
 
-def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
+def expect_candidate_event(index, confirmation_event_id, event_key, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
   page_or_rendered = respond_to?(:page) ? page : rendered
 
   if id_css == 'fieldset'
@@ -73,7 +73,7 @@ def expect_candidate_event(index, confirmation_event_id, name, the_way_due_date,
     completed_text = completed_date.empty? ? "#{I18n.t('views.events.completed_date')}:#{completed_date}" : "#{I18n.t('views.events.completed_date')}: #{completed_date}"
   end
 
-  expect(page_or_rendered).to have_selector(name_selector, text: name)
+  expect(page_or_rendered).to have_selector(name_selector, text: Candidate.i18n_event_name(event_key))
   if the_way_due_date.nil?
     expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: I18n.t('views.events.the_way_due_date'))
     expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: the_way_due_date.to_s)

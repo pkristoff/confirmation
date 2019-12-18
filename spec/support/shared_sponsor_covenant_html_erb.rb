@@ -183,7 +183,7 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
-    expect_heading(cand, dev_path.empty?, I18n.t('events.sponsor_covenant'))
+    expect_heading(cand, dev_path.empty?, SponsorCovenant.event_key)
 
     visibility = cand.sponsor_covenant.sponsor_attends_home_parish ? 'hide-div' : 'show-div'
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/sponsor_covenant\"]")

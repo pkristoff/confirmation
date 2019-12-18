@@ -45,21 +45,21 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
 
   scenario 'admin clicks the updates candidates events button' do
     candidate = Candidate.find_by(account_name: @candidate1.account_name)
-    event_name = I18n.t('events.confirmation_name')
-    candidate_event = candidate.get_candidate_event(event_name)
+    event_key = PickConfirmationName.event_key
+    candidate_event = candidate.get_candidate_event(event_key)
     candidate_event.completed_date = @today
     candidate_event.save
 
     visit edit_multiple_confirmation_events_path
 
-    click_button("candidates-#{ConfirmationEvent.find_by(name: event_name).id}")
+    click_button("candidates-#{ConfirmationEvent.find_by(name: event_key).id}")
 
-    expect(page).to have_css('h2', text: event_name)
+    expect(page).to have_css('h2', text: event_key)
     expect(page).to have_field(I18n.t('views.events.completed_date'))
     expect(page).to have_unchecked_field(I18n.t('views.events.verified'))
 
     expect_sorting_candidate_list(
-      confirmation_events_columns(event_name),
+      confirmation_events_columns(event_key),
       @candidates,
       page
     )

@@ -21,7 +21,7 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture_verify
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
-    event_key = params[:event_key]
+    event_key = params[:event_route]
     render_event_with_picture(false, event_key, true)
   end
 
@@ -53,8 +53,8 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
-    event_name = params[:event_key]
-    render_event_with_picture(false, event_name)
+    event_route = params[:event_route]
+    render_event_with_picture(false, event_route)
   end
 
   # update event_with_picture
@@ -74,16 +74,17 @@ class CommonCandidatesController < ApplicationController
     is_unverify = params[:commit] == I18n.t('views.common.un_verify')
 
     candidate_id = params[:id]
-    event_name = params.require(:event_key)
+    event_route = params.require('event_route')
+    event_key = Candidate.event_key_from_route(event_route)
     @candidate = Candidate.find(candidate_id)
-    candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_name}"))
+    candidate_event = @candidate.get_candidate_event(event_key)
 
     return admin_unverified_private(@candidate, candidate_event) if is_unverify
 
     is_verify = @is_verify.nil? ? false : @is_verify
     render_called = false
     if params['candidate']
-      case event_name.to_sym
+      case event_route.to_sym
       when Event::Route::SPONSOR_COVENANT
         sponsor_covenant = @candidate.sponsor_covenant
         sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
@@ -156,7 +157,7 @@ class CommonCandidatesController < ApplicationController
       flash[:alert] = I18n.t('messages.unknown_parameter', name: 'candidate')
     end
     @resource = @candidate
-    render_event_with_picture(render_called, event_name, is_verify)
+    render_event_with_picture(render_called, event_route, is_verify)
   end
 
   # edit candidate_sheet information
@@ -333,7 +334,7 @@ class CommonCandidatesController < ApplicationController
 
     candidate_id = params[:id]
     @candidate = Candidate.find(candidate_id)
-    candidate_event = @candidate.get_candidate_event(I18n.t('events.candidate_covenant_agreement'))
+    candidate_event = @candidate.get_candidate_event(Candidate.covenant_agreement_event_key)
 
     return admin_unverified_private(@candidate, candidate_event) if is_unverify
 
@@ -405,7 +406,7 @@ class CommonCandidatesController < ApplicationController
       if clazz == BaptismalCertificate
         bc = @candidate.baptismal_certificate
         if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
-          candidate_info_sheet_event = @candidate.get_candidate_event(I18n.t('events.candidate_information_sheet'))
+          candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
           candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
           @candidate.keep_bc_errors
           if candidate_info_sheet_event.save
@@ -487,14 +488,14 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  def render_event_with_picture(render_called, event_key, is_verify = false)
+  def render_event_with_picture(render_called, event_route, is_verify = false)
     return if render_called
 
-    @event_with_picture_name = event_key
+    @event_with_picture_route = event_route.to_sym
     @is_dev = !admin?
 
-    @candidate_event = @candidate.get_candidate_event(I18n.t("events.#{event_key}"))
-    flash[:alert] = "Internal Error: unknown event: #{event_key}: #{I18n.t("events.#{event_name}")}" if @candidate_event.nil?
+    @candidate_event = @candidate.get_candidate_event(Candidate.event_key_from_route(event_route))
+    flash[:alert] = "Internal Error: unknown event: #{event_route}" if @candidate_event.nil?
     render :event_with_picture unless is_verify
     render :event_with_picture_verify if is_verify
   end

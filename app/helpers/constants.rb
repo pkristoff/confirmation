@@ -4,7 +4,7 @@ module Event
   module Other
     PARENT_INFORMATION_MEETING = :parent_meeting
     ATTEND_RETREAT = :retreat_weekend
-    CANDIDATE_COVENANT_AGREEMENT = :candidate_covenant_agreement
+    CANDIDATE_COVENANT_AGREEMENT = :covenant_agreement
     CANDIDATE_INFORMATION_SHEET = :candidate_information_sheet
     INITIAL_PASSWORD = Rails.application.secrets.candidate_initial_password
   end

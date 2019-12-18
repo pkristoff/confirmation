@@ -11,7 +11,7 @@ shared_context 'retreat_verification_html_erb' do
     event_with_picture_setup(Event::Route::RETREAT_VERIFICATION, @is_verify)
     AppFactory.add_confirmation_events
 
-    @candidate_event_id = @candidate.get_candidate_event(I18n.t('events.retreat_verification')).id
+    @candidate_event_id = @candidate.get_candidate_event(RetreatVerification.event_key).id
     @cand_id = @candidate.id
     @today = Time.zone.today
     v = Visitor.all.first
@@ -20,8 +20,6 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
-    # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
-    # update_retreat_verification(false)
     visit @path
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      who_held_retreat: '',
@@ -31,8 +29,6 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and no picture' do
-    # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
-
     expect_db(1, 8, 0)
 
     visit @path
@@ -69,8 +65,6 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and picture' do
-    # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
-
     expect_db(1, 8, 0)
     visit @path
     fill_in_form(true)
@@ -102,8 +96,6 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
-    # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
-
     expect_db(1, 8, 0)
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = false
@@ -151,8 +143,6 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, fills in template, except Who held retreat' do
-    # AppFactory.add_confirmation_event(I18n.t('events.retreat_verification'))
-    # update_retreat_verification(false)
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save

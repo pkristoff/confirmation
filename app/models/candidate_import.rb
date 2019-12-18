@@ -121,15 +121,14 @@ class CandidateImport
   def check_events
     all_in_confirmation_event_keys = AppFactory.all_i18n_confirmation_event_keys
     unknowns = ConfirmationEvent.all.map(&:name)
-    all_in_confirmation_event_keys.each do |event_name|
-      confirmation_event_name = event_name
-      unknowns_index = unknowns.index(confirmation_event_name)
+    all_in_confirmation_event_keys.each do |event_key|
+      unknowns_index = unknowns.index(event_key)
       unknowns.slice!(unknowns_index) unless unknowns_index.nil?
-      confirmation_event = ConfirmationEvent.find_by(name: confirmation_event_name)
+      confirmation_event = ConfirmationEvent.find_by(name: event_key)
       if confirmation_event.nil?
-        missing_confirmation_events.push(confirmation_event_name)
+        missing_confirmation_events.push(event_key)
       else
-        found_confirmation_events.push(confirmation_event_name)
+        found_confirmation_events.push(event_key)
       end
     end
     unknowns.each do |confirmation_event_name|

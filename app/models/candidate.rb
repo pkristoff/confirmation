@@ -343,7 +343,7 @@ class Candidate < ApplicationRecord
   #
   # === Returns:
   #
-  # * <tt>Boolean</tt>
+  # * <tt>CandidateEvent</tt>
   #
   def get_candidate_event(event_key)
     event = candidate_events.find { |candidate_event| candidate_event.name == event_key }
@@ -355,6 +355,52 @@ class Candidate < ApplicationRecord
     event
   end
 
+  def self.i18n_event_name(event_key)
+    case event_key
+    when Candidate.parent_meeting_event_key
+      I18n.t('events.parent_meeting')
+    when RetreatVerification.event_key
+      I18n.t('events.retreat_verification')
+    when Candidate.covenant_agreement_event_key
+      I18n.t('events.candidate_covenant_agreement')
+    when CandidateSheet.event_key
+      I18n.t('events.candidate_information_sheet')
+    when BaptismalCertificate.event_key
+      I18n.t('events.baptismal_certificate')
+    when SponsorCovenant.event_key
+      I18n.t('events.sponsor_covenant')
+    when PickConfirmationName.event_key
+      I18n.t('events.confirmation_name')
+    when ChristianMinistry.event_key
+      I18n.t('events.christian_ministry')
+    else
+      "unknown_event_key_#{event_key}"
+    end
+  end
+
+  def self.event_key_from_route(event_route)
+    case event_route.to_sym
+    when Event::Route::BAPTISMAL_CERTIFICATE
+      BaptismalCertificate.event_key
+    when Event::Route::CHRISTIAN_MINISTRY
+      ChristianMinistry.event_key
+    when Event::Route::CONFIRMATION_NAME
+      PickConfirmationName.event_key
+    when Event::Route::SPONSOR_COVENANT
+      SponsorCovenant.event_key
+    when Event::Route::RETREAT_VERIFICATION
+      RetreatVerification.event_key
+    when Event::Other::CANDIDATE_INFORMATION_SHEET
+      CandidateSheet.event_key
+    when Event::Other::PARENT_INFORMATION_MEETING
+      Candidate.parent_meeting_event_key
+    when Event::Other::CANDIDATE_COVENANT_AGREEMENT
+      Candidate.covenant_agreement_event_key
+    else
+      raise "Unknown event_route: #{event_route}"
+    end
+  end
+
   def self.event_route(event_key)
     case event_key
     when Candidate.parent_meeting_event_key
@@ -362,7 +408,7 @@ class Candidate < ApplicationRecord
     when RetreatVerification.event_key
       :retreat_verification
     when Candidate.covenant_agreement_event_key
-      :candidate_covenant_agreement
+      :covenant_agreement
     when CandidateSheet.event_key
       :candidate_information_sheet
     when BaptismalCertificate.event_key

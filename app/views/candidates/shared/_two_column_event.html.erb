@@ -1,12 +1,14 @@
+<% i18n_event_name = Candidate.i18n_event_name(candidate_event.name) %>
+
 
 <div id="two_column">
   <h2 id="heading">
     <% if is_dev %>
-      <%= candidate_event.name %>
+      <%= i18n_event_name %>
     <% else %>
       <% first = candidate.candidate_sheet.first_name %>
       <% last = candidate.candidate_sheet.last_name %>
-      <%= "#{I18n.t('views.events.heading', event_name: candidate_event.name, first: first, last: last)}" %>
+      <%= "#{I18n.t('views.events.heading', event_name: i18n_event_name, first: first, last: last)}" %>
     <% end %>
   </h2>
 
@@ -32,8 +34,8 @@
                             download_doc: download_doc,
                             update_name: is_verify ? t('views.common.update_verify') : t('views.common.update'),
                             id_postfix: is_verify ? '-verify' : '',
-                            shared_html_file: event_with_picture_name,
-                            path: is_dev ? dev_event_with_picture_update_path(candidate.id, @event_with_picture_name) : (is_verify ? event_with_picture_verify_update_path(candidate.id, @event_with_picture_name) : event_with_picture_update_path(candidate.id, @event_with_picture_name)),
+                            shared_html_file: event_with_picture_route,
+                            path: is_dev ? dev_event_with_picture_update_path(candidate.id, @event_with_picture_route) : (is_verify ? event_with_picture_verify_update_path(candidate.id, @event_with_picture_route) : event_with_picture_update_path(candidate.id, @event_with_picture_route)),
                             is_event_with_picture: true
                %>
 

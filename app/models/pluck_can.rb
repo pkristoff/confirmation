@@ -145,12 +145,12 @@ class PluckCan
   # === Parameters:
   #
   # * <tt>:cand_id</tt> Candidate id.
-  # * <tt>:event_name</tt> Name of caandidate event.
+  # * <tt>:event_key</tt> DB name.
   # * <tt>:attending</tt> The way or catholic hs.
   #
-  def status(cand_id, event_name, _attending)
+  def status(cand_id, event_key, _attending)
     event_info = @cand_event_info[cand_id].find do |cand_event_for_cand|
-      cand_event_for_cand[3] == event_name
+      cand_event_for_cand[3] == event_key
     end
     CandidateEvent.status(event_info[6],
                           event_info[5],

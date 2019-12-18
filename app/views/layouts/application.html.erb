@@ -58,10 +58,10 @@
 
           <div id="sidebar-header" class="sidebar-header" style="color:red">
             <% if admin_signed_in? %>
-              <h6 id="admin" class="sidebar-header no-link">Admin: <%= "#{current_admin.name}" %></h6>
+              <h6 id="admin" class="sidebar-header no-link"><%= "#{t('views.admins.admin')}: #{current_admin.name}" %></h6>
             <% end %>
             <% if candidate_signed_in? %>
-              <h6 id="candidate" class="sidebar-header no-link">Candidate: <%= "#{current_candidate.account_name}" %></h6>
+              <h6 id="candidate" class="sidebar-header no-link"><%= "#{t('views.candidates.candidate')}: #{current_candidate.account_name}" %></h6>
             <% end %>
           </div>
           <%= render 'layouts/side_bar' %>

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 def setup_candidate1
-  ev = @candidate1.get_candidate_event(I18n.t('events.baptismal_certificate'))
+  ev = @candidate1.get_candidate_event(BaptismalCertificate.event_key)
   ev.completed_date = Time.zone.today
   bc = @candidate1.baptismal_certificate
   bc.baptized_at_home_parish = true
@@ -12,7 +12,7 @@ def setup_candidate1
 end
 
 def setup_candidate2
-  ev = @candidate2.get_candidate_event(I18n.t('events.baptismal_certificate'))
+  ev = @candidate2.get_candidate_event(BaptismalCertificate.event_key)
   ev.completed_date = Time.zone.today
   ev.verified = false
   picture = nil
@@ -33,7 +33,7 @@ def setup_candidate2
 end
 
 def setup_candidate3
-  ev = @candidate3.get_candidate_event(I18n.t('events.baptismal_certificate'))
+  ev = @candidate3.get_candidate_event(BaptismalCertificate.event_key)
   ev.completed_date = Time.zone.today
   bc = @candidate3.baptismal_certificate
   bc.baptized_at_home_parish = false
@@ -43,7 +43,7 @@ def setup_candidate3
 end
 
 def setup_candidate4
-  ev = @candidate4.get_candidate_event(I18n.t('events.baptismal_certificate'))
+  ev = @candidate4.get_candidate_event(BaptismalCertificate.event_key)
   ev.completed_date = Time.zone.today
   ev.verified = true
   picture = nil

@@ -16,7 +16,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @cand_id = candidate.id
-    @confirmation_event = ConfirmationEvent.find_by(name: I18n.t('events.christian_ministry'))
+    @confirmation_event = ConfirmationEvent.find_by(name: ChristianMinistry.event_key)
   end
 
   after(:each) do
@@ -44,7 +44,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
                                                      [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verified:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
     candidate = Candidate.find(@cand_id)
-    candidate_event = candidate.get_candidate_event(I18n.t('events.christian_ministry'))
+    candidate_event = candidate.get_candidate_event(ChristianMinistry.event_key)
     expect(candidate_event.completed_date).to eq(nil)
     expect(candidate_event.verified).to eq(false)
 

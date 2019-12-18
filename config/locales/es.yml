@@ -1,0 +1,412 @@
+---
+es:
+  date:
+    abbr_day_names:
+    - Dom
+    - LUN
+    - Mar
+    - MIE
+    - JUE
+    - VIE
+    - SAB
+    abbr_month_names:
+    - 
+    - Enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    day_names:
+    - Domingo
+    - Lunes
+    - Martes
+    - Miércoles
+    - Jueves
+    - Viernes
+    - Sábado
+    formats:
+      default: "%Y-%m-%d"
+      long: "%Y, %B %d"
+      short: "%b %d"
+    month_names:
+    - 
+    - Enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    order:
+    - year
+    - month
+    - day
+  devise:
+    failure:
+      timeout: Su sesión expiró. Inicia sesión de nuevo para continuar.
+  email:
+    adhoc_mail: Correo ad hoc
+    body_label: Cuerpo
+    closing_initial_input: ''
+    closing_input_label: Párrafo final
+    coming_due_initial_input: Estos eventos aún no se deben.
+    coming_due_label: Próximos eventos
+    completed_awaiting_approval_label: Eventos completados en espera de aprobación.
+    completed_awaiting_initial_input: Estos son los eventos completados en espera
+      de aprobación. Verifique que la información que ingresó sea correcta, si corresponde.
+    completed_awaiting_input_label: Eventos completados en espera de aprobación
+    completed_events: Eventos
+    completed_initial_input: Estos son los eventos completados. Por favor verifique
+      que el la información que ingresó es correcta, si corresponde.
+    completed_input_label: Eventos completados
+    confirmation_instructions_subject: Sitio web de %{home_parish} para candidatos
+      de confirmación - Instrucciones de verificación del usuario
+    due_date: Fecha de vencimiento
+    events: Eventos
+    from_initial_input_html: |
+      %{name}
+      %{email}
+      %{phone}
+    from_input_label: Desde
+    information_entered: Información ingresada
+    late_initial_input: Aquí está el estado de sus formularios de confirmación (eventos)
+      que necesitas enviar
+    monthly_mail: Correo mensual
+    past_due: Eventos vencidos
+    pre_coming_due_input_label: El texto de vencimiento anterior
+    pre_late_input_label: El texto anterior
+    reset_password_subject: 'Sitio web %{home_parish}  para candidatos de confirmación:
+      restablecer instrucciones de contraseña'
+    salutation_initial_input: Por favor envíeme un correo electrónico si tiene alguna
+      pregunta
+    salutation_input_label: Texto de saludo
+    subject_initial_input: Estado de la información de confirmación
+    subject_label: Tema
+    test_adhoc_mail: Probar correo ad hoc
+    test_adhoc_subject_initial_input: Correo electrónico de prueba adhoc para %{candidate_account_name}
+    test_monthly_mail: Probar el correo mensual
+    test_monthly_mail_subject_initial_input: Correo electrónico de prueba de correo
+      mensual para %{candidate_account_name}
+    website_name: Sitio web %{home_parish} para candidatos de confirmación
+  events:
+    baptismal_certificate: Certificado de bautismo
+    candidate_covenant_agreement: Acuerdo de Pacto de Candidato
+    candidate_information_sheet: Hoja de información del candidato
+    christian_ministry: Conciencia del ministerio cristiano
+    confirmation_name: Nombre de confirmacion
+    parent_meeting: Reunión de información para padres
+    retreat_verification: Asistir al retiro
+    sponsor_covenant: Pacto del patrocinador y elegibilidad del patrocinador
+  field_set:
+    baptismal_certificate:
+      church: Iglesia
+      dates: fechas
+      father: Nombre del Padre
+      mother: Nombre de la madre
+      scan: Certificado de bautismo
+    candidate_sheet:
+      address: Dirección del candidato
+      email: 'Direcciones de correo electrónico: NO ingrese la misma dirección en
+        más de una línea.'
+      name: 'Nombre del candidato (como aparece en su Certificado de Bautismo):'
+      other: Otro
+    christian_ministry:
+      questions: Responder preguntas
+    confirmation_name:
+      saint: Smo
+    retreat_verification:
+      dates: fechas
+      info: Informacion
+      scan: Formulario de verificación de retiro
+    sponsor_covenant:
+      sponsor_covenant: Pacto del patrocinador
+      sponsor_eligibility: Elegibilidad del patrocinador
+  label:
+    admin:
+      contact_name: Nombre de contacto
+      contact_phone: Teléfono de contacto
+    baptismal_certificate:
+      baptismal_certificate:
+        baptismal_date: Fecha bautismal
+        baptized_at_home_parish: Fui bautizado en %{home_parish}
+        birth_date: Fecha de nacimiento
+        certificate_picture: Certificado de bautismo
+        church_address:
+          city: Ciudad
+          state: Estado
+          street_1: Calle 1
+          street_2: Calle 2
+          zip_code: Código postal
+        church_name: Nombre de la iglesia
+        father_first: Padre primero
+        father_last: Padre pasado
+        father_middle: Padre medio
+        first_comm_at_home_parish: Recibí Primera Comunión en %{home_parish}
+        mother_first: Madre primero
+        mother_last: Madre última
+        mother_maiden: Madre soltera
+        mother_middle: Madre media
+    candidate_event:
+      select: Seleccionar
+    candidate_note:
+      note: Nota
+    candidate_sheet:
+      address:
+        city: Ciudad
+        state: Estado
+        street_1: Calle 1
+        street_2: Calle 2
+        zip_code: Código postal
+      attending: Asistiendo
+      candidate_email: Correo electrónico del candidato
+      first_name: Nombre de pila
+      grade: Grado
+      last_name: Apellido
+      middle_name: Segundo nombre
+      parent_email_1: Correo electrónico principal 1
+      parent_email_2: Correo electrónico principal 2
+      program_year: Año del programa
+    christian_ministry:
+      helped_me: Esta experiencia me ayudó por
+      what_service: "¿Cuál fue el servicio?"
+      when_service: "¿Cuándo hiciste el servicio?"
+      where_service: "¿Dónde tuvo lugar el servicio?"
+    confirmation_name:
+      saint_name: Santo nombre
+    events:
+      chs_due_date: Fecha de vencimiento de la escuela secundaria católica
+      instructions: Instrucciones
+      the_way_due_date: La fecha de vencimiento del camino
+    mail:
+      attach_file: Adjuntar archivo
+    retreat_verification:
+      end_date: Fecha de finalización del retiro
+      retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
+      retreat_verification_picture: Formulario de verificación de retiro
+      start_date: Fecha de inicio del retiro
+      where_held_retreat: "¿Dónde se realizó el retiro?"
+      who_held_retreat: "¿Quién realizó el retiro? (como St. Andrews, CGHS, etc.)"
+    sidebar:
+      baptismal_certificate: Certificado de bautismo
+      candidate_covenant_agreement: Acuerdo de pacto
+      candidate_information_sheet: Hoja informativa
+      candidate_note: Nota
+      christian_ministry: Ministerio cristiano
+      confirmation_name: Nombre de confirmacion
+      parent_meeting: Reunión de información para padres
+      retreat_verification: Asistir al retiro
+      sponsor_covenant: Pacto del patrocinador
+    sign_agreement:
+      signed_agreement: Al marcar está de acuerdo con lo anterior.
+    sponsor_covenant:
+      sponsor_attends_home_parish: Patrocinador registrado en %{home_parish}
+      sponsor_church: La iglesia del patrocinador
+      sponsor_covenant_picture: Pacto del patrocinador
+      sponsor_eligibility_picture: Formulario de elegibilidad del patrocinador
+      sponsor_name: Nombre del patrocinador
+    visitor:
+      about: Acerca de
+      contact_information: Información del contacto
+      home: Casa
+      home_parish: Parroquia de origen
+  messages:
+    about_updated: Sobre actualizado
+    accessed_denied: Acceso denegado.
+    account_confirmed: 'Cuentas de candidatos confirmadas: %{number_confirmed} y ya
+      confirmado {number_not_confirmed}.'
+    adhoc_mailing_progress: Envío ad hoc en curso
+    adhoc_mailing_test_sent: Prueba de envío ad hoc enviada
+    admin_login_needed: Por favor, inicie sesión como administrador para %{message}.
+    another_admin: crear otro administrador
+    another_candidate: crear otro candidato
+    cand_account_confirmed_next: El siguiente paso es configurar su contraseña. Otro
+      solo se envió un correo electrónico explicando cómo hacer esto.
+    cand_account_is_confirmed: Felicitaciones %{account_name} por confirmar su cuenta.
+    candidate_updated: Candidato %{name} actualizado correctamente
+    candidates_deleted: Candidatos eliminados
+    candidates_removed: Todos los candidatos eliminados con éxito.
+    confirmation_email_sent: Correo de Confirmación Mandado.
+    confirmation_events_updated: "¡Eventos de confirmación actualizados!"
+    contact_information_updated: Información de contacto actualizada
+    database_reset: La base de datos se restableció correctamente.
+    error:
+      baptized_should_be_checked: Debería ser bautizado en   %{home_parish} debe ser
+        verificado.
+      duplicate_email: es un correo electrónico duplicado, que no está permitido para
+        un candidato - %{name}.
+      first_communion_should_be_checked: Recibí la Primera Comunión en %{home_parish} debe
+        ser revisado
+      invalid_email: 'es un correo electrónico no válido: %{email}'
+      one_email: se debe proporcionar al menos un correo electrónico.
+      unknown_show_empty_radio: 'Valor desconocido de show_empty_radio: %{show_empty_radio}'
+    export_to_excel: Trabajan en segundo plano. Se enviará un correo electrónico con
+      hoja de cálculo. al finalizar con %{commit}.
+    generate_pdf_error: Solo seleccione un candidato
+    home_parish_updated: Parroquia local actualizada
+    home_updated: Inicio actualizado
+    import_successful: Candidatos importados con éxito.
+    monthly_mailing_progress: Correo mensual en progreso
+    monthly_mailing_test_sent: Prueba de envío mensual enviada
+    no_candidate_selected: Ningún candidato fue seleccionado.
+    not_all_confirmation_events_updated: No todos los eventos de confirmación actualizados
+    password:
+      reset_and_confirmed: Su contraseña ha sido modificada con éxito, su usuario nombre
+        ( %{name}) confirmado y ahora ha iniciado sesión.
+      token_expired: El correo electrónico de restablecimiento de contraseña ha caducado
+        o se ha utilizado. Póngase en contacto con el administrador por correo electrónico
+        %{email}
+    remove_candidate: eliminar a un candidato
+    reset_password_message_sent: Restablecer mensajes de contraseña enviados
+    save_failed: Error al guardar
+    select_excel_file: Seleccione un archivo de Excel comprimido para cargar.
+    signed_agreement_val: "%{field_name} necesita ser revisado"
+    unknown_parameter: Parámetro desconocido %{name}
+    unknown_parameter_commit: 'Valor de parámetro desconocido: %{commit} params: %{params}'
+    update_candidate_event: CandidateEvent actualizado! para candidatos
+    updated: Actualizado para %{cand_name}
+    updated_not_verified: Actualizado y no verificado para %{cand_name}
+    updated_unverified: Evento no verificado para %{cand_name}
+    updated_verified: Actualizado y verificado para %{cand_name}
+  model:
+    candidate:
+      attending_catholic_high_school: Escuela secundaria católica
+      attending_the_way: La manera
+  status:
+    awaiting_admin: En espera de administrador
+    awaiting_candidate: En espera de candidato
+    coming_due: Próximamente
+    late: Late
+    not_started: No empezado
+    verified: Verificada
+  time:
+    am: am
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+    pm: pm
+  views:
+    admins:
+      account_name: Nombre de la cuenta
+      admin: Administración
+      current_password: Contraseña actual
+      email: Email
+      sign_in: Iniciar sesión admin
+    candidates:
+      account_confirmed: Cuenta confirmada
+      account_name: Nombre de la cuenta
+      attending_catholic_high_school: Escuela secundaria católica
+      attending_the_way: La manera
+      candidate: Candidata
+      edit_candidate: Editar candidato
+      first_name: Nombre de pila
+      last_name: Apellido
+      middle_name: Segundo nombre
+      parent_email_1: Correo electrónico principal 1
+      password: Contraseña
+      password_changed: Contraseña cambiada
+    common:
+      are_you_sure: "¿Estás seguro?"
+      are_you_sure_delete_candidates: "¿Está seguro de que desea eliminar los candidatos
+        seleccionados?"
+      clear_attach_file: Borrar archivo elegido
+      confirm_account: Confirmar cuenta
+      delete: Borrar
+      download: Descargar documento
+      email: Email
+      generate_pdf: Generar PDF
+      image_upload_file_types: Solo puede cargar un tipo de archivo de .pdf, .jpg,
+        .jpeg, .png
+      initial_email: Correo electrónico inicial
+      mail_upload_file_types: Solo puede cargar un tipo de archivo de .pdf, .docx,
+        xlsx
+      name: Nombre
+      password: Contraseña
+      password_confirmation: confirmación de contraseña
+      remove_image: Eliminar imagen escaneada
+      replace_image: Reemplazar imagen escaneada
+      reset_password: Restablecer la contraseña
+      status: Estado
+      un_verify: No verificar
+      unconfirm_account: Cuenta no confirmada
+      update: Actualizar
+      update_about: Actualización sobre
+      update_candidates_event: Evento de actualización para candidatos
+      update_home: Actualizar inicio
+      update_home_parish: Actualización de la parroquia de origen
+      update_information_contact: Actualizar información de contacto
+      update_verify: Actualizar y verificar
+    events:
+      chs_due_date: Fecha de vencimiento de la escuela secundaria católica
+      completed_date: Fecha completada
+      heading: "%{event_name} para %{first} %{last}"
+      instructions: Instrucciones
+      the_way_due_date: La fecha de vencimiento del camino
+      verified: Verificada
+    imports:
+      add_missing_events: Agregar eventos faltantes
+      candidates_export: Candidatos de exportación
+      candidates_import: Importar candidatos
+      cannot_recover: No puedes recuperarte de esto.
+      check_events: Verificar eventos
+      check_events_first: No se encontraron eventos faltantes ejecutando Verificar
+        eventos primero.
+      check_orphaned_table_rows: Comprobar filas de tablas huérfanas
+      excel_no_pict: Exportar a Excel Sin imágenes escaneadas
+      found: Encontró
+      import: Importar
+      missing: Desaparecida
+      orphaned_table_rows: Filas de la mesa huérfanas
+      remove_orphaned_table_rows: Eliminar hileras de talbe huérfanas
+      reset_database: Restablecer la base de datos
+      start_new_year: Comienza año nuevo
+      unknown: Desconocida
+    nav:
+      add_new_admin: Agregar nuevo administrador
+      add_new_candidate: Añadir nuevo candidato
+      adhoc_mailing: Envío ad hoc
+      admins: Administradoras
+      candidates: Candidatas
+      edit: Editar
+      edit_account: Editar cuenta
+      email: Email
+      events: Eventos
+      export_attend_retreat_title: Retiro en %{home_parish}
+      export_baptized_at_home_parish_title: Bautizado en %{home_parish}
+      export_candidate_event_status_title: Estado de eventos candidatos
+      export_confirmation_name: Nombres de confirmación
+      export_sponsor_at_home_parish_title: Patrocinador en %{home_parish}
+      monthly_mass_mailing: Correo mensual
+      note: Nota
+      other: Otra
+      pdf_baptismal_name: PDF para hacer coincidir el nombre del candidato con el
+        bap. nombre
+      toggle_navigation: Navegación de palanca
+      users: Los usuarios
+    title:
+      instruction_link: Mostrar/ocultar instrucciones
+    top_bar:
+      about: Acerca de
+      aboutApp: Acerca de la aplicación de confirmación
+      candidate_checklist: Lista de verificación de candidatos
+      contact_admin_mail: mailto:%{email}?subject=%{subject}
+      contact_admin_mail_text: "%{email}"
+      contact_information: Información del contacto
+      help: Ayuda
+      home: Casa
+      send_grid: Enviar cuadrícula
+      sign_in: Inicie sesión %{name}
+      sign_out: desconectar
+      sign_up: Regístrate

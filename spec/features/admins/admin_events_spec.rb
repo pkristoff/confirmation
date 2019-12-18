@@ -22,7 +22,7 @@ feature 'Admin events page', :devise do
   end
 
   scenario 'admin list of 1 events' do
-    AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
+    AppFactory.add_confirmation_event(Candidate.covenant_agreement_event_key)
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     visit edit_multiple_confirmation_events_path
@@ -31,8 +31,8 @@ feature 'Admin events page', :devise do
   end
 
   scenario 'admin list of 2 events' do
-    agreement_event = AppFactory.add_confirmation_event(I18n.t('events.candidate_covenant_agreement'))
-    info_event = AppFactory.add_confirmation_event(I18n.t('events.candidate_information_sheet'))
+    agreement_event = AppFactory.add_confirmation_event(Candidate.covenant_agreement_event_key)
+    info_event = AppFactory.add_confirmation_event(CandidateSheet.event_key)
     info_event.chs_due_date = '2016-10-29'
     info_event.the_way_due_date = '2016-10-02'
     info_event.instructions = '<p>CIS instructions</p>'
