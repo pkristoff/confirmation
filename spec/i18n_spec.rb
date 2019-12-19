@@ -29,13 +29,15 @@ RSpec.describe 'I18n' do
   end
 
   it 'all locale files should have the same keys' do
-    en_file = File.join(Rails.root, 'config', 'locales', 'en.yml')
-    es_file = File.join(Rails.root, 'config', 'locales', 'es.yml')
-    YAML.load(File.open(en_file)).each do |en_key, en_value|
-      YAML.load(File.open(es_file)).each do |es_key, es_value|
-        expect(en_key).to eq('en')
-        expect(es_key).to eq('es')
-        compare_locale_files(en_key, en_value, es_value)
+    files = [['en.yml', 'es.yml'], ['devise.en.yml', 'devise.es.yml'], ['rails.en.yml', 'rails.es.yml']].each do |pairs|
+      en_file = File.join(Rails.root, 'config', 'locales', pairs[0])
+      es_file = File.join(Rails.root, 'config', 'locales', pairs[1])
+      YAML.load(File.open(en_file)).each do |en_key, en_value|
+        YAML.load(File.open(es_file)).each do |es_key, es_value|
+          expect(en_key).to eq('en')
+          expect(es_key).to eq('es')
+          compare_locale_files(en_key, en_value, es_value)
+        end
       end
     end
   end
@@ -46,7 +48,7 @@ RSpec.describe 'I18n' do
       expect(en_value.count).to eq(es_value.count), "key: #{en_key} English count diff: #{en_value} \n from Spanish #{es_value}"
       en_value.each do |en_key, en_val|
         es_val = es_value[en_key]
-        compare_locale_files(en_key, en_val,es_val) if en_val.is_a? Hash
+        compare_locale_files(en_key, en_val, es_val) if en_val.is_a? Hash
       end
     end
   end
@@ -55,7 +57,8 @@ RSpec.describe 'I18n' do
     # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
     not_missing = %w[errors.messages.not_saved.one
                      errors.messages.not_saved.other
-                     devise.mailer.reset_password_instructions.subject]
+                     devise.mailer.reset_password_instructions.subject
+                     devise.failure.unconfirmed]
     y = @missing_keys - not_missing
     expect(y).to be_empty, "Missing #{y.count} i18n keys missing #{y}, run `i18n-tasks missing' to show them"
   end

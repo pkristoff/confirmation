@@ -1,58 +1,5 @@
 ---
 en:
-  date:
-    abbr_day_names:
-    - Sun
-    - Mon
-    - Tue
-    - Wed
-    - Thu
-    - Fri
-    - Sat
-    abbr_month_names:
-    - 
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - May
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Oct
-    - Nov
-    - Dec
-    day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
-    formats:
-      default: "%Y-%m-%d"
-      long: "%B %d, %Y"
-      short: "%b %d"
-    month_names:
-    - 
-    - January
-    - February
-    - March
-    - April
-    - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
-    order:
-    - year
-    - month
-    - day
   devise:
     failure:
       timeout: Your session expired. Please sign in again to continue.
@@ -108,6 +55,9 @@ en:
     retreat_verification: Attend Retreat
     sponsor_covenant: Sponsor's Covenant
   field_set:
+    admin:
+      change_password: Change Password
+      contact: Contact Information
     baptismal_certificate:
       church: Church
       dates: Dates
@@ -259,6 +209,8 @@ en:
     no_candidate_selected: No candidate was selected.
     not_all_confirmation_events_updated: Not all ConfirmationEvents updated
     password:
+      confirm_changes: we need your current password to confirm your changes
+      leave_blank: leave blank if you don't want to change it
       reset_and_confirmed: Your password has been changed successfully, your user
         name (%{name}) confirmed and you are now signed in.
       token_expired: The reset password email has either expired or has been used.  Please
@@ -286,13 +238,6 @@ en:
     late: Late
     not_started: Not Started
     verified: Verified
-  time:
-    am: am
-    formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      long: "%B %d, %Y %H:%M"
-      short: "%d %b %H:%M"
-    pm: pm
   views:
     admins:
       account_name: Account name

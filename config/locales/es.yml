@@ -1,58 +1,5 @@
 ---
 es:
-  date:
-    abbr_day_names:
-    - Dom
-    - LUN
-    - Mar
-    - MIE
-    - JUE
-    - VIE
-    - SAB
-    abbr_month_names:
-    - 
-    - Enero
-    - febrero
-    - marzo
-    - abril
-    - mayo
-    - junio
-    - julio
-    - agosto
-    - septiembre
-    - octubre
-    - noviembre
-    - diciembre
-    day_names:
-    - Domingo
-    - Lunes
-    - Martes
-    - Miércoles
-    - Jueves
-    - Viernes
-    - Sábado
-    formats:
-      default: "%Y-%m-%d"
-      long: "%Y, %B %d"
-      short: "%b %d"
-    month_names:
-    - 
-    - Enero
-    - febrero
-    - marzo
-    - abril
-    - mayo
-    - junio
-    - julio
-    - agosto
-    - septiembre
-    - octubre
-    - noviembre
-    - diciembre
-    order:
-    - year
-    - month
-    - day
   devise:
     failure:
       timeout: Su sesión expiró. Inicia sesión de nuevo para continuar.
@@ -110,6 +57,9 @@ es:
     retreat_verification: Asistir al retiro
     sponsor_covenant: Pacto del patrocinador y elegibilidad del patrocinador
   field_set:
+    admin:
+      change_password: Cambia la contraseña
+      contact: Información del contacto
     baptismal_certificate:
       church: Iglesia
       dates: fechas
@@ -262,6 +212,8 @@ es:
     no_candidate_selected: Ningún candidato fue seleccionado.
     not_all_confirmation_events_updated: No todos los eventos de confirmación actualizados
     password:
+      confirm_changes: necesitamos su contraseña actual para confirmar sus cambios
+      leave_blank: déjelo en blanco si no desea cambiarlo
       reset_and_confirmed: Su contraseña ha sido modificada con éxito, su usuario nombre
         ( %{name}) confirmado y ahora ha iniciado sesión.
       token_expired: El correo electrónico de restablecimiento de contraseña ha caducado
@@ -290,13 +242,6 @@ es:
     late: Late
     not_started: No empezado
     verified: Verificada
-  time:
-    am: am
-    formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      long: "%B %d, %Y %H:%M"
-      short: "%d %b %H:%M"
-    pm: pm
   views:
     admins:
       account_name: Nombre de la cuenta

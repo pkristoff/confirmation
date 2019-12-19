@@ -102,7 +102,7 @@
 <%= field_set_tag t('views.candidates.password'), class: 'fieldset' do %>
     <div class="fieldset-div">
       <div class="field">
-        <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br/>
+        <%= f.label :password %> <i>(<%= t('messages.password.leave_blank') %>)</i><br/>
         <%= f.password_field :password, autocomplete: 'off' %>
       </div>
 
