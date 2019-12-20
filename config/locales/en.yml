@@ -214,14 +214,16 @@ en:
     database_reset: Database successfully reset.
     disabled: This is turned off
     error:
-      missing_attribute: "Your changes were saved!! 1 empty field to be filled in on the form to be verified:"
-      missing_attributes: "Your changes were saved!! %{err_count} empty field to be filled in on the form to be verified:"
       baptized_should_be_checked: I was Baptized at %{home_parish} should be checked.
       duplicate_email: is a duplicate email, which is not allowed for a candidate
         - %{name}.
       first_communion_should_be_checked: I received First Communion at %{home_parish}
         should be checked.
       invalid_email: 'is an invalid email: %{email}'
+      missing_attribute: 'Your changes were saved!! 1 empty field needs to be filled
+        in on the form to be verified:'
+      missing_attributes: 'Your changes were saved!! %{err_count} empty fields need
+        to be filled in on the form to be verified:'
       one_email: at least one email must be supplied.
       unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
     export_to_excel: Working in background.  An email with spreadsheet will be sent
