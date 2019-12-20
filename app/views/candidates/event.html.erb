@@ -7,7 +7,7 @@
   <%= f.fields_for :candidate_events, resource.candidate_events_sorted.to_a do |candidate_event_fields| %>
     <%= candidate_event_fields.fields_for :confirmation_event do |confirmation_event_fields| %>
       <% confirmation_event_id = confirmation_event_fields.object.id %>
-      <% legend_object = if confirmation_event_fields.object.name === t('events.parent_meeting') %>
+      <% legend_object = if confirmation_event_fields.object.name === Candidate.parent_meeting_event_key %>
         <% confirmation_event_fields.object.name %>
       <% else %>
         <% path, i18n, event_key = candidate_event_to_path(confirmation_event_fields.object.name, candidate_event_fields.object.candidate.id) %>

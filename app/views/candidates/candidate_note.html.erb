@@ -1,26 +1,28 @@
-<h2 id="heading">
-  <% first = @candidate.candidate_sheet.first_name %>
-  <% last = @candidate.candidate_sheet.last_name %>
-  <%= "#{I18n.t('views.events.heading', event_name: I18n.t('label.sidebar.candidate_note'), first: first, last: last)}" %>
-</h2>
+<div>
+  <h2 id="heading">
+    <% first = @candidate.candidate_sheet.first_name %>
+    <% last = @candidate.candidate_sheet.last_name %>
+    <%= "#{I18n.t('views.events.heading', event_name: I18n.t('label.sidebar.candidate_note'), first: first, last: last)}" %>
+  </h2>
 
-<%= render 'candidates/shared/show_error_message',
-           event_association: local_assigns[:error_msgs] ? error_msgs : @candidate
-%>
+  <%= render 'candidates/shared/show_error_message',
+             event_association: local_assigns[:error_msgs] ? error_msgs : @candidate
+  %>
 
-<%= form_for(@candidate, as: :candidate, url: candidate_note_update_path, html: { method: :put, autocomplete: "on" }) do |f| %>
+  <%= form_for(@candidate, as: :candidate, url: candidate_note_update_path, html: { method: :put, autocomplete: "on" }) do |f| %>
 
-  <div class="actions">
-    <%= f.submit t('views.common.update'), id: 'top-update' %>
-  </div>
-  <br/>
-  <div>
-    <%= f.label :candidate_note, t('label.candidate_note.note') %>
-    <%= f.text_area :candidate_note, rows: 20, cols: 120 %>
-  </div>
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'top-update' %>
+    </div>
+    <br/>
+    <div>
+      <%= f.label :candidate_note, t('label.candidate_note.note') %>
+      <%= f.text_area :candidate_note, rows: 20, cols: 120 %>
+    </div>
 
-  <div class="actions">
-    <%= f.submit t('views.common.update'), id: 'bottom-update' %>
-  </div>
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+    </div>
 
-<% end %>
+  <% end %>
+</div>

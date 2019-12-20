@@ -214,6 +214,8 @@ en:
     database_reset: Database successfully reset.
     disabled: This is turned off
     error:
+      missing_attribute: "Your changes were saved!! 1 empty field to be filled in on the form to be verified:"
+      missing_attributes: "Your changes were saved!! %{err_count} empty field to be filled in on the form to be verified:"
       baptized_should_be_checked: I was Baptized at %{home_parish} should be checked.
       duplicate_email: is a duplicate email, which is not allowed for a candidate
         - %{name}.

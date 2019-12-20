@@ -6,7 +6,7 @@
     <div class="<%= controller.event_class(candidate_event) %>">
 
       <div id="<%= "candidate_event_#{confirmation_event_id}_header" %>">
-        <% legend_object = if confirmation_event.name == t('events.parent_meeting') %>
+        <% legend_object = if confirmation_event.name == Candidate.parent_meeting_event_key %>
             <% confirmation_event.name %>
         <% else %>
             <% path, i18n = candidate_event_to_path(confirmation_event.name, candidate_event.candidate.id)
