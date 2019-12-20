@@ -49,8 +49,8 @@
 <% end %>
 
 <div class="container">
-  <label for="total_selected">Total Selected:</label>
-  <input type="text" readonly="true" id="total_selected" value="0"/>
+  <label for="total_selected"><%= t('label.sorting.total_selected') %>:</label>
+  <input type="text" readonly="readonly" id="total_selected" value="0"/>
   <table id="candidate_list_table" class="tablesorter">
     <thead>
     <tr id="candidate_list_header">

@@ -3,15 +3,21 @@
   <%= f.fields_for :baptismal_certificate do |bc_fields| %>
     <%= bc_fields.hidden_field :show_empty_radio %>
     <% bc = bc_fields.object %>
+    <% i18n_yes = t('label.baptismal_certificate.baptismal_certificate.pos') %>
+    <% i18n_no = t('label.baptismal_certificate.baptismal_certificate.neg') %>
     <div class="field">
       <%= t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish) %>:<br/>
-      <%= bc_fields.radio_button :baptized_at_home_parish, '1', checked: bc.baptized_at_home_parish_show_yes, onclick: 'confirmation_toggle().baptised_yes();' %><%= bc_fields.label :baptized_at_home_parish, 'Yes' %>
-      <%= bc_fields.radio_button :baptized_at_home_parish, '0', checked: bc.baptized_at_home_parish_show_no, onclick: 'confirmation_toggle().baptised_no();' %><%= bc_fields.label :baptized_at_home_parish, 'No' %>
+      <%= bc_fields.radio_button :baptized_at_home_parish, '1', checked: bc.baptized_at_home_parish_show_yes, onclick: 'confirmation_toggle().baptised_yes();' %>
+      <%= bc_fields.label :baptized_at_home_parish, i18n_yes %>
+      <%= bc_fields.radio_button :baptized_at_home_parish, '0', checked: bc.baptized_at_home_parish_show_no, onclick: 'confirmation_toggle().baptised_no();' %>
+      <%= bc_fields.label :baptized_at_home_parish, i18n_no %>
     </div>
     <div id="first-communion-top" class="field <%= bc.first_comm_show ? 'show-div' : 'hide-div' %>">
       <%= t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish', home_parish: Visitor.home_parish) %>:<br/>
-      <%= bc_fields.radio_button :first_comm_at_home_parish, '1', checked: bc.first_comm_at_home_parish_show_yes, onclick: 'confirmation_toggle().first_comm_yes();' %><%= bc_fields.label :first_comm_at_home_parish, 'Yes' %>
-      <%= bc_fields.radio_button :first_comm_at_home_parish, '0', checked: bc.first_comm_at_home_parish_show_no, onclick: 'confirmation_toggle().first_comm_no();' %><%= bc_fields.label :first_comm_at_home_parish, 'No' %>
+      <%= bc_fields.radio_button :first_comm_at_home_parish, '1', checked: bc.first_comm_at_home_parish_show_yes, onclick: 'confirmation_toggle().first_comm_yes();' %>
+      <%= bc_fields.label :first_comm_at_home_parish, i18n_yes %>
+      <%= bc_fields.radio_button :first_comm_at_home_parish, '0', checked: bc.first_comm_at_home_parish_show_no, onclick: 'confirmation_toggle().first_comm_no();' %>
+      <%= bc_fields.label :first_comm_at_home_parish, i18n_no %>
     </div>
     <div id="baptismal-certificate-top" class="<%= bc.info_show ? 'show-div' : 'hide-div' %>">
 

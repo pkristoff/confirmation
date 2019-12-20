@@ -16,7 +16,7 @@ describe 'admins/edit_multiple_confirmation_events.html.erb' do
     render
 
     @confirmation_events.each do |confirmation_event|
-      expect(rendered).to have_css('legend', text: confirmation_event.name)
+      expect(rendered).to have_css('legend', text: Candidate.i18n_event_name(confirmation_event.name))
       expect(rendered).to have_css("input[id=confirmation_events_#{confirmation_event.id}_the_way_due_date][value='#{confirmation_event.the_way_due_date}']")
       expect(rendered).to have_css("input[id=confirmation_events_#{confirmation_event.id}_chs_due_date][value='#{confirmation_event.chs_due_date}']")
       expect(rendered).to have_css("span[id=instruction-area-#{confirmation_event.id}][class=hide-div]", text: '')

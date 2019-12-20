@@ -60,6 +60,7 @@ es:
     admin:
       change_password: Cambia la contraseña
       contact: Información del contacto
+    attach_file: Adjuntar archivo a correo electrónico
     baptismal_certificate:
       church: Iglesia
       dates: fechas
@@ -85,6 +86,7 @@ es:
       sponsor_eligibility: Elegibilidad del patrocinador
   label:
     admin:
+      admins: Administradoras
       contact_name: Nombre de contacto
       contact_phone: Teléfono de contacto
     baptismal_certificate:
@@ -108,6 +110,8 @@ es:
         mother_last: Madre última
         mother_maiden: Madre soltera
         mother_middle: Madre media
+        neg: 'No'
+        pos: Si
     candidate_event:
       select: Seleccionar
     candidate_note:
@@ -160,6 +164,8 @@ es:
       sponsor_covenant: Pacto del patrocinador
     sign_agreement:
       signed_agreement: Al marcar está de acuerdo con lo anterior.
+    sorting:
+      total_selected: Total seleccionado
     sponsor_covenant:
       sponsor_attends_home_parish: Patrocinador registrado en %{home_parish}
       sponsor_church: La iglesia del patrocinador
@@ -190,7 +196,25 @@ es:
     confirmation_email_sent: Correo de Confirmación Mandado.
     confirmation_events_updated: "¡Eventos de confirmación actualizados!"
     contact_information_updated: Información de contacto actualizada
+    covenant_agreement:
+      and: y
+      item_1: el retiro de confirmación
+      item_2: Clases de confirmacion
+      item_3: Práctica de confirmación
+      item_4: La misa de confirmación
+      item_5: Asistiré al menos a otra sesión del Grupo de Jóvenes por mes o asistiré
+        a la Escuela Secundaria Católica.
+      paragraph_1: Estoy comprometido con este año de preparación para la Confirmación.
+        Acepto asistir a todas las sesiones requeridas que incluyen
+      paragraph_2: Elegiré participar en todas las sesiones con un corazón abierto
+        y dar el 100% de mí mismo a mi grupo pequeño y a mis líderes de grupos pequeños.
+        Estoy de acuerdo en cultivar una relación con mi patrocinador para aprender
+        de su guía espiritual.
+      paragraph_3: Lo que es más importante, prometo recibir todo lo que Dios tiene
+        guardado para mí este año y dejar que los dones y frutos del Espíritu Santo
+        cobren vida en mi vida.
     database_reset: La base de datos se restableció correctamente.
+    disabled: Esto está apagado
     error:
       baptized_should_be_checked: Debería ser bautizado en   %{home_parish} debe ser
         verificado.
@@ -239,7 +263,7 @@ es:
     awaiting_admin: En espera de administrador
     awaiting_candidate: En espera de candidato
     coming_due: Próximamente
-    late: Late
+    late: Tarde
     not_started: No empezado
     verified: Verificada
   views:
@@ -310,13 +334,36 @@ es:
         eventos primero.
       check_orphaned_table_rows: Comprobar filas de tablas huérfanas
       excel_no_pict: Exportar a Excel Sin imágenes escaneadas
+      export_message: Exporte datos actuales a una hoja de cálculo de Excel comprimida
+        con imágenes escaneadas o una hoja de cálculo de Excel sin imágenes escaneadas
       found: Encontró
       import: Importar
+      import_message: Puede importar un archivo xlxs que represente a los candidatos
+        iniciales que vendrán de la iglesia
       missing: Desaparecida
       orphaned_table_rows: Filas de la mesa huérfanas
       remove_orphaned_table_rows: Eliminar hileras de talbe huérfanas
-      reset_database: Restablecer la base de datos
-      start_new_year: Comienza año nuevo
+      reset_database:
+        bullet_1: 'Eventos de confirmación: todos serán eliminados. Los eventos de
+          confirmación predeterminados se agregarán nuevamente.'
+        bullet_2: 'Candidatos: todos serán eliminados de la base de datos. Se agregará
+          un candidato de prueba.'
+        bullet_3: 'Administradores: todos serán eliminados de la base de datos. Se
+          agregará el administrador predeterminado.'
+        bullet_4: 'Permanecer conectado: NO'
+        confirm: "¿Estás seguro?"
+        message: Comienza año nuevo
+        title: Restablecer la base de datos
+      start_new_year:
+        bullet_1: 'Candidatos: todos serán eliminados de la base de datos'
+        bullet_2: Los eventos de confirmación se enviarán por correo electrónico con
+          las instrucciones que permanecen igual, sin embargo, las fechas de vencimiento
+          se establecerán hoy
+        bullet_3: 'Administradores: no afectados'
+        bullet_4: 'Permanecer conectado: sí'
+        confirm: "¿Estás seguro?"
+        message: Esta voluntad
+        title: Comienza año nuevo
       unknown: Desconocida
     nav:
       add_new_admin: Agregar nuevo administrador
@@ -328,6 +375,7 @@ es:
       edit_account: Editar cuenta
       email: Email
       events: Eventos
+      export: Exportar
       export_attend_retreat_title: Retiro en %{home_parish}
       export_baptized_at_home_parish_title: Bautizado en %{home_parish}
       export_candidate_event_status_title: Estado de eventos candidatos

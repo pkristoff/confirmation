@@ -29,7 +29,7 @@ RSpec.describe 'I18n' do
   end
 
   it 'all locale files should have the same keys' do
-    files = [['en.yml', 'es.yml'], ['devise.en.yml', 'devise.es.yml'], ['rails.en.yml', 'rails.es.yml']].each do |pairs|
+    [['en.yml', 'es.yml'], ['devise.en.yml', 'devise.es.yml'], ['rails.en.yml', 'rails.es.yml']].each do |pairs|
       en_file = File.join(Rails.root, 'config', 'locales', pairs[0])
       es_file = File.join(Rails.root, 'config', 'locales', pairs[1])
       YAML.load(File.open(en_file)).each do |en_key, en_value|
@@ -46,9 +46,9 @@ RSpec.describe 'I18n' do
     expect(es_value.is_a? String).to eq(true) if (en_value.is_a? String)
     unless en_value.is_a? String
       expect(en_value.count).to eq(es_value.count), "key: #{en_key} English count diff: #{en_value} \n from Spanish #{es_value}"
-      en_value.each do |en_key, en_val|
-        es_val = es_value[en_key]
-        compare_locale_files(en_key, en_val, es_val) if en_val.is_a? Hash
+      en_value.each do |val_en_key, en_val|
+        es_val = es_value[val_en_key]
+        compare_locale_files(val_en_key, en_val, es_val) if val_en_key.is_a? Hash
       end
     end
   end

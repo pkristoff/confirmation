@@ -54,7 +54,7 @@ feature 'Other', :devise do
       admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
-      click_button I18n.t('views.imports.start_new_year')
+      click_button I18n.t('views.imports.start_new_year.title')
       expect_message(:flash_notice, I18n.t('messages.candidates_removed'))
       expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
       expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
@@ -75,7 +75,7 @@ feature 'Other', :devise do
       login_as(admin, scope: :admin)
       expect(Admin.all.size).to eq(1) # prove there are only 2
       visit new_candidate_import_path
-      click_button I18n.t('views.imports.reset_database')
+      click_button I18n.t('views.imports.reset_database.title')
       expect_message(:flash_notice, I18n.t('messages.database_reset'))
       expect(Candidate.all.size).to eq(1)
       expect(Admin.all.size).to eq(1)

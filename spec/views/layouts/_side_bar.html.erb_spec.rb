@@ -14,7 +14,7 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.events'), '/edit_multiple_confirmation_events'],
       [I18n.t('views.nav.users'), '/show_visitor'],
       [I18n.t('views.nav.other'), '/candidate_imports/new'],
-      ['Export']
+      [I18n.t('views.nav.export')]
     ]
 
     @admin_export_link_names_in_order = [

@@ -5,7 +5,7 @@
   <% @confirmation_events.each do |confirmation_event| %>
     <%= fields_for "confirmation_events[]", confirmation_event do |f| %>
 
-      <%= field_set_tag confirmation_event.name, class: 'fieldset' do %>
+      <%= field_set_tag Candidate.i18n_event_name(confirmation_event.name), class: 'fieldset' do %>
 
         <div id="two_column">
           <div id="left-col" class="left_col field-inst">

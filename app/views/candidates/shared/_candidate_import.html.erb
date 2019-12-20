@@ -25,8 +25,7 @@
   <section id="export">
     <h2><%= t('views.imports.candidates_export') %></h2>
     <p>
-      Export current data to a zipped excel spreadsheet with scanned pictures or an excel spreadsheet without scanned
-      pictures
+      <%= t('views.imports.export_message') %>
     </p>
     <%= form_for @candidate_import, url: candidate_imports_export_to_excel_path(format: 'xlsx') do |f| %>
 
@@ -40,12 +39,8 @@
     <h2><%= t('views.imports.candidates_import') %></h2>
 
     <p>
-      You can import an
-    <ul>
-      <li>xlxs file which represents the initial candidates which will come from the church</li>
-    </ul>
+      <%= t('views.imports.import_message') %>
     </p>
-
 
     <%= form_for @candidate_import, url: candidate_imports_import_candidates_path do |f| %>
       <% if @candidate_import.errors.any? %>
@@ -69,39 +64,38 @@
   <section id="start_new_year">
 
     <%= form_for @candidate_import, url: candidate_imports_start_new_year_path do |f| %>
-      <h2><%= t('views.imports.start_new_year') %></h2>
+      <h2><%= t('views.imports.start_new_year.title') %></h2>
 
       <h3><%= t('views.imports.cannot_recover') %></h3>
       <p>
-        This will
+        <%= t('views.imports.start_new_year.title') %>
       </p>
       <ul>
-        <li>Candidates: All will be removed from the database</li>
-        <li>Confirmation events will remail with instrutions staying the same however due dates will be set to today
-        </li>
-        <li>Admins: not affected</li>
-        <li>Remain logged in: yes</li>
+        <li><%= t('views.imports.start_new_year.bullet_1') %></li>
+        <li><%= t('views.imports.start_new_year.bullet_2') %></li>
+        <li><%= t('views.imports.start_new_year.bullet_3') %></li>
+        <li><%= t('views.imports.start_new_year.bullet_4') %></li>
       </ul>
-      <div class="buttons"><%= f.submit t('views.imports.start_new_year'), data: { confirm: 'Are you sure?' } %></div>
+      <div class="buttons"><%= f.submit t('views.imports.start_new_year.title'), data: { confirm: t('views.imports.start_new_year.confirm') } %></div>
     <% end %>
   </section>
 
   <section id="reset_database">
-    <h2><%= t('views.imports.reset_database') %></h2>
+    <h2><%= t('views.imports.reset_database.title') %></h2>
 
     <%= form_for @candidate_import, url: candidate_imports_reset_database_path do |f| %>
 
       <h3><%= t('views.imports.cannot_recover') %></h3>
       <p>
-        This will
+        <%= t('views.imports.reset_database.title') %>
       </p>
       <ul>
-        <li>Confirmation Events: All will be removed. The default confirmation events will be added back in.</li>
-        <li>Candidates: All will be removed from the database. A test Candidate will be added.</li>
-        <li>Admins: All will be removed from the database. The default Admin will be added.</li>
-        <li>Remain logged in: NO</li>
+        <li><%= t('views.imports.reset_database.bullet_1') %></li>
+        <li><%= t('views.imports.reset_database.bullet_2') %></li>
+        <li><%= t('views.imports.reset_database.bullet_3') %></li>
+        <li><%= t('views.imports.reset_database.bullet_4') %></li>
       </ul>
-      <div class="buttons"><%= f.submit t('views.imports.reset_database'), data: { confirm: 'Are you sure?' } %></div>
+      <div class="buttons"><%= f.submit t('views.imports.reset_database.title'), data: { confirm: t('views.imports.reset_database.confirm') } %></div>
     <% end %>
   </section>
 
@@ -123,8 +117,8 @@
         <%= f.hidden_field :unknown, :value => @candidate_import.unknown_confirmation_events.join(":") %>
         <h3><%= t('views.imports.unknown') %>:</h3>
         <ul id="unknown_confirmation_events">
-          <% @candidate_import.unknown_confirmation_events.map do |confirmation_event_name| %>
-            <li><%= confirmation_event_name %></li>
+          <% @candidate_import.unknown_confirmation_events.map do |confirmation_event_key| %>
+            <li><%= Candidate.i18n_event_name(confirmation_event_key) %></li>
           <% end %>
         </ul>
       </div>
@@ -133,8 +127,8 @@
         <%= f.hidden_field :found, :value => @candidate_import.found_confirmation_events.join(":") %>
         <h3><%= t('views.imports.found') %>:</h3>
         <ul id="found_confirmation_events">
-          <% @candidate_import.found_confirmation_events.map do |confirmation_event_name| %>
-            <li><%= confirmation_event_name %></li>
+          <% @candidate_import.found_confirmation_events.map do |confirmation_event_key| %>
+            <li><%= Candidate.i18n_event_name(confirmation_event_key) %></li>
           <% end %>
         </ul>
       </div>

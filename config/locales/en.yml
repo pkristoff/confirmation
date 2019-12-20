@@ -58,6 +58,7 @@ en:
     admin:
       change_password: Change Password
       contact: Contact Information
+    attach_file: Attach file to email
     baptismal_certificate:
       church: Church
       dates: Dates
@@ -82,6 +83,7 @@ en:
       sponsor_eligibility: Sponsor eligibility
   label:
     admin:
+      admins: Admins
       contact_name: Contact name
       contact_phone: Contact phone
     baptismal_certificate:
@@ -105,6 +107,8 @@ en:
         mother_last: Mother last
         mother_maiden: Mother maiden
         mother_middle: Mother middle
+        neg: 'No'
+        pos: 'Yes'
     candidate_event:
       select: Select
     candidate_note:
@@ -157,6 +161,8 @@ en:
       sponsor_covenant: Sponsor's Covenant
     sign_agreement:
       signed_agreement: By checking you agree to the above.
+    sorting:
+      total_selected: Total Selected
     sponsor_covenant:
       sponsor_attends_home_parish: Sponsor registered at %{home_parish}
       sponsor_church: Sponsor's church
@@ -188,7 +194,25 @@ en:
     confirmation_email_sent: Confirmation email sent.
     confirmation_events_updated: Updated ConfirmationEvents!
     contact_information_updated: Contact information updated
+    covenant_agreement:
+      and: and
+      item_1: the Confirmation Retreat
+      item_2: Confirmation classes
+      item_3: Confirmation practice
+      item_4: the Confirmation Mass
+      item_5: I will attend at least one other Youth Group session per month or attend
+        Catholic High School.
+      paragraph_1: I am committed to this year of preparation for Confirmation. I
+        agree to attend all of the required sessions which include
+      paragraph_2: I will choose to participate in all sessions with an open heart
+        and give 100% of myself to my small group and my small group leaders. I agree
+        to cultivate a relationship with my sponsor to learn from their spiritual
+        guidance.
+      paragraph_3: Most importantly, I promise to receive all that God has in store
+        for me this year and to let the gifts and fruits of the Holy Spirit come alive
+        in my life.
     database_reset: Database successfully reset.
+    disabled: This is turned off
     error:
       baptized_should_be_checked: I was Baptized at %{home_parish} should be checked.
       duplicate_email: is a duplicate email, which is not allowed for a candidate
@@ -304,13 +328,35 @@ en:
       check_events_first: No missing events found running Check Events first.
       check_orphaned_table_rows: Check Orphaned Table Rows
       excel_no_pict: Export to Excel No Scanned Pictures
+      export_message: Export current data to a zipped excel spreadsheet with scanned
+        pictures or an excel spreadsheet without scanned pictures
       found: Found
       import: Import
+      import_message: You can import an xlxs file which represents the initial candidates
+        which will come from the church
       missing: Missing
       orphaned_table_rows: Orphaned table rows
       remove_orphaned_table_rows: Remove orphaned talbe rows
-      reset_database: Reset the Database
-      start_new_year: Start new year
+      reset_database:
+        bullet_1: 'Confirmation Events: All will be removed. The default confirmation
+          events will be added back in.'
+        bullet_2: 'Candidates: All will be removed from the database. A test Candidate
+          will be added.'
+        bullet_3: 'Admins: All will be removed from the database. The default Admin
+          will be added.'
+        bullet_4: 'Remain logged in: NO'
+        confirm: Are you sure?
+        message: This will
+        title: Reset the Database
+      start_new_year:
+        bullet_1: 'Candidates: All will be removed from the database'
+        bullet_2: Confirmation events will remail with instrutions staying the same
+          however due dates will be set to today
+        bullet_3: 'Admins: not affected'
+        bullet_4: 'Remain logged in: yes'
+        confirm: Are you sure?
+        message: This will
+        title: Start new year
       unknown: Unknown
     nav:
       add_new_admin: Add new admin
@@ -322,6 +368,7 @@ en:
       edit_account: Edit account
       email: Email
       events: Events
+      export: Export
       export_attend_retreat_title: Retreat at %{home_parish}
       export_baptized_at_home_parish_title: Baptized at %{home_parish}
       export_candidate_event_status_title: Candidate Events Status
