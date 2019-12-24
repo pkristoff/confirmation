@@ -67,7 +67,7 @@ class RetreatVerification < ApplicationRecord
   # String
   #
   def self.event_key
-    'Attend Retreat'
+    'attend_retreat'
   end
 
   # Validate if event is complete by adding validation errors to active record

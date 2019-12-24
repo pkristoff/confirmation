@@ -132,7 +132,7 @@ describe AdminsController do
 
     def expect_candidate_event(candidate, completed_date, verified)
       c2 = Candidate.find_by(account_name: candidate.account_name)
-      candidate_event = c2.get_candidate_event(@confirmation_event.name)
+      candidate_event = c2.get_candidate_event(@confirmation_event.event_key)
       expect(candidate_event.completed_date.to_s).to eq(completed_date)
       expect(candidate_event.verified).to eq(verified)
     end

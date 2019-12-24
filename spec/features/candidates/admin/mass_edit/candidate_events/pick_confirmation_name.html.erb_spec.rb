@@ -16,7 +16,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @cand_id = candidate.id
-    @confirmation_event = ConfirmationEvent.find_by(name: I18n.t('events.confirmation_name'))
+    @confirmation_event = ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key)
   end
 
   after(:each) do
@@ -56,7 +56,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
 
     candidate = Candidate.find(@cand_id)
     expect_mass_edit_candidates_event(@confirmation_event, candidate.id, nil)
-    candidate_event = candidate.get_candidate_event(@confirmation_event.name)
+    candidate_event = candidate.get_candidate_event(@confirmation_event.event_key)
     expect(candidate_event.completed?)
     expect(candidate_event.completed_date).to eq(Time.zone.today)
     expect(candidate_event.verified).to eq(true)
@@ -71,7 +71,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     completed_date = Time.zone.today - 1
     candidate = Candidate.find(@cand_id)
     candidate.pick_confirmation_name.saint_name = 'Paul'
-    candidate_event = candidate.get_candidate_event(@confirmation_event.name)
+    candidate_event = candidate.get_candidate_event(@confirmation_event.event_key)
     candidate_event.completed_date = completed_date
     expect(candidate_event.awaiting_admin?).to be(true)
     candidate.save
@@ -86,7 +86,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    candidate_event = candidate.get_candidate_event(@confirmation_event.name)
+    candidate_event = candidate.get_candidate_event(@confirmation_event.event_key)
 
     expect(candidate_event.completed?).to be(true)
     expect(candidate_event.completed_date).to eq(completed_date)

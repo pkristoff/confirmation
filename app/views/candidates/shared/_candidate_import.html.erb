@@ -118,7 +118,7 @@
         <h3><%= t('views.imports.unknown') %>:</h3>
         <ul id="unknown_confirmation_events">
           <% @candidate_import.unknown_confirmation_events.map do |confirmation_event_key| %>
-            <li><%= Candidate.i18n_event_name(confirmation_event_key) %></li>
+            <li><%= confirmation_event_key %></li>
           <% end %>
         </ul>
       </div>

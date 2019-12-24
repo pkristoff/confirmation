@@ -21,7 +21,7 @@ describe CandidatesMailer, type: :model do
         admin = AppFactory.create_admin(email: 'candidate@example.com', contact_name: 'Vicki Kristoff', contact_phone: '919-911-9191')
 
         coming_due_values = @candidate.candidate_events.map do |ce|
-          [ce.name, ce.id, ce.due_date]
+          [ce.event_key, ce.id, ce.due_date]
         end
 
         mail = CandidatesMailer.monthly_reminder(admin, @text)
@@ -45,7 +45,7 @@ describe CandidatesMailer, type: :model do
         admin = AppFactory.create_admin(email: 'candidate@example.com')
 
         coming_due_values = @candidate.candidate_events.map do |ce|
-          [ce.name, ce.id, ce.due_date]
+          [ce.event_key, ce.id, ce.due_date]
         end
 
         mail = CandidatesMailer.monthly_reminder_test(admin, @text)

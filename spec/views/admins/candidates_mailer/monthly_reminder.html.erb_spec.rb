@@ -40,7 +40,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     change_completed_date('')
 
     late_values = @candidate.candidate_events.map do |ce|
-      [ce.name, ce.id, nil]
+      [ce.event_key, ce.id, nil]
     end
 
     render_setup
@@ -58,7 +58,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     render_setup
 
     coming_due_values = @candidate.candidate_events.map do |ce|
-      [ce.name, ce.id, ce.due_date]
+      [ce.event_key, ce.id, ce.due_date]
     end
 
     render
@@ -71,7 +71,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       ce.verified = true
       ce.completed_date = @today
       info = []
-      case ce.name
+      case ce.event_key
       when PickConfirmationName.event_key
         info << ['Confirmation name', 'Bolt']
       when SponsorCovenant.event_key
@@ -108,7 +108,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       else
         raise("Unknown event name:  #{ce.name}")
       end
-      [ce.name, ce.id, info]
+      [ce.event_key, ce.id, info]
     end
 
     render_setup
@@ -123,7 +123,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       ce.verified = false
       ce.completed_date = @today
       info = []
-      case ce.name
+      case ce.event_key
       when PickConfirmationName.event_key
         info << ['Confirmation name', 'Bolt']
       when SponsorCovenant.event_key
@@ -160,7 +160,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
       else
         raise("Unknown event name:  #{ce.name}")
       end
-      [ce.name, ce.id, info]
+      [ce.event_key, ce.id, info]
     end
 
     render_setup
@@ -175,19 +175,19 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     late_events_event.confirmation_event.chs_due_date = @today - 2
     late_events_event.confirmation_event.the_way_due_date = @today - 2
     late_events_event.save
-    late_events_values = [[late_events_event.name, late_events_event.id]]
+    late_events_values = [[late_events_event.event_key, late_events_event.id]]
 
     completed_awaiting_event = @candidate.get_candidate_event(RetreatVerification.event_key)
     completed_awaiting_event.completed_date = @today - 2
     completed_awaiting_event.verified = false
     completed_awaiting_event.save
-    completed_awaiting_values = [[completed_awaiting_event.name, completed_awaiting_event.id, []]]
+    completed_awaiting_values = [[completed_awaiting_event.event_key, completed_awaiting_event.id, []]]
 
     completed_events_event = @candidate.get_candidate_event(ChristianMinistry.event_key)
     completed_events_event.completed_date = @today - 2
     completed_events_event.verified = true
     completed_events_event.save
-    completed_events_values = [[completed_events_event.name, completed_events_event.id, []]]
+    completed_events_values = [[completed_events_event.event_key, completed_events_event.id, []]]
 
     render_setup
 

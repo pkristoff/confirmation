@@ -25,7 +25,7 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
   scenario 'admin changes event value hits update' do
     visit edit_multiple_confirmation_events_path
 
-    confirmation_event = ConfirmationEvent.find_by(name: I18n.t('events.confirmation_name'))
+    confirmation_event = ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key)
 
     the_way_due_date_id = "confirmation_events_#{confirmation_event.id}_the_way_due_date"
     chs_due_date_id = "confirmation_events_#{confirmation_event.id}_chs_due_date"
@@ -52,9 +52,9 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
 
     visit edit_multiple_confirmation_events_path
 
-    click_button("candidates-#{ConfirmationEvent.find_by(name: event_key).id}")
+    click_button("candidates-#{ConfirmationEvent.find_by(event_key: event_key).id}")
 
-    expect(page).to have_css('h2', text: event_key)
+    expect(page).to have_css('h2', text: Candidate.i18n_event_name(event_key))
     expect(page).to have_field(I18n.t('views.events.completed_date'))
     expect(page).to have_unchecked_field(I18n.t('views.events.verified'))
 

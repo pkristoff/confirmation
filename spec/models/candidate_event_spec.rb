@@ -18,7 +18,7 @@ describe CandidateEvent, type: :model do
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
       expect(candidate_event.verified).to eq(true)
 
-      expect(candidate_event.name).to eq('Going out to eat')
+      expect(candidate_event.event_key).to eq('Going out to eat')
       expect(candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
       expect(candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
@@ -40,7 +40,7 @@ describe CandidateEvent, type: :model do
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
       expect(candidate_event.verified).to eq(true)
 
-      expect(candidate_event.name).to eq('Going out to eat')
+      expect(candidate_event.event_key).to eq('Going out to eat')
       expect(candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
       expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
@@ -48,7 +48,7 @@ describe CandidateEvent, type: :model do
       expect(candidate_event2.completed_date.to_s).to eq('2016-05-22')
       expect(candidate_event2.verified).to eq(false)
 
-      expect(candidate_event2.name).to eq('Going out to eat')
+      expect(candidate_event2.event_key).to eq('Going out to eat')
       expect(candidate_event2.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
       expect(candidate_event2.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
       expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
@@ -60,7 +60,7 @@ describe CandidateEvent, type: :model do
     it 'two candidate_events with different confirmation_events' do
       confirmation_event = FactoryBot.create(:confirmation_event)
       confirmation_event2 = FactoryBot.create(:confirmation_event,
-                                              name: 'Staying home',
+                                              event_key: 'Staying home',
                                               the_way_due_date: '2016-04-01',
                                               chs_due_date: '2016-04-02')
       candidate_event = FactoryBot.create(:candidate_event,
@@ -75,7 +75,7 @@ describe CandidateEvent, type: :model do
       expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
       expect(candidate_event.verified).to eq(true)
 
-      expect(candidate_event.name).to eq('Going out to eat')
+      expect(candidate_event.event_key).to eq('Going out to eat')
       expect(candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
       expect(candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
       expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
@@ -85,17 +85,17 @@ describe CandidateEvent, type: :model do
 
       expect(candidate_event2.confirmation_event.the_way_due_date.to_s).to eq('2016-04-01')
       expect(candidate_event2.confirmation_event.chs_due_date.to_s).to eq('2016-04-02')
-      expect(candidate_event2.name).to eq('Staying home')
+      expect(candidate_event2.event_key).to eq('Staying home')
 
       expect_confirmation_event(confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
       expect_confirmation_event(confirmation_event2, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>", '2016-04-01', '2016-04-02', 'Staying home')
       expect(candidate_event.confirmation_event).not_to eq(candidate_event2.confirmation_event)
     end
 
-    def expect_confirmation_event(confirmation_event, events_size, instructions, the_way_due_date = '2016-05-31', chs_due_date = '2016-05-24', name = 'Going out to eat')
+    def expect_confirmation_event(confirmation_event, events_size, instructions, the_way_due_date = '2016-05-31', chs_due_date = '2016-05-24', event_key = 'Going out to eat')
       expect(confirmation_event.the_way_due_date.to_s).to eq(the_way_due_date)
       expect(confirmation_event.chs_due_date.to_s).to eq(chs_due_date)
-      expect(confirmation_event.name).to eq(name)
+      expect(confirmation_event.event_key).to eq(event_key)
       expect(confirmation_event.instructions).to eq(instructions)
       expect(confirmation_event.candidate_events.size).to eq(events_size)
     end

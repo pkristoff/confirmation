@@ -39,7 +39,7 @@ shared_context 'retreat_verification_html_erb' do
     candidate = Candidate.find(@cand_id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: RetreatVerification.event_key), candidate.id, @updated_message)
 
     else
 
@@ -74,7 +74,7 @@ shared_context 'retreat_verification_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.retreat_verification')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: RetreatVerification.event_key), candidate.id, @updated_message)
 
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
@@ -182,7 +182,7 @@ shared_context 'retreat_verification_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                        who_held_retreat: '',
@@ -205,7 +205,7 @@ shared_context 'retreat_verification_html_erb' do
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
-    expect_heading(cand, dev_path.empty?, I18n.t('events.retreat_verification'))
+    expect_heading(cand, dev_path.empty?, RetreatVerification.event_key)
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/retreat_verification\"]")
 

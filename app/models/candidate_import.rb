@@ -104,10 +104,10 @@ class CandidateImport
   # * <tt>CandidateImport</tt> self
   #
   def add_missing_events(missing_events)
-    missing_events.each do |event_name|
-      confirmation_event = ConfirmationEvent.find_by(name: event_name)
-      AppFactory.add_confirmation_event(event_name) if confirmation_event.nil?
-      raise "Attempting to candidate_event named: #{event_name} that already exists.s" unless confirmation_event.nil?
+    missing_events.each do |event_key|
+      confirmation_event = ConfirmationEvent.find_by(event_key: event_key)
+      AppFactory.add_confirmation_event(event_key) if confirmation_event.nil?
+      raise "Attempting to candidate_event named: #{event_key} that already exists.s" unless confirmation_event.nil?
     end
     check_events
   end
@@ -120,11 +120,11 @@ class CandidateImport
   #
   def check_events
     all_in_confirmation_event_keys = AppFactory.all_i18n_confirmation_event_keys
-    unknowns = ConfirmationEvent.all.map(&:name)
+    unknowns = ConfirmationEvent.all.map(&:event_key)
     all_in_confirmation_event_keys.each do |event_key|
       unknowns_index = unknowns.index(event_key)
       unknowns.slice!(unknowns_index) unless unknowns_index.nil?
-      confirmation_event = ConfirmationEvent.find_by(name: event_key)
+      confirmation_event = ConfirmationEvent.find_by(event_key: event_key)
       if confirmation_event.nil?
         missing_confirmation_events.push(event_key)
       else
@@ -519,7 +519,7 @@ class CandidateImport
   # * <tt>Array</tt> String
   #
   def xlsx_conf_event_columns
-    %w[name index the_way_due_date chs_due_date instructions]
+    %w[event_key index the_way_due_date chs_due_date instructions]
   end
 
   # Removes all ConfirmationEvent
@@ -544,7 +544,7 @@ class CandidateImport
   def candidate_events_in_order(candidate)
     events = []
     @events_in_order.each do |confirmation_event|
-      events << candidate.get_candidate_event(confirmation_event.name)
+      events << candidate.get_candidate_event(confirmation_event.event_key)
     end
     events
   end
@@ -566,12 +566,10 @@ class CandidateImport
     wbk.add_worksheet(name: @worksheet_conf_event_name) do |sheet|
       sheet.add_row confirmation_event_columns
       confirmation_events_sorted.each_with_index do |confirmation_event, index|
-        # puts "Event: #{confirmation_event.name} index:#{index}"
         sheet.add_row(confirmation_event_columns.map do |col|
           if col == 'index'
             index
           else
-            # Rails.logger.info "xxx create_confirmation_event event:#{confirmation_event.name} instructions encoding: #{confirmation_event.send(col).encoding}" if col === 'instructions'
             confirmation_event.send(col)
           end
         end)
@@ -649,7 +647,7 @@ class CandidateImport
         end
       else
         confirmation_event = confirmation_events[split[1].to_i]
-        cand_event = candidate.get_candidate_event(confirmation_event.name)
+        cand_event = candidate.get_candidate_event(confirmation_event.event_key)
         cand_event.send(split[2])
       end
     else
@@ -692,7 +690,7 @@ class CandidateImport
   # Array: ConfirmationEvent
   #
   def confirmation_events_sorted
-    ConfirmationEvent.order(:name)
+    ConfirmationEvent.order(:event_key)
   end
 
   # process uploaded file
@@ -840,7 +838,6 @@ class CandidateImport
       end
       confirmation_event.save
       @events_in_order << confirmation_event
-      # puts "#{i-2}: #{confirmation_event.name}:#{confirmation_event.the_way_due_date.to_s}:#{confirmation_event.chs_due_date.to_s}"
     end
   end
 

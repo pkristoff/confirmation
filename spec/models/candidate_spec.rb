@@ -60,77 +60,77 @@ describe Candidate do
           result: [] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+            { event_key: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
           ]
         ),
           result: %w[a] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil },
-            { name: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+            { event_key: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil },
+            { event_key: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
-            { name: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
+            { event_key: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
           ]
         ),
           result: %w[b a] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
-            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
+            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
-            { name: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil }
+            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
+            { event_key: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil },
-            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+            { event_key: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil },
+            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
           ]
         ),
           result: %w[b a] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' },
-            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' },
+            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
           ]
         ),
           result: %w[b a] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
-            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
+            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-01', chs_due_datechs_due_date: '2016-05-01', completed_date: '2016-05-06' },
-            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_datechs_due_date: '2016-05-01', completed_date: '2016-05-06' },
+            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-06' },
-            { name: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-05' }
+            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-06' },
+            { event_key: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-05' }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { name: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-06' },
-            { name: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+            { event_key: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-06' },
+            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
           ]
         ),
           result: %w[b a] }
@@ -146,7 +146,7 @@ describe Candidate do
         candidate_events_sorted = candidate.candidate_events_sorted
 
         expect(candidate_events_sorted.size).to eq(result.size)
-        result.each_with_index { |expected_name, index| expect(candidate_events_sorted[index].name).to eq(expected_name) }
+        result.each_with_index { |expected_name, index| expect(candidate_events_sorted[index].event_key).to eq(expected_name) }
       end
     end
 
@@ -161,7 +161,7 @@ describe Candidate do
       data.each do |candidate_data|
         confirmation_event = FactoryBot.create(
           :confirmation_event,
-          name: candidate_data[:name],
+          event_key: candidate_data[:event_key],
           the_way_due_date: (candidate_data[:the_way_due_date].nil? ? nil : Date.parse(candidate_data[:the_way_due_date])),
           chs_due_date: (candidate_data[:chs_due_date].nil? ? nil : Date.parse(candidate_data[:chs_due_date]))
         )

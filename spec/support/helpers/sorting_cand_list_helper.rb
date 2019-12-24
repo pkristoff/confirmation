@@ -42,7 +42,7 @@ module SortingCandListHelpers
         if cell_access_path.empty?
           cell_expect_function.call(cand_id, rendered_or_page, td_index_adj)
         elsif confirmation_event && (cell_access_path[0] == :completed_date || cell_access_path[0] == :verified)
-          text = candidate.get_candidate_event(confirmation_event.name).method(cell_access_path[0]).call
+          text = candidate.get_candidate_event(confirmation_event.event_key).method(cell_access_path[0]).call
           expect(rendered_or_page).to have_css "#{table_id} #{tr_id} #{td_id}", text: text
         elsif cell_access_path[0] == :candidate_event
           candidate_event = candidate.get_candidate_event(cell_access_path[1])
@@ -75,7 +75,7 @@ module SortingCandListHelpers
     when RetreatVerification.event_key
       event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
     when Candidate.parent_meeting_event_key
-      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(name: event_key).id}")
+      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(event_key: event_key).id}")
     else
       "Unknown event_key: #{event_key}"
     end
@@ -98,7 +98,7 @@ module SortingCandListHelpers
     when RetreatVerification.event_key
       event_with_picture_verify_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
     when Candidate.parent_meeting_event_key
-      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(name: event_key).id}")
+      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(event_key: event_key).id}")
     else
       "Unknown event_key: #{event_key}"
     end
@@ -134,21 +134,21 @@ module SortingCandListHelpers
                 [I18n.t('views.events.verified'), true, [:verified]])
     unless confirmation_event.nil?
       cols.append(
-        [confirmation_event.name, true, '', expect_event(confirmation_event.name, true)]
+        [confirmation_event.event_key, true, '', expect_event(confirmation_event.event_key, true)]
       )
     end
     cols
   end
 
-  def confirmation_events_columns(confirmation_event_key)
+  def confirmation_events_columns(event_key)
     cols = common_non_event_columns
     cols.insert(
       1,
-      [I18n.t('views.events.completed_date'), true, [:candidate_event, confirmation_event_key, :completed_date]],
-      [I18n.t('views.events.verified'), true, [:candidate_event, confirmation_event_key, :verified]]
+      [I18n.t('views.events.completed_date'), true, [:candidate_event, event_key, :completed_date]],
+      [I18n.t('views.events.verified'), true, [:candidate_event, event_key, :verified]]
     )
     cols.append(
-      [PickConfirmationName.event_key, true, '', expect_event(I18n.t('events.confirmation_name'), true)]
+      [PickConfirmationName.event_key, true, '', expect_event(event_key, true)]
     )
     cols
   end
@@ -203,9 +203,9 @@ module SortingCandListHelpers
       confirmation_event
     )
 
-    expect(cand.get_candidate_event(confirmation_event.name).completed_date).to eq(Time.zone.today) unless updated_message.nil?
-    expect(cand.get_candidate_event(confirmation_event.name).verified).to eq(true) if updated_message && !is_unverified
-    expect(cand.get_candidate_event(confirmation_event.name).verified).to eq(false) if is_unverified
+    expect(cand.get_candidate_event(confirmation_event.event_key).completed_date).to eq(Time.zone.today) unless updated_message.nil?
+    expect(cand.get_candidate_event(confirmation_event.event_key).verified).to eq(true) if updated_message && !is_unverified
+    expect(cand.get_candidate_event(confirmation_event.event_key).verified).to eq(false) if is_unverified
   end
 
   def expect_pick_confirmation_name_form(cand_id, path_str, dev_path, update_id, is_verify, values = {})
@@ -216,7 +216,7 @@ module SortingCandListHelpers
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
-    expect_heading(cand, dev_path.empty?, I18n.t('events.confirmation_name'))
+    expect_heading(cand, dev_path.empty?, PickConfirmationName.event_key)
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 

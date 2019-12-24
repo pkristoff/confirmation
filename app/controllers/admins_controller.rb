@@ -164,7 +164,7 @@ class AdminsController < ApplicationController
     clean_params
     params[:confirmation_event_attributes] = { id: confirmation_event.id }
     candidates.each do |candidate|
-      candidate_event = candidate.get_candidate_event(confirmation_event.name)
+      candidate_event = candidate.get_candidate_event(confirmation_event.event_key)
 
       flash[:notice] = if candidate_event.update(params.permit(CandidateEvent.permitted_params))
                          t('messages.update_candidate_event', account_name: candidate.account_name)
@@ -593,7 +593,7 @@ class AdminsController < ApplicationController
       # sort based on the_way_due_date and then by name ignoring chs_due_date
       if ce1.the_way_due_date.nil?
         if ce2.the_way_due_date.nil?
-          ce1.name <=> ce2.name
+          ce1.event_key <=> ce2.event_key
         else
           -1
         end
@@ -602,7 +602,7 @@ class AdminsController < ApplicationController
       else
         due_date = ce1.the_way_due_date <=> ce2.the_way_due_date
         if due_date.zero?
-          ce1.name <=> ce2.name
+          ce1.event_key <=> ce2.event_key
         else
           due_date
         end

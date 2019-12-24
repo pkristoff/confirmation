@@ -108,7 +108,7 @@ class SponsorCovenant < ApplicationRecord
   # * <tt>String</tt>
   #
   def self.event_key
-    'Sponsor Covenant & Sponsor Eligibility'
+    'sponsor_covenant_and_sponsor_eligibility'
   end
 
   # Validate whether event is complete by adding validation errors to active record

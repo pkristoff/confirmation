@@ -203,7 +203,7 @@ def expected_orphans
 end
 
 def expect_confirmation_event(event_key, way_date, chs_date)
-  confirmation_event = ConfirmationEvent.find_by(name: event_key)
+  confirmation_event = ConfirmationEvent.find_by(event_key: event_key)
   expect(confirmation_event.the_way_due_date.to_s).to eq(way_date)
   expect(confirmation_event.chs_due_date.to_s).to eq(chs_date)
 end
@@ -321,7 +321,7 @@ describe 'check_events' do
 
     candidate_import.add_missing_events([sponsor_covenant_event_key])
 
-    expect(ConfirmationEvent.find_by(name: sponsor_covenant_event_key).name).to eq(sponsor_covenant_event_key)
+    expect(ConfirmationEvent.find_by(event_key: sponsor_covenant_event_key).event_key).to eq(sponsor_covenant_event_key)
 
     expect(candidate_import.missing_confirmation_events.length).to be(0)
     expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_keys.length)
@@ -615,7 +615,7 @@ def expect_candidate(values)
       candidate_subs = candidate.send(key)
       expect(candidate_subs.size).to eq(value.size)
       value.each_with_index do |sub_values, index|
-        # puts "Name: #{candidate_subs[index].confirmation_event.name}"
+        # puts "Name: #{candidate_subs[index].confirmation_event.event_key}"
         expect_keys(candidate_subs[index], sub_values)
       end
     else
@@ -769,14 +769,14 @@ def expect_confirmation_events_empty(wks, candidate_import)
   candidate_import.xlsx_conf_event_columns.each_with_index do |column_name, index|
     expect(header_row.cells[index].value).to eq(column_name)
   end
-  events_in_order = ConfirmationEvent.order(:name)
+  events_in_order = ConfirmationEvent.order(:event_key)
   expect(wks.rows.size).to eq(events_in_order.size + 1)
 
   events_in_order.each_with_index do |event, index|
     row = wks.rows[index + 1]
     expect(row.cells.size).to eq(5)
     # puts row.cells[0].value
-    expect(row.cells[0].value).to eq(event.name)
+    expect(row.cells[0].value).to eq(event.event_key)
     expect(row.cells[1].value).to eq(index)
     expect(row.cells[2].value.to_s).to eq(Time.zone.today.to_s)
     expect(row.cells[3].value.to_s).to eq(Time.zone.today.to_s)
@@ -797,7 +797,7 @@ def expect_confirmation_events(wks, candidate_import)
     row = wks.rows[index + 1]
     expect(row.cells.size).to eq(5)
     # puts row.cells[0].value
-    expect(row.cells[0].value).to eq(confirmation_event.name)
+    expect(row.cells[0].value).to eq(confirmation_event.event_key)
     expect(row.cells[1].value).to eq(index)
     expect(row.cells[2].value.to_s).to eq(confirmation_event.the_way_due_date.to_s)
     expect(row.cells[3].value.to_s).to eq(confirmation_event.chs_due_date.to_s)
@@ -834,7 +834,7 @@ def expect_keys(obj, attributes)
   attributes.keys.each do |sub_key|
     # puts obj.class
     # puts "#{obj.first_name}" if obj.class.to_s == 'CandidateSheet'
-    # puts "#{obj.confirmation_event.name}:#{sub_key}" if obj.class.to_s == 'CandidateSheet'
+    # puts "#{obj.confirmation_event.event_key}:#{sub_key}" if obj.class.to_s == 'CandidateSheet'
     if attributes[sub_key].is_a?(Hash)
       expect_keys(obj.send(sub_key), attributes[sub_key])
     else

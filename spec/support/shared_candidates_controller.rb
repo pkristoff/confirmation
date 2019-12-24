@@ -241,7 +241,7 @@ shared_context 'retreat_verification' do
       candidate = Candidate.find(@candidate.id)
       retreat_verification = make_valid_rv(candidate)
 
-      update_event(candidate, @today, false, I18n.t('events.retreat_verification'))
+      update_event(candidate, @today, false, RetreatVerification.event_key)
       candidate.save
 
       expect(retreat_verification.scanned_retreat).to_not be_nil
@@ -268,7 +268,7 @@ shared_context 'retreat_verification' do
       candidate = Candidate.find(@candidate.id)
       retreat_verification = make_valid_rv(candidate)
 
-      update_event(candidate, @today, true, I18n.t('events.retreat_verification'))
+      update_event(candidate, @today, true, RetreatVerification.event_key)
       candidate.save
 
       expect(retreat_verification.scanned_retreat).to_not be_nil

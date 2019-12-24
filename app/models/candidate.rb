@@ -48,7 +48,7 @@ class Candidate < ApplicationRecord
 
   # turn off sending verify instructions until admin sends it.
   #
-  def send_on_create_confirmation_instructions() end
+  def send_on_create_confirmation_instructions; end
 
   # Sorts candidate events in priorty order (to be cmpleted first)
   #
@@ -64,7 +64,7 @@ class Candidate < ApplicationRecord
       # one.
       if ce1.due_date.nil?
         if ce2.due_date.nil?
-          ce1.name <=> ce2.name
+          ce1.event_key <=> ce2.event_key
         else
           -1
         end
@@ -77,7 +77,7 @@ class Candidate < ApplicationRecord
           # due is first
           due_date = ce1.due_date <=> ce2.due_date
           if due_date.zero?
-            ce1.name <=> ce2.name
+            ce1.event_key <=> ce2.event_key
           else
             due_date
           end
@@ -93,7 +93,7 @@ class Candidate < ApplicationRecord
         # due is on top
         due_date = ce1.due_date <=> ce2.due_date
         if due_date.zero?
-          ce1.name <=> ce2.name
+          ce1.event_key <=> ce2.event_key
         else
           due_date
         end
@@ -163,11 +163,11 @@ class Candidate < ApplicationRecord
   end
 
   def self.covenant_agreement_event_key
-    'Candidate Covenant Agreement'
+    'candidate_covenant_agreement'
   end
 
   def self.parent_meeting_event_key
-    'Parent Information Meeting'
+    'parent_information_meeting'
   end
 
   # Editable attributes
@@ -346,10 +346,10 @@ class Candidate < ApplicationRecord
   # * <tt>CandidateEvent</tt>
   #
   def get_candidate_event(event_key)
-    event = candidate_events.find { |candidate_event| candidate_event.name == event_key }
+    event = candidate_events.find { |candidate_event| candidate_event.event_key == event_key }
     if event.nil?
       Rails.logger.info("Could not find event: #{event_key}")
-      candidate_events.find { |candidate_event| Rails.logger.info candidate_event.name }
+      candidate_events.find { |candidate_event| Rails.logger.info candidate_event.event_key }
       raise "Unknown candidate_event named: #{event_key}"
     end
     event
@@ -374,7 +374,7 @@ class Candidate < ApplicationRecord
     when ChristianMinistry.event_key
       I18n.t('events.christian_ministry')
     else
-      "unknown_event_key_#{event_key}"
+      raise "unknown_event_key: #{event_key}"
     end
   end
 
@@ -420,7 +420,7 @@ class Candidate < ApplicationRecord
     when ChristianMinistry.event_key
       :christian_ministry
     else
-      "unknown_event_key_#{event_key}"
+      raise "unknown_event_key_#{event_key}"
     end
   end
 
@@ -560,7 +560,7 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.confirmation_name_external_verification
-    external_verification(I18n.t('events.confirmation_name'))
+    external_verification(PickConfirmationName.event_key, ->(_candidate) { false })
   end
 
   def self.external_verification(candidate_event_key, external_verification = ->(_candidate) { false })

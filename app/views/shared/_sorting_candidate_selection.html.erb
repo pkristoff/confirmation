@@ -27,7 +27,7 @@
 <% column_headers_in_order.push(t('label.candidate_sheet.attending')) %>
 
 <% if confirmation_event %>
-  <% column_headers_in_order.push(confirmation_event.name) %>
+  <% column_headers_in_order.push(confirmation_event.event_key) %>
 <% else %>
   <% column_headers_in_order.insert(column_headers_in_order.index(t('label.candidate_sheet.attending')), t('label.candidate_sheet.grade')) %>
   <% column_headers_in_order.insert(column_headers_in_order.index(t('label.candidate_sheet.attending')), t('label.candidate_sheet.program_year')) %>
@@ -111,7 +111,7 @@
         <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= first_name %></td>
         <% if confirmation_event %>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= attending %></td>
-          <% case confirmation_event.name %>
+          <% case confirmation_event.event_key %>
         <% when Candidate.covenant_agreement_event_key %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, Candidate.covenant_agreement_event_key, attending)}", sign_agreement_verify_path(candidate_id) %></td>
           <% when CandidateSheet.event_key %>
@@ -127,9 +127,9 @@
           <% when RetreatVerification.event_key %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, RetreatVerification.event_key, attending)}", event_with_picture_verify_path(candidate_id, Event::Route::RETREAT_VERIFICATION) %></td>
           <% when Candidate.parent_meeting_event_key %>
-            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, Candidate.parent_meeting_event_key, attending)}", event_candidate_path(candidate_id, anchor: "event_id_#{candidate_info.conf_event_id(candidate_id, t('events.parent_meeting'))}") %></td>
+            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, Candidate.parent_meeting_event_key, attending)}", event_candidate_path(candidate_id, anchor: "event_id_#{candidate_info.conf_event_id(candidate_id, Candidate.parent_meeting_event_key)}") %></td>
           <% else %>
-            <%= "unknown-event_key: #{ confirmation_event.name}"%>
+            <%= "unknown-event_key: #{ confirmation_event.event_key}"%>
           <% end %>
         <% else %>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= grade %></td>

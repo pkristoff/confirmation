@@ -11,7 +11,7 @@
         </tr>
         <% events.each do |candidate_event| %>
           <tr id="<%= "#{event_key}_tr#{candidate_event.id}" %>">
-            <td id="<%= "#{event_key}_td0#{candidate_event.id}" %>"><%= candidate_event.name %></td>
+            <td id="<%= "#{event_key}_td0#{candidate_event.id}" %>"><%= candidate_event.event_key %></td>
             <% unless past_due.call(candidate_event).nil? %>
               <td id="<%= "#{event_key}_td1#{candidate_event.id}" %>"><%= past_due.call(candidate_event) %></td>
             <% end %>

@@ -2,7 +2,7 @@
 
   <%= submit_tag t('views.common.update'), id: 'top-update' %>
 
-  <h2><%= @confirmation_event.name %></h2>
+  <h2><%= Candidate.i18n_event_name(@confirmation_event.event_key) %></h2>
 
   <%= label_tag(:verified, t('views.events.verified')) %>:
   <%= check_box_tag(:verified, 1, params[:verified], onclick: "update_completed_date(this.id)") %><br/>

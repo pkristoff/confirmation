@@ -139,13 +139,13 @@ ActiveRecord::Schema.define(version: 2019_12_04_100524) do
   end
 
   create_table "confirmation_events", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.string "event_key"
     t.date "the_way_due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "instructions", default: "", null: false
     t.date "chs_due_date"
-    t.index ["name"], name: "index_confirmation_events_on_name"
+    t.index ["event_key"], name: "index_confirmation_events_on_event_key"
   end
 
   create_table "pdf_documents", force: :cascade do |t|

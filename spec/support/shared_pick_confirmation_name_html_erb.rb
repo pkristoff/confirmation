@@ -37,7 +37,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: PickConfirmationName.event_key), @candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key), @candidate.id, @updated_message)
 
     else
       candidate = Candidate.find(@cand_id)
@@ -70,7 +70,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: PickConfirmationName.event_key), @candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key), @candidate.id, @updated_message)
 
     else
 
@@ -118,7 +118,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end

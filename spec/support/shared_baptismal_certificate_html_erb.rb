@@ -129,7 +129,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
 
@@ -157,7 +157,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
 
@@ -201,7 +201,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
 
@@ -220,7 +220,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: I18n.t('events.baptismal_certificate')), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
 
@@ -277,7 +277,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: BaptismalCertificate.event_key), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
@@ -329,7 +329,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: BaptismalCertificate.event_key), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
@@ -382,7 +382,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: BaptismalCertificate.event_key), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
 
@@ -418,7 +418,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(name: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
     else
       expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
     end

@@ -129,7 +129,7 @@ class PluckCan
   #
   def self.pluck_cand_events
     cand_event_info = {}
-    ToDo.joins(:confirmation_event, :candidate_event).pluck(:candidate_id, :confirmation_event_id, :candidate_event_id, :name, :verified, :completed_date, :the_way_due_date, :chs_due_date).each do |info|
+    ToDo.joins(:confirmation_event, :candidate_event).pluck(:candidate_id, :confirmation_event_id, :candidate_event_id, :event_key, :verified, :completed_date, :the_way_due_date, :chs_due_date).each do |info|
       cand_info = cand_event_info[info[0]]
       if cand_info.nil?
         cand_info = []
@@ -162,11 +162,11 @@ class PluckCan
   # === Parameters:
   #
   # * <tt>:cand_id</tt> Candidate id.
-  # * <tt>:event_name</tt> Name of caandidate event.
+  # * <tt>:event_key</tt> caandidate event database key.
   #
-  def conf_event_id(cand_id, event_name)
+  def conf_event_id(cand_id, event_key)
     event_info = @cand_event_info[cand_id].find do |cand_event_for_cand|
-      cand_event_for_cand[3] == event_name
+      cand_event_for_cand[3] == event_key
     end
     event_info[1]
   end

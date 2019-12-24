@@ -9,7 +9,7 @@
       </tr>
       <% events.each do |candidate_event| %>
         <tr id='<%= "#{event_key}_tr#{candidate_event.id}" %>'>
-          <td id='<%= "#{event_key}_td0#{candidate_event.id}" %>'><%= candidate_event.name %></td>
+          <td id='<%= "#{event_key}_td0#{candidate_event.id}" %>'><%= candidate_event.event_key %></td>
           <td id='<%= "#{event_key}_td1#{candidate_event.id}" %>'>
             <ul id='<%= "#{event_key}_ul#{candidate_event.id}" %>'>
               <% candidate_event.verifiable_info.each do |key, value| %>

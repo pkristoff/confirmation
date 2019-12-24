@@ -45,7 +45,7 @@ class ExportExcelCandJob
   # * <tt>Array</tt> of ConfirmationEvent
   #
   def confirmation_events_sorted
-    ConfirmationEvent.order(:name)
+    ConfirmationEvent.order(:event_key)
   end
 
   # return the
@@ -135,7 +135,7 @@ class ExportExcelCandJob
         end
       else
         confirmation_event = confirmation_events[split[1].to_i]
-        cand_event = candidate.get_candidate_event(confirmation_event.name)
+        cand_event = candidate.get_candidate_event(confirmation_event.event_key)
         cand_event.send(split[2])
       end
     else

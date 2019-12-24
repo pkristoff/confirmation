@@ -41,7 +41,7 @@ class CandidateEvent < ApplicationRecord
   #
   # * <tt>Boolean</tt>
   #
-  delegate :name, to: :confirmation_event
+  delegate :event_key, to: :confirmation_event
 
   # Has the event been started
   #
@@ -256,7 +256,7 @@ class CandidateEvent < ApplicationRecord
   #
   def route
     # TODO: maybe move to constants
-    case name
+    case event_key
     when BaptismalCertificate.event_key
       Event::Route::BAPTISMAL_CERTIFICATE
     when Candidate.covenant_agreement_event_key

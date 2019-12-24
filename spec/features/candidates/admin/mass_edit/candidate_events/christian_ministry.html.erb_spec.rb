@@ -16,7 +16,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @cand_id = candidate.id
-    @confirmation_event = ConfirmationEvent.find_by(name: ChristianMinistry.event_key)
+    @confirmation_event = ConfirmationEvent.find_by(event_key: ChristianMinistry.event_key)
   end
 
   after(:each) do
@@ -57,7 +57,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
 
     candidate = Candidate.find(@cand_id)
     expect_mass_edit_candidates_event(@confirmation_event, candidate.id, nil)
-    candidate_event = candidate.get_candidate_event(@confirmation_event.name)
+    candidate_event = candidate.get_candidate_event(@confirmation_event.event_key)
     expect(candidate_event.completed?)
     expect(candidate_event.completed_date).to eq(Time.zone.today)
     expect(candidate_event.verified).to eq(true)
@@ -74,7 +74,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     candidate.christian_ministry.where_service = 'Where'
     candidate.christian_ministry.when_service = 'when'
     candidate.christian_ministry.helped_me = 'Help'
-    candidate_event = candidate.get_candidate_event(@confirmation_event.name)
+    candidate_event = candidate.get_candidate_event(@confirmation_event.event_key)
     candidate_event.completed_date = completed_date
     expect(candidate_event.awaiting_admin?).to be(true)
     candidate.save
@@ -89,7 +89,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    candidate_event = candidate.get_candidate_event(@confirmation_event.name)
+    candidate_event = candidate.get_candidate_event(@confirmation_event.event_key)
 
     expect(candidate_event.completed?).to be(true)
     expect(candidate_event.completed_date).to eq(completed_date)

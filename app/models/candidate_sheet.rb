@@ -126,7 +126,7 @@ class CandidateSheet < ApplicationRecord
   # * <tt>String</tt>
   #
   def self.event_key
-    'Candidate Information Sheet'
+    'candidate_information_sheet'
   end
 
   # build address

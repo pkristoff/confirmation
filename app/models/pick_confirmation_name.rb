@@ -31,7 +31,7 @@ class PickConfirmationName < ApplicationRecord
   # * <tt>String</tt>
   #
   def self.event_key
-    'Confirmation Name'
+    'confirmation_name'
   end
 
   # Validate whether event is complete by adding validation errors to active record

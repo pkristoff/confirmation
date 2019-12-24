@@ -37,7 +37,7 @@ describe 'candidates/event.html.erb' do
   def expect_confirmation_events(is_chs)
     @resource.candidate_events.each_with_index do |ce, index|
       conf_e = ce.confirmation_event
-      expect_candidate_event(index, conf_e.id, conf_e.name, (is_chs ? nil : conf_e.the_way_due_date), (is_chs ? conf_e.chs_due_date : nil), conf_e.instructions, false, '', 'fieldset')
+      expect_candidate_event(index, conf_e.id, conf_e.event_key, (is_chs ? nil : conf_e.the_way_due_date), (is_chs ? conf_e.chs_due_date : nil), conf_e.instructions, false, '', 'fieldset')
     end
   end
 end
