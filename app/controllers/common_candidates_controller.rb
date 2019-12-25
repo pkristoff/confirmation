@@ -86,70 +86,13 @@ class CommonCandidatesController < ApplicationController
     if params['candidate']
       case event_route.to_sym
       when Event::Route::SPONSOR_COVENANT
-        sponsor_covenant = @candidate.sponsor_covenant
-        sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
-        if sponsor_covenant_params[:remove_sponsor_covenant_picture] == 'Remove'
-          sponsor_covenant.scanned_covenant = nil
-        else
-          setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, :scanned_covenant_attributes, sponsor_covenant_params)
-        end
-        if sponsor_covenant_params[:remove_sponsor_eligibility_picture] == 'Remove'
-          sponsor_covenant.scanned_eligibility = nil
-        else
-          setup_file_params(sponsor_covenant_params[:sponsor_eligibility_picture], sponsor_covenant, :scanned_eligibility_attributes, sponsor_covenant_params)
-        end
-
-        render_called = event_with_picture_update_private(SponsorCovenant, is_verify)
+        render_called = sponsor_covenant(is_verify)
 
       when Event::Route::BAPTISMAL_CERTIFICATE
-        cand_parms = params.require(:candidate).permit(baptismal_certificate_attributes: [:id,
-                                                                                          :baptized_at_home_parish,
-                                                                                          :first_comm_at_home_parish,
-                                                                                          :show_empty_radio,
-                                                                                          :remove_certificate_picture,
-                                                                                          :certificate_picture,
-                                                                                          :birth_date,
-                                                                                          :baptismal_date,
-                                                                                          :church_name,
-                                                                                          :father_first,
-                                                                                          :father_middle,
-                                                                                          :father_last,
-                                                                                          :mother_first,
-                                                                                          :mother_middle,
-                                                                                          :mother_maiden,
-                                                                                          :mother_last,
-                                                                                          church_address_attributes: [:id,
-                                                                                                                      :street_1,
-                                                                                                                      :street_2,
-                                                                                                                      :city,
-                                                                                                                      :state,
-                                                                                                                      :zip_code]],
-                                                       candidate_sheet_attributes: [:id,
-                                                                                    :first_name,
-                                                                                    :middle_name,
-                                                                                    :last_name])
-
-        baptized_at_home_parish = cand_parms[:baptismal_certificate_attributes][:baptized_at_home_parish] == '1'
-        baptismal_certificate = @candidate.baptismal_certificate
-        unless baptized_at_home_parish
-          baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
-
-          baptismal_certificate.scanned_certificate = nil if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
-
-          setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, params[:candidate][:baptismal_certificate_attributes])
-        end
-
-        render_called = event_with_picture_update_private(BaptismalCertificate, is_verify)
+        render_called = baptismal_certificate(is_verify)
 
       when Event::Route::RETREAT_VERIFICATION
-        retreat_verification = @candidate.retreat_verification
-        retreat_verification_params = params[:candidate][:retreat_verification_attributes]
-
-        retreat_verification.scanned_retreat = nil if retreat_verification_params[:remove_retreat_verification_picture] == 'Remove'
-
-        setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, :scanned_retreat_attributes, retreat_verification_params)
-
-        render_called = event_with_picture_update_private(RetreatVerification, is_verify)
+        render_called = retreat_verification(is_verify)
       else
         flash[:alert] = "Unknown event_name: #{event_name}"
       end
@@ -396,43 +339,6 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  def event_with_picture_update_private(clazz, admin_verified = false)
-    render_called = false
-    event_key = clazz.event_key
-
-    if @candidate.update(candidate_params)
-
-      # TODO: Move logic out of common code
-      if clazz == BaptismalCertificate
-        bc = @candidate.baptismal_certificate
-        if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
-          candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
-          candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
-          @candidate.keep_bc_errors
-          if candidate_info_sheet_event.save
-
-          end
-        end
-      end
-
-      candidate_event = @candidate.get_candidate_event(event_key)
-      candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
-      if candidate_event.save
-        # @resource = @candidate
-        if admin_verified
-          render_called = admin_verified_private(candidate_event, event_key)
-        else
-          flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
-        end
-      else
-        flash['alert'] = "Save of #{event_key} failed"
-      end
-    else
-      flash['alert'] = 'Update_attributes fails'
-    end
-    render_called
-  end
-
   # attempts to set verify on CandidateEvent and render
   # mass_edit_candidates_event
   #
@@ -539,6 +445,131 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
+  # handle updating BaptismalCertificate including
+  #   attributes
+  #   scanned pictures
+  #   removal of scanned picture
+  #
+  # === Parameters:
+  #
+  # * <tt>:is_verify</tt> is admin verifying event
+  #
+  # === Returns:
+  #
+  # Boolean:  whether render was called
+  #
+  def baptismal_certificate(is_verify)
+    cand_parms = params.require(:candidate).permit(baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
+                                                   candidate_sheet_attributes: [:id,
+                                                                                :first_name,
+                                                                                :middle_name,
+                                                                                :last_name])
+
+    baptized_at_home_parish = cand_parms[:baptismal_certificate_attributes][:baptized_at_home_parish] == '1'
+    baptismal_certificate = @candidate.baptismal_certificate
+    unless baptized_at_home_parish
+      baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
+      if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
+        baptismal_certificate.scanned_certificate = nil
+      else
+        setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, params[:candidate][:baptismal_certificate_attributes])
+      end
+    end
+    event_with_picture_update_private(BaptismalCertificate, is_verify)
+  end
+
+  # handle updating SponsorCovenant including
+  #   attributes
+  #   scanned pictures
+  #   removal of scanned picture
+  #
+  # === Parameters:
+  #
+  # * <tt>:is_verify</tt> is admin verifying event
+  #
+  # === Returns:
+  #
+  # Boolean:  whether render was called
+  #
+  def sponsor_covenant(is_verify)
+    sponsor_covenant = @candidate.sponsor_covenant
+    sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
+    if sponsor_covenant_params[:remove_sponsor_covenant_picture] == 'Remove'
+      sponsor_covenant.scanned_covenant = nil
+    else
+      setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, :scanned_covenant_attributes, sponsor_covenant_params)
+    end
+    if sponsor_covenant_params[:remove_sponsor_eligibility_picture] == 'Remove'
+      sponsor_covenant.scanned_eligibility = nil
+    else
+      setup_file_params(sponsor_covenant_params[:sponsor_eligibility_picture], sponsor_covenant, :scanned_eligibility_attributes, sponsor_covenant_params)
+    end
+
+    event_with_picture_update_private(SponsorCovenant, is_verify)
+  end
+
+  # handle updating RetreatVerification including
+  #   attributes
+  #   scanned pictures
+  #   removal of scanned picture
+  #
+  # === Parameters:
+  #
+  # * <tt>:is_verify</tt> is admin verifying event
+  #
+  # === Returns:
+  #
+  # Boolean:  whether render was called
+  #
+  def retreat_verification(is_verify)
+    retreat_verification = @candidate.retreat_verification
+    retreat_verification_params = params[:candidate][:retreat_verification_attributes]
+
+    if retreat_verification_params[:remove_retreat_verification_picture] == 'Remove'
+      retreat_verification.scanned_retreat = nil
+    else
+      setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, :scanned_retreat_attributes, retreat_verification_params)
+    end
+    event_with_picture_update_private(RetreatVerification, is_verify)
+  end
+
+  def event_with_picture_update_private(clazz, admin_verified = false)
+    render_called = false
+    event_key = clazz.event_key
+
+    if @candidate.update(candidate_params)
+
+      # BaptismalCertificate includes updating includes 3 attributes from CandidateSheet
+      # this handles those attributes.
+      if clazz == BaptismalCertificate
+        bc = @candidate.baptismal_certificate
+        if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
+          candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
+          candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
+          @candidate.keep_bc_errors
+          if candidate_info_sheet_event.save
+            # TODO: what happens here of if fails
+          end
+        end
+      end
+
+      candidate_event = @candidate.get_candidate_event(event_key)
+      candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
+      if candidate_event.save
+        if admin_verified
+          render_called = admin_verified_private(candidate_event, event_key)
+        else
+          flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
+        end
+      else
+        flash['alert'] = "Save of #{event_key} failed"
+      end
+    else
+      flash['alert'] = 'Update_attributes fails'
+    end
+    render_called
+  end
+
   def setup_file_params(file, association, scanned_image_attributes, association_params)
     scanned_filename = nil
     scanned_content_type = nil
@@ -582,7 +613,7 @@ class CommonCandidatesController < ApplicationController
     picture_params[:filename] = scanned_filename
     picture_params[:content_type] = scanned_content_type
     picture_params[:content] = scanned_content
-    picture_params[:id] = scanned_image_id unless scanned_image_id.nil?
+    picture_params[:id] = scanned_image_id
     association_params[scanned_image_attributes] = picture_params.permit(:filename, :content_type, :content, :id)
   end
 end

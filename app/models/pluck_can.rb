@@ -162,7 +162,7 @@ class PluckCan
   # === Parameters:
   #
   # * <tt>:cand_id</tt> Candidate id.
-  # * <tt>:event_key</tt> caandidate event database key.
+  # * <tt>:event_key</tt> candidate event database key.
   #
   def conf_event_id(cand_id, event_key)
     event_info = @cand_event_info[cand_id].find do |cand_event_for_cand|

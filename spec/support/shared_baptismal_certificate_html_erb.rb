@@ -268,6 +268,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                               'Zip code can\'t be blank']]])
 
     expect_db(1, 8, 1)
+
     expect(page).to have_selector(img_src_selector)
 
     fill_in_form(false) # no picture
