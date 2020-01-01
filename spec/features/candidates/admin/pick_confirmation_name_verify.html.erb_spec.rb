@@ -15,9 +15,6 @@ feature 'Pick confirmation name verify admin', :devise do
     @path = pick_confirmation_name_verify_path(@candidate.id)
     @path_str = 'pick_confirmation_name_verify'
     @update_id = 'top-update-verify'
-    cand_name = 'Sophia Agusta'
-    @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
-    @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
     @is_dev = false
     @is_verify = true
   end
@@ -26,5 +23,15 @@ feature 'Pick confirmation name verify admin', :devise do
     Warden.test_reset!
   end
 
-  it_behaves_like 'pick_confirmation_name_html_erb'
+  context 'test spanish' do
+    let(:locale) { 'es' }
+
+    it_behaves_like 'pick_confirmation_name_html_erb'
+  end
+
+  context 'test english' do
+    let(:locale) { 'en' }
+
+    it_behaves_like 'pick_confirmation_name_html_erb'
+  end
 end

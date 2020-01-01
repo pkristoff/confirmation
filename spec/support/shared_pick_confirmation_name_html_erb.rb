@@ -14,8 +14,20 @@ shared_context 'pick_confirmation_name_html_erb' do
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by(account_name: @candidate.account_name)
     @cand_id = @candidate.id
+
+    page.driver.header 'Accept-Language', locale
+    I18n.locale = locale
+
     cand_name = 'Sophia Agusta'
-    @admin_verified = @updated_message == I18n.t('messages.updated_verified', cand_name: cand_name)
+    if @is_verify
+      @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
+      @admin_verified = true
+    else
+      @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+      @admin_verified = false
+    end
     @dev_path = @is_dev ? 'dev/' : ''
     @today = Time.zone.today
   end
@@ -60,7 +72,8 @@ shared_context 'pick_confirmation_name_html_erb' do
     candidate = Candidate.find(@candidate.id)
 
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                                                                                                 [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Saint name can\'t be blank']]])
+                                                                                                                                 [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                                                                                                       "Saint name #{I18n.t('errors.messages.blank')}"]]])
     expect(candidate.pick_confirmation_name.saint_name).to eq('')
 
     fill_in_form # no picture
@@ -86,14 +99,14 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     visit @path
     fill_in_form
-    fill_in('Saint name', with: nil)
+    fill_in(I18n.t('label.confirmation_name.saint_name'), with: nil)
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                        saint_name: '',
                                        expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                         [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Saint name can\'t be blank']]])
+                                                         [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1), "Saint name #{I18n.t('errors.messages.blank')}"]]])
 
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(nil)
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to eq(false)

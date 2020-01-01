@@ -21,7 +21,15 @@ shared_context 'christian_ministry_html_erb' do
     I18n.locale = locale
 
     cand_name = 'Sophia Agusta'
-    @admin_verified = @updated_message == I18n.t('messages.updated_verified', cand_name: cand_name)
+    if @is_verify
+      @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
+    else
+      @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    end
+
+    @admin_verified = @is_verify
     @dev_path = @is_dev ? 'dev/' : ''
     AppFactory.add_confirmation_events
   end
@@ -51,7 +59,7 @@ shared_context 'christian_ministry_html_erb' do
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: ChristianMinistry.event_key), candidate.id, @updated_message)
 
     else
-
+      puts page.html
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                      what_service: WHAT_SERVICE, where_service: WHERE_SERVICE,
                                      when_service: WHEN_SERVICE, helped_me: HELPED_ME,

@@ -36,7 +36,7 @@ class ChristianMinistry < ApplicationRecord
   # * <tt>String</tt>
   #
   def self.event_key
-    'christian_ministry_aqwareness'
+    'christian_ministry_awareness'
   end
 
   # Validate if event is complete by adding validation errors to active record
