@@ -26,11 +26,11 @@ class SponsorCovenant < ApplicationRecord
     found = false
     found |= !errors.delete(:scanned_covenant).nil?
 
-    errors[:base] << 'Scanned sponsor covenant form can\'t be blank' if found
+    errors[:base] << "Scanned sponsor covenant form #{I18n.t('errors.messages.blank')}" if found
 
     found = false
     found |= !errors.delete(:scanned_eligibility).nil?
-    errors[:base] << 'Scanned sponsor eligibility form can\'t be blank' if found
+    errors[:base] << "Scanned sponsor eligibility form #{I18n.t('errors.messages.blank')}" if found
   end
 
   # Editable attributes

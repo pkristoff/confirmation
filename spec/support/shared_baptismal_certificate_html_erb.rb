@@ -23,6 +23,17 @@ shared_context 'baptismal_certificate_html_erb' do
     event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, @is_verify)
     AppFactory.add_confirmation_events
     @today = Time.zone.today
+    page.driver.header 'Accept-Language', locale
+    I18n.locale = locale
+
+    @button_name = I18n.t('views.common.update_verify') if @is_verify
+    @button_name = I18n.t('views.common.update') unless @is_verify
+    cand_name = 'Sophia Agusta'
+    @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name) if @is_verify
+    @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name) if @is_verify
+    @updated_message = I18n.t('messages.updated', cand_name: cand_name) unless @is_verify
+    @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name) unless @is_verify
+    @cant_be_blank = locale == 'en' ? 'can\'t be blank' : 'no puede estar en blanco'
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = false, show_empty_radio = 0, nothing else showing' do
@@ -250,22 +261,22 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                        [:error_explanation, ['Your changes were saved!! 15 empty fields need to be filled in on the form to be verified:',
-                                                                              'Middle name can\'t be blank',
-                                                                              'Birth date can\'t be blank',
-                                                                              'Baptismal date can\'t be blank',
-                                                                              'Church name can\'t be blank',
-                                                                              'Father first can\'t be blank',
-                                                                              'Father middle can\'t be blank',
-                                                                              'Father last can\'t be',
-                                                                              'Mother first can\'t be blank',
-                                                                              'Mother middle can\'t be blank',
-                                                                              'Mother maiden can\'t be blank',
-                                                                              'Mother last can\'t be blank',
-                                                                              'Street 1 can\'t be blank',
-                                                                              'City can\'t be blank',
-                                                                              'State can\'t be blank',
-                                                                              'Zip code can\'t be blank']]])
+                                                        [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 15),
+                                                                              "Middle name #{@cant_be_blank}",
+                                                                              "Birth date #{@cant_be_blank}",
+                                                                              "Baptismal date #{@cant_be_blank}",
+                                                                              "Church name #{@cant_be_blank}",
+                                                                              "Father first #{@cant_be_blank}",
+                                                                              "Father middle #{@cant_be_blank}",
+                                                                              "Father last #{@cant_be_blank}",
+                                                                              "Mother first #{@cant_be_blank}",
+                                                                              "Mother middle #{@cant_be_blank}",
+                                                                              "Mother maiden #{@cant_be_blank}",
+                                                                              "Mother last #{@cant_be_blank}",
+                                                                              "Street 1 #{@cant_be_blank}",
+                                                                              "City #{@cant_be_blank}",
+                                                                              "State #{@cant_be_blank}",
+                                                                              "Zip code #{@cant_be_blank}"]]])
 
     expect_db(1, 8, 1)
 
@@ -311,8 +322,8 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                        [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:',
-                                                                              'Middle name can\'t be blank']]])
+                                                        [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                              "Middle name #{@cant_be_blank}"]]])
 
     candidate = Candidate.find(@candidate.id)
 
@@ -359,7 +370,8 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                        [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'I received First Communion at St. Mary Magdalene should be checked.']]])
+                                                        [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                              I18n.t('messages.error.first_communion_should_be_checked', home_parish: Visitor.home_parish)]]])
   end
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, adds non-picture data, updates, adds picture, updates - everything is saved' do
@@ -375,7 +387,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                        [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Scanned baptismal certificate can\'t be blank']]])
+                                                        [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                              "Scanned baptismal certificate #{@cant_be_blank}"]]])
 
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
@@ -458,7 +471,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     cand = Candidate.find(cand_id)
 
-    expect_heading(cand, dev_path.empty?, I18n.t('events.baptismal_certificate'))
+    expect_heading(cand, dev_path.empty?, BaptismalCertificate.event_key)
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/baptismal_certificate\"]")
     expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish))
@@ -506,24 +519,24 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), nil)
 
-    expect_field('Birth date', values[:birth_date])
-    expect_field('Baptismal date', values[:baptismal_date])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'), values[:birth_date])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'), values[:baptismal_date])
 
-    expect_field('Church name', values[:church_name])
-    expect_field('Street 1', values[:street_1])
-    expect_field('Street 2', values[:street_2])
-    expect_field('City', values[:city])
-    expect_field('State', values[:state])
-    expect_field('Zip code', values[:zip_code])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_name'), values[:church_name])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_1'), values[:street_1])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_2'), values[:street_2])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.city'), values[:city])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.state'), values[:state])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code'), values[:zip_code])
 
-    expect_field('Father first', values[:father_first])
-    expect_field('Father middle', values[:father_middle])
-    expect_field('Father last', values[:father_last])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.father_first'), values[:father_first])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle'), values[:father_middle])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.father_last'), values[:father_last])
 
-    expect_field('Mother first', values[:mother_first])
-    expect_field('Mother middle', values[:mother_middle])
-    expect_field('Mother maiden', values[:mother_maiden])
-    expect_field('Mother last', values[:mother_last])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first'), values[:mother_first])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle'), values[:mother_middle])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden'), values[:mother_maiden])
+    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last'), values[:mother_last])
 
     expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
 
@@ -537,21 +550,21 @@ shared_context 'baptismal_certificate_html_erb' do
   end
 
   def fill_in_form(attach_file = true)
-    fill_in('Birth date', with: BIRTH_DATE)
-    fill_in('Baptismal date', with: BAPTISMAL_DATE)
-    fill_in('Church name', with: CHURCH_NAME)
-    fill_in('Street 1', with: STREET_1)
-    fill_in('Street 2', with: STREET_2)
-    fill_in('City', with: CITY)
-    fill_in('State', with: STATE)
-    fill_in('Zip code', with: ZIP_CODE)
-    fill_in('Father first', with: FATHER_FIRST)
-    fill_in('Father middle', with: FATHER_MIDDLE)
-    fill_in('Father last', with: LAST_NAME)
-    fill_in('Mother first', with: MOTHER_FIRST)
-    fill_in('Mother middle', with: MOTHER_MIDDLE)
-    fill_in('Mother maiden', with: MOTHER_MAIDEN)
-    fill_in('Mother last', with: LAST_NAME)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'), with: BIRTH_DATE)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'), with: BAPTISMAL_DATE)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_name'), with: CHURCH_NAME)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_1'), with: STREET_1)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_2'), with: STREET_2)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.city'), with: CITY)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.state'), with: STATE)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code'), with: ZIP_CODE)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.father_first'), with: FATHER_FIRST)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle'), with: FATHER_MIDDLE)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.father_last'), with: LAST_NAME)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first'), with: MOTHER_FIRST)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle'), with: MOTHER_MIDDLE)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden'), with: MOTHER_MAIDEN)
+    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last'), with: LAST_NAME)
 
     fill_in(I18n.t('label.candidate_sheet.first_name'), with: FIRST_NAME)
     fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)

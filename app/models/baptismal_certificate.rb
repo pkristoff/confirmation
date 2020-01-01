@@ -65,7 +65,7 @@ class BaptismalCertificate < ApplicationRecord
       found = false
       found |= !errors.delete(:scanned_certificate).nil?
       if found
-        errors[:base] << 'Scanned baptismal certificate can\'t be blank' # TODO: I18n
+        errors[:base] << "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}" # TODO: I18n
         event_complete = false
       end
     end

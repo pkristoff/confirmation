@@ -216,12 +216,12 @@ es:
     database_reset: La base de datos se restableció correctamente.
     disabled: Esto está apagado
     error:
-      baptized_should_be_checked: Debería ser bautizado en   %{home_parish} debe ser
+      baptized_should_be_checked: Debería ser bautizado en %{home_parish} debe ser
         verificado.
       duplicate_email: es un correo electrónico duplicado, que no está permitido para
         un candidato - %{name}.
-      first_communion_should_be_checked: Recibí la Primera Comunión en %{home_parish} debe
-        ser revisado
+      first_communion_should_be_checked: Recibí la Primera Comunión en %{home_parish}
+        debe ser revisado
       invalid_email: 'es un correo electrónico no válido: %{email}'
       missing_attribute: "¡Tus cambios fueron guardados! Se debe completar un campo
         vacío en el formulario para verificarlo:"
