@@ -16,6 +16,10 @@ shared_context 'christian_ministry_html_erb' do
   before(:each) do
     @today = Time.zone.today
     @cand_id = @candidate.id
+
+    page.driver.header 'Accept-Language', locale
+    I18n.locale = locale
+
     cand_name = 'Sophia Agusta'
     @admin_verified = @updated_message == I18n.t('messages.updated_verified', cand_name: cand_name)
     @dev_path = @is_dev ? 'dev/' : ''
@@ -113,7 +117,11 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '',
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verified:', 'What service can\'t be blank', 'Where service can\'t be blank', 'When service can\'t be blank', 'Helped me can\'t be blank']]])
+                                                     [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 4),
+                                                                           "What service #{I18n.t('errors.messages.blank')}",
+                                                                           "Where service #{I18n.t('errors.messages.blank')}",
+                                                                           "When service #{I18n.t('errors.messages.blank')}",
+                                                                           "Helped me #{I18n.t('errors.messages.blank')}"]]])
 
     candidate = Candidate.find(@cand_id)
     expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(nil)
@@ -141,7 +149,8 @@ shared_context 'christian_ministry_html_erb' do
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME,
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'What service can\'t be blank']]])
+                                                     [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                           "What service #{I18n.t('errors.messages.blank')}"]]])
 
     expect_db(1, 8, 0) # make sure DB does not increase in size.
   end

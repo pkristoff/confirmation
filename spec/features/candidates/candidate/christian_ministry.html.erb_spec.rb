@@ -28,5 +28,15 @@ feature 'Christian Ministry  candidate', :devise do
 
   # dev
 
-  it_behaves_like 'christian_ministry_html_erb'
+  context 'test spanish' do
+    let(:locale) { 'es' }
+
+    it_behaves_like 'christian_ministry_html_erb'
+  end
+
+  context 'test english' do
+    let(:locale) { 'en' }
+
+    it_behaves_like 'christian_ministry_html_erb'
+  end
 end

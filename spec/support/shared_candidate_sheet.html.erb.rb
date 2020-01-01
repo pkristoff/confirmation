@@ -5,6 +5,7 @@ shared_context 'candidate_sheet_html_erb' do
   before(:each) do
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by(account_name: @candidate.account_name)
+
     page.driver.header 'Accept-Language', locale
     I18n.locale = locale
 
