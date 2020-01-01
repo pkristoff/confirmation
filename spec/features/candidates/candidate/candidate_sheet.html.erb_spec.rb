@@ -15,9 +15,6 @@ feature 'Candidate sheet candidate', :devise do
     @admin_verified = false
     @path_str = 'candidate_sheet'
     @update_id = 'top-update'
-    cand_name = 'Sophia Agusta'
-    @updated_message = I18n.t('messages.updated', cand_name: cand_name)
-    @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
     @is_verify = false
   end
 
@@ -25,5 +22,15 @@ feature 'Candidate sheet candidate', :devise do
     Warden.test_reset!
   end
 
-  it_behaves_like 'candidate_sheet_html_erb'
+  context 'test spanish' do
+    let(:locale) { 'es' }
+
+    it_behaves_like 'candidate_sheet_html_erb'
+  end
+
+  context 'test english' do
+    let(:locale) { 'en' }
+
+    it_behaves_like 'candidate_sheet_html_erb'
+  end
 end

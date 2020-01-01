@@ -33,7 +33,6 @@ shared_context 'baptismal_certificate_html_erb' do
     @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name) if @is_verify
     @updated_message = I18n.t('messages.updated', cand_name: cand_name) unless @is_verify
     @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name) unless @is_verify
-    @cant_be_blank = locale == 'en' ? 'can\'t be blank' : 'no puede estar en blanco'
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = false, show_empty_radio = 0, nothing else showing' do
@@ -262,21 +261,21 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 15),
-                                                                              "Middle name #{@cant_be_blank}",
-                                                                              "Birth date #{@cant_be_blank}",
-                                                                              "Baptismal date #{@cant_be_blank}",
-                                                                              "Church name #{@cant_be_blank}",
-                                                                              "Father first #{@cant_be_blank}",
-                                                                              "Father middle #{@cant_be_blank}",
-                                                                              "Father last #{@cant_be_blank}",
-                                                                              "Mother first #{@cant_be_blank}",
-                                                                              "Mother middle #{@cant_be_blank}",
-                                                                              "Mother maiden #{@cant_be_blank}",
-                                                                              "Mother last #{@cant_be_blank}",
-                                                                              "Street 1 #{@cant_be_blank}",
-                                                                              "City #{@cant_be_blank}",
-                                                                              "State #{@cant_be_blank}",
-                                                                              "Zip code #{@cant_be_blank}"]]])
+                                                                              "Middle name #{I18n.t('errors.messages.blank')}",
+                                                                              "Birth date #{I18n.t('errors.messages.blank')}",
+                                                                              "Baptismal date #{I18n.t('errors.messages.blank')}",
+                                                                              "Church name #{I18n.t('errors.messages.blank')}",
+                                                                              "Father first #{I18n.t('errors.messages.blank')}",
+                                                                              "Father middle #{I18n.t('errors.messages.blank')}",
+                                                                              "Father last #{I18n.t('errors.messages.blank')}",
+                                                                              "Mother first #{I18n.t('errors.messages.blank')}",
+                                                                              "Mother middle #{I18n.t('errors.messages.blank')}",
+                                                                              "Mother maiden #{I18n.t('errors.messages.blank')}",
+                                                                              "Mother last #{I18n.t('errors.messages.blank')}",
+                                                                              "Street 1 #{I18n.t('errors.messages.blank')}",
+                                                                              "City #{I18n.t('errors.messages.blank')}",
+                                                                              "State #{I18n.t('errors.messages.blank')}",
+                                                                              "Zip code #{I18n.t('errors.messages.blank')}"]]])
 
     expect_db(1, 8, 1)
 
@@ -323,7 +322,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                              "Middle name #{@cant_be_blank}"]]])
+                                                                              "Middle name #{I18n.t('errors.messages.blank')}"]]])
 
     candidate = Candidate.find(@candidate.id)
 
@@ -388,7 +387,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                              "Scanned baptismal certificate #{@cant_be_blank}"]]])
+                                                                              "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"]]])
 
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
     click_button @update_id

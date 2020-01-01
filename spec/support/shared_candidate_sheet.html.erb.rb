@@ -5,6 +5,17 @@ shared_context 'candidate_sheet_html_erb' do
   before(:each) do
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by(account_name: @candidate.account_name)
+    page.driver.header 'Accept-Language', locale
+    I18n.locale = locale
+
+    cand_name = 'Sophia Agusta'
+    if @is_verify
+      @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
+    else
+      @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    end
   end
 
   scenario 'candidate logs in, selects candidate sheet, attempts to save an invalid sheet' do
@@ -21,7 +32,8 @@ shared_context 'candidate_sheet_html_erb' do
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expect_messages: [
                                   [:flash_notice, @updated_failed_verification],
-                                  [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Candidate email is an invalid email: m']]
+                                  [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                        "Candidate email #{I18n.t('messages.error.invalid_email', email: 'm')}"]]
                                 ])
   end
 
@@ -30,11 +42,12 @@ shared_context 'candidate_sheet_html_erb' do
     fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: 'mm')
 
     click_button(@update_id)
-
+    puts page.html
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expect_messages: [
                                   [:flash_notice, @updated_failed_verification],
-                                  [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Candidate email is an invalid email: mm']]
+                                  [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                        "Candidate email #{I18n.t('messages.error.invalid_email', email: 'mm')}"]]
                                 ])
   end
 
