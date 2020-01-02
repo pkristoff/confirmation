@@ -23,7 +23,7 @@ class RetreatVerification < ApplicationRecord
     found = false
     found |= !errors.delete(:scanned_retreat).nil?
 
-    errors[:base] << 'Scanned retreat verification can\'t be blank' if found
+    errors[:base] << "Scanned retreat verification #{I18n.t('errors.messages.blank')}" if found
   end
 
   # Editable attributes

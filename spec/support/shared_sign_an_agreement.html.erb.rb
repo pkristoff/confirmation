@@ -4,6 +4,18 @@ shared_context 'sign_an_agreement_html_erb' do
   before(:each) do
     AppFactory.add_confirmation_events
     @cand_id = @candidate.id
+
+    page.driver.header 'Accept-Language', locale
+    I18n.locale = locale
+
+    cand_name = 'Sophia Agusta'
+    if @is_verify
+      @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
+    else
+      @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    end
   end
 
   scenario 'admin visits form and pushes update' do
@@ -19,7 +31,8 @@ shared_context 'sign_an_agreement_html_erb' do
     candidate = Candidate.find(@cand_id)
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @document_key, @event_key, @update_id, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'By checking you agree to the above. needs to be checked']]])
+                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                         I18n.t('messages.signed_agreement_val', field_name: I18n.t('label.sign_agreement.signed_agreement'))]]])
   end
 
   scenario 'user(candidate or admin) logs in, selects signing an agreement, has signed agreement previously' do
@@ -66,7 +79,8 @@ shared_context 'sign_an_agreement_html_erb' do
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @document_key, @event_key, @update_id, @is_verify,
                                  expect_messages: [
                                    [:flash_notice, @updated_failed_verification],
-                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'By checking you agree to the above. needs to be checked']]
+                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                         I18n.t('messages.signed_agreement_val', field_name: I18n.t('label.sign_agreement.signed_agreement'))]]
                                  ])
   end
 

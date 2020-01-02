@@ -24,5 +24,15 @@ feature 'Sponsor Covenant candidate', :devise do
 
   # dev
 
-  it_behaves_like 'sponsor_covenant_html_erb'
+  context 'test spanish' do
+    let(:locale) { 'es' }
+
+    it_behaves_like 'sponsor_covenant_html_erb'
+  end
+
+  context 'test english' do
+    let(:locale) { 'en' }
+
+    it_behaves_like 'sponsor_covenant_html_erb'
+  end
 end

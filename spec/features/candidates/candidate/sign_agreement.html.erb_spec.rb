@@ -34,5 +34,15 @@ feature 'Sign Covenant Agreement candidate login in', :devise do
     Warden.test_reset!
   end
 
-  it_behaves_like 'sign_an_agreement_html_erb'
+  context 'test spanish' do
+    let(:locale) { 'es' }
+
+    it_behaves_like 'sign_an_agreement_html_erb'
+  end
+
+  context 'test english' do
+    let(:locale) { 'en' }
+
+    it_behaves_like 'sign_an_agreement_html_erb'
+  end
 end

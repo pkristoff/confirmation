@@ -5,19 +5,23 @@ SPONSOR_CHURCH = 'St. George'
 
 SPONSOR_COVENANT_EVENT = SponsorCovenant.event_key
 
-UPDATED_MESSAGE = I18n.t('messages.updated', cand_name: 'Sophia Agusta')
-
-ATTENDS_STMM_LABEL_I18N = 'label.sponsor_covenant.sponsor_attends_home_parish'
-COVENANT_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_covenant_picture')
-ELEGIBILITY_PICTURE_LABEL = I18n.t('label.sponsor_covenant.sponsor_eligibility_picture')
-SPONSOR_CHURCH_LABEL = I18n.t('label.sponsor_covenant.sponsor_church')
-SPONSOR_NAME_LABEL = I18n.t('label.sponsor_covenant.sponsor_name')
-
 shared_context 'sponsor_covenant_html_erb' do
   include ViewsHelpers
   before(:each) do
     event_with_picture_setup(Event::Route::SPONSOR_COVENANT, @is_verify)
     AppFactory.add_confirmation_events
+
+    page.driver.header 'Accept-Language', locale
+    I18n.locale = locale
+
+    cand_name = 'Sophia Agusta'
+    if @is_verify
+      @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
+    else
+      @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    end
   end
 
   scenario 'admin logs in and selects a candidate, checks sponsor_attends_home_parish, nothing else showing' do
@@ -68,7 +72,7 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
 
     visit @path
-    check(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
+    check(I18n.t('label.sponsor_covenant.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
@@ -89,14 +93,16 @@ shared_context 'sponsor_covenant_html_erb' do
 
     visit @path
 
-    attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
-    attach_file(ELEGIBILITY_PICTURE_LABEL, 'spec/fixtures/actions.png')
+    attach_file(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('label.sponsor_covenant.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
 
     candidate_db = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate_db.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 2 empty fields need to be filled in on the form to be verified:', 'Sponsor name can\'t be blank', 'Sponsor church can\'t be blank']]])
+                                                   [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
+                                                                         "Sponsor name #{I18n.t('errors.messages.blank')}",
+                                                                         "Sponsor church #{I18n.t('errors.messages.blank')}"]]])
 
     expect(candidate_db.sponsor_covenant).not_to eq(nil)
     expect(candidate_db.sponsor_covenant.sponsor_attends_home_parish).to eq(false)
@@ -141,12 +147,13 @@ shared_context 'sponsor_covenant_html_erb' do
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Scanned sponsor covenant form can\'t be blank']]])
+                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                         "Scanned sponsor covenant form #{I18n.t('errors.messages.blank')}"]]])
 
     expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
     expect(page).not_to have_selector(img_src_selector)
 
-    attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png')
+    attach_file(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
@@ -168,14 +175,15 @@ shared_context 'sponsor_covenant_html_erb' do
     visit @path
     fill_in_form
 
-    fill_in(SPONSOR_NAME_LABEL, with: nil)
+    fill_in(I18n.t('label.sponsor_covenant.sponsor_name'), with: nil)
     click_button @update_id
 
     expect(page).to have_selector(img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify,
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Sponsor name can\'t be blank']]],
+                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                         "Sponsor name #{I18n.t('errors.messages.blank')}"]]],
                                  sponsor_name: '')
   end
 
@@ -190,14 +198,14 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(page).to have_selector("div[id=sponsor-covenant-top][class=\"#{visibility}\"]")
 
     if cand.sponsor_covenant.sponsor_attends_home_parish
-      expect(page).to have_checked_field(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
+      expect(page).to have_checked_field(I18n.t('label.sponsor_covenant.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
     else
-      expect(page).not_to have_checked_field(I18n.t(ATTENDS_STMM_LABEL_I18N, home_parish: Visitor.home_parish))
+      expect(page).not_to have_checked_field(I18n.t('label.sponsor_covenant.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
     end
 
-    expect_field(COVENANT_PICTURE_LABEL, nil)
+    expect_field(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), nil)
 
-    expect_field(SPONSOR_NAME_LABEL, cand.sponsor_covenant.sponsor_attends_home_parish ? nil : values[:sponsor_name])
+    expect_field(I18n.t('label.sponsor_covenant.sponsor_name'), cand.sponsor_covenant.sponsor_attends_home_parish ? nil : values[:sponsor_name])
 
     expect(page).to have_button(@update_id)
 
@@ -217,10 +225,10 @@ shared_context 'sponsor_covenant_html_erb' do
   end
 
   def fill_in_form(covenant_attach_file = true, eligibility_attach_file = true)
-    fill_in(SPONSOR_NAME_LABEL, with: SPONSOR_NAME)
-    fill_in(SPONSOR_CHURCH_LABEL, with: SPONSOR_CHURCH)
-    attach_file(COVENANT_PICTURE_LABEL, 'spec/fixtures/actions.png') if covenant_attach_file
-    attach_file(ELEGIBILITY_PICTURE_LABEL, 'spec/fixtures/Baptismal Certificate.png') if eligibility_attach_file
+    fill_in(I18n.t('label.sponsor_covenant.sponsor_name'), with: SPONSOR_NAME)
+    fill_in(I18n.t('label.sponsor_covenant.sponsor_church'), with: SPONSOR_CHURCH)
+    attach_file(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png') if covenant_attach_file
+    attach_file(I18n.t('label.sponsor_covenant.sponsor_eligibility_picture'), 'spec/fixtures/Baptismal Certificate.png') if eligibility_attach_file
   end
 
   def img_src_selector

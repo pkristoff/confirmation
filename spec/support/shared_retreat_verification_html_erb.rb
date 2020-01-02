@@ -17,6 +17,18 @@ shared_context 'retreat_verification_html_erb' do
     v = Visitor.all.first
     v.home_parish = 'St. Mary Magdalene'
     v.save
+
+    page.driver.header 'Accept-Language', locale
+    I18n.locale = locale
+
+    cand_name = 'Sophia Agusta'
+    if @is_verify
+      @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
+    else
+      @updated_message = I18n.t('messages.updated', cand_name: cand_name)
+      @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    end
   end
 
   scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -107,7 +119,11 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, ['Your changes were saved!! 4 empty fields need to be filled in on the form to be verified:', 'Start date can\'t be blank', 'End date can\'t be blank', 'Who held retreat can\'t be blank', 'Where held retreat can\'t be blank']]],
+                                                       [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 4),
+                                                                             "Start date #{I18n.t('errors.messages.blank')}",
+                                                                             "End date #{I18n.t('errors.messages.blank')}",
+                                                                             "Who held retreat #{I18n.t('errors.messages.blank')}",
+                                                                             "Where held retreat #{I18n.t('errors.messages.blank')}"]]],
                                      who_held_retreat: '',
                                      where_held_retreat: '',
                                      start_date: '',
@@ -139,7 +155,8 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Scanned retreat verification can\'t be blank']]])
+                                                       [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                             "Scanned retreat verification #{I18n.t('errors.messages.blank')}"]]])
   end
 
   scenario 'admin logs in and selects a candidate, fills in template, except Who held retreat' do
@@ -155,7 +172,8 @@ shared_context 'retreat_verification_html_erb' do
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, ['Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:', 'Who held retreat can\'t be blank']]],
+                                                       [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                             "Who held retreat #{I18n.t('errors.messages.blank')}"]]],
                                      who_held_retreat: '')
   end
 
