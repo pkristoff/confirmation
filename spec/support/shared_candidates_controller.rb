@@ -102,7 +102,7 @@ shared_context 'baptismal_certificate' do
       candidate = Candidate.find(@candidate.id)
       baptismal_certificate = make_valid_bc(candidate)
 
-      update_event(candidate, @today, false, I18n.t('events.baptismal_certificate'))
+      update_event(candidate, @today, false, BaptismalCertificate.event_key)
       candidate.save
 
       expect(baptismal_certificate.scanned_certificate).to_not be_nil
@@ -129,7 +129,7 @@ shared_context 'baptismal_certificate' do
       candidate = Candidate.find(@candidate.id)
       baptismal_certificate = make_valid_bc(candidate)
 
-      update_event(candidate, @today, true, I18n.t('events.baptismal_certificate'))
+      update_event(candidate, @today, true, BaptismalCertificate.event_key)
       candidate.save
 
       expect(baptismal_certificate.scanned_certificate).to_not be_nil
