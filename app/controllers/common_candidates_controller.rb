@@ -13,7 +13,7 @@ class CommonCandidatesController < ApplicationController
   # === Attributes:
   #
   # * <tt>:id</tt> Candidate id
-  # * <tt>:event_name</tt> legal values
+  # * <tt>:event_route</tt> legal values
   # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
   # ** <code>:Event::Route::SPONSOR_COVENANT</code>
   # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
@@ -30,7 +30,7 @@ class CommonCandidatesController < ApplicationController
   # === Attributes:
   #
   # * <tt>:id</tt> Candidate id
-  # * <tt>:event_name</tt> legal values
+  # * <tt>:event_route</tt> legal values
   # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
   # ** <code>:Event::Route::SPONSOR_COVENANT</code>
   # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
@@ -45,7 +45,7 @@ class CommonCandidatesController < ApplicationController
   # === Attributes:
   #
   # * <tt>:id</tt> Candidate id
-  # * <tt>:event_name</tt> legal values
+  # * <tt>:event_route</tt> legal values
   # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
   # ** <code>:Event::Route::SPONSOR_COVENANT</code>
   # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
@@ -64,7 +64,7 @@ class CommonCandidatesController < ApplicationController
   # * <tt>:commit</tt> legal values
   # ** <code>views.common.un_verify</code>
   # * <tt>:id</tt> Candidate id
-  # * <tt>:event_name</tt> legal values
+  # * <tt>:event_route</tt> legal values
   # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
   # ** <code>:Event::Route::SPONSOR_COVENANT</code>
   # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
@@ -94,7 +94,7 @@ class CommonCandidatesController < ApplicationController
       when Event::Route::RETREAT_VERIFICATION
         render_called = retreat_verification(is_verify)
       else
-        flash[:alert] = "Unknown event_name: #{event_name}"
+        flash[:alert] = "Unknown event_route: #{event_route}"
       end
     else
       flash[:alert] = I18n.t('messages.unknown_parameter', name: 'candidate')
@@ -177,7 +177,7 @@ class CommonCandidatesController < ApplicationController
   # === Attributes:
   #
   # * <tt>:id</tt> Candidate id
-  # * <tt>:event_name</tt> legal values
+  # * <tt>:event_route</tt> legal values
   # ** <code>:Event::Route::BAPTISMAL_CERTIFICATE</code>
   # ** <code>:Event::Route::SPONSOR_COVENANT</code>
   # ** <code>:Event::Route::RETREAT_VERIFICATION</code>
@@ -185,7 +185,7 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture_image
     @candidate = Candidate.find(params[:id])
     scanned_image = nil
-    case params[:event_name].to_sym
+    case params[:event_route].to_sym
     when Event::Route::BAPTISMAL_CERTIFICATE
       scanned_image = @candidate.baptismal_certificate.scanned_certificate
     when Event::Route::SPONSOR_COVENANT
@@ -193,7 +193,7 @@ class CommonCandidatesController < ApplicationController
     when Event::Route::RETREAT_VERIFICATION
       scanned_image = @candidate.retreat_verification.scanned_retreat
     else
-      flash['alert'] = "Unknown event_name #{params[:event_name]}"
+      flash['alert'] = "Unknown event_route #{params[:event_route]}"
     end
     if scanned_image.nil?
     else
