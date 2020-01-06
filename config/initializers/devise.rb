@@ -192,7 +192,7 @@ Devise.setup do |config|
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your candidates won't have the time to
   # change their passwords.
-  config.reset_password_within = 21.days
+  config.reset_password_within = 21.days.from_now
 
   # When set to false, does not sign a candidate in automatically after their password is
   # reset. Defaults to true, so a candidate is signed in automatically after a reset.
