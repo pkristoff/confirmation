@@ -275,4 +275,24 @@ class CandidateSheet < ApplicationRecord
 
     ''
   end
+
+  # gets the first, middle and last names of the candidate
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
+  def first_middle_last_name
+    "#{first_name} #{middle_name} #{last_name}"
+  end
+
+  # gets the first and last names of the candidate
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
+  def first_last_name
+    "#{first_name} #{last_name}"
+  end
 end

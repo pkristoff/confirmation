@@ -1,5 +1,6 @@
-<h2>Create new <%= resource_name.to_s.humanize %></h2>
 
 <%= form_for(resource, as: resource_name, url: create_candidate_path(resource.id), html: { method: :post }) do |f| %>
+  <h2>Create new <%= resource_name.to_s.humanize %></h2>
+
   <%= render 'candidates/shared/new_candidate', f: f, by_candidate: false, is_new: false %>
 <% end %>

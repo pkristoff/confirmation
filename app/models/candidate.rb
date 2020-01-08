@@ -278,6 +278,14 @@ class Candidate < ApplicationRecord
     false
   end
 
+  # gets the first and last names of the candidate
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
+  delegate :first_last_name, to: :candidate_sheet
+
   # whether the password has been changed - allows admin to know whether the candidate has signed in.
   #
   # === Returns:
@@ -335,7 +343,7 @@ class Candidate < ApplicationRecord
     candidate
   end
 
-  # returns candidate_event whose name is event_key
+  # returns candidate_event whose event_key is event_key
   #
   # === Parameters:
   #

@@ -14,7 +14,6 @@ module ViewsHelpers
 
   def expect_create_candidate(rendered_or_page)
     expect(rendered_or_page).to have_selector('h2', text: 'Create new Candidate')
-    expect(rendered_or_page).to have_field('Account name', text: '')
     expect(rendered_or_page).to have_field('First name', text: '')
     expect(rendered_or_page).to have_field('Middle name', text: '')
     expect(rendered_or_page).to have_field('Last name', text: '')

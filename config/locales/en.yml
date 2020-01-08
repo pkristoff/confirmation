@@ -279,6 +279,7 @@ en:
       attending_catholic_high_school: Catholic High School
       attending_the_way: The Way
       candidate: Candidate
+      created: 'Created account: %{account} with name %{name}'
       edit_candidate: Edit Candidate
       first_name: First name
       last_name: Last name
@@ -306,6 +307,7 @@ en:
       remove_image: Remove scanned image
       replace_image: Replace scanned image
       reset_password: Reset Password
+      save_failed: Save failed %{failee}
       status: Status
       un_verify: Unverify
       unconfirm_account: Unconfirm Account

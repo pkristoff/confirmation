@@ -2,11 +2,6 @@
 
 <%= render 'devise/shared/error_messages' %>
 
-<div class="field">
-  <%= f.label :account_name %><br/>
-  <%= f.text_field :account_name, readonly: is_candidate_signed_in_and_not_new, autofocus: !is_candidate_signed_in_and_not_new %>
-</div>
-
 <%= f.fields_for :candidate_sheet do |cs_fields| %>
     <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
         <div class="fieldset-div">

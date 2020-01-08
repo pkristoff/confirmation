@@ -12,7 +12,7 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     @candidate = AppFactory.create_candidate
     cs = params['candidate']['candidate_sheet_attributes']
-    params['candidate'][:account_name] = "#{cs['last_name']}#{cs['first_name']}"
+    params['candidate'][:account_name] = "#{cs['last_name']}#{cs['first_name']}".downcase
     params['candidate'][:password] = '12345678'
     params['candidate'][:password_confirmation] = '12345678'
 
@@ -21,12 +21,12 @@ class RegistrationsController < Devise::RegistrationsController
       candidate_event = @candidate.get_candidate_event(event_key)
       candidate_event.mark_completed(@candidate.validate_creation_complete(CandidateSheet), CandidateSheet)
       if candidate_event.save
-        flash['notice'] = "Created #{cs['first_name']} #{cs['last_name']}"
+        redirect_to new_candidate_url, notice: I18n.t('views.candidates.created', account: @candidate.account_name, name: @candidate.first_last_name)
       else
-        flash['alert'] = "Save of #{event_key} failed"
+        redirect_back fallback_location: ref_url, alert: I18n.t('views.common.save_failed', failee: event_key)
       end
     else
-      flash['alert'] = "Save of creation of candidate failed: #{cs['first_name']} #{cs['last_name']} "
+      flash['alert'] = I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
     end
   end
 
@@ -81,6 +81,18 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   protected
+
+  def ref_url
+    referrer_url = nil
+    begin
+      # get a URI object for referring url
+      referrer_url = URI.parse(request.referer)
+    rescue StandardError
+      referrer_url = URI.parse(some_default_url)
+      # need to have a default in case referrer is not given
+    end
+    referrer_url
+  end
 
   def sign_up(_resource_name, _resource)
     true # don't sign_in new candidate after signup.

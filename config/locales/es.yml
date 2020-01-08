@@ -283,6 +283,7 @@ es:
       attending_catholic_high_school: Escuela secundaria católica
       attending_the_way: La manera
       candidate: Candidata
+      created: 'Cuenta creada: %{account} con nombre %{name}'
       edit_candidate: Editar candidato
       first_name: Nombre de pila
       last_name: Apellido
@@ -311,6 +312,7 @@ es:
       remove_image: Eliminar imagen escaneada
       replace_image: Reemplazar imagen escaneada
       reset_password: Restablecer la contraseña
+      save_failed: 'Error al guardar: %{failee}'
       status: Estado
       un_verify: No verificar
       unconfirm_account: Cuenta no confirmada

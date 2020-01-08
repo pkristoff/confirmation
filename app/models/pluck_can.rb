@@ -110,7 +110,9 @@ class PluckCan
   def self.pluck_bap_candidates
     candidate_events = pluck_cand_events
     Rails.logger.info("candidate_events=#{candidate_events}")
-    Candidate.joins(:candidate_sheet).pluck(:id, :first_name, :middle_name, :last_name, :baptismal_certificate_id).map do |cand_info|
+    join = Candidate.joins(:candidate_sheet)
+    sorted = join.order('account_name asc')
+    sorted.pluck(:id, :first_name, :middle_name, :last_name, :baptismal_certificate_id).map do |cand_info|
       candidate_id = cand_info[0]
       event = candidate_events[candidate_id].find do |cand_event_for_cand|
         cand_event_for_cand[3] == BaptismalCertificate.event_key
@@ -140,7 +142,7 @@ class PluckCan
     cand_event_info
   end
 
-  # Calcuate status of candidate_event
+  # Calculate status of candidate_event
   #
   # === Parameters:
   #
