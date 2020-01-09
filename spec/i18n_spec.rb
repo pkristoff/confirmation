@@ -22,7 +22,6 @@ RSpec.describe 'I18n' do
         views.candidates.last_name
         views.candidates.middle_name
         views.candidates.parent_email_1
-        views.common.password
         views.common.password_confirmation
         views.top_bar.contact_admin_mail
     ].to_set
@@ -59,7 +58,8 @@ RSpec.describe 'I18n' do
                      errors.messages.not_saved.other
                      errors.messages.blank
                      devise.mailer.reset_password_instructions.subject
-                     devise.failure.unconfirmed]
+                     devise.failure.unconfirmed
+                     views.common.remember_me]
     y = @missing_keys - not_missing
     expect(y).to be_empty, "Missing #{y.count} i18n keys missing #{y}, run `i18n-tasks missing' to show them"
   end
@@ -67,6 +67,8 @@ RSpec.describe 'I18n' do
   it 'does not have unused keys' do
     unused_key_names = @unused_keys.key_names
     # expect(unused_key_names.count).to eq(used_keys.count)
+    # puts "@used_keys=#{@used_keys}"
+    # puts "unused_key_names=#{unused_key_names}"
     xxx = @used_keys - unused_key_names
     puts "used_keys#{xxx}" unless xxx.empty?
     expect(xxx).to be_empty

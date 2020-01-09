@@ -309,6 +309,7 @@ es:
       name: Nombre
       password: Contraseña
       password_confirmation: confirmación de contraseña
+      remember_me: Recuérdame
       remove_image: Eliminar imagen escaneada
       replace_image: Reemplazar imagen escaneada
       reset_password: Restablecer la contraseña

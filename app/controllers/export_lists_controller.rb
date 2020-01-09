@@ -181,8 +181,8 @@ class ExportListsController < ApplicationController
   #
   # Lambda - when called with candidate will return the CandidateEvent status
   #
-  def self.candidate_event_state(event_name)
-    ->(candidate) { candidate.get_candidate_event(event_name).status }
+  def self.candidate_event_state(event_key)
+    ->(candidate) { candidate.get_candidate_event(event_key).status }
   end
 
   # creates spreadsheet with four worksheets showing event information
