@@ -752,7 +752,6 @@ class CandidateImport
       events = candidate_events_in_order(candidate)
       row.each_with_index do |cell, index|
         column_name_split = header_row[index].split('.')
-        # puts header_row[index]
         unless cell.nil?
           if column_name_split.size == 1
             candidate.send("#{column_name_split[0]}=", cell)
@@ -936,7 +935,7 @@ class CandidateImport
         end
         candidate_sheet_params[:attending] = cardinal_gibbons.empty? ? I18n.t('views.candidates.attending_the_way') : I18n.t('model.candidate.attending_catholic_high_school')
 
-        account_name = String.new(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '').concat(candidate_sheet_params[:first_name].gsub(/\s+/, '') || '').downcase
+        account_name = Candidate.genertate_account_name(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '', candidate_sheet_params[:first_name].gsub(/\s+/, '') || '')
         params[:candidate][:account_name] = account_name
         params[:candidate][:password] = Event::Other::INITIAL_PASSWORD
 
@@ -960,11 +959,17 @@ class CandidateImport
   #
   def validate_and_save_import
     if (imported_candidates.map do |cand|
-      cand.valid?
-      cand.candidate_sheet.validate_emails # no longer part of save
-      cand.errors.none? && cand.candidate_sheet.errors.none?
+      cand.candidate_sheet.while_not_validating_middle_name do
+        cand.valid?
+        cand.candidate_sheet.validate_emails # no longer part of save
+        cand.errors.none? && cand.candidate_sheet.errors.none?
+      end
     end).all?
-      imported_candidates.each(&:save!)
+      imported_candidates.each do |cand|
+        cand.candidate_sheet.while_not_validating_middle_name do
+          cand.save
+        end
+      end
       true
     else
       imported_candidates.each do |candidate_import|

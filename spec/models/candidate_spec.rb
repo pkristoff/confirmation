@@ -342,6 +342,15 @@ describe Candidate do
     end
   end
 
+  describe 'genertate_account_name' do
+    it 'combos' do
+      expect(Candidate.genertate_account_name('', '')).to eq('')
+      expect(Candidate.genertate_account_name('', 'First')).to eq('first')
+      expect(Candidate.genertate_account_name('Last', '')).to eq('last')
+      expect(Candidate.genertate_account_name('Last', 'First')).to eq('lastfirst')
+    end
+  end
+
   def create_candidate_local(account_name, first, last)
     candidate = FactoryBot.create(:candidate, account_name: account_name)
     candidate.candidate_sheet.first_name = first

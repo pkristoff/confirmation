@@ -59,7 +59,6 @@ shared_context 'christian_ministry_html_erb' do
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: ChristianMinistry.event_key), candidate.id, @updated_message)
 
     else
-      puts page.html
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                      what_service: WHAT_SERVICE, where_service: WHERE_SERVICE,
                                      when_service: WHEN_SERVICE, helped_me: HELPED_ME,

@@ -43,7 +43,6 @@ describe VisitorsController do
     # see cand_account_confirmation_controller_spec.rb - this causes this condition
     it 'error' do
       get :cand_account_confirmation, params: { id: -1, errors: 'Confirmation token is invalid' }
-      # puts response.body
       expect(response.status).to eq(200)
     end
   end

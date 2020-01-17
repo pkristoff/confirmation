@@ -43,7 +43,6 @@ shared_context 'candidate_sheet_html_erb' do
     fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: 'mm')
 
     click_button(@update_id)
-    puts page.html
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expect_messages: [
                                   [:flash_notice, @updated_failed_verification],

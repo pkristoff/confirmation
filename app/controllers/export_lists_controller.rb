@@ -219,7 +219,6 @@ class ExportListsController < ApplicationController
       extra_columns.each { |extra_column| headers.push(extra_column) }
       sheet.add_row(headers)
       candidates.each do |candidate|
-        # puts "#{title}: #{candidate.account_name}"
         values = [candidate.candidate_sheet.first_name,
                   candidate.candidate_sheet.last_name]
         value_lambdas.each { |value_lambda| values.push(value_lambda.call(candidate)) }

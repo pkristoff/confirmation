@@ -537,35 +537,37 @@ class CommonCandidatesController < ApplicationController
     render_called = false
     event_key = clazz.event_key
 
-    if @candidate.update(candidate_params)
+    @candidate.candidate_sheet.while_not_validating_middle_name do
+      if @candidate.update(candidate_params)
 
-      # BaptismalCertificate includes updating includes 3 attributes from CandidateSheet
-      # this handles those attributes.
-      if clazz == BaptismalCertificate
-        bc = @candidate.baptismal_certificate
-        if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
-          candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
-          candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
-          @candidate.keep_bc_errors
-          if candidate_info_sheet_event.save
-            # TODO: what happens here of if fails
+        # BaptismalCertificate includes updating includes 3 attributes from CandidateSheet
+        # this handles those attributes.
+        if clazz == BaptismalCertificate
+          bc = @candidate.baptismal_certificate
+          if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
+            candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
+            candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
+            @candidate.keep_bc_errors
+            if candidate_info_sheet_event.save
+              # TODO: what happens here of if fails
+            end
           end
         end
-      end
 
-      candidate_event = @candidate.get_candidate_event(event_key)
-      candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
-      if candidate_event.save
-        if admin_verified
-          render_called = admin_verified_private(candidate_event, event_key)
+        candidate_event = @candidate.get_candidate_event(event_key)
+        candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
+        if candidate_event.save
+          if admin_verified
+            render_called = admin_verified_private(candidate_event, event_key)
+          else
+            flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
+          end
         else
-          flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
+          flash['alert'] = "Save of #{event_key} failed"
         end
       else
-        flash['alert'] = "Save of #{event_key} failed"
+        flash['alert'] = 'Update_attributes fails'
       end
-    else
-      flash['alert'] = 'Update_attributes fails'
     end
     render_called
   end

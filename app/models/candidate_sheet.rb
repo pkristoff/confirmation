@@ -10,7 +10,48 @@ class CandidateSheet < ApplicationRecord
   after_initialize :build_associations, if: :new_record?
 
   validates :first_name, presence: true
+  validates :middle_name, presence: true, if: -> { should_validate_middle_name }
   validates :last_name, presence: true
+
+  attr_accessor :validate_middle_name
+  # When creating do not validate middle_name, can be handled by checking for a new_record. When that
+  # does not work set @validate_middle_name
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def should_validate_middle_name
+    return false if new_record?
+
+    return true if @validate_middle_name
+
+    false
+  end
+
+  # Executes block while turning validation off for middle_name.
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def while_not_validating_middle_name
+    @validate_middle_name = false
+    yield if block_given?
+  ensure
+    @validate_middle_name = true
+  end
+
+  # initialize class including @importing
+  #
+  # === Parameters:
+  #
+  # * <tt>:args</tt>
+  #
+  def initialize(args)
+    @validate_middle_name = true
+    super
+  end
 
   # Validate if event is complete by adding validation errors to active record
   #
@@ -185,7 +226,7 @@ class CandidateSheet < ApplicationRecord
     errors.add(:candidate_email, I18n.t('messages.error.one_email')) if candidate_email.blank? & parent_email_1.blank? & parent_email_2
 
     # Do not allow duplicate emails for a candidate
-    cand_name = "#{first_name} #{middle_name} #{last_name}"
+    cand_name = first_middle_last_name
     errors.add(:parent_email_1, I18n.t('messages.error.duplicate_email', name: cand_name)) if (candidate_email == parent_email_1) && candidate_email.present?
     errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email', name: cand_name)) if (candidate_email == parent_email_2) && candidate_email.present?
     errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email', name: cand_name)) if (parent_email_1 == parent_email_2) && parent_email_1.present?
@@ -214,7 +255,7 @@ class CandidateSheet < ApplicationRecord
   # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info(_candidate)
-    { name: "#{first_name} #{middle_name} #{last_name}",
+    { name: first_middle_last_name,
       grade: grade,
       program_year: 2,
       street_1: address.street_1,

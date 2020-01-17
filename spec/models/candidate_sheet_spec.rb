@@ -180,10 +180,50 @@ describe CandidateSheet, type: :model do
       end
     end
 
-    def fill_in_cand(cand)
-      cand.first_name = 'x'
-      cand.middle_name = 'x'
-      cand.last_name = 'x'
+    describe 'should_validate_middle_name' do
+      it 'default - new_record' do
+        @candidate_sheet = CandidateSheet.new
+        expect(@candidate_sheet.should_validate_middle_name).to eq(false)
+      end
+      describe 'setting' do
+        before(:each) do
+          @candidate_sheet = CandidateSheet.new
+          fill_in_valid_info(@candidate_sheet)
+          @candidate_sheet.save
+        end
+        it 'default - saved' do
+          expect(@candidate_sheet.should_validate_middle_name).to eq(true)
+        end
+        it 'validate_middle_name true' do
+          @candidate_sheet.validate_middle_name = true
+          expect(@candidate_sheet.should_validate_middle_name).to eq(true)
+        end
+        it 'validate_middle_name false' do
+          @candidate_sheet.validate_middle_name = false
+          expect(@candidate_sheet.should_validate_middle_name).to eq(false)
+        end
+
+        describe 'while_not_validating_middle_name' do
+          it 'testing' do
+            expect(@candidate_sheet.should_validate_middle_name).to eq(true)
+            @candidate_sheet.while_not_validating_middle_name do
+              expect(@candidate_sheet.should_validate_middle_name).to eq(false)
+            end
+            expect(@candidate_sheet.should_validate_middle_name).to eq(true)
+          end
+        end
+      end
+    end
+
+    def fill_in_valid_info(candidate_sheet)
+      fill_in_cand(candidate_sheet)
+      candidate_sheet.candidate_email = 'foo@bar.com'
+    end
+
+    def fill_in_cand(candidate_sheet)
+      candidate_sheet.first_name = 'x'
+      candidate_sheet.middle_name = 'x'
+      candidate_sheet.last_name = 'x'
     end
   end
   describe 'validate_event_complete' do

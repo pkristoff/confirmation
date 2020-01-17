@@ -10,23 +10,30 @@ class RegistrationsController < Devise::RegistrationsController
   # create Candidate
   #
   def create
-    @candidate = AppFactory.create_candidate
     cs = params['candidate']['candidate_sheet_attributes']
-    params['candidate'][:account_name] = "#{cs['last_name']}#{cs['first_name']}".downcase
+    params['candidate'][:account_name] = Candidate.genertate_account_name(cs['last_name'], cs['first_name'])
     params['candidate'][:password] = '12345678'
     params['candidate'][:password_confirmation] = '12345678'
-
-    if @candidate.update(candidate_params)
-      event_key = CandidateSheet.event_key
-      candidate_event = @candidate.get_candidate_event(event_key)
-      candidate_event.mark_completed(@candidate.validate_creation_complete(CandidateSheet), CandidateSheet)
-      if candidate_event.save
-        redirect_to new_candidate_url, notice: I18n.t('views.candidates.created', account: @candidate.account_name, name: @candidate.first_last_name)
-      else
-        redirect_back fallback_location: ref_url, alert: I18n.t('views.common.save_failed', failee: event_key)
+    super_create do |res|
+      res.valid? # copied from super_create
+      AppFactory.add_candidate_events(res)
+      res.candidate_sheet.validate_emails # no longer part of save
+      res.candidate_sheet.errors.each do |key, msg|
+        res.errors.add key, msg if res.errors.messages[key].empty? && res.errors.messages["candidate_sheet.#{key}".to_sym].empty?
       end
-    else
-      flash['alert'] = I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
+      if res.errors.any?
+        flash.now.alert = I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
+      else
+        event_key = CandidateSheet.event_key
+        candidate_event = res.get_candidate_event(event_key)
+        candidate_event.mark_completed(res.validate_creation_complete(CandidateSheet), CandidateSheet)
+        res.save
+        if candidate_event.save
+          flash.now.notice = I18n.t('views.candidates.created', account: res.account_name, name: res.first_last_name)
+        else
+          flash.now.alert = I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
+        end
+      end
     end
   end
 
@@ -99,4 +106,32 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def event; end
+
+  private
+
+  # This is a modified copy of super for create
+  #
+  def super_create
+    build_resource(sign_up_params)
+    # resource.save
+    yield resource if block_given?
+    if resource.persisted?
+      expire_data_after_sign_in!
+      redirect_to new_candidate_url, notice: I18n.t('views.candidates.created', account: resource.account_name, name: resource.first_last_name)
+      # end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      @candidate = resource
+      cs = params['candidate']['candidate_sheet_attributes']
+      # the problem being solved is the first time through a candidate would be created & would
+      # go to create.html.erb, which would fail the second time through.  So it is re-directed back
+      # to new.html.erb
+      respond_with resource, location: new_candidate_url, alert: I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
+    end
+  end
+
+  def after_inactive_sign_up_path_for(_resource)
+    new_candidate_url
+  end
 end

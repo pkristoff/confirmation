@@ -68,9 +68,7 @@ class AppFactory
   # * <tt>:event_key</tt> options for a new Admin
   #
   def self.revert_confirmation_event(event_key)
-    # puts "reverting: #{event_key}"
     Candidate.all.each do |candidate|
-      # puts "reverting candidate: #{candidate.account_name}"
       founds = candidate.candidate_events.select { |candidate_event| candidate_event.confirmation_event.nil? or candidate_event.event_key == event_key }
       founds.each do |found|
         candidate.candidate_events.delete(found)
@@ -105,11 +103,9 @@ class AppFactory
       today = Time.zone.today
       confirmation_event.the_way_due_date = today
       confirmation_event.chs_due_date = today
-      # puts 'done attempting the_way_due_date'
       new_confirmation_event = confirmation_event
     end
     unless new_confirmation_event.nil?
-      # puts 'adding to candidates'
       Candidate.all.each do |candidate|
         candidate.add_candidate_event(new_confirmation_event)
         candidate.save

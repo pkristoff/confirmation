@@ -29,17 +29,40 @@ feature 'Sign Up', :devise do
       expect_create_candidate(page)
     end
 
+    scenario 'admin cannot create candidate with no emails' do
+      visit new_candidate_path
+
+      fill_in_form_values
+
+      fill_in('Candidate email', with: '')
+
+      click_button 'Update'
+
+      expect_messages([[:error_explanation, ['1 error prohibited this candidate from being saved:',
+                                             I18n.t('messages.error.one_email')]],
+                       [:flash_alert, I18n.t('views.common.save_failed', failee: 'George Smith')]])
+
+      expect(Candidate.all.size).to eq(0)
+    end
+
+    scenario 'admin can create candidate with missing middle name' do
+      visit new_candidate_path
+
+      fill_in_form_values
+      fill_in('Middle name', with: '')
+
+      click_button 'Update'
+
+      expect_messages([[:flash_notice, I18n.t('views.candidates.created', account: 'smithgeorge', name: 'George Smith')]])
+
+      expect(Candidate.all.size).to eq(1)
+    end
+
     scenario 'admin cannot create candidate with missing first name' do
       visit new_candidate_path
 
-      fill_in('Middle name', with: 'Ralph')
-      fill_in('Last name', with: 'Smith')
-
-      fill_in('Candidate email', with: 'Smithgr@gmaail.com')
-      fill_in('Parent email 1', with: 'Smithav@gmail.com')
-      fill_in('Parent email 2', with: 'Smithbc@gmail.com')
-
-      fill_in('Grade', with: 11)
+      fill_in_form_values
+      fill_in('First name', with: '')
 
       click_button 'Update'
 
@@ -53,41 +76,19 @@ feature 'Sign Up', :devise do
     scenario 'admin cannot create candidate with missing last name but can after correcting it' do
       visit new_candidate_path
 
-      fill_in('First name', with: 'George')
+      fill_in_form_values
 
-      fill_in('Candidate email', with: 'Smithgr@gmaail.com')
-      fill_in('Parent email 1', with: 'Smithav@gmail.com')
-      fill_in('Parent email 2', with: 'Smithbc@gmail.com')
-
-      fill_in('Grade', with: 11)
+      fill_in('Last name', with: '')
 
       click_button 'Update'
 
-      expect_messages([[:error_explanation, ['1 error prohibited this candidate from being saved:', 'Candidate sheet last name can\'t be blank']],
+      expect_messages([[:error_explanation, ['1 error prohibited this candidate from being saved:',
+                                             'Candidate sheet last name can\'t be blank']],
                        [:flash_alert, I18n.t('views.common.save_failed', failee: 'George')]])
 
       expect(Candidate.all.size).to eq(0)
 
       fill_in('Last name', with: 'Smith')
-
-      click_button 'Update'
-      puts page.html
-      expect_messages([[:flash_notice, I18n.t('views.candidates.created', account: 'smithgeorge', name: 'George Smith')]])
-
-      expect(Candidate.all.size).to eq(1)
-    end
-
-    scenario 'admin can create candidate with missing middle name' do
-      visit new_candidate_path
-
-      fill_in('First name', with: 'George')
-      fill_in('Last name', with: 'Smith')
-
-      fill_in('Candidate email', with: 'Smithgr@gmaail.com')
-      fill_in('Parent email 1', with: 'Smithav@gmail.com')
-      fill_in('Parent email 2', with: 'Smithbc@gmail.com')
-
-      fill_in('Grade', with: 11)
 
       click_button 'Update'
 
@@ -97,24 +98,22 @@ feature 'Sign Up', :devise do
     end
 
     scenario 'admin cannot create candidate with an invalid email' do
-      AppFactory.add_confirmation_events
       visit new_candidate_path
 
-      fill_in('First name', with: 'George')
-      fill_in('Middle name', with: 'Ralph')
-      fill_in('Last name', with: 'Smith')
+      fill_in_form_values
 
       fill_in('Candidate email', with: 'Smithgr@.com')
-      fill_in('Parent email 1', with: 'Smithav@gmail.com')
-      fill_in('Parent email 2', with: 'Smithbc@gmail.com')
 
       click_button 'Update'
 
-      expect(Candidate.all.size).to eq(1)
+      expect_messages([[:error_explanation, ['1 error prohibited this candidate from being saved:',
+                                             'Candidate email is an invalid email: smithgr@.com']],
+                       [:flash_alert, I18n.t('views.common.save_failed', failee: 'George')]])
+
+      expect(Candidate.all.size).to eq(0)
     end
 
     scenario 'admin can create 2 candidates in a row' do
-      AppFactory.add_confirmation_events
       visit new_candidate_path
 
       fill_in_form_values
@@ -137,15 +136,15 @@ feature 'Sign Up', :devise do
     end
   end
 
-  def fill_in_form_values(first = 'George', middle = 'Ralph', last = 'Smith',
-                          email = 'Smithgr@gmail.com', email_p1 = 'Smithav@gmail.com', email_p2 = 'Smithbc@gmail.com')
-
+  def fill_in_form_values(first = 'George', middle = 'Ralph', last = 'Smith', email = 'Smithgr@gmail.com')
     fill_in(I18n.t('views.candidates.first_name'), with: first)
     fill_in(I18n.t('views.candidates.middle_name'), with: middle)
     fill_in(I18n.t('views.candidates.last_name'), with: last)
 
     fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: email)
-    fill_in(I18n.t('label.candidate_sheet.parent_email_1'), with: email_p1)
-    fill_in(I18n.t('label.candidate_sheet.parent_email_2'), with: email_p2)
+    fill_in(I18n.t('label.candidate_sheet.parent_email_1'), with: '')
+    fill_in(I18n.t('label.candidate_sheet.parent_email_2'), with: '')
+
+    fill_in('Grade', with: 10)
   end
 end

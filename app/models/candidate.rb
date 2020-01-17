@@ -117,6 +117,10 @@ class Candidate < ApplicationRecord
     end
   end
 
+  def self.genertate_account_name(last_name, first_name)
+    "#{last_name}#{first_name}".downcase
+  end
+
   # Adds a candidate event as part of the creation process
   #
   # === Parameters:

@@ -249,7 +249,9 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.baptismal_certificate.first_comm_at_home_parish = false
     @candidate.baptismal_certificate.show_empty_radio = 2
     update_baptismal_certificate(false)
-    @candidate.save
+    @candidate.candidate_sheet.while_not_validating_middle_name do
+      @candidate.save
+    end
 
     expect_db(1, 8, 0)
 
@@ -312,7 +314,9 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.baptismal_certificate.show_empty_radio = 2
     update_baptismal_certificate(true)
     @candidate.candidate_sheet.middle_name = ''
-    @candidate.save
+    @candidate.candidate_sheet.while_not_validating_middle_name do
+      @candidate.save
+    end
 
     visit @path
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')

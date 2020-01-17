@@ -103,7 +103,6 @@ class AdminsController < ApplicationController
         flash[:alert] = "Status=#{response.status_code} body=#{response.body}"
       end
     rescue StandardError => e
-      # puts "adhoc_mailing_update message=#{e.message} backtrace=#{e.backtrace[0...5]}"
       flash[:alert] = "message=#{e.message} backtrace=#{e.backtrace[0...5]}"
       Rails.logger.error("message=#{e.message} backtrace=#{e.backtrace[0...5]}")
     end
