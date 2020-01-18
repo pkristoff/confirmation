@@ -470,7 +470,7 @@ shared_context 'candidate_information_sheet' do
                         program_year: 2,
                         candidate_email: 'foo@bar.com',
                         parent_email_1: 'baz@bar.com',
-                        attending: 'The Way',
+                        attending: Candidate::THE_WAY,
                         address_attributes: {
                           street_1: 'the way way',
                           city: 'wayville',

@@ -13,15 +13,15 @@ module ViewsHelpers
   REPLY_TO_EMAIL_I18N = 'views.top_bar.contact_admin_mail_text'
 
   def expect_create_candidate(rendered_or_page)
-    expect(rendered_or_page).to have_selector('h2', text: 'Create new Candidate')
-    expect(rendered_or_page).to have_field('First name', text: '')
-    expect(rendered_or_page).to have_field('Middle name', text: '')
-    expect(rendered_or_page).to have_field('Last name', text: '')
-    expect(rendered_or_page).to have_field('Candidate email', text: '')
-    expect(rendered_or_page).to have_field('Parent email 1', text: '')
-    expect(rendered_or_page).to have_field('Parent email 2', text: '')
+    expect(rendered_or_page).to have_selector('h2', text: I18n.t('views.candidates.create_new_candidate'))
+    expect(rendered_or_page).to have_field(I18n.t('views.candidates.first_name'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('views.candidates.middle_name'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('views.candidates.last_name'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('label.candidate_sheet.candidate_email'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('label.candidate_sheet.parent_email_1'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('label.candidate_sheet.parent_email_2'), text: '')
 
-    expect(rendered_or_page).to have_field('Grade', text: '')
+    expect(rendered_or_page).to have_field(I18n.t('label.candidate_sheet.grade'), text: '')
     expect(rendered_or_page).to have_unchecked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
     expect(rendered_or_page).to have_checked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
   end

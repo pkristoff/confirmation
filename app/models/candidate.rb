@@ -6,6 +6,7 @@ require 'constants'
 # Person being confirmed
 #
 class Candidate < ApplicationRecord
+  include Attending
   # TODO: Remove address - this should be gone.
   belongs_to(:address, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:address, allow_destroy: true)

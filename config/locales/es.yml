@@ -283,6 +283,7 @@ es:
       attending_catholic_high_school: Escuela secundaria católica
       attending_the_way: La manera
       candidate: Candidata
+      create_new_candidate: Crear nuevo candidato
       created: 'Cuenta creada: %{account} con nombre %{name}'
       edit_candidate: Editar candidato
       first_name: Nombre de pila

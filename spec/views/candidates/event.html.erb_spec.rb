@@ -23,7 +23,7 @@ describe 'candidates/event.html.erb' do
   end
 
   it 'attending Catholic High School' do
-    @resource.candidate_sheet.attending = I18n.t('model.candidate.attending_catholic_high_school')
+    @resource.candidate_sheet.attending = Candidate::CATHOLIC_HIGH_SCHOOL
     @resource.save
 
     login_admin

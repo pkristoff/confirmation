@@ -19,7 +19,7 @@ describe 'candidates/registrations/event.html.erb' do
 
     it 'attending == Catholic High School' do
       candidate = Candidate.find_by account_name: 'sophiaagusta'
-      candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_catholic_high_school')
+      candidate.candidate_sheet.attending = Candidate::CATHOLIC_HIGH_SCHOOL
       candidate.save
       allow(controller).to receive(:event_class) { '' }
 

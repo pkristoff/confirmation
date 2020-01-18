@@ -18,9 +18,6 @@ RSpec.describe 'I18n' do
         email.salutation_input_label
         views.admins.current_password
         views.candidates.account_name
-        views.candidates.first_name
-        views.candidates.last_name
-        views.candidates.middle_name
         views.candidates.parent_email_1
         views.common.password_confirmation
         views.top_bar.contact_admin_mail

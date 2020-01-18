@@ -1,6 +1,6 @@
 
 <%= form_for(resource, as: resource_name, url: create_candidate_path(resource.id), html: { method: :post }) do |f| %>
-  <h2>Create new <%= resource_name.to_s.humanize %></h2>
+  <h2><%= I18n.t('views.candidates.create_new_candidate') %></h2>
 
   <%= render 'candidates/shared/show_error_message',
              event_association: local_assigns[:error_msgs] ? error_msgs : @candidate

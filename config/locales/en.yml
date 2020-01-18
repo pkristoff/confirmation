@@ -279,6 +279,7 @@ en:
       attending_catholic_high_school: Catholic High School
       attending_the_way: The Way
       candidate: Candidate
+      create_new_candidate: Create new Candidate
       created: 'Created account: %{account} with name %{name}'
       edit_candidate: Edit Candidate
       first_name: First name
