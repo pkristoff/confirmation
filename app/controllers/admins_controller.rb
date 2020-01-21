@@ -13,14 +13,14 @@ class AdminsController < ApplicationController
 
   before_action :authenticate_admin!
 
-  # These should only be looked up once
-  DELETE = I18n.t('views.common.delete')
-  AdminsController::EMAIL = I18n.t('views.nav.email')
-  AdminsController::RESET_PASSWORD = I18n.t('views.common.reset_password')
-  AdminsController::INITIAL_EMAIL = I18n.t('views.common.initial_email')
-  AdminsController::GENERATE_PDF = I18n.t('views.common.generate_pdf')
-  AdminsController::CONFIRM_ACCOUNT = I18n.t('views.common.confirm_account')
-  AdminsController::UNCONFIRM_ACCOUNT = I18n.t('views.common.unconfirm_account')
+  # button values
+  AdminsController::DELETE = 'Delete'
+  AdminsController::EMAIL = 'Email'
+  AdminsController::RESET_PASSWORD = 'Reset Password'
+  AdminsController::INITIAL_EMAIL = 'Initial email'
+  AdminsController::GENERATE_PDF = 'Generate PDF'
+  AdminsController::CONFIRM_ACCOUNT = 'Confirm Account'
+  AdminsController::UNCONFIRM_ACCOUNT = 'Unconfirm Account'
 
   # edit adhoc email
   #
@@ -202,7 +202,7 @@ class AdminsController < ApplicationController
     if candidates.empty?
       redirect_back fallback_location: ref_url, alert: t('messages.no_candidate_selected')
     else
-      case params[:commit]
+      case params[:button]
       when AdminsController::DELETE
         candidates.each(&:destroy)
         flash[:notice] = t('messages.candidates_deleted')

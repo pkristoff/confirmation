@@ -31,7 +31,7 @@ shared_context 'new_candidate_spec' do
     #   Given Admin si signed in
     scenario 'visitor can sign up with valid candidate id, email address and password' do
       visit new_candidate_path
-      puts page.html
+
       expect_create_candidate(page)
     end
 

@@ -271,7 +271,7 @@ describe AdminsController do
         it 'should delete candidate if selected' do
           put :mass_edit_candidates_update,
               params: { candidate: { candidate_ids: [@c2.id] },
-                        commit: AdminsController::DELETE }
+                        button: AdminsController::DELETE }
 
           expect_message(:notice, I18n.t('messages.candidates_deleted'))
           candidates = Candidate.all
@@ -283,7 +283,7 @@ describe AdminsController do
         it 'should render monthly mass mailing when email' do
           put :mass_edit_candidates_update,
               params: { candidate: { candidate_ids: [@c2.id] },
-                        commit: AdminsController::EMAIL }
+                        button: AdminsController::EMAIL }
 
           expect(render_template('monthly_mass_mailing'))
         end
@@ -292,7 +292,7 @@ describe AdminsController do
         it 'should send reset password email when ' do
           put :mass_edit_candidates_update,
               params: { candidate: { candidate_ids: [@c1.id, @c2.id] },
-                        commit: AdminsController::RESET_PASSWORD }
+                        button: AdminsController::RESET_PASSWORD }
 
           expect_message(:notice, I18n.t('messages.reset_password_message_sent'))
         end
@@ -301,7 +301,7 @@ describe AdminsController do
         it 'should send initial email with reset password when ' do
           put :mass_edit_candidates_update,
               params: { candidate: { candidate_ids: [@c2.id, @c3.id] },
-                        commit: AdminsController::INITIAL_EMAIL }
+                        button: AdminsController::INITIAL_EMAIL }
 
           expect_message(:notice, I18n.t('messages.confirmation_email_sent'))
         end
@@ -321,7 +321,7 @@ describe AdminsController do
       request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
 
       put :mass_edit_candidates_update,
-          params: { commit: AdminsController::CONFIRM_ACCOUNT,
+          params: { button: AdminsController::CONFIRM_ACCOUNT,
                     candidate: { candidate_ids: ids } }
 
       expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size, number_not_confirmed: 0))
@@ -335,7 +335,7 @@ describe AdminsController do
       request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
 
       put :mass_edit_candidates_update,
-          params: { commit: AdminsController::CONFIRM_ACCOUNT,
+          params: { button: AdminsController::CONFIRM_ACCOUNT,
                     candidate: { candidate_ids: ids } }
 
       expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size, number_not_confirmed: 0))
@@ -354,7 +354,7 @@ describe AdminsController do
       request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
 
       put :mass_edit_candidates_update,
-          params: { commit: AdminsController::CONFIRM_ACCOUNT,
+          params: { button: AdminsController::CONFIRM_ACCOUNT,
                     candidate: { candidate_ids: ids } }
 
       expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size - 1, number_not_confirmed: 1))

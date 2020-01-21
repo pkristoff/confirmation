@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-Rails.application.config.VERSION = 'V2.01.01'
-Rails.application.config.VERSION_DATE = '7/4/2019'
+Rails.application.config.VERSION = 'V3.0.01'
+Rails.application.config.VERSION_DATE = '1/18/2020'

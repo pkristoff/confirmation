@@ -1,12 +1,26 @@
+<% buttons = [
+    [AdminsController::DELETE, 'delete', I18n.t('views.common.delete')],
+    [AdminsController::EMAIL, 'email', I18n.t('views.common.email')],
+    [AdminsController::RESET_PASSWORD, 'reset_password', I18n.t('views.common.reset_password')],
+    [AdminsController::INITIAL_EMAIL, 'initial_email', I18n.t('views.common.initial_email')],
+    [AdminsController::GENERATE_PDF, 'generate_pdf', I18n.t('views.common.generate_pdf')],
+    [AdminsController::CONFIRM_ACCOUNT, 'confirm_account', I18n.t('views.common.confirm_account')],
+    [AdminsController::UNCONFIRM_ACCOUNT, 'unconfirm_account', I18n.t('views.common.unconfirm_account')]
+]
+
+%>
+
 <%= form_tag mass_edit_candidates_update_path(), method: :post do %>
   <div class="btn-group" role="group" aria-label="...">
-    <%= submit_tag AdminsController::DELETE, id: 'top-update-delete', value: AdminsController::DELETE, data: { confirm: t('views.common.are_you_sure_delete_candidates') } %>
-    <%= submit_tag AdminsController::EMAIL, id: 'top-update-email', value: AdminsController::EMAIL %>
-    <%= submit_tag AdminsController::RESET_PASSWORD, id: 'top-update-reset-password', value: AdminsController::RESET_PASSWORD %>
-    <%= submit_tag AdminsController::INITIAL_EMAIL, id: 'top-update-initial-email', value: AdminsController::INITIAL_EMAIL %>
-    <%= submit_tag AdminsController::GENERATE_PDF, id: 'top-update-generate-pdf', value: AdminsController::GENERATE_PDF %>
-    <%= submit_tag AdminsController::CONFIRM_ACCOUNT, id: 'top-update-confirm-account', value: AdminsController::CONFIRM_ACCOUNT %>
-    <%= submit_tag AdminsController::UNCONFIRM_ACCOUNT, id: 'top-update-unconfirm-account', value: AdminsController::UNCONFIRM_ACCOUNT %>
+    <% buttons.each do |button_info| %>
+      <% const = button_info[0] %>
+      <% id_suffix = button_info[1] %>
+      <% text = button_info[2] %>
+      <%= button_tag(type: 'submit', id: "top-update-#{id_suffix}", value: const) do
+        content_tag(:italic, text)
+      end %>
+    <% end %>
+
   </div>
 
   <%= render 'shared/sorting_candidate_selection',
@@ -26,13 +40,14 @@
              selected_candidate_ids: @selected_candidate_ids
   %>
   <div class="btn-group" role="group" aria-label="...">
-    <%= submit_tag AdminsController::DELETE, id: 'bottom-update-delete', value: AdminsController::DELETE, data: { confirm: t('views.common.are_you_sure_delete_candidates') } %>
-    <%= submit_tag AdminsController::EMAIL, id: 'bottom-update-email', value: AdminsController::EMAIL %>
-    <%= submit_tag AdminsController::RESET_PASSWORD, id: 'bottom-update-reset-password', value: AdminsController::RESET_PASSWORD %>
-    <%= submit_tag AdminsController::INITIAL_EMAIL, id: 'bottom-update-initial-email', value: AdminsController::INITIAL_EMAIL %>
-    <%= submit_tag AdminsController::GENERATE_PDF, id: 'bottom-update-generate-pdf', value: AdminsController::GENERATE_PDF %>
-    <%= submit_tag AdminsController::CONFIRM_ACCOUNT, id: 'bottom-update-confirm-account', value: AdminsController::CONFIRM_ACCOUNT %>
-    <%= submit_tag AdminsController::UNCONFIRM_ACCOUNT, id: 'bottom-update-unconfirm-account', value: AdminsController::UNCONFIRM_ACCOUNT %>
+    <% buttons.each do |button_info| %>
+      <% const = button_info[0] %>
+      <% id_suffix = button_info[1] %>
+      <% text = button_info[2] %>
+      <%= button_tag(type: 'submit', id: "bottom-update-#{id_suffix}", value: const) do
+        content_tag(:italic, text)
+      end %>
+    <% end %>
   </div>
 
 <% end %>

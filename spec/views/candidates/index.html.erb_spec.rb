@@ -14,13 +14,41 @@ describe 'candidates/index.html.erb' do
     @candidate_info = PluckCan.pluck_candidates
   end
 
-  it 'display the list of candidates' do
+  it 'display the list of candidates in Spanish' do
+    I18n.locale = 'es'
+
     render
+
+    expect_index_buttons
 
     expect_sorting_candidate_list(
       candidates_columns,
       @candidates,
       rendered
     )
+  end
+
+  it 'display the list of candidates in English' do
+    I18n.locale = 'en'
+
+    render
+
+    expect_index_buttons
+
+    expect_sorting_candidate_list(
+      candidates_columns,
+      @candidates,
+      rendered
+    )
+  end
+
+  def expect_index_buttons
+    expect(rendered).to have_button(I18n.t('views.common.delete'), count: 2)
+    expect(rendered).to have_button(I18n.t('views.nav.email'), count: 2)
+    expect(rendered).to have_button(I18n.t('views.common.reset_password'), count: 2)
+    expect(rendered).to have_button(I18n.t('views.common.initial_email'), count: 2)
+    expect(rendered).to have_button(I18n.t('views.common.generate_pdf'), count: 2)
+    expect(rendered).to have_button(I18n.t('views.common.confirm_account'), count: 2)
+    expect(rendered).to have_button(I18n.t('views.common.unconfirm_account'), count: 2)
   end
 end
