@@ -9,6 +9,7 @@
         <%= button_tag(t('views.common.remove_image'), class: "show-div",id: "remove-#{field}", type: 'button', onClick: "confirmation_toggle().remove_scanned_image('#{remove_id}', '#{field}');" ) %>
         <%= button_tag(t('views.common.replace_image'), class: "hide-div", id: "replace-#{field}", type: 'button', onClick: "confirmation_toggle().replace_scanned_image('#{remove_id}', '#{field}');" ) %>
         <%= remove_field %>
+        <%= scanned_image.filename %>
       </div>
       <div id="scanned-image-<%= field %>" class="show-div">
         <% if ['application/pdf'].include? scanned_image.content_type %>

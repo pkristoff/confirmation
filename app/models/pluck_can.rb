@@ -117,7 +117,19 @@ class PluckCan
       event = candidate_events[candidate_id].find do |cand_event_for_cand|
         cand_event_for_cand[3] == BaptismalCertificate.event_key
       end
-      PluckCan.new(cand_info, candidate_events, event)
+      accept = if event[5].nil?
+                 false
+               else
+                 baptismal_certificate = BaptismalCertificate.find_by(id: cand_info[4])
+                 if baptismal_certificate.baptized_at_home_parish
+                   false
+                 elsif baptismal_certificate.first_comm_at_home_parish
+                   false
+                 else
+                   true
+                 end
+               end
+      PluckCan.new(cand_info, candidate_events, event) if accept
     end
   end
 

@@ -148,14 +148,6 @@ ActiveRecord::Schema.define(version: 2019_12_25_105744) do
     t.index ["event_key"], name: "index_confirmation_events_on_event_key"
   end
 
-  create_table "pdf_documents", force: :cascade do |t|
-    t.string "filename"
-    t.string "run_name"
-    t.binary "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "pick_confirmation_names", id: :serial, force: :cascade do |t|
     t.string "saint_name"
     t.datetime "created_at", null: false

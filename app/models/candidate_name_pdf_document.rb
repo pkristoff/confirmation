@@ -13,18 +13,7 @@ class CandidateNamePDFDocument < Prawn::Document
   def initialize
     super()
     candidate_infos = PluckCan.pluck_bap_candidates
-    @candidates = candidate_infos.select do |pluck_can|
-      baptismal_certificate = BaptismalCertificate.find_by(id: pluck_can.bap_bc_id)
-      if pluck_can.completed_date.nil?
-        false
-      elsif baptismal_certificate.baptized_at_home_parish
-        false
-      elsif baptismal_certificate.first_comm_at_home_parish
-        false
-      else
-        true
-      end
-    end
+    @candidates = candidate_infos.reject(&:nil?)
     do_document
   end
 
