@@ -120,5 +120,8 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = extract_locale_from_accept_language_header || I18n.default_locale
+  rescue I18n::InvalidLocale => e
+    Rails.logger.error("Encounter the following error while trying to set the locale: ''#{e.message}'.  Setting to default_locale,'")
+    I18n.default_locale
   end
 end
