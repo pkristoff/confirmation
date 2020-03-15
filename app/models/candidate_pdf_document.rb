@@ -227,10 +227,10 @@ class CandidatePDFDocument < Prawn::Document
 
     unless sc.sponsor_attends_home_parish
       grid_label_value([4, 0], "#{I18n.t('label.sponsor_covenant.sponsor_church')}:", sc.sponsor_church)
-      common_image(sc.scanned_covenant, I18n.t('field_set.sponsor_covenant.sponsor_covenant'))
+      common_image(sc.scanned_eligibility, I18n.t('field_set.sponsor_covenant.sponsor_eligibility'))
     end
 
-    common_image(sc.scanned_eligibility, I18n.t('field_set.sponsor_covenant.sponsor_eligibility'))
+    common_image(sc.scanned_covenant, I18n.t('field_set.sponsor_covenant.sponsor_covenant'))
   end
 
   # Generate image
@@ -270,10 +270,12 @@ class CandidatePDFDocument < Prawn::Document
       end
       begin
         pdf = Magick::ImageList.new(pdf_file_path)
+        y_inc = image_height/pdf.size
 
-        pdf.each do |page_img|
+        pdf.each_with_index do |page_img, index |
           page_img.write jpg_file_path
-
+          image_height = y_inc
+          image_y += (y_inc*(index))
           bounding_box([image_x, image_y], width: image_width, height: image_height) do
             # stroke_bounds
             image jpg_file_path, width: image_width, height: image_height
