@@ -105,28 +105,25 @@ class CandidatePDFDocument < Prawn::Document
     define_grid_page
     page_header(I18n.t('label.sidebar.baptismal_certificate'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(BaptismalCertificate.event_key), [1, 0], [1, 3])
-
-    if @candidate.baptismal_certificate.baptized_at_home_parish
-      text "Baptized at #{Visitor.home_parish}"
-    elsif @candidate.baptismal_certificate.first_comm_at_home_parish
-      text "Received First Communion at #{Visitor.home_parish}"
-    else
-      grid_label_value([2, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
-      grid_label_value([2, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
+    grid_label_value2([2, 0], "Baptized at #{Visitor.home_parish}:", bc.baptized_at_home_parish)
+    grid_label_value2([3, 0], "Received First Communion at #{Visitor.home_parish}:", bc.first_comm_at_home_parish) unless bc.baptized_at_home_parish
+    unless bc.baptized_at_home_parish
+      grid_label_value([4, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
+      grid_label_value([4, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
       # Church
-      grid_label_value([3, 1], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.church_name')}:", bc.church_name)
-      grid_address([4, 0], 'label.baptismal_certificate.baptismal_certificate.church_address', bc.church_address)
+      grid_label_value([5, 1], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.church_name')}:", bc.church_name)
+      grid_address([6, 0], 'label.baptismal_certificate.baptismal_certificate.church_address', bc.church_address)
       # father
-      grid_label([7, 0], [7, 0], 'Father:')
-      grid_label_value([8, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_first')}:", bc.father_first)
-      grid_label_value([9, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle')}:", bc.father_middle)
-      grid_label_value([10, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_last')}:", bc.father_last)
+      grid_label([9, 0], [9, 0], 'Father:')
+      grid_label_value([10, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_first')}:", bc.father_first)
+      grid_label_value([11, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle')}:", bc.father_middle)
+      grid_label_value([12, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.father_last')}:", bc.father_last)
       # mother
-      grid_label([7, 2], [7, 2], 'Mother:')
-      grid_label_value([8, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first')}:", bc.mother_first)
-      grid_label_value([9, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle')}:", bc.mother_middle)
-      grid_label_value([10, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden')}:", bc.mother_maiden)
-      grid_label_value([11, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last')}:", bc.mother_last)
+      grid_label([9, 2], [9, 2], 'Mother:')
+      grid_label_value([10, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first')}:", bc.mother_first)
+      grid_label_value([11, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle')}:", bc.mother_middle)
+      grid_label_value([12, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden')}:", bc.mother_maiden)
+      grid_label_value([13, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last')}:", bc.mother_last)
     end
 
     common_image(bc.scanned_certificate, I18n.t('field_set.baptismal_certificate.scan'))
