@@ -18,7 +18,7 @@ class CandidatePDFDocument < Prawn::Document
   # * <tt>String</tt>
   #
   def self.document_name(candidate)
-    "2019 #{candidate.candidate_sheet.last_name} #{candidate.candidate_sheet.first_name}.pdf"
+    "2020 #{candidate.candidate_sheet.last_name} #{candidate.candidate_sheet.first_name}.pdf"
   end
 
   # Instantiation
@@ -226,7 +226,7 @@ class CandidatePDFDocument < Prawn::Document
     common_event(@candidate.get_candidate_event(SponsorCovenant.event_key), [1, 0], [1, 3])
 
     grid_label_value2([2, 0], "#{I18n.t('label.sponsor_covenant.sponsor_name')}:", sc.sponsor_name)
-    grid_label_value2([3, 0], "#{I18n.t('label.sponsor_covenant.sponsor_attends_home_parish')}:", sc.sponsor_attends_home_parish)
+    grid_label_value2([3, 0], "#{I18n.t('label.sponsor_covenant.sponsor_attends_home_parish', home_parish: Visitor.home_parish)}:", sc.sponsor_attends_home_parish)
 
     unless sc.sponsor_attends_home_parish
       grid_label_value([4, 0], "#{I18n.t('label.sponsor_covenant.sponsor_church')}:", sc.sponsor_church)
@@ -446,7 +446,7 @@ class CandidatePDFDocument < Prawn::Document
   def title_page
     bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height do
       bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height / 3 do
-        text '2019 Confirmation booklet', size: 30, style: :bold, align: :center, valign: :bottom
+        text '2020 Confirmation booklet', size: 30, style: :bold, align: :center, valign: :bottom
       end
       bounding_box [bounds.left, bounds.top - (bounds.height / 3)], width: bounds.width, height: bounds.height / 3 do
         text 'for', size: 30, style: :bold, align: :center, valign: :center
