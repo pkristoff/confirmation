@@ -270,12 +270,12 @@ class CandidatePDFDocument < Prawn::Document
       end
       begin
         pdf = Magick::ImageList.new(pdf_file_path)
-        y_inc = image_height/pdf.size
+        y_inc = image_height / pdf.size
 
-        pdf.each_with_index do |page_img, index |
+        pdf.each_with_index do |page_img, index|
           page_img.write jpg_file_path
           image_height = y_inc
-          image_y += (y_inc*(index))
+          image_y += y_inc * index
           bounding_box([image_x, image_y], width: image_width, height: image_height) do
             # stroke_bounds
             image jpg_file_path, width: image_width, height: image_height

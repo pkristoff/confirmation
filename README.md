@@ -110,6 +110,7 @@ Production => local
 
 PSQL
 - heroku pg:psql postgresql-corrugated-19133 --app confirmation-production
+- heroku pg:psql postgresql-encircled-80532 --app confirmation-staging
 - https://data.heroku.com/datastores/f944f9a2-8738-4d80-915a-9fe4f83fd7e0#administration
 
 Restore dump to Production:
