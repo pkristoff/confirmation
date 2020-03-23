@@ -9,20 +9,20 @@
         <%= button_tag(t('views.common.remove_image'), class: "show-div", id: "remove-#{field}", type: 'button', onClick: "confirmation_toggle().remove_scanned_image('#{remove_id}', '#{field}');") %>
         <%= button_tag(t('views.common.replace_image'), class: "hide-div", id: "replace-#{field}", type: 'button', onClick: "confirmation_toggle().replace_scanned_image('#{remove_id}', '#{field}');") %>
         <%= remove_field %>
-        <%= scanned_image.filename %>
+        <%= PluckCan.image_filename(scanned_image) %>
       </div>
-      <% if scanned_image.content.length > 30000000 %>
-        <div><p> to large to show.</p></div>
+      <% if PluckCan.image_content(scanned_image).nil? %>
+        <div><p> too large to show.</p></div>
       <% else %>
         <div id="scanned-image-<%= field %>" class="show-div">
-          <% if ['application/pdf'].include? scanned_image.content_type %>
+          <% if ['application/pdf'].include? PluckCan.image_content_type(scanned_image) %>
             <object data="<%= url_for_image %>"
-                    type="<%= scanned_image.content_type %>"
+                    type="<%= PluckCan.image_content_type(scanned_image) %>"
                     width="600" height=783"
-                    alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>"></object>
+                    alt="<%= "Did not receive the #{PluckCan.image_content_type(scanned_image).split('/')[1]} picture: #{PluckCan.image_filename(scanned_image)}" %>"></object>
           <% else %>
             <img src="<%= url_for_image %>"
-                 alt="<%= "Did not receive the #{scanned_image.content_type.split('/')[1]} picture: #{scanned_image.filename}" %>"/>
+                 alt="<%= "Did not receive the #{PluckCan.image_content_type(scanned_image).split('/')[1]} picture: #{PluckCan.image_filename(scanned_image)}" %>"/>
           <% end %>
         </div>
       <% end %>

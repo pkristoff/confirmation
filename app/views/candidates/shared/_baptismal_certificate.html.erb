@@ -144,6 +144,8 @@
         </div>
       <% end %>
 
+      <% pluck_image = PluckCan.image(event_association.scanned_certificate_id) %>
+
       <%= render "candidates/shared/scanned_image",
 
                      url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_route) : event_with_picture_image_path(candidate.id, @event_with_picture_route)),
@@ -153,7 +155,7 @@
                      field: :certificate_picture,
                      remove_id: :candidate_baptismal_certificate_attributes_remove_certificate_picture,
                      remove_field: bc_fields.hidden_field(:remove_certificate_picture, value: ''),
-                     scanned_image: event_association.scanned_certificate,
+                     scanned_image: pluck_image,
                      scanned_image_field: bc_fields.file_field(:certificate_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture');"),
                      scanned_image_label: bc_fields.label(:certificate_picture, t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
                   %>

@@ -31,6 +31,35 @@ class PluckCan
     @candidate_event = candidate_event
   end
 
+  def self.image(id)
+    return nil if id.nil?
+
+    arr = ScannedImage.where(id: id).pluck(Arel.sql('length(content)'))
+    image_s = arr[0]
+    if image_s > 30_000_000 # bytes
+      ans = ScannedImage.where(id: id).pluck(:id, :filename, :content_type)[0]
+      ans.push(nil)
+    else
+      ScannedImage.where(id: id).pluck(:id, :filename, :content_type, :content)[0]
+    end
+  end
+
+  def self.image_id(pluck_image)
+    pluck_image[0]
+  end
+
+  def self.image_filename(pluck_image)
+    pluck_image[2]
+  end
+
+  def self.image_content_type(pluck_image)
+    pluck_image[2]
+  end
+
+  def self.image_content(pluck_image)
+    pluck_image[3]
+  end
+
   # Calculate status of candidate_event
   #
   # === Parameters:
