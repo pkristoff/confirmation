@@ -71,12 +71,17 @@ describe ExportListsController do
 
   it 'should return a xlxs sponsor attachment' do
     @c1.sponsor_covenant.sponsor_attends_home_parish = true
+    @c1.sponsor_covenant.sponsor_attends_home_parish = false
     @c1.get_candidate_event(SponsorCovenant.event_key).completed_date = @today
     @c1.save
 
-    expect_send_data([@c1], [], [], [@c2], 'Sponsor', 'sponsor.xlsx', :sponsor,
-                     ExportListsController::SPONSOR_COLUMNS,
-                     ExportListsController::SPONSOR_VALUES)
+    str = controller.stream_sponsor(controller.xlsx_sponsor)
+    xlxs_options = { type: 'application/xlsx', filename: 'sponsor.xlsx' }
+
+    expect(controller).to receive(:send_data).with(str, xlxs_options) do
+    end
+
+    post :sponsor
   end
 
   it 'should return a xlxs event attachment' do

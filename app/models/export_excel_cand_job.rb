@@ -28,7 +28,7 @@ class ExportExcelCandJob
       events = confirmation_events_sorted
       @sheet_mutex.synchronize do
         sheet.add_row(candidate_columns.map do |col|
-          if CandidateImport.image_columns.include?(col) || CandidateImport.transient_columns.include?(col)
+          if CandidateImport.transient_columns.include?(col)
             nil
           else
             get_column_value(candidate, col, events)
@@ -111,9 +111,18 @@ class ExportExcelCandJob
   #
   # === Returns:
   #
-  # * <tt>Object</tt> the value from association
+  # * <tt>Object</tt> the value from association if image col then true if image is supplied otherwise false
   #
   def get_column_value(candidate, col, confirmation_events)
+    val = get_column_value_raw(candidate, col, confirmation_events)
+    return !val.nil? if CandidateImport.image_columns.include?(col)
+
+    val unless CandidateImport.image_columns.include?(col)
+  end
+
+  private
+
+  def get_column_value_raw(candidate, col, confirmation_events)
     split = col.split('.')
     case split.size
     when 1

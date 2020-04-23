@@ -16,6 +16,63 @@ describe CandidateImportsController do
       expect(response.status).to eq(200)
       expect(controller.candidate_import).not_to eq(nil)
     end
+
+    it 'the spread sheet should reflect what the candidate has input - sponsor' do
+      c1 = FactoryBot.create(:candidate, account_name: 'a1')
+      c1.sponsor_covenant.sponsor_name = 'Baz'
+      c1.sponsor_covenant.sponsor_attends_home_parish = true
+      c1.sponsor_covenant.scanned_covenant = ScannedImage.new
+      c1.save
+
+      candidate_import = CandidateImport.new
+      excel = candidate_import.to_xlsx('dir', true)
+
+      excel.workbook do |wb|
+        ['Confirmation Events', 'Candidates with events'].each_with_index { |expected_name, index| expect(wb.worksheets[index].name).to eq(expected_name) }
+
+        worksheet = wb.worksheets[1]
+        # print_worksheet(worksheet)
+        # expect(Candidate.all.size).to eq(1)
+        # expect(worksheet.rows.size).to eq(2)
+        a1_row = worksheet.rows[1]
+        expect(value_for_header(wb.worksheets[1], 'account_name', a1_row)).to eq('a1')
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_name', a1_row)).to eq('Baz')
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_attends_home_parish', a1_row)).to eq(1)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.scanned_covenant', a1_row)).to eq(1)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_church', a1_row)).to eq(nil)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.scanned_eligibility', a1_row)).to eq(0)
+      end
+    end
+    it 'the spread sheet should reflect what the candidate has input - sponsor' do
+      c1 = FactoryBot.create(:candidate, account_name: 'a1')
+      c1.sponsor_covenant.sponsor_name = 'Baz'
+      c1.sponsor_covenant.sponsor_attends_home_parish = false
+      c1.sponsor_covenant.scanned_covenant = ScannedImage.new
+      c1.sponsor_covenant.sponsor_church = 'St. George'
+      c1.sponsor_covenant.scanned_eligibility = ScannedImage.new
+      c1.save
+
+      candidate_import = CandidateImport.new
+      excel = candidate_import.to_xlsx('dir', true)
+
+      excel.workbook do |wb|
+        ['Confirmation Events', 'Candidates with events'].each_with_index { |expected_name, index| expect(wb.worksheets[index].name).to eq(expected_name) }
+
+        worksheet = wb.worksheets[1]
+        a1_row = worksheet.rows[1]
+        expect(value_for_header(wb.worksheets[1], 'account_name', a1_row)).to eq('a1')
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_name', a1_row)).to eq('Baz')
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_attends_home_parish', a1_row)).to eq(0)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.scanned_covenant', a1_row)).to eq(1)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_church', a1_row)).to eq('St. George')
+        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.scanned_eligibility', a1_row)).to eq(1)
+      end
+    end
+
+    def value_for_header(worksheet, header, row)
+      index = worksheet.rows.first.index { |el| el.value == header }
+      row[index].value
+    end
   end
 
   describe 'create' do
