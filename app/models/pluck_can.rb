@@ -9,8 +9,8 @@
 # === Parameters:
 #
 # * <tt>:cand_info</tt> Candidate information shown in the sorting table.
-# * <tt>:cand_event_info</tt> A hash that has the information necessary to generate the status of each candidate event for a candidate.
-# * <tt>:candidate_event</tt> The candiate event information (verified, completion_date) being editied in mass_edit_candidates_event.html.erb
+# * <tt>:cand_event_info</tt> A hash that has the information necessary to generate the status of each candidate event.
+# * <tt>:candidate_event</tt> The candidate event information being edited in mass_edit_candidates_event.html.erb
 #
 class PluckCan
   # instantiation
@@ -18,8 +18,8 @@ class PluckCan
   # === Parameters:
   #
   # * <tt>:cand_info</tt> Candidate information shown in the sorting table.
-  # * <tt>:cand_event_info</tt> A hash that has the information necessary to generate the status of each candidate event for a candidate.
-  # * <tt>:candidate_event</tt> The candiate event information (verified, completion_date) being editied in mass_edit_candidates_event.html.erb
+  # * <tt>:cand_event_info</tt> A hash that has the information necessary to generate the status of each candidate event
+  # * <tt>:candidate_event</tt> The candidate event information being edited in mass_edit_candidates_event.html.erb
   #
   # === Returns:
   #
@@ -78,7 +78,15 @@ class PluckCan
     Rails.logger.info("candidate_events=#{candidate_events}")
     join = Candidate.joins(:candidate_sheet)
     sorted = args[:sort].nil? ? join : join.order("#{args[:sort]} #{args[:direction]}")
-    sorted.pluck(:id, :account_name, :confirmed_at, :encrypted_password, :last_name, :first_name, :grade, :program_year, :attending).map do |cand_info|
+    sorted.pluck(:id,
+                 :account_name,
+                 :confirmed_at,
+                 :encrypted_password,
+                 :last_name,
+                 :first_name,
+                 :grade,
+                 :program_year,
+                 :attending).map do |cand_info|
       candidate_id = cand_info[0]
       Rails.logger.info("cand_info=#{cand_info}")
       Rails.logger.info("account_name=#{cand_info[1]}")
@@ -172,7 +180,14 @@ class PluckCan
   #
   def self.pluck_cand_events
     cand_event_info = {}
-    ToDo.joins(:confirmation_event, :candidate_event).pluck(:candidate_id, :confirmation_event_id, :candidate_event_id, :event_key, :verified, :completed_date, :the_way_due_date, :chs_due_date).each do |info|
+    ToDo.joins(:confirmation_event, :candidate_event).pluck(:candidate_id,
+                                                            :confirmation_event_id,
+                                                            :candidate_event_id,
+                                                            :event_key,
+                                                            :verified,
+                                                            :completed_date,
+                                                            :the_way_due_date,
+                                                            :chs_due_date).each do |info|
       cand_info = cand_event_info[info[0]]
       if cand_info.nil?
         cand_info = []

@@ -23,7 +23,8 @@ feature 'Check boxes', :devise do
       uncheck("mail[#{checkbox_key}]")
       click_button('top-update')
 
-      expect_monthly_mass_mailing_form(checkbox_keys: @checkbox_keys, expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
+      expect_monthly_mass_mailing_form(checkbox_keys: @checkbox_keys,
+                                       expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
                                        subject_check: checkbox_key != :subject_check,
                                        pre_late_input_check: checkbox_key != :pre_late_input_check,
                                        pre_coming_due_input_check: checkbox_key != :pre_coming_due_input_check,
@@ -51,7 +52,8 @@ feature 'Check boxes', :devise do
 
       click_button('top-update')
 
-      expect_monthly_mass_mailing_form(checkbox_keys: @checkbox_keys, expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]],
+      expect_monthly_mass_mailing_form(checkbox_keys: @checkbox_keys,
+                                       expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]],
                                        subject_check: checkbox_key != :subject_check,
                                        pre_late_input_check: checkbox_key != :pre_late_input_check,
                                        pre_coming_due_input_check: checkbox_key != :pre_coming_due_input_check,
@@ -312,14 +314,29 @@ feature 'Admin monthly mass mailing', :devise do
     # street_1 = values[:street_1].nil? ? STREET_1 : values[:street_1]
 
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
-    expect(page).to have_field(I18n.t('email.subject_label'), with: values[:subject].presence ? values[:subject] : I18n.t('email.subject_initial_input'))
-    expect(page).to have_field(I18n.t('email.pre_late_input_label'), with: values[:pre_late_input].presence ? values[:pre_late_input] : I18n.t('email.late_initial_input'))
-    expect(page).to have_field(I18n.t('email.pre_coming_due_input_label'), with: values[:pre_coming_input].presence ? values[:pre_coming_input] : I18n.t('email.coming_due_initial_input'))
-    expect(page).to have_field(I18n.t('email.completed_awaiting_input_label'), with: values[:awaiting_approval].presence ? values[:awaiting_approval] : I18n.t('email.completed_awaiting_initial_input'))
-    expect(page).to have_field(I18n.t('email.completed_input_label'), with: values[:completed_events].presence ? values[:completed_events] : I18n.t('email.completed_initial_input'))
-    expect(page).to have_field(I18n.t('email.closing_input_label'), with: values[:closing_paragraph].presence ? values[:closing_paragraph] : I18n.t('email.closing_initial_input'))
-    expect(page).to have_field(I18n.t('email.salutation_input_label'), with: values[:salutation_input].presence ? values[:salutation_input] : I18n.t('email.salutation_initial_input'))
-    expect(page).to have_css('textarea[id=mail_from_input]', text: values[:from_input].presence ? values[:from_input] : /.*Vicki Kristoff.*|.*stmm.confirmation@kristoffs.com.*|.*919-249-5629.*/)
+    expect(page).to have_field(I18n.t('email.subject_label'),
+                               with: values[:subject].presence ? values[:subject] : I18n.t('email.subject_initial_input'))
+    expected_msg = I18n.t('email.late_initial_input')
+    expect(page).to have_field(I18n.t('email.pre_late_input_label'),
+                               with: values[:pre_late_input].presence ? values[:pre_late_input] : expected_msg)
+    expected_msg = I18n.t('email.coming_due_initial_input')
+    expect(page).to have_field(I18n.t('email.pre_coming_due_input_label'),
+                               with: values[:pre_coming_input].presence ? values[:pre_coming_input] : expected_msg)
+    expected_msg = I18n.t('email.completed_awaiting_initial_input')
+    expect(page).to have_field(I18n.t('email.completed_awaiting_input_label'),
+                               with: values[:awaiting_approval].presence ? values[:awaiting_approval] : expected_msg)
+    expected_msg = I18n.t('email.completed_initial_input')
+    expect(page).to have_field(I18n.t('email.completed_input_label'),
+                               with: values[:completed_events].presence ? values[:completed_events] : expected_msg)
+    expected_msg = I18n.t('email.closing_initial_input')
+    expect(page).to have_field(I18n.t('email.closing_input_label'),
+                               with: values[:closing_paragraph].presence ? values[:closing_paragraph] : expected_msg)
+    expected_msg = I18n.t('email.salutation_initial_input')
+    expect(page).to have_field(I18n.t('email.salutation_input_label'),
+                               with: values[:salutation_input].presence ? values[:salutation_input] : expected_msg)
+    expected_msg = /.*Vicki Kristoff.*|.*stmm.confirmation@kristoffs.com.*|.*919-249-5629.*/
+    expect(page).to have_css('textarea[id=mail_from_input]',
+                             text: values[:from_input].presence ? values[:from_input] : expected_msg)
 
     if values[:subject_checked] || values[:subject_checked].nil?
       expect(page).to have_checked_field('mail[subject_check]')

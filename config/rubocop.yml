@@ -14,7 +14,22 @@ Gemspec:
 Layout:
   Enabled: true
 
+Layout/SpaceAroundMethodCallOperator:
+  # added 0.82
+  Enabled: true
+
+Layout/LineLength:
+  Max: 130
+
 Lint:
+  Enabled: true
+
+Lint/RaiseException:
+  # added 0.81
+  Enabled: true
+
+Lint/StructNewOverride:
+  # added 0.81
   Enabled: true
 
 Metrics:
@@ -53,10 +68,28 @@ Style:
   Enabled: true
   # could not figure out how to use with method mail(...) do ...
   # all examples use enumerators like map, each
-Style/SymbolProc:
+
+Style/ClassAndModuleChildren:
   Enabled: true
   Exclude:
-    - './app/models/candidates_mailer.rb'
+    # need to figure out how 'Use nested module/class definitions instead of compact style'
+    - './spec/support/devise_rails_5_helpers.rb'
+
+Style/ExponentialNotation:
+  # added 0.82
+  Enabled: true
+
+Style/HashEachMethods:
+  # added 0.80
+  Enabled: true
+
+Style/HashTransformKeys:
+  # added 0.80
+  Enabled: true
+
+Style/HashTransformValues:
+  # added 0.80
+  Enabled: true
 
 Style/MixinUsage:
   Enabled: true
@@ -67,18 +100,6 @@ Style/MixinUsage:
     - './spec/views/candidates/registrations/new.html.erb_spec.rb'
     - './spec/views/candidates/edit.html.erb_spec.rb'
     - './spec/views/candidates/registrations/edit.html.erb_spec.rb'
-
-Style/SymbolArray:
-  Enabled: true
-  Exclude:
-    # does not work well with require/permit 'Use %i or %I for an array of symbols'
-    - './app/controllers/common_candidates_controller.rb'
-
-Style/ClassAndModuleChildren:
-  Enabled: true
-  Exclude:
-    # need to figure out how 'Use nested module/class definitions instead of compact style'
-    - './spec/support/devise_rails_5_helpers.rb'
 
 # An extension cop that will cause the build to be broken if
 # the right documentation is not proesent.
@@ -92,3 +113,14 @@ Style/PublicMethodDocumentation:
     - 'app/helpers/*.rb'
     - 'app/mailers/*.rb'
     - 'app/models/*.rb'
+
+Style/SymbolArray:
+  Enabled: true
+  Exclude:
+    # does not work well with require/permit 'Use %i or %I for an array of symbols'
+    - './app/controllers/common_candidates_controller.rb'
+
+Style/SymbolProc:
+  Enabled: true
+  Exclude:
+    - './app/models/candidates_mailer.rb'

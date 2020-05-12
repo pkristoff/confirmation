@@ -41,7 +41,8 @@ class CandidatesController < CommonCandidatesController
   def candidate_note_update
     @candidate = Candidate.find(params[:id])
     if @candidate.update(candidate_params)
-      flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
+      cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
+      flash['notice'] = I18n.t('messages.updated', cand_name: cand_name)
     else
       flash['alert'] = 'Update_attributes fails'
     end

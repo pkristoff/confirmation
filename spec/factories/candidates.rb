@@ -21,7 +21,8 @@ FactoryBot.define do
       # overwrite the already created address
       candidate.candidate_sheet.address&.destroy
       candidate.candidate_sheet.address = FactoryBot.create(:address)
-      candidate.candidate_events = create_candidate_events if evaluator.add_new_confirmation_events && candidate.candidate_events.size <= 0
+      pred = evaluator.add_new_confirmation_events && candidate.candidate_events.size <= 0
+      candidate.candidate_events = create_candidate_events if pred
 
       AppFactory.add_candidate_events(candidate) if evaluator.add_candidate_events
     end
@@ -30,11 +31,13 @@ end
 
 def create_candidate_events
   confirmation_event_eat = ConfirmationEvent.find_by(event_key: 'Going out to eat') || FactoryBot.create(:confirmation_event)
-  confirmation_event_home = ConfirmationEvent.find_by(event_key: 'Staying home') || FactoryBot.create(:confirmation_event,
-                                                                                                      event_key: 'Staying home',
-                                                                                                      the_way_due_date: '2016-04-30',
-                                                                                                      chs_due_date: '2016-04-01',
-                                                                                                      instructions: '<h3>Do this</h3><ul><li>one</li><li>two</li><li>three</li></ul></h3>')
+  confirmation_event_home =
+    ConfirmationEvent.find_by(event_key: 'Staying home') ||
+    FactoryBot.create(:confirmation_event,
+                      event_key: 'Staying home',
+                      the_way_due_date: '2016-04-30',
+                      chs_due_date: '2016-04-01',
+                      instructions: '<h3>Do this</h3><ul><li>one</li><li>two</li><li>three</li></ul></h3>')
   [FactoryBot.create(:candidate_event,
                      confirmation_event: confirmation_event_eat),
    FactoryBot.create(:candidate_event,

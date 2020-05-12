@@ -38,7 +38,9 @@ shared_context 'candidate_sheet_html_erb' do
                                 ])
   end
 
+  # rubocop:disable Layout/LineLength
   scenario 'candidate logs in, selects candidate sheet, has filled out candidate sheet previsouly puts in invalid email, attempts to save an invalid sheet' do
+    # rubocop:enable Layout/LineLength
     visit @path
     fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: 'mm')
 
@@ -66,7 +68,8 @@ shared_context 'candidate_sheet_html_erb' do
     if @admin_verified
 
       candidate = Candidate.find(@candidate.id)
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: CandidateSheet.event_key), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: CandidateSheet.event_key),
+                                        candidate.id, @updated_message)
 
     else
 
@@ -96,7 +99,10 @@ shared_context 'candidate_sheet_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expected_msg = I18n.t('messages.updated_unverified',
+                            cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}")
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key),
+                                        candidate.id, expected_msg, true)
     else
       expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify)
     end
@@ -115,21 +121,28 @@ shared_context 'candidate_sheet_html_erb' do
 
     candidate_sheet = cand.candidate_sheet
     expect(page).to have_field(I18n.t('label.candidate_sheet.first_name'), with: candidate_sheet.first_name, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.middle_name'), with: candidate_sheet.middle_name, type: 'text')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.middle_name'),
+                               with: candidate_sheet.middle_name, type: 'text')
     expect(page).to have_field(I18n.t('label.candidate_sheet.last_name'), with: candidate_sheet.last_name, type: 'text')
 
-    expect(page).to have_field(I18n.t('label.candidate_sheet.address.street_1'), with: candidate_sheet.address.street_1, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.address.street_2'), with: candidate_sheet.address.street_2, type: 'text')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.address.street_1'),
+                               with: candidate_sheet.address.street_1, type: 'text')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.address.street_2'),
+                               with: candidate_sheet.address.street_2, type: 'text')
     expect(page).to have_field(I18n.t('label.candidate_sheet.address.city'), with: candidate_sheet.address.city, type: 'text')
     expect(page).to have_field(I18n.t('label.candidate_sheet.address.state'), with: candidate_sheet.address.state, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.address.zip_code'), with: candidate_sheet.address.zip_code, type: 'text')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.address.zip_code'),
+                               with: candidate_sheet.address.zip_code, type: 'text')
 
     expect(page).to have_field(I18n.t('label.candidate_sheet.grade'), with: candidate_sheet.grade, type: 'number')
     expect(page).to have_field(I18n.t('label.candidate_sheet.program_year'), with: candidate_sheet.program_year, type: 'number')
 
-    expect(page).to have_field(I18n.t('label.candidate_sheet.candidate_email'), with: candidate_sheet.candidate_email, type: 'email')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.parent_email_1'), with: candidate_sheet.parent_email_1, type: 'email')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.parent_email_2'), with: candidate_sheet.parent_email_2, type: 'email')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.candidate_email'),
+                               with: candidate_sheet.candidate_email, type: 'email')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.parent_email_1'),
+                               with: candidate_sheet.parent_email_1, type: 'email')
+    expect(page).to have_field(I18n.t('label.candidate_sheet.parent_email_2'),
+                               with: candidate_sheet.parent_email_2, type: 'email')
 
     expect(page).to have_button(update_id)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify

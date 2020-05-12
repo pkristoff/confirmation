@@ -9,7 +9,10 @@ feature 'Contact page' do
   #   When I visit the contact page
   #   Then I see "Welcome"
   before(:each) do
-    @visitor_id = Visitor.visitor('St. Mary Magdalene', I18n.t('views.top_bar.home'), I18n.t('views.top_bar.about'), '<p>contact me</p>').id
+    @visitor_id = Visitor.visitor('St. Mary Magdalene',
+                                  I18n.t('views.top_bar.home'),
+                                  I18n.t('views.top_bar.about'),
+                                  '<p>contact me</p>').id
   end
   scenario 'a visitor visits the home page' do
     visit contact_information_path
@@ -28,11 +31,14 @@ feature 'Contact page' do
 
   scenario 'html sanitized and gets embeded into the contact page' do
     visitor = Visitor.find_by(id: @visitor_id)
+    # rubocop:disable Layout/LineLength
     visitor.contact = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" id="foo" style="text-align: center;" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
+    # rubocop:enable Layout/LineLength
     visitor.save
 
     visit contact_information_path
 
-    expect(page).to have_selector('a[style="text-align: center;"]', text: 'Contact Admin via email stmm.confirmation@kristoffs.com')
+    expect(page).to have_selector('a[style="text-align: center;"]',
+                                  text: 'Contact Admin via email stmm.confirmation@kristoffs.com')
   end
 end

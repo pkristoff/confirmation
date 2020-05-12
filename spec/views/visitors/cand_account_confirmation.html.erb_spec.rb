@@ -8,8 +8,10 @@ describe 'visitors/cand_account_confirmation.html.erb' do
     render
 
     expect(rendered).to have_selector('div[id=confirmed] p', count: 2)
-    expect(rendered).to have_selector('div[id=confirmed] p', text: "Congratulations #{@candidate.account_name} on confirming your account.")
-    expect(rendered).to have_selector('div[id=confirmed] p', text: 'The next step is to setup your password. Another email was just sent explaining how to do this.')
+    expected_msg = "Congratulations #{@candidate.account_name} on confirming your account."
+    expect(rendered).to have_selector('div[id=confirmed] p', text: expected_msg)
+    expected_msg = 'The next step is to setup your password. Another email was just sent explaining how to do this.'
+    expect(rendered).to have_selector('div[id=confirmed] p', text: expected_msg)
   end
 
   it 'candidate not confirmed.' do

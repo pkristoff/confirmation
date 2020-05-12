@@ -16,7 +16,8 @@ feature 'Home page' do
 
     visit cand_account_confirmation_url(candidate.id, 'noerrors')
 
-    expect_cand_account_confirmation(candidate.id, expect_messages: [[:flash_notice, I18n.t('messages.reset_password_message_sent')]])
+    expect_cand_account_confirmation(candidate.id,
+                                     expect_messages: [[:flash_notice, I18n.t('messages.reset_password_message_sent')]])
   end
 
   def expect_cand_account_confirmation(cand_id, values = {})

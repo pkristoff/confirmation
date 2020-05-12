@@ -19,7 +19,8 @@ class RegistrationsController < Devise::RegistrationsController
       AppFactory.add_candidate_events(res)
       res.candidate_sheet.validate_emails # no longer part of save
       res.candidate_sheet.errors.each do |key, msg|
-        res.errors.add key, msg if res.errors.messages[key].empty? && res.errors.messages["candidate_sheet.#{key}".to_sym].empty?
+        key_not_used = res.errors.messages[key].empty? && res.errors.messages["candidate_sheet.#{key}".to_sym].empty?
+        res.errors.add key, msg if key_not_used
       end
       if res.errors.any?
         flash.now.alert = I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
@@ -40,17 +41,23 @@ class RegistrationsController < Devise::RegistrationsController
   # destroy Candidate
   #
   def destroy
-    return redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.remove_candidate')) unless admin_signed_in?
-
-    super
+    if admin_signed_in?
+      super
+    else
+      redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.remove_candidate'))
+    end
   end
 
   # new Candidate
   #
   def new
-    return redirect_back fallback_location: new_admin_registration_path, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_admin')) unless admin_signed_in?
-
-    super
+    if admin_signed_in?
+      super
+    else
+      redirect_back fallback_location: new_admin_registration_path,
+                    alert: I18n.t('messages.admin_login_needed',
+                                  message: I18n.t('messages.another_admin'))
+    end
   end
 
   # return current_candidate
@@ -117,7 +124,10 @@ class RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       expire_data_after_sign_in!
-      redirect_to new_candidate_url, notice: I18n.t('views.candidates.created', account: resource.account_name, name: resource.first_last_name)
+      redirect_to new_candidate_url,
+                  notice: I18n.t('views.candidates.created',
+                                 account: resource.account_name,
+                                 name: resource.first_last_name)
       # end
     else
       clean_up_passwords resource
@@ -127,7 +137,9 @@ class RegistrationsController < Devise::RegistrationsController
       # the problem being solved is the first time through a candidate would be created & would
       # go to create.html.erb, which would fail the second time through.  So it is re-directed back
       # to new.html.erb
-      respond_with resource, location: new_candidate_url, alert: I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
+      respond_with resource,
+                   location: new_candidate_url,
+                   alert: I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
     end
   end
 

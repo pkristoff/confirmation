@@ -17,6 +17,7 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.export')]
     ]
 
+    # rubocop:disable Layout/LineLength
     @admin_export_link_names_in_order = [
       [I18n.t('views.nav.export_confirmation_name'), '/export_lists/confirmation_name'],
       [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), '/export_lists/retreat', nil, 'Retreat at St. Ma...'],
@@ -25,6 +26,7 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events', nil, 'Candidate Events ...'],
       [I18n.t('views.nav.pdf_baptismal_name'), '/export_lists/bap_name', nil, 'DF for matching ...']
     ]
+    # rubocop:enable Layout/LineLength
 
     @candidate_link_names_in_order = [
       [I18n.t('label.sidebar.candidate_covenant_agreement'), '<dev>/sign_agreement.<id>.covenant_agreement'],
@@ -76,7 +78,8 @@ describe 'layouts/_side_bar.html.erb' do
       login_admin
 
       @resource = FactoryBot.create(:candidate)
-      @candidate_link_names_in_order = @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.candidate_note'), '/candidate_note.<id>'])
+      @candidate_link_names_in_order =
+        @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.candidate_note'), '/candidate_note.<id>'])
 
       render
 
@@ -101,7 +104,8 @@ describe 'layouts/_side_bar.html.erb' do
       href = href.gsub('<id>', candidate_id) unless href.nil?
 
       event_name = event_name.gsub(/([\w\s]{17}).+/, '\1...') if event_name.size > SideBar::TRUNCATELENGTH
-      expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index + 1})", text: event_name_trunc.nil? ? event_name : event_name_trunc)
+      expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index + 1})",
+                                        text: event_name_trunc.nil? ? event_name : event_name_trunc)
       expect(rendered).to have_link(event_name, href: href) unless href.nil?
     end
     expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li", count: total_num_links)

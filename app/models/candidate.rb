@@ -461,7 +461,10 @@ class Candidate < ApplicationRecord
       retreat_verification
     when Event::Other::CANDIDATE_INFORMATION_SHEET
       candidate_sheet
-    when Event::Other::PARENT_INFORMATION_MEETING, Event::Other::ATTEND_RETREAT, Event::Other::CANDIDATE_COVENANT_AGREEMENT, Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
+    when Event::Other::PARENT_INFORMATION_MEETING,
+      Event::Other::ATTEND_RETREAT,
+      Event::Other::CANDIDATE_COVENANT_AGREEMENT,
+      Event::Other::SPONSOR_AND_CANDIDATE_CONVERSATION
       self
     else
       raise "Unknown event association: #{event_route_name}"
@@ -545,7 +548,8 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.baptismal_external_verification
-    external_verification(BaptismalCertificate.event_key, ->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish })
+    external_verification(BaptismalCertificate.event_key,
+                          ->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish })
   end
 
   # retreat needs admin verification
@@ -559,7 +563,8 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def self.retreat_external_verification
-    external_verification(RetreatVerification.event_key, ->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish })
+    external_verification(RetreatVerification.event_key,
+                          ->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish })
   end
 
   # confirmation name needs admin verification

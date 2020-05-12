@@ -193,7 +193,10 @@ shared_context 'baptismal_certificate' do
     baptismal_certificate.church_address.city = 'city'
     baptismal_certificate.church_address.state = 'state'
     baptismal_certificate.church_address.zip_code = '99999'
-    baptismal_certificate.scanned_certificate = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+    baptismal_certificate.scanned_certificate = FactoryBot.create(:scanned_image,
+                                                                  filename: 'actions.png',
+                                                                  content_type: 'image/png',
+                                                                  content: 'vvv')
     baptismal_certificate
   end
 end
@@ -264,7 +267,7 @@ shared_context 'retreat_verification' do
       expect(candidate_event.verified).to be(false)
     end
 
-    it "Admin removes retreat picture and undoes events completed state and verified state.  commit = #{commit_value}" do
+    it "Admin removes retreat picture and undoes events completed state and verified state. commit = #{commit_value}" do
       candidate = Candidate.find(@candidate.id)
       retreat_verification = make_valid_rv(candidate)
 
@@ -309,7 +312,10 @@ shared_context 'retreat_verification' do
     retreat_verification.end_date = @today
     retreat_verification.who_held_retreat = 'St. Paul'
     retreat_verification.where_held_retreat = 'St. Paul'
-    retreat_verification.scanned_retreat = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+    retreat_verification.scanned_retreat = FactoryBot.create(:scanned_image,
+                                                             filename: 'actions.png',
+                                                             content_type: 'image/png',
+                                                             content: 'vvv')
     retreat_verification
   end
 end
@@ -424,7 +430,10 @@ shared_context 'sponsor_covenant' do
     sponsor_covenant = candidate.sponsor_covenant
     sponsor_covenant.sponsor_attends_home_parish = true
     sponsor_covenant.sponsor_name = 'meme'
-    sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+    sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image,
+                                                          filename: 'actions.png',
+                                                          content_type: 'image/png',
+                                                          content: 'vvv')
     sponsor_covenant
   end
 
@@ -433,8 +442,14 @@ shared_context 'sponsor_covenant' do
     sponsor_covenant.sponsor_attends_home_parish = false
     sponsor_covenant.sponsor_name = 'meme'
     sponsor_covenant.sponsor_church = 'St. meme'
-    sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'lll')
-    sponsor_covenant.scanned_eligibility = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+    sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image,
+                                                          filename: 'actions.png',
+                                                          content_type: 'image/png',
+                                                          content: 'lll')
+    sponsor_covenant.scanned_eligibility = FactoryBot.create(:scanned_image,
+                                                             filename: 'actions.png',
+                                                             content_type: 'image/png',
+                                                             content: 'vvv')
     sponsor_covenant
   end
 end

@@ -49,11 +49,18 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key), @candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key),
+                                        @candidate.id, @updated_message)
 
     else
       candidate = Candidate.find(@cand_id)
-      expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_message]])
+      expect_pick_confirmation_name_form(@cand_id,
+                                         @path_str,
+                                         @dev_path,
+                                         @update_id,
+                                         @is_verify,
+                                         saint_name: '',
+                                         expect_messages: [[:flash_notice, @updated_message]])
       expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
 
       expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(@today)
@@ -63,6 +70,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     end
   end
 
+  # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     update_pick_confirmation_name(false)
     visit @path
@@ -93,6 +101,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     end
   end
+  # rubocop:enable Layout/LineLength
 
   scenario 'admin logs in and selects a candidate, fills in template, except saint_name' do
     update_pick_confirmation_name(false)
@@ -103,10 +112,12 @@ shared_context 'pick_confirmation_name_html_erb' do
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
+    # rubocop:disable Layout/LineLength
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                        saint_name: '',
                                        expect_messages: [[:flash_notice, @updated_failed_verification],
                                                          [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1), "Saint name #{I18n.t('errors.messages.blank')}"]]])
+    # rubocop:enable Layout/LineLength
 
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(nil)
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to eq(false)
@@ -131,7 +142,10 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expected_msg = I18n.t('messages.updated_unverified',
+                            cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}")
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id,
+                                        expected_msg, true)
     else
       expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end

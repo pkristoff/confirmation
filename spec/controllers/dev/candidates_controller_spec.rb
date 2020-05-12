@@ -26,7 +26,8 @@ describe Dev::CandidatesController do
         expect(false).to eq(true) # should never be executed.
       rescue ActionController::UrlGenerationError => e
         rescue_called = true
-        expect(e.message).to eq("No route matches {:action=>\"edit\", :controller=>\"dev/candidates\", :id=>#{@login_candidate.id}}")
+        expect = "No route matches {:action=>\"edit\", :controller=>\"dev/candidates\", :id=>#{@login_candidate.id}}"
+        expect(e.message).to eq(expect)
       end
       expect(rescue_called).to eq(true)
     end

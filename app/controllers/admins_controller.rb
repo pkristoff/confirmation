@@ -60,7 +60,8 @@ class AdminsController < ApplicationController
                         candidate: [:candidate_ids] }
     missing_params = expected_params.select { |expected_param, _sub_params| params[expected_param].nil? }
 
-    return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}" unless missing_params.empty?
+    alert_msg = "The following required parameters are missing: #{missing_params}"
+    return redirect_to :back, alert: alert_msg unless missing_params.empty?
 
     commit = params.require(:commit)
 
@@ -265,7 +266,10 @@ class AdminsController < ApplicationController
             Rails.logger.info("Candidate account confirmed: #{cand.account_name}")
           end
         end
-        redirect_back fallback_location: ref_url, notice: t('messages.account_confirmed', number_confirmed: confirmed, number_not_confirmed: candidates.size - confirmed)
+        notice_msg = t('messages.account_confirmed',
+                       number_confirmed: confirmed,
+                       number_not_confirmed: candidates.size - confirmed)
+        redirect_back fallback_location: ref_url, notice: notice_msg
       when AdminsController::UNCONFIRM_ACCOUNT
         unconfirmed = 0
         candidates.each do |cand|
@@ -278,9 +282,13 @@ class AdminsController < ApplicationController
             Rails.logger.info("Candidate account confirmed: #{cand.account_name}")
           end
         end
-        redirect_back fallback_location: ref_url, notice: t('messages.account_confirmed', number_confirmed: unconfirmed, number_not_confirmed: candidates.size - unconfirmed)
+        notice_msg = t('messages.account_confirmed',
+                       number_confirmed: unconfirmed, number_not_confirmed: candidates.size - unconfirmed)
+        redirect_back fallback_location: ref_url, notice: notice_msg
       else
-        redirect_back fallback_location: ref_url, alert: t('messages.unknown_parameter_commit', commit: params[:commit], params: params)
+        redirect_back fallback_location: ref_url, alert: t('messages.unknown_parameter_commit',
+                                                           commit: params[:commit],
+                                                           params: params)
       end
     end
   end
@@ -315,13 +323,26 @@ class AdminsController < ApplicationController
     subject = MailPart.new_subject(t('email.subject_initial_input'))
     pre_late_input = MailPart.new_pre_late_input(t('email.late_initial_input'))
     pre_coming_due_input = MailPart.new_pre_coming_due_input(t('email.coming_due_initial_input'))
-    completed_awaiting_input = MailPart.new_completed_awaiting_input(t('email.completed_awaiting_initial_input'))
+    completed_awaiting_input =
+      MailPart.new_completed_awaiting_input(t('email.completed_awaiting_initial_input'))
     completed_input = MailPart.new_completed_input(t('email.completed_initial_input'))
     salutation_input = MailPart.new_closing_input(t('email.closing_initial_input'))
     closing_input = MailPart.new_salutation_input(t('email.salutation_initial_input'))
-    from_input = MailPart.new_from_input(t('email.from_initial_input_html', name: admin.contact_name, email: admin.email, phone: admin.contact_phone))
+    from_input =
+      MailPart.new_from_input(t('email.from_initial_input_html',
+                                name: admin.contact_name,
+                                email: admin.email,
+                                phone: admin.contact_phone))
 
-    setup_monthly_mailing_render(subject, pre_late_input, pre_coming_due_input, completed_awaiting_input, completed_input, closing_input, salutation_input, from_input, selected_ids)
+    setup_monthly_mailing_render(subject,
+                                 pre_late_input,
+                                 pre_coming_due_input,
+                                 completed_awaiting_input,
+                                 completed_input,
+                                 closing_input,
+                                 salutation_input,
+                                 from_input,
+                                 selected_ids)
   end
 
   # prepare for monthly mass mailing
@@ -339,21 +360,43 @@ class AdminsController < ApplicationController
   # * <tt>:selected_ids</tt> Optional
   #
   def monthly_mass_mailing_update
-    expected_params = { mail: %i[subject pre_late_input pre_coming_due_input completed_input salutation_input closing_input from_input],
-                        candidate: [:candidate_ids] }
+    expected_params =
+      { mail: %i[subject pre_late_input pre_coming_due_input completed_input salutation_input closing_input from_input],
+        candidate: [:candidate_ids] }
     missing_params = expected_params.select { |expected_param, _sub_params| params[expected_param].nil? }
 
-    return redirect_to :back, alert: "The following required parameters are missing: #{missing_params}" unless missing_params.empty?
+    alert_msg = "The following required parameters are missing: #{missing_params}"
+    return redirect_to :back, alert: alert_msg unless missing_params.empty?
 
     commit = params.require(:commit)
 
-    mail_param = params.require(:mail).permit(:subject, :subject_check, :pre_late_input, :pre_late_input_check, :pre_coming_due_input, :pre_coming_due_input_check, :completed_awaiting_input, :completed_awaiting_input_check, :completed_input, :completed_input_check, :salutation_input, :salutation_input_check, :closing_input, :closing_input_check, :from_input, :from_input_check, :attach_file)
+    mail_param =
+      params.require(:mail).permit(:subject,
+                                   :subject_check,
+                                   :pre_late_input,
+                                   :pre_late_input_check,
+                                   :pre_coming_due_input,
+                                   :pre_coming_due_input_check,
+                                   :completed_awaiting_input,
+                                   :completed_awaiting_input_check,
+                                   :completed_input,
+                                   :completed_input_check,
+                                   :salutation_input,
+                                   :salutation_input_check,
+                                   :closing_input,
+                                   :closing_input_check,
+                                   :from_input,
+                                   :from_input_check,
+                                   :attach_file)
 
     # mail_param = params[:mail]
     subject_input = MailPart.new_subject(mail_param[:subject], mail_param[:subject_check])
     pre_late_input = MailPart.new_pre_late_input(mail_param[:pre_late_input], mail_param[:pre_late_input_check])
-    pre_coming_due_input = MailPart.new_pre_coming_due_input(mail_param[:pre_coming_due_input], mail_param[:pre_coming_due_input_check])
-    completed_awaiting_input = MailPart.new_completed_awaiting_input(mail_param[:completed_awaiting_input], mail_param[:completed_awaiting_input_check])
+    pre_coming_due_input =
+      MailPart.new_pre_coming_due_input(mail_param[:pre_coming_due_input], mail_param[:pre_coming_due_input_check])
+    completed_awaiting_input =
+      MailPart.new_completed_awaiting_input(mail_param[:completed_awaiting_input],
+                                            mail_param[:completed_awaiting_input_check])
     completed_input = MailPart.new_completed_input(mail_param[:completed_input], mail_param[:completed_input_check])
     salutation_input = MailPart.new_salutation_input(mail_param[:salutation_input], mail_param[:salutation_input_check])
     closing_input = MailPart.new_closing_input(mail_param[:closing_input], mail_param[:closing_input_check])
@@ -415,11 +458,14 @@ class AdminsController < ApplicationController
                                                                from_input: from_input)
                          end
 
-    flash.now[:notice] = if send_mail_response.status_code[0] == '2'
-                           flash_message
-                         else
-                           "Send email failed - see logs for more info - last failed response: Status=#{send_mail_response.status_code} body=#{send_mail_response.body}"
-                         end
+    flash.now[:notice] =
+      if send_mail_response.status_code[0] == '2'
+        flash_message
+      else
+        status_code = send_mail_response.status_code
+        body = send_mail_response.body
+        "Send email failed - see logs for more info - last failed response: Status=#{status_code} body=#{body}"
+      end
 
     set_confirmation_events
 
@@ -454,7 +500,8 @@ class AdminsController < ApplicationController
     when t('views.common.update_home')
       visitor = visitor_db_or_new
 
-      flash[:notice] = t('messages.home_updated') if visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+      param_permitted = visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+      flash[:notice] = t('messages.home_updated') if param_permitted
 
     when t('views.common.update_about')
       visitor = visitor_db_or_new
@@ -498,7 +545,10 @@ class AdminsController < ApplicationController
   #
   def update_multiple_confirmation_events
     if params[:commit] == t('views.common.update')
-      confirmation_events = ConfirmationEvent.update(params[:confirmation_events].keys, params[:confirmation_events].values).reject { |p| p.errors.empty? }
+      confirmation_events = ConfirmationEvent.update(
+        params[:confirmation_events].keys,
+        params[:confirmation_events].values
+      ).reject { |p| p.errors.empty? }
       if confirmation_events.empty?
         flash[:notice] = t('messages.confirmation_events_updated')
       else
@@ -506,7 +556,9 @@ class AdminsController < ApplicationController
       end
       set_confirmation_events
       render :edit_multiple_confirmation_events
-    elsif !params[:update].nil? && params[:update].keys.size == 1 && (params[:update][params[:update].keys[0]] == t('views.common.update_candidates_event'))
+    elsif !params[:update].nil? &&
+          params[:update].keys.size == 1 &&
+          (params[:update][params[:update].keys[0]] == t('views.common.update_candidates_event'))
 
       confirmation_event = ConfirmationEvent.find(params[:update].keys[0])
 

@@ -29,7 +29,14 @@ describe CandidateSheet, type: :model do
     it 'should return a hash of :attribute => value' do
       candidate = FactoryBot.create(:candidate)
       verifiables = FactoryBot.create(:candidate_sheet).verifiable_info(candidate)
-      expected_verifiables = { name: 'Sophia Saraha Young', grade: 10, program_year: 2, street_1: '555 Xxx Ave.', street_2: '<nothing>', city: 'Clarksville', state: 'IN', zipcode: '47529' }
+      expected_verifiables = { name: 'Sophia Saraha Young',
+                               grade: 10,
+                               program_year: 2,
+                               street_1: '555 Xxx Ave.',
+                               street_2: '<nothing>',
+                               city: 'Clarksville',
+                               state: 'IN',
+                               zipcode: '47529' }
       expect(verifiables).to eq(expected_verifiables)
     end
   end
@@ -144,7 +151,8 @@ describe CandidateSheet, type: :model do
         candidate_sheet.parent_email_2 = 'baz@bar.com'
         candidate_sheet.validate_emails
         expect(candidate_sheet.errors.full_messages.size).to eq(1)
-        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
+        expected_msg = 'Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.'
+        expect(candidate_sheet.errors.full_messages[0]).to eq(expected_msg)
       end
       it 'no duplicate emails parent_email_2' do
         candidate_sheet = CandidateSheet.new
@@ -154,7 +162,8 @@ describe CandidateSheet, type: :model do
         candidate_sheet.parent_email_2 = 'foo@bar.com'
         candidate_sheet.validate_emails
         expect(candidate_sheet.errors.full_messages.size).to eq(1)
-        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 1 is a duplicate email, which is not allowed for a candidate - x x x.')
+        expected_msg = 'Parent email 1 is a duplicate email, which is not allowed for a candidate - x x x.'
+        expect(candidate_sheet.errors.full_messages[0]).to eq(expected_msg)
       end
       it 'no duplicate emails parent_email_2' do
         candidate_sheet = CandidateSheet.new
@@ -164,7 +173,8 @@ describe CandidateSheet, type: :model do
         candidate_sheet.parent_email_2 = 'baz@bar.com'
         candidate_sheet.validate_emails
         expect(candidate_sheet.errors.full_messages.size).to eq(1)
-        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
+        expected_msg = 'Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.'
+        expect(candidate_sheet.errors.full_messages[0]).to eq(expected_msg)
       end
       it 'no duplicate emails parent_email_2' do
         candidate_sheet = CandidateSheet.new
@@ -174,9 +184,11 @@ describe CandidateSheet, type: :model do
         candidate_sheet.parent_email_2 = 'baz@bar.com'
         candidate_sheet.validate_emails
         expect(candidate_sheet.errors.full_messages.size).to eq(3)
-        expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 1 is a duplicate email, which is not allowed for a candidate - x x x.')
-        expect(candidate_sheet.errors.full_messages[1]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
-        expect(candidate_sheet.errors.full_messages[2]).to eq('Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.')
+        expected_msg = 'Parent email 1 is a duplicate email, which is not allowed for a candidate - x x x.'
+        expect(candidate_sheet.errors.full_messages[0]).to eq(expected_msg)
+        expected_msg = 'Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.'
+        expect(candidate_sheet.errors.full_messages[1]).to eq(expected_msg)
+        expect(candidate_sheet.errors.full_messages[2]).to eq(expected_msg)
       end
     end
 

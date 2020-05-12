@@ -42,9 +42,13 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     if devise_mapping.name == :admin
-      devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :password, :password_confirmation, :remember_me) }
+      devise_parameter_sanitizer.permit(:sign_up) do |u|
+        u.permit(:name, :password, :password_confirmation, :remember_me)
+      end
       devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:account_name, :password, :remember_me) }
-      devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :contact_name, :contact_phone, :password, :password_confirmation, :current_password) }
+      devise_parameter_sanitizer.permit(:account_update) do |u|
+        u.permit(:name, :email, :contact_name, :contact_phone, :password, :password_confirmation, :current_password)
+      end
     else
       # admin is editing a candidate's account info
       devise_parameter_sanitizer.permit(:sign_in) do |candidate_parms|
@@ -73,7 +77,10 @@ class ApplicationController < ActionController::Base
 
   # TODO: Remove?
   def pick_confirmation_name_file_params
-    params.require(:candidate).permit(pick_confirmation_name_attributes: %i[pick_confirmation_name_filename pick_confirmation_name_content_type pick_confirmation_name_file_contents])
+    attribute_names = %i[pick_confirmation_name_filename
+                         pick_confirmation_name_content_type
+                         pick_confirmation_name_file_contents]
+    params.require(:candidate).permit(pick_confirmation_name_attributes: attribute_names)
   end
 
   def candidate_permitted_params
@@ -122,7 +129,8 @@ class ApplicationController < ActionController::Base
     I18n.locale = extract_locale_from_accept_language_header || I18n.default_locale
   rescue I18n::InvalidLocale => e
     # if try to locale to Russian(ru) an error is raised, so catch it & use I18n.default_local
-    Rails.logger.error("Encounter the following error while trying to set the locale: ''#{e.message}'.  Setting to default_locale,'")
+    loc = "Encounter the following error while trying to set the locale: ''#{e.message}'.  Setting to default_locale,'"
+    Rails.logger.error(loc)
     I18n.default_locale
   end
 end

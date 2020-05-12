@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.5.5'
+ruby '2.6.0'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'bootstrap'
 gem 'coffee-rails'
@@ -36,7 +36,6 @@ group :development do
   # does not exist in rails 5.0
   # gem 'quiet_assets'
   gem 'rails_layout'
-  gem 'ruby-debug-ide'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'web-console'

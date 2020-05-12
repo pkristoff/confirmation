@@ -28,7 +28,9 @@ describe CandidateImportsController do
       excel = candidate_import.to_xlsx('dir', true)
 
       excel.workbook do |wb|
-        ['Confirmation Events', 'Candidates with events'].each_with_index { |expected_name, index| expect(wb.worksheets[index].name).to eq(expected_name) }
+        ['Confirmation Events', 'Candidates with events'].each_with_index do |expected_name, index|
+          expect(wb.worksheets[index].name).to eq(expected_name)
+        end
 
         worksheet = wb.worksheets[1]
         # print_worksheet(worksheet)
@@ -56,7 +58,9 @@ describe CandidateImportsController do
       excel = candidate_import.to_xlsx('dir', true)
 
       excel.workbook do |wb|
-        ['Confirmation Events', 'Candidates with events'].each_with_index { |expected_name, index| expect(wb.worksheets[index].name).to eq(expected_name) }
+        ['Confirmation Events', 'Candidates with events'].each_with_index do |expected_name, index|
+          expect(wb.worksheets[index].name).to eq(expected_name)
+        end
 
         worksheet = wb.worksheets[1]
         a1_row = worksheet.rows[1]

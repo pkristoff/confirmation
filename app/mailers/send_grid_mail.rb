@@ -33,7 +33,13 @@ class SendGridMail
   # * <tt>Array</tt> of legal emails for non-production
   #
   def legal_emails
-    %w[stmm.confirmation@kristoffs.com stmm.confirmationa@aol.com paul@kristoffs.com paul.kristoff@kristoffs.com retail@kristoffs.com justfaith@kristoffs.com financial@kristoffs.com]
+    %w[stmm.confirmation@kristoffs.com
+       stmm.confirmationa@aol.com
+       paul@kristoffs.com
+       paul.kristoff@kristoffs.com
+       retail@kristoffs.com
+       justfaith@kristoffs.com f
+       inancial@kristoffs.com]
   end
 
   # convert illegal email to one of these in non-production
@@ -117,7 +123,10 @@ class SendGridMail
   # Generate and send reset password email
   #
   def reset_password
-    [send_email(MailPart.new_subject(I18n.t('devise.mailer.reset_password_instructions.subject', Visitor.home_parish)), nil, MailPart.new_body(''), EmailStuff::TYPES[:reset_password],
+    [send_email(MailPart.new_subject(I18n.t('devise.mailer.reset_password_instructions.subject', Visitor.home_parish)),
+                nil,
+                MailPart.new_body(''),
+                EmailStuff::TYPES[:reset_password],
                 reset_pass_call),
      @candidate_mailer_text.token]
   end
@@ -250,7 +259,10 @@ class SendGridMail
   # * <tt>Array</tt> In production - Array of passed in email addresses else - Array of legal non-production email addresses
   #
   def expand_text(candidate, subject_mail_part, body_input_mail_part, delivery_call)
-    @candidate_mailer_text = CandidatesMailerText.new(admin: @admin, candidate: candidate, subject: subject_mail_part, body_text: body_input_mail_part)
+    @candidate_mailer_text = CandidatesMailerText.new(admin: @admin,
+                                                      candidate: candidate,
+                                                      subject: subject_mail_part,
+                                                      body_text: body_input_mail_part)
 
     delivery = delivery_call.call(@admin, @candidate_mailer_text)
     text(delivery)
@@ -267,7 +279,9 @@ class SendGridMail
   # * <tt>Number</tt> response code from sending an email.
   #
   def export_to_excel_no_pictures_message(attach_file_path)
-    send_email_admin(MailPart.new_subject('Export to excel NO scanned pictures'), 'Please see the attached excel spreadsheet.', attach_file_path)
+    send_email_admin(MailPart.new_subject('Export to excel NO scanned pictures'),
+                     'Please see the attached excel spreadsheet.',
+                     attach_file_path)
   end
 
   # Send error message to admin.
@@ -283,7 +297,9 @@ class SendGridMail
   # * <tt>Number</tt> response code from sending an email.
   #
   def email_error_message(message, backtrace, attach_file_path = nil)
-    send_email_admin(MailPart.new_subject('Error in job'), "#{message} <br/> <br/> backtrace: #{backtrace}", attach_file_path)
+    send_email_admin(MailPart.new_subject('Error in job'),
+                     "#{message} <br/> <br/> backtrace: #{backtrace}",
+                     attach_file_path)
   end
 
   # Send error message to admin.
@@ -326,7 +342,8 @@ class SendGridMail
   # * <tt>Number</tt> response code from sending an email.
   #
   def export_to_excel_pictures_message(attach_file_path)
-    send_email_admin(MailPart.new_subject('Export to excel with scanned pictures'), MailPart.new_body('Please see the attached zip file.'), attach_file_path)
+    send_email_admin(MailPart.new_subject('Export to excel with scanned pictures'),
+                     MailPart.new_body('Please see the attached zip file.'), attach_file_path)
   end
 
   # Send the email to SendGrid, which will send the email
@@ -372,7 +389,9 @@ class SendGridMail
     response = nil
     content = attach_file.read unless attach_file.nil?
     @candidates.each do |candidate|
-      sg_mail = create_mail((test_subject.nil? ? subject_mail_part : MailPart.new_subject(test_subject.call(candidate))), email_type, candidate.account_name)
+      sg_mail =
+        create_mail((test_subject.nil? ? subject_mail_part : MailPart.new_subject(test_subject.call(candidate))),
+                    email_type, candidate.account_name)
 
       add_attachment_file(attach_file, sg_mail, content) unless attach_file.nil?
 
@@ -386,7 +405,10 @@ class SendGridMail
       next if response.status_code[0].to_s == '2'
 
       last_failed_response = response
-      Rails.logger.info("Bad response for #{email_type} message for #{candidate.account_name} because of a bad response: #{response.status_code}")
+      account_name = candidate.account_name
+      status_code = response.status_code
+      log_msg = "Bad response for #{email_type} message for #{account_name} because of a bad response: #{status_code}"
+      Rails.logger.info(log_msg)
       Rails.logger.info("Status=#{response.status_code} body=#{response.body}")
     end
     last_failed_response || response
@@ -415,7 +437,10 @@ class SendGridMail
   # * <tt>:candidate</tt> Candidate
   #
   def expand_text_ci(candidate)
-    expand_text(candidate, MailPart.new_subject("#{Visitor.home_parish} website for Confirmation Candidates - User Verification instructions"), MailPart.new_body(''),
+    subject_message = "#{Visitor.home_parish} website for Confirmation Candidates - User Verification instructions"
+    expand_text(candidate,
+                MailPart.new_subject(subject_message),
+                MailPart.new_body(''),
                 conf_insts_call)
   end
 
@@ -427,14 +452,18 @@ class SendGridMail
   # * <tt>:candidate</tt> Candidate
   #
   def expand_text_rp(candidate)
-    expand_text(candidate, MailPart.new_subject("#{Visitor.home_parish} website for Confirmation Candidates - Reset password instructions"), MailPart.new_body(''),
+    subject_message = "#{Visitor.home_parish} website for Confirmation Candidates - Reset password instructions"
+    expand_text(candidate,
+                MailPart.new_subject(subject_message),
+                MailPart.new_body(''),
                 reset_pass_call)
   end
 
   private
 
   def handle_bad_response(response, email_type, name)
-    Rails.logger.info("Skipping sending #{email_type} message for #{name} because of a bad response") if response.status_code[0] != '2'
+    logger_message = "Skipping sending #{email_type} message for #{name} because of a bad response"
+    Rails.logger.info(logger_message) if response.status_code[0] != '2'
     Rails.logger.info("Status=#{response.status_code} body=#{response.body}") if response.status_code[0] != '2'
   end
 

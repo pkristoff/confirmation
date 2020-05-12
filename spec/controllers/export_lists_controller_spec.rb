@@ -33,7 +33,8 @@ describe ExportListsController do
   it 'should create an xlsx with extra columns' do
     column_name = I18n.t('label.sponsor_covenant.sponsor_name')
 
-    package = controller.create_xlsx([], [@c1, @c2], [], [], 'foo', [column_name], [->(candidate) { candidate.sponsor_covenant.sponsor_name }])
+    package = controller.create_xlsx([], [@c1, @c2], [], [], 'foo', [column_name],
+                                     [->(candidate) { candidate.sponsor_covenant.sponsor_name }])
 
     expect(package.core.creator).to eq('Admin')
     check_workbook(package, column_name, %w[George Wilma])
@@ -71,17 +72,11 @@ describe ExportListsController do
 
   it 'should return a xlxs sponsor attachment' do
     @c1.sponsor_covenant.sponsor_attends_home_parish = true
-    @c1.sponsor_covenant.sponsor_attends_home_parish = false
     @c1.get_candidate_event(SponsorCovenant.event_key).completed_date = @today
     @c1.save
-
-    str = controller.stream_sponsor(controller.xlsx_sponsor)
-    xlxs_options = { type: 'application/xlsx', filename: 'sponsor.xlsx' }
-
-    expect(controller).to receive(:send_data).with(str, xlxs_options) do
-    end
-
-    post :sponsor
+    expect_send_data([@c1], [], [], [@c2], 'Sponsor', 'sponsor.xlsx', :sponsor,
+                     ExportListsController::SPONSOR_COLUMNS,
+                     ExportListsController::SPONSOR_VALUES)
   end
 
   it 'should return a xlxs event attachment' do
@@ -125,7 +120,15 @@ def check_workbook(package, extra_colum = nil, column_values = nil)
   end
 end
 
-def expect_send_data(external, to_be_verified, verified, not_complete, pre_title, filename, route, extra_columns = [], functs = [])
+def expect_send_data(external,
+                     to_be_verified,
+                     verified,
+                     not_complete,
+                     pre_title,
+                     filename,
+                     route,
+                     extra_columns = [],
+                     functs = [])
   xlsx = controller.create_xlsx(external, to_be_verified, verified, not_complete, pre_title, extra_columns, functs)
   xlxs_data = xlsx.to_stream.read
   xlxs_options = { type: 'application/xlsx', filename: filename }

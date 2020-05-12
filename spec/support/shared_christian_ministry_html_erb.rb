@@ -56,7 +56,8 @@ shared_context 'christian_ministry_html_erb' do
 
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: ChristianMinistry.event_key), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: ChristianMinistry.event_key),
+                                        candidate.id, @updated_message)
 
     else
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
@@ -89,7 +90,8 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@cand_id)
     if @admin_verified
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: ChristianMinistry.event_key), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: ChristianMinistry.event_key),
+                                        candidate.id, @updated_message)
 
     else
 
@@ -120,11 +122,12 @@ shared_context 'christian_ministry_html_erb' do
 
     click_button @update_id
 
+    expected_msg = I18n.t('messages.error.missing_attributes', err_count: 4)
     expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '',
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 4),
+                                                     [:error_explanation, [expected_msg,
                                                                            "What service #{I18n.t('errors.messages.blank')}",
                                                                            "Where service #{I18n.t('errors.messages.blank')}",
                                                                            "When service #{I18n.t('errors.messages.blank')}",
@@ -152,11 +155,12 @@ shared_context 'christian_ministry_html_erb' do
     fill_in(I18n.t('label.christian_ministry.what_service'), with: nil)
     click_button @update_id
 
+    expected_msg = I18n.t('messages.error.missing_attribute', err_count: 1)
     expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME,
                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                     [:error_explanation, [expected_msg,
                                                                            "What service #{I18n.t('errors.messages.blank')}"]]])
 
     expect_db(1, 8, 0) # make sure DB does not increase in size.
@@ -186,7 +190,9 @@ shared_context 'christian_ministry_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
+      # rubocop:disable Layout/LineLength
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      # rubocop:enable Layout/LineLength
     else
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end

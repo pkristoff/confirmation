@@ -54,7 +54,9 @@ module Event
 end
 module SideBar
   IMAGE_FILE_TYPES = 'image/png,image/jpeg,application/pdf'
+  # rubocop:disable Layout/LineLength
   MAIL_ATTACH_FILE_TYPES = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  # rubocop:enable Layout/LineLength
   TRUNCATELENGTH = 20
 end
 module EmailStuff

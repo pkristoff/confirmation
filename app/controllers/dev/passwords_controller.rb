@@ -14,7 +14,9 @@ module Dev
         super
       else
         admin = current_admin || Admin.first
-        flash[:alert] = ActionView::Base.full_sanitizer.sanitize(t('messages.password.token_expired', email: admin.email))
+        flash[:alert] = ActionView::Base.full_sanitizer.sanitize(
+          t('messages.password.token_expired', email: admin.email)
+        )
         redirect_to new_session_path(resource_name)
       end
     end
@@ -46,7 +48,10 @@ module Dev
       if candidate.respond_to?(:account_confirmed?) && candidate.account_confirmed? && !parms['was_confirmed']
         flash[:notice] = t('messages.password.reset_and_confirmed', name: candidate.account_name)
       else
-        Rails.logger.info("respond_with either candidate=#{candidate} is not a candidate or !parms['was_confirmed']=#{!parms['was_confirmed']}")
+        Rails.logger.info(
+          "respond_with either candidate=#{candidate} is not a candidate or !parms['was_confirmed']=#{!parms[
+            'was_confirmed']}"
+        )
       end
       super
     end

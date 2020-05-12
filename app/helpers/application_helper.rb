@@ -20,12 +20,25 @@ module ApplicationHelper
   def sortable(column, title, route, confirmation_event_id = '')
     title ||= column.titleize
     css_class = if column == sort_column(params[:sort])
-                  "current #{sort_direction(params[:direction]) == 'asc' ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down'}"
+                  up_arrow = 'glyphicon glyphicon-arrow-up'
+                  down_arrow = 'glyphicon glyphicon-arrow-down'
+                  "current #{sort_direction(params[:direction]) == 'asc' ? up_arrow : down_arrow}"
                 end
     direction = column == sort_column(params[:sort]) && sort_direction(params[:direction]) == 'asc' ? 'desc' : 'asc'
     path = 'unknown path'
-    path = monthly_mass_mailing_path(sort: column, direction: direction, class: css_class, update: { confirmation_event_id => '' }) if route == :monthly_mass_mailing
-    path = mass_edit_candidates_event_path(id: confirmation_event_id, sort: column, direction: direction, class: css_class, update: { confirmation_event_id => '' }) if route == :mass_edit_candidates_event
+    if route == :monthly_mass_mailing
+      path = monthly_mass_mailing_path(sort: column,
+                                       direction: direction,
+                                       class: css_class,
+                                       update: { confirmation_event_id => '' })
+    end
+    if route == :mass_edit_candidates_event
+      path = mass_edit_candidates_event_path(id: confirmation_event_id,
+                                             sort: column,
+                                             direction: direction,
+                                             class: css_class,
+                                             update: { confirmation_event_id => '' })
+    end
     path = candidates_path(sort: column, direction: direction, class: css_class) if route == :candidates
     link_to title, path, method: :get
   end
@@ -90,15 +103,19 @@ module ApplicationHelper
     case confirmation_event_key
     when Candidate.covenant_agreement_event_key
       if is_candidate_logged_in
-        [dev_sign_agreement_path(candidate_id, Event::Other::CANDIDATE_COVENANT_AGREEMENT), t('label.sidebar.candidate_covenant_agreement')]
+        [dev_sign_agreement_path(candidate_id, Event::Other::CANDIDATE_COVENANT_AGREEMENT),
+         t('label.sidebar.candidate_covenant_agreement')]
       else
-        [sign_agreement_path(candidate_id, Event::Other::CANDIDATE_COVENANT_AGREEMENT), t('label.sidebar.candidate_covenant_agreement')]
+        [sign_agreement_path(candidate_id, Event::Other::CANDIDATE_COVENANT_AGREEMENT),
+         t('label.sidebar.candidate_covenant_agreement')]
       end
     when CandidateSheet.event_key
       if is_candidate_logged_in
-        [dev_candidate_sheet_path(candidate_id, Event::Other::CANDIDATE_INFORMATION_SHEET), t('label.sidebar.candidate_information_sheet')]
+        [dev_candidate_sheet_path(candidate_id, Event::Other::CANDIDATE_INFORMATION_SHEET),
+         t('label.sidebar.candidate_information_sheet')]
       else
-        [candidate_sheet_path(candidate_id, Event::Other::CANDIDATE_INFORMATION_SHEET), t('label.sidebar.candidate_information_sheet')]
+        [candidate_sheet_path(candidate_id, Event::Other::CANDIDATE_INFORMATION_SHEET),
+         t('label.sidebar.candidate_information_sheet')]
       end
     when BaptismalCertificate.event_key
       if is_candidate_logged_in

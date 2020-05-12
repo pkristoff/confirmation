@@ -8,7 +8,10 @@ FactoryBot.define do
     who_held_retreat { 'I did' }
     where_held_retreat { 'Here' }
     after(:build) do |retreat, _evaluator|
-      retreat.scanned_retreat = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'WWW')
+      retreat.scanned_retreat = FactoryBot.create(:scanned_image,
+                                                  filename: 'actions.png',
+                                                  content_type: 'image/png',
+                                                  content: 'WWW')
     end
   end
 end

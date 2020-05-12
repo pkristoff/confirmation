@@ -40,7 +40,8 @@ feature 'Candidate edit', :devise do
     # /dev/candidates - put registration_path(resource_name)
     fill_in 'Parent email 1', with: 'newemail@example.com'
     click_button I18n.t('views.common.update')
-    expect_message(:error_explanation, [I18n.t('errors.messages.not_saved.one', resource: :candidate), "Current password can't be blank"])
+    expect_message(:error_explanation,
+                   [I18n.t('errors.messages.not_saved.one', resource: :candidate), "Current password can't be blank"])
   end
 
   # Scenario: Candidate cannot edit another candidate's profile

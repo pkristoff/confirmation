@@ -5,7 +5,8 @@
 #
 class ExportListsController < ApplicationController
   BAPTISM_COLUMNS =
-    [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish),
+    [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish',
+            home_parish: Visitor.home_parish),
      I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'),
@@ -167,7 +168,10 @@ class ExportListsController < ApplicationController
     confirmation_event_names = ExportListsController.event_columns
     p = create_xlsx(external, to_be_verified, verified, not_complete, 'Events',
                     confirmation_event_names,
-                    confirmation_event_names.map { |candidate_event_name| ExportListsController.candidate_event_state(candidate_event_name) })
+                    confirmation_event_names.map do |candidate_event_name|
+                      ExportListsController.candidate_event_state(candidate_event_name)
+                    end)
+
     send_data p.to_stream.read, type: 'application/xlsx', filename: 'events.xlsx'
   end
 

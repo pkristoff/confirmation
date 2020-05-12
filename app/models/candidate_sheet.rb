@@ -219,17 +219,24 @@ class CandidateSheet < ApplicationRecord
   # Validate if email addrresses are either nil or a valid email syntax.
   #
   def validate_emails
-    errors.add(:candidate_email, I18n.t('messages.error.invalid_email', email: candidate_email)) unless validate_email(candidate_email)
-    errors.add(:parent_email_1, I18n.t('messages.error.invalid_email', email: parent_email_1)) unless validate_email(parent_email_1)
-    errors.add(:parent_email_2, I18n.t('messages.error.invalid_email', email: parent_email_2)) unless validate_email(parent_email_2)
+    valid_can_email = validate_email(candidate_email)
+    errors.add(:candidate_email, I18n.t('messages.error.invalid_email', email: candidate_email)) unless valid_can_email
+    validate_email_one = validate_email(parent_email_1)
+    errors.add(:parent_email_1, I18n.t('messages.error.invalid_email', email: parent_email_1)) unless validate_email_one
+    validate_email_two = validate_email(parent_email_2)
+    errors.add(:parent_email_2, I18n.t('messages.error.invalid_email', email: parent_email_2)) unless validate_email_two
 
-    errors.add(:candidate_email, I18n.t('messages.error.one_email')) if candidate_email.blank? & parent_email_1.blank? & parent_email_2
+    candidate_email_blank = candidate_email.blank? & parent_email_1.blank? & parent_email_2
+    errors.add(:candidate_email, I18n.t('messages.error.one_email')) if candidate_email_blank
 
     # Do not allow duplicate emails for a candidate
     cand_name = first_middle_last_name
-    errors.add(:parent_email_1, I18n.t('messages.error.duplicate_email', name: cand_name)) if (candidate_email == parent_email_1) && candidate_email.present?
-    errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email', name: cand_name)) if (candidate_email == parent_email_2) && candidate_email.present?
-    errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email', name: cand_name)) if (parent_email_1 == parent_email_2) && parent_email_1.present?
+    is_parent_one = (candidate_email == parent_email_1) && candidate_email.present?
+    errors.add(:parent_email_1, I18n.t('messages.error.duplicate_email', name: cand_name)) if is_parent_one
+    is_parent_two = (candidate_email == parent_email_2) && candidate_email.present?
+    errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email', name: cand_name)) if is_parent_two
+    is_parent_one_two = (parent_email_1 == parent_email_2) && parent_email_1.present?
+    errors.add(:parent_email_2, I18n.t('messages.error.duplicate_email', name: cand_name)) if is_parent_one_two
   end
 
   # Validate if email is a valid email addrress.

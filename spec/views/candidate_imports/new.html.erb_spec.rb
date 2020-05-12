@@ -9,14 +9,17 @@ describe 'candidate_imports/new.html.erb' do
 
     expect_message(nil, nil, rendered)
 
+    # rubocop:disable Layout/LineLength
     section_info = [
       ['section[id=export] form[id=new_candidate_import][action="/candidate_imports/export_to_excel.xlsx"]', I18n.t('views.imports.excel_no_pict')],
       ['section[id=import] form[id=new_candidate_import][action="/candidate_imports/import_candidates"]', I18n.t('views.imports.import')],
       ['section[id=start_new_year] form[id=new_candidate_import][action="/candidate_imports/start_new_year"]', I18n.t('views.imports.reset_database.title')],
       ['section[id=reset_database] form[id=new_candidate_import][action="/candidate_imports/reset_database"]', I18n.t('views.imports.start_new_year.title')],
       ['section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]', I18n.t('views.imports.check_events')],
+
       ['section[id=orphaned-table-rows] form[id=new_candidate_import][action="/candidate_imports/orphaned_table_rows"]', I18n.t('views.imports.check_orphaned_table_rows')]
     ]
+    # rubocop:enable Layout/LineLength
 
     section_info.each do |info|
       expect(rendered).to have_selector(info[0])
@@ -47,6 +50,11 @@ describe 'candidate_imports/new.html.erb' do
 
     render
 
-    expect_message(:error_explanation, ['5 errors prohibited this import from completing:', 'Row 2: Last name can\'t be blank', 'Row 3: First name can\'t be blank', 'Row 6: Parent email 1 is an invalid email', 'Row 6: Parent email 2 is an invalid email', 'Row 7: Parent email 1 can\'t be blank'], rendered)
+    expect_message(:error_explanation, ['5 errors prohibited this import from completing:',
+                                        'Row 2: Last name can\'t be blank',
+                                        'Row 3: First name can\'t be blank',
+                                        'Row 6: Parent email 1 is an invalid email',
+                                        'Row 6: Parent email 2 is an invalid email',
+                                        'Row 7: Parent email 1 can\'t be blank'], rendered)
   end
 end

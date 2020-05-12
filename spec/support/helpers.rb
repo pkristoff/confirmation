@@ -59,6 +59,7 @@ def expect_download_button(name, cand_id, dev_path)
   expect(page).to have_button(I18n.t('views.common.download'))
 end
 
+# rubocop:disable Layout/LineLength
 def expect_candidate_event(index, confirmation_event_id, event_key, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
   page_or_rendered = respond_to?(:page) ? page : rendered
 
@@ -103,16 +104,21 @@ def expect_candidate_event(index, confirmation_event_id, event_key, the_way_due_
   end
   expect(page_or_rendered).to have_selector(completed_selector, text: completed_text) unless id_css == 'fieldset'
 end
+# rubocop:enable Layout/LineLength
 
 def expect_image_upload(key, picture_column, label)
+  # rubocop:disable Layout/LineLength
   expect(page).to have_css("div[id=file-type-message_#{picture_column}]", text: I18n.t('views.common.image_upload_file_types'))
   expect(page).to have_css("input[id=candidate_#{key}_attributes_#{picture_column}][type=file][accept='#{SideBar::IMAGE_FILE_TYPES}']")
   expect(page).to have_css("label[for=candidate_#{key}_attributes_#{picture_column}]", text: label)
+  # rubocop:enable Layout/LineLength
 end
 
 def expect_remove_button(hidden_id, field)
-  expect(page).to have_selector("button[type=button][id=remove-#{field}][class=show-div]", text: I18n.t('views.common.remove_image'))
-  expect(page).to have_selector("button[type=button][id=replace-#{field}][class=hide-div]", text: I18n.t('views.common.replace_image'))
+  expect(page).to have_selector("button[type=button][id=remove-#{field}][class=show-div]",
+                                text: I18n.t('views.common.remove_image'))
+  expect(page).to have_selector("button[type=button][id=replace-#{field}][class=hide-div]",
+                                text: I18n.t('views.common.replace_image'))
   expect(page).to have_selector("input[type=hidden][id=#{hidden_id}][value='']", visible: false)
 end
 

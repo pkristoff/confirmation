@@ -24,7 +24,10 @@ class CandidateImport
 
   def self.image_columns
     %w[
-      baptismal_certificate.scanned_certificate retreat_verification.scanned_retreat sponsor_covenant.scanned_eligibility sponsor_covenant.scanned_covenant
+      baptismal_certificate.scanned_certificate
+      retreat_verification.scanned_retreat
+      sponsor_covenant.scanned_eligibility
+      sponsor_covenant.scanned_covenant
     ]
   end
 
@@ -364,7 +367,15 @@ class CandidateImport
       Rails.logger.info 'error while looking for orphans'
       Rails.logger.info e.message
       Rails.logger.info e.backtrace.inspect
-      %i[BaptismalCertificate CandidateSheet ChristianMinistry PickConfirmationName RetreatVerification ¬SponsorCovenant Address ScannedImage ToDo].each do |key|
+      %i[BaptismalCertificate
+         CandidateSheet
+         ChristianMinistry
+         PickConfirmationName
+         RetreatVerification
+         ¬SponsorCovenant
+         Address
+         ScannedImage
+         ToDo].each do |key|
         orphaned_table_rows[key] = [:error] unless orphaned_table_rows[key]
       end
     end
@@ -768,13 +779,15 @@ class CandidateImport
             when 'scanned_covenant'
               candidate.sponsor_covenant.scanned_covenant = create_scanned_image(cell)
             else
-              candidate.baptismal_certificate.create_church_address if column_name_split[1] == 'church_address' && candidate.baptismal_certificate.church_address.nil?
+              fff = column_name_split[1] == 'church_address' && candidate.baptismal_certificate.church_address.nil?
+              candidate.baptismal_certificate.create_church_address if fff
               candidate_send0 = candidate.send(column_name_split[0])
               candidate_send0.send("#{column_name_split[1]}=", cell)
             end
 
           elsif column_name_split.size == 3 && column_name_split[0] != 'candidate_events'
-            candidate.baptismal_certificate.create_church_address if column_name_split[1] == 'church_address' && candidate.baptismal_certificate.church_address.nil?
+            fff = column_name_split[1] == 'church_address' && candidate.baptismal_certificate.church_address.nil?
+            candidate.baptismal_certificate.create_church_address if fff
             candidate_send0 = candidate.send(column_name_split[0])
             if candidate_send0.nil?
               nil
@@ -902,8 +915,8 @@ class CandidateImport
 
       (2..spreadsheet.last_row).each do |i|
         spreadsheet_row = spreadsheet.row(i)
-
-        next if spreadsheet_row[0].nil? && spreadsheet_row[1].nil? && spreadsheet_row[2].nil? && spreadsheet_row[3].nil? # skip empty row
+        # skip empty row
+        next if spreadsheet_row[0].nil? && spreadsheet_row[1].nil? && spreadsheet_row[2].nil? && spreadsheet_row[3].nil?
 
         last_name = spreadsheet_row[0].nil? ? '' : spreadsheet_row[0].strip
         first_name = spreadsheet_row[1].nil? ? '' : spreadsheet_row[1].strip
@@ -918,7 +931,9 @@ class CandidateImport
         cardinal_gibbons = spreadsheet_row[5].nil? ? '' : spreadsheet_row[5].strip
 
         candidate_sheet_params = ActionController::Parameters.new
-        params = ActionController::Parameters.new(candidate: ActionController::Parameters.new(candidate_sheet_attributes: candidate_sheet_params))
+        params = ActionController::Parameters.new(
+          candidate: ActionController::Parameters.new(candidate_sheet_attributes: candidate_sheet_params)
+        )
 
         candidate_sheet_params[:last_name] = last_name
         candidate_sheet_params[:first_name] = first_name
@@ -933,9 +948,12 @@ class CandidateImport
           candidate_sheet_params[:parent_email_1] = item_split[0].strip
           candidate_sheet_params[:parent_email_2] = item_split[1].strip if item_split.size > 1
         end
-        candidate_sheet_params[:attending] = cardinal_gibbons.empty? ? I18n.t('views.candidates.attending_the_way') : I18n.t('model.candidate.attending_catholic_high_school')
+        attending_way = I18n.t('views.candidates.attending_the_way')
+        attending_chs = I18n.t('model.candidate.attending_catholic_high_school')
+        candidate_sheet_params[:attending] = cardinal_gibbons.empty? ? attending_way : attending_chs
 
-        account_name = Candidate.genertate_account_name(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '', candidate_sheet_params[:first_name].gsub(/\s+/, '') || '')
+        account_name = Candidate.genertate_account_name(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '',
+                                                        candidate_sheet_params[:first_name].gsub(/\s+/, '') || '')
         params[:candidate][:account_name] = account_name
         params[:candidate][:password] = Event::Other::INITIAL_PASSWORD
 

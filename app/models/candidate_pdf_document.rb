@@ -106,10 +106,12 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.baptismal_certificate'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(BaptismalCertificate.event_key), [1, 0], [1, 3])
     grid_label_value2([2, 0], "Baptized at #{Visitor.home_parish}:", bc.baptized_at_home_parish)
-    grid_label_value2([3, 0], "Received First Communion at #{Visitor.home_parish}:", bc.first_comm_at_home_parish) unless bc.baptized_at_home_parish
+    first_comm = "Received First Communion at #{Visitor.home_parish}:"
+    grid_label_value2([3, 0], first_comm, bc.first_comm_at_home_parish) unless bc.baptized_at_home_parish
     unless bc.baptized_at_home_parish
       grid_label_value([4, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
-      grid_label_value([4, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:", bc.baptismal_date.to_s)
+      grid_label_value([4, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:",
+                       bc.baptismal_date.to_s)
       # Church
       grid_label_value([5, 1], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.church_name')}:", bc.church_name)
       grid_address([6, 0], 'label.baptismal_certificate.baptismal_certificate.church_address', bc.church_address)
@@ -201,7 +203,8 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.retreat_verification'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(RetreatVerification.event_key), [1, 0], [1, 3])
 
-    grid_label_value2([2, 0], "#{I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish)}:", rv.retreat_held_at_home_parish)
+    label_message = I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish)
+    grid_label_value2([2, 0], "#{label_message}:", rv.retreat_held_at_home_parish)
 
     return if rv.retreat_held_at_home_parish
 
@@ -223,7 +226,8 @@ class CandidatePDFDocument < Prawn::Document
     common_event(@candidate.get_candidate_event(SponsorCovenant.event_key), [1, 0], [1, 3])
 
     grid_label_value2([2, 0], "#{I18n.t('label.sponsor_covenant.sponsor_name')}:", sc.sponsor_name)
-    grid_label_value2([3, 0], "#{I18n.t('label.sponsor_covenant.sponsor_attends_home_parish', home_parish: Visitor.home_parish)}:", sc.sponsor_attends_home_parish)
+    label_message = I18n.t('label.sponsor_covenant.sponsor_attends_home_parish', home_parish: Visitor.home_parish)
+    grid_label_value2([3, 0], "#{label_message}:", sc.sponsor_attends_home_parish)
 
     unless sc.sponsor_attends_home_parish
       grid_label_value([4, 0], "#{I18n.t('label.sponsor_covenant.sponsor_church')}:", sc.sponsor_church)
@@ -451,7 +455,8 @@ class CandidatePDFDocument < Prawn::Document
         text 'for', size: 30, style: :bold, align: :center, valign: :center
       end
       bounding_box [bounds.left, bounds.top - ((bounds.height * 2) / 3)], width: bounds.width, height: bounds.height / 3 do
-        text "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}", size: 30, style: :bold, align: :center, valign: :top
+        text "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}",
+             size: 30, style: :bold, align: :center, valign: :top
       end
     end
     bounding_box [bounds.left, bounds.bottom + 25], width: bounds.width do

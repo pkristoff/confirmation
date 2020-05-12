@@ -88,11 +88,21 @@ describe CandidateEvent, type: :model do
       expect(candidate_event2.event_key).to eq('Staying home')
 
       expect_confirmation_event(confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
-      expect_confirmation_event(confirmation_event2, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>", '2016-04-01', '2016-04-02', 'Staying home')
+      expect_confirmation_event(confirmation_event2,
+                                1,
+                                "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>",
+                                '2016-04-01',
+                                '2016-04-02',
+                                'Staying home')
       expect(candidate_event.confirmation_event).not_to eq(candidate_event2.confirmation_event)
     end
 
-    def expect_confirmation_event(confirmation_event, events_size, instructions, the_way_due_date = '2016-05-31', chs_due_date = '2016-05-24', event_key = 'Going out to eat')
+    def expect_confirmation_event(confirmation_event,
+                                  events_size,
+                                  instructions,
+                                  the_way_due_date = '2016-05-31',
+                                  chs_due_date = '2016-05-24',
+                                  event_key = 'Going out to eat')
       expect(confirmation_event.the_way_due_date.to_s).to eq(the_way_due_date)
       expect(confirmation_event.chs_due_date.to_s).to eq(chs_due_date)
       expect(confirmation_event.event_key).to eq(event_key)
@@ -126,7 +136,9 @@ describe CandidateEvent, type: :model do
       xxx += 1
       candidate = FactoryBot.create(:candidate, account_name: "baz_#{xxx}") unless Candidate.find_by(account_name: "baz_#{xxx}")
       candidate ||= Candidate.find_by(account_name: "baz_#{xxx}")
-      confirmation_event_started = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-04-01', chs_due_date: '2016-04-02')
+      confirmation_event_started = FactoryBot.create(:confirmation_event,
+                                                     the_way_due_date: '2016-04-01',
+                                                     chs_due_date: '2016-04-02')
       context 'candidate has done nothing' do
         candidate.candidate_events.clear
         candidate_event = candidate.add_candidate_event(confirmation_event_started)
@@ -292,7 +304,9 @@ describe CandidateEvent, type: :model do
         candidate_event.mark_completed(true, association_class_pair[0])
 
         expect(candidate_event.completed_date).to eq(@today)
+        # rubocop:disable Layout/LineLength
         expect(candidate_event.verified).to eq(association_class_pair[1]), "Verification does not match for association #{association_class_pair[0]} expected: #{association_class_pair[1]}"
+        # rubocop:enable Layout/LineLength
       end
     end
 
@@ -311,7 +325,8 @@ describe CandidateEvent, type: :model do
         candidate_event.mark_completed(false, association_class_pair[0])
 
         expect(candidate_event.completed_date).to eq(nil)
-        expect(candidate_event.verified).to eq(false), "Verification does not match for association #{association_class_pair[0]} expected: false"
+        expected_msg = "Verification does not match for association #{association_class_pair[0]} expected: false"
+        expect(candidate_event.verified).to eq(false), expected_msg
       end
     end
 
@@ -329,7 +344,8 @@ describe CandidateEvent, type: :model do
         candidate_event.mark_completed(false, association_class_pair[0])
 
         expect(candidate_event.completed_date).to eq(nil)
-        expect(candidate_event.verified).to eq(false), "Verification does not match for association #{association_class_pair[0]} expected: false"
+        expected_msg = "Verification does not match for association #{association_class_pair[0]} expected: false"
+        expect(candidate_event.verified).to eq(false), expected_msg
       end
     end
   end

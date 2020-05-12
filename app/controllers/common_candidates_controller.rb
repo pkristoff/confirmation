@@ -248,7 +248,11 @@ class CommonCandidatesController < ApplicationController
   def sign_agreement_update
     @candidate = Candidate.find(params[:id])
     @is_verify = false
-    rendered_called = agreement_update_private(Candidate.covenant_agreement_event_key, 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'))
+    rendered_called = agreement_update_private(
+      Candidate.covenant_agreement_event_key,
+      'signed_agreement',
+      I18n.t('label.sign_agreement.signed_agreement')
+    )
     return if rendered_called
 
     @resource = @candidate
@@ -283,7 +287,10 @@ class CommonCandidatesController < ApplicationController
 
     @candidate = Candidate.find(params[:id])
     @is_verify = true
-    render_called = agreement_update_private(Candidate.covenant_agreement_event_key, 'signed_agreement', I18n.t('label.sign_agreement.signed_agreement'), true)
+    render_called = agreement_update_private(Candidate.covenant_agreement_event_key,
+                                             'signed_agreement',
+                                             I18n.t('label.sign_agreement.signed_agreement'),
+                                             true)
     render :sign_agreement_verify unless render_called
   end
 
@@ -312,7 +319,8 @@ class CommonCandidatesController < ApplicationController
         candidate_event.completed_date = nil
         candidate_event.verified = false
       else
-        redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: "['candidate'][signed_param_name]: %{params['candidate'][signed_param_name]")
+        unknown_parm_name = "['candidate'][signed_param_name]: %{params['candidate'][signed_param_name]"
+        redirect_to :back, alert: I18n.t('messages.unknown_parameter', name: unknown_parm_name)
         return false
       end
     else
@@ -322,12 +330,16 @@ class CommonCandidatesController < ApplicationController
     render_called = false
     if @candidate.update(candidate_params)
       # Make up a validation error
-      @candidate.errors.add :base, I18n.t('messages.signed_agreement_val', field_name: field_name) if candidate_event.completed_date.nil?
+      event_complete = candidate_event.completed_date.nil?
+      @candidate.errors.add :base, I18n.t('messages.signed_agreement_val', field_name: field_name) if event_complete
       if candidate_event.save
         if admin_verified
           render_called = admin_verified_private(candidate_event, event_key)
         else
-          flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
+          flash['notice'] = I18n.t(
+            'messages.updated',
+            cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
+          )
         end
       else
         flash['alert'] = "Save of #{event_key} failed"
@@ -459,11 +471,13 @@ class CommonCandidatesController < ApplicationController
   # Boolean:  whether render was called
   #
   def baptismal_certificate(is_verify)
-    cand_parms = params.require(:candidate).permit(baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
-                                                   candidate_sheet_attributes: [:id,
-                                                                                :first_name,
-                                                                                :middle_name,
-                                                                                :last_name])
+    cand_parms = params.require(:candidate).permit(
+      baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
+      candidate_sheet_attributes: [:id,
+                                   :first_name,
+                                   :middle_name,
+                                   :last_name]
+    )
 
     baptized_at_home_parish = cand_parms[:baptismal_certificate_attributes][:baptized_at_home_parish] == '1'
     baptismal_certificate = @candidate.baptismal_certificate
@@ -472,7 +486,12 @@ class CommonCandidatesController < ApplicationController
       if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
         baptismal_certificate.scanned_certificate = nil
       else
-        setup_file_params(baptismal_certificate_params[:certificate_picture], baptismal_certificate, :scanned_certificate_attributes, params[:candidate][:baptismal_certificate_attributes])
+        setup_file_params(
+          baptismal_certificate_params[:certificate_picture],
+          baptismal_certificate,
+          :scanned_certificate_attributes,
+          params[:candidate][:baptismal_certificate_attributes]
+        )
       end
     end
     event_with_picture_update_private(BaptismalCertificate, is_verify)
@@ -497,12 +516,18 @@ class CommonCandidatesController < ApplicationController
     if sponsor_covenant_params[:remove_sponsor_covenant_picture] == 'Remove'
       sponsor_covenant.scanned_covenant = nil
     else
-      setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture], sponsor_covenant, :scanned_covenant_attributes, sponsor_covenant_params)
+      setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture],
+                        sponsor_covenant,
+                        :scanned_covenant_attributes, sponsor_covenant_params)
     end
     if sponsor_covenant_params[:remove_sponsor_eligibility_picture] == 'Remove'
       sponsor_covenant.scanned_eligibility = nil
     else
-      setup_file_params(sponsor_covenant_params[:sponsor_eligibility_picture], sponsor_covenant, :scanned_eligibility_attributes, sponsor_covenant_params)
+      setup_file_params(
+        sponsor_covenant_params[:sponsor_eligibility_picture],
+        sponsor_covenant,
+        :scanned_eligibility_attributes, sponsor_covenant_params
+      )
     end
 
     event_with_picture_update_private(SponsorCovenant, is_verify)
@@ -528,7 +553,11 @@ class CommonCandidatesController < ApplicationController
     if retreat_verification_params[:remove_retreat_verification_picture] == 'Remove'
       retreat_verification.scanned_retreat = nil
     else
-      setup_file_params(retreat_verification_params[:retreat_verification_picture], retreat_verification, :scanned_retreat_attributes, retreat_verification_params)
+      setup_file_params(
+        retreat_verification_params[:retreat_verification_picture],
+        retreat_verification,
+        :scanned_retreat_attributes, retreat_verification_params
+      )
     end
     event_with_picture_update_private(RetreatVerification, is_verify)
   end
@@ -546,7 +575,8 @@ class CommonCandidatesController < ApplicationController
           bc = @candidate.baptismal_certificate
           if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
             candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
-            candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet), CandidateSheet)
+            candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet),
+                                                      CandidateSheet)
             @candidate.keep_bc_errors
             if candidate_info_sheet_event.save
               # TODO: what happens here of if fails
@@ -560,7 +590,9 @@ class CommonCandidatesController < ApplicationController
           if admin_verified
             render_called = admin_verified_private(candidate_event, event_key)
           else
-            flash['notice'] = I18n.t('messages.updated', cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
+            flash['notice'] =
+              I18n.t('messages.updated',
+                     cand_name: "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}")
           end
         else
           flash['alert'] = "Save of #{event_key} failed"

@@ -24,7 +24,7 @@ describe 'candidates/sessions/new.html.erb' do
     render
 
     expect(rendered).to have_selector('h2', text: I18n.t('views.top_bar.sign_in', name: ''))
-    expect(rendered).not_to have_selector('h2', text: '%{name}')
+    expect(rendered).not_to have_selector('h2', text: '%<name>')
 
     expect(rendered).to have_selector('form[id=new_candidate][action="/dev/candidates/sign_in"]')
 

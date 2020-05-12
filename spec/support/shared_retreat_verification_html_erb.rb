@@ -51,7 +51,8 @@ shared_context 'retreat_verification_html_erb' do
     candidate = Candidate.find(@cand_id)
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: RetreatVerification.event_key), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: RetreatVerification.event_key),
+                                        candidate.id, @updated_message)
 
     else
 
@@ -84,6 +85,7 @@ shared_context 'retreat_verification_html_erb' do
 
     candidate = Candidate.find(@cand_id)
 
+    # rubocop:disable Layout/LineLength
     if @is_verify
 
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: RetreatVerification.event_key), candidate.id, @updated_message)
@@ -91,12 +93,13 @@ shared_context 'retreat_verification_html_erb' do
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
     end
+    # rubocop:enable Layout/LineLength
     retreat_verification = candidate.retreat_verification
     expect(retreat_verification.who_held_retreat).to eq(WHO_HELD_RETREAT)
     expect(retreat_verification.where_held_retreat).to eq(WHERE_HELD_RETREAT)
     expect(retreat_verification.start_date).to eq(START_DATE)
     expect(retreat_verification.end_date).to eq(END_DATE)
-    expect(retreat_verification.scanned_retreat.filename).to eq('actions for spec testing.png')
+    expect(retreat_verification.scanned_retreat.filename).to eq('actions+for+spec+testing.png')
 
     expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(@today)
     expect(CandidateEvent.find(@candidate_event_id).verified).to eq(@is_verify)
@@ -117,6 +120,7 @@ shared_context 'retreat_verification_html_erb' do
     attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions for spec testing.png')
     click_button @update_id
 
+    # rubocop:disable Layout/LineLength
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
                                                        [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 4),
@@ -128,8 +132,9 @@ shared_context 'retreat_verification_html_erb' do
                                      where_held_retreat: '',
                                      start_date: '',
                                      end_date: '')
+    # rubocop:enable Layout/LineLength
 
-    expect(Candidate.find(@cand_id).retreat_verification.scanned_retreat.filename).to eq('actions for spec testing.png')
+    expect(Candidate.find(@cand_id).retreat_verification.scanned_retreat.filename).to eq('actions+for+spec+testing.png')
 
     expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(nil)
 
@@ -144,6 +149,7 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, fills in form except picture.' do
+    # rubocop:disable Layout/LineLength
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
@@ -157,6 +163,7 @@ shared_context 'retreat_verification_html_erb' do
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
                                                        [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                              "Scanned retreat verification #{I18n.t('errors.messages.blank')}"]]])
+    # rubocop:enable Layout/LineLength
   end
 
   scenario 'admin logs in and selects a candidate, fills in template, except Who held retreat' do
@@ -170,10 +177,12 @@ shared_context 'retreat_verification_html_erb' do
     fill_in(I18n.t('label.retreat_verification.who_held_retreat', home_parish: Visitor.home_parish), with: nil)
     click_button @update_id
 
+    expected_msg = I18n.t('messages.error.missing_attribute', err_count: 1)
+    expected_msg_two = "Who held retreat #{I18n.t('errors.messages.blank')}"
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                             "Who held retreat #{I18n.t('errors.messages.blank')}"]]],
+                                                       [:error_explanation, [expected_msg,
+                                                                             expected_msg_two]]],
                                      who_held_retreat: '')
   end
 
@@ -200,7 +209,10 @@ shared_context 'retreat_verification_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expected_msg = "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id,
+                                        I18n.t('messages.updated_unverified',
+                                               cand_name: expected_msg), true)
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                        who_held_retreat: '',
@@ -220,6 +232,7 @@ shared_context 'retreat_verification_html_erb' do
                                          start_date: START_DATE,
                                          end_date: END_DATE
                                        })
+    # rubocop:disable Layout/LineLength
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
@@ -239,6 +252,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(page).to have_button(@update_id)
     remove_count = cand.retreat_verification.scanned_retreat.nil? ? 0 : 1
     expect_remove_button('candidate_retreat_verification_attributes_remove_retreat_verification_picture', 'retreat_verification_picture') unless cand.retreat_verification.scanned_retreat.nil?
+    # rubocop:enable Layout/LineLength
     expect(page).to have_button(I18n.t('views.common.remove_image'), count: remove_count)
     expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
@@ -251,7 +265,8 @@ shared_context 'retreat_verification_html_erb' do
     fill_in(I18n.t('label.retreat_verification.where_held_retreat'), with: WHERE_HELD_RETREAT)
     fill_in(I18n.t('label.retreat_verification.start_date'), with: START_DATE)
     fill_in(I18n.t('label.retreat_verification.end_date'), with: END_DATE)
-    attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions for spec testing.png') if retreat_verification_attach_file
+    label = I18n.t('label.retreat_verification.retreat_verification_picture')
+    attach_file(label, 'spec/fixtures/actions for spec testing.png') if retreat_verification_attach_file
   end
 
   def img_src_selector

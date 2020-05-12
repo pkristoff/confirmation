@@ -48,7 +48,8 @@ describe Dev::PasswordsController do
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
 
-      put :update, params: { candidate: { reset_password_token: token, password: 'therainin', password_confirmation: 'therainin' } }
+      put :update, params:
+        { candidate: { reset_password_token: token, password: 'therainin', password_confirmation: 'therainin' } }
 
       candidate = Candidate.find(candidate.id)
       expect(response.status).to eq(302)
@@ -65,7 +66,9 @@ describe Dev::PasswordsController do
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
 
-      put :update, params: { candidate: { reset_password_token: token, password: 'therainin', password_confirmation: 'therainin' } }
+      put :update, params: {
+        candidate: { reset_password_token: token, password: 'therainin', password_confirmation: 'therainin' }
+      }
 
       candidate = Candidate.find(candidate.id)
       expect(response.status).to eq(302)

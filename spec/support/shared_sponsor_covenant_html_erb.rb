@@ -52,12 +52,14 @@ shared_context 'sponsor_covenant_html_erb' do
     fill_in_form(true, true)
     click_button @update_id
 
-    expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
+    expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
+                                 expect_messages: [[:flash_notice, @updated_message]])
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate.sponsor_covenant.sponsor_church).to eq(SPONSOR_CHURCH)
   end
 
+  # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template then changes mind she was baptized at stmm' do
     @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
@@ -83,7 +85,9 @@ shared_context 'sponsor_covenant_html_erb' do
 
     expect_db(1, 8, 2) # make sure DB does not increase in size.
   end
+  # rubocop:enable Layout/LineLength
 
+  # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
@@ -115,10 +119,11 @@ shared_context 'sponsor_covenant_html_erb' do
     click_button @update_id
 
     candidate_db_update = Candidate.find(@candidate.id)
-    expect_sponsor_covenant_form(candidate_db_update.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
+    expect_sponsor_covenant_form(candidate_db_update.id, @dev, @path_str, @is_verify,
+                                 expect_messages: [[:flash_notice, @updated_message]])
     expect(candidate_db_update.sponsor_covenant).not_to eq(nil)
     expect(candidate_db_update.sponsor_covenant.sponsor_attends_home_parish).to eq(false)
-    expect(candidate_db_update.sponsor_covenant.scanned_eligibility.filename).to eq('Baptismal Certificate.png')
+    expect(candidate_db_update.sponsor_covenant.scanned_eligibility.filename).to eq('Baptismal+Certificate.png')
     expect(candidate_db_update.sponsor_covenant.scanned_covenant.filename).to eq('actions.png')
     expect(candidate_db_update.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate_db_update.sponsor_covenant.sponsor_church).to eq(SPONSOR_CHURCH)
@@ -135,7 +140,9 @@ shared_context 'sponsor_covenant_html_erb' do
 
     expect_db(1, 8, 2) # make sure DB does not increase in size.
   end
+  # rubocop:enable Layout/LineLength
 
+  # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds non-picture data, updates, adds picture, updates - everything is saved' do
     @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
@@ -167,7 +174,9 @@ shared_context 'sponsor_covenant_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify)
   end
+  # rubocop:enable Layout/LineLength
 
+  # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template, except sponsor_name' do
     @candidate.sponsor_covenant.sponsor_attends_home_parish = false
     @candidate.save
@@ -186,8 +195,10 @@ shared_context 'sponsor_covenant_html_erb' do
                                                                          "Sponsor name #{I18n.t('errors.messages.blank')}"]]],
                                  sponsor_name: '')
   end
+  # rubocop:enable Layout/LineLength
 
   def expect_sponsor_covenant_form(cand_id, dev_path, path_str, is_verify, values = { sponsor_name: SPONSOR_NAME })
+    # rubocop:disable Layout/LineLength
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
@@ -222,13 +233,15 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
     expect_download_button(Event::Route::SPONSOR_COVENANT, cand_id, dev_path)
+    # rubocop:enable Layout/LineLength
   end
 
   def fill_in_form(covenant_attach_file = true, eligibility_attach_file = true)
     fill_in(I18n.t('label.sponsor_covenant.sponsor_name'), with: SPONSOR_NAME)
     fill_in(I18n.t('label.sponsor_covenant.sponsor_church'), with: SPONSOR_CHURCH)
     attach_file(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png') if covenant_attach_file
-    attach_file(I18n.t('label.sponsor_covenant.sponsor_eligibility_picture'), 'spec/fixtures/Baptismal Certificate.png') if eligibility_attach_file
+    filename = 'spec/fixtures/Baptismal Certificate.png'
+    attach_file(I18n.t('label.sponsor_covenant.sponsor_eligibility_picture'), filename) if eligibility_attach_file
   end
 
   def img_src_selector

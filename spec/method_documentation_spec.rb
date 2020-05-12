@@ -11,6 +11,7 @@ describe 'method_documentation' do
   end
 
   it 'Descriptions documentation' do
+    # rubocop:disable Layout/LineLength
     expect_offenses('app/controllers/spec/descriptions_controller.rb',
                     [':13:3: C: Style/PublicMethodDocumentation: Description should not begin with blank comment.',
                      '  #'],
@@ -36,6 +37,7 @@ describe 'method_documentation' do
                      '  # === Parameters:'],
                     [':111:3: C: Style/PublicMethodDocumentation: Illegal Parameter format: \'# * <tt>:{argument}</tt> {description}\'.',
                      '  # Description should be first ***ERROR'])
+    # rubocop:enable Layout/LineLength
   end
 
   it 'Parameters documentation' do
@@ -53,6 +55,7 @@ describe 'method_documentation' do
   end
 
   it 'Returns documentation' do
+    # rubocop:disable Layout/LineLength
     expect_offenses('app/controllers/spec/returns_controller.rb',
                     [':47:3: C: Style/PublicMethodDocumentation: Returns should end with blank comment.',
                      '  # * <tt>send_data</tt> for spreadsheet'],
@@ -62,6 +65,7 @@ describe 'method_documentation' do
                      '  # === Returns:'],
                     [':76:3: C: Style/PublicMethodDocumentation: Illegal Return sub-format: \'# **(*) <code>:{value}</code> {description}\'.',
                      '  # ** <tt>:one</tt> when desc one - illegal'])
+    # rubocop:enable Layout/LineLength
   end
 
   describe 'no comment' do
@@ -117,6 +121,7 @@ describe 'method_documentation' do
 
     describe 'attributes' do
       it '' do
+        # rubocop:disable Layout/LineLength
         expect_offenses('app/controllers/spec/attributes_controller.rb',
                         [':19:3: C: Style/PublicMethodDocumentation: === Attributes: should have a blank comment following it.',
                          '  # === Attributes:'],
@@ -134,6 +139,7 @@ describe 'method_documentation' do
                          '  # === Attributes:'],
                         [':103:3: C: Style/PublicMethodDocumentation: Illegal Attribute sub-format: \'# **(*) <code>:{value}</code> {description}\'.',
                          '  # ** <tt>:one</tt> when desc one - illegal'])
+        # rubocop:enable Layout/LineLength
       end
     end
   end
@@ -148,10 +154,11 @@ describe 'method_documentation' do
       actual_offenses = offenses(output)
       actual_offenses.each { |off| puts off } unless expected_offenses.size == actual_offenses.size
 
-      expect(expected_offenses.size).to eq(actual_offenses.size), "expected #{expected_offenses.size} offense got #{actual_offenses.size}"
       expected_offenses.each_with_index do |off_a, i|
         expect(actual_offenses[i][0]).to eq("#{file}#{off_a[0]}")
         expect(actual_offenses[i][1]).to eq(off_a[1])
+        expected_msg = "expected #{expected_offenses.size} offense got #{actual_offenses.size}"
+        expect(expected_offenses.size).to eq(actual_offenses.size), expected_msg
       end
     end
   end

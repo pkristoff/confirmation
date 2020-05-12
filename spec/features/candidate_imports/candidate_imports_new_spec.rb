@@ -42,7 +42,11 @@ feature 'Other', :devise do
       attach_file :candidate_import_file, 'spec/fixtures/Invalid.xlsx'
       click_button 'Import'
 
-      expect_message(:error_explanation, ['5 errors prohibited this import from completing:', 'Row 2: Last name can\'t be blank', 'Row 3: First name can\'t be blank', 'Row 5: Parent email 1 is an invalid email: @nc.rr.com', 'Row 5: Parent email 2 is an invalid email: rannunz'])
+      expect_message(:error_explanation, ['5 errors prohibited this import from completing:',
+                                          'Row 2: Last name can\'t be blank',
+                                          'Row 3: First name can\'t be blank',
+                                          'Row 5: Parent email 1 is an invalid email: @nc.rr.com',
+                                          'Row 5: Parent email 2 is an invalid email: rannunz'])
     end
   end
 
@@ -56,7 +60,8 @@ feature 'Other', :devise do
       visit new_candidate_import_path
       click_button I18n.t('views.imports.start_new_year.title')
       expect_message(:flash_notice, I18n.t('messages.candidates_removed'))
-      expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be(nil), 'Could not find candidate seed: vickikristoff'
+      expected_msg = 'Could not find candidate seed: vickikristoff'
+      expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be(nil), expected_msg
       expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
       expect(ConfirmationEvent.all.size).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
@@ -95,7 +100,8 @@ feature 'Other', :devise do
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
 
-      expect(page.html).to have_selector('section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]')
+      expected_msg = 'section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]'
+      expect(page.html).to have_selector(expected_msg)
       expect(page.html).to have_button(I18n.t('views.imports.check_events'))
 
       expect(page.html).to have_selector('ul[id=missing_confirmation_events]')
@@ -105,12 +111,15 @@ feature 'Other', :devise do
       expect(page.html).to have_selector('section[id=check_events] li', count: 0)
 
       click_button I18n.t('views.imports.check_events')
-      expect(page.html).to have_selector('section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]')
+      expected_msg = 'section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]'
+      expect(page.html).to have_selector(expected_msg)
       expect(page.html).to have_button(I18n.t('views.imports.check_events'))
 
-      expect(page.html).to have_selector('section[id=check_events] ul[id=missing_confirmation_events] li', text: I18n.t('events.sponsor_covenant'))
+      expect(page.html).to have_selector('section[id=check_events] ul[id=missing_confirmation_events] li',
+                                         text: I18n.t('events.sponsor_covenant'))
       expect(page.html).to have_selector('section[id=check_events] ul[id=found_confirmation_events] li', count: 7)
-      expect(page.html).to have_selector('section[id=check_events] ul[id=unknown_confirmation_events] li', text: 'unknown event')
+      expect(page.html).to have_selector('section[id=check_events] ul[id=unknown_confirmation_events] li',
+                                         text: 'unknown event')
     end
 
     # Scenario: Admin wants to add missing events back into the DB but has not pushed 'Check Events'

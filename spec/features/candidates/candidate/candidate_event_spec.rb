@@ -42,7 +42,15 @@ feature 'Candidate event', :devise do
 
   def expect_confirmation_events(is_chs)
     ConfirmationEvent.all.each_with_index do |ce, index|
-      expect_candidate_event(index + 3, ce.id, ce.event_key, (is_chs ? nil : ce.the_way_due_date), (is_chs ? ce.chs_due_date : nil), ce.instructions, false, '', 'div')
+      expect_candidate_event(index + 3,
+                             ce.id,
+                             ce.event_key,
+                             (is_chs ? nil : ce.the_way_due_date),
+                             (is_chs ? ce.chs_due_date : nil),
+                             ce.instructions,
+                             false,
+                             '',
+                             'div')
     end
   end
 end

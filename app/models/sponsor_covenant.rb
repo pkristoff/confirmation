@@ -10,7 +10,10 @@ class SponsorCovenant < ApplicationRecord
   belongs_to(:scanned_covenant, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_covenant, allow_destroy: true)
 
-  attr_accessor :sponsor_eligibility_picture, :remove_sponsor_eligibility_picture, :sponsor_covenant_picture, :remove_sponsor_covenant_picture
+  attr_accessor :sponsor_eligibility_picture,
+                :remove_sponsor_eligibility_picture,
+                :sponsor_covenant_picture,
+                :remove_sponsor_covenant_picture
 
   # Validate if event is complete by adding validation errors to active record
   #
@@ -20,7 +23,8 @@ class SponsorCovenant < ApplicationRecord
   #
   def validate_event_complete(_options = {})
     event_complete_validator = EventCompleteValidator.new(self, !sponsor_attends_home_parish)
-    event_complete_validator.validate(SponsorCovenant.attends_home_parish_validation_params, SponsorCovenant.not_attends_home_parish_params)
+    event_complete_validator.validate(SponsorCovenant.attends_home_parish_validation_params,
+                                      SponsorCovenant.not_attends_home_parish_params)
 
     # convert empty picture attributes to something the user can understand
     found = false
@@ -45,7 +49,11 @@ class SponsorCovenant < ApplicationRecord
         [scanned_eligibility_attributes: ScannedImage.permitted_params,
          scanned_covenant_attributes: ScannedImage.permitted_params]
       )
-    ) << :sponsor_eligibility_picture << :remove_sponsor_eligibility_picture << :remove_sponsor_covenant_picture << :sponsor_covenant_picture
+    ) <<
+      :sponsor_eligibility_picture <<
+      :remove_sponsor_eligibility_picture <<
+      :remove_sponsor_covenant_picture <<
+      :sponsor_covenant_picture
   end
 
   # Editable attributes

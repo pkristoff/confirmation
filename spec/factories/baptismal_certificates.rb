@@ -27,7 +27,8 @@ FactoryBot.define do
           zip_code: '27502'
         )
       end
-      baptismal_certificate.scanned_certificate = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
+      baptismal_certificate.scanned_certificate =
+        FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'vvv')
     end
   end
 end

@@ -11,11 +11,13 @@ class Admin < ApplicationRecord
          authentication_keys: [:account_name],
          reset_password_keys: [:account_name]
 
+  # rubocop:disable Rails/UniqueValidationWithoutIndex
   validates :account_name,
             presence: true,
             uniqueness: {
               case_sensitive: false
             }
+  # rubocop:enable Rails/UniqueValidationWithoutIndex
 
   validates :contact_name,
             presence: true

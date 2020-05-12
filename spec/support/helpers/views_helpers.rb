@@ -27,6 +27,7 @@ module ViewsHelpers
   end
 
   def expect_edit_and_new_view(rendered_or_page, candidate, action, submit_button, is_candidate_signed_in, is_new)
+    # rubocop:disable Layout/LineLength
     form_id = is_new ? 'new_candidate' : 'edit_candidate'
 
     # this matches the partial: candidates/shared/edit_and_new_candidate
@@ -78,6 +79,7 @@ module ViewsHelpers
     end
 
     expect(rendered_or_page).to have_button(submit_button)
+    # rubocop:enable Layout/LineLength
   end
 
   def create_candidate(first_name, middle_name, last_name)
@@ -113,6 +115,7 @@ module ViewsHelpers
   end
 
   def expect_mass_mailing_html(candidates, rendered_or_page)
+    # rubocop:disable Layout/LineLength
     expect(rendered_or_page).to have_css "form[action='/monthly_mass_mailing_update']"
 
     expect(rendered_or_page).to have_css("input[type='submit'][value='#{I18n.t('email.monthly_mail')}']", count: 2)
@@ -133,14 +136,19 @@ module ViewsHelpers
                                   rendered_or_page)
 
     expect(rendered_or_page).to have_css("input[id='bottom-update'][type='submit'][value='#{I18n.t('email.monthly_mail')}']")
+    # rubocop:enable Layout/LineLength
   end
 
   def expect_password_changed
-    ->(cand_id, rendered_or_page, td_index) { expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true' }
+    lambda { |cand_id, rendered_or_page, td_index|
+      expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true'
+    }
   end
 
   def expect_note
-    ->(cand_id, rendered_or_page, td_index) { expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: I18n.t('label.sidebar.candidate_note') }
+    lambda { |cand_id, rendered_or_page, td_index|
+      expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: I18n.t('label.sidebar.candidate_note')
+    }
   end
 
   def expect_account_confirmed
@@ -158,6 +166,7 @@ module ViewsHelpers
   end
 
   def expect_db(candidate_size, conf_event_size, image_size)
+    # rubocop:disable Layout/LineLength
     expect(ConfirmationEvent.all.size).to eq(conf_event_size), "ConfirmationEvent size #{ConfirmationEvent.all.size} did not meet expected #{conf_event_size}"
 
     expect(Candidate.all.size).to eq(candidate_size), "Candidate size #{Candidate.all.size} did not meet expected #{candidate_size}"
@@ -174,5 +183,6 @@ module ViewsHelpers
     expect(ToDo.all.size).to eq(CandidateEvent.all.size), "ToDo size #{ToDo.all.size} did not meet expected #{CandidateEvent.all.size}"
 
     expect(ScannedImage.all.size).to eq(image_size), "ScannedImages size #{ScannedImage.all.size} did not meet expected #{image_size}"
+    # rubocop:enable Layout/LineLength
   end
 end

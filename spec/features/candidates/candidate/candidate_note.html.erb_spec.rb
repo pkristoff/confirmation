@@ -50,7 +50,11 @@ feature 'Candidate sheet candidate', :devise do
 
     expect(candidate.candidate_note).to eq(updated_text)
 
-    expect_candidate_note_form(@cand_id, @path_str, @update_id, text_area_text: updated_text, expect_messages: [[:flash_notice, @updated_message]])
+    expect_candidate_note_form(@cand_id,
+                               @path_str,
+                               @update_id,
+                               text_area_text: updated_text,
+                               expect_messages: [[:flash_notice, @updated_message]])
   end
 
   def expect_candidate_note_form(cand_id, path_str, update_id, values = {})
@@ -62,7 +66,8 @@ feature 'Candidate sheet candidate', :devise do
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{path_str}.#{cand_id}\"]")
 
-    expect(page).to have_field(I18n.t('label.candidate_note.note'), with: cand.candidate_note, type: 'textarea', text: expected_text)
+    expect(page).to have_field(I18n.t('label.candidate_note.note'),
+                               with: cand.candidate_note, type: 'textarea', text: expected_text)
 
     expect(page).to have_button(update_id)
   end
@@ -71,6 +76,8 @@ feature 'Candidate sheet candidate', :devise do
     first = cand.candidate_sheet.first_name
     last = cand.candidate_sheet.last_name
 
-    expect(page).to have_selector('h2[id=heading]', text: I18n.t('views.events.heading', event_name: event_name, first: first, last: last))
+    expect(page).to have_selector('h2[id=heading]',
+                                  text: I18n.t('views.events.heading',
+                                               event_name: event_name, first: first, last: last))
   end
 end

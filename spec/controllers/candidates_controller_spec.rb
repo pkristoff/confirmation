@@ -102,7 +102,8 @@ describe CandidatesController do
     it 'should stay on pick_confirmation_name_verify, since it should not pass validation' do
       put :pick_confirmation_name_verify_update,
           params: { id: @c1_id,
-                    candidate: { pick_confirmation_name_attributes: { saint_name: '', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
+                    candidate: { pick_confirmation_name_attributes:
+                                   { saint_name: '', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -126,7 +127,8 @@ describe CandidatesController do
 
       put :pick_confirmation_name_verify_update,
           params: { id: @c1_id,
-                    candidate: { pick_confirmation_name_attributes: { saint_name: 'george', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
+                    candidate: { pick_confirmation_name_attributes:
+                                   { saint_name: 'george', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -141,7 +143,8 @@ describe CandidatesController do
     it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
       put :pick_confirmation_name_verify_update,
           params: { id: @c1_id,
-                    candidate: { pick_confirmation_name_attributes: { saint_name: 'foo', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
+                    candidate: { pick_confirmation_name_attributes:
+                                   { saint_name: 'foo', id: Candidate.find(@c1_id).pick_confirmation_name.id } } }
 
       cand = Candidate.find(@c1_id)
       expect(cand.pick_confirmation_name.saint_name).to eq('foo')
@@ -274,7 +277,6 @@ describe CandidatesController do
               content: f.read
             )
         end
-        # candidate.sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image, filename: 'actions.png', content_type: 'image/png', content: 'WWW')
       end,
        lambda do |candidate|
          {
@@ -359,7 +361,13 @@ describe CandidatesController do
 
     it 'should stay on christian_ministry_verify, since it should not pass validation' do
       put :christian_ministry_verify_update,
-          params: { id: @c1_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: Candidate.find(@c1_id).christian_ministry } } }
+          params: { id: @c1_id,
+                    candidate: { christian_ministry_attributes:
+                                   { what_service: '',
+                                     where_service: '',
+                                     when_service: '',
+                                     helped_me: '',
+                                     id: Candidate.find(@c1_id).christian_ministry } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -385,7 +393,13 @@ describe CandidatesController do
       cand.save
 
       put :christian_ministry_verify_update,
-          params: { id: @c1_id, candidate: { christian_ministry_attributes: { what_service: 'xxx', where_service: 'yyy', when_service: 'zzz', helped_me: 'eee', id: Candidate.find(@c1_id).christian_ministry } } }
+          params: { id: @c1_id,
+                    candidate: { christian_ministry_attributes:
+                                   { what_service: 'xxx',
+                                     where_service: 'yyy',
+                                     when_service: 'zzz',
+                                     helped_me: 'eee',
+                                     id: Candidate.find(@c1_id).christian_ministry } } }
 
       cand = Candidate.find(@c1_id)
       expect(controller.candidate).to eq(cand)
@@ -445,7 +459,13 @@ describe CandidatesController do
       cand.save(validate: false)
 
       put :candidate_sheet_verify_update,
-          params: { id: @c0_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: cand.christian_ministry_id } } }
+          params: { id: @c0_id,
+                    candidate: { christian_ministry_attributes:
+                                   { what_service: '',
+                                     where_service: '',
+                                     when_service: '',
+                                     helped_me: '',
+                                     id: cand.christian_ministry_id } } }
 
       cand = Candidate.find(@c0_id)
       expect(controller.candidate).to eq(cand)
@@ -468,7 +488,13 @@ describe CandidatesController do
       cand.save
 
       put :candidate_sheet_verify_update,
-          params: { id: @c0_id, candidate: { christian_ministry_attributes: { what_service: '', where_service: '', when_service: '', helped_me: '', id: cand.christian_ministry_id } } }
+          params: { id: @c0_id,
+                    candidate: { christian_ministry_attributes:
+                                   { what_service: '',
+                                     where_service: '',
+                                     when_service: '',
+                                     helped_me: '',
+                                     id: cand.christian_ministry_id } } }
 
       cand = Candidate.find(@c0_id)
       expect(controller.candidate).to eq(cand)

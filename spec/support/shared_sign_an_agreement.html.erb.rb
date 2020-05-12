@@ -19,6 +19,7 @@ shared_context 'sign_an_agreement_html_erb' do
   end
 
   scenario 'admin visits form and pushes update' do
+    # rubocop:disable Layout/LineLength
     @candidate.signed_agreement = false
     @candidate.save
 
@@ -33,6 +34,7 @@ shared_context 'sign_an_agreement_html_erb' do
                                  expect_messages: [[:flash_notice, @updated_failed_verification],
                                                    [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                          I18n.t('messages.signed_agreement_val', field_name: I18n.t('label.sign_agreement.signed_agreement'))]]])
+    # rubocop:enable Layout/LineLength
   end
 
   scenario 'user(candidate or admin) logs in, selects signing an agreement, has signed agreement previously' do
@@ -41,7 +43,8 @@ shared_context 'sign_an_agreement_html_erb' do
     visit @path
 
     candidate = Candidate.find(@cand_id)
-    expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @document_key, @event_key, @update_id, @is_verify)
+    expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name,
+                                 @document_key, @event_key, @update_id, @is_verify)
   end
 
   scenario 'user(candidate or admin) logs in, signs agreement' do
@@ -56,10 +59,13 @@ shared_context 'sign_an_agreement_html_erb' do
 
     if @is_verify
 
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: @event_key), candidate.id, @updated_message)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: @event_key),
+                                        candidate.id, @updated_message)
 
     else
-      expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @document_key, @event_key, @update_id, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
+      expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name,
+                                   @document_key, @event_key, @update_id, @is_verify,
+                                   expect_messages: [[:flash_notice, @updated_message]])
     end
   end
 
@@ -70,21 +76,25 @@ shared_context 'sign_an_agreement_html_erb' do
     visit @path
 
     candidate = Candidate.find(@cand_id)
-    expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @document_key, @event_key, @update_id, @is_verify)
+    expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name,
+                                 @document_key, @event_key, @update_id, @is_verify)
     uncheck(@field_name)
     click_button(@update_id)
 
     candidate = Candidate.find(@cand_id)
 
-    expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @document_key, @event_key, @update_id, @is_verify,
+    expected_msg = I18n.t('messages.signed_agreement_val', field_name: I18n.t('label.sign_agreement.signed_agreement'))
+    expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name,
+                                 @document_key, @event_key, @update_id, @is_verify,
                                  expect_messages: [
                                    [:flash_notice, @updated_failed_verification],
                                    [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                         I18n.t('messages.signed_agreement_val', field_name: I18n.t('label.sign_agreement.signed_agreement'))]]
+                                                         expected_msg]]
                                  ])
   end
 
   scenario 'admin un-verifies a verified sponsor agreement event' do
+    # rubocop:disable Layout/LineLength
     expect(@is_verify == true || @is_verify == false).to eq(true)
 
     event_key = @event_key
@@ -111,9 +121,11 @@ shared_context 'sign_an_agreement_html_erb' do
 
     expect(candidate.get_candidate_event(event_key).completed_date).to eq(today)
     expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
+    # rubocop:enable Layout/LineLength
   end
 
-  def expect_signed_agreement_form(cand_id, dev_path, is_agreement_signed, form_action, field_name, documant_key, event_key, update_id, is_verify, values = {})
+  def expect_signed_agreement_form(cand_id, dev_path, is_agreement_signed, form_action, field_name,
+                                   documant_key, event_key, update_id, is_verify, values = {})
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)

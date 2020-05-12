@@ -22,7 +22,8 @@ module Dev
     # candidate cannot new a candidate
     #
     def new
-      redirect_back fallback_location: root_url, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_candidate'))
+      redirect_back fallback_location: root_url,
+                    alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_candidate'))
     end
 
     # candidate cannot create a candidate

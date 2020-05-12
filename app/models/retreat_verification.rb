@@ -43,7 +43,12 @@ class RetreatVerification < ApplicationRecord
   # Array of attributes
   #
   def self.basic_permitted_params
-    %i[retreat_held_at_home_parish start_date end_date who_held_retreat where_held_retreat retreat_verification_picture remove_retreat_verification_picture scanned_retreat id]
+    %i[retreat_held_at_home_parish start_date
+       end_date who_held_retreat
+       where_held_retreat
+       retreat_verification_picture
+       remove_retreat_verification_picture
+       scanned_retreat id]
   end
 
   # Required attributes

@@ -121,10 +121,16 @@ module RuboCop
           #   parameters_range || attrs_range
           #   returns_range
           #
-          add_offense(description_range.start_comment, message: MSG_DESCRIPTIION_SHOULD_BE_FIRST) unless description_range.before?(parameters_range) && description_range.before?(returns_range) && description_range.before?(attrs_range)
-          add_offense(description_range.start_comment, message: MSG_RETURNS_SHOULD_BE_LAST) unless parameters_range.before?(returns_range) && attrs_range.before?(returns_range)
+          grd = description_range.before?(parameters_range) &&
+                description_range.before?(returns_range) &&
+                description_range.before?(attrs_range)
+          add_offense(description_range.start_comment, message: MSG_DESCRIPTIION_SHOULD_BE_FIRST) unless grd
+          guard = parameters_range.before?(returns_range)
+          grd = guard && attrs_range.before?(returns_range)
+          add_offense(description_range.start_comment, message: MSG_RETURNS_SHOULD_BE_LAST) unless grd
 
-          add_offense(attrs_range.start_comment, message: MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST) unless attrs_range.missing? || parameters_range.missing?
+          grd = attrs_range.missing? || parameters_range.missing?
+          add_offense(attrs_range.start_comment, message: MSG_ATTRIBUTES_AND_PARAMETERS_NO_COEXIST) unless grd
 
           index = -1
           special_comm = preceding_lines.any? do |comment|
@@ -136,13 +142,16 @@ module RuboCop
 
           return add_offense(preceding_lines[index], message: MSG_INVALID_DOCUMENTATION) unless special_comm
 
-          add_offense(parameters_range.start_comment, message: MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS) unless parameters_range.before?(returns_range)
+          add_offense(parameters_range.start_comment, message: MSG_PARAMETERS_SHOULD_BE_BEFORE_RETURNS) unless guard
 
           check_blank_comments(description_range, parameters_range, returns_range, attrs_range)
 
           args = node.arguments
-          return add_offense(preceding_lines[0], message: MSG_MISSING_PARAMETERS) if parameters_range.missing? && !args.empty?
-          return add_offense(parameters_range.start_comment, message: MSG_UNNECESSARY_PARAMETERS) if !parameters_range.missing? && args.empty?
+          guard = parameters_range.missing? && !args.empty?
+          return add_offense(preceding_lines[0], message: MSG_MISSING_PARAMETERS) if guard
+
+          guard = !parameters_range.missing? && args.empty?
+          return add_offense(parameters_range.start_comment, message: MSG_UNNECESSARY_PARAMETERS) if guard
 
           check_body(parameters_range) unless parameters_range.missing?
           check_body(attrs_range) unless attrs_range.missing?
@@ -155,8 +164,10 @@ module RuboCop
           # pns = parm_names(range_lines(preceding_lines, parameters_range))
           pns = parameters_range.parm_names
 
+          # rubocop:disable Layout/LineLength
           add_offense(pns[args.size][0], message: format(MSG_PARAMETERS_ARG_SIZE_MISMATCH, pns.size, args.size)) if pns.size > args.size
           add_offense(args[pns.size], message: format(MSG_PARAMETERS_ARG_SIZE_MISMATCH, pns.size, args.size)) if args.size > pns.size
+          # rubocop:enable Layout/LineLength
 
           match_parms_to_args(args, pns)
         end
@@ -195,6 +206,7 @@ module RuboCop
 
         def check_blank_comments(description_range, parameters_range, returns_range, attrs_range)
           unless description_range.missing?
+            # rubocop:disable Layout/LineLength
             add_offense(description_range.start_comment, message: MSG_DESCRIPTION_SHOULD_NOT_BEGIN_WITH_BLANK_COMMENT) if description_range.starts_with_empty_comment?
             add_offense(description_range.end_comment, message: MSG_DESCRIPTION_SHOULD_END_WITH_BLANK_COMMENT) unless description_range.ends_with_empty_comment?
           end
@@ -206,7 +218,9 @@ module RuboCop
           add_offense(returns_range.end_comment, message: MSG_RETURNS_SHOULD_END_WITH_BLANK_COMMENT) unless returns_range.ends_with_empty_comment?
 
           add_offense(attrs_range.start_comment, message: MSG_ATTRIBUTES_IS_MISSING_FIRST_BLANK_COMMENT) unless attrs_range.first_empty_comment?
-          add_offense(attrs_range.end_comment, message: MSG_ATTRIBUTES_SHOULD_END_WITH_BLANK_COMMENT) unless attrs_range.ends_with_empty_comment?
+          ends_with_empty_comment_ = attrs_range.ends_with_empty_comment?
+          add_offense(attrs_range.end_comment, message: MSG_ATTRIBUTES_SHOULD_END_WITH_BLANK_COMMENT) unless ends_with_empty_comment_
+          # rubocop:enable Layout/LineLength
         end
 
         def parse_documentation(comments)
@@ -236,12 +250,15 @@ module RuboCop
             end
             current.end = comments.size - 1
           end
-          add_offense(comments[0], message: MSG_MISSING_DESCRIPTION) if desc.missing? # !parms.first_comment? && !returns.first_comment?
+          # !parms.first_comment? && !returns.first_comment?
+          add_offense(comments[0], message: MSG_MISSING_DESCRIPTION) if desc.missing?
           unless parms.missing?
-            add_offense(parms.start_comment, message: MSG_PARAMETERS_DOES_MATCH_MATCH) unless parms.first_comment_equal?(PARMS_DOC)
+            guard = parms.first_comment_equal?(PARMS_DOC)
+            add_offense(parms.start_comment, message: MSG_PARAMETERS_DOES_MATCH_MATCH) unless guard
           end
           unless returns.missing?
-            add_offense(returns.start_comment, message: MSG_RETURNS_DOES_NOT_MATCH) unless returns.first_comment_equal?(RETURNS_DOC)
+            guard = returns.first_comment_equal?(RETURNS_DOC)
+            add_offense(returns.start_comment, message: MSG_RETURNS_DOES_NOT_MATCH) unless guard
           end
           unless attrs.missing?
             add_offense(attrs.start_comment, message: MSG_RETURNS_DOES_NOT_MATCH) unless attrs.first_comment_equal?(ATTRS_DOC)
@@ -262,7 +279,12 @@ module RuboCop
             param_line = param_pair[0]
             param_name = param_pair[1]
             # puts "Comparing arg name #{arg_name} with parm name #{param_name} ans=#{param_name == arg_name}"
-            add_offense(param_line, message: format(MSG_PARAMETERS_ARG_NAME_MISMATCH, param_name, arg_name)) unless param_name == arg_name
+            next if param_name == arg_name
+
+            add_offense(
+              param_line,
+              message: format(MSG_PARAMETERS_ARG_NAME_MISMATCH, param_name, arg_name)
+            )
           end
         end
 

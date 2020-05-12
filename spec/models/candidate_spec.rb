@@ -115,7 +115,8 @@ describe Candidate do
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_datechs_due_date: '2016-05-01', completed_date: '2016-05-06' },
+            { event_key: 'a', the_way_due_date: '2016-05-01',
+              chs_due_datechs_due_date: '2016-05-01', completed_date: '2016-05-06' },
             { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
           ]
         ),
@@ -332,7 +333,12 @@ describe Candidate do
   describe 'password_reset_message' do
     it 'should return a DeliveryMessage' do
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
-      delivery = c1.password_reset_message(FactoryBot.create(:admin), CandidatesMailerText.new(candidate: c1, subject: MailPart.new_subject('sub'), body_text: MailPart.new_body('')))
+      delivery = c1.password_reset_message(
+        FactoryBot.create(:admin),
+        CandidatesMailerText.new(candidate: c1,
+                                 subject: MailPart.new_subject('sub'),
+                                 body_text: MailPart.new_body(''))
+      )
       expect(delivery).not_to eq(nil)
       text = delivery.message.body.to_s
 

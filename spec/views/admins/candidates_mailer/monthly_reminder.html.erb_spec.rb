@@ -78,7 +78,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Sponsor name', 'The Boss']
         info << ['Sponsor attends', Visitor.home_parish]
       when BaptismalCertificate.event_key
-        info << ['Birthday', '1999-03-05']
+        info << %w[Birthday 1999-03-05]
         info << ['Baptismal date', '1999-05-05']
         info << ['Father\'s name', 'A B C']
         info << ['Mother\'s name', 'Z Y X W']
@@ -130,7 +130,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Sponsor name', 'The Boss']
         info << ['Sponsor attends', Visitor.home_parish]
       when BaptismalCertificate.event_key
-        info << ['Birthday', '1999-03-05']
+        info << %w[Birthday 1999-03-05]
         info << ['Baptismal date', '1999-05-05']
         info << ['Father\'s name', 'A B C']
         info << ['Mother\'s name', 'Z Y X W']
@@ -193,7 +193,12 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
     render
 
-    coming_due_values = AppFactory.all_i18n_confirmation_event_keys.select { |event_key| event_key != Candidate.parent_meeting_event_key && event_key != RetreatVerification.event_key && event_key != ChristianMinistry.event_key }.map do |event_key|
+    coming_due_values = AppFactory.all_i18n_confirmation_event_keys.select do |event_key|
+      event_key != Candidate.parent_meeting_event_key &&
+        event_key != RetreatVerification.event_key &&
+        event_key != ChristianMinistry.event_key
+    end
+    coming_due_values = coming_due_values.map do |event_key|
       name = event_key
       id = @candidate.get_candidate_event(name).id
       [name, id, @today]
@@ -216,7 +221,9 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
-    expect_table(I18n.t('email.completed_awaiting_approval_label'), t('email.completed_awaiting_initial_input'), 'completed_awaiting_events',
+    expect_table(I18n.t('email.completed_awaiting_approval_label'),
+                 t('email.completed_awaiting_initial_input'),
+                 'completed_awaiting_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_awaiting_values)
 
@@ -225,7 +232,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
                  completed_values)
 
     expect(rendered).to have_css('p[id=closing_input][ style="white-space: pre;"]', text: '')
-    expect(rendered).to have_css('p[id=salutation_input][ style="white-space: pre;"]', text: I18n.t('email.salutation_initial_input'))
+    expect(rendered).to have_css('p[id=salutation_input][ style="white-space: pre;"]',
+                                 text: I18n.t('email.salutation_initial_input'))
     expect(rendered).to have_css('p[id=from_input][ style="white-space: pre;"]',
                                  text: I18n.t('email.from_initial_input_html',
                                               name: @admin.contact_name,
@@ -234,7 +242,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
   end
 
   def expect_table(_field_id, field_text, event_prefix, column_headers, cell_values)
-    expect(rendered).to have_css("p[id='#{event_prefix}_input']", text: field_text) unless field_text.nil? # ?? expect(rendered).to have_field(field_id, text: field_text)
+    expect(rendered).to have_css("p[id='#{event_prefix}_input']", text: field_text) unless field_text.nil?
     table_id = "table[id='#{event_prefix}_table']"
     tr_header_id = "tr[id='#{event_prefix}_header']"
 
@@ -279,7 +287,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT),
         pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
         completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
-        completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
+        completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT),
+        closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
         salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT),
         from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N,
                                                    name: @admin.contact_name,

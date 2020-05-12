@@ -44,7 +44,9 @@ describe Dev::CandAccountConfirmationsController do
 
       candidate = Candidate.find(candidate.id)
       expect(candidate.confirmed?).to be true
+      # rubocop:disable Layout/LineLength
       expect(response).to redirect_to("/cand_account_confirmation/#{candidate.id}/Email%20%20-%20Your%20account%20was%20already%20confirmed,%20you%20should%20have%20received%20a%20second%20email%20with%20a%20link%20to%20setup%20your%20password")
+      # rubocop:enable Layout/LineLength
       expect(@request.fullpath).to eq("/dev/candidates/confirmation?confirmation_token=#{token}&id=#{candidate.id}")
     end
   end
