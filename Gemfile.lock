@@ -188,7 +188,7 @@ GEM
       pdf-core (~> 0.7.0)
       ttfunk (~> 1.5)
     public_suffix (4.0.4)
-    puma (4.3.3)
+    puma (4.3.5)
       nio4r (~> 2.0)
     rack (2.2.2)
     rack-test (1.1.0)
@@ -278,8 +278,6 @@ GEM
       rubocop (>= 0.72.0)
     rubocop-rspec (1.38.1)
       rubocop (>= 0.68.1)
-    ruby-debug-ide (0.7.2)
-      rake (>= 0.8.1)
     ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.2)
     ruby_http_client (3.5.0)
@@ -384,7 +382,6 @@ DEPENDENCIES
   rspec-rails
   rubocop-rails
   rubocop-rspec
-  ruby-debug-ide
   sass-rails
   sdoc
   selenium-webdriver
