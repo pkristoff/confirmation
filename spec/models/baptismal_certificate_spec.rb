@@ -254,4 +254,27 @@ describe BaptismalCertificate, type: :model do
       expect(msgs.size).to eq(1)
     end
   end
+
+  it 'check permitted_params' do
+    expected = [:birth_date,
+                :baptismal_date,
+                :church_name,
+                :father_first,
+                :father_middle,
+                :father_last,
+                :mother_first,
+                :mother_middle,
+                :mother_maiden,
+                :mother_last,
+                :certificate_picture,
+                :remove_certificate_picture,
+                :scanned_certificate,
+                :id,
+                :baptized_at_home_parish,
+                :first_comm_at_home_parish,
+                :show_empty_radio,
+                { church_address_attributes: %i[street_1 street_2 city state zip_code id],
+                  scanned_certificate_attributes: %i[filename content_type content id] }]
+    expect(BaptismalCertificate.permitted_params).to eq(expected)
+  end
 end

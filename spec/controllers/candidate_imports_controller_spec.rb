@@ -20,7 +20,7 @@ describe CandidateImportsController do
     it 'the spread sheet should reflect what the candidate has input - sponsor' do
       c1 = FactoryBot.create(:candidate, account_name: 'a1')
       c1.sponsor_covenant.sponsor_name = 'Baz'
-      c1.sponsor_covenant.sponsor_attends_home_parish = true
+      c1.sponsor_eligibility.sponsor_attends_home_parish = true
       c1.sponsor_covenant.scanned_covenant = ScannedImage.new
       c1.save
 
@@ -39,19 +39,19 @@ describe CandidateImportsController do
         a1_row = worksheet.rows[1]
         expect(value_for_header(wb.worksheets[1], 'account_name', a1_row)).to eq('a1')
         expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_name', a1_row)).to eq('Baz')
-        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_attends_home_parish', a1_row)).to eq(1)
         expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.scanned_covenant', a1_row)).to eq(1)
-        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_church', a1_row)).to eq(nil)
-        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.scanned_eligibility', a1_row)).to eq(0)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_eligibility.sponsor_attends_home_parish', a1_row)).to eq(1)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_eligibility.sponsor_church', a1_row)).to eq('')
+        expect(value_for_header(wb.worksheets[1], 'sponsor_eligibility.scanned_eligibility', a1_row)).to eq(0)
       end
     end
     it 'the spread sheet should reflect what the candidate has input - sponsor' do
       c1 = FactoryBot.create(:candidate, account_name: 'a1')
       c1.sponsor_covenant.sponsor_name = 'Baz'
-      c1.sponsor_covenant.sponsor_attends_home_parish = false
+      c1.sponsor_eligibility.sponsor_attends_home_parish = false
       c1.sponsor_covenant.scanned_covenant = ScannedImage.new
-      c1.sponsor_covenant.sponsor_church = 'St. George'
-      c1.sponsor_covenant.scanned_eligibility = ScannedImage.new
+      c1.sponsor_eligibility.sponsor_church = 'St. George'
+      c1.sponsor_eligibility.scanned_eligibility = ScannedImage.new
       c1.save
 
       candidate_import = CandidateImport.new
@@ -66,10 +66,10 @@ describe CandidateImportsController do
         a1_row = worksheet.rows[1]
         expect(value_for_header(wb.worksheets[1], 'account_name', a1_row)).to eq('a1')
         expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_name', a1_row)).to eq('Baz')
-        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_attends_home_parish', a1_row)).to eq(0)
         expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.scanned_covenant', a1_row)).to eq(1)
-        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_church', a1_row)).to eq('St. George')
-        expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.scanned_eligibility', a1_row)).to eq(1)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_eligibility.sponsor_attends_home_parish', a1_row)).to eq(0)
+        expect(value_for_header(wb.worksheets[1], 'sponsor_eligibility.sponsor_church', a1_row)).to eq('St. George')
+        expect(value_for_header(wb.worksheets[1], 'sponsor_eligibility.scanned_eligibility', a1_row)).to eq(1)
       end
     end
 
@@ -173,9 +173,9 @@ describe CandidateImportsController do
       candidates = Candidate.all
       expect(candidates.size).to eq(1)
 
-      expect(ConfirmationEvent.all.size).to eq(8)
-      expect(CandidateEvent.all.size).to eq(8)
-      expect(ToDo.all.size).to eq(8)
+      expect(ConfirmationEvent.all.size).to eq(9)
+      expect(CandidateEvent.all.size).to eq(9)
+      expect(ToDo.all.size).to eq(9)
 
       candidate = candidates.first
       expect(candidate.account_name).to eq('vickikristoff')
@@ -185,10 +185,10 @@ describe CandidateImportsController do
       expect_event_association_local(candidate.baptismal_certificate)
       expect_event_association_local(candidate.candidate_sheet)
       expect_event_association_local(candidate.sponsor_covenant)
+      expect_event_association_local(candidate.sponsor_eligibility)
       expect_event_association_local(candidate.pick_confirmation_name)
       expect_event_association_local(candidate.christian_ministry)
       expect_event_association_local(candidate.retreat_verification)
-      expect_event_association_local(candidate.sponsor_covenant)
 
       expect(Admin.all.size).to eq(1)
     end
@@ -225,16 +225,16 @@ describe CandidateImportsController do
       AppFactory.add_confirmation_events
 
       expect(Candidate.all.size).to eq(0)
-      expect(ConfirmationEvent.all.size).to eq(8)
+      expect(ConfirmationEvent.all.size).to eq(9)
       expect(CandidateEvent.all.size).to eq(0)
       expect(ToDo.all.size).to eq(0)
 
       FactoryBot.create(:candidate, account_name: 'a1', add_candidate_events: true, add_new_confirmation_events: false)
 
       expect(Candidate.all.size).to eq(1)
-      expect(ConfirmationEvent.all.size).to eq(8)
-      expect(CandidateEvent.all.size).to eq(8)
-      expect(ToDo.all.size).to eq(8)
+      expect(ConfirmationEvent.all.size).to eq(9)
+      expect(CandidateEvent.all.size).to eq(9)
+      expect(ToDo.all.size).to eq(9)
 
       CandidateImport.new.remove_all_confirmation_events
 

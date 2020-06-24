@@ -26,8 +26,8 @@ class CandidateImport
     %w[
       baptismal_certificate.scanned_certificate
       retreat_verification.scanned_retreat
-      sponsor_covenant.scanned_eligibility
       sponsor_covenant.scanned_covenant
+      sponsor_eligibility.scanned_eligibility
     ]
   end
 
@@ -259,25 +259,31 @@ class CandidateImport
   #
   def remove_orphaned_table_rows
     cand_ids = ids(Candidate)
-    orphaned_rows = orphaned_baptismal_certificates(cand_ids)
-    BaptismalCertificate.destroy(orphaned_rows) unless orphaned_rows.empty?
-    orphaned_rows = orphaned_candidate_sheets(cand_ids)
-    CandidateSheet.destroy(orphaned_rows) unless orphaned_rows.empty?
-    orphaned_rows = orphaned_christian_ministry(cand_ids)
-    ChristianMinistry.destroy(orphaned_rows) unless orphaned_rows.empty?
-    orphaned_rows = orphaned_pick_name(cand_ids)
-    PickConfirmationName.destroy(orphaned_rows) unless orphaned_rows.empty?
-    orphaned_rows = orphaned_retreat_verification(cand_ids)
-    RetreatVerification.destroy(orphaned_rows) unless orphaned_rows.empty?
-    orphaned_rows = orphaned_sponsor_covenant(cand_ids)
-    SponsorCovenant.destroy(orphaned_rows) unless orphaned_rows.empty?
-    orphaned_rows = orphaned_addresses
-    Address.destroy(orphaned_rows) unless orphaned_rows.empty?
-    orphaned_rows = orphaned_scanned_image
-    ScannedImage.destroy(orphaned_rows) unless orphaned_rows.empty?
-    orphaned_rows = orphaned_to_do
-    ToDo.destroy(orphaned_rows) unless orphaned_rows.empty?
-
+    begin
+      orphaned_rows = orphaned_baptismal_certificates(cand_ids)
+      BaptismalCertificate.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_candidate_sheets(cand_ids)
+      CandidateSheet.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_christian_ministry(cand_ids)
+      ChristianMinistry.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_pick_name(cand_ids)
+      PickConfirmationName.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_retreat_verification(cand_ids)
+      RetreatVerification.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_sponsor_covenant(cand_ids)
+      SponsorCovenant.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_sponsor_eligibility(cand_ids)
+      SponsorEligibility.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_addresses
+      Address.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_scanned_image
+      ScannedImage.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_to_do
+      ToDo.destroy(orphaned_rows) unless orphaned_rows.empty?
+    rescue StandardError => e
+      Rails.logger.info e.message
+      Rails.logger.info "SQL error in #{__method__}"
+    end
     @cache = nil
     self
   end
@@ -309,7 +315,9 @@ class CandidateImport
           when :RetreatVerification
             RetreatVerification.pluck(:id, :scanned_retreat_id)
           when :SponsorCovenant
-            SponsorCovenant.pluck(:id, :scanned_covenant_id, :scanned_eligibility_id)
+            SponsorCovenant.pluck(:id, :scanned_covenant_id)
+          when :SponsorEligibility
+            SponsorEligibility.pluck(:id, :scanned_eligibility_id)
           when :ToDo
             ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id)
           else
@@ -360,6 +368,7 @@ class CandidateImport
       orphaned_table_rows[:PickConfirmationName] = orphaned_pick_name(cand_ids)
       orphaned_table_rows[:RetreatVerification] = orphaned_retreat_verification(cand_ids)
       orphaned_table_rows[:SponsorCovenant] = orphaned_sponsor_covenant(cand_ids)
+      orphaned_table_rows[:SponsorEligibility] = orphaned_sponsor_eligibility(cand_ids)
       orphaned_table_rows[:Address] = orphaned_addresses
       orphaned_table_rows[:ScannedImage] = orphaned_scanned_image
       orphaned_table_rows[:ToDo] = orphaned_to_do
@@ -372,7 +381,8 @@ class CandidateImport
          ChristianMinistry
          PickConfirmationName
          RetreatVerification
-         ¬SponsorCovenant
+         SponsorCovenant
+         SponsorEligibility
          Address
          ScannedImage
          ToDo].each do |key|
@@ -475,6 +485,20 @@ class CandidateImport
     orphaned_ids(SponsorCovenant, cand_ids.map { |x| x[6] }, 0)
   end
 
+  # Finds all the SponsorCovenant's that have been orphaned.
+  #
+  # === Parameters:
+  #
+  # * <tt>:cand_ids</tt> Array:
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> ids
+  #
+  def orphaned_sponsor_eligibility(cand_ids)
+    orphaned_ids(SponsorEligibility, cand_ids.map { |x| x[7] }, 0)
+  end
+
   # Finds all the ScannedImage's that have been orphaned.
   #
   def orphaned_scanned_image
@@ -482,7 +506,7 @@ class CandidateImport
       ids(BaptismalCertificate).map { |x| x[2] }.select { |scanned_certificate_id| scanned_certificate_id == ar_id }.empty? &&
         ids(RetreatVerification).map { |x| x[1] }.select { |scanned_retreat_id| scanned_retreat_id == ar_id }.empty? &&
         ids(SponsorCovenant).map { |x| x[1] }.select { |scanned_covenant_id| scanned_covenant_id == ar_id }.empty? &&
-        ids(SponsorCovenant).map { |x| x[2] }.select { |scanned_eligibility_id| scanned_eligibility_id == ar_id }.empty?
+        ids(SponsorEligibility).map { |x| x[2] }.select { |scanned_eligibility_id| scanned_eligibility_id == ar_id }.empty?
     end
   end
 
@@ -510,7 +534,7 @@ class CandidateImport
     columns.delete(:password)
     columns.delete(:password_confirmation)
     ['baptismal_certificate.scanned_certificate', 'retreat_verification.scanned_retreat',
-     'sponsor_covenant.scanned_eligibility', 'sponsor_covenant.scanned_covenant'].each do |base|
+     'sponsor_covenant.scanned_covenant', 'sponsor_eligibility.scanned_eligibility'].each do |base|
       ScannedImage.permitted_params.each do |not_exported|
         columns.delete("#{base}.#{not_exported}")
       end
@@ -774,10 +798,10 @@ class CandidateImport
               candidate.baptismal_certificate.scanned_certificate = create_scanned_image(cell)
             when 'scanned_retreat'
               candidate.retreat_verification.scanned_retreat = create_scanned_image(cell)
-            when 'scanned_eligibility'
-              candidate.sponsor_covenant.scanned_eligibility = create_scanned_image(cell)
             when 'scanned_covenant'
               candidate.sponsor_covenant.scanned_covenant = create_scanned_image(cell)
+            when 'scanned_eligibility'
+              candidate.sponsor_eligibility.scanned_eligibility = create_scanned_image(cell)
             else
               fff = column_name_split[1] == 'church_address' && candidate.baptismal_certificate.church_address.nil?
               candidate.baptismal_certificate.create_church_address if fff

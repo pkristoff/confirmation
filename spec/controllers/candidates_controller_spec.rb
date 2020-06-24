@@ -238,6 +238,7 @@ describe CandidatesController do
       AppFactory.add_confirmation_event(BaptismalCertificate.event_key)
       AppFactory.add_confirmation_event(RetreatVerification.event_key)
       AppFactory.add_confirmation_event(SponsorCovenant.event_key)
+      AppFactory.add_confirmation_event(SponsorEligibility.event_key)
     end
 
     [
@@ -268,7 +269,6 @@ describe CandidatesController do
        end],
       [Event::Route::SPONSOR_COVENANT, lambda do |candidate|
         candidate.sponsor_covenant.sponsor_name = 'mmm'
-        candidate.sponsor_covenant.sponsor_attends_home_parish = true
         File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
           candidate.sponsor_covenant.scanned_covenant =
             candidate.sponsor_covenant.build_scanned_covenant(
@@ -282,8 +282,27 @@ describe CandidatesController do
          {
            sponsor_covenant_attributes: {
              sponsor_name: candidate.sponsor_covenant.sponsor_name,
-             sponsor_attends_home_parish: candidate.sponsor_covenant.sponsor_attends_home_parish,
+             # sponsor_attends_home_parish: candidate.sponsor_eligibility.sponsor_attends_home_parish,
              id: candidate.sponsor_covenant.id
+           }
+         }
+       end,
+       lambda do |candidate|
+         {
+           sponsor_eligibility_attributes: {
+             sponsor_attends_home_parish: candidate.sponsor_eligibility.sponsor_attends_home_parish,
+             id: candidate.sponsor_covenant.id
+           }
+         }
+       end],
+      [Event::Route::SPONSOR_ELIGIBILITY, lambda do |candidate|
+        candidate.sponsor_eligibility.sponsor_attends_home_parish = true
+      end,
+       lambda do |candidate|
+         {
+           sponsor_eligibility_attributes: {
+             sponsor_attends_home_parish: 1,
+             id: candidate.id
            }
          }
        end]
@@ -325,7 +344,6 @@ describe CandidatesController do
         cand.save
 
         cand_parms = generate_cand_parms.call(cand)
-
         put :event_with_picture_verify_update,
             params: { id: @c1_id,
                       event_route: event_route,
@@ -563,6 +581,10 @@ describe CandidatesController do
 
     describe 'sponsor_covenant' do
       it_behaves_like 'sponsor_covenant'
+    end
+
+    describe 'sponsor_eligibility' do
+      it_behaves_like 'sponsor_eligibility'
     end
 
     describe 'retreat_verification' do

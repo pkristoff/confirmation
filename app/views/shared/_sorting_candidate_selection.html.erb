@@ -35,6 +35,7 @@
   <% column_headers_in_order.push(I18n.t('events.candidate_information_sheet')) %>
   <% column_headers_in_order.push(I18n.t('events.baptismal_certificate')) %>
   <% column_headers_in_order.push(I18n.t('events.sponsor_covenant')) %>
+  <% column_headers_in_order.push(I18n.t('events.sponsor_eligibility')) %>
   <% column_headers_in_order.push(I18n.t('events.confirmation_name')) %>
   <% column_headers_in_order.push(I18n.t('events.christian_ministry')) %>
   <% column_headers_in_order.push(I18n.t('events.retreat_verification')) %>
@@ -120,6 +121,8 @@
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, BaptismalCertificate.event_key, attending)}", event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE) %></td>
           <% when SponsorCovenant.event_key %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, SponsorCovenant.event_key, attending)}", event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT) %></td>
+          <% when SponsorEligibility.event_key %>
+            <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, SponsorEligibility.event_key, attending)}", event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY) %></td>
           <% when PickConfirmationName.event_key %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, PickConfirmationName.event_key, attending)}", pick_confirmation_name_verify_path(candidate_id), id: "pick-#{candidate_id}" %></td>
           <% when ChristianMinistry.event_key %>
@@ -139,6 +142,7 @@
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, CandidateSheet.event_key, attending)}", candidate_sheet_path(candidate_id) %></td>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, BaptismalCertificate.event_key, attending)}", event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE) %></td>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, SponsorCovenant.event_key, attending)}", event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT) %></td>
+          <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, SponsorEligibility.event_key, attending)}", event_with_picture_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY) %></td>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, PickConfirmationName.event_key, attending)}", pick_confirmation_name_path(candidate_id) %></td>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, ChristianMinistry.event_key, attending)}", christian_ministry_path(candidate_id) %></td>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, RetreatVerification.event_key, attending)}", event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION) %></td>

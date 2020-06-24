@@ -81,9 +81,8 @@ es:
       dates: fechas
       info: Informacion
       scan: Formulario de verificación de retiro
-    sponsor_covenant:
-      sponsor_covenant: Pacto del patrocinador
-      sponsor_eligibility: Elegibilidad del patrocinador
+    sponsor_covenant: Pacto del patrocinador
+    sponsor_eligibility: Elegibilidad del patrocinador
   label:
     admin:
       admins: Administradoras
@@ -162,14 +161,17 @@ es:
       parent_meeting: Reunión de información para padres
       retreat_verification: Asistir al retiro
       sponsor_covenant: Pacto del patrocinador
+      sponsor_eligibility: Elegibilidad del patrocinador
     sign_agreement:
       signed_agreement: Al marcar está de acuerdo con lo anterior.
     sorting:
       total_selected: Total seleccionado
     sponsor_covenant:
+      sponsor_covenant_picture: Pacto del patrocinador
+      sponsor_name: Nombre del patrocinador
+    sponsor_eligibility:
       sponsor_attends_home_parish: Patrocinador registrado en %{home_parish}
       sponsor_church: La iglesia del patrocinador
-      sponsor_covenant_picture: Pacto del patrocinador
       sponsor_eligibility_picture: Formulario de elegibilidad del patrocinador
       sponsor_name: Nombre del patrocinador
     visitor:

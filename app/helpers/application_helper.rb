@@ -129,6 +129,13 @@ module ApplicationHelper
       else
         [event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT), I18n.t('label.sidebar.sponsor_covenant')]
       end
+    when SponsorEligibility.event_key
+      if is_candidate_logged_in
+        [dev_event_with_picture_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY),
+         I18n.t('label.sidebar.sponsor_eligibility')]
+      else
+        [event_with_picture_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY), I18n.t('label.sidebar.sponsor_eligibility')]
+      end
     when PickConfirmationName.event_key
       if is_candidate_logged_in
         [dev_pick_confirmation_name_path(candidate_id, Event::Route::CONFIRMATION_NAME), t('label.sidebar.confirmation_name')]

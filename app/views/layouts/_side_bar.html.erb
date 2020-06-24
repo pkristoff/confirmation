@@ -24,7 +24,8 @@
         [I18n.t('views.nav.export_confirmation_name'), export_lists_confirmation_name_path, I18n.t('views.nav.export_confirmation_name')],
         [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), export_lists_retreat_path, I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish)],
         [I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish), export_lists_baptism_path, I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish)],
-        [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), export_lists_sponsor_path, I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish)],
+        [I18n.t('views.nav.export_sponsor_covenant_title'), export_lists_sponsor_covenant_path, I18n.t('views.nav.export_sponsor_covenant_title')],
+        [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), export_lists_sponsor_eligibility_path, I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish)],
         [I18n.t('views.nav.export_candidate_event_status_title'), export_lists_events_path, I18n.t('views.nav.export_candidate_event_status_title')],
         [I18n.t('views.nav.pdf_baptismal_name'), export_lists_bap_name_path, I18n.t('views.nav.pdf_baptismal_name')]
     ] %>
@@ -50,6 +51,7 @@
           [CandidateSheet.event_key, *candidate_event_to_path(CandidateSheet.event_key, resource.id)],
           [BaptismalCertificate.event_key, *candidate_event_to_path(BaptismalCertificate.event_key, resource.id)],
           [SponsorCovenant.event_key, *candidate_event_to_path(SponsorCovenant.event_key, resource.id)],
+          [SponsorEligibility.event_key, *candidate_event_to_path(SponsorEligibility.event_key, resource.id)],
           [PickConfirmationName.event_key, *candidate_event_to_path(PickConfirmationName.event_key, resource.id)],
           [ChristianMinistry.event_key, *candidate_event_to_path(ChristianMinistry.event_key, resource.id)],
           [RetreatVerification.event_key, *candidate_event_to_path(RetreatVerification.event_key, resource.id)],
@@ -77,6 +79,7 @@
       [CandidateSheet.event_key, *candidate_event_to_path(CandidateSheet.event_key, current_candidate.id)],
       [BaptismalCertificate.event_key, *candidate_event_to_path(BaptismalCertificate.event_key, current_candidate.id)],
       [SponsorCovenant.event_key, *candidate_event_to_path(SponsorCovenant.event_key, current_candidate.id)],
+      [SponsorEligibility.event_key, *candidate_event_to_path(SponsorEligibility.event_key, current_candidate.id)],
       [PickConfirmationName.event_key, *candidate_event_to_path(PickConfirmationName.event_key, current_candidate.id)],
       [ChristianMinistry.event_key, *candidate_event_to_path(ChristianMinistry.event_key, current_candidate.id)],
       [RetreatVerification.event_key, *candidate_event_to_path(RetreatVerification.event_key, current_candidate.id)],

@@ -233,6 +233,8 @@ class AppFactory
       BaptismalCertificate.event_key,
       # matches 20160821215148_add_sponsor_covenant.rb
       SponsorCovenant.event_key,
+      # matches 20200617080358_create_sponsor_eligibilities.rb
+      SponsorEligibility.event_key,
       # matches 20160825130031_add_pick_confirmation_name_event.rb
       PickConfirmationName.event_key,
       # 20160830211438_add_christian_ministry_event.rb

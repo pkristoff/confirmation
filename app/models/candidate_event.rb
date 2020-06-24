@@ -271,10 +271,12 @@ class CandidateEvent < ApplicationRecord
       Event::Other::PARENT_INFORMATION_MEETING
     when SponsorCovenant.event_key
       Event::Route::SPONSOR_COVENANT
+    when SponsorEligibility.event_key
+      Event::Route::SPONSOR_ELIGIBILITY
     when RetreatVerification.event_key
       Event::Route::RETREAT_VERIFICATION
     else
-      raise "Unknown event to route: #{name}"
+      raise "Unknown event to route: #{event_key}"
     end
   end
 
@@ -292,7 +294,7 @@ class CandidateEvent < ApplicationRecord
         self.completed_date = Time.zone.today
         # automatically mark verified when completed.
         # TODO: move to association class
-        self.verified = %w[CandidateSheet ChristianMinistry].include?(cand_assoc_class.to_s)
+        self.verified = %w[CandidateSheet ChristianMinistry SponsorCovenant].include?(cand_assoc_class.to_s)
       end
     else
       unless completed_date.nil?

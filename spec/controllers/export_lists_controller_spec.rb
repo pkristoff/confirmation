@@ -70,13 +70,21 @@ describe ExportListsController do
                      ExportListsController::CONFIRMATION_NAME_VALUES)
   end
 
-  it 'should return a xlxs sponsor attachment' do
-    @c1.sponsor_covenant.sponsor_attends_home_parish = true
+  it 'should return a xlxs sponsor covenant attachment' do
     @c1.get_candidate_event(SponsorCovenant.event_key).completed_date = @today
     @c1.save
-    expect_send_data([@c1], [], [], [@c2], 'Sponsor', 'sponsor.xlsx', :sponsor,
-                     ExportListsController::SPONSOR_COLUMNS,
-                     ExportListsController::SPONSOR_VALUES)
+    expect_send_data([], [@c1], [], [@c2], 'Sponsor', 'sponsor_covenant.xlsx', :sponsor_covenant,
+                     ExportListsController::SPONSOR_COVENANT_COLUMNS,
+                     ExportListsController::SPONSOR_COVENANT_VALUES)
+  end
+
+  it 'should return a xlxs sponsor eligibility attachment' do
+    @c1.sponsor_eligibility.sponsor_attends_home_parish = true
+    @c1.get_candidate_event(SponsorEligibility.event_key).completed_date = @today
+    @c1.save
+    expect_send_data([@c1], [], [], [@c2], 'Sponsor', 'sponsor_eligibility.xlsx', :sponsor_eligibility,
+                     ExportListsController::SPONSOR_ELIGIBILITY_COLUMNS,
+                     ExportListsController::SPONSOR_ELIGIBILITY_VALUES)
   end
 
   it 'should return a xlxs event attachment' do

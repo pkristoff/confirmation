@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   get 'export_lists/retreat'
   get 'export_lists/confirmation_name'
   get 'export_lists/baptism'
-  get 'export_lists/sponsor'
+  get 'export_lists/sponsor_covenant'
+  get 'export_lists/sponsor_eligibility'
   get 'export_lists/events'
   get 'export_lists/bap_name'
 
@@ -105,7 +106,7 @@ Rails.application.routes.draw do
 
     # Baptismal Certificate
 
-    # Sponsor covenant
+    # Sponsor eligibility
     get 'dev/upload_sponsor_eligibility_image.:id', to: 'dev/candidates#upload_sponsor_eligibility_image', as: 'dev_upload_sponsor_eligibility_image'
     get 'upload_sponsor_eligibility_image.:id', to: 'candidates#upload_sponsor_eligibility_image', as: 'upload_sponsor_eligibility_image'
 

@@ -23,6 +23,9 @@ class Candidate < ApplicationRecord
   belongs_to(:sponsor_covenant, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:sponsor_covenant, allow_destroy: true)
 
+  belongs_to(:sponsor_eligibility, validate: false, dependent: :destroy)
+  accepts_nested_attributes_for(:sponsor_eligibility, allow_destroy: true)
+
   belongs_to(:pick_confirmation_name, validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:pick_confirmation_name, allow_destroy: true)
 
@@ -161,6 +164,7 @@ class Candidate < ApplicationRecord
     candidate_sheet || build_candidate_sheet
     baptismal_certificate || build_baptismal_certificate
     sponsor_covenant || build_sponsor_covenant
+    sponsor_eligibility || build_sponsor_eligibility
     pick_confirmation_name || build_pick_confirmation_name
     christian_ministry || build_christian_ministry
     retreat_verification || build_retreat_verification
@@ -187,6 +191,7 @@ class Candidate < ApplicationRecord
      candidate_sheet_attributes: CandidateSheet.permitted_params,
      baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
      sponsor_covenant_attributes: SponsorCovenant.permitted_params,
+     sponsor_eligibility_attributes: SponsorEligibility.permitted_params,
      pick_confirmation_name_attributes: PickConfirmationName.permitted_params,
      christian_ministry_attributes: ChristianMinistry.permitted_params,
      candidate_events_attributes: CandidateEvent.permitted_params,
@@ -382,6 +387,8 @@ class Candidate < ApplicationRecord
       I18n.t('events.baptismal_certificate')
     when SponsorCovenant.event_key
       I18n.t('events.sponsor_covenant')
+    when SponsorEligibility.event_key
+      I18n.t('events.sponsor_eligibility')
     when PickConfirmationName.event_key
       I18n.t('events.confirmation_name')
     when ChristianMinistry.event_key
@@ -401,6 +408,8 @@ class Candidate < ApplicationRecord
       PickConfirmationName.event_key
     when Event::Route::SPONSOR_COVENANT
       SponsorCovenant.event_key
+    when Event::Route::SPONSOR_ELIGIBILITY
+      SponsorEligibility.event_key
     when Event::Route::RETREAT_VERIFICATION
       RetreatVerification.event_key
     when Event::Other::CANDIDATE_INFORMATION_SHEET
@@ -428,6 +437,8 @@ class Candidate < ApplicationRecord
       :baptismal_certificate
     when SponsorCovenant.event_key
       :sponsor_covenant
+    when SponsorEligibility.event_key
+      :sponsor_eligibility
     when PickConfirmationName.event_key
       :confirmation_name
     when ChristianMinistry.event_key
@@ -457,6 +468,8 @@ class Candidate < ApplicationRecord
       pick_confirmation_name
     when Event::Route::SPONSOR_COVENANT
       sponsor_covenant
+    when Event::Route::SPONSOR_ELIGIBILITY
+      sponsor_eligibility
     when Event::Route::RETREAT_VERIFICATION
       retreat_verification
     when Event::Other::CANDIDATE_INFORMATION_SHEET
@@ -613,8 +626,23 @@ class Candidate < ApplicationRecord
   #
   # * <tt>Boolean</tt>
   #
-  def self.sponsor_external_verification
-    external_verification(SponsorCovenant.event_key, ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish })
+  def self.sponsor_covenant_external_verification
+    external_verification(SponsorCovenant.event_key, ->(_candidate) { false })
+  end
+
+  # sponsor needs admin verification
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of this association
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def self.sponsor_eligibility_external_verification
+    external_verification(SponsorEligibility.event_key,
+                          ->(candidate) { candidate.sponsor_eligibility.sponsor_attends_home_parish })
   end
 
   # candidate events needs admin verification

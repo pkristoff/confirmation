@@ -120,19 +120,13 @@ class ExportListsController < ApplicationController
     send_data p.to_stream.read, type: 'application/xlsx', filename: 'retreat.xlsx'
   end
 
-  SPONSOR_COLUMNS =
+  SPONSOR_COVENANT_COLUMNS =
     [I18n.t('label.sponsor_covenant.sponsor_name'),
-     I18n.t('label.sponsor_covenant.sponsor_covenant_picture'),
-     I18n.t('label.sponsor_covenant.sponsor_attends_home_parish'),
-     I18n.t('label.sponsor_covenant.sponsor_church'),
-     I18n.t('label.sponsor_covenant.sponsor_eligibility_picture')].freeze
+     I18n.t('label.sponsor_covenant.sponsor_covenant_picture')].freeze
 
-  SPONSOR_VALUES =
+  SPONSOR_COVENANT_VALUES =
     [->(candidate) { candidate.sponsor_covenant.sponsor_name },
-     ->(candidate) { !candidate.sponsor_covenant.scanned_covenant.nil? },
-     ->(candidate) { candidate.sponsor_covenant.sponsor_attends_home_parish },
-     ->(candidate) { candidate.sponsor_covenant.sponsor_church },
-     ->(candidate) { !candidate.sponsor_covenant.scanned_eligibility.nil? }].freeze
+     ->(candidate) { !candidate.sponsor_covenant.scanned_covenant.nil? }].freeze
 
   # downloads spreadsheet for event sponsor per candidate
   #
@@ -140,13 +134,41 @@ class ExportListsController < ApplicationController
   #
   # * <tt>send_data</tt> for spreadsheet
   #
-  def sponsor
-    external, to_be_verified, verified, not_complete = Candidate.sponsor_external_verification
+  def sponsor_covenant
+    external, to_be_verified, verified, not_complete = Candidate.sponsor_covenant_external_verification
     p = create_xlsx(external, to_be_verified, verified, not_complete, 'Sponsor',
-                    ExportListsController::SPONSOR_COLUMNS,
-                    ExportListsController::SPONSOR_VALUES)
-    send_data p.to_stream.read, type: 'application/xlsx', filename: 'sponsor.xlsx'
+                    ExportListsController::SPONSOR_COVENANT_COLUMNS,
+                    ExportListsController::SPONSOR_COVENANT_VALUES)
+    send_data p.to_stream.read, type: 'application/xlsx', filename: 'sponsor_covenant.xlsx'
   end
+
+  # downloads spreadsheet for event sponsor per candidate
+  #
+  # === Returns:
+  #
+  # * <tt>send_data</tt> for spreadsheet
+  #
+  def sponsor_eligibility
+    external, to_be_verified, verified, not_complete = Candidate.sponsor_eligibility_external_verification
+    p = create_xlsx(external, to_be_verified, verified, not_complete, 'Sponsor',
+                    ExportListsController::SPONSOR_ELIGIBILITY_COLUMNS,
+                    ExportListsController::SPONSOR_ELIGIBILITY_VALUES)
+    send_data p.to_stream.read, type: 'application/xlsx', filename: 'sponsor_eligibility.xlsx'
+  end
+
+  SPONSOR_ELIGIBILITY_COLUMNS =
+    [
+      I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish'),
+      I18n.t('label.sponsor_eligibility.sponsor_church'),
+      I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture')
+    ].freeze
+
+  SPONSOR_ELIGIBILITY_VALUES =
+    [
+      ->(candidate) { candidate.sponsor_eligibility.sponsor_attends_home_parish },
+      ->(candidate) { candidate.sponsor_eligibility.sponsor_church },
+      ->(candidate) { !candidate.sponsor_eligibility.scanned_eligibility.nil? }
+    ].freeze
 
   def self.event_columns
     ConfirmationEvent.order(:event_key).map(&:event_key)

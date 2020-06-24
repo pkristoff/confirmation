@@ -22,6 +22,7 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.export_confirmation_name'), '/export_lists/confirmation_name'],
       [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), '/export_lists/retreat', nil, 'Retreat at St. Ma...'],
       [I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/baptism', nil, 'Baptized at St. M...'],
+      [I18n.t('views.nav.export_sponsor_covenant_title'), '/export_lists/sponsor', nil, 'Sponsor Name'],
       [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/sponsor', nil, 'Sponsor at St. Ma...'],
       [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events', nil, 'Candidate Events ...'],
       [I18n.t('views.nav.pdf_baptismal_name'), '/export_lists/bap_name', nil, 'DF for matching ...']
@@ -33,6 +34,10 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('label.sidebar.candidate_information_sheet'), '<dev>/candidate_sheet.<id>.candidate_information_sheet'],
       [I18n.t('label.sidebar.baptismal_certificate'), '<dev>/event_with_picture/<id>/baptismal_certificate'],
       [I18n.t('label.sidebar.sponsor_covenant'), '<dev>/event_with_picture/<id>/sponsor_covenant'],
+      [I18n.t('label.sidebar.sponsor_eligibility'),
+       '<dev>/event_with_picture/<id>/sponsor_eligibility',
+       nil,
+       'Sponsor\'s Eligibi...'],
       [I18n.t('label.sidebar.confirmation_name'), '<dev>/pick_confirmation_name.<id>.confirmation_name'],
       [I18n.t('label.sidebar.christian_ministry'), '<dev>/christian_ministry.<id>.christian_ministry'],
       [I18n.t('label.sidebar.retreat_verification'), '<dev>/event_with_picture/<id>/retreat_verification'],
@@ -55,7 +60,11 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '/dev', 9, candidate.id.to_s)
+      expect_links_in_order(@candidate_link_names_in_order,
+                            'candidate-sidebar',
+                            '/dev',
+                            @candidate_link_names_in_order.size,
+                            candidate.id.to_s)
     end
   end
 
@@ -65,9 +74,9 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 17)
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 18)
 
-      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 6)
+      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 7)
 
       expect(rendered).to_not have_selector('p[id="candidate: Sophia Agusta"]')
     end
@@ -83,12 +92,16 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 27) # +1 is for candidate
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 29) # +1 is for candidate
 
-      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 6)
+      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 7)
       expect(rendered).to have_selector('p[id="candidate"]', text: 'Candidate: Sophia Agusta')
 
-      expect_links_in_order(@candidate_link_names_in_order, 'candidate-sidebar', '', 10, @resource.id.to_s)
+      expect_links_in_order(@candidate_link_names_in_order,
+                            'candidate-sidebar',
+                            '',
+                            @candidate_link_names_in_order.size,
+                            @resource.id.to_s)
     end
   end
 

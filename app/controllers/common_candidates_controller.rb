@@ -85,8 +85,12 @@ class CommonCandidatesController < ApplicationController
     render_called = false
     if params['candidate']
       case event_route.to_sym
+
       when Event::Route::SPONSOR_COVENANT
         render_called = sponsor_covenant(is_verify)
+
+      when Event::Route::SPONSOR_ELIGIBILITY
+        render_called = sponsor_eligibility(is_verify)
 
       when Event::Route::BAPTISMAL_CERTIFICATE
         render_called = baptismal_certificate(is_verify)
@@ -190,6 +194,8 @@ class CommonCandidatesController < ApplicationController
       scanned_image = @candidate.baptismal_certificate.scanned_certificate
     when Event::Route::SPONSOR_COVENANT
       scanned_image = @candidate.sponsor_covenant.scanned_covenant
+    when Event::Route::SPONSOR_ELIGIBILITY
+      scanned_image = @candidate.sponsor_eligibility.scanned_eligibility
     when Event::Route::RETREAT_VERIFICATION
       scanned_image = @candidate.retreat_verification.scanned_retreat
     else
@@ -300,11 +306,11 @@ class CommonCandidatesController < ApplicationController
   #
   # * <tt>:id</tt> Candidate id
   #
-  def upload_sponsor_eligibility_image
-    @candidate = Candidate.find(params[:id])
-    scanned_image = @candidate.sponsor_covenant.scanned_eligibility
-    send_image(scanned_image) unless scanned_image.nil?
-  end
+  # def upload_sponsor_eligibility_image
+  #   @candidate = Candidate.find(params[:id])
+  #   scanned_image = @candidate.sponsor_eligibility.scanned_eligibility
+  #   send_image(scanned_image) unless scanned_image.nil?
+  # end
 
   private
 
@@ -520,17 +526,35 @@ class CommonCandidatesController < ApplicationController
                         sponsor_covenant,
                         :scanned_covenant_attributes, sponsor_covenant_params)
     end
-    if sponsor_covenant_params[:remove_sponsor_eligibility_picture] == 'Remove'
-      sponsor_covenant.scanned_eligibility = nil
-    else
-      setup_file_params(
-        sponsor_covenant_params[:sponsor_eligibility_picture],
-        sponsor_covenant,
-        :scanned_eligibility_attributes, sponsor_covenant_params
-      )
-    end
 
     event_with_picture_update_private(SponsorCovenant, is_verify)
+  end
+
+  # handle updating SponsorEligibility including
+  #   attributes
+  #   scanned pictures
+  #   removal of scanned picture
+  #
+  # === Parameters:
+  #
+  # * <tt>:is_verify</tt> is admin verifying event
+  #
+  # === Returns:
+  #
+  # Boolean:  whether render was called
+  #
+  def sponsor_eligibility(is_verify)
+    sponsor_eligibility = @candidate.sponsor_eligibility
+    sponsor_eligibility_params = params[:candidate][:sponsor_eligibility_attributes]
+    if sponsor_eligibility_params[:remove_sponsor_eligibility_picture] == 'Remove'
+      sponsor_eligibility.scanned_eligibility = nil
+    else
+      setup_file_params(sponsor_eligibility_params[:sponsor_eligibility_picture],
+                        sponsor_eligibility,
+                        :scanned_eligibility_attributes, sponsor_eligibility_params)
+    end
+
+    event_with_picture_update_private(SponsorEligibility, is_verify)
   end
 
   # handle updating RetreatVerification including

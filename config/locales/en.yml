@@ -54,6 +54,7 @@ en:
     parent_meeting: Parent Information Meeting
     retreat_verification: Attend Retreat
     sponsor_covenant: Sponsor's Covenant
+    sponsor_eligibility: Sponsor's Eligibility
   field_set:
     admin:
       change_password: Change Password
@@ -78,9 +79,8 @@ en:
       dates: Dates
       info: Info
       scan: Retreat Verification Form
-    sponsor_covenant:
-      sponsor_covenant: Sponsor covenant
-      sponsor_eligibility: Sponsor eligibility
+    sponsor_covenant: Sponsor covenant
+    sponsor_eligibility: Sponsor eligibility
   label:
     admin:
       admins: Admins
@@ -159,14 +159,17 @@ en:
       parent_meeting: Parent Information Meeting
       retreat_verification: Attend Retreat
       sponsor_covenant: Sponsor's Covenant
+      sponsor_eligibility: Sponsor's Eligibility
     sign_agreement:
       signed_agreement: By checking you agree to the above.
     sorting:
       total_selected: Total Selected
     sponsor_covenant:
+      sponsor_covenant_picture: Sponsor Covenant
+      sponsor_name: Sponsor's Name
+    sponsor_eligibility:
       sponsor_attends_home_parish: Sponsor registered at %{home_parish}
       sponsor_church: Sponsor's church
-      sponsor_covenant_picture: Sponsor Covenant
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
       sponsor_name: Sponsor's Name
     visitor:
@@ -382,6 +385,7 @@ en:
       export_candidate_event_status_title: Candidate Events Status
       export_confirmation_name: Confirmation Names
       export_sponsor_at_home_parish_title: Sponsor at %{home_parish}
+      export_sponsor_covenant_title: Sponsor Name
       monthly_mass_mailing: Monthly Mailing
       note: Note
       other: Other

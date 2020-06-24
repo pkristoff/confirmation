@@ -169,7 +169,7 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.save
     update_baptismal_certificate(false)
 
-    expect_db(1, 8, 0)
+    expect_db(1, 0)
 
     visit @path
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true)
@@ -209,7 +209,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(candidate.candidate_sheet.middle_name).to eq(MIDDLE_NAME)
     expect(candidate.candidate_sheet.last_name).to eq(LAST_NAME)
 
-    expect_db(1, 8, 1) # make sure DB does not increase in size.
+    expect_db(1, 1) # make sure DB does not increase in size.
     # rubocop:enable Layout/LineLength
   end
 
@@ -271,7 +271,7 @@ shared_context 'baptismal_certificate_html_erb' do
       @candidate.save
     end
 
-    expect_db(1, 8, 0)
+    expect_db(1, 0)
 
     visit @path
     attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
@@ -297,7 +297,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                               "State #{I18n.t('errors.messages.blank')}",
                                                                               "Zip code #{I18n.t('errors.messages.blank')}"]]])
 
-    expect_db(1, 8, 1)
+    expect_db(1, 1)
 
     expect(page).to have_selector(img_src_selector)
 
@@ -314,7 +314,7 @@ shared_context 'baptismal_certificate_html_erb' do
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, expected_messages: [[:flash_notice, @updated_message]])
     end
 
-    expect_db(1, 8, 1)
+    expect_db(1, 1)
     expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
     expect(candidate.baptismal_certificate).not_to eq(nil)
     expect(candidate.baptismal_certificate.scanned_certificate).not_to eq(nil)
@@ -323,7 +323,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false)
 
-    expect_db(1, 8, 1) # make sure DB does not increase in size.
+    expect_db(1, 1) # make sure DB does not increase in size.
   end
   # rubocop:enable Layout/LineLength
 

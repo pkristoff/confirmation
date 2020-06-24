@@ -41,7 +41,7 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and no picture' do
-    expect_db(1, 8, 0)
+    expect_db(1, 0)
 
     visit @path
 
@@ -74,11 +74,11 @@ shared_context 'retreat_verification_html_erb' do
     visit @path
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify)
 
-    expect_db(1, 8, 0) # make sure DB does not increase in size.
+    expect_db(1, 0) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, fills in template and picture' do
-    expect_db(1, 8, 0)
+    expect_db(1, 0)
     visit @path
     fill_in_form(true)
     click_button @update_id
@@ -107,11 +107,11 @@ shared_context 'retreat_verification_html_erb' do
     visit @path
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify)
 
-    expect_db(1, 8, 1) # make sure DB does not increase in size.
+    expect_db(1, 1) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
-    expect_db(1, 8, 0)
+    expect_db(1, 0)
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
@@ -145,7 +145,7 @@ shared_context 'retreat_verification_html_erb' do
                                      start_date: '',
                                      end_date: '')
 
-    expect_db(1, 8, 1) # make sure DB does not increase in size.
+    expect_db(1, 1) # make sure DB does not increase in size.
   end
 
   scenario 'admin logs in and selects a candidate, fills in form except picture.' do

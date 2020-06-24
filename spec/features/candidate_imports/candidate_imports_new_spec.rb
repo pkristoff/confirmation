@@ -117,7 +117,7 @@ feature 'Other', :devise do
 
       expect(page.html).to have_selector('section[id=check_events] ul[id=missing_confirmation_events] li',
                                          text: I18n.t('events.sponsor_covenant'))
-      expect(page.html).to have_selector('section[id=check_events] ul[id=found_confirmation_events] li', count: 7)
+      expect(page.html).to have_selector('section[id=check_events] ul[id=found_confirmation_events] li', count: 8)
       expect(page.html).to have_selector('section[id=check_events] ul[id=unknown_confirmation_events] li',
                                          text: 'unknown event')
     end
@@ -156,7 +156,7 @@ feature 'Other', :devise do
       click_button I18n.t('views.imports.add_missing_events')
 
       expect(page.html).to have_selector('section[id=check_events] ul[id=missing_confirmation_events] li', count: 0)
-      expect(page.html).to have_selector('section[id=check_events] ul[id=found_confirmation_events] li', count: 8)
+      expect(page.html).to have_selector('section[id=check_events] ul[id=found_confirmation_events] li', count: 9)
       expect(page.html).to have_selector('section[id=check_events] ul[id=unknown_confirmation_events] li', text: 'unknown event')
     end
   end

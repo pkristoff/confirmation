@@ -106,7 +106,7 @@ module ViewsHelpers
     candidate.baptismal_certificate.church_address.zip_code = '12345'
 
     candidate.sponsor_covenant.sponsor_name = 'The Boss'
-    candidate.sponsor_covenant.sponsor_attends_home_parish = true
+    candidate.sponsor_eligibility.sponsor_attends_home_parish = true
 
     candidate.pick_confirmation_name.saint_name = 'Bolt'
 
@@ -165,7 +165,8 @@ module ViewsHelpers
     AppFactory.add_confirmation_event('unknown event')
   end
 
-  def expect_db(candidate_size, conf_event_size, image_size)
+  def expect_db(candidate_size, image_size)
+    conf_event_size = 9
     # rubocop:disable Layout/LineLength
     expect(ConfirmationEvent.all.size).to eq(conf_event_size), "ConfirmationEvent size #{ConfirmationEvent.all.size} did not meet expected #{conf_event_size}"
 

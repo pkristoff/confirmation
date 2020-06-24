@@ -27,7 +27,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     @candidate.baptismal_certificate.church_address.zip_code = '12345'
 
     @candidate.sponsor_covenant.sponsor_name = 'The Boss'
-    @candidate.sponsor_covenant.sponsor_attends_home_parish = true
+    @candidate.sponsor_eligibility.sponsor_attends_home_parish = true
 
     @candidate.pick_confirmation_name.saint_name = 'Bolt'
 
@@ -76,6 +76,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Confirmation name', 'Bolt']
       when SponsorCovenant.event_key
         info << ['Sponsor name', 'The Boss']
+      when SponsorEligibility.event_key
         info << ['Sponsor attends', Visitor.home_parish]
       when BaptismalCertificate.event_key
         info << %w[Birthday 1999-03-05]
@@ -128,6 +129,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Confirmation name', 'Bolt']
       when SponsorCovenant.event_key
         info << ['Sponsor name', 'The Boss']
+      when SponsorEligibility.event_key
         info << ['Sponsor attends', Visitor.home_parish]
       when BaptismalCertificate.event_key
         info << %w[Birthday 1999-03-05]

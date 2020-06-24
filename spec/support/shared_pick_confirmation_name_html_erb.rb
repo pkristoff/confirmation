@@ -41,7 +41,7 @@ shared_context 'pick_confirmation_name_html_erb' do
   scenario 'admin logs in and selects a candidate, fills in template' do
     update_pick_confirmation_name(false)
 
-    expect_db(1, 8, 0)
+    expect_db(1, 0)
 
     visit @path
     fill_in_form
@@ -66,7 +66,7 @@ shared_context 'pick_confirmation_name_html_erb' do
       expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(@today)
       expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to eq(false)
 
-      expect_db(1, 8, 0) # make sure DB does not increase in size.
+      expect_db(1, 0) # make sure DB does not increase in size.
     end
   end
 

@@ -297,7 +297,8 @@ describe CandidateEvent, type: :model do
       candidate_event = candidate.get_candidate_event(event_key)
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
-       [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]].each do |association_class_pair|
+       [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, true],
+       [SponsorEligibility, false]].each do |association_class_pair|
         candidate_event.completed_date = nil
         candidate_event.verified = false
 

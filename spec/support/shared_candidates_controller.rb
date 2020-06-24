@@ -377,58 +377,18 @@ shared_context 'sponsor_covenant' do
       expect(candidate_event.completed_date).to be_nil
       expect(candidate_event.verified).to be(false)
     end
-
-    it "Admin removes sponsor eligibility picture and undoes events completed state.  commit = #{commit_value}" do
-      candidate = Candidate.find(@candidate.id)
-      sponsor_covenant = make_valid_sc_eligibility(candidate)
-
-      update_event(candidate, @today, false, SponsorCovenant.event_key)
-      candidate.save
-
-      cand_sc_params = valid_parameters_sc_eligibility(sponsor_covenant.id)
-
-      put :event_with_picture_update,
-          params: { id: candidate.id,
-                    commit: commit_value,
-                    event_route: Event::Route::SPONSOR_COVENANT,
-                    candidate: { sponsor_covenant_attributes: cand_sc_params } }
-
-      candidate = Candidate.find(@candidate.id)
-      sponsor_covenant = candidate.sponsor_covenant
-      expect(sponsor_covenant.scanned_covenant).to_not be_nil
-      expect(sponsor_covenant.scanned_eligibility).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(sponsor_covenant.scanned_eligibility).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
-      candidate_event = candidate.get_candidate_event(SponsorCovenant.event_key)
-      expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
-      expect(candidate_event.verified).to be(false)
-    end
   end
 
   def valid_parameters_sc(id)
     {
-      sponsor_name: '1',
-      sponsor_attends_home_parish: '1',
-      remove_sponsor_covenant_picture: 'Remove',
-      remove_sponsor_eligibility_picture: '',
-      id: id.to_s
-    }
-  end
-
-  def valid_parameters_sc_eligibility(id)
-    {
       sponsor_name: 'youyoou',
-      sponsor_attends_home_parish: '0',
-      sponsor_church: 'St. youyou',
-      remove_sponsor_covenant_picture: '',
-      remove_sponsor_eligibility_picture: 'Remove',
+      remove_sponsor_covenant_picture: 'Remove',
       id: id.to_s
     }
   end
 
   def make_valid_sc(candidate)
     sponsor_covenant = candidate.sponsor_covenant
-    sponsor_covenant.sponsor_attends_home_parish = true
     sponsor_covenant.sponsor_name = 'meme'
     sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image,
                                                           filename: 'actions.png',
@@ -436,21 +396,110 @@ shared_context 'sponsor_covenant' do
                                                           content: 'vvv')
     sponsor_covenant
   end
+end
 
-  def make_valid_sc_eligibility(candidate)
-    sponsor_covenant = candidate.sponsor_covenant
-    sponsor_covenant.sponsor_attends_home_parish = false
-    sponsor_covenant.sponsor_name = 'meme'
-    sponsor_covenant.sponsor_church = 'St. meme'
-    sponsor_covenant.scanned_covenant = FactoryBot.create(:scanned_image,
-                                                          filename: 'actions.png',
-                                                          content_type: 'image/png',
-                                                          content: 'lll')
-    sponsor_covenant.scanned_eligibility = FactoryBot.create(:scanned_image,
-                                                             filename: 'actions.png',
-                                                             content_type: 'image/png',
-                                                             content: 'vvv')
-    sponsor_covenant
+shared_context 'sponsor_eligibility' do
+  before(:each) do
+    AppFactory.add_confirmation_event(SponsorEligibility.event_key)
+    @today = Time.zone.today
+  end
+  [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
+    it "Admin removes sponsor eligibility picture and undoes events completed state.  commit = #{commit_value}" do
+      candidate = Candidate.find(@candidate.id)
+      sponsor_eligibility = make_valid_se(candidate)
+
+      update_event(candidate, @today, false, SponsorEligibility.event_key)
+      candidate.save
+
+      expect(sponsor_eligibility.scanned_eligibility).to_not be_nil
+
+      cand_se_params = valid_parameters_se(sponsor_eligibility.id)
+
+      put :event_with_picture_update,
+          params: { id: candidate.id,
+                    commit: commit_value,
+                    event_route: Event::Route::SPONSOR_ELIGIBILITY,
+                    candidate: { sponsor_eligibility_attributes: cand_se_params } }
+
+      candidate = Candidate.find(@candidate.id)
+      sponsor_eligibility = candidate.sponsor_eligibility
+      expect(sponsor_eligibility.scanned_eligibility).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_eligibility.scanned_eligibility).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(SponsorEligibility.event_key)
+      expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.verified).to be(false)
+    end
+
+    it 'Admin removes sponsor eligibility picture and undoes events completed state and verified state' do
+      candidate = Candidate.find(@candidate.id)
+      sponsor_eligibility = make_valid_se(candidate)
+
+      update_event(candidate, @today, true, SponsorEligibility.event_key)
+      candidate.save
+
+      expect(sponsor_eligibility.scanned_eligibility).to_not be_nil
+
+      cand_se_params = valid_parameters_se(sponsor_eligibility.id)
+
+      put :event_with_picture_update,
+          params: { id: candidate.id,
+                    event_route: Event::Route::SPONSOR_ELIGIBILITY,
+                    candidate: { sponsor_eligibility_attributes: cand_se_params } }
+
+      candidate = Candidate.find(@candidate.id)
+      sponsor_eligibility = candidate.sponsor_eligibility
+      expect(sponsor_eligibility.scanned_eligibility).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_eligibility.scanned_eligibility).to be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(SponsorEligibility.event_key)
+      expect(candidate_event.completed_date).to be_nil
+      expect(candidate_event.verified).to be(false)
+    end
+
+    it "Admin removes sponsor eligibility picture and undoes events completed state.  commit = #{commit_value}" do
+      candidate = Candidate.find(@candidate.id)
+      sponsor_eligibility = make_valid_se(candidate)
+
+      update_event(candidate, @today, false, SponsorEligibility.event_key)
+      candidate.save
+
+      cand_se_params = valid_parameters_se(sponsor_eligibility.id)
+
+      put :event_with_picture_update,
+          params: { id: candidate.id,
+                    commit: commit_value,
+                    event_route: Event::Route::SPONSOR_ELIGIBILITY,
+                    candidate: { sponsor_eligibility_attributes: cand_se_params } }
+
+      candidate = Candidate.find(@candidate.id)
+      sponsor_eligibility = candidate.sponsor_eligibility
+      expect(sponsor_eligibility.scanned_eligibility).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_eligibility.scanned_eligibility).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      candidate_event = candidate.get_candidate_event(SponsorEligibility.event_key)
+      expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
+      expect(candidate_event.verified).to be(false)
+    end
+  end
+
+  def valid_parameters_se(id)
+    {
+      sponsor_attends_home_parish: '0',
+      sponsor_church: 'St. youyou',
+      remove_sponsor_eligibility_picture: 'Remove',
+      id: id.to_s
+    }
+  end
+
+  def make_valid_se(candidate)
+    sponsor_eligibility = candidate.sponsor_eligibility
+    sponsor_eligibility.sponsor_attends_home_parish = false
+    sponsor_eligibility.sponsor_church = 'St. meme'
+    sponsor_eligibility.scanned_eligibility = FactoryBot.create(:scanned_image,
+                                                                filename: 'actions.png',
+                                                                content_type: 'image/png',
+                                                                content: 'lll')
+    sponsor_eligibility
   end
 end
 

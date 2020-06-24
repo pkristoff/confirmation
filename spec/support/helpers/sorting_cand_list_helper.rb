@@ -71,6 +71,8 @@ module SortingCandListHelpers
       event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
     when SponsorCovenant.event_key
       event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+    when SponsorEligibility.event_key
+      event_with_picture_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY)
     when PickConfirmationName.event_key
       pick_confirmation_name_path(candidate_id)
     when ChristianMinistry.event_key
@@ -94,6 +96,8 @@ module SortingCandListHelpers
       event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
     when SponsorCovenant.event_key
       event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+    when SponsorEligibility.event_key
+      event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY)
     when PickConfirmationName.event_key
       pick_confirmation_name_verify_path(candidate_id)
     when ChristianMinistry.event_key
@@ -185,6 +189,7 @@ module SortingCandListHelpers
       [I18n.t('events.candidate_information_sheet'), true, '', expect_event(CandidateSheet.event_key)],
       [I18n.t('events.baptismal_certificate'), true, '', expect_event(BaptismalCertificate.event_key)],
       [I18n.t('events.sponsor_covenant'), true, '', expect_event(SponsorCovenant.event_key)],
+      [I18n.t('events.sponsor_eligibility'), true, '', expect_event(SponsorEligibility.event_key)],
       [I18n.t('events.confirmation_name'), true, '', expect_event(PickConfirmationName.event_key)],
       [I18n.t('events.christian_ministry'), true, '', expect_event(ChristianMinistry.event_key)],
       [I18n.t('events.retreat_verification'), true, '', expect_event(RetreatVerification.event_key)],

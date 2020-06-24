@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_25_105744) do
+ActiveRecord::Schema.define(version: 2020_06_17_080358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 2019_12_25_105744) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.text "candidate_note", default: "", null: false
+    t.integer "sponsor_eligibility_id"
     t.index ["account_name"], name: "index_candidates_on_account_name", unique: true
     t.index ["baptismal_certificate_id"], name: "index_candidates_on_baptismal_certificate_id"
     t.index ["candidate_sheet_id"], name: "index_candidates_on_candidate_sheet_id"
@@ -127,6 +128,7 @@ ActiveRecord::Schema.define(version: 2019_12_25_105744) do
     t.index ["reset_password_token"], name: "index_candidates_on_reset_password_token", unique: true
     t.index ["retreat_verification_id"], name: "index_candidates_on_retreat_verification_id"
     t.index ["sponsor_covenant_id"], name: "index_candidates_on_sponsor_covenant_id"
+    t.index ["sponsor_eligibility_id"], name: "index_candidates_on_sponsor_eligibility_id"
   end
 
   create_table "christian_ministries", id: :serial, force: :cascade do |t|
@@ -146,6 +148,14 @@ ActiveRecord::Schema.define(version: 2019_12_25_105744) do
     t.text "instructions", default: "", null: false
     t.date "chs_due_date"
     t.index ["event_key"], name: "index_confirmation_events_on_event_key"
+  end
+
+  create_table "pdf_documents", force: :cascade do |t|
+    t.string "filename"
+    t.string "run_name"
+    t.binary "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pick_confirmation_names", id: :serial, force: :cascade do |t|
@@ -176,14 +186,19 @@ ActiveRecord::Schema.define(version: 2019_12_25_105744) do
 
   create_table "sponsor_covenants", id: :serial, force: :cascade do |t|
     t.string "sponsor_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "scanned_covenant_id"
+    t.index ["scanned_covenant_id"], name: "index_sponsor_covenants_on_scanned_covenant_id"
+  end
+
+  create_table "sponsor_eligibilities", force: :cascade do |t|
     t.boolean "sponsor_attends_home_parish", default: true, null: false
-    t.string "sponsor_church"
+    t.string "sponsor_church", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "scanned_eligibility_id"
-    t.integer "scanned_covenant_id"
-    t.index ["scanned_covenant_id"], name: "index_sponsor_covenants_on_scanned_covenant_id"
-    t.index ["scanned_eligibility_id"], name: "index_sponsor_covenants_on_scanned_eligibility_id"
+    t.index ["scanned_eligibility_id"], name: "index_sponsor_eligibilities_on_scanned_eligibility_id"
   end
 
   create_table "to_dos", id: :serial, force: :cascade do |t|
@@ -210,4 +225,5 @@ ActiveRecord::Schema.define(version: 2019_12_25_105744) do
   add_foreign_key "candidates", "pick_confirmation_names"
   add_foreign_key "candidates", "retreat_verifications"
   add_foreign_key "candidates", "sponsor_covenants"
+  add_foreign_key "candidates", "sponsor_eligibilities"
 end

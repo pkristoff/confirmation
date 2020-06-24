@@ -256,7 +256,7 @@ describe Candidate do
       expect(actual[3]).to eq(not_complete)
     end
 
-    it 'retreat_external_verification??' do
+    it 'retreat_external_verification?' do
       event_key = RetreatVerification.event_key
       @c1.retreat_verification.retreat_held_at_home_parish = false
       @c1.get_candidate_event(event_key).completed_date = @today
@@ -271,19 +271,34 @@ describe Candidate do
       expect_external_verification(Candidate.retreat_external_verification, [@c2], [@c1], [], [@c3, @c4])
     end
 
-    it 'sponsor_external_verification?' do
+    it 'sponsor_covenant_external_verification?' do
       event_key = SponsorCovenant.event_key
-      @c1.sponsor_covenant.sponsor_attends_home_parish = false
+      @c1.sponsor_covenant.sponsor_name = ''
       @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
-      @c2.sponsor_covenant.sponsor_attends_home_parish = true
+      @c2.sponsor_covenant.sponsor_name = 'George'
       @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
-      @c3.sponsor_covenant.sponsor_attends_home_parish = true
+      @c3.sponsor_covenant.sponsor_name = 'Sam'
       @c3.get_candidate_event(event_key).completed_date = nil
       @c3.save
 
-      expect_external_verification(Candidate.sponsor_external_verification, [@c2], [@c1], [], [@c3, @c4])
+      expect_external_verification(Candidate.sponsor_covenant_external_verification, [], [@c1, @c2], [], [@c3, @c4])
+    end
+
+    it 'sponsor_eligibility_external_verification?' do
+      event_key = SponsorEligibility.event_key
+      @c1.sponsor_eligibility.sponsor_attends_home_parish = false
+      @c1.get_candidate_event(event_key).completed_date = @today
+      @c1.save
+      @c2.sponsor_eligibility.sponsor_attends_home_parish = true
+      @c2.get_candidate_event(event_key).completed_date = @today
+      @c2.save
+      @c3.sponsor_eligibility.sponsor_attends_home_parish = true
+      @c3.get_candidate_event(event_key).completed_date = nil
+      @c3.save
+
+      expect_external_verification(Candidate.sponsor_eligibility_external_verification, [@c2], [@c1], [], [@c3, @c4])
     end
   end
 
