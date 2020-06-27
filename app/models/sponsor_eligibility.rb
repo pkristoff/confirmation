@@ -1,0 +1,129 @@
+# frozen_string_literal: true
+
+#
+# Active Record
+#
+class SponsorEligibility < ApplicationRecord
+  belongs_to(:scanned_eligibility, class_name: 'ScannedImage', validate: false, dependent: :destroy)
+  accepts_nested_attributes_for(:scanned_eligibility, allow_destroy: true)
+
+  attr_accessor :sponsor_eligibility_picture,
+                :remove_sponsor_eligibility_picture
+
+  def self.event_key
+    'sponsor_eligibility'
+  end
+
+  # Validate whether event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of association
+  #
+  # === Returns:
+  #
+  # * <tt>SponsorCovenant</tt> with validation errors
+  #
+  def self.validate_event_complete(candidate)
+    sponsor_eligibility = candidate.sponsor_eligibility
+    sponsor_eligibility.validate_event_complete
+    sponsor_eligibility
+  end
+
+  # Validate if event is complete by adding validation errors to active record
+  #
+  # === Parameters:
+  #
+  # * <tt>:options</tt>
+  #
+  def validate_event_complete(_options = {})
+    event_complete_validator = EventCompleteValidator.new(self, !sponsor_attends_home_parish)
+    event_complete_validator.validate(SponsorEligibility.attends_home_parish_validation_params,
+                                      SponsorEligibility.not_attends_home_parish_params)
+
+    found = false
+    found |= !errors.delete(:scanned_eligibility).nil?
+    errors[:base] << "Scanned sponsor eligibility form #{I18n.t('errors.messages.blank')}" if found
+  end
+
+  # Editable attributes
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of attributes
+  #
+  def self.permitted_params
+    SponsorEligibility.attends_home_parish_params.concat(
+      SponsorEligibility.not_attends_home_parish_params.concat(
+        [scanned_eligibility_attributes: ScannedImage.permitted_params]
+      )
+    ) <<
+      :sponsor_eligibility_picture <<
+      :remove_sponsor_eligibility_picture
+  end
+
+  # Editable attributes
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of attributes
+  #
+  def self.basic_permitted_params
+    %i[sponsor_attends_home_parish sponsor_church scanned_eligibility id]
+  end
+
+  # Editable attributes when sponsor belongs to home_parish
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of attributes
+  #
+  def self.attends_home_parish_params
+    params = basic_permitted_params
+    params.delete(:sponsor_church)
+    params.delete(:scanned_eligibility)
+    params
+  end
+
+  # Required attributes when sponsor belongs to home_parish
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of attributes
+  #
+  def self.attends_home_parish_validation_params
+    params = SponsorEligibility.attends_home_parish_params
+    params.delete(:sponsor_attends_home_parish)
+    params.delete(:remove_sponsor_eligibility_picture)
+    params.delete(:id)
+    params
+  end
+
+  # Editable attributes when sponsor does NOT belongs to home_parish
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of attributes
+  #
+  def self.not_attends_home_parish_params
+    params = basic_permitted_params
+    params.delete(:sponsor_attends_home_parish)
+    params.delete(:remove_sponsor_eligibility_picture)
+    params.delete(:id)
+    params
+  end
+
+  # information to be verified by admin
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> owner of this association
+  #
+  # === Returns:
+  #
+  # * <tt>Hash</tt> of information to be verified
+  #
+  def verifiable_info(_candidate)
+    { 'Sponsor attends': (sponsor_attends_home_parish ? Visitor.home_parish : sponsor_church) }
+  end
+end
