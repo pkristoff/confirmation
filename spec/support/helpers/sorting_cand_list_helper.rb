@@ -61,54 +61,76 @@ module SortingCandListHelpers
     expect(rendered_or_page).to have_css "#{table_id} tr", count: candidates_in_order.size + 1
   end
 
-  def event_key_to_path(event_key, candidate_id)
-    case event_key
-    when Candidate.covenant_agreement_event_key
-      sign_agreement_path(candidate_id)
-    when CandidateSheet.event_key
-      candidate_sheet_path(candidate_id)
-    when BaptismalCertificate.event_key
+  @event_key_to_path_offset = nil
+
+  def setup_event_key_to_path
+    entries = {}
+    entries[BaptismalCertificate.event_key] = lambda do |candidate_id|
       event_with_picture_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
-    when SponsorCovenant.event_key
-      event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
-    when SponsorEligibility.event_key
-      event_with_picture_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY)
-    when PickConfirmationName.event_key
-      pick_confirmation_name_path(candidate_id)
-    when ChristianMinistry.event_key
-      christian_ministry_path(candidate_id)
-    when RetreatVerification.event_key
-      event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
-    when Candidate.parent_meeting_event_key
-      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(event_key: event_key).id}")
-    else
-      "Unknown event_key: #{event_key}"
     end
+    entries[CandidateSheet.event_key] = ->(candidate_id) { candidate_sheet_path(candidate_id) }
+    entries[ChristianMinistry.event_key] = ->(candidate_id) { christian_ministry_path(candidate_id) }
+    entries[PickConfirmationName.event_key] = ->(candidate_id) { pick_confirmation_name_path(candidate_id) }
+    entries[RetreatVerification.event_key] = lambda do |candidate_id|
+      event_with_picture_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
+    end
+    entries[SponsorCovenant.event_key] = lambda do |candidate_id|
+      event_with_picture_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+    end
+    entries[SponsorEligibility.event_key] = lambda do |candidate_id|
+      event_with_picture_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY)
+    end
+    entries[Candidate.parent_meeting_event_key] = lambda do |candidate_id|
+      anchor = "event_id_#{ConfirmationEvent.find_by(event_key: Candidate.parent_meeting_event_key).id}"
+      event_candidate_path(candidate_id, anchor: anchor)
+    end
+    entries[Candidate.covenant_agreement_event_key] = ->(candidate_id) { sign_agreement_path(candidate_id) }
+
+    @event_key_to_path_offset = Candidate.add_new_event_key_entry(entries)
+  end
+
+  def event_key_to_path(event_key, candidate_id)
+    setup_event_key_to_path if @event_key_to_path_offset.nil?
+    event_key_entry = Candidate.event_keys[event_key]
+    raise "unknown_event_key: #{event_key}" if event_key_entry.nil?
+
+    event_key_entry[@event_key_to_path_offset].call(candidate_id)
+  end
+
+  @event_key_to_path_verify_offset = nil
+
+  def setup_event_key_to_path_verify
+    entries = {}
+    entries[BaptismalCertificate.event_key] = lambda do |candidate_id|
+      event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
+    end
+    entries[CandidateSheet.event_key] = ->(candidate_id) { candidate_sheet_verify_path(candidate_id) }
+    entries[ChristianMinistry.event_key] = ->(candidate_id) { christian_ministry_verify_path(candidate_id) }
+    entries[PickConfirmationName.event_key] = ->(candidate_id) { pick_confirmation_name_verify_path(candidate_id) }
+    entries[RetreatVerification.event_key] = lambda do |candidate_id|
+      event_with_picture_verify_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
+    end
+    entries[SponsorCovenant.event_key] = lambda do |candidate_id|
+      event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT)
+    end
+    entries[SponsorEligibility.event_key] = lambda do |candidate_id|
+      event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY)
+    end
+    entries[Candidate.parent_meeting_event_key] = lambda do |candidate_id|
+      anchor = "event_id_#{ConfirmationEvent.find_by(event_key: Candidate.parent_meeting_event_key).id}"
+      event_candidate_path(candidate_id, anchor: anchor)
+    end
+    entries[Candidate.covenant_agreement_event_key] = ->(candidate_id) { sign_agreement_verify_path(candidate_id) }
+
+    @event_key_to_path_verify_offset = Candidate.add_new_event_key_entry(entries)
   end
 
   def event_key_to_path_verify(event_key, candidate_id)
-    case event_key
-    when Candidate.covenant_agreement_event_key
-      sign_agreement_verify_path(candidate_id)
-    when CandidateSheet.event_key
-      candidate_sheet_verify_path(candidate_id)
-    when BaptismalCertificate.event_key
-      event_with_picture_verify_path(candidate_id, Event::Route::BAPTISMAL_CERTIFICATE)
-    when SponsorCovenant.event_key
-      event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_COVENANT)
-    when SponsorEligibility.event_key
-      event_with_picture_verify_path(candidate_id, Event::Route::SPONSOR_ELIGIBILITY)
-    when PickConfirmationName.event_key
-      pick_confirmation_name_verify_path(candidate_id)
-    when ChristianMinistry.event_key
-      christian_ministry_verify_path(candidate_id)
-    when RetreatVerification.event_key
-      event_with_picture_verify_path(candidate_id, Event::Route::RETREAT_VERIFICATION)
-    when Candidate.parent_meeting_event_key
-      event_candidate_path(candidate_id, anchor: "event_id_#{ConfirmationEvent.find_by(event_key: event_key).id}")
-    else
-      "Unknown event_key: #{event_key}"
-    end
+    setup_event_key_to_path_verify if @event_key_to_path_verify_offset.nil?
+    event_key_entry = Candidate.event_keys[event_key]
+    raise "unknown_event_key: #{event_key}" if event_key_entry.nil?
+
+    event_key_entry[@event_key_to_path_verify_offset].call(candidate_id)
   end
 
   def expect_event(event_key, verify = false)

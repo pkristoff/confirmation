@@ -245,42 +245,10 @@ class CandidateEvent < ApplicationRecord
   # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info
-    candidate.get_event_association(route).verifiable_info(candidate)
+    candidate.get_event_association(Candidate.event_route(event_key)).verifiable_info(candidate)
   end
 
-  # mapping from confirmation event name to a routing symbol
-  #
-  # === Returns:
-  #
-  # * <tt>Symbol</tt>
-  #
-  def route
-    # TODO: maybe move to constants
-    case event_key
-    when BaptismalCertificate.event_key
-      Event::Route::BAPTISMAL_CERTIFICATE
-    when Candidate.covenant_agreement_event_key
-      Event::Other::CANDIDATE_COVENANT_AGREEMENT
-    when CandidateSheet.event_key
-      Event::Other::CANDIDATE_INFORMATION_SHEET
-    when ChristianMinistry.event_key
-      Event::Route::CHRISTIAN_MINISTRY
-    when PickConfirmationName.event_key
-      Event::Route::CONFIRMATION_NAME
-    when Candidate.parent_meeting_event_key
-      Event::Other::PARENT_INFORMATION_MEETING
-    when SponsorCovenant.event_key
-      Event::Route::SPONSOR_COVENANT
-    when SponsorEligibility.event_key
-      Event::Route::SPONSOR_ELIGIBILITY
-    when RetreatVerification.event_key
-      Event::Route::RETREAT_VERIFICATION
-    else
-      raise "Unknown event to route: #{event_key}"
-    end
-  end
-
-  # Mark candidated complete by setting the completed date
+  # Mark candidate complete by setting the completed date
   # Some associations can be automatically makred as verified.
   #
   # === Parameters:

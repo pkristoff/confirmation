@@ -99,10 +99,12 @@ confirmation_toggle = function () {
         }
     }
 
-    function toggle_top( id, doWhat ) {
+    function toggle_top( id, doWhat, id2 = '' ) {
         var div = $( id );
+        var div2 = id2 = '' ? nil : $( id2 )
         if ( doWhat === 'toggle' ) {
             div.is( ':hidden' ) ? div.show() : div.hide();
+            div2.is( ':hidden' ) ? div2.show() : div2.hide();
         }
         else if ( doWhat === 'hide' ) {
             div.hide();

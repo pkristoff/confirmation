@@ -168,7 +168,9 @@ en:
       sponsor_covenant_picture: Sponsor Covenant
       sponsor_name: Sponsor's Name
     sponsor_eligibility:
-      sponsor_attends_home_parish: Sponsor registered at %{home_parish}
+      sponsor_attends_home_parish: Sponsor is registered at %{home_parish}
+      sponsor_attends_home_parish_note: "(We will verify with office and get back
+        with you if there any problems)"
       sponsor_church: Sponsor's church
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
       sponsor_name: Sponsor's Name

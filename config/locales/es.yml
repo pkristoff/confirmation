@@ -170,7 +170,9 @@ es:
       sponsor_covenant_picture: Pacto del patrocinador
       sponsor_name: Nombre del patrocinador
     sponsor_eligibility:
-      sponsor_attends_home_parish: Patrocinador registrado en %{home_parish}
+      sponsor_attends_home_parish: El patrocinador está registrado en %{home_parish}
+      sponsor_attends_home_parish_note: "(Verificaremos con la oficina y nos comunicaremos
+        con usted si hay algún problema)"
       sponsor_church: La iglesia del patrocinador
       sponsor_eligibility_picture: Formulario de elegibilidad del patrocinador
       sponsor_name: Nombre del patrocinador

@@ -4,6 +4,10 @@
 # Active Record
 #
 class SponsorCovenant < ApplicationRecord
+  # remove migration is done on production - just for migration
+  belongs_to(:scanned_eligibility, class_name: 'ScannedImage', validate: false, dependent: :destroy)
+  accepts_nested_attributes_for(:scanned_eligibility, allow_destroy: true)
+
   belongs_to(:scanned_covenant, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_covenant, allow_destroy: true)
 

@@ -374,28 +374,72 @@ class Candidate < ApplicationRecord
   end
 
   def self.i18n_event_name(event_key)
-    case event_key
-    when Candidate.parent_meeting_event_key
-      I18n.t('events.parent_meeting')
-    when RetreatVerification.event_key
-      I18n.t('events.retreat_verification')
-    when Candidate.covenant_agreement_event_key
-      I18n.t('events.candidate_covenant_agreement')
-    when CandidateSheet.event_key
-      I18n.t('events.candidate_information_sheet')
-    when BaptismalCertificate.event_key
-      I18n.t('events.baptismal_certificate')
-    when SponsorCovenant.event_key
-      I18n.t('events.sponsor_covenant')
-    when SponsorEligibility.event_key
-      I18n.t('events.sponsor_eligibility')
-    when PickConfirmationName.event_key
-      I18n.t('events.confirmation_name')
-    when ChristianMinistry.event_key
-      I18n.t('events.christian_ministry')
-    else
-      raise "unknown_event_key: #{event_key}"
+    event_key_entry = event_keys[event_key]
+    event_key_entry = event_keys[event_key]
+    raise "unknown_event_key: #{event_key}" if event_key_entry.nil?
+
+    I18n.t(event_key_entry[1])
+  end
+
+  @event_keys = nil
+
+  def self.add_new_event_key_entry(new_entries)
+    ek = event_keys
+    # make sure every entry is has same number
+    num_entries = nil
+    new_entries.each_pair do |key, value|
+      entries = ek[key]
+      raise("unknown key #{key}") if entries.nil?
+
+      num_entries = entries.size if num_entries.nil?
+      raise "NUmber of entries is wrong for #{key}" unless num_entries == entries.size
+
+      entries << value
     end
+    num_entries
+  end
+
+  def self.event_keys
+    return @event_keys if @event_keys
+
+    @event_keys = {}
+    @event_keys[BaptismalCertificate.event_key] = [
+      Event::Route::BAPTISMAL_CERTIFICATE,
+      'events.baptismal_certificate'
+    ]
+    @event_keys[CandidateSheet.event_key] = [
+      Event::Other::CANDIDATE_INFORMATION_SHEET,
+      'events.candidate_information_sheet'
+    ]
+    @event_keys[ChristianMinistry.event_key] = [
+      Event::Route::CHRISTIAN_MINISTRY,
+      'events.christian_ministry'
+    ]
+    @event_keys[covenant_agreement_event_key] = [
+      Event::Other::CANDIDATE_COVENANT_AGREEMENT,
+      'events.candidate_covenant_agreement'
+    ]
+    @event_keys[PickConfirmationName.event_key] = [
+      Event::Route::CONFIRMATION_NAME,
+      'events.confirmation_name'
+    ]
+    @event_keys[Candidate.parent_meeting_event_key] = [
+      Event::Other::PARENT_INFORMATION_MEETING,
+      'events.parent_meeting'
+    ]
+    @event_keys[RetreatVerification.event_key] = [
+      Event::Route::RETREAT_VERIFICATION,
+      'events.retreat_verification'
+    ]
+    @event_keys[SponsorCovenant.event_key] = [
+      Event::Route::SPONSOR_COVENANT,
+      'events.sponsor_covenant'
+    ]
+    @event_keys[SponsorEligibility.event_key] = [
+      Event::Route::SPONSOR_ELIGIBILITY,
+      'events.sponsor_eligibility'
+    ]
+    @event_keys
   end
 
   def self.event_key_from_route(event_route)
@@ -424,28 +468,10 @@ class Candidate < ApplicationRecord
   end
 
   def self.event_route(event_key)
-    case event_key
-    when Candidate.parent_meeting_event_key
-      :parent_meeting
-    when RetreatVerification.event_key
-      :retreat_verification
-    when Candidate.covenant_agreement_event_key
-      :covenant_agreement
-    when CandidateSheet.event_key
-      :candidate_information_sheet
-    when BaptismalCertificate.event_key
-      :baptismal_certificate
-    when SponsorCovenant.event_key
-      :sponsor_covenant
-    when SponsorEligibility.event_key
-      :sponsor_eligibility
-    when PickConfirmationName.event_key
-      :confirmation_name
-    when ChristianMinistry.event_key
-      :christian_ministry
-    else
-      raise "unknown_event_key_#{event_key}"
-    end
+    event_key_entry = event_keys[event_key]
+    raise "unknown_event_key: #{event_key}" if event_key_entry.nil?
+
+    event_key_entry[0]
   end
 
   # returns the association based on event name
