@@ -344,7 +344,6 @@ es:
       check_events: Verificar eventos
       check_events_first: No se encontraron eventos faltantes ejecutando Verificar
         eventos primero.
-      check_orphaned_table_rows: Comprobar filas de tablas huérfanas
       excel_no_pict: Exportar a Excel Sin imágenes escaneadas
       export_message: Exporte datos actuales a una hoja de cálculo de Excel comprimida
         con imágenes escaneadas o una hoja de cálculo de Excel sin imágenes escaneadas
@@ -353,8 +352,6 @@ es:
       import_message: Puede importar un archivo xlxs que represente a los candidatos
         iniciales que vendrán de la iglesia
       missing: Desaparecida
-      orphaned_table_rows: Filas de la mesa huérfanas
-      remove_orphaned_table_rows: Eliminar hileras de talbe huérfanas
       reset_database:
         bullet_1: 'Eventos de confirmación: todos serán eliminados. Los eventos de
           confirmación predeterminados se agregarán nuevamente.'

@@ -112,44 +112,6 @@ describe CandidateImport do
     end
   end
 
-  describe 'orphaned associations errors' do
-    it 'login should not cause orphaned associations' do
-      FactoryBot.create(:candidate)
-      expect_no_orphaned_associations
-    end
-  end
-
-  describe 'orphaned associations' do
-    it 'No orphaned associations' do
-      FactoryBot.create(:candidate)
-      expect_no_orphaned_associations
-    end
-    it 'orphaned associations' do
-      orphans = expected_orphans
-
-      FactoryBot.create(:candidate)
-      candidate_import = CandidateImport.new
-      # create orphans
-      expect_ophans(candidate_import, orphans)
-    end
-    it 'destroy orphaned associations' do
-      orphans = expected_orphans
-
-      FactoryBot.create(:candidate)
-      candidate_import = CandidateImport.new
-
-      expect_ophans(candidate_import, orphans)
-
-      candidate_import.remove_orphaned_table_rows
-      candidate_import.add_orphaned_table_rows
-      orphaned_table_rows = candidate_import.orphaned_table_rows
-
-      orphaned_table_rows.each do |key, orphan_ids|
-        expect(orphan_ids.size).to be(0), "There should be no orphaned rows for '#{key}': #{orphan_ids}"
-      end
-    end
-  end
-
   it 'what do things look like when empty' do
     candidate = FactoryBot.create(:candidate, account_name: 'c1', password: 'asdfgthe')
     candidate.candidate_sheet.first_name = 'Paul'
@@ -181,32 +143,6 @@ describe CandidateImport do
       delete_dir(dir_name)
     end
   end
-end
-
-def expect_ophans(candidate_import, orphans)
-  candidate_import.add_orphaned_table_rows
-  orphaned_table_rows = candidate_import.orphaned_table_rows
-  orphaned_table_rows.each do |key, orphan_ids|
-    expect(orphan_ids.size).to be(1), "There should be only one orphaned row for '#{key}': #{orphan_ids}"
-    expect(orphan_ids[0]).to be(orphans[key].id), "Id mismatch for '#{key}' orphan:#{orphan_ids[0]} expected:#{orphans[key].id}"
-  end
-end
-
-def expected_orphans
-  {
-    # Candidate associations
-    BaptismalCertificate: FactoryBot.create(:baptismal_certificate, skip_address_replacement: true),
-    CandidateSheet: FactoryBot.create(:candidate_sheet),
-    ChristianMinistry: FactoryBot.create(:christian_ministry),
-    PickConfirmationName: FactoryBot.create(:pick_confirmation_name),
-    RetreatVerification: FactoryBot.create(:retreat_verification),
-    SponsorCovenant: FactoryBot.create(:sponsor_covenant),
-    SponsorEligibility: FactoryBot.create(:sponsor_eligibility),
-    # # other associations
-    ScannedImage: FactoryBot.create(:scanned_image),
-    Address: FactoryBot.create(:address),
-    ToDo: FactoryBot.create(:to_do, confirmation_event_id: nil, candidate_event_id: nil)
-  }
 end
 
 def expect_confirmation_event(event_key, way_date, chs_date)
@@ -242,14 +178,14 @@ describe 'combinations' do
     candidate_import = CandidateImport.new
     candidate_import.reset_database
 
-    expect(save(candidate_import, uploaded_file)).to eq(true)
+    expect(save_uopload(candidate_import, uploaded_file)).to eq(true)
 
     expect_initial_conf_events
     expect(Candidate.all.size).to eq(4) # vicki + 3 import
 
     uploaded_file_updated = fixture_file_upload('Initial candidates update.xlsx', file_name)
 
-    expect(save(candidate_import, uploaded_file_updated)).to eq(true)
+    expect(save_uopload(candidate_import, uploaded_file_updated)).to eq(true)
 
     expect_initial_conf_events
     expect(Candidate.all.size).to eq(6) # vicki + 3 old import + 2 new from update
@@ -1139,19 +1075,10 @@ def expect_image_values(candidate, image_column_mapping_key, image_filename)
   expect(image_column_value(candidate, "#{value_methods}.content")).not_to eq(nil)
 end
 
-def save(candidate_import, uploaded_file)
+def save_uopload(candidate_import, uploaded_file)
   import_result = candidate_import.load_initial_file(uploaded_file)
   candidate_import.errors.each do |candidate|
     raise "Errors:  #{candidate[1]}"
   end
   import_result
-end
-
-def expect_no_orphaned_associations
-  candidate_import = CandidateImport.new
-  candidate_import.add_orphaned_table_rows
-  orphaned_table_rows = candidate_import.orphaned_table_rows
-  orphaned_table_rows.each do |_key, orphan_ids|
-    expect(orphan_ids).to be_empty
-  end
 end

@@ -58,7 +58,7 @@ RSpec.describe 'I18n' do
                      devise.failure.unconfirmed
                      views.common.remember_me]
     y = @missing_keys - not_missing
-    expect(y).to be_empty, "Missing #{y.count} i18n keys missing #{y}, run `i18n-tasks missing' to show them"
+    expect(y).to be_empty, "Missing #{y.count} i18n keys missing #{y}, (hint remove from  en.yml & es.yml) run `i18n-tasks missing' to show them"
   end
 
   it 'does not have unused keys' do

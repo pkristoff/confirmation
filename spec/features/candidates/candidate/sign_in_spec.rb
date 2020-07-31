@@ -126,11 +126,11 @@ feature 'Sign in', :devise do
   end
 
   def expect_no_orphaned_associations
-    candidate_import = CandidateImport.new
-    candidate_import.add_orphaned_table_rows
-    orphaned_table_rows = candidate_import.orphaned_table_rows
-    orphaned_table_rows.each do |_key, orphan_ids|
-      expect(orphan_ids).to be_empty
+    orphaneds = Orphaneds.new
+    orphaneds.add_orphaned_table_rows
+    orphaned_table_rows = orphaneds.orphaned_table_rows
+    orphaned_table_rows.each do |key, orphan_ids|
+      expect(orphan_ids).to be_empty, "#{key} has orphans"
     end
   end
 end

@@ -241,6 +241,10 @@ en:
     monthly_mailing_test_sent: Monthly mailing test sent
     no_candidate_selected: No candidate was selected.
     not_all_confirmation_events_updated: Not all ConfirmationEvents updated
+    orphaneds:
+      check:
+        no_orphans_found: No orphans found
+        orphans_found: Orphans found
     password:
       confirm_changes: we need your current password to confirm your changes
       leave_blank: leave blank if you don't want to change it
@@ -339,7 +343,6 @@ en:
       cannot_recover: You cannot recover from this.
       check_events: Check Events
       check_events_first: No missing events found running Check Events first.
-      check_orphaned_table_rows: Check Orphaned Table Rows
       excel_no_pict: Export to Excel No Scanned Pictures
       export_message: Export current data to a zipped excel spreadsheet with scanned
         pictures or an excel spreadsheet without scanned pictures
@@ -348,8 +351,6 @@ en:
       import_message: You can import an xlxs file which represents the initial candidates
         which will come from the church
       missing: Missing
-      orphaned_table_rows: Orphaned table rows
-      remove_orphaned_table_rows: Remove orphaned talbe rows
       reset_database:
         bullet_1: 'Confirmation Events: All will be removed. The default confirmation
           events will be added back in.'
@@ -394,6 +395,11 @@ en:
       pdf_baptismal_name: PDF for matching candidate name to bap. name
       toggle_navigation: Toggle navigation
       users: Users
+    orphaneds:
+      check_orphaned_table_rows: Check orphaned table rows
+      missing: Orphaned
+      orphaned_table_rows: Orphaned table rows
+      remove_orphaned_table_rows: Remove orphaned table rows
     title:
       instruction_link: Show/hide instructions
     top_bar:

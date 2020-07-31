@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'orphaneds/check'
+  post 'orphaneds/remove'
   get 'export_lists/retreat'
   get 'export_lists/confirmation_name'
   get 'export_lists/baptism'
@@ -14,7 +16,6 @@ Rails.application.routes.draw do
   post 'candidate_imports/reset_database'
   post 'candidate_imports/start_new_year'
   post 'candidate_imports/export_to_excel'
-  post 'candidate_imports/orphaned_table_rows'
   post 'candidate_imports/import_candidates'
 
   devise_for :admins,

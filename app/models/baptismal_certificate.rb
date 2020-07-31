@@ -14,6 +14,17 @@ class BaptismalCertificate < ApplicationRecord
 
   attr_accessor :certificate_picture, :remove_certificate_picture
 
+  # A common method for retrieving the scanned image this
+  # event.
+  #
+  # === Returns:
+  #
+  # * <tt>ScannedImage</tt>
+  #
+  def scanned_image
+    scanned_certificate
+  end
+
   # Validate if event is complete by adding validation errors to active record
   #
   # === Parameters:

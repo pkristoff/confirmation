@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-SPONSOR_NAME = 'George Sponsor'
-SPONSOR_CHURCH = 'St. George'
-
 SPONSOR_COVENANT_EVENT = SponsorCovenant.event_key
 
 shared_context 'sponsor_covenant_html_erb' do

@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  attr_accessor :candidate_info
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -36,6 +38,23 @@ class ApplicationController < ActionController::Base
     else
       raise("Unknown candidate_event status = #{candidate_event.status}")
     end
+  end
+
+  # sets info for _sorting_candidate_selection.html.erb
+  #
+  # === Parameters:
+  #
+  # * <tt>:args</tt> optional args
+  #
+  def candidates_info(args = { direction: :asc, sort: :account_name })
+    args = { confirmation_event: nil, selected_candidate_ids: [] }.merge(args)
+    args = args.merge(direction: params[:direction]) unless params[:direction].nil?
+    args = args.merge(sort: params[:sort]) unless params[:sort].nil?
+    @confirmation_event = args[:confirmation_event]
+    @selected_candidate_ids = args[:selected_candidate_ids]
+    ce_id = @confirmation_event.nil? ? nil : @confirmation_event.id
+    args[:event_id] = ce_id
+    @candidate_info = PluckCan.pluck_candidates(args)
   end
 
   protected
@@ -100,23 +119,6 @@ class ApplicationController < ActionController::Base
       else
         super
       end
-  end
-
-  # sets info for _sorting_candidate_selection.html.erb
-  #
-  # === Parameters:
-  #
-  # * <tt>_selected_candidate_ids_</tt> Array of initially selected candidates
-  # * <tt>_confirmation_event_</tt> Confirmation event used for mass update of candidate event for candidates.
-  #
-  def candidates_info(args = {})
-    args = { confirmation_event: nil, selected_candidate_ids: [] }.merge(args)
-    args = args.merge(direction: params[:direction], sort: params[:sort])
-    @confirmation_event = args[:confirmation_event]
-    @selected_candidate_ids = args[:selected_candidate_ids]
-    ce_id = @confirmation_event.nil? ? nil : @confirmation_event.id
-    args[:event_id] = ce_id
-    @candidate_info = PluckCan.pluck_candidates(args)
   end
 
   private

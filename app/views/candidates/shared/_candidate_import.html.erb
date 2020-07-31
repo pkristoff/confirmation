@@ -1,27 +1,4 @@
 <article>
-  <section id="orphaned-table-rows">
-    <h2><%= t('views.imports.orphaned_table_rows') %></h2>
-
-    <%= form_for(@candidate_import, url: candidate_imports_orphaned_table_rows_path, method: :post) do |f| %>
-      <div id="div_missing_confirmation_events">
-        <h3><%= t('views.imports.missing') %>:</h3>
-        <ul id="add_orphaned_table_rows">
-          <% @candidate_import.orphaned_table_rows.each do |key, missing_id_list| %>
-            <li><%= key %>: <%= missing_id_list.size %></li>
-            <ul id="add_orphaned_table_rows_"<%= key %>>
-              <li>
-                <% missing_id_list.each do |missing_id| %>
-                  <%= missing_id %>
-                <% end %></li>
-            </ul>
-          <% end %>
-        </ul>
-      </div>
-      <div class="buttons"><%= f.submit t('views.imports.check_orphaned_table_rows') %></div>
-      <div class="buttons"><%= f.submit t('views.imports.remove_orphaned_table_rows') %></div>
-    <% end %>
-  </section>
-
   <section id="export">
     <h2><%= t('views.imports.candidates_export') %></h2>
     <p>
@@ -134,6 +111,31 @@
       </div>
       <div class="buttons"><%= f.submit t('views.imports.check_events') %></div>
       <div class="buttons"><%= f.submit t('views.imports.add_missing_events') %></div>
+    <% end %>
+  </section>
+
+  <section id="orphaned-table-rows">
+    <h2><%= t('views.orphaneds.orphaned_table_rows') %></h2>
+
+    <%= form_for(@orphaneds, url: orphaneds_check_path, method: :get) do |f| %>
+      <div id="div_orphaned_records">
+        <h3><%= t('views.orphaneds.missing') %>:</h3>
+        <ul id="add_orphaned_table_rows">
+          <% @orphaneds.orphaned_table_rows.each do |key, missing_id_list| %>
+            <li id="<%= key %>"><%= key %>: <%= missing_id_list.size %></li>
+            <ul id="add_orphaned_table_rows_<%= key %>">
+              <li>
+                <% missing_id_list.each do |missing_id| %>
+                  <%= missing_id %>
+                <% end %></li>
+            </ul>
+          <% end %>
+        </ul>
+      </div>
+      <div class="buttons"><%= f.submit t('views.orphaneds.check_orphaned_table_rows') %></div>
+    <% end %>
+    <%= form_for(@orphaneds, url: orphaneds_remove_path, method: :post) do |f| %>
+      <div class="buttons"><%= f.submit t('views.orphaneds.remove_orphaned_table_rows') %></div>
     <% end %>
   </section>
 </article>

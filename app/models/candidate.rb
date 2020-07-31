@@ -375,7 +375,6 @@ class Candidate < ApplicationRecord
 
   def self.i18n_event_name(event_key)
     event_key_entry = event_keys[event_key]
-    event_key_entry = event_keys[event_key]
     raise "unknown_event_key: #{event_key}" if event_key_entry.nil?
 
     I18n.t(event_key_entry[1])

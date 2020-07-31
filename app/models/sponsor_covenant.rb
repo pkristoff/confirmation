@@ -14,6 +14,17 @@ class SponsorCovenant < ApplicationRecord
   attr_accessor :sponsor_covenant_picture,
                 :remove_sponsor_covenant_picture
 
+  # A common method for retrieving the scanned image this
+  # event.
+  #
+  # === Returns:
+  #
+  # * <tt>ScannedImage</tt>
+  #
+  def scanned_image
+    scanned_covenant
+  end
+
   # Validate if event is complete by adding validation errors to active record
   #
   # === Parameters:

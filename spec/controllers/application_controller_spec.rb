@@ -110,6 +110,64 @@ describe ApplicationController do
     end
   end
 
+  context 'candidates_info' do
+    before(:each) do
+      @c3 = create_candidate('c3')
+      @c2 = create_candidate('c2')
+      @c1 = create_candidate('c1')
+    end
+    it 'should sort (direction: :asc, sort: :account_name) by default' do
+      controller.candidates_info
+      expect(controller.candidate_info.size).to eq(3)
+      expect(controller.candidate_info[0].account_name).to eq(@c1.account_name)
+      expect(controller.candidate_info[1].account_name).to eq(@c2.account_name)
+      expect(controller.candidate_info[2].account_name).to eq(@c3.account_name)
+    end
+    it 'should sort (direction: :desc, sort: :account_name)' do
+      controller.candidates_info(direction: :desc, sort: :account_name)
+      expect(controller.candidate_info.size).to eq(3)
+      expect(controller.candidate_info[0].account_name).to eq(@c3.account_name)
+      expect(controller.candidate_info[1].account_name).to eq(@c2.account_name)
+      expect(controller.candidate_info[2].account_name).to eq(@c1.account_name)
+    end
+    it 'should sort (sort: :candidate_sheets.middle_name)' do
+      controller.candidates_info(sort: :'candidate_sheets.middle_name')
+      expect(controller.candidate_info.size).to eq(3)
+      expect(controller.candidate_info[0].account_name).to eq(@c1.account_name)
+      expect(controller.candidate_info[1].account_name).to eq(@c2.account_name)
+      expect(controller.candidate_info[2].account_name).to eq(@c3.account_name)
+    end
+    it 'should sort (direction: :desc, sort: :candidate_sheets.last_name)' do
+      controller.candidates_info(direction: :desc, sort: :'candidate_sheets.last_name')
+      expect(controller.candidate_info.size).to eq(3)
+      expect(controller.candidate_info[0].account_name).to eq(@c1.account_name)
+      expect(controller.candidate_info[1].account_name).to eq(@c3.account_name)
+      expect(controller.candidate_info[2].account_name).to eq(@c2.account_name)
+    end
+  end
+
+  def create_candidate(prefix)
+    candidate = FactoryBot.create(:candidate, account_name: prefix)
+    case prefix
+    when 'c1'
+      candidate.candidate_sheet.first_name = 'c2first_name'
+      candidate.candidate_sheet.middle_name = 'c1middle_name'
+      candidate.candidate_sheet.last_name = 'c3last_name'
+    when 'c2'
+      candidate.candidate_sheet.first_name = 'c3first_name'
+      candidate.candidate_sheet.middle_name = 'c2middle_name'
+      candidate.candidate_sheet.last_name = 'c1last_name'
+    when 'c3'
+      candidate.candidate_sheet.first_name = 'c1first_name'
+      candidate.candidate_sheet.middle_name = 'c3middle_name'
+      candidate.candidate_sheet.last_name = 'c2last_name'
+    else
+      raise 'unknown prefix'
+    end
+    candidate.save
+    candidate
+  end
+
   def create_candidate_event(candidate, completed_date, verified, confirmation_event)
     candidate.candidate_events.clear
     candidate_event = candidate.add_candidate_event(confirmation_event)

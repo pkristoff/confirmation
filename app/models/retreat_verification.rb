@@ -9,6 +9,17 @@ class RetreatVerification < ApplicationRecord
 
   attr_accessor :retreat_verification_picture, :remove_retreat_verification_picture
 
+  # A common method for retrieving the scanned image this
+  # event.
+  #
+  # === Returns:
+  #
+  # * <tt>ScannedImage</tt>
+  #
+  def scanned_image
+    scanned_retreat
+  end
+
   # Validate if event is complete by adding validation errors to active record
   #
   # === Parameters:

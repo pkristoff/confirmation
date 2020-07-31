@@ -9,26 +9,6 @@ class CandidateImportsController < ApplicationController
 
   attr_accessor :candidate_import
 
-  # find orphaned table rows -- table rows with foriegn key ids in other tables but other tables do not refernce it.
-  #
-  # === Attributes:
-  #
-  # * <tt>:commit</tt> legal values
-  # ** <code>views.imports.check_orphaned_table_rows</code>  show info on orphaned rows
-  # ** <code>views.imports.remove_orphaned_table_rows</code> remove orphaned rows
-  # *** <code>:missing</code> list of missing events
-  #
-  def orphaned_table_rows
-    case params[:commit]
-    when t('views.imports.check_orphaned_table_rows')
-      @candidate_import = CandidateImport.new.add_orphaned_table_rows
-    when t('views.imports.remove_orphaned_table_rows')
-      @candidate_import = CandidateImport.new.remove_orphaned_table_rows
-    else
-      raise('unknown orphaned_table_rows commit')
-    end
-  end
-
   # Checks for missing ConfirmationEvents if :missing is supplied then update system with missing
   # ConfirmationEvents.
   #
@@ -45,9 +25,11 @@ class CandidateImportsController < ApplicationController
         flash[:alert] = t('views.imports.check_events_first')
       else
         @candidate_import = CandidateImport.new.add_missing_events(params[:candidate_import][:missing].split(':'))
+        @orphaneds = Orphaneds.new
       end
     end
     @candidate_import ||= CandidateImport.new.check_events
+    @orphaneds = Orphaneds.new
     nil
   end
 
@@ -64,6 +46,7 @@ class CandidateImportsController < ApplicationController
       redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')
     else
       @candidate_import = CandidateImport.new
+      @orphaneds = Orphaneds.new
       if @candidate_import.load_initial_file(import_file_param.values.first)
         redirect_to root_url, notice: I18n.t('messages.import_successful')
       else
@@ -106,6 +89,7 @@ class CandidateImportsController < ApplicationController
   #
   def new
     @candidate_import ||= CandidateImport.new
+    @orphaneds ||= Orphaneds.new
     nil
   end
 end
