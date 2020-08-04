@@ -99,5 +99,6 @@ def remove_scanned_image(candidate, route, attributes)
                 candidate: attributes }
   candidate = Candidate.find_by(id: candidate.id)
   expect(candidate.get_event_association(route).scanned_image).to eq(nil)
+  expect(candidate.get_event_association(route).scanned_image_id).to eq(nil)
   expect(ScannedImage.all.size).to eq(0)
 end

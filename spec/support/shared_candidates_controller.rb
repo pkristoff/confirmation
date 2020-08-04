@@ -88,6 +88,8 @@ shared_context 'baptismal_certificate' do
 
     vps = valid_parameters_bc(candidate.baptismal_certificate.id)
     vps[:certificate_picture] = fixture_file_upload('Baptismal Certificate.png', 'image/png')
+    # cannot do an add & remove aat same time
+    vps[:remove_certificate_picture] = nil
     put :event_with_picture_update,
         params: { id: candidate.id,
                   event_route: Event::Route::BAPTISMAL_CERTIFICATE,

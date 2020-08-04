@@ -10,7 +10,7 @@ class SponsorEligibility < ApplicationRecord
   attr_accessor :sponsor_eligibility_picture,
                 :remove_sponsor_eligibility_picture
 
-  # A common method for retrieving the scanned image this
+  # A common method for retrieving the scanned image for this
   # event.
   #
   # === Returns:
@@ -19,6 +19,17 @@ class SponsorEligibility < ApplicationRecord
   #
   def scanned_image
     scanned_eligibility
+  end
+
+  # A common method for retrieving the scanned image id for this
+  # event.
+  #
+  # === Returns:
+  #
+  # * <tt>Integer</tt> scanned_eligibility_id
+  #
+  def scanned_image_id
+    scanned_eligibility_id
   end
 
   def self.event_key
