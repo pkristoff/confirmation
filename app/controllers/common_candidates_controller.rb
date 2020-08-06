@@ -191,13 +191,13 @@ class CommonCandidatesController < ApplicationController
     scanned_image = nil
     case params[:event_route].to_sym
     when Event::Route::BAPTISMAL_CERTIFICATE
-      scanned_image = @candidate.baptismal_certificate.scanned_certificate
+      scanned_image = @candidate.baptismal_certificate.scanned_image
     when Event::Route::SPONSOR_COVENANT
-      scanned_image = @candidate.sponsor_covenant.scanned_covenant
+      scanned_image = @candidate.sponsor_covenant.scanned_image
     when Event::Route::SPONSOR_ELIGIBILITY
-      scanned_image = @candidate.sponsor_eligibility.scanned_eligibility
+      scanned_image = @candidate.sponsor_eligibility.scanned_image
     when Event::Route::RETREAT_VERIFICATION
-      scanned_image = @candidate.retreat_verification.scanned_retreat
+      scanned_image = @candidate.retreat_verification.scanned_image
     else
       flash['alert'] = "Unknown event_route #{params[:event_route]}"
     end
@@ -299,18 +299,6 @@ class CommonCandidatesController < ApplicationController
                                              true)
     render :sign_agreement_verify unless render_called
   end
-
-  # send_image scanned_eligibility image if saved
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> Candidate id
-  #
-  # def upload_sponsor_eligibility_image
-  #   @candidate = Candidate.find(params[:id])
-  #   scanned_image = @candidate.sponsor_eligibility.scanned_eligibility
-  #   send_image(scanned_image) unless scanned_image.nil?
-  # end
 
   private
 
@@ -490,6 +478,7 @@ class CommonCandidatesController < ApplicationController
     unless baptized_at_home_parish
       baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
       if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
+        # tried moving this into BaptismalCertificate but the id did not get set
         baptismal_certificate.scanned_certificate.destroy
         # destroy does not set scanned_certificate_id to nil
         baptismal_certificate.scanned_certificate_id = nil
@@ -523,7 +512,7 @@ class CommonCandidatesController < ApplicationController
     sponsor_covenant = @candidate.sponsor_covenant
     sponsor_covenant_params = params[:candidate][:sponsor_covenant_attributes]
     if sponsor_covenant_params[:remove_sponsor_covenant_picture] == 'Remove'
-      sponsor_covenant.scanned_covenant.destroy
+      sponsor_covenant.scanned_image.destroy
       # destroy does not set scanned_covenant_id to nil
       sponsor_covenant.scanned_covenant_id = nil
       sponsor_covenant.save
@@ -553,7 +542,7 @@ class CommonCandidatesController < ApplicationController
     sponsor_eligibility = @candidate.sponsor_eligibility
     sponsor_eligibility_params = params[:candidate][:sponsor_eligibility_attributes]
     if sponsor_eligibility_params[:remove_sponsor_eligibility_picture] == 'Remove'
-      sponsor_eligibility.scanned_eligibility.destroy
+      sponsor_eligibility.scanned_image.destroy
       # destroy does not set scanned_eligibility_id to nil
       sponsor_eligibility.scanned_eligibility_id = nil
       sponsor_eligibility.save
@@ -584,7 +573,7 @@ class CommonCandidatesController < ApplicationController
     retreat_verification_params = params[:candidate][:retreat_verification_attributes]
 
     if retreat_verification_params[:remove_retreat_verification_picture] == 'Remove'
-      retreat_verification.scanned_retreat.destroy
+      retreat_verification.scanned_image.destroy
       # destroy does not set scanned_retreat_id to nil
       retreat_verification.scanned_retreat_id = nil
       retreat_verification.save
@@ -646,37 +635,11 @@ class CommonCandidatesController < ApplicationController
     scanned_content_type = nil
     scanned_content = nil
     scanned_image_id = nil
-    case scanned_image_attributes
-    when :scanned_certificate_attributes
-      unless file.nil? && association.scanned_certificate.nil?
-        scanned_image_id = association.scanned_certificate_id
-        scanned_filename = file ? File.basename(file.original_filename) : association.scanned_certificate.filename
-        scanned_content_type = file ? file.content_type : association.scanned_certificate.content_type
-        scanned_content = file ? file.read : association.scanned_certificate.content
-      end
-    when :scanned_retreat_attributes
-      unless file.nil? && association.scanned_retreat.nil?
-        scanned_image_id = association.scanned_retreat_id
-        scanned_filename = file ? File.basename(file.original_filename) : association.scanned_retreat.filename
-        scanned_content_type = file ? file.content_type : association.scanned_retreat.content_type
-        scanned_content = file ? file.read : association.scanned_retreat.content
-      end
-    when :scanned_eligibility_attributes
-      unless file.nil? && association.scanned_eligibility.nil?
-        scanned_image_id = association.scanned_eligibility_id
-        scanned_filename = file ? File.basename(file.original_filename) : association.scanned_eligibility.filename
-        scanned_content_type = file ? file.content_type : association.scanned_eligibility.content_type
-        scanned_content = file ? file.read : association.scanned_eligibility.content
-      end
-    when :scanned_covenant_attributes
-      unless file.nil? && association.scanned_covenant.nil?
-        scanned_image_id = association.scanned_covenant_id
-        scanned_filename = file ? File.basename(file.original_filename) : association.scanned_covenant.filename
-        scanned_content_type = file ? file.content_type : association.scanned_covenant.content_type
-        scanned_content = file ? file.read : association.scanned_covenant.content
-      end
-    else
-      raise "Unknown scanned_image_attributes #{scanned_image_attributes}"
+    unless file.nil? && association.scanned_image.nil?
+      scanned_image_id = association.scanned_image_id
+      scanned_filename = file ? File.basename(file.original_filename) : association.scanned_image.filename
+      scanned_content_type = file ? file.content_type : association.scanned_image.content_type
+      scanned_content = file ? file.read : association.scanned_image.content
     end
     return if scanned_filename.nil?
 
