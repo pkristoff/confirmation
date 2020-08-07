@@ -481,8 +481,6 @@ class CommonCandidatesController < ApplicationController
         # tried moving this into BaptismalCertificate but the id did not get set
         baptismal_certificate.scanned_certificate.destroy
         # destroy does not set scanned_certificate_id to nil
-        baptismal_certificate.scanned_certificate_id = nil
-        baptismal_certificate.save
       else
         setup_file_params(
           baptismal_certificate_params[:certificate_picture],
@@ -514,8 +512,6 @@ class CommonCandidatesController < ApplicationController
     if sponsor_covenant_params[:remove_sponsor_covenant_picture] == 'Remove'
       sponsor_covenant.scanned_image.destroy
       # destroy does not set scanned_covenant_id to nil
-      sponsor_covenant.scanned_covenant_id = nil
-      sponsor_covenant.save
     else
       setup_file_params(sponsor_covenant_params[:sponsor_covenant_picture],
                         sponsor_covenant,
@@ -544,8 +540,6 @@ class CommonCandidatesController < ApplicationController
     if sponsor_eligibility_params[:remove_sponsor_eligibility_picture] == 'Remove'
       sponsor_eligibility.scanned_image.destroy
       # destroy does not set scanned_eligibility_id to nil
-      sponsor_eligibility.scanned_eligibility_id = nil
-      sponsor_eligibility.save
     else
       setup_file_params(sponsor_eligibility_params[:sponsor_eligibility_picture],
                         sponsor_eligibility,
@@ -575,8 +569,6 @@ class CommonCandidatesController < ApplicationController
     if retreat_verification_params[:remove_retreat_verification_picture] == 'Remove'
       retreat_verification.scanned_image.destroy
       # destroy does not set scanned_retreat_id to nil
-      retreat_verification.scanned_retreat_id = nil
-      retreat_verification.save
     else
       setup_file_params(
         retreat_verification_params[:retreat_verification_picture],

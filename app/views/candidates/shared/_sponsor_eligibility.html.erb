@@ -27,7 +27,7 @@
           <%= se_fields.text_field :sponsor_church %>
         </div>
 
-        <% pluck_image = PluckCan.image(event_association.scanned_eligibility_id) %>
+        <% pluck_image = PluckCan.image(event_association.scanned_image) %>
 
         <%= render "candidates/shared/scanned_image",
 

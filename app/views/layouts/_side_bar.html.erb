@@ -16,7 +16,25 @@
     <% admin_info.each do |arr| %>
       <li class="nav-item"><%= link_to truncate(arr[2], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2] %></li>
     <% end %>
-    <li class="nav-item"><%= link_to I18n.t('views.nav.other'), new_candidate_import_path %></li>
+
+    <%# OTHER %>
+
+    <% other_info = [
+        [I18n.t('views.nav.other'), new_candidate_import_path, I18n.t('views.nav.other')],
+        [I18n.t('views.nav.orphaneds'), orphaneds_check_path, I18n.t('views.nav.orphaneds')],
+    ] %>
+    <li class="nav-item" id="accordion">
+    <a class="nav-link pl-0 dropdown-toggle text-nowrap" href="#m0" data-parent="#accordion" data-toggle="collapse" data-target="#m0" aria-expanded="false">
+      <i class="fa fa-address-card-o fa-fw"></i> <span class=""> <%= I18n.t('views.nav.other') %></span>
+    </a>
+    <div class="collapse" id="m0">
+      <ul id="other-sidebar" class="flex-column nav">
+        <% other_info.each do |arr| %>
+          <li class="nav-item"><%= link_to truncate(arr[0], length: SideBar::TRUNCATELENGTH), arr[1], title: arr[2], class: 'nav-link px-0 text-truncate' %></li>
+        <% end %>
+      </ul>
+    </div>
+    </li>
 
     <%# EXPORT %>
 

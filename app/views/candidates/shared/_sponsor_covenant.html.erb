@@ -5,7 +5,9 @@
         <%= sc_fields.label :sponsor_name, t('label.sponsor_covenant.sponsor_name') %><br/>
         <%= sc_fields.text_field :sponsor_name %>
       </div>
-      <% pluck_image = PluckCan.image(event_association.scanned_covenant_id) %>
+
+      <% pluck_image = PluckCan.image(event_association.scanned_image) %>
+
       <%= render "candidates/shared/scanned_image",
 
                  url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_route) : event_with_picture_image_path(candidate.id, @event_with_picture_route)),

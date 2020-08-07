@@ -25,11 +25,9 @@ class CandidateImportsController < ApplicationController
         flash[:alert] = t('views.imports.check_events_first')
       else
         @candidate_import = CandidateImport.new.add_missing_events(params[:candidate_import][:missing].split(':'))
-        @orphaneds = Orphaneds.new
       end
     end
     @candidate_import ||= CandidateImport.new.check_events
-    @orphaneds = Orphaneds.new
     nil
   end
 
@@ -46,7 +44,6 @@ class CandidateImportsController < ApplicationController
       redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')
     else
       @candidate_import = CandidateImport.new
-      @orphaneds = Orphaneds.new
       if @candidate_import.load_initial_file(import_file_param.values.first)
         redirect_to root_url, notice: I18n.t('messages.import_successful')
       else
@@ -89,7 +86,6 @@ class CandidateImportsController < ApplicationController
   #
   def new
     @candidate_import ||= CandidateImport.new
-    @orphaneds ||= Orphaneds.new
     nil
   end
 end

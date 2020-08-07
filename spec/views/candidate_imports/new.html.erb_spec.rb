@@ -5,7 +5,6 @@ describe 'candidate_imports/new.html.erb' do
   describe 'Non-orphaned tests' do
     it 'layout with no errors' do
       @candidate_import = CandidateImport.new
-      @orphaneds = Orphaneds.new
 
       render
 
@@ -17,10 +16,8 @@ describe 'candidate_imports/new.html.erb' do
         ['section[id=import] form[id=new_candidate_import][action="/candidate_imports/import_candidates"]', I18n.t('views.imports.import')],
         ['section[id=start_new_year] form[id=new_candidate_import][action="/candidate_imports/start_new_year"]', I18n.t('views.imports.reset_database.title')],
         ['section[id=reset_database] form[id=new_candidate_import][action="/candidate_imports/reset_database"]', I18n.t('views.imports.start_new_year.title')],
-        ['section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]', I18n.t('views.imports.check_events')],
+        ['section[id=check_events] form[id=new_candidate_import][action="/candidate_imports/check_events"]', I18n.t('views.imports.check_events')]
 
-        ['section[id=orphaned-table-rows] form[id=new_orphaneds][action="/orphaneds/check"]', I18n.t('views.orphaneds.check_orphaned_table_rows')],
-        ['section[id=orphaned-table-rows] form[id=new_orphaneds][action="/orphaneds/remove"]', I18n.t('views.orphaneds.remove_orphaned_table_rows')]
       ]
       # rubocop:enable Layout/LineLength
 
@@ -30,7 +27,7 @@ describe 'candidate_imports/new.html.erb' do
       end
 
       # reason for "- 1" is orphaned-table-rows repeated
-      expect(rendered).to have_selector('section', count: section_info.length - 1)
+      expect(rendered).to have_selector('section', count: section_info.length)
 
       expect(rendered).to have_button(I18n.t('views.imports.add_missing_events'))
 
@@ -51,7 +48,6 @@ describe 'candidate_imports/new.html.erb' do
       uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       @candidate_import = CandidateImport.new
       @candidate_import.load_initial_file(uploaded_file)
-      @orphaneds = Orphaneds.new
 
       render
 

@@ -36,6 +36,8 @@
               </div>
           <% end %>
 
+          <% pluck_image = PluckCan.image(event_association.scanned_image) %>
+
 
           <%= render "candidates/shared/scanned_image",
 
@@ -46,7 +48,7 @@
                          field: :retreat_verification_picture,
                          remove_id: :candidate_retreat_verification_attributes_remove_retreat_verification_picture,
                          remove_field: rv_fields.hidden_field(:remove_retreat_verification_picture, value: ''),
-                         scanned_image: event_association.scanned_retreat,
+                         scanned_image: pluck_image,
                          scanned_image_field: rv_fields.file_field(:retreat_verification_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_retreat_verification_attributes_remove_retreat_verification_picture', 'retreat_verification_picture');"),
                          scanned_image_label: rv_fields.label(:retreat_verification_picture, t('label.retreat_verification.retreat_verification_picture'))
                       %>

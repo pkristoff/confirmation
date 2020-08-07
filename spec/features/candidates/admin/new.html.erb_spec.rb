@@ -10,7 +10,6 @@ feature 'Orphan removal', :devise do
   before(:each) do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
-    @candidate_import = CandidateImport.new
     @orphaneds = Orphaneds.new
   end
 
@@ -21,14 +20,14 @@ feature 'Orphan removal', :devise do
     before(:each) do
     end
     scenario 'Check with no orphans' do
-      visit new_candidate_import_path
+      visit orphaneds_check_path
       click_button I18n.t('views.orphaneds.check_orphaned_table_rows')
 
       expect_message(:flash_notice, I18n.t('messages.orphaneds.check.no_orphans_found'))
     end
     scenario 'Check with orphans' do
       expected_orphans
-      visit new_candidate_import_path
+      visit orphaneds_check_path
       click_button I18n.t('views.orphaneds.check_orphaned_table_rows')
 
       expect_message(:flash_notice, I18n.t('messages.orphaneds.check.orphans_found'))
@@ -45,13 +44,13 @@ feature 'Orphan removal', :devise do
     end
     describe 'Remove' do
       scenario 'Remove with no orphans' do
-        visit new_candidate_import_path
+        visit orphaneds_check_path
         click_button I18n.t('views.orphaneds.remove_orphaned_table_rows')
         expect_message(:flash_notice, I18n.t('messages.orphaneds.check.no_orphans_found'))
       end
       scenario 'Remove with orphans' do
         expected_orphans
-        visit new_candidate_import_path
+        visit orphaneds_check_path
         click_button I18n.t('views.orphaneds.remove_orphaned_table_rows')
         expect_message(:flash_notice, I18n.t('messages.orphaneds.check.no_orphans_found'))
       end

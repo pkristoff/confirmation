@@ -31,8 +31,10 @@ class PluckCan
     @candidate_event = candidate_event
   end
 
-  def self.image(id)
-    return nil if id.nil?
+  def self.image(scanned_image)
+    return nil if scanned_image.nil?
+
+    id = scanned_image.id
 
     arr = ScannedImage.where(id: id).pluck(Arel.sql('length(content)'))
     image_s = arr[0]
