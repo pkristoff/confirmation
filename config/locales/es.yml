@@ -337,13 +337,9 @@ es:
       the_way_due_date: La fecha de vencimiento del camino
       verified: Verificada
     imports:
-      add_missing_events: Agregar eventos faltantes
       candidates_export: Candidatos de exportación
       candidates_import: Importar candidatos
       cannot_recover: No puedes recuperarte de esto.
-      check_events: Verificar eventos
-      check_events_first: No se encontraron eventos faltantes ejecutando Verificar
-        eventos primero.
       excel_no_pict: Exportar a Excel Sin imágenes escaneadas
       export_message: Exporte datos actuales a una hoja de cálculo de Excel comprimida
         con imágenes escaneadas o una hoja de cálculo de Excel sin imágenes escaneadas
@@ -351,7 +347,6 @@ es:
       import: Importar
       import_message: Puede importar un archivo xlxs que represente a los candidatos
         iniciales que vendrán de la iglesia
-      missing: Desaparecida
       reset_database:
         bullet_1: 'Eventos de confirmación: todos serán eliminados. Los eventos de
           confirmación predeterminados se agregarán nuevamente.'
@@ -373,6 +368,14 @@ es:
         confirm: "¿Estás seguro?"
         message: Esta voluntad
         title: Comienza año nuevo
+    missing_events:
+      add_missing: Agregar eventos faltantes
+      added_missing: Eventos faltantes agregados
+      check: Verificar eventos
+      check_events_first: No se encontraron eventos faltantes ejecutando Verificar
+        eventos primero.
+      check_for_missing_events: Compruebe si faltan eventos
+      missing: Desaparecida
       unknown: Desconocida
     nav:
       add_new_admin: Agregar nuevo administrador
@@ -397,6 +400,11 @@ es:
         bap. nombre
       toggle_navigation: Navegación de palanca
       users: Los usuarios
+    orphaneds:
+      check_orphaned_table_rows: Verificar filas de tablas huérfanas
+      missing: Huérfana
+      orphaned_table_rows: Filas de mesa huérfanas
+      remove_orphaned_table_rows: Eliminar filas de tablas huérfanas
     title:
       instruction_link: Mostrar/ocultar instrucciones
     top_bar:

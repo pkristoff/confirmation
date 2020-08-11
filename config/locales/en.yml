@@ -337,12 +337,9 @@ en:
       the_way_due_date: The Way Due date
       verified: Verified
     imports:
-      add_missing_events: Add Missing Events
       candidates_export: Export Candidates
       candidates_import: Import Candidates
       cannot_recover: You cannot recover from this.
-      check_events: Check Events
-      check_events_first: No missing events found running Check Events first.
       excel_no_pict: Export to Excel No Scanned Pictures
       export_message: Export current data to a zipped excel spreadsheet with scanned
         pictures or an excel spreadsheet without scanned pictures
@@ -372,6 +369,14 @@ en:
         message: This will
         title: Start new year
       unknown: Unknown
+    missing_events:
+      add_missing: Add Missing Events
+      added_missing: Added missing events
+      check: Check
+      check_events_first: No missing events found running Check Events first.
+      check_for_missing_events: Check for missing events
+      missing: Missing
+      unknown: Unknown
     nav:
       add_new_admin: Add new admin
       add_new_candidate: Add new candidate
@@ -389,6 +394,7 @@ en:
       export_confirmation_name: Confirmation Names
       export_sponsor_at_home_parish_title: Sponsor at %{home_parish}
       export_sponsor_covenant_title: Sponsor Name
+      missing_events: Missing Events
       monthly_mass_mailing: Monthly Mailing
       note: Note
       orphaneds: Orphaneds

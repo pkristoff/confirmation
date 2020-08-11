@@ -12,10 +12,6 @@ class CandidateImport
   attr_accessor :uploaded_file
   attr_accessor :uploaded_zip_file
   attr_accessor :imported_candidates
-  # check_events
-  attr_accessor :missing_confirmation_events
-  attr_accessor :found_confirmation_events
-  attr_accessor :unknown_confirmation_events
 
   EXTRACTED_ZIP_DIR = 'temp'
 
@@ -51,10 +47,6 @@ class CandidateImport
     attributes.each { |name, value| send("#{name}=", value) }
     @worksheet_conf_event_name = 'Confirmation Events'
     @worksheet_name = 'Candidates with events'
-    # check_events
-    @found_confirmation_events = []
-    @missing_confirmation_events = []
-    @unknown_confirmation_events = []
   end
 
   # filepath for exporting
@@ -88,50 +80,6 @@ class CandidateImport
   def self.image_filename_import(file_path)
     filename = File.basename(file_path)
     filename
-  end
-
-  # Add events expectd to be missing
-  #
-  # === Parameters:
-  #
-  # * <tt>:missing_events</tt> Array: of expected missing ConfirmationEvents
-  #
-  # === Returns:
-  #
-  # * <tt>CandidateImport</tt> self
-  #
-  def add_missing_events(missing_events)
-    missing_events.each do |event_key|
-      confirmation_event = ConfirmationEvent.find_by(event_key: event_key)
-      AppFactory.add_confirmation_event(event_key) if confirmation_event.nil?
-      raise "Attempting to candidate_event named: #{event_key} that already exists.s" unless confirmation_event.nil?
-    end
-    check_events
-  end
-
-  # Check to seeif any ConfirmaEvents are missing.  It stores missing store in unknown_confirmation_events
-  #
-  # === Returns:
-  #
-  # * <tt>CandidateImport</tt> self
-  #
-  def check_events
-    all_in_confirmation_event_keys = AppFactory.all_i18n_confirmation_event_keys
-    unknowns = ConfirmationEvent.all.map(&:event_key)
-    all_in_confirmation_event_keys.each do |event_key|
-      unknowns_index = unknowns.index(event_key)
-      unknowns.slice!(unknowns_index) unless unknowns_index.nil?
-      confirmation_event = ConfirmationEvent.find_by(event_key: event_key)
-      if confirmation_event.nil?
-        missing_confirmation_events.push(event_key)
-      else
-        found_confirmation_events.push(event_key)
-      end
-    end
-    unknowns.each do |confirmation_event_name|
-      unknown_confirmation_events.push(confirmation_event_name)
-    end
-    self
   end
 
   # Load an excel file with initial list of candidates.  It can be loaded in multiple times

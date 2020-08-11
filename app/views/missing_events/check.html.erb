@@ -1,11 +1,16 @@
 <article>
   <section id="check_missing_events">
-    <h2><%= t('views.missing_events.check_for_missing_events') %></h2>
 
-    <%= form_for(@missing_events, url: missing_events_check_path, method: :post) do |f| %>
+    <%= render 'candidates/shared/show_error_message',
+               event_association: local_assigns[:error_msgs] ? error_msgs : @candidate
+    %>
+
+    <h2><%= t('views.missing_events.check') %></h2>
+
+    <%= form_for(@missing_events, url: missing_events_check_path, method: :get) do |f| %>
       <div id="div_missing_confirmation_events">
         <%= f.hidden_field :missing, :value => @missing_events.missing_confirmation_events.join(":") %>
-        <h3><%= t('views.imports.missing') %>:</h3>
+        <h3><%= t('views.missing_events.missing') %>:</h3>
         <ul id="missing_confirmation_events">
           <% @missing_events.missing_confirmation_events.map do |event_key| %>
             <li><%= Candidate.i18n_event_name(event_key) %></li>

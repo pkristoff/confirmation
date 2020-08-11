@@ -19,7 +19,8 @@ describe 'layouts/_side_bar.html.erb' do
 
     @admin_other_link_names_in_order = [
       [I18n.t('views.nav.other'), '/candidate_imports/new'],
-      [I18n.t('views.nav.orphaneds'), '/orphaneds/check']
+      [I18n.t('views.nav.orphaneds'), '/orphaneds/check'],
+      [I18n.t('views.nav.missing_events'), '/missing_events/check']
     ]
 
     # rubocop:disable Layout/LineLength
@@ -79,9 +80,9 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 20)
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 21)
 
-      expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 2)
+      expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 3)
 
       expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 7)
 
@@ -99,9 +100,9 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 31) # +1 is for candidate
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 32) # +1 is for candidate
 
-      expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 2) # +1 is for candidate
+      expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 3) # +1 is for candidate
 
       expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 7)
       expect(rendered).to have_selector('p[id="candidate"]', text: 'Candidate: Sophia Agusta')

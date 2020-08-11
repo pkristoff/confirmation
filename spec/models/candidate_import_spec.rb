@@ -242,39 +242,6 @@ describe 'combinations' do
   end
 end
 
-describe 'check_events' do
-  include ViewsHelpers
-  it 'should show "Sponsor Covenant" is missing.' do
-    candidate_import = CandidateImport.new
-    candidate_import.start_new_year
-    setup_unknown_missing_events
-
-    candidate_import.check_events
-
-    expect(candidate_import.missing_confirmation_events.length).to be(1)
-    expect(candidate_import.missing_confirmation_events[0]).to eq(SponsorCovenant.event_key)
-    expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_keys.length - 1)
-    expect(candidate_import.unknown_confirmation_events.length).to be(1)
-    expect(candidate_import.unknown_confirmation_events[0]).to eq('unknown event')
-  end
-
-  it 'should add "Sponsor Covenant".' do
-    candidate_import = CandidateImport.new
-    candidate_import.start_new_year
-    setup_unknown_missing_events
-    sponsor_covenant_event_key = SponsorCovenant.event_key
-
-    candidate_import.add_missing_events([sponsor_covenant_event_key])
-
-    expect(ConfirmationEvent.find_by(event_key: sponsor_covenant_event_key).event_key).to eq(sponsor_covenant_event_key)
-
-    expect(candidate_import.missing_confirmation_events.length).to be(0)
-    expect(candidate_import.found_confirmation_events.length).to be(AppFactory.all_i18n_confirmation_event_keys.length)
-    expect(candidate_import.unknown_confirmation_events.length).to be(1)
-    expect(candidate_import.unknown_confirmation_events[0]).to eq('unknown event')
-  end
-end
-
 describe 'image_filename' do
   before(:each) do
     FactoryBot.create(:admin)

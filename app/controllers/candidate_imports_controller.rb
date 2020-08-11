@@ -9,28 +9,6 @@ class CandidateImportsController < ApplicationController
 
   attr_accessor :candidate_import
 
-  # Checks for missing ConfirmationEvents if :missing is supplied then update system with missing
-  # ConfirmationEvents.
-  #
-  # === Attributes:
-  #
-  # * <tt>:commit</tt> legal values
-  # ** <code>views.imports.check_events</code>  Check to see if all ConfirmationEvents are present
-  # ** <code>views.imports.add_missing_events</code> legal values
-  # *** <code>:missing</code> list of missing events
-  #
-  def check_events
-    if params[:commit] == t('views.imports.add_missing_events')
-      if params[:candidate_import][:missing] == ''
-        flash[:alert] = t('views.imports.check_events_first')
-      else
-        @candidate_import = CandidateImport.new.add_missing_events(params[:candidate_import][:missing].split(':'))
-      end
-    end
-    @candidate_import ||= CandidateImport.new.check_events
-    nil
-  end
-
   # load in an zip file which is an excel spreadsheet with pictures or an initial file which is the initial
   # import of candidates
   #

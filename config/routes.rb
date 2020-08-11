@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'missing_events/check'
+  post 'missing_events/add_missing'
   get 'orphaneds/check'
   post 'orphaneds/remove'
   get 'export_lists/retreat'
@@ -12,7 +14,6 @@ Rails.application.routes.draw do
 
   resources :candidate_imports
 
-  post 'candidate_imports/check_events'
   post 'candidate_imports/reset_database'
   post 'candidate_imports/start_new_year'
   post 'candidate_imports/export_to_excel'
