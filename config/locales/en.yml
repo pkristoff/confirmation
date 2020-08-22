@@ -339,7 +339,6 @@ en:
     imports:
       candidates_export: Export Candidates
       candidates_import: Import Candidates
-      cannot_recover: You cannot recover from this.
       excel_no_pict: Export to Excel No Scanned Pictures
       export_message: Export current data to a zipped excel spreadsheet with scanned
         pictures or an excel spreadsheet without scanned pictures
@@ -348,26 +347,6 @@ en:
       import_message: You can import an xlxs file which represents the initial candidates
         which will come from the church
       missing: Missing
-      reset_database:
-        bullet_1: 'Confirmation Events: All will be removed. The default confirmation
-          events will be added back in.'
-        bullet_2: 'Candidates: All will be removed from the database. A test Candidate
-          will be added.'
-        bullet_3: 'Admins: All will be removed from the database. The default Admin
-          will be added.'
-        bullet_4: 'Remain logged in: NO'
-        confirm: Are you sure?
-        message: This will
-        title: Reset the Database
-      start_new_year:
-        bullet_1: 'Candidates: All will be removed from the database'
-        bullet_2: Confirmation events will remail with instrutions staying the same
-          however due dates will be set to today
-        bullet_3: 'Admins: not affected'
-        bullet_4: 'Remain logged in: yes'
-        confirm: Are you sure?
-        message: This will
-        title: Start new year
       unknown: Unknown
     missing_events:
       add_missing: Add Missing Events
@@ -400,6 +379,9 @@ en:
       orphaneds: Orphaneds
       other: Other
       pdf_baptismal_name: PDF for matching candidate name to bap. name
+      reset_db:
+        reset_database: Reset database
+        start_new_year: Start new year
       toggle_navigation: Toggle navigation
       users: Users
     orphaneds:
@@ -407,6 +389,28 @@ en:
       missing: Orphaned
       orphaned_table_rows: Orphaned table rows
       remove_orphaned_table_rows: Remove orphaned table rows
+    reset_db:
+      reset_database:
+        bullet_1: 'Confirmation Events: All will be removed. The default confirmation
+          events will be added back in.'
+        bullet_2: 'Candidates: All will be removed from the database. A test Candidate
+          will be added.'
+        bullet_3: 'Admins: All will be removed from the database. The default Admin
+          will be added.'
+        bullet_4: 'Remain logged in: NO'
+        cannot_recover: You cannot recover from this.
+        confirm: Are you sure?
+        message: This will
+        title: Reset the Database
+      start_new_year:
+        bullet_1: 'Candidates: All will be removed from the database'
+        bullet_2: Confirmation events will remail with instrutions staying the same
+          however due dates will be set to today
+        bullet_3: 'Admins: not affected'
+        bullet_4: 'Remain logged in: yes'
+        confirm: Are you sure?
+        message: This will
+        title: Start new year
     title:
       instruction_link: Show/hide instructions
     top_bar:

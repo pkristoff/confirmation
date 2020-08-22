@@ -1,0 +1,21 @@
+<article>
+  <section id="reset-database">
+    <h2><%= t('views.reset_db.reset_database.title') %></h2>
+
+    <%= form_with url: reset_db_reset_database_url, method: :post do |f| %>
+
+      <h3><%= t('views.reset_db.reset_database.cannot_recover') %></h3>
+      <p>
+        <%= t('views.reset_db.reset_database.title') %>
+      </p>
+      <ul>
+        <li><%= t('views.reset_db.reset_database.bullet_1') %></li>
+        <li><%= t('views.reset_db.reset_database.bullet_2') %></li>
+        <li><%= t('views.reset_db.reset_database.bullet_3') %></li>
+        <li><%= t('views.reset_db.reset_database.bullet_4') %></li>
+      </ul>
+      <div class="buttons"><%= f.submit t('views.reset_db.reset_database.title'),
+                                        data: { confirm: t('views.reset_db.reset_database.confirm') } %></div>
+    <% end %>
+  </section>
+</article>

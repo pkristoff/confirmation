@@ -14,6 +14,7 @@ class CandidateSheet < ApplicationRecord
   validates :last_name, presence: true
 
   attr_accessor :validate_middle_name
+
   # When creating do not validate middle_name, can be handled by checking for a new_record. When that
   # does not work set @validate_middle_name
   #

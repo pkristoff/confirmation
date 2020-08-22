@@ -37,42 +37,4 @@
       <div class="buttons"><%= f.submit t('views.imports.import') %></div>
     <% end %>
   </section>
-
-  <section id="start_new_year">
-
-    <%= form_for @candidate_import, url: candidate_imports_start_new_year_path do |f| %>
-      <h2><%= t('views.imports.start_new_year.title') %></h2>
-
-      <h3><%= t('views.imports.cannot_recover') %></h3>
-      <p>
-        <%= t('views.imports.start_new_year.title') %>
-      </p>
-      <ul>
-        <li><%= t('views.imports.start_new_year.bullet_1') %></li>
-        <li><%= t('views.imports.start_new_year.bullet_2') %></li>
-        <li><%= t('views.imports.start_new_year.bullet_3') %></li>
-        <li><%= t('views.imports.start_new_year.bullet_4') %></li>
-      </ul>
-      <div class="buttons"><%= f.submit t('views.imports.start_new_year.title'), data: { confirm: t('views.imports.start_new_year.confirm') } %></div>
-    <% end %>
-  </section>
-
-  <section id="reset_database">
-    <h2><%= t('views.imports.reset_database.title') %></h2>
-
-    <%= form_for @candidate_import, url: candidate_imports_reset_database_path do |f| %>
-
-      <h3><%= t('views.imports.cannot_recover') %></h3>
-      <p>
-        <%= t('views.imports.reset_database.title') %>
-      </p>
-      <ul>
-        <li><%= t('views.imports.reset_database.bullet_1') %></li>
-        <li><%= t('views.imports.reset_database.bullet_2') %></li>
-        <li><%= t('views.imports.reset_database.bullet_3') %></li>
-        <li><%= t('views.imports.reset_database.bullet_4') %></li>
-      </ul>
-      <div class="buttons"><%= f.submit t('views.imports.reset_database.title'), data: { confirm: t('views.imports.reset_database.confirm') } %></div>
-    <% end %>
-  </section>
 </article>

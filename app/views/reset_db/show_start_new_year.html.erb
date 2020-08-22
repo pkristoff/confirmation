@@ -1,0 +1,20 @@
+<article>
+  <section id="start-new-year">
+
+    <%= form_with url: reset_db_start_new_year_path, method: :post do |f| %>
+      <h2><%= t('views.reset_db.start_new_year.title') %></h2>
+
+      <h3><%= t('views.reset_db.reset_database.cannot_recover') %></h3>
+      <p>
+        <%= t('views.reset_db.start_new_year.title') %>
+      </p>
+      <ul>
+        <li><%= t('views.reset_db.start_new_year.bullet_1') %></li>
+        <li><%= t('views.reset_db.start_new_year.bullet_2') %></li>
+        <li><%= t('views.reset_db.start_new_year.bullet_3') %></li>
+        <li><%= t('views.reset_db.start_new_year.bullet_4') %></li>
+      </ul>
+      <div class="buttons"><%= f.submit t('views.reset_db.start_new_year.title'), data: { confirm: t('views.reset_db.start_new_year.confirm') } %></div>
+    <% end %>
+  </section>
+</article>

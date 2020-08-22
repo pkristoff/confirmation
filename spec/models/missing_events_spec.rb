@@ -4,8 +4,7 @@ describe MissingEvents, type: :model do
   describe 'check_missing_events' do
     include ViewsHelpers
     it 'should show "Sponsor Covenant" is missing.' do
-      candidate_import = CandidateImport.new
-      candidate_import.start_new_year
+      ResetDB.start_new_year
       setup_unknown_missing_events
       missing_events = MissingEvents.new
 
@@ -19,8 +18,7 @@ describe MissingEvents, type: :model do
     end
 
     it 'should add "Sponsor Covenant".' do
-      candidate_import = CandidateImport.new
-      candidate_import.start_new_year
+      ResetDB.start_new_year
       missing_events = MissingEvents.new
       setup_unknown_missing_events
       sponsor_covenant_event_key = SponsorCovenant.event_key

@@ -23,24 +23,24 @@ describe 'Check Events' do
     login_as(admin, scope: :admin)
     visit missing_events_check_path
 
-    expected_msg = 'section[id=check_missing_events] form[id=new_missing_events][action="/missing_events/check"]'
+    expected_msg = 'section[id=check-missing-events] form[id=new_missing_events][action="/missing_events/check"]'
     expect(page.html).to have_selector(expected_msg)
     expect(page.html).to have_button(I18n.t('views.missing_events.check'))
 
     expect(page.html).to have_selector('ul[id=missing_confirmation_events] li', count: 1)
     expect(page.html).to have_selector('ul[id=found_confirmation_events] li', count: 8)
     expect(page.html).to have_selector('ul[id=unknown_confirmation_events] li', count: 1)
-    expect(page.html).to have_selector('section[id=check_missing_events] ul', count: 3)
-    expect(page.html).to have_selector('section[id=check_missing_events] li', count: 10)
+    expect(page.html).to have_selector('section[id=check-missing-events] ul', count: 3)
+    expect(page.html).to have_selector('section[id=check-missing-events] li', count: 10)
 
     click_button I18n.t('views.missing_events.check')
     expect(page.html).to have_selector(expected_msg)
     expect(page.html).to have_button(I18n.t('views.missing_events.check'))
 
-    expect(page.html).to have_selector('section[id=check_missing_events] ul[id=missing_confirmation_events] li',
+    expect(page.html).to have_selector('section[id=check-missing-events] ul[id=missing_confirmation_events] li',
                                        text: I18n.t('events.sponsor_covenant'))
-    expect(page.html).to have_selector('section[id=check_missing_events] ul[id=found_confirmation_events] li', count: 8)
-    expect(page.html).to have_selector('section[id=check_missing_events] ul[id=unknown_confirmation_events] li',
+    expect(page.html).to have_selector('section[id=check-missing-events] ul[id=found_confirmation_events] li', count: 8)
+    expect(page.html).to have_selector('section[id=check-missing-events] ul[id=unknown_confirmation_events] li',
                                        text: 'unknown event')
   end
 
@@ -78,11 +78,11 @@ describe 'Check Events' do
 
     click_button I18n.t('views.missing_events.add_missing')
 
-    expect(page.html).to have_selector('section[id=check_missing_events] ul[id=missing_confirmation_events] li',
+    expect(page.html).to have_selector('section[id=check-missing-events] ul[id=missing_confirmation_events] li',
                                        count: 0)
-    expect(page.html).to have_selector('section[id=check_missing_events] ul[id=found_confirmation_events] li',
+    expect(page.html).to have_selector('section[id=check-missing-events] ul[id=found_confirmation_events] li',
                                        count: 9)
-    expect(page.html).to have_selector('section[id=check_missing_events] ul[id=unknown_confirmation_events] li',
+    expect(page.html).to have_selector('section[id=check-missing-events] ul[id=unknown_confirmation_events] li',
                                        text: 'unknown event')
   end
 end

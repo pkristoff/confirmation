@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'reset_db/show_reset_database'
+  post 'reset_db/reset_database'
+  get 'reset_db/show_start_new_year'
+  post 'reset_db/start_new_year'
   get 'missing_events/check'
   post 'missing_events/add_missing'
   get 'orphaneds/check'
@@ -14,8 +18,6 @@ Rails.application.routes.draw do
 
   resources :candidate_imports
 
-  post 'candidate_imports/reset_database'
-  post 'candidate_imports/start_new_year'
   post 'candidate_imports/export_to_excel'
   post 'candidate_imports/import_candidates'
 

@@ -36,6 +36,7 @@ group :development do
   # does not exist in rails 5.0
   # gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'ruby-debug-ide'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'web-console'

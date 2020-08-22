@@ -21,8 +21,49 @@ Layout/SpaceAroundMethodCallOperator:
 Layout/LineLength:
   Max: 130
 
+Layout/EmptyLinesAroundAttributeAccessor:
+  # added  (0.83)
+  Enabled: true
+
 Lint:
   Enabled: true
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  # added (0.89)
+  Enabled: false
+Lint/DeprecatedOpenSSLConstant:
+# added  (0.84)
+  Enabled: false
+Lint/DuplicateElsifCondition:
+# added  (0.88)
+  Enabled: false
+Lint/DuplicateRescueException:
+# added  (0.89)
+  Enabled: false
+Lint/EmptyConditionalBody:
+# added  (0.89)
+  Enabled: false
+Lint/FloatComparison:
+# added  (0.89)
+  Enabled: false
+Lint/MissingSuper:
+# added  (0.89)
+  Enabled: false
+Lint/MixedRegexpCaptureTypes:
+# added  (0.85)
+  Enabled: false
+Lint/OutOfRangeRegexpRef:
+# added  (0.89)
+  Enabled: false
+Lint/SelfAssignment:
+# added  (0.89)
+  Enabled: false
+Lint/TopLevelReturnWithArgument:
+# added  (0.89)
+  Enabled: false
+Lint/UnreachableLoop:
+# added  (0.89)
+  Enabled: false
 
 Lint/RaiseException:
   # added 0.81
@@ -61,6 +102,43 @@ Rails/BulkChangeTable:
     - './db/migrate/20180209181803_add_column_first_comm_at_stmm.rb'
     - './db/migrate/20180209181803_add_column_first_comm_at_stmm.rb'
 
+Rails/ActiveRecordCallbacksOrder:
+# added  (2.7)
+  Enabled: false
+Rails/FindById:
+# added  (2.7)
+  Enabled: false
+Rails/Inquiry:
+# added (2.7)
+  Enabled: false
+Rails/MailerName:
+# added (2.7)
+  Enabled: false
+Rails/MatchRoute:
+# added (2.7)
+  Enabled: false
+Rails/NegateInclude:
+# added (2.7)
+  Enabled: false
+Rails/Pluck:
+# added (2.7)
+  Enabled: false
+Rails/PluckInWhere:
+# added (2.7)
+  Enabled: false
+Rails/RenderInline:
+# added   (2.7)
+  Enabled: false
+Rails/RenderPlainText:
+# added   (2.7)
+  Enabled: false
+Rails/ShortI18n:
+# added   (2.7)
+  Enabled: false
+Rails/WhereExists:
+# added  (2.7)
+  Enabled: false
+
 Security:
   Enabled: true
 
@@ -77,19 +155,19 @@ Style/ClassAndModuleChildren:
 
 Style/ExponentialNotation:
   # added 0.82
-  Enabled: true
+  Enabled: false
 
 Style/HashEachMethods:
   # added 0.80
-  Enabled: true
+  Enabled: false
 
 Style/HashTransformKeys:
   # added 0.80
-  Enabled: true
+  Enabled: false
 
 Style/HashTransformValues:
   # added 0.80
-  Enabled: true
+  Enabled: false
 
 Style/MixinUsage:
   Enabled: true
@@ -124,3 +202,56 @@ Style/SymbolProc:
   Enabled: true
   Exclude:
     - './app/models/candidates_mailer.rb'
+
+
+Style/AccessorGrouping:
+# added   (0.87)
+  Enabled: false
+Style/ArrayCoercion:
+# added   (0.88)
+  Enabled: false
+Style/BisectedAttrAccessor:
+# added   (0.87)
+  Enabled: false
+Style/CaseLikeIf:
+# added   (0.88)
+  Enabled: false
+Style/ExplicitBlockArgument:
+# added   (0.89)
+  Enabled: false
+Style/GlobalStdStream:
+# added   (0.89)
+  Enabled: false
+Style/HashAsLastArrayItem:
+# added   (0.88)
+  Enabled: false
+Style/HashLikeCase:
+# added   (0.88)
+  Enabled: false
+Style/OptionalBooleanParameter:
+# added   (0.89)
+  Enabled: false
+Style/RedundantAssignment:
+# added   (0.87)
+  Enabled: false
+Style/RedundantFetchBlock:
+# added   (0.86)
+  Enabled: false
+Style/RedundantFileExtensionInRequire:
+# added   (0.88)
+  Enabled: false
+Style/RedundantRegexpCharacterClass:
+# added   (0.85)
+  Enabled: false
+Style/RedundantRegexpEscape:
+# added   (0.85)
+  Enabled: false
+Style/SingleArgumentDig:
+# added   (0.89)
+  Enabled: false
+Style/SlicingWithRange:
+# added   (0.83)
+  Enabled: false
+Style/StringConcatenation:
+  # added  (0.89)
+  Enabled: false

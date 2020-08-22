@@ -45,21 +45,6 @@ class CandidateImportsController < ApplicationController
     redirect_to new_candidate_import_path, alert: e.message
   end
 
-  # Reset the database.  End up with only an admin + confirmation events and the candidate vickikristoff
-  #
-  def reset_database
-    sign_out current_admin
-    CandidateImport.new.reset_database
-    redirect_to root_url, notice: I18n.t('messages.database_reset')
-  end
-
-  # Starts new school year
-  #
-  def start_new_year
-    CandidateImport.new.start_new_year
-    redirect_to root_url, notice: I18n.t('messages.candidates_removed')
-  end
-
   # new candidate import
   #
   def new

@@ -339,7 +339,6 @@ es:
     imports:
       candidates_export: Candidatos de exportación
       candidates_import: Importar candidatos
-      cannot_recover: No puedes recuperarte de esto.
       excel_no_pict: Exportar a Excel Sin imágenes escaneadas
       export_message: Exporte datos actuales a una hoja de cálculo de Excel comprimida
         con imágenes escaneadas o una hoja de cálculo de Excel sin imágenes escaneadas
@@ -347,27 +346,6 @@ es:
       import: Importar
       import_message: Puede importar un archivo xlxs que represente a los candidatos
         iniciales que vendrán de la iglesia
-      reset_database:
-        bullet_1: 'Eventos de confirmación: todos serán eliminados. Los eventos de
-          confirmación predeterminados se agregarán nuevamente.'
-        bullet_2: 'Candidatos: todos serán eliminados de la base de datos. Se agregará
-          un candidato de prueba.'
-        bullet_3: 'Administradores: todos serán eliminados de la base de datos. Se
-          agregará el administrador predeterminado.'
-        bullet_4: 'Permanecer conectado: NO'
-        confirm: "¿Estás seguro?"
-        message: Comienza año nuevo
-        title: Restablecer la base de datos
-      start_new_year:
-        bullet_1: 'Candidatos: todos serán eliminados de la base de datos'
-        bullet_2: Los eventos de confirmación se enviarán por correo electrónico con
-          las instrucciones que permanecen igual, sin embargo, las fechas de vencimiento
-          se establecerán hoy
-        bullet_3: 'Administradores: no afectados'
-        bullet_4: 'Permanecer conectado: sí'
-        confirm: "¿Estás seguro?"
-        message: Esta voluntad
-        title: Comienza año nuevo
     missing_events:
       add_missing: Agregar eventos faltantes
       added_missing: Eventos faltantes agregados
@@ -398,6 +376,9 @@ es:
       other: Otra
       pdf_baptismal_name: PDF para hacer coincidir el nombre del candidato con el
         bap. nombre
+      reset_db:
+        reset_database: Reset database
+        start_new_year: Start new year
       toggle_navigation: Navegación de palanca
       users: Los usuarios
     orphaneds:
@@ -405,6 +386,29 @@ es:
       missing: Huérfana
       orphaned_table_rows: Filas de mesa huérfanas
       remove_orphaned_table_rows: Eliminar filas de tablas huérfanas
+    reset_db:
+      reset_database:
+        bullet_1: 'Eventos de confirmación: todos serán eliminados. Los eventos de
+          confirmación predeterminados se agregarán nuevamente.'
+        bullet_2: 'Candidatos: todos serán eliminados de la base de datos. Se agregará
+          un candidato de prueba.'
+        bullet_3: 'Administradores: todos serán eliminados de la base de datos. Se
+          agregará el administrador predeterminado.'
+        bullet_4: 'Permanecer conectado: NO'
+        cannot_recover: No puedes recuperarte de esto.
+        confirm: "¿Estás seguro?"
+        message: Comienza año nuevo
+        title: Restablecer la base de datos
+      start_new_year:
+        bullet_1: 'Candidatos: todos serán eliminados de la base de datos'
+        bullet_2: Los eventos de confirmación se enviarán por correo electrónico con
+          las instrucciones que permanecen igual, sin embargo, las fechas de vencimiento
+          se establecerán hoy
+        bullet_3: 'Administradores: no afectados'
+        bullet_4: 'Permanecer conectado: sí'
+        confirm: "¿Estás seguro?"
+        message: Esta voluntad
+        title: Comienza año nuevo
     title:
       instruction_link: Mostrar/ocultar instrucciones
     top_bar:

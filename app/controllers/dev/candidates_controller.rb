@@ -16,6 +16,7 @@ module Dev
     attr_accessor :candidates
     # used for testing only
     attr_accessor :candidate
+
     # A candidate should be signed in.
     before_action :authenticate_candidate!
 

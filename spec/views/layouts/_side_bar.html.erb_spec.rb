@@ -20,6 +20,8 @@ describe 'layouts/_side_bar.html.erb' do
     @admin_other_link_names_in_order = [
       [I18n.t('views.nav.other'), '/candidate_imports/new'],
       [I18n.t('views.nav.orphaneds'), '/orphaneds/check'],
+      [I18n.t('views.nav.reset_db.reset_database'), '/reset_db/show_reset_database'],
+      [I18n.t('views.nav.reset_db.start_new_year'), '/reset_db/show_start_new_year'],
       [I18n.t('views.nav.missing_events'), '/missing_events/check']
     ]
 
@@ -80,9 +82,9 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 21)
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 23)
 
-      expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 3)
+      expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5)
 
       expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 7)
 
@@ -100,9 +102,9 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 32) # +1 is for candidate
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 34) # +1 is for candidate
 
-      expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 3) # +1 is for candidate
+      expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5) # +1 is for candidate
 
       expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 7)
       expect(rendered).to have_selector('p[id="candidate"]', text: 'Candidate: Sophia Agusta')
@@ -118,6 +120,7 @@ describe 'layouts/_side_bar.html.erb' do
   def expect_links_in_order(link_names_in_order, sidebar_id, dev, total_num_links, candidate_id = '')
     link_names_in_order.each_with_index do |info, index|
       event_name = info[0]
+      event_name_trunc = nil unless info.size == 4
       event_name_trunc = info[3] if info.size == 4
       href = if (info.size == 3) && !dev.empty?
                info[2].gsub('<dev>', dev)
