@@ -76,7 +76,7 @@ class BaptismalCertificate < ApplicationRecord
   #
   def validate_other_info
     event_complete = true
-    event_complete_validator = EventCompleteValidator.new(self, !first_comm_at_home_parish)
+    event_complete_validator = EventCompleteValidator.new(self, { validate_others: !first_comm_at_home_parish })
     event_complete_validator.validate([], BaptismalCertificate.basic_validation_params)
     unless baptized_at_home_parish
       church_address.validate_event_complete
@@ -102,8 +102,8 @@ class BaptismalCertificate < ApplicationRecord
   #
   def self.permitted_params
     BaptismalCertificate.basic_permitted_params.concat(
-      [church_address_attributes: Address.basic_permitted_params,
-       scanned_certificate_attributes: ScannedImage.permitted_params]
+      [{ church_address_attributes: Address.basic_permitted_params,
+         scanned_certificate_attributes: ScannedImage.permitted_params }]
     )
   end
 

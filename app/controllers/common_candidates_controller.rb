@@ -22,7 +22,7 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
     event_key = params[:event_route]
-    render_event_with_picture(false, event_key, true)
+    render_event_with_picture(false, event_key, { is_verify: true })
   end
 
   # update event_with_picture verify event
@@ -104,7 +104,7 @@ class CommonCandidatesController < ApplicationController
       flash[:alert] = I18n.t('messages.unknown_parameter', name: 'candidate')
     end
     @resource = @candidate
-    render_event_with_picture(render_called, event_route, is_verify)
+    render_event_with_picture(render_called, event_route, { is_verify: is_verify })
   end
 
   # edit candidate_sheet information
@@ -201,10 +201,7 @@ class CommonCandidatesController < ApplicationController
     else
       flash['alert'] = "Unknown event_route #{params[:event_route]}"
     end
-    if scanned_image.nil?
-    else
-      send_image(scanned_image)
-    end
+    send_image(scanned_image) unless scanned_image.nil?
   end
 
   # edit pick_confirmation_name information
@@ -296,20 +293,21 @@ class CommonCandidatesController < ApplicationController
     render_called = agreement_update_private(Candidate.covenant_agreement_event_key,
                                              'signed_agreement',
                                              I18n.t('label.sign_agreement.signed_agreement'),
-                                             true)
+                                             { admin_verified: true })
     render :sign_agreement_verify unless render_called
   end
 
   private
 
-  def agreement_update_private(event_key, signed_param_name, field_name, admin_verified = false)
+  def agreement_update_private(event_key, signed_param_name, field_name, admin_verified: false)
     candidate_event = @candidate.get_candidate_event(event_key)
     if params['candidate']
       # TODO: move logic to association instance.
-      if params['candidate'][signed_param_name] == '1'
+      case params['candidate'][signed_param_name]
+      when '1'
         candidate_event.completed_date = Time.zone.today if candidate_event.completed_date.nil?
         candidate_event.verified = true unless candidate_event.verified
-      elsif params['candidate'][signed_param_name] == '0'
+      when '0'
         candidate_event.completed_date = nil
         candidate_event.verified = false
       else
@@ -400,7 +398,7 @@ class CommonCandidatesController < ApplicationController
     end
   end
 
-  def render_event_with_picture(render_called, event_route, is_verify = false)
+  def render_event_with_picture(render_called, event_route, is_verify: false)
     return if render_called
 
     @event_with_picture_route = event_route.to_sym
@@ -426,8 +424,8 @@ class CommonCandidatesController < ApplicationController
 
   def send_octet(scanned_image)
     image_file_path = "tmp/#{scanned_image.filename}"
-    jpg_file_path = image_file_path + '.jpg'
-    pdf_file_path = image_file_path + '.pdf'
+    jpg_file_path = "#{image_file_path}.jpg"
+    pdf_file_path = "#{image_file_path}.pdf"
     File.open(pdf_file_path, 'wb') do |f|
       f.write(scanned_image.content)
     end
@@ -490,7 +488,7 @@ class CommonCandidatesController < ApplicationController
         )
       end
     end
-    event_with_picture_update_private(BaptismalCertificate, is_verify)
+    event_with_picture_update_private(BaptismalCertificate, { admin_verified: is_verify })
   end
 
   # handle updating SponsorCovenant including
@@ -518,7 +516,7 @@ class CommonCandidatesController < ApplicationController
                         :scanned_covenant_attributes, sponsor_covenant_params)
     end
 
-    event_with_picture_update_private(SponsorCovenant, is_verify)
+    event_with_picture_update_private(SponsorCovenant, { admin_verified: is_verify })
   end
 
   # handle updating SponsorEligibility including
@@ -546,7 +544,7 @@ class CommonCandidatesController < ApplicationController
                         :scanned_eligibility_attributes, sponsor_eligibility_params)
     end
 
-    event_with_picture_update_private(SponsorEligibility, is_verify)
+    event_with_picture_update_private(SponsorEligibility, { admin_verified: is_verify })
   end
 
   # handle updating RetreatVerification including
@@ -576,10 +574,10 @@ class CommonCandidatesController < ApplicationController
         :scanned_retreat_attributes, retreat_verification_params
       )
     end
-    event_with_picture_update_private(RetreatVerification, is_verify)
+    event_with_picture_update_private(RetreatVerification, { admin_verified: is_verify })
   end
 
-  def event_with_picture_update_private(clazz, admin_verified = false)
+  def event_with_picture_update_private(clazz, admin_verified: false)
     render_called = false
     event_key = clazz.event_key
 

@@ -102,7 +102,7 @@ shared_context 'candidate_sheet_html_erb' do
       expected_msg = I18n.t('messages.updated_unverified',
                             cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}")
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key),
-                                        candidate.id, expected_msg, true)
+                                        candidate.id, expected_msg, { is_unverified: true })
     else
       expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify)
     end

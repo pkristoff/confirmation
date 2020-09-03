@@ -43,7 +43,7 @@ class SponsorCovenant < ApplicationRecord
   # * <tt>:options</tt>
   #
   def validate_event_complete(_options = {})
-    event_complete_validator = EventCompleteValidator.new(self, false)
+    event_complete_validator = EventCompleteValidator.new(self, { validate_others: false })
     event_complete_validator.validate(SponsorCovenant.basic_permitted_params)
 
     # convert empty picture attributes to something the user can understand
@@ -61,7 +61,7 @@ class SponsorCovenant < ApplicationRecord
   #
   def self.permitted_params
     SponsorCovenant.basic_permitted_params.concat(
-      [scanned_covenant_attributes: ScannedImage.permitted_params] <<
+      [{ scanned_covenant_attributes: ScannedImage.permitted_params }] <<
         :remove_sponsor_covenant_picture <<
         :sponsor_covenant_picture
     )

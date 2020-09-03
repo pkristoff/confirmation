@@ -102,7 +102,7 @@ class CandidateSheet < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    CandidateSheet.basic_permitted_params.concat([address_attributes: Address.basic_permitted_params])
+    CandidateSheet.basic_permitted_params.concat([{ address_attributes: Address.basic_permitted_params }])
   end
 
   # Editable attributes

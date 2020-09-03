@@ -20,7 +20,7 @@ MIDDLE_NAME = 'xxx'
 shared_context 'baptismal_certificate_html_erb' do
   include ViewsHelpers
   before(:each) do
-    event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, @is_verify)
+    event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, { is_verify: @is_verify })
     AppFactory.add_confirmation_events
     @today = Time.zone.today
     page.driver.header 'Accept-Language', locale
@@ -301,7 +301,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect(page).to have_selector(img_src_selector)
 
-    fill_in_form(false) # no picture
+    fill_in_form({ attach_file: false }) # no picture
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
@@ -409,7 +409,7 @@ shared_context 'baptismal_certificate_html_erb' do
     update_baptismal_certificate(false)
     visit @path
 
-    fill_in_form(false) # no picture
+    fill_in_form({ attach_file: false }) # no picture
     click_button @update_id
 
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false,
@@ -463,7 +463,7 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate = Candidate.find(@candidate.id)
     # rubocop:disable Layout/LineLength
     if @is_verify
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), true)
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), { is_unverified: true })
     else
       expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true)
     end
@@ -583,7 +583,7 @@ shared_context 'baptismal_certificate_html_erb' do
     # rubocop:enable Layout/LineLength
   end
 
-  def fill_in_form(attach_file = true)
+  def fill_in_form(attach_file: true)
     fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'), with: BIRTH_DATE)
     fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'), with: BAPTISMAL_DATE)
     fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_name'), with: CHURCH_NAME)

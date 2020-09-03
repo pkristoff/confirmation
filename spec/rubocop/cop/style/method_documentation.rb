@@ -86,10 +86,10 @@ module RuboCop
         #   https://regex101.com/
         DOC_PARM_REGEXP = %r{^# \* <tt>:(\w+)</tt>}.freeze
         DOC_RET_REGEXP = %r{^# \* <tt>([:\w]+)</tt>}.freeze
-        DOC_SUB_PARM_REGEXP = %r{^# \** <code>([\.:\w ]+-*[\.:\w ]+)<\/code>([\.:\w ]*-*[\.:\w ]*)}.freeze
-        RETURNS_REGEXP = /^[ ]*#[ ]*===[ ]*Returns:[ ]*/.freeze
-        ATTR_REGEXP = /^[ ]*#[ ]*===[ ]*Attributes:/.freeze
-        PARMS_REGEXP = /^[ ]*#[ ]*===[ ]*Parameters:/.freeze
+        DOC_SUB_PARM_REGEXP = %r{^# \** <code>([.:\w ]+-*[.:\w ]+)</code>([.:\w ]*-*[.:\w ]*)}.freeze
+        RETURNS_REGEXP = /^ *# *=== *Returns: */.freeze
+        ATTR_REGEXP = /^ *# *=== *Attributes:/.freeze
+        PARMS_REGEXP = /^ *# *=== *Parameters:/.freeze
 
         def add_format(message)
           format(message, @method_name)

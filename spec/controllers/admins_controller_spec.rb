@@ -311,9 +311,9 @@ describe AdminsController do
 
   describe 'confirm account' do
     before(:each) do
-      @c1 = create_candidate('c1', false)
-      @c2 = create_candidate('c2', false)
-      @c3 = create_candidate('c3', false)
+      @c1 = create_candidate('c1', { should_confirm: false })
+      @c2 = create_candidate('c2', { should_confirm: false })
+      @c3 = create_candidate('c3', { should_confirm: false })
     end
 
     it 'should confirm all accounts' do
@@ -418,7 +418,7 @@ describe AdminsController do
     end
   end
 
-  def create_candidate(prefix, should_confirm = true)
+  def create_candidate(prefix, should_confirm: true)
     candidate = FactoryBot.create(:candidate, account_name: prefix, should_confirm: should_confirm)
     candidate_event = candidate.add_candidate_event(@confirmation_event)
     case prefix

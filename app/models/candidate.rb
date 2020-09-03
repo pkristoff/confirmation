@@ -149,9 +149,7 @@ class Candidate < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.candidate_params
-    params = attribute_names.collect(&:to_sym) & %i[account_name password]
-    # params = params << :password
-    params
+    attribute_names.collect(&:to_sym) & %i[account_name password]
   end
 
   # builds candidate's associations
@@ -188,14 +186,14 @@ class Candidate < ApplicationRecord
   def self.permitted_params
     [:id, :account_name, :password, :password_confirmation,
      :signed_agreement, :candidate_note,
-     candidate_sheet_attributes: CandidateSheet.permitted_params,
-     baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
-     sponsor_covenant_attributes: SponsorCovenant.permitted_params,
-     sponsor_eligibility_attributes: SponsorEligibility.permitted_params,
-     pick_confirmation_name_attributes: PickConfirmationName.permitted_params,
-     christian_ministry_attributes: ChristianMinistry.permitted_params,
-     candidate_events_attributes: CandidateEvent.permitted_params,
-     retreat_verification_attributes: RetreatVerification.permitted_params]
+     { candidate_sheet_attributes: CandidateSheet.permitted_params,
+       baptismal_certificate_attributes: BaptismalCertificate.permitted_params,
+       sponsor_covenant_attributes: SponsorCovenant.permitted_params,
+       sponsor_eligibility_attributes: SponsorEligibility.permitted_params,
+       pick_confirmation_name_attributes: PickConfirmationName.permitted_params,
+       christian_ministry_attributes: ChristianMinistry.permitted_params,
+       candidate_events_attributes: CandidateEvent.permitted_params,
+       retreat_verification_attributes: RetreatVerification.permitted_params }]
   end
 
   # Validate if association_class event is complete by adding validation errors to active record

@@ -4,18 +4,8 @@
 # Used to hold information input from client
 #
 class CandidatesMailerText
-  attr_accessor :candidate
-
-  attr_accessor :subject
-  attr_accessor :body_text
-  attr_accessor :pre_late_input
-  attr_accessor :pre_coming_due_input
-  attr_accessor :completed_awaiting_input
-  attr_accessor :completed_input
-  attr_accessor :closing_input
-  attr_accessor :salutation_input
-  attr_accessor :from_input
-  attr_accessor :token
+  attr_accessor :candidate, :subject, :body_text, :pre_late_input, :pre_coming_due_input, :completed_awaiting_input,
+                :completed_input, :closing_input, :salutation_input, :from_input, :token
 
   # Instantiation
   #

@@ -8,9 +8,7 @@ class MissingEvents
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :missing_confirmation_events
-  attr_accessor :found_confirmation_events
-  attr_accessor :unknown_confirmation_events
+  attr_accessor :missing_confirmation_events, :found_confirmation_events, :unknown_confirmation_events
 
   # initialize new instance
   #

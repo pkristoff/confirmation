@@ -32,9 +32,10 @@ class CustomDeviseMailer < Devise::Mailer
   # ** <code>:confirmation_instructions</code> when sending initial welcome message
   #
   def subject_for(key)
-    if key == :reset_password_instructions
+    case key
+    when :reset_password_instructions
       "#{Visitor.home_parish} website for Confirmation Candidates - Reset password instructions"
-    elsif key == :confirmation_instructions
+    when :confirmation_instructions
       "#{Visitor.home_parish} website for Confirmation Candidates - User Verification instructions"
     else
       super

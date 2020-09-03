@@ -170,7 +170,7 @@ describe 'method_documentation' do
     return offs if begin_offenses.nil?
 
     i = begin_offenses + 2
-    while i < lines.size && i + 3 < lines.size && !lines[i + 1].include?('file inspected')
+    while i < lines.size && i + 3 < lines.size && lines[i + 1].exclude?('file inspected')
       offs.push([lines[i], lines[i + 1]])
       i += 3
     end

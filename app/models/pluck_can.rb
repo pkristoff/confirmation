@@ -79,7 +79,7 @@ class PluckCan
     candidate_events = pluck_cand_events
     Rails.logger.info("candidate_events=#{candidate_events}")
     join = Candidate.joins(:candidate_sheet)
-    sorted = args[:sort].nil? ? join : join.order("#{args[:sort]} #{args[:direction]}")
+    sorted = args[:sort].nil? ? join : join.order(Arel.sql("#{args[:sort]} #{args[:direction]}"))
     sorted.pluck(:id,
                  :account_name,
                  :confirmed_at,

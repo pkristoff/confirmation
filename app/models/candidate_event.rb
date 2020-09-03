@@ -235,7 +235,7 @@ class CandidateEvent < ApplicationRecord
   #
   def self.permitted_params
     [:id, :completed_date, :verified,
-     confirmation_event_attributes: ConfirmationEvent.permitted_params]
+     { confirmation_event_attributes: ConfirmationEvent.permitted_params }]
   end
 
   # information to be verified by admin

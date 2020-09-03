@@ -8,8 +8,7 @@ class Orphaneds
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :orphaned_table_rows
-  attr_accessor :candidate_missing_associations
+  attr_accessor :orphaned_table_rows, :candidate_missing_associations
 
   # initialize new instance
   #

@@ -231,7 +231,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     # rubocop:enable Layout/LineLength
   end
 
-  def fill_in_form(eligibility_attach_file = true)
+  def fill_in_form(eligibility_attach_file: true)
     fill_in(I18n.t('label.sponsor_eligibility.sponsor_name'), with: SPONSOR_NAME)
     fill_in(I18n.t('label.sponsor_eligibility.sponsor_church'), with: SPONSOR_CHURCH)
     filename = 'spec/fixtures/Baptismal Certificate.png'

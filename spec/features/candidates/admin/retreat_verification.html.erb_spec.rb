@@ -16,6 +16,7 @@ feature 'Retreat Verification admin', :devise do
     cand_name = 'Sophia Agusta'
     @updated_message = I18n.t('messages.updated', cand_name: cand_name)
     @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
+    Visitor.visitor('St. Michael\'s', 'ccc', 'hhh')
   end
 
   after(:each) do

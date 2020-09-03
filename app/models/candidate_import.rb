@@ -9,9 +9,7 @@ class CandidateImport
   include ActiveModel::Validations
   include FileHelper
 
-  attr_accessor :uploaded_file
-  attr_accessor :uploaded_zip_file
-  attr_accessor :imported_candidates
+  attr_accessor :uploaded_file, :uploaded_zip_file, :imported_candidates
 
   EXTRACTED_ZIP_DIR = 'temp'
 
@@ -78,8 +76,7 @@ class CandidateImport
   # * <tt>File</tt> for file_path
   #
   def self.image_filename_import(file_path)
-    filename = File.basename(file_path)
-    filename
+    File.basename(file_path)
   end
 
   # Load an excel file with initial list of candidates.  It can be loaded in multiple times
@@ -121,8 +118,8 @@ class CandidateImport
   #
   # * <tt>Package</tt> package
   #
-  def to_xlsx(dir, from_spec = false)
-    p = create_xlsx_package(dir, from_spec)
+  def to_xlsx(dir, from_spec: false)
+    p = create_xlsx_package(dir, { from_spec: from_spec })
     # the Package will be generated with a shared string table
     p.use_shared_strings = true
     p
@@ -223,7 +220,7 @@ class CandidateImport
   #
   # Axlsx::Package:
   #
-  def create_xlsx_package(dir, from_spec = false)
+  def create_xlsx_package(dir, from_spec: false)
     # http://www.rubydoc.info/github/randym/axlsx/Axlsx/Workbook:use_shared_strings
     p = Axlsx::Package.new(author: 'Admin')
     wb = p.workbook
@@ -562,7 +559,7 @@ class CandidateImport
 
         candidate_sheet_params[:last_name] = last_name
         candidate_sheet_params[:first_name] = first_name
-        candidate_sheet_params[:grade] = grade.empty? ? 10 : grade.slice(/^\D*[\d]*/)
+        candidate_sheet_params[:grade] = grade.empty? ? 10 : grade.slice(/^\D*\d*/)
         clean_item = ActionView::Base.full_sanitizer.sanitize(candidate_email)
 
         candidate_sheet_params[:candidate_email] = clean_item unless clean_item.empty?

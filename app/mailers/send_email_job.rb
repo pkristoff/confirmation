@@ -15,7 +15,7 @@ class SendEmailJob
   # * <tt>:admin</tt> from
   # * <tt>:test</tt>
   #
-  def perform(candidate, text, admin, test = false)
+  def perform(candidate, text, admin, test: false)
     mailer = if text.body_text.nil?
                if test
                  CandidatesMailer.monthly_reminder_test(admin, text)

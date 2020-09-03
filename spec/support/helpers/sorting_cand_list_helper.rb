@@ -133,7 +133,7 @@ module SortingCandListHelpers
     event_key_entry[@event_key_to_path_verify_offset].call(candidate_id)
   end
 
-  def expect_event(event_key, verify = false)
+  def expect_event(event_key, verify: false)
     # rubocop:disable Layout/LineLength
     lambda { |cand_id, rendered, td_index|
       cand = Candidate.find_by(id: cand_id)
@@ -170,7 +170,7 @@ module SortingCandListHelpers
                 [I18n.t('views.events.verified'), true, [:verified]])
     unless confirmation_event.nil?
       cols.append(
-        [confirmation_event.event_key, true, '', expect_event(confirmation_event.event_key, true)]
+        [confirmation_event.event_key, true, '', expect_event(confirmation_event.event_key, { verify: true })]
       )
     end
     cols
@@ -184,7 +184,7 @@ module SortingCandListHelpers
       [I18n.t('views.events.verified'), true, [:candidate_event, event_key, :verified]]
     )
     cols.append(
-      [PickConfirmationName.event_key, true, '', expect_event(event_key, true)]
+      [PickConfirmationName.event_key, true, '', expect_event(event_key, { verify: true })]
     )
     cols
   end
@@ -219,7 +219,7 @@ module SortingCandListHelpers
     ]
   end
 
-  def expect_mass_edit_candidates_event(confirmation_event, cand_id, updated_message, is_unverified = false)
+  def expect_mass_edit_candidates_event(confirmation_event, cand_id, updated_message, is_unverified: false)
     expect_message(:flash_notice, updated_message) unless updated_message.nil?
 
     expect(page).to have_css "form[action='/mass_edit_candidates_event_update/#{confirmation_event.id}']"

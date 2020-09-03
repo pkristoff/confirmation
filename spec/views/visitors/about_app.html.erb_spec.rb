@@ -6,6 +6,7 @@ describe 'visitors/about_app.html.erb' do
     dash_splits = last_version.strip.split('-')
     split_v = dash_splits[0].split('.')
     version = split_v[0]
+    next_version = ''
     if split_v.size == 2
       split_dash = split_v[1].split('-')
       if split_dash.size == 1
@@ -18,13 +19,13 @@ describe 'visitors/about_app.html.erb' do
         minor_version = split_dash[0]
         n = Integer(split_dash[1])
         next_version = (n + 1).to_s if n > 9
-        next_version = '0' + (n + 1).to_s if n <= 9
+        next_version = "0#{n + 1}" if n <= 9
       end
     else
       minor_version = split_v[1]
       n = Integer(split_v[2]) + 1
       next_version = n.to_s if split_v.size == 3 && n > 9
-      next_version = '0' + n.to_s if split_v.size == 3 && n <= 9
+      next_version = "0#{n}" if split_v.size == 3 && n <= 9
     end
     @next_minor_version = "#{version}.#{minor_version}.#{next_version}"
   end

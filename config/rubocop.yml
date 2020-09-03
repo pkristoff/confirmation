@@ -36,19 +36,19 @@ Lint/DeprecatedOpenSSLConstant:
   Enabled: false
 Lint/DuplicateElsifCondition:
 # added  (0.88)
-  Enabled: false
+  Enabled: true
 Lint/DuplicateRescueException:
 # added  (0.89)
-  Enabled: false
+  Enabled: true
 Lint/EmptyConditionalBody:
 # added  (0.89)
-  Enabled: false
+  Enabled: true
 Lint/FloatComparison:
 # added  (0.89)
   Enabled: false
 Lint/MissingSuper:
 # added  (0.89)
-  Enabled: false
+  Enabled: true
 Lint/MixedRegexpCaptureTypes:
 # added  (0.85)
   Enabled: false
@@ -60,10 +60,10 @@ Lint/SelfAssignment:
   Enabled: false
 Lint/TopLevelReturnWithArgument:
 # added  (0.89)
-  Enabled: false
+  Enabled: true
 Lint/UnreachableLoop:
 # added  (0.89)
-  Enabled: false
+  Enabled: true
 
 Lint/RaiseException:
   # added 0.81
@@ -107,37 +107,37 @@ Rails/ActiveRecordCallbacksOrder:
   Enabled: false
 Rails/FindById:
 # added  (2.7)
-  Enabled: false
+  Enabled: true
 Rails/Inquiry:
 # added (2.7)
-  Enabled: false
+  Enabled: true
 Rails/MailerName:
 # added (2.7)
-  Enabled: false
+  Enabled: true
 Rails/MatchRoute:
 # added (2.7)
-  Enabled: false
+  Enabled: true
 Rails/NegateInclude:
 # added (2.7)
-  Enabled: false
+  Enabled: true
 Rails/Pluck:
 # added (2.7)
-  Enabled: false
+  Enabled: true
 Rails/PluckInWhere:
 # added (2.7)
-  Enabled: false
+  Enabled: true
 Rails/RenderInline:
 # added   (2.7)
-  Enabled: false
+  Enabled: true
 Rails/RenderPlainText:
 # added   (2.7)
-  Enabled: false
+  Enabled: true
 Rails/ShortI18n:
 # added   (2.7)
-  Enabled: false
+  Enabled: true
 Rails/WhereExists:
 # added  (2.7)
-  Enabled: false
+  Enabled: true
 
 Security:
   Enabled: true
@@ -206,52 +206,52 @@ Style/SymbolProc:
 
 Style/AccessorGrouping:
 # added   (0.87)
-  Enabled: false
+  Enabled: true
 Style/ArrayCoercion:
 # added   (0.88)
-  Enabled: false
+  Enabled: true
 Style/BisectedAttrAccessor:
 # added   (0.87)
   Enabled: false
 Style/CaseLikeIf:
 # added   (0.88)
-  Enabled: false
+  Enabled: true
 Style/ExplicitBlockArgument:
 # added   (0.89)
-  Enabled: false
+  Enabled: true
 Style/GlobalStdStream:
 # added   (0.89)
-  Enabled: false
+  Enabled: true
 Style/HashAsLastArrayItem:
 # added   (0.88)
-  Enabled: false
+  Enabled: true
 Style/HashLikeCase:
 # added   (0.88)
-  Enabled: false
+  Enabled: true
 Style/OptionalBooleanParameter:
 # added   (0.89)
-  Enabled: false
+  Enabled: true
 Style/RedundantAssignment:
 # added   (0.87)
-  Enabled: false
+  Enabled: true
 Style/RedundantFetchBlock:
 # added   (0.86)
-  Enabled: false
+  Enabled: true
 Style/RedundantFileExtensionInRequire:
 # added   (0.88)
-  Enabled: false
+  Enabled: true
 Style/RedundantRegexpCharacterClass:
 # added   (0.85)
-  Enabled: false
+  Enabled: true
 Style/RedundantRegexpEscape:
 # added   (0.85)
-  Enabled: false
+  Enabled: true
 Style/SingleArgumentDig:
 # added   (0.89)
-  Enabled: false
+  Enabled: true
 Style/SlicingWithRange:
 # added   (0.83)
-  Enabled: false
+  Enabled: true
 Style/StringConcatenation:
   # added  (0.89)
-  Enabled: false
+  Enabled: true

@@ -59,7 +59,7 @@ class SponsorEligibility < ApplicationRecord
   # * <tt>:options</tt>
   #
   def validate_event_complete(_options = {})
-    event_complete_validator = EventCompleteValidator.new(self, !sponsor_attends_home_parish)
+    event_complete_validator = EventCompleteValidator.new(self, { validate_others: !sponsor_attends_home_parish })
     event_complete_validator.validate(SponsorEligibility.attends_home_parish_validation_params,
                                       SponsorEligibility.not_attends_home_parish_params)
 
@@ -77,7 +77,7 @@ class SponsorEligibility < ApplicationRecord
   def self.permitted_params
     SponsorEligibility.attends_home_parish_params.concat(
       SponsorEligibility.not_attends_home_parish_params.concat(
-        [scanned_eligibility_attributes: ScannedImage.permitted_params]
+        [{ scanned_eligibility_attributes: ScannedImage.permitted_params }]
       )
     ) <<
       :sponsor_eligibility_picture <<

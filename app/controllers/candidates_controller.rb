@@ -14,8 +14,7 @@ class CandidatesController < CommonCandidatesController
                resource_class resource_params devise_mapping]
   helper_method(*helpers)
 
-  attr_accessor :candidate_info # for testing
-  attr_accessor :candidate # for testing
+  attr_accessor :candidate_info, :candidate # for testing
   # Since going around devise mechanisms - add some helpers back in.
   attr_reader :resource
 
@@ -156,7 +155,7 @@ class CandidatesController < CommonCandidatesController
 
     @candidate = Candidate.find(params[:id])
 
-    render_called = event_with_picture_update_private(CandidateSheet, true)
+    render_called = event_with_picture_update_private(CandidateSheet, { admin_verified: true })
 
     render :candidate_sheet_verify unless render_called
   end
@@ -191,7 +190,7 @@ class CandidatesController < CommonCandidatesController
 
     @candidate = Candidate.find(params[:id])
 
-    render_called = event_with_picture_update_private(ChristianMinistry, true)
+    render_called = event_with_picture_update_private(ChristianMinistry, { admin_verified: true })
 
     render :christian_ministry_verify unless render_called
   end
@@ -226,7 +225,7 @@ class CandidatesController < CommonCandidatesController
 
     @candidate = Candidate.find(params[:id])
 
-    render_called = event_with_picture_update_private(PickConfirmationName, true)
+    render_called = event_with_picture_update_private(PickConfirmationName, { admin_verified: true })
 
     render :pick_confirmation_name_verify unless render_called
   end

@@ -11,7 +11,7 @@ class EventCompleteValidator
   # * <tt>:association</tt>
   # * <tt>:validate_others</tt>
   #
-  def initialize(association, validate_others = false)
+  def initialize(association, validate_others: false)
     @association = association
     @validate_others = validate_others
   end

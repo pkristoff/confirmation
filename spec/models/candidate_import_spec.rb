@@ -104,12 +104,13 @@ describe CandidateImport do
     delete_dir(dir_name)
     begin
       Dir.mkdir(dir_name)
-      package = candidate_import.to_xlsx(dir_name, true)
+      package = candidate_import.to_xlsx(dir_name, { from_spec: true })
       package.workbook do |wb|
         wb.worksheets.each do |ws|
-          if ws.name == 'Candidates with events'
+          case ws.name
+          when 'Candidates with events'
             expect_candidates_empty(ws, candidate_import)
-          elsif ws.name == 'Confirmation Events'
+          when 'Confirmation Events'
             expect_confirmation_events_empty(ws, candidate_import)
           else
             # error
@@ -359,14 +360,14 @@ def expect_candidate(values)
   candidate = Candidate.find_by(account_name: values[:account_name])
   values.each_key do |key|
     value = values[key]
-    if value.is_a? Hash
+    case value.class.to_s
+    when 'Hash'
       candidate_sub = candidate.send(key)
       expect_keys(candidate_sub, value)
-    elsif value.is_a? Array
+    when 'Array'
       candidate_subs = candidate.send(key)
       expect(candidate_subs.size).to eq(value.size)
       value.each_with_index do |sub_values, index|
-        # puts "Name: #{candidate_subs[index].confirmation_event.event_key}"
         expect_keys(candidate_subs[index], sub_values)
       end
     else
@@ -829,8 +830,7 @@ end
 
 def save_upload(candidate_import, uploaded_file)
   import_result = candidate_import.load_initial_file(uploaded_file)
-  candidate_import.errors.each do |candidate|
-    raise "Errors:  #{candidate[1]}"
-  end
+  raise "Errors:  #{candidate[1]}" unless candidate_import.errors.empty?
+
   import_result
 end
