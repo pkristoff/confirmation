@@ -1,5 +1,6 @@
 class CreateSponsorEligibilities < ActiveRecord::Migration[5.2]
   def change
+    connection.execute 'drop table if exists sponsor_eligibilities'
     create_table :sponsor_eligibilities do |t|
       t.boolean :sponsor_attends_home_parish, null: false, default: true
       t.string :sponsor_church, null: false, default: ''
