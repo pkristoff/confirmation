@@ -50,7 +50,7 @@ module Event
       baptismal_certificate: '6. Baptismal Certificate.pdf', # complete
       sponsor_covenant: '7. Sponsor Covenant.pdf', # complete
       sponsor_eligibility: '8. Sponsor Eligibility.pdf', # complete
-      conversation_sponsor_candidate: '7. Sponsor Covenant & Eligibility.pdf',
+      conversation_sponsor_candidate: '7. Sponsor Covenant.pdf',
       christian_ministry: '9. Christian Ministry Awareness.pdf',
       confirmation_name: '10. Choosing a Confirmation Name.pdf', # complete
       retreat_verification: '11. Retreat Verification.pdf' # complete

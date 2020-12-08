@@ -8,7 +8,7 @@ SPONSOR_ELIGIBILITY_EVENT = SponsorEligibility.event_key
 shared_context 'sponsor_eligibility_html_erb' do
   include ViewsHelpers
   before(:each) do
-    event_with_picture_setup(Event::Route::SPONSOR_ELIGIBILITY, @is_verify)
+    event_with_picture_setup(Event::Route::SPONSOR_ELIGIBILITY, { is_verify: @is_verify })
     AppFactory.add_confirmation_events
 
     page.driver.header 'Accept-Language', locale
@@ -49,13 +49,13 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect(@candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
 
     visit @path
-    fill_in_form(true)
+    fill_in_form({ eligibility_attach_file: true })
     click_button @update_id
 
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
                                     expect_messages: [[:flash_notice, @updated_message]])
     candidate = Candidate.find(@candidate.id)
-    expect(candidate.sponsor_eligibility.sponsor_name).to eq(SPONSOR_NAME)
+    expect(candidate.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate.sponsor_eligibility.sponsor_church).to eq(SPONSOR_CHURCH)
   end
 
@@ -83,7 +83,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect(candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(true)
     expect(candidate.sponsor_eligibility).not_to eq(nil)
 
-    expect_db(1, 8, 2) # make sure DB does not increase in size.
+    expect_db(1, 1) # , 2) # make sure DB does not increase in size.
   end
   # rubocop:enable Layout/LineLength
 
@@ -91,31 +91,28 @@ shared_context 'sponsor_eligibility_html_erb' do
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
-    update_sponsor_eligibility(false)
+    update_sponsor_eligibility(true)
 
     expect_db(1, 0)
 
     visit @path
 
     attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
-    attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
 
     candidate_db = Candidate.find(@candidate.id)
     expect_sponsor_eligibility_form(candidate_db.id, @dev, @path_str, @is_verify,
                                     expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                      [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
-                                                                            "Sponsor name #{I18n.t('errors.messages.blank')}",
+                                                      [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                             "Sponsor church #{I18n.t('errors.messages.blank')}"]]])
 
     expect(candidate_db.sponsor_eligibility).not_to eq(nil)
     expect(candidate_db.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
     expect(candidate_db.sponsor_eligibility.scanned_eligibility.filename).to eq('actions.png')
-    expect(candidate_db.sponsor_eligibility.scanned_eligibility.filename).to eq('actions.png')
-    expect(candidate_db.sponsor_eligibility.sponsor_name).to eq('')
+    expect(candidate_db.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate_db.sponsor_eligibility.sponsor_church).to eq('')
 
-    fill_in_form(false) # no picture
+    fill_in_form({ eligibility_attach_file: false }) # no picture
     click_button @update_id
 
     candidate_db_update = Candidate.find(@candidate.id)
@@ -123,12 +120,11 @@ shared_context 'sponsor_eligibility_html_erb' do
                                     expect_messages: [[:flash_notice, @updated_message]])
     expect(candidate_db_update.sponsor_eligibility).not_to eq(nil)
     expect(candidate_db_update.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
-    expect(candidate_db_update.sponsor_eligibility.scanned_eligibility.filename).to eq('Baptismal+Certificate.png')
     expect(candidate_db_update.sponsor_eligibility.scanned_eligibility.filename).to eq('actions.png')
-    expect(candidate_db_update.sponsor_eligibility.sponsor_name).to eq(SPONSOR_NAME)
+    expect(candidate_db_update.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate_db_update.sponsor_eligibility.sponsor_church).to eq(SPONSOR_CHURCH)
 
-    event = candidate_db_update.get_candidate_event(SPONSOR_COVENANT_EVENT)
+    event = candidate_db_update.get_candidate_event(SPONSOR_ELIGIBILITY_EVENT)
     # this errors periodically
     expect(event.candidate).to eq(candidate_db_update)
     expect(event.completed_date).to eq(Time.zone.today)
@@ -138,7 +134,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     candidate_db_visit = Candidate.find(@candidate.id)
     expect_sponsor_eligibility_form(candidate_db_visit.id, @dev, @path_str, @is_verify)
 
-    expect_db(1, 8, 2) # make sure DB does not increase in size.
+    expect_db(1, 1) # make sure DB does not increase in size.
   end
   # rubocop:enable Layout/LineLength
 
@@ -149,7 +145,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     update_sponsor_eligibility(false)
     visit @path
 
-    fill_in_form(true) # no picture
+    fill_in_form({ eligibility_attach_file: false }) # no picture
     click_button @update_id
 
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
@@ -157,7 +153,7 @@ shared_context 'sponsor_eligibility_html_erb' do
                                                       [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                             "Scanned sponsor eligibility form #{I18n.t('errors.messages.blank')}"]]])
 
-    expect(page).to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
+    expect(page).not_to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
     expect(page).not_to have_selector(img_src_selector)
 
     attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
@@ -176,7 +172,6 @@ shared_context 'sponsor_eligibility_html_erb' do
   end
   # rubocop:enable Layout/LineLength
 
-  # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
@@ -184,18 +179,17 @@ shared_context 'sponsor_eligibility_html_erb' do
     visit @path
     fill_in_form
 
+    attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
     fill_in(I18n.t('label.sponsor_eligibility.sponsor_name'), with: nil)
     click_button @update_id
 
-    expect(page).to have_selector(img_src_selector)
     candidate = Candidate.find(@candidate.id)
-    expect_sponsor_eligibility_form(candidate.id, @dev, @path_str, @is_verify,
-                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                      [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                            "Sponsor name #{I18n.t('errors.messages.blank')}"]]],
+    expect_sponsor_eligibility_form(candidate.id,
+                                    @dev, @path_str, @is_verify,
+                                    expect_messages: [[:flash_notice, @updated_message]],
                                     sponsor_name: '')
+    expect(page).to have_selector(img_src_selector)
   end
-  # rubocop:enable Layout/LineLength
 
   def expect_sponsor_eligibility_form(cand_id, dev_path, path_str, is_verify, values = { sponsor_name: SPONSOR_NAME })
     # rubocop:disable Layout/LineLength
@@ -220,14 +214,14 @@ shared_context 'sponsor_eligibility_html_erb' do
 
     expect(page).to have_button(@update_id)
 
-    remove_count = 1 if cand.sponsor_eligibility.scanned_eligibility.nil?
-    remove_count = 2 unless cand.sponsor_eligibility.scanned_eligibility.nil?
+    remove_count = 0 if cand.sponsor_eligibility.scanned_eligibility.nil?
+    remove_count = 1 unless cand.sponsor_eligibility.scanned_eligibility.nil?
 
     expect_remove_button('candidate_sponsor_eligibility_attributes_remove_sponsor_eligibility_picture', 'sponsor_eligibility_picture') unless cand.sponsor_eligibility.scanned_eligibility.nil?
     expect(page).to have_button(I18n.t('views.common.remove_image'), count: remove_count)
     expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 1) if is_verify
-    expect_download_button(Event::Route::SPONSOR_COVENANT, cand_id, dev_path)
+    expect_download_button(Event::Route::SPONSOR_ELIGIBILITY, cand_id, dev_path)
     # rubocop:enable Layout/LineLength
   end
 
@@ -243,7 +237,7 @@ shared_context 'sponsor_eligibility_html_erb' do
   end
 
   def update_sponsor_eligibility(with_values)
-    @candidate.sponsor_eligibility.sponsor_name = SPONSOR_NAME if with_values
+    @candidate.sponsor_covenant.sponsor_name = SPONSOR_NAME if with_values
     @candidate.save if with_values
   end
 end
