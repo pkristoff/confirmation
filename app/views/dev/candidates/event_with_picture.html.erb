@@ -1,10 +1,20 @@
+<%
+  xxx = case @event_with_picture_route
+        when Event::Route::BAPTISMAL_CERTIFICATE
+          @candidate
+        when Event::Route::SPONSOR_ELIGIBILITY
+          @candidate
+        else
+          @candidate.get_event_association(@event_with_picture_route)
+        end
+%>
 <%= render 'candidates/shared/two_column_event',
            is_dev: @is_dev,
            is_verify: false,
            candidate: @candidate,
            candidate_event: @candidate_event,
            event_association: @candidate.get_event_association(@event_with_picture_route),
-           error_msgs: (@event_with_picture_route == Event::Route::BAPTISMAL_CERTIFICATE ? @candidate : @candidate.get_event_association(@event_with_picture_route)),
+           error_msgs: xxx,
            event_with_picture_route: @event_with_picture_route,
            download_doc: dev_download_document_path(@candidate.id, @event_with_picture_route)
 %>

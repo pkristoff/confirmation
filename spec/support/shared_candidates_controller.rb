@@ -403,6 +403,7 @@ end
 shared_context 'sponsor_eligibility' do
   before(:each) do
     AppFactory.add_confirmation_event(SponsorEligibility.event_key)
+    AppFactory.add_confirmation_event(SponsorCovenant.event_key)
     @today = Time.zone.today
   end
   [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
@@ -494,6 +495,7 @@ shared_context 'sponsor_eligibility' do
   end
 
   def make_valid_se(candidate)
+    candidate.sponsor_covenant.sponsor_name = 'George'
     sponsor_eligibility = candidate.sponsor_eligibility
     sponsor_eligibility.sponsor_attends_home_parish = false
     sponsor_eligibility.sponsor_church = 'St. meme'

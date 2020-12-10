@@ -33,6 +33,24 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify)
   end
 
+  scenario 'admin logs in and selects a candidate, checks sponsor_attends_home_parish, Sponsor name is blank' do
+    @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
+    @candidate.save
+    update_sponsor_eligibility(false)
+    visit @path
+
+    fill_in(I18n.t('label.sponsor_eligibility.sponsor_name'), with: '')
+    fill_in(I18n.t('label.sponsor_eligibility.sponsor_church'), with: SPONSOR_CHURCH)
+    attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/Baptismal Certificate.png')
+    click_button @update_id
+
+    expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
+                                    expect_messages: [[:flash_notice, @updated_failed_verification],
+                                                      [:error_explanation, [I18n.t('messages.error.missing_attribute',
+                                                                                   err_count: 1),
+                                                                            "Sponsor name #{I18n.t('errors.messages.blank')}"]]])
+  end
+
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, rest showing' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
@@ -180,7 +198,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     fill_in_form
 
     attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
-    fill_in(I18n.t('label.sponsor_eligibility.sponsor_name'), with: nil)
+    fill_in(I18n.t('label.sponsor_eligibility.sponsor_name'), with: 'george')
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)

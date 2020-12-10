@@ -584,22 +584,7 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find_by(id: @candidate.id)
     @candidate.candidate_sheet.while_not_validating_middle_name do
       if @candidate.update(candidate_params)
-
-        # BaptismalCertificate includes updating includes 3 attributes from CandidateSheet
-        # this handles those attributes.
-        if clazz == BaptismalCertificate
-          bc = @candidate.baptismal_certificate
-          if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
-            candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
-            candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet),
-                                                      CandidateSheet)
-            @candidate.keep_bc_errors
-            if candidate_info_sheet_event.save
-              # TODO: what happens here of if fails
-            end
-          end
-        end
-
+        adjust_for_attributes(clazz)
         candidate_event = @candidate.get_candidate_event(event_key)
         candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
         if candidate_event.save
@@ -618,6 +603,45 @@ class CommonCandidatesController < ApplicationController
       end
     end
     render_called
+  end
+
+  # handle the case of attributes of one event are edited
+  # in another event.
+  # ex: BaptismalCertificate edits the candidates' name from CandidateSheet
+  #
+  # A change needs to happen in
+  #   admin/event_with_picture.html.erb
+  #   admin/event_with_picture_verify.html.erb
+  #   candidate/event_with_picture.html.erb
+  #
+  # === Parameters:
+  #
+  # * <tt>:clazz</tt> class of event being edited
+  #
+  def adjust_for_attributes(clazz)
+    # BaptismalCertificate includes updating includes 3 attributes from CandidateSheet
+    # this handles those attributes.
+    if clazz == BaptismalCertificate
+      bc = @candidate.baptismal_certificate
+      if bc.show_empty_radio > 1 && !bc.baptized_at_home_parish? && !bc.first_comm_at_home_parish?
+        candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
+        candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet),
+                                                  CandidateSheet)
+        @candidate.keep_bc_errors
+        candidate_info_sheet_event.save
+        # TODO: what happens here of if save fails
+      end
+    end
+    # SponsorEligibility includes updating includes 1 attributes from SponsorCovenant
+    # this handles that attribute.
+    return unless clazz == SponsorEligibility
+
+    candidate_info_covenant_event = @candidate.get_candidate_event(SponsorCovenant.event_key)
+    candidate_info_covenant_event.mark_completed(@candidate.validate_event_complete(SponsorCovenant),
+                                                 SponsorCovenant)
+    @candidate.keep_sponsor_name_error
+    candidate_info_covenant_event.save
+    # TODO: what happens here of if save fails
   end
 
   def setup_file_params(file, association, scanned_image_attributes, association_params)

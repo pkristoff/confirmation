@@ -324,13 +324,16 @@ class Candidate < ApplicationRecord
     confirm
   end
 
+  # keep only sponsor_name error messages
+  #
+  def keep_sponsor_name_error
+    keep_interesting_errors(['Sponsor name'])
+  end
+
   # keep only first, middle, and last names error messages
   #
   def keep_bc_errors
-    bc_errors = %w[First Middle Last]
-    errors.messages[:base].clone.each do |msg|
-      errors.messages[:base].delete(msg) if bc_errors.detect { |xxx| msg.include? xxx }.nil?
-    end
+    keep_interesting_errors(%w[First Middle Last])
   end
 
   # Confirm user account when changing password
@@ -738,5 +741,13 @@ class Candidate < ApplicationRecord
   #
   def will_save_change_to_email?
     false
+  end
+
+  private
+
+  def keep_interesting_errors(covenant_errors)
+    errors.messages[:base].clone.each do |msg|
+      errors.messages[:base].delete(msg) if covenant_errors.detect { |xxx| msg.include? xxx }.nil?
+    end
   end
 end

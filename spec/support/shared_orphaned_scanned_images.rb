@@ -72,6 +72,7 @@ shared_context 'orphaned_scanned_image' do
   describe 'sponsor_eligibility' do
     before(:each) do
       AppFactory.add_confirmation_event(SponsorEligibility.event_key)
+      AppFactory.add_confirmation_event(SponsorCovenant.event_key)
       candidate = Candidate.find_by(id: @candidate.id)
       se = candidate.sponsor_eligibility
       se.sponsor_attends_home_parish = false

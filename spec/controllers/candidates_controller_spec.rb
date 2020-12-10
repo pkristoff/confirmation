@@ -297,6 +297,7 @@ describe CandidatesController do
        end],
       [Event::Route::SPONSOR_ELIGIBILITY, lambda do |candidate|
         candidate.sponsor_eligibility.sponsor_attends_home_parish = true
+        candidate.sponsor_covenant.sponsor_name = 'george'
       end,
        lambda do |candidate|
          {
@@ -356,7 +357,7 @@ describe CandidatesController do
 
         cand_event = cand.get_candidate_event(Candidate.event_key_from_route(event_route))
         expect(cand_event.completed_date).to eq(completed_date)
-        expect(cand_event.verified).to eq(true)
+        expect(cand_event.verified).to eq(true), "cand event (#{cand_event.confirmation_event.event_key} was verified"
       end
     end
   end
