@@ -49,11 +49,10 @@ module Event
       information_sheet: '5. Information Sheet.pdf', # complete
       baptismal_certificate: '6. Baptismal Certificate.pdf', # complete
       sponsor_covenant: '7. Sponsor Covenant.pdf', # complete
-      sponsor_eligibility: '8. Sponsor Eligibility.pdf', # complete
-      conversation_sponsor_candidate: '7. Sponsor Covenant.pdf',
-      christian_ministry: '9. Christian Ministry Awareness.pdf',
-      confirmation_name: '10. Choosing a Confirmation Name.pdf', # complete
-      retreat_verification: '11. Retreat Verification.pdf' # complete
+      sponsor_eligibility: '7a. Sponsor Eligibility.pdf', # complete
+      christian_ministry: '8. Christian Ministry Awareness.pdf',
+      confirmation_name: '9. Choosing a Confirmation Name.pdf', # complete
+      retreat_verification: '10. Retreat Verification.pdf' # complete
     }.freeze
   end
 end
