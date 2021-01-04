@@ -13,12 +13,17 @@ def expect_messages(messages, rendered_page = page)
 
   messages.each do |message_pair|
     id = message_pair[0]
+    count = nil
+    count = message_pair[2] if id == :error_explanation && message_pair.size == 3
     message = message_pair[1]
     if id == :error_explanation && message.is_a?(Array)
       expect(rendered_page).to have_selector("div[id=#{id}] h2", text: message[0])
       (1..message.size).each do |i|
         expect(rendered_page).to have_selector("div[id=#{id}] li", text: message[i])
       end
+      # rubocop:disable Layout/LineLength
+      expect(message.size).to eq(count + 1), "Number of expected error messages expected=#{count + 1} but got #{message.size}" unless count.nil?
+      # rubocop:enable Layout/LineLength
     else
       expect(rendered_page).to have_selector("div[id=#{id}]", text: message) unless id.nil?
     end
@@ -104,6 +109,7 @@ def expect_candidate_event(index, confirmation_event_id, event_key, the_way_due_
   end
   expect(page_or_rendered).to have_selector(completed_selector, text: completed_text) unless id_css == 'fieldset'
 end
+
 # rubocop:enable Layout/LineLength
 
 def expect_image_upload(key, picture_column, label)
@@ -122,11 +128,11 @@ def expect_remove_button(hidden_id, field)
   expect(page).to have_selector("input[type=hidden][id=#{hidden_id}][value='']", visible: false)
 end
 
-def expect_field(label, value)
+def expect_field(label, value, visible: true)
   if value.blank?
-    expect(page).to have_field(label)
+    expect(page).to have_field(label, visible: visible)
   else
-    expect(page).to have_field(label, with: value)
+    expect(page).to have_field(label, with: value, visible: visible)
   end
 end
 

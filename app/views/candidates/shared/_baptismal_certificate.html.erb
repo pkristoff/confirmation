@@ -12,50 +12,94 @@
       <%= bc_fields.radio_button :baptized_at_home_parish, '0', checked: bc.baptized_at_home_parish_show_no, onclick: 'confirmation_toggle().baptised_no();' %>
       <%= bc_fields.label :baptized_at_home_parish, i18n_no %>
     </div>
-    <div id="first-communion-top" class="field <%= bc.first_comm_show ? 'show-div' : 'hide-div' %>">
-      <%= t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish', home_parish: Visitor.home_parish) %>:<br/>
-      <%= bc_fields.radio_button :first_comm_at_home_parish, '1', checked: bc.first_comm_at_home_parish_show_yes, onclick: 'confirmation_toggle().first_comm_yes();' %>
-      <%= bc_fields.label :first_comm_at_home_parish, i18n_yes %>
-      <%= bc_fields.radio_button :first_comm_at_home_parish, '0', checked: bc.first_comm_at_home_parish_show_no, onclick: 'confirmation_toggle().first_comm_no();' %>
-      <%= bc_fields.label :first_comm_at_home_parish, i18n_no %>
-    </div>
-    <div id="baptismal-certificate-top" class="<%= bc.info_show ? 'show-div' : 'hide-div' %>">
 
-      <%= f.fields_for :candidate_sheet do |cs_fields| %>
-        <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
-          <div class="fieldset-div">
-            <div class="field">
-              <%= cs_fields.label :first_name, I18n.t('label.candidate_sheet.first_name') %><br/>
-              <%= cs_fields.text_field :first_name, autofocus: true %>
-            </div>
+    <%= field_set_tag t('field_set.baptismal_certificate.dates'), class: 'fieldset' do %>
+      <div class="fieldset-div">
+        <div class="field">
+          <%= bc_fields.label :birth_date, t('label.baptismal_certificate.baptismal_certificate.birth_date') %>
+          <br/>
+          <%= bc_fields.date_field :birth_date %>
+        </div>
+        <div class="field">
+          <%= bc_fields.label :baptismal_date, t('label.baptismal_certificate.baptismal_certificate.baptismal_date') %>
+          <br/>
+          <%= bc_fields.date_field :baptismal_date %>
+        </div>
+      </div>
+    <% end %>
 
-            <div class="field">
-              <%= cs_fields.label :middle_name, I18n.t('label.candidate_sheet.middle_name') %><br/>
-              <%= cs_fields.text_field :middle_name %>
-            </div>
-
-            <div class="field">
-              <%= cs_fields.label :last_name, I18n.t('label.candidate_sheet.last_name') %><br/>
-              <%= cs_fields.text_field :last_name %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-
-      <%= field_set_tag t('field_set.baptismal_certificate.dates'), class: 'fieldset' do %>
+    <%= f.fields_for :candidate_sheet do |cs_fields| %>
+      <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <div class="field">
-            <%= bc_fields.label :birth_date, t('label.baptismal_certificate.baptismal_certificate.birth_date') %>
-            <br/>
-            <%= bc_fields.date_field :birth_date %>
+            <%= cs_fields.label :first_name, I18n.t('label.candidate_sheet.first_name') %><br/>
+            <%= cs_fields.text_field :first_name, autofocus: true %>
           </div>
+
           <div class="field">
-            <%= bc_fields.label :baptismal_date, t('label.baptismal_certificate.baptismal_certificate.baptismal_date') %>
-            <br/>
-            <%= bc_fields.date_field :baptismal_date %>
+            <%= cs_fields.label :middle_name, I18n.t('label.candidate_sheet.middle_name') %><br/>
+            <%= cs_fields.text_field :middle_name %>
+          </div>
+
+          <div class="field">
+            <%= cs_fields.label :last_name, I18n.t('label.candidate_sheet.last_name') %><br/>
+            <%= cs_fields.text_field :last_name %>
           </div>
         </div>
       <% end %>
+    <% end %>
+
+    <%= field_set_tag t('field_set.baptismal_certificate.father'), class: 'fieldset' do %>
+      <div class="fieldset-div">
+        <div class="field">
+          <%= bc_fields.label :father_first, t('label.baptismal_certificate.baptismal_certificate.father_first') %>
+          <br/>
+          <%= bc_fields.text_field :father_first, autocomplete: 'given-name' %>
+        </div>
+
+        <div class="field">
+          <%= bc_fields.label :father_middle, t('label.baptismal_certificate.baptismal_certificate.father_middle') %>
+          <br/>
+          <%= bc_fields.text_field :father_middle, autocomplete: 'addition-name' %>
+        </div>
+
+        <div class="field">
+          <%= bc_fields.label :father_last, t('label.baptismal_certificate.baptismal_certificate.father_last') %>
+          <br/>
+          <%= bc_fields.text_field :father_last, autocomplete: 'family-name' %>
+        </div>
+      </div>
+    <% end %>
+
+    <%= field_set_tag t('field_set.baptismal_certificate.mother'), class: 'fieldset' do %>
+      <div class="fieldset-div">
+        <div class="field">
+          <%= bc_fields.label :mother_first, t('label.baptismal_certificate.baptismal_certificate.mother_first') %>
+          <br/>
+          <%= bc_fields.text_field :mother_first, autocomplete: 'given-name' %>
+        </div>
+
+        <div class="field">
+          <%= bc_fields.label :mother_middle, t('label.baptismal_certificate.baptismal_certificate.mother_middle') %>
+          <br/>
+          <%= bc_fields.text_field :mother_middle, autocomplete: 'addition-name' %>
+        </div>
+
+        <div class="field">
+          <%= bc_fields.label :mother_maiden, t('label.baptismal_certificate.baptismal_certificate.mother_maiden') %>
+          <br/>
+          <%= bc_fields.text_field :mother_maiden, autocomplete: 'addition-name' %>
+        </div>
+
+        <div class="field">
+          <%= bc_fields.label :mother_last, t('label.baptismal_certificate.baptismal_certificate.mother_last') %>
+          <br/>
+          <%= bc_fields.text_field :mother_last, autocomplete: 'family-name' %>
+        </div>
+      </div>
+    <% end %>
+
+    <div id="baptismal-certificate-top" class="<%= bc.info_show ? 'show-div' : 'hide-div' %>">
 
       <%= field_set_tag t('field_set.baptismal_certificate.church'), class: 'fieldset' do %>
         <div class="fieldset-div">
@@ -91,56 +135,6 @@
               <%= address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
             </div>
           <% end %>
-        </div>
-      <% end %>
-
-      <%= field_set_tag t('field_set.baptismal_certificate.father'), class: 'fieldset' do %>
-        <div class="fieldset-div">
-          <div class="field">
-            <%= bc_fields.label :father_first, t('label.baptismal_certificate.baptismal_certificate.father_first') %>
-            <br/>
-            <%= bc_fields.text_field :father_first, autocomplete: 'given-name' %>
-          </div>
-
-          <div class="field">
-            <%= bc_fields.label :father_middle, t('label.baptismal_certificate.baptismal_certificate.father_middle') %>
-            <br/>
-            <%= bc_fields.text_field :father_middle, autocomplete: 'addition-name' %>
-          </div>
-
-          <div class="field">
-            <%= bc_fields.label :father_last, t('label.baptismal_certificate.baptismal_certificate.father_last') %>
-            <br/>
-            <%= bc_fields.text_field :father_last, autocomplete: 'family-name' %>
-          </div>
-        </div>
-      <% end %>
-
-      <%= field_set_tag t('field_set.baptismal_certificate.mother'), class: 'fieldset' do %>
-        <div class="fieldset-div">
-          <div class="field">
-            <%= bc_fields.label :mother_first, t('label.baptismal_certificate.baptismal_certificate.mother_first') %>
-            <br/>
-            <%= bc_fields.text_field :mother_first, autocomplete: 'given-name' %>
-          </div>
-
-          <div class="field">
-            <%= bc_fields.label :mother_middle, t('label.baptismal_certificate.baptismal_certificate.mother_middle') %>
-            <br/>
-            <%= bc_fields.text_field :mother_middle, autocomplete: 'addition-name' %>
-          </div>
-
-          <div class="field">
-            <%= bc_fields.label :mother_maiden, t('label.baptismal_certificate.baptismal_certificate.mother_maiden') %>
-            <br/>
-            <%= bc_fields.text_field :mother_maiden, autocomplete: 'addition-name' %>
-          </div>
-
-          <div class="field">
-            <%= bc_fields.label :mother_last, t('label.baptismal_certificate.baptismal_certificate.mother_last') %>
-            <br/>
-            <%= bc_fields.text_field :mother_last, autocomplete: 'family-name' %>
-          </div>
         </div>
       <% end %>
 

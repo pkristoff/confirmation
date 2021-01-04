@@ -50,6 +50,17 @@ class Candidate < ApplicationRecord
               case_sensitive: false
             }
 
+  validate :validate_show_empty_radio
+
+  # validates whether show_empty_radio is either 0 or 1
+  # if this fails this is a coding error no user.
+  #
+  def validate_show_empty_radio
+    return if baptismal_certificate.show_empty_radio.zero? || baptismal_certificate.show_empty_radio == 1
+
+    errors.add(:show_empty_radio, "can only be 0 or 1 not #{baptismal_certificate.show_empty_radio}")
+  end
+
   # turn off sending verify instructions until admin sends it.
   #
   def send_on_create_confirmation_instructions; end

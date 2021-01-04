@@ -26,6 +26,7 @@ class EventCompleteValidator
   def validate(attributes, other_attributes = [])
     @association.validates_presence_of attributes unless attributes.empty?
     @association.validates_presence_of other_attributes if @validate_others
+    @association.errors.none?
   end
 
   # if either set passes for having all its attributes present then everything is OK

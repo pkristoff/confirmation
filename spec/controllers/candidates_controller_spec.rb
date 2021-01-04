@@ -244,14 +244,43 @@ describe CandidatesController do
     [
       [Event::Route::BAPTISMAL_CERTIFICATE,
        lambda do |candidate|
-         candidate.baptismal_certificate.baptized_at_home_parish = true
+         bc = candidate.baptismal_certificate
+         bc.baptized_at_home_parish = true
+         bc.birth_date = Date.parse('1998-04-09')
+         bc.baptismal_date = Date.parse('1998-06-09')
+         bc.father_first = 'Abe'
+         bc.father_middle = 'Abem'
+         bc.father_last = 'Smith'
+         bc.mother_first = 'Abette'
+         bc.mother_middle = 'Abettem'
+         bc.mother_maiden = 'Abemaiden'
+         bc.mother_last = 'Smith'
+
+         cs = candidate.candidate_sheet
+         cs.first_name = 'Candy'
+         cs.middle_name = 'Cane'
+         cs.last_name = 'Smith'
        end,
        lambda do |candidate|
+         bc = candidate.baptismal_certificate
+         cs = candidate.candidate_sheet
          {
+           candidate_sheet_attributes: {
+             first_name: cs.first_name,
+             middle_name: cs.middle_name,
+             last_name: cs.last_name
+           },
            baptismal_certificate_attributes: {
              baptized_at_home_parish: 1,
              show_empty_radio: 1,
-             id: candidate.id
+             father_first: bc.father_first,
+             father_middle: bc.father_middle,
+             father_last: bc.father_last,
+             mother_first: bc.mother_first,
+             mother_middle: bc.mother_middle,
+             mother_maiden: bc.mother_maiden,
+             mother_last: bc.mother_last,
+             id: bc.id
            }
          }
        end],
@@ -338,11 +367,11 @@ describe CandidatesController do
         completed_date = @today - 20
         cand = Candidate.find(@c1_id)
         valid_setter.call(cand)
-        cand.save
+        cand.save!
 
         cand_event = cand.get_candidate_event(Candidate.event_key_from_route(event_route))
         cand_event.completed_date = completed_date
-        cand.save
+        cand.save!
 
         cand_parms = generate_cand_parms.call(cand)
         put :event_with_picture_verify_update,

@@ -22,14 +22,26 @@ shared_context 'baptismal_certificate' do
 
   it 'show should update the candidate baptismal_certificate info and update Candidate event.' do
     candidate = Candidate.find(@candidate.id)
-    candidate.baptismal_certificate = BaptismalCertificate.new
+
     candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
     expect(candidate_event.completed_date).to eq(nil)
-
     put :event_with_picture_update,
         params: { id: candidate.id,
                   event_route: Event::Route::BAPTISMAL_CERTIFICATE,
-                  candidate: { baptismal_certificate_attributes: { baptized_at_home_parish: '1', show_empty_radio: 1 } } }
+                  candidate: { baptismal_certificate_attributes: { birth_date: @today,
+                                                                   baptismal_date: @today,
+                                                                   baptized_at_home_parish: '1',
+                                                                   show_empty_radio: 1,
+                                                                   father_first: 'Abe',
+                                                                   father_middle: 'Abem',
+                                                                   father_last: 'Smith',
+                                                                   mother_first: 'Abette',
+                                                                   mother_middle: 'Abettem',
+                                                                   mother_maiden: 'Abemaiden',
+                                                                   mother_last: 'Smith' },
+                               candidate_sheet_attributes: { first_name: 'Abett',
+                                                             middle_name: 'Abettm',
+                                                             last_name: 'Smith' } } }
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
