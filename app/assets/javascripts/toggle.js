@@ -124,38 +124,22 @@ confirmation_toggle = function () {
             if ( ele.value === '0' || ele.value === '2' ) {
                 ele.value = '1';
             }
+        } else {
+            console.log( 'Toggle.js Unknown for_type=' + for_type )
         }
-        else if ( for_type === 'first_comm' ) {
-            if ( ele.value === '0' || ele.value === '1' ) {
-                ele.value = '2';
-            }
-        }
+
         console.log( 'show_empty_radio after=' + ele.value )
 
     }
 
     function baptised_yes() {
-        toggle_top( '#first-communion-top', 'hide' );
         toggle_top( '#baptismal-certificate-top', 'hide' );
         update_show_empty_radio( 'baptism' );
     }
 
     function baptised_no() {
-        toggle_top( '#first-communion-top', 'show' );
-        if ( document.getElementById( 'candidate_baptismal_certificate_attributes_first_comm_at_home_parish_0' ).checked ) {
-            confirmation_toggle().toggle_top( '#baptismal-certificate-top', 'show' )
-        }
+        confirmation_toggle().toggle_top( '#baptismal-certificate-top', 'show' )
         update_show_empty_radio( 'baptism' );
-    }
-
-    function first_comm_yes() {
-        toggle_top( '#baptismal-certificate-top', 'show' );
-        update_show_empty_radio( 'first_comm' );
-    }
-
-    function first_comm_no() {
-        toggle_top( '#baptismal-certificate-top', 'show' );
-        update_show_empty_radio( 'first_comm' );
     }
 
     function remove_scanned_image( remove_id, root ) {
@@ -187,8 +171,6 @@ confirmation_toggle = function () {
         baptised_no:           baptised_no,
         baptised_yes:          baptised_yes,
         clear_attached_file:   clear_attached_file,
-        first_comm_no:         first_comm_no,
-        first_comm_yes:        first_comm_yes,
         instructions:          instructions,
         instructionText:       instructionText,
         remove_scanned_image:  remove_scanned_image,
