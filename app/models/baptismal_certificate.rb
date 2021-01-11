@@ -245,36 +245,6 @@ class BaptismalCertificate < ApplicationRecord
     chosen_baptized_at_home_parish? && !baptized_at_home_parish
   end
 
-  # Whether to show first communion as yes
-  #
-  # === Returns:
-  #
-  # * <tt>Boolean</tt>
-  #
-  # def first_comm_at_home_parish_show_yes
-  #   chosen_first_comm_at_home_parish? && first_comm_at_home_parish
-  # end
-
-  # Whether to show first communion as no
-  #
-  # === Returns:
-  #
-  # * <tt>Boolean</tt>
-  #
-  # def first_comm_at_home_parish_show_no
-  #   chosen_first_comm_at_home_parish? && !first_comm_at_home_parish
-  # end
-
-  # Whether to show first communion info
-  #
-  # === Returns:
-  #
-  # * <tt>Boolean</tt>
-  #
-  # def first_comm_show
-  #   chosen_baptized_at_home_parish? && !baptized_at_home_parish
-  # end
-
   # Whether candidate has chosen that they were baptised at home parish
   #
   # === Returns:
@@ -282,18 +252,8 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def chosen_baptized_at_home_parish?
-    show_empty_radio == 1
+    show_empty_radio == 1 || show_empty_radio == 2
   end
-
-  # Whether candidate has chosen that they received first communion at home parish
-  #
-  # === Returns:
-  #
-  # * <tt>Boolean</tt>
-  #
-  # def chosen_first_comm_at_home_parish?
-  #   show_empty_radio > 1
-  # end
 
   # Whether to show info
   #
