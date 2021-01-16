@@ -1,7 +1,7 @@
 <%= form_for(resource, as: :candidate, url: update_candidate_path(resource), html: { method: :put }) do |f| %>
   <h2> <%= "#{t('views.common.status')} #{resource.account_name}" %></h2>
 
-  <%= render 'devise/shared/error_messages' %>
+  <%= render 'devise/shared/error_messages', for_reset_password: false %>
 
 
   <%= f.fields_for :candidate_events, resource.candidate_events_sorted.to_a do |candidate_event_fields| %>

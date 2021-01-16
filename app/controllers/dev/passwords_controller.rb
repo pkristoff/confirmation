@@ -53,6 +53,12 @@ module Dev
             'was_confirmed']}"
         )
       end
+      if params[:commit] == I18n.t('views.common.reset_password') && resource.errors.any?
+        flash[:alert] = I18n.t('alert.reset_password', account_name: parms[:account_name], contact_info: Visitor.visitor.contact)
+        resource.errors.messages[:account_name] =
+          [I18n.t('errors.messages.account_name_not_found',
+                  attribute: parms[:account_name], contact_info: Visitor.visitor.contact)]
+      end
       super
     end
 

@@ -51,9 +51,12 @@ RSpec.describe 'I18n' do
 
   it 'does not have missing keys' do
     # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
-    not_missing = %w[errors.messages.not_saved.one
+    not_missing = %w[alert.reset_password
+                     errors.messages.not_saved.one
                      errors.messages.not_saved.other
                      errors.messages.blank
+                     errors.messages.account_name_not_found
+                     errors.messages.reset_password
                      devise.mailer.reset_password_instructions.subject
                      devise.failure.unconfirmed
                      views.common.remember_me]

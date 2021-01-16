@@ -61,3 +61,7 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+      reset_password: '1 error prohibited reset password from being sent:'
+      account_name_not_found: "was not found: %{attribute}.  If you are having problems please contact %{contact_info} "
+  alert:
+    reset_password: "Account name (%{account_name}) not found.  If you are having problems please contact %{contact_info} "

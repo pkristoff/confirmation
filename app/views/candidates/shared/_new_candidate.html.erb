@@ -1,6 +1,6 @@
 <% is_candidate_signed_in_and_not_new = (by_candidate and !is_new) %>
 
-<%= render 'devise/shared/error_messages' %>
+<%= render 'devise/shared/error_messages', for_reset_password: false %>
 
 <%= f.fields_for :candidate_sheet do |cs_fields| %>
     <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>

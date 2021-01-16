@@ -61,6 +61,21 @@ feature 'Sign in', :devise do
     signin_candidate(candidate1.account_name, candidate1.password)
     expect_no_orphaned_associations
   end
+  scenario 'candidate forgot password, tries to reset it, but gives wrong account name' do
+    AppFactory.add_confirmation_events
+    visit new_candidate_session_path
+    click_link 'Forgot your password?'
+    expect_field('Account name', '')
+
+    fill_in('Account name', with: 'xxx')
+    click_button('Reset Password')
+
+    # rubocop:disable Layout/LineLength
+    expect_messages([[:flash_alert, 'Account name (xxx) not found. If you are having problems please contact replace me - contact'],
+                     [:error_explanation, ['1 error prohibited reset password from being sent:',
+                                           'Account name was not found: xxx']]])
+    # rubocop:enable Layout/LineLength
+  end
 
   # Scenario: Candidate can't login decides to 'Resend confirmation instructions'
   # but puts in wrong email

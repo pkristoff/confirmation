@@ -1,6 +1,6 @@
 <h2>Resend confirmation instructions</h2>
 
-<%= render 'devise/shared/error_messages' %>
+<%= render 'devise/shared/error_messages', for_reset_password: false %>
 
 <%= form_tag(resend_confirmation_instructions_path, method: "post") do %>
   <%= label_tag(:email, "Email") %>

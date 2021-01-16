@@ -1,19 +1,25 @@
-<% if resource.errors.any? %>
+<% local_for_reset_password = for_reset_password # remove me %>
+<% local_resource = resource # remove me %>
+<% if local_resource.errors.any? %>
   <div id="error_explanation">
     <h2>
-      <% if resource.errors.count == 1 %>
-      <%= I18n.t('errors.messages.not_saved.one',
-                 resource: resource.class.model_name.human.downcase)
-       %>
+      <% if local_resource.errors.count == 1 %>
+        <% if local_for_reset_password %>
+          <%= I18n.t('errors.messages.reset_password') %>
         <% else %>
+          <%= I18n.t('errors.messages.not_saved.one',
+                     resource: resource.class.model_name.human.downcase)
+          %>
+        <% end %>
+      <% else %>
         <%= I18n.t('errors.messages.not_saved.other',
                    count: resource.errors.count,
                    resource: resource.class.model_name.human.downcase)
         %>
-        <% end %>
+      <% end %>
     </h2>
     <ul>
-      <% resource.errors.full_messages.each do |message| %>
+      <% local_resource.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>

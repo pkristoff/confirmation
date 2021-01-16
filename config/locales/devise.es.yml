@@ -61,3 +61,7 @@ es:
       not_saved:
         one: "1 error prohibió guardar este %{resource}:"
         other: "Los errores %{count} prohibieron que se guardara este %{resource}:"
+      reset_password: '1 error que prohíbe el envío de restablecimiento de contraseña:'
+      account_name_not_found: "no fue encontrado: %{attribute}"
+  alert:
+    reset_password: "No se encontró el nombre de la cuenta (%{account_name}). Si tiene problemas, comuníquese con  %{contact_info}"
