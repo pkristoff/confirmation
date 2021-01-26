@@ -1,6 +1,6 @@
 <% is_candidate_signed_in_and_not_new = (by_candidate and !is_new) %>
 
-<%= render 'devise/shared/error_messages', for_reset_password: false %>
+<%= render 'devise/shared/error_messages', resource: resource, for_reset_password: false %>
 
 <div class="field">
   <%= f.label :account_name %><br/>

@@ -4,7 +4,7 @@
 
 <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
   <h2>Resend confirmation instructions</h2>
-  <%= render 'devise/shared/error_messages' %>
+  <%= render 'devise/shared/error_messages', resource: resource, for_reset_password: false %>
 
   <div class="field">
     <%= f.label :email %><br />

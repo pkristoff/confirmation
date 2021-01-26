@@ -1,6 +1,6 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <h2><%= t('views.nav.edit') %> <%= resource_name.to_s.humanize %></h2>
-  <%= render 'devise/shared/error_messages', for_reset_password: false %>
+  <%= render 'devise/shared/error_messages', resource: resource, for_reset_password: false %>
 
   <%= field_set_tag t('field_set.admin.contact'), class: 'fieldset' do %>
 
