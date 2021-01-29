@@ -23,17 +23,17 @@ shared_context 'sponsor_covenant_html_erb' do
 
   scenario 'admin logs in and selects a candidate, checks sponsor_attends_home_parish, nothing else showing' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = true
-    @candidate.save
-    update_sponsor_covenant(false)
+    @candidate.save!
+
     visit @path
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify)
   end
 
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, rest showing' do
+    @candidate.sponsor_covenant.sponsor_name = SPONSOR_NAME
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
-    @candidate.save
-    update_sponsor_covenant(true)
+    @candidate.save!
     visit @path
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify)
@@ -41,8 +41,8 @@ shared_context 'sponsor_covenant_html_erb' do
 
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
-    @candidate.save
-    update_sponsor_covenant(false)
+    @candidate.save!
+
     expect(@candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
 
     visit @path
@@ -57,8 +57,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
   scenario 'admin logs in and selects a candidate, fills in template saves changes sponsor_name' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
-    @candidate.save
-    update_sponsor_covenant(false)
+    @candidate.save!
 
     expect_db(1, 0)
 
@@ -92,8 +91,7 @@ shared_context 'sponsor_covenant_html_erb' do
   # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
-    @candidate.save
-    update_sponsor_covenant(false)
+    @candidate.save!
 
     expect_db(1, 0)
 
@@ -139,8 +137,8 @@ shared_context 'sponsor_covenant_html_erb' do
   # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds non-picture data, updates, adds picture, updates - everything is saved' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
-    @candidate.save
-    update_sponsor_covenant(false)
+    @candidate.save!
+
     visit @path
 
     fill_in_form({ covenant_attach_file: false }) # no picture
@@ -170,8 +168,8 @@ shared_context 'sponsor_covenant_html_erb' do
   # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template, except sponsor_name' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
-    @candidate.save
-    update_sponsor_covenant(false)
+    @candidate.save!
+
     visit @path
     fill_in_form
 
@@ -217,10 +215,5 @@ shared_context 'sponsor_covenant_html_erb' do
 
   def img_src_selector
     "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/sponsor_covenant\"]"
-  end
-
-  def update_sponsor_covenant(with_values)
-    @candidate.sponsor_covenant.sponsor_name = SPONSOR_NAME if with_values
-    @candidate.save if with_values
   end
 end

@@ -120,6 +120,7 @@ shared_context 'baptismal_certificate' do
       candidate.save
 
       expect(baptismal_certificate.scanned_certificate).to_not be_nil
+      expect(baptismal_certificate.scanned_certificate_id).to_not be_nil
 
       cand_bc_params = valid_parameters_bc(baptismal_certificate.id)
 
@@ -132,7 +133,9 @@ shared_context 'baptismal_certificate' do
       candidate = Candidate.find(@candidate.id)
       baptismal_certificate = candidate.baptismal_certificate
       expect(baptismal_certificate.scanned_certificate).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(baptismal_certificate.scanned_certificate_id).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(baptismal_certificate.scanned_certificate).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(baptismal_certificate.scanned_certificate_id).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
@@ -289,6 +292,7 @@ shared_context 'retreat_verification' do
       candidate.save
 
       expect(retreat_verification.scanned_retreat).to_not be_nil
+      expect(retreat_verification.scanned_retreat_id).to_not be_nil
 
       cand_bc_params = valid_parameters_rv(retreat_verification.id)
 
@@ -300,7 +304,9 @@ shared_context 'retreat_verification' do
       candidate = Candidate.find(@candidate.id)
       retreat_verification = candidate.retreat_verification
       expect(retreat_verification.scanned_retreat).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(retreat_verification.scanned_retreat_id).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(retreat_verification.scanned_retreat).to be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(retreat_verification.scanned_retreat_id).to be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(RetreatVerification.event_key)
       expect(candidate_event.completed_date).to be_nil
       expect(candidate_event.verified).to be(false)
@@ -375,6 +381,7 @@ shared_context 'sponsor_covenant' do
       candidate.save
 
       expect(sponsor_covenant.scanned_covenant).to_not be_nil
+      expect(sponsor_covenant.scanned_covenant_id).to_not be_nil
 
       cand_sc_params = valid_parameters_sc(sponsor_covenant.id)
 
@@ -386,7 +393,9 @@ shared_context 'sponsor_covenant' do
       candidate = Candidate.find(@candidate.id)
       sponsor_covenant = candidate.sponsor_covenant
       expect(sponsor_covenant.scanned_covenant).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_covenant.scanned_covenant_id).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(sponsor_covenant.scanned_covenant).to be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_covenant.scanned_covenant_id).to be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(SponsorCovenant.event_key)
       expect(candidate_event.completed_date).to be_nil
       expect(candidate_event.verified).to be(false)
@@ -427,6 +436,7 @@ shared_context 'sponsor_eligibility' do
       candidate.save
 
       expect(sponsor_eligibility.scanned_eligibility).to_not be_nil
+      expect(sponsor_eligibility.scanned_eligibility_id).to_not be_nil
 
       cand_se_params = valid_parameters_se(sponsor_eligibility.id)
 
@@ -439,7 +449,9 @@ shared_context 'sponsor_eligibility' do
       candidate = Candidate.find(@candidate.id)
       sponsor_eligibility = candidate.sponsor_eligibility
       expect(sponsor_eligibility.scanned_eligibility).to be_nil unless commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_eligibility.scanned_eligibility_id).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(sponsor_eligibility.scanned_eligibility).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_eligibility.scanned_eligibility_id).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(SponsorEligibility.event_key)
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
