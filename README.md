@@ -106,7 +106,8 @@ Copy production(confirmation-production) db to staging(confirmation-staging)
 
 Production => local
 - heroku pg:backups:download --app confirmation-production
-- pg_restore --verbose --clean --no-acl --no-owner -h localhost -U paulkristoff -d confirmation_development 20180213.dump > restore.log
+- 
+
 
 PSQL
 - heroku pg:psql postgresql-corrugated-19133 --app confirmation-production

@@ -30,8 +30,8 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.export_confirmation_name'), '/export_lists/confirmation_name'],
       [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), '/export_lists/retreat', nil, 'Retreat at St. Ma...'],
       [I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/baptism', nil, 'Baptized at St. M...'],
-      [I18n.t('views.nav.export_sponsor_covenant_title'), '/export_lists/sponsor', nil, 'Sponsor Name'],
-      [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/sponsor', nil, 'Sponsor at St. Ma...'],
+      [I18n.t('views.nav.export_sponsor_covenant_title'), '/export_lists/sponsor', nil, 'Sponsor covenant'],
+      [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/sponsor', nil, 'Sponsor eligibility'],
       [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events', nil, 'Candidate Events ...'],
       [I18n.t('views.nav.pdf_baptismal_name'), '/export_lists/bap_name', nil, 'DF for matching ...']
     ]

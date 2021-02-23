@@ -371,8 +371,8 @@ en:
       export_baptized_at_home_parish_title: Baptized at %{home_parish}
       export_candidate_event_status_title: Candidate Events Status
       export_confirmation_name: Confirmation Names
-      export_sponsor_at_home_parish_title: Sponsor at %{home_parish}
-      export_sponsor_covenant_title: Sponsor Name
+      export_sponsor_at_home_parish_title: Sponsor eligibility
+      export_sponsor_covenant_title: Sponsor covenant
       missing_events: Missing Events
       monthly_mass_mailing: Monthly Mailing
       note: Note

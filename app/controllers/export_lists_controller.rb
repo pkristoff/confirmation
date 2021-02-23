@@ -7,7 +7,8 @@ class ExportListsController < ApplicationController
   BAPTISM_COLUMNS =
     [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish',
             home_parish: Visitor.home_parish),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish',
+            home_parish: Visitor.home_parish),
      I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.father_first'),
@@ -158,7 +159,9 @@ class ExportListsController < ApplicationController
 
   SPONSOR_ELIGIBILITY_COLUMNS =
     [
-      I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish'),
+      I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish',
+             home_parish: Visitor.home_parish),
+      I18n.t('label.sponsor_covenant.sponsor_name'),
       I18n.t('label.sponsor_eligibility.sponsor_church'),
       I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture')
     ].freeze
@@ -166,6 +169,7 @@ class ExportListsController < ApplicationController
   SPONSOR_ELIGIBILITY_VALUES =
     [
       ->(candidate) { candidate.sponsor_eligibility.sponsor_attends_home_parish },
+      ->(candidate) { candidate.sponsor_covenant.sponsor_name },
       ->(candidate) { candidate.sponsor_eligibility.sponsor_church },
       ->(candidate) { !candidate.sponsor_eligibility.scanned_eligibility.nil? }
     ].freeze
