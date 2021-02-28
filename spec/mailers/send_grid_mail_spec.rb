@@ -329,6 +329,30 @@ describe SendGridMail, type: :model do
     end
   end
 
+  describe 'categories' do
+    it 'should have 4 categories' do
+      admin = FactoryBot.create(:admin)
+      candidate = create_candidate('Paul', 'Richard', 'Kristoff')
+      send_grid_mail = SendGridMailSpec.new(admin, [candidate])
+      mail = send_grid_mail.create_mail(MailPart.new_subject('subject text'),
+                                        EmailStuff::TYPES[:adhoc],
+                                        candidate.account_name)
+      expect(mail.categories.size).to eq(4)
+    end
+    it 'should have 4 categories with values' do
+      admin = FactoryBot.create(:admin)
+      candidate = create_candidate('Paul', 'Richard', 'Kristoff')
+      send_grid_mail = SendGridMailSpec.new(admin, [candidate])
+      mail = send_grid_mail.create_mail(MailPart.new_subject('subject text'),
+                                        EmailStuff::TYPES[:adhoc],
+                                        candidate.account_name)
+      expect(mail.categories[0]).to eq('test')
+      expect(mail.categories[1]).to eq(EmailStuff::TYPES[:adhoc])
+      expect(mail.categories[2]).to eq(candidate.account_name)
+      expect(mail.categories[3]).to eq('subject tex')
+    end
+  end
+
   describe 'show and hide' do
     before(:each) do
       @admin = FactoryBot.create(:admin)

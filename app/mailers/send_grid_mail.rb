@@ -38,8 +38,8 @@ class SendGridMail
        paul@kristoffs.com
        paul.kristoff@kristoffs.com
        retail@kristoffs.com
-       justfaith@kristoffs.com f
-       inancial@kristoffs.com]
+       justfaith@kristoffs.com
+       financial@kristoffs.com]
   end
 
   # convert illegal email to one of these in non-production
@@ -162,6 +162,7 @@ class SendGridMail
     mail.add_category(SendGrid::Category.new(name: cat_env))
     mail.add_category(SendGrid::Category.new(name: email_type))
     mail.add_category(SendGrid::Category.new(name: account_name))
+    mail.add_category(SendGrid::Category.new(name: mail.subject[0..10]))
     mail
   end
 
