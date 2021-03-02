@@ -162,7 +162,7 @@ class SendGridMail
     mail.add_category(SendGrid::Category.new(name: cat_env))
     mail.add_category(SendGrid::Category.new(name: email_type))
     mail.add_category(SendGrid::Category.new(name: account_name))
-    mail.add_category(SendGrid::Category.new(name: mail.subject[0..10]))
+    mail.add_category(SendGrid::Category.new(name: mail.subject))
     mail
   end
 

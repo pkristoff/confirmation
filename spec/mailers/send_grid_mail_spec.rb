@@ -349,7 +349,7 @@ describe SendGridMail, type: :model do
       expect(mail.categories[0]).to eq('test')
       expect(mail.categories[1]).to eq(EmailStuff::TYPES[:adhoc])
       expect(mail.categories[2]).to eq(candidate.account_name)
-      expect(mail.categories[3]).to eq('subject tex')
+      expect(mail.categories[3]).to eq('subject text')
     end
   end
 
