@@ -62,10 +62,11 @@ es:
       contact: Información del contacto
     attach_file: Adjuntar archivo a correo electrónico
     baptismal_certificate:
-      church: Iglesia
+      church: Iglesia donde bautizado
       dates: fechas
       father: Nombre del Padre
       mother: Nombre de la madre
+        please_fill_out_the_following: 'Por favor complete lo siguiente:'
       scan: Certificado de bautismo
     candidate_sheet:
       address: Dirección del candidato
@@ -91,7 +92,7 @@ es:
     baptismal_certificate:
       baptismal_certificate:
         baptismal_date: Fecha bautismal
-        baptized_at_home_parish: Fui bautizado en %{home_parish}
+        baptized_at_home_parish: ¿Te bautizaron en %{home_parish}
         birth_date: Fecha de nacimiento
         certificate_picture: Certificado de bautismo
         church_address:

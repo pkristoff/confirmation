@@ -133,12 +133,14 @@ confirmation_toggle = function () {
     }
 
     function baptised_yes() {
+        toggle_top( '#all-baptismal-certificate-info', 'show' )
         toggle_top( '#baptismal-certificate-top', 'hide' );
         update_show_empty_radio( 'baptism' );
     }
 
     function baptised_no() {
-        confirmation_toggle().toggle_top( '#baptismal-certificate-top', 'show' )
+        toggle_top( '#all-baptismal-certificate-info', 'show' )
+        toggle_top( '#baptismal-certificate-top', 'show' )
         update_show_empty_radio( 'baptism' );
     }
 
