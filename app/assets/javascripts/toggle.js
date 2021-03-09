@@ -119,7 +119,6 @@ confirmation_toggle = function () {
 
     function update_show_empty_radio( for_type ) {
         var ele = document.getElementsByName( 'candidate[baptismal_certificate_attributes][show_empty_radio]' )[ 0 ];
-        // console.log('show_empty_radio before=' + ele.value)
         if ( for_type === 'baptism' ) {
             if ( ele.value === '0' || ele.value === '2' ) {
                 ele.value = '1';
