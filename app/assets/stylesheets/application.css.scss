@@ -40,7 +40,7 @@ input[type=email] {
   width: 95%;
 }
 
-input[type=text] {
+input[type=text] :not(.saint-name) {
   width: 95%;
 }
 
@@ -218,4 +218,8 @@ main {
   //position: relative;
   //height: 150px;
   //width: 100%
+}
+
+.saint-name {
+  width: 80%
 }

@@ -136,6 +136,7 @@ en:
       when_service: When did you do the service?
       where_service: Where did the service take place?
     confirmation_name:
+      saint: Saint
       saint_name: Saint name
     events:
       chs_due_date: Catholic high school due date

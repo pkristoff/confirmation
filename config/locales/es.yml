@@ -56,6 +56,7 @@ es:
     parent_meeting: Reunión de información para padres
     retreat_verification: Asistir al retiro
     sponsor_covenant: Pacto del patrocinador y elegibilidad del patrocinador
+    sponsor_eligibility: Elegibilidad del patrocinador
   field_set:
     admin:
       change_password: Cambia la contraseña
@@ -66,7 +67,7 @@ es:
       dates: fechas
       father: Nombre del Padre
       mother: Nombre de la madre
-        please_fill_out_the_following: 'Por favor complete lo siguiente:'
+      please_fill_out_the_following: 'Por favor complete lo siguiente:'
       scan: Certificado de bautismo
     candidate_sheet:
       address: Dirección del candidato
@@ -92,7 +93,7 @@ es:
     baptismal_certificate:
       baptismal_certificate:
         baptismal_date: Fecha bautismal
-        baptized_at_home_parish: ¿Te bautizaron en %{home_parish}
+        baptized_at_home_parish: "¿Te bautizaron en %{home_parish}"
         birth_date: Fecha de nacimiento
         certificate_picture: Certificado de bautismo
         church_address:
@@ -138,6 +139,7 @@ es:
       when_service: "¿Cuándo hiciste el servicio?"
       where_service: "¿Dónde tuvo lugar el servicio?"
     confirmation_name:
+      saint: Santo
       saint_name: Santo nombre
     events:
       chs_due_date: Fecha de vencimiento de la escuela secundaria católica
