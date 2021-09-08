@@ -2,6 +2,18 @@
 
 Warden.test_mode!
 
+# rubocop:disable Layout/LineLength
+CONTACT_INIT_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
+CONTACT_CHANGED_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" id="foo" style="bold" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
+# rubocop:enable Layout/LineLength
+
+HOME_PARISH_INIT_VALUE = 'St. Mary Magdalene'
+HOME_INIT_VALUE = '<div><p>Welcome</p></div>'
+HOME_PARISH_CHANGED_VALUE = 'St. Michaels'
+HOME_CHANGED_VALUE = '<div id="foo">ccc yyy</div>'
+ABOUT_INIT_VALUE = '<code>About</code>'
+ABOUT_CHANGED_VALUE = '<div id="bar">ddd zzz</div>'
+
 feature 'admins/show_visitor.html.erb' do
   include Warden::Test::Helpers
 
@@ -50,18 +62,6 @@ feature 'admins/show_visitor.html.erb' do
   end
 
   private
-
-  # rubocop:disable Layout/LineLength
-  CONTACT_INIT_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
-  CONTACT_CHANGED_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" id="foo" style="bold" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
-  # rubocop:enable Layout/LineLength
-
-  HOME_PARISH_INIT_VALUE = 'St. Mary Magdalene'
-  HOME_INIT_VALUE = '<div><p>Welcome</p></div>'
-  HOME_PARISH_CHANGED_VALUE = 'St. Michaels'
-  HOME_CHANGED_VALUE = '<div id="foo">ccc yyy</div>'
-  ABOUT_INIT_VALUE = '<code>About</code>'
-  ABOUT_CHANGED_VALUE = '<div id="bar">ddd zzz</div>'
 
   def expect_show_visitor(home_parish, home, about, contact, expected_messages = [])
     expect_messages(expected_messages, page) unless expected_messages.empty?
