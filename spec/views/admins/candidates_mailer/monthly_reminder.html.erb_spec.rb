@@ -212,6 +212,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
                 completed_events_values)
   end
 
+  private
+
   def expect_view(late_values, coming_due_values, completed_awaiting_values, completed_values)
     expect(rendered).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 

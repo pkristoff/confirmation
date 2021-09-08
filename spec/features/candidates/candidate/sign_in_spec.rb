@@ -115,6 +115,8 @@ feature 'Sign in', :devise do
                     ])
   end
 
+  private
+
   def create_candidate_old(account_name, first, last)
     candidate = FactoryBot.create(:candidate, account_name: account_name, add_new_confirmation_events: false)
     candidate.candidate_sheet.first_name = first

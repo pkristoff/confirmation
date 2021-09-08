@@ -225,6 +225,8 @@ shared_context 'retreat_verification_html_erb' do
     expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
+  private
+
   def expect_retreat_verification_form(cand_id, dev_path, path_str, is_verify,
                                        values = {
                                          who_held_retreat: WHO_HELD_RETREAT,

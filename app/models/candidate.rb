@@ -116,22 +116,17 @@ class Candidate < ApplicationRecord
     end
   end
 
-  # ???
+  # returns candidate's account_name
+  #
+  # === Parameters:
+  #
+  # * <tt>:last_name</tt>
+  # * <tt>:first_name</tt>
   #
   # === Returns:
   #
-  # * <tt>Array</tt> of conditions
+  # * <tt>CandidateEvent</tt>
   #
-  def self.find_first_by_auth_conditions(tainted_conditions, options = {})
-    login = tainted_conditions.delete(:account_name)
-    if login
-      conditions = devise_parameter_filter.filter(value: login.downcase)
-      where(['lower(account_name) = :value', conditions]).first
-    else
-      super
-    end
-  end
-
   def self.genertate_account_name(last_name, first_name)
     "#{last_name}#{first_name}".downcase
   end
@@ -180,10 +175,22 @@ class Candidate < ApplicationRecord
     true
   end
 
+  # returns event_key for covenant agreement. implemented here because no Object for event.
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> representing the event_key
+  #
   def self.covenant_agreement_event_key
     'candidate_covenant_agreement'
   end
 
+  # returns event_key for parent meeting. implemented here because no Object for event.
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> representing the event_key
+  #
   def self.parent_meeting_event_key
     'parent_information_meeting'
   end
@@ -385,6 +392,16 @@ class Candidate < ApplicationRecord
     event
   end
 
+  # returns the I18n name for the event_key
+  #
+  # === Parameters:
+  #
+  # * <tt>:event_key</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> representing the I18n
+  #
   def self.i18n_event_name(event_key)
     event_key_entry = event_keys[event_key]
     raise "unknown_event_key: #{event_key}" if event_key_entry.nil?
@@ -394,6 +411,16 @@ class Candidate < ApplicationRecord
 
   @event_keys = nil
 
+  # What does this do?
+  #
+  # === Parameters:
+  #
+  # * <tt>:new_entries</tt> owner of association
+  #
+  # === Returns:
+  #
+  # * <tt>Number</tt> number of entries
+  #
   def self.add_new_event_key_entry(new_entries)
     ek = event_keys
     # make sure every entry is has same number
@@ -403,13 +430,19 @@ class Candidate < ApplicationRecord
       raise("unknown key #{key}") if entries.nil?
 
       num_entries = entries.size if num_entries.nil?
-      raise "NUmber of entries is wrong for #{key}" unless num_entries == entries.size
+      raise "Number of entries is wrong for #{key}" unless num_entries == entries.size
 
       entries << value
     end
     num_entries
   end
 
+  # returns hash of event_keys
+  #
+  # === Returns:
+  #
+  # * <tt>Hash</tt> {event_key=[event_route, I18n]}
+  #
   def self.event_keys
     return @event_keys if @event_keys
 
@@ -453,6 +486,16 @@ class Candidate < ApplicationRecord
     @event_keys
   end
 
+  # returns the event_key given the event_route
+  #
+  # === Parameters:
+  #
+  # * <tt>:event_route</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> event_key
+  #
   def self.event_key_from_route(event_route)
     case event_route.to_sym
     when Event::Route::BAPTISMAL_CERTIFICATE
@@ -478,6 +521,16 @@ class Candidate < ApplicationRecord
     end
   end
 
+  # returns event route for given event key
+  #
+  # === Parameters:
+  #
+  # * <tt>:event_key</tt> event route
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> representing event route
+  #
   def self.event_route(event_key)
     event_key_entry = event_keys[event_key]
     raise "unknown_event_key: #{event_key}" if event_key_entry.nil?
@@ -589,13 +642,9 @@ class Candidate < ApplicationRecord
 
   # baptismal certificate needs admin verification
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
-  # * <tt>Boolean</tt>
+  # * <tt>Array</tt> of external baptismal certificate verifications
   #
   def self.baptismal_external_verification
     external_verification(BaptismalCertificate.event_key,
@@ -604,13 +653,9 @@ class Candidate < ApplicationRecord
 
   # retreat needs admin verification
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
-  # * <tt>Boolean</tt>
+  # * <tt>Array</tt> of external retreat verifications
   #
   def self.retreat_external_verification
     external_verification(RetreatVerification.event_key,
@@ -619,18 +664,25 @@ class Candidate < ApplicationRecord
 
   # confirmation name needs admin verification
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
-  # * <tt>Boolean</tt>
+  # * <tt>Array</tt> of external confirmation name verifications
   #
   def self.confirmation_name_external_verification
     external_verification(PickConfirmationName.event_key, ->(_candidate) { false })
   end
 
+  # return external verifications for candidate
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate_event_key</tt> event_key
+  # * <tt>:external_verification</tt> Lambda
+  #
+  # === Returns:
+  #
+  # * <tt>CandidateEvent</tt>
+  #
   def self.external_verification(candidate_event_key, external_verification = ->(_candidate) { false })
     external = []
     to_be_verified = []
@@ -655,13 +707,9 @@ class Candidate < ApplicationRecord
 
   # sponsor needs admin verification
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
-  # * <tt>Boolean</tt>
+  # * <tt>Array</tt> of external sponsor covenant verifications
   #
   def self.sponsor_covenant_external_verification
     external_verification(SponsorCovenant.event_key, ->(_candidate) { false })
@@ -669,13 +717,9 @@ class Candidate < ApplicationRecord
 
   # sponsor needs admin verification
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
-  # * <tt>Boolean</tt>
+  # * <tt>Array</tt> of external sponsor eligibility verifications
   #
   def self.sponsor_eligibility_external_verification
     external_verification(SponsorEligibility.event_key,
@@ -684,13 +728,9 @@ class Candidate < ApplicationRecord
 
   # candidate events needs admin verification
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
-  # * <tt>Boolean</tt>Boolean
+  # * <tt>Array</tt>of arrays
   #
   def self.events_external_verification
     [[], Candidate.order(:account_name), [], []]

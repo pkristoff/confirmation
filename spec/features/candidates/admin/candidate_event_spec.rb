@@ -39,6 +39,8 @@ feature 'Candidate event', :devise do
     expect_confirmation_events(true)
   end
 
+  private
+
   def expect_confirmation_events(is_chs)
     @candidate.candidate_events_sorted.each_with_index do |ce, index|
       conf_e = ce.confirmation_event

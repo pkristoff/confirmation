@@ -155,6 +155,12 @@ class BaptismalCertificate < ApplicationRecord
     params
   end
 
+  # returns Array of ...
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt>
+  #
   def self.basic_validate_non_home_parish_params
     %i[church_name scanned_certificate]
   end

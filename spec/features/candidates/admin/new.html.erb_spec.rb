@@ -58,6 +58,8 @@ feature 'Orphan removal', :devise do
   end
 end
 
+private
+
 def expected_orphans
   {
     # Candidate associations

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# ViewsHelpers
+#
 module ViewsHelpers
   LATE_INITIAL_INPUT = I18n.t('email.late_initial_input')
   COMING_DUE_INITIAL_INPUT = I18n.t('email.coming_due_initial_input')
@@ -12,6 +14,12 @@ module ViewsHelpers
   FROM_EMAIL_I18N = 'views.top_bar.contact_admin_mail_text'
   REPLY_TO_EMAIL_I18N = 'views.top_bar.contact_admin_mail_text'
 
+  # Expect Create new Candidate
+  #
+  # === Parameters:
+  #
+  # * <tt>:rendered_or_page</tt>
+  #
   def expect_create_candidate(rendered_or_page)
     expect(rendered_or_page).to have_selector('h2', text: I18n.t('views.candidates.create_new_candidate'))
     expect(rendered_or_page).to have_field(I18n.t('views.candidates.first_name'), text: '')
@@ -26,6 +34,17 @@ module ViewsHelpers
     expect(rendered_or_page).to have_checked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
   end
 
+  # expect edit or new view.
+  #
+  # === Parameters:
+  #
+  # * <tt>:rendered_or_page</tt>
+  # * <tt>:candidate</tt>
+  # * <tt>:action</tt>
+  # * <tt>:submit_button</tt>
+  # * <tt>:is_candidate_signed_in</tt>
+  # * <tt>:is_new</tt>
+  #
   def expect_edit_and_new_view(rendered_or_page, candidate, action, submit_button, is_candidate_signed_in, is_new)
     # rubocop:disable Layout/LineLength
     form_id = is_new ? 'new_candidate' : 'edit_candidate'
@@ -82,6 +101,18 @@ module ViewsHelpers
     # rubocop:enable Layout/LineLength
   end
 
+  # create Candidate for testing
+  #
+  # === Parameters:
+  #
+  # * <tt>:first_name</tt>
+  # * <tt>:middle_name</tt>
+  # * <tt>:last_name</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>:Candidate</tt>
+  #
   def create_candidate(first_name, middle_name, last_name)
     candidate = FactoryBot.create(:candidate, account_name: "#{first_name.downcase}#{last_name.downcase}")
     candidate.candidate_sheet.first_name = first_name
@@ -114,6 +145,13 @@ module ViewsHelpers
     candidate
   end
 
+  # checks mass mailing html
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidates</tt> list of candidates being mailed
+  # * <tt>:rendered_or_page</tt> the html
+  #
   def expect_mass_mailing_html(candidates, rendered_or_page)
     # rubocop:disable Layout/LineLength
     expect(rendered_or_page).to have_css "form[action='/monthly_mass_mailing_update']"
@@ -139,18 +177,36 @@ module ViewsHelpers
     # rubocop:enable Layout/LineLength
   end
 
+  # returns lambda
+  #
+  # === Returns:
+  #
+  # * <tt>Lambda</tt> candidate_id, rendered_or_page, td_index
+  #
   def expect_password_changed
     lambda { |cand_id, rendered_or_page, td_index|
       expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: 'true'
     }
   end
 
+  # returns lambda
+  #
+  # === Returns:
+  #
+  # * <tt>Lambda</tt> candidate_id, rendered_or_page, td_index
+  #
   def expect_note
     lambda { |cand_id, rendered_or_page, td_index|
       expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: I18n.t('label.sidebar.candidate_note')
     }
   end
 
+  # returns lambda
+  #
+  # === Returns:
+  #
+  # * <tt>Lambda</tt> candidate_id, rendered_or_page, td_index
+  #
   def expect_account_confirmed
     lambda { |cand_id, rendered_or_page, td_index|
       candidate = Candidate.find_by(id: cand_id)
@@ -158,6 +214,8 @@ module ViewsHelpers
     }
   end
 
+  # setup unknown events so can test for them
+  #
   def setup_unknown_missing_events
     AppFactory.all_i18n_confirmation_event_keys.each do |event_key|
       AppFactory.add_confirmation_event(event_key) unless event_key == SponsorCovenant.event_key
@@ -165,6 +223,13 @@ module ViewsHelpers
     AppFactory.add_confirmation_event('unknown event')
   end
 
+  # checks tables have the right size
+  #
+  # === Parameters:
+  #
+  # * <tt>:candidate_size</tt>
+  # * <tt>:image_size</tt>
+  #
   def expect_db(candidate_size, image_size)
     conf_event_size = 9
     # rubocop:disable Layout/LineLength

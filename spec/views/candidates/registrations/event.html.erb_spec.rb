@@ -44,6 +44,8 @@ describe 'candidates/registrations/event.html.erb' do
     end
   end
 
+  private
+
   def expect_confirmation_events(is_chs)
     ConfirmationEvent.all.each_with_index do |ce, index|
       expect_candidate_event(index + 3, ce.id, ce.event_key, (is_chs ? nil : ce.the_way_due_date),

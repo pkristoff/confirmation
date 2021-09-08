@@ -96,6 +96,8 @@ describe ResetDbController do
     end
   end
 
+  private
+
   def expect_event_association_local(assoc_from_candidate)
     event_assoc = assoc_from_candidate.class.all
     expect(event_assoc.size).to eq(1)

@@ -29,11 +29,11 @@ feature 'Home page' do
 
   scenario 'html sanitized and gets embeded into the home page' do
     visitor = Visitor.find_by(id: @visitor_id)
-    visitor.home = '<p id="xxx" style="text-align: center"> The rain in spain </p>'
+    visitor.home = '<p id="xxx" style="text-align:center"> The rain in spain </p>'
     visitor.save
 
     visit root_path
 
-    expect(page).to have_selector('p[style="text-align: center;"]', text: 'The rain in spain')
+    expect(page).to have_selector('p[style="text-align:center;"]', text: 'The rain in spain')
   end
 end

@@ -16,7 +16,7 @@ class ConfirmationEvent < ApplicationRecord
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of permitted params
   #
   def self.permitted_params
     %i[id name the_way_due_date instructions chs_due_date]

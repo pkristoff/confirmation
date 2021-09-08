@@ -41,6 +41,8 @@ describe Orphaneds, type: :model do
   end
 end
 
+private
+
 def expect_no_orphaned_associations
   orphaneds = Orphaneds.new
   orphaneds.add_orphaned_table_rows

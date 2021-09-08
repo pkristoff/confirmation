@@ -204,7 +204,7 @@ class CandidateEvent < ApplicationRecord
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt> representing the state
   #
   def self.status(due_date, completed_date, verified)
     return I18n.t('status.not_started') unless started?(due_date)

@@ -111,6 +111,8 @@ shared_context 'candidate_sheet_html_erb' do
     expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
+  private
+
   def expect_candidate_sheet_form(cand_id, path_str, dev_path, update_id, is_verify, values = {})
     cand = Candidate.find(cand_id)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
@@ -147,6 +149,8 @@ shared_context 'candidate_sheet_html_erb' do
     expect(page).to have_button(update_id)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
   end
+
+  private
 
   def fill_in_form(candidate_sheet)
     fill_in(I18n.t('label.candidate_sheet.first_name'), with: candidate_sheet.first_name)

@@ -142,6 +142,8 @@ shared_context 'new_candidate_spec' do
     end
   end
 
+  private
+
   def fill_in_form_values(first = 'George', middle = 'Ralph', last = 'Smith', email = 'Smithgr@gmail.com')
     fill_in(I18n.t('views.candidates.first_name'), with: first)
     fill_in(I18n.t('views.candidates.middle_name'), with: middle)

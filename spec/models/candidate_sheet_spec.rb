@@ -227,6 +227,8 @@ describe CandidateSheet, type: :model do
       end
     end
 
+    private
+
     def fill_in_valid_info(candidate_sheet)
       fill_in_cand(candidate_sheet)
       candidate_sheet.candidate_email = 'foo@bar.com'

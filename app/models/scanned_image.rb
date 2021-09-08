@@ -12,7 +12,7 @@ class ScannedImage < ApplicationRecord
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt>  of attributes
   #
   def self.permitted_params
     %i[filename content_type content id]

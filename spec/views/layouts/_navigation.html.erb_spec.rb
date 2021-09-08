@@ -38,6 +38,8 @@ describe 'layouts/_navigation.html.erb' do
     expect(rendered).to have_selector('li', count: 4)
   end
 
+  private
+
   def expect_common
     expect(rendered).to have_button(I18n.t('views.nav.toggle_navigation'))
     expect(rendered).to have_link(I18n.t('views.top_bar.home'), href: '/')

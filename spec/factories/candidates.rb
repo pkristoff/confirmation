@@ -29,6 +29,8 @@ FactoryBot.define do
   end
 end
 
+private
+
 def create_candidate_events
   confirmation_event_eat = ConfirmationEvent.find_by(event_key: 'Going out to eat') || FactoryBot.create(:confirmation_event)
   confirmation_event_home =

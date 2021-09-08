@@ -130,6 +130,8 @@ describe AdminsController do
       expect_candidate_event(@c3, '2016-09-04', false)
     end
 
+    private
+
     def expect_candidate_event(candidate, completed_date, verified)
       c2 = Candidate.find_by(account_name: candidate.account_name)
       candidate_event = c2.get_candidate_event(@confirmation_event.event_key)
@@ -363,6 +365,8 @@ describe AdminsController do
       end
     end
   end
+
+  private
 
   def expect_mailer_text(candidate, candidates_mailer_text)
     expect(candidates_mailer_text.candidate.id).to eq(candidate.id)

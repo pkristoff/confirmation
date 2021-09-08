@@ -92,6 +92,8 @@ shared_context 'orphaned_scanned_image' do
   end
 end
 
+private
+
 def remove_scanned_image(candidate, route, attributes)
   expect(ScannedImage.all.size).to eq(1)
   put :event_with_picture_update,

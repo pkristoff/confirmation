@@ -5,16 +5,6 @@ Warden.test_mode!
 feature 'admins/show_visitor.html.erb' do
   include Warden::Test::Helpers
 
-  HOME_PARISH_INIT_VALUE = 'St. Mary Magdalene'
-  HOME_INIT_VALUE = '<div><p>Welcome</p></div>'
-  HOME_PARISH_CHANGED_VALUE = 'St. Michaels'
-  HOME_CHANGED_VALUE = '<div id="foo">ccc yyy</div>'
-  ABOUT_INIT_VALUE = '<code>About</code>'
-  ABOUT_CHANGED_VALUE = '<div id="bar">ddd zzz</div>'
-  # rubocop:disable Layout/LineLength
-  CONTACT_INIT_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
-  CONTACT_CHANGED_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" id="foo" style="bold" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
-  # rubocop:enable Layout/LineLength
   before(:each) do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
@@ -58,6 +48,20 @@ feature 'admins/show_visitor.html.erb' do
     expect_show_visitor(HOME_PARISH_CHANGED_VALUE, HOME_CHANGED_VALUE, ABOUT_CHANGED_VALUE, CONTACT_CHANGED_VALUE,
                         [[:flash_notice, I18n.t('messages.contact_information_updated')]])
   end
+
+  private
+
+  # rubocop:disable Layout/LineLength
+  CONTACT_INIT_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
+  CONTACT_CHANGED_VALUE = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" id="foo" style="bold" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'
+  # rubocop:enable Layout/LineLength
+
+  HOME_PARISH_INIT_VALUE = 'St. Mary Magdalene'
+  HOME_INIT_VALUE = '<div><p>Welcome</p></div>'
+  HOME_PARISH_CHANGED_VALUE = 'St. Michaels'
+  HOME_CHANGED_VALUE = '<div id="foo">ccc yyy</div>'
+  ABOUT_INIT_VALUE = '<code>About</code>'
+  ABOUT_CHANGED_VALUE = '<div id="bar">ddd zzz</div>'
 
   def expect_show_visitor(home_parish, home, about, contact, expected_messages = [])
     expect_messages(expected_messages, page) unless expected_messages.empty?

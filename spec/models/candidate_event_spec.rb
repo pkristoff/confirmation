@@ -97,6 +97,8 @@ describe CandidateEvent, type: :model do
       expect(candidate_event.confirmation_event).not_to eq(candidate_event2.confirmation_event)
     end
 
+    private
+
     def expect_confirmation_event(confirmation_event,
                                   events_size,
                                   instructions,

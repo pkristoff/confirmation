@@ -51,6 +51,8 @@ describe CandidatesController do
     end
   end
 
+  private
+
   def create_candidate(prefix)
     candidate = FactoryBot.create(:candidate, account_name: prefix)
     case prefix

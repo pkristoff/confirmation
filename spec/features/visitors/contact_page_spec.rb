@@ -38,7 +38,7 @@ feature 'Contact page' do
 
     visit contact_information_path
 
-    expect(page).to have_selector('a[style="text-align: center;"]',
+    expect(page).to have_selector('a[style="text-align:center;"]',
                                   text: 'Contact Admin via email stmm.confirmation@kristoffs.com')
   end
 end

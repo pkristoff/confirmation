@@ -34,6 +34,8 @@ describe 'candidates/event.html.erb' do
     expect_confirmation_events(true)
   end
 
+  private
+
   def expect_confirmation_events(is_chs)
     @resource.candidate_events.each_with_index do |ce, index|
       conf_e = ce.confirmation_event

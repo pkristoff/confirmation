@@ -8,6 +8,7 @@ module Event
     CANDIDATE_INFORMATION_SHEET = :candidate_information_sheet
     INITIAL_PASSWORD = Rails.application.secrets.candidate_initial_password
   end
+
   module Route
     BAPTISMAL_CERTIFICATE = :baptismal_certificate
     BAPTISMAL_CERTIFICATE_UPDATE = :baptismal_certificate_update
@@ -31,6 +32,7 @@ module Event
       sponsor_eligibility: SPONSOR_ELIGIBILITY_UPDATE
     }.freeze
   end
+
   module Document
     BAPTISMAL_CERTIFICATE = Event::Route::BAPTISMAL_CERTIFICATE
     CANDIDATE_CHECKLIST = :candidate_checklist
@@ -56,6 +58,7 @@ module Event
     }.freeze
   end
 end
+
 module SideBar
   IMAGE_FILE_TYPES = 'image/png,image/jpeg,application/pdf'
   # rubocop:disable Layout/LineLength
@@ -63,6 +66,7 @@ module SideBar
   # rubocop:enable Layout/LineLength
   TRUNCATELENGTH = 20
 end
+
 module EmailStuff
   TYPES = {
     adhoc: :adhoc,

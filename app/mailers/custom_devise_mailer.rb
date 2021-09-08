@@ -16,9 +16,9 @@ class CustomDeviseMailer < Devise::Mailer
     @admin = opts[:admin]
     headers = super
 
-    headers = headers.merge(to: resource.email) if resource.class == Admin
+    headers = headers.merge(to: resource.email) if instance_of?(Admin)
     # always send email to admin
-    headers = headers.merge(to: resource.emails, bcc: @admin.email) unless resource.class == Admin
+    headers = headers.merge(to: resource.emails, bcc: @admin.email) unless instance_of?(Admin)
     @email = headers[:to]
     headers
   end

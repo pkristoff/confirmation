@@ -23,6 +23,8 @@ describe 'admins/adhoc_mailing.html.erb' do
     expect_adhoc_mailing_html(@candidates)
   end
 
+  private
+
   def expect_adhoc_mailing_html(candidates)
     expect(rendered).to have_css "form[action='/adhoc_mailing_update']"
 

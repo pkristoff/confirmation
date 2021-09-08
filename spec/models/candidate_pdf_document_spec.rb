@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+private
+
 def setup_candidate1
   ev = @candidate1.get_candidate_event(BaptismalCertificate.event_key)
   ev.completed_date = Time.zone.today

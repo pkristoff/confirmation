@@ -209,6 +209,8 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect(page).to have_selector(img_src_selector)
   end
 
+  private
+
   def expect_sponsor_eligibility_form(cand_id, dev_path, path_str, is_verify, values = { sponsor_name: SPONSOR_NAME })
     # rubocop:disable Layout/LineLength
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?

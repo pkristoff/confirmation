@@ -174,10 +174,14 @@ class ExportListsController < ApplicationController
       ->(candidate) { !candidate.sponsor_eligibility.scanned_eligibility.nil? }
     ].freeze
 
+  # returns an ordered list of events
+  #
   def self.event_columns
     ConfirmationEvent.order(:event_key).map(&:event_key)
   end
 
+  # returns the state of each event
+  #
   def self.event_values
     ExportListsController.event_columns.map { |candidate_event_name| candidate_event_state(candidate_event_name) }
   end
@@ -205,11 +209,11 @@ class ExportListsController < ApplicationController
   #
   # === Parameters:
   #
-  # * <tt>:event_name</tt> name of event
+  # * <tt>:event_key</tt> name of event
   #
   # === Returns:
   #
-  # Lambda - when called with candidate will return the CandidateEvent status
+  # * <tt>Lambda</tt> when called with candidate will return the CandidateEvent status
   #
   def self.candidate_event_state(event_key)
     ->(candidate) { candidate.get_candidate_event(event_key).status }

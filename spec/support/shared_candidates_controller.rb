@@ -168,6 +168,8 @@ shared_context 'baptismal_certificate' do
     end
   end
 
+  private
+
   def valid_parameters_bc(id)
     {
       baptized_at_home_parish: '0',
@@ -313,6 +315,8 @@ shared_context 'retreat_verification' do
     end
   end
 
+  private
+
   def valid_parameters_rv(id)
     {
       retreat_held_at_home_parish: '0',
@@ -401,6 +405,8 @@ shared_context 'sponsor_covenant' do
       expect(candidate_event.verified).to be(false)
     end
   end
+
+  private
 
   def valid_parameters_sc(id)
     {
@@ -509,6 +515,8 @@ shared_context 'sponsor_eligibility' do
     end
   end
 
+  private
+
   def valid_parameters_se(id)
     {
       sponsor_attends_home_parish: '0',
@@ -580,6 +588,8 @@ shared_context 'candidate_information_sheet' do
     expect(candidate_event.completed_date).to eq(@today)
   end
 end
+
+private
 
 def update_event(candidate, completed_date, verified, event_key)
   candidate_event = candidate.get_candidate_event(event_key)

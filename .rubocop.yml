@@ -1,6 +1,6 @@
 require:
   - rubocop-rails
   - ./spec/rubocop_handle_error.rb
-  - ./spec/rubocop/cop/style/method_documentation.rb
+  - rubocop-publicdoc2
 
 inherit_from: config/rubocop.yml

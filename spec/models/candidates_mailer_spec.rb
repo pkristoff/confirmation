@@ -135,6 +135,8 @@ describe CandidatesMailer, type: :model do
     end
   end
 
+  private
+
   def expect_view(body, late_values, coming_due_values, completed_awaiting_values, completed_values)
     expect(body).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 

@@ -450,6 +450,8 @@ describe SendGridMail, type: :model do
     end
   end
 
+  private
+
   def expect_basic_admin_info(body, subject)
     expect(body).to have_css('p[id=admin-info]', text: 'Vicki Kristoff')
     expect(body).to have_css('p[id=admin-info]', text: I18n.t('views.top_bar.contact_admin_mail_text', email: @admin.email))
@@ -467,6 +469,8 @@ describe SendGridMail, type: :model do
   end
 end
 
+# SendGridMailSpec
+#
 class SendGridMailSpec < SendGridMail
   def initialize(admin, candidates, _options = {})
     super(admin, candidates)

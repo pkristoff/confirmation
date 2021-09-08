@@ -23,10 +23,22 @@ class Orphaneds
     @candidate_missing_associations = []
   end
 
+  # Returns the image filename
+  #
+  # === Returns:
+  #
+  # * <tt>Orphanends</tt> representing image filename
+  #
   def self.add_orphaned_table_rows
     Orphaneds.new.add_orphaned_table_rows
   end
 
+  # Returns the image filename
+  #
+  # === Returns:
+  #
+  # * <tt>Orphanends</tt> representing image filename
+  #
   def self.remove_orphaned_table_rows
     Orphaneds.new.remove_orphaned_table_rows
   end

@@ -237,11 +237,13 @@ class CandidatesController < CommonCandidatesController
   end
 
   # Since going around devise mechanisms - add some helpers back in.
+  #
   def resource_name
     devise_mapping.name
   end
 
   # Since going around devise mechanisms - add some helpers back in.
+  #
   def devise_mapping
     Devise.mappings[:candidate]
   end

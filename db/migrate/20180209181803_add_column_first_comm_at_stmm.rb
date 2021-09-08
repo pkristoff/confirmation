@@ -5,6 +5,8 @@
 # baptismal candidate.
 #
 class AddColumnFirstCommAtStmm < ActiveRecord::Migration
+  # up
+  #
   def up
     add_column :baptismal_certificates, :first_comm_at_stmm, :boolean, null: false, default: false
     add_column :baptismal_certificates, :baptized_at_stmm, :boolean, null: false, default: false
@@ -19,11 +21,13 @@ class AddColumnFirstCommAtStmm < ActiveRecord::Migration
       else
         bc.show_empty_radio = 2
         unless bc.validate_other_info
+          # rubocop:disable Style/SoleNestedConditional
           if bc.errors.full_messages.size == 12
             Rails.logger.info("  bc.errors.full_messages.size=#{bc.errors.full_messages.size}")
             bc.show_empty_radio = 0
           end
         end
+        # rubocop:enable Style/SoleNestedConditional
       end
       Rails.logger.info("  baptized_at_stmm=#{bc.baptized_at_stmm}")
       Rails.logger.info("  first_comm_at_stmm=#{bc.first_comm_at_stmm}")
@@ -33,6 +37,8 @@ class AddColumnFirstCommAtStmm < ActiveRecord::Migration
     remove_column :candidates, :baptized_at_stmm
   end
 
+  # @abstractdown
+  #
   def down
     add_column :candidates, :baptized_at_stmm, :boolean, null: false, default: false
     Candidate.find_each do |cand|

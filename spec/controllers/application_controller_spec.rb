@@ -21,10 +21,10 @@ describe ApplicationController do
       let(:confirmation_event_today) do
         FactoryBot.create(:confirmation_event, the_way_due_date: today, chs_due_date: today)
       end
-      let(:confirmation_event_today_plus_40) do
+      let(:confirmation_event_today_plus40) do
         FactoryBot.create(:confirmation_event, the_way_due_date: today + 40, chs_due_date: today + 40)
       end
-      let(:confirmation_event_today_minus_40) do
+      let(:confirmation_event_today_minus40) do
         FactoryBot.create(:confirmation_event, the_way_due_date: today - 40, chs_due_date: today - 40)
       end
 
@@ -34,11 +34,11 @@ describe ApplicationController do
       let(:candidate_event_not_completed_today) do
         create_candidate_event(candidate, nil, false, confirmation_event_today)
       end
-      let(:candidate_event_not_completed_today_plus_40) do
-        create_candidate_event(candidate, nil, false, confirmation_event_today_plus_40)
+      let(:candidate_event_not_completed_today_plus40) do
+        create_candidate_event(candidate, nil, false, confirmation_event_today_plus40)
       end
-      let(:candidate_event_not_completed_today_minus_40) do
-        create_candidate_event(candidate, nil, false, confirmation_event_today_minus_40)
+      let(:candidate_event_not_completed_today_minus40) do
+        create_candidate_event(candidate, nil, false, confirmation_event_today_minus40)
       end
 
       let(:candidate_event_not_verified_no_due_date) do
@@ -47,11 +47,11 @@ describe ApplicationController do
       let(:candidate_event_not_verified_today) do
         create_candidate_event(candidate, today, false, confirmation_event_today)
       end
-      let(:candidate_event_not_verified_today_plus_40) do
-        create_candidate_event(candidate, today, false, confirmation_event_today_plus_40)
+      let(:candidate_event_not_verified_today_plus40) do
+        create_candidate_event(candidate, today, false, confirmation_event_today_plus40)
       end
-      let(:candidate_event_not_verified_today_minus_40) do
-        create_candidate_event(candidate, today, false, confirmation_event_today_minus_40)
+      let(:candidate_event_not_verified_today_minus40) do
+        create_candidate_event(candidate, today, false, confirmation_event_today_minus40)
       end
 
       let(:candidate_event_completed_no_due_date) do
@@ -60,28 +60,28 @@ describe ApplicationController do
       let(:candidate_event_completed_today) do
         create_candidate_event(candidate, today, true, confirmation_event_today)
       end
-      let(:candidate_event_completed_today_plus_40) do
-        create_candidate_event(candidate, today, true, confirmation_event_today_plus_40)
+      let(:candidate_event_completed_today_plus40) do
+        create_candidate_event(candidate, today, true, confirmation_event_today_plus40)
       end
-      let(:candidate_event_completed_today_minus_40) do
-        create_candidate_event(candidate, today, true, confirmation_event_today_minus_40)
+      let(:candidate_event_completed_today_minus40) do
+        create_candidate_event(candidate, today, true, confirmation_event_today_minus40)
       end
 
       it 'should always return event-awaiting-candidate' do
         expect(controller.event_class(candidate_event_not_completed_no_due_date)).to eq('event-unitialized')
         expect(controller.event_class(candidate_event_not_completed_today)).to eq('event-coming-due')
-        expect(controller.event_class(candidate_event_not_completed_today_plus_40)).to eq('event-awaiting-candidate')
-        expect(controller.event_class(candidate_event_not_completed_today_minus_40)).to eq('event-late')
+        expect(controller.event_class(candidate_event_not_completed_today_plus40)).to eq('event-awaiting-candidate')
+        expect(controller.event_class(candidate_event_not_completed_today_minus40)).to eq('event-late')
 
         expect(controller.event_class(candidate_event_not_verified_no_due_date)).to eq('event-unitialized')
         expect(controller.event_class(candidate_event_not_verified_today)).to eq('event-awaiting-verification')
-        expect(controller.event_class(candidate_event_not_verified_today_plus_40)).to eq('event-awaiting-verification')
-        expect(controller.event_class(candidate_event_not_verified_today_minus_40)).to eq('event-awaiting-verification')
+        expect(controller.event_class(candidate_event_not_verified_today_plus40)).to eq('event-awaiting-verification')
+        expect(controller.event_class(candidate_event_not_verified_today_minus40)).to eq('event-awaiting-verification')
 
         expect(controller.event_class(candidate_event_completed_no_due_date)).to eq('event-unitialized')
         expect(controller.event_class(candidate_event_completed_today)).to eq('event-completed')
-        expect(controller.event_class(candidate_event_completed_today_plus_40)).to eq('event-completed')
-        expect(controller.event_class(candidate_event_completed_today_minus_40)).to eq('event-completed')
+        expect(controller.event_class(candidate_event_completed_today_plus40)).to eq('event-completed')
+        expect(controller.event_class(candidate_event_completed_today_minus40)).to eq('event-completed')
       end
     end
   end
@@ -145,6 +145,8 @@ describe ApplicationController do
       expect(controller.candidate_info[2].account_name).to eq(@c2.account_name)
     end
   end
+
+  private
 
   def create_candidate(prefix)
     candidate = FactoryBot.create(:candidate, account_name: prefix)

@@ -97,8 +97,7 @@ describe 'layouts/_side_bar.html.erb' do
       login_admin
 
       @resource = FactoryBot.create(:candidate)
-      @candidate_link_names_in_order =
-        @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.candidate_note'), '/candidate_note.<id>'])
+      @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.candidate_note'), '/candidate_note.<id>'])
 
       render
 
@@ -116,6 +115,8 @@ describe 'layouts/_side_bar.html.erb' do
                             @resource.id.to_s)
     end
   end
+
+  private
 
   def expect_links_in_order(link_names_in_order, sidebar_id, dev, total_num_links, candidate_id = '')
     link_names_in_order.each_with_index do |info, index|

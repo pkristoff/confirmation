@@ -194,6 +194,8 @@ describe ResetDB, type: :model do
   end
 end
 
+private
+
 def create_scanned_image
   content = ''
   File.open(File.join('spec/fixtures/actions.png'), 'rb') do |f|

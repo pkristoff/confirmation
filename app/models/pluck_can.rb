@@ -31,6 +31,16 @@ class PluckCan
     @candidate_event = candidate_event
   end
 
+  # Returns a ScannedImage
+  #
+  # === Parameters:
+  #
+  # * <tt>:scanned_image</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>ScannedImage</tt>
+  #
   def self.image(scanned_image)
     return nil if scanned_image.nil?
 
@@ -46,18 +56,58 @@ class PluckCan
     end
   end
 
+  # Returns the image filename
+  #
+  # === Parameters:
+  #
+  # * <tt>:pluck_image</tt> An Array of an image info
+  #
+  # === Returns:
+  #
+  # * <tt>Number</tt> representing image id
+  #
   def self.image_id(pluck_image)
     pluck_image[0]
   end
 
+  # Returns the image filename
+  #
+  # === Parameters:
+  #
+  # * <tt>:pluck_image</tt> An Array of an image info
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> representing image filename
+  #
   def self.image_filename(pluck_image)
     pluck_image[2]
   end
 
+  # Returns the image type
+  #
+  # === Parameters:
+  #
+  # * <tt>:pluck_image</tt> An Array of an image info
+  #
+  # === Returns:
+  #
+  # * <tt>Binary</tt> representing image type
+  #
   def self.image_content_type(pluck_image)
     pluck_image[2]
   end
 
+  # Returns the image content
+  #
+  # === Parameters:
+  #
+  # * <tt>:pluck_image</tt> An Array of an image
+  #
+  # === Returns:
+  #
+  # * <tt>Binary</tt> representing image content
+  #
   def self.image_content(pluck_image)
     pluck_image[3]
   end
@@ -66,9 +116,7 @@ class PluckCan
   #
   # === Parameters:
   #
-  # * <tt>:event_id</tt> The event being edited in mass_edit_candidates_event.html.erb
-  # * <tt>:sort</tt> the column sorting
-  # * <tt>:direction</tt> The direction of the sort asc or desc
+  # * <tt>:args</tt> A hash of arguments
   #
   # === Returns:
   #
@@ -144,7 +192,7 @@ class PluckCan
   #
   # === Returns:
   #
-  # Array of baptismal certificate information
+  # * <tt>Array</tt> of baptismal certificate information
   #
   def self.pluck_bap_candidates
     candidate_events = pluck_cand_events
@@ -174,11 +222,9 @@ class PluckCan
 
   # Gather candidate_events information
   #
-  # === Parameters:
-  #
   # === Returns:
   #
-  # Array of candidate_event information
+  # * <tt>Array</tt> of candidate_event information
   #
   def self.pluck_cand_events
     cand_event_info = {}

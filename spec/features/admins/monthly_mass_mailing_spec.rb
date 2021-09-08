@@ -65,6 +65,8 @@ feature 'Check boxes', :devise do
     end
   end
 
+  private
+
   def expect_monthly_mass_mailing_form(values = {})
     # street_1 = values[:street_1].nil? ? STREET_1 : values[:street_1]
 
@@ -117,7 +119,7 @@ feature 'Admin monthly mass mailing', :devise do
                                      salutation_input: 'The salutation_text',
                                      from_input: 'The from_text')
 
-    expect_mail_attadchment_upload
+    expect_mail_attachment_upload
   end
 
   scenario 'admin can send email to multiple candidates' do

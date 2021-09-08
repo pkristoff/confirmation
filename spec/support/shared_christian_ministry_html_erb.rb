@@ -201,6 +201,8 @@ shared_context 'christian_ministry_html_erb' do
     expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
+  private
+
   def fill_in_form
     fill_in(I18n.t('label.christian_ministry.what_service'), with: WHAT_SERVICE)
     fill_in(I18n.t('label.christian_ministry.where_service'), with: WHERE_SERVICE)

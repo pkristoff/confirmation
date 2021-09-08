@@ -59,6 +59,8 @@ feature 'Admin events page', :devise do
     end
   end
 
+  private
+
   def expect_form
     expect(page).to have_selector('form[action="/update_multiple_confirmation_events?method=put"]', count: 1)
   end

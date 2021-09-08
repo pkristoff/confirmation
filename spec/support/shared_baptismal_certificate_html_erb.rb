@@ -497,6 +497,8 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
+  private
+
   # rubocop:disable Layout/LineLength
   def expect_baptismal_certificate_form(cand_id, dev_path, path_str, button_name, is_verify, hide_baptismal_certificate, dont_show_values,
                                         values = {

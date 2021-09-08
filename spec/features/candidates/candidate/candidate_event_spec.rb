@@ -40,6 +40,8 @@ feature 'Candidate event', :devise do
     expect_confirmation_events(true)
   end
 
+  private
+
   def expect_confirmation_events(is_chs)
     ConfirmationEvent.all.each_with_index do |ce, index|
       expect_candidate_event(index + 3,

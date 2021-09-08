@@ -38,8 +38,8 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
     click_button("update-#{confirmation_event.id}")
 
     expect_message(:flash_notice, I18n.t('messages.confirmation_events_updated'))
-    expect(page).to have_css("input[id=#{the_way_due_date_id}][value='#{(@today - 10)}']")
-    expect(page).to have_css("input[id=#{chs_due_date_id}][value='#{(@today - 8)}']")
+    expect(page).to have_css("input[id=#{the_way_due_date_id}][value='#{@today - 10}']")
+    expect(page).to have_css("input[id=#{chs_due_date_id}][value='#{@today - 8}']")
     expect(page).to have_css("textarea[id=#{instructions_id}]", text: 'Very important instructions')
   end
 

@@ -123,7 +123,7 @@ class SendGridMail
   # Generate and send reset password email
   #
   def reset_password
-    [send_email(MailPart.new_subject(I18n.t('devise.mailer.reset_password_instructions.subject', Visitor.home_parish)),
+    [send_email(MailPart.new_subject(I18n.t('devise.mailer.reset_password_instructions.subject')),
                 nil,
                 MailPart.new_body(''),
                 EmailStuff::TYPES[:reset_password],
@@ -184,7 +184,8 @@ class SendGridMail
       personalization.add_to(SendGrid::Email.new(email: converted_emails[0], name: "#{sheet.first_name} #{sheet.last_name}"))
       personalization.add_cc(SendGrid::Email.new(email: converted_emails[1])) unless converted_emails[1].nil?
       personalization.add_cc(SendGrid::Email.new(email: converted_emails[2])) unless converted_emails[2].nil?
-      personalization.add_bcc(SendGrid::Email.new(email: @admin.email, name: "#{Visitor.home_parish} Confirmation"))
+      bcc_sg = SendGrid::Email.new(email: @admin.email, name: "#{Visitor.home_parish} Confirmation")
+      personalization.add_bcc(bcc_sg) unless duplicate?(personalization, bcc_sg)
     else
       personalization.add_to(SendGrid::Email.new(email: admin.email, name: "#{Visitor.home_parish} Confirmation"))
     end
@@ -461,6 +462,16 @@ class SendGridMail
   end
 
   private
+
+  def duplicate?(personalization, addition)
+    additional_email = addition.email.downcase
+
+    [personalization.tos, personalization.ccs, personalization.bccs].flatten.each do |elm|
+      return true if elm&.dig('email')&.downcase == additional_email
+    end
+
+    false
+  end
 
   def handle_bad_response(response, email_type, name)
     logger_message = "Skipping sending #{email_type} message for #{name} because of a bad response"

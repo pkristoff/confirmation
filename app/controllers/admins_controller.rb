@@ -667,11 +667,9 @@ class AdminsController < ApplicationController
     candidate_ids = params[:candidate_ids].nil? ? [] : params[:candidate_ids]
     params.delete(:candidate_ids)
     if params[:candidate]
-      if params[:candidate][:candidate_ids]
-        candidate_ids = params[:candidate][:candidate_ids]
-        params[:candidate].delete(:candidate_ids)
-        params.delete(:candidate) if params[:candidate].empty?
-      end
+      candidate_ids = params[:candidate][:candidate_ids] if params[:candidate][:candidate_ids]
+      params[:candidate].delete(:candidate_ids) if params[:candidate][:candidate_ids]
+      params.delete(:candidate) if params[:candidate].empty?
     end
     if candidate_ids.nil?
       []

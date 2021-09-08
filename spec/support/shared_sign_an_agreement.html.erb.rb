@@ -124,6 +124,8 @@ shared_context 'sign_an_agreement_html_erb' do
     # rubocop:enable Layout/LineLength
   end
 
+  private
+
   def expect_signed_agreement_form(cand_id, dev_path, is_agreement_signed, form_action, field_name,
                                    documant_key, event_key, update_id, is_verify, values = {})
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?

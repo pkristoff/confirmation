@@ -73,6 +73,8 @@ describe CandidateImportsController do
       end
     end
 
+    private
+
     def value_for_header(worksheet, header, row)
       index = worksheet.rows.first.index { |el| el.value == header }
       row[index].value
@@ -118,6 +120,8 @@ describe CandidateImportsController do
       expect(response.body).to have_css('a[href="http://test.host/candidate_imports/new"]')
     end
   end
+
+  private
 
   def expect_event_association_local(assoc_from_candidate)
     event_assoc = assoc_from_candidate.class.all

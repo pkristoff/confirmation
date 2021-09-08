@@ -94,6 +94,8 @@ describe ExportListsController do
   end
 end
 
+private
+
 def expected_value_function(status_name)
   ->(_candidate) { status_name }
 end

@@ -84,6 +84,8 @@ describe CandidateImport do
       expect(candidate_import.errors.size).to eq(5)
     end
 
+    private
+
     def image_column_value(candidate, columns)
       association, image_method, value_method = columns.split('.')
       candidate.send(association).send(image_method).send(value_method)

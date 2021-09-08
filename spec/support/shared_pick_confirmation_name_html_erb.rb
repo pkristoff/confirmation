@@ -154,6 +154,8 @@ shared_context 'pick_confirmation_name_html_erb' do
     expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
   end
 
+  private
+
   def fill_in_form
     fill_in(I18n.t('label.confirmation_name.saint_name'), with: SAINT_NAME)
   end

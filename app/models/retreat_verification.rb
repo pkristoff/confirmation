@@ -52,7 +52,7 @@ class RetreatVerification < ApplicationRecord
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
     RetreatVerification.basic_permitted_params.concat([{ scanned_retreat_attributes: ScannedImage.permitted_params }])
@@ -62,7 +62,7 @@ class RetreatVerification < ApplicationRecord
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.basic_permitted_params
     %i[retreat_held_at_home_parish start_date
@@ -77,7 +77,7 @@ class RetreatVerification < ApplicationRecord
   #
   # === Returns:
   #
-  # Array of attributes
+  # * <tt>Array</tt> of attributes
   #
   def self.basic_validation_params
     params = basic_permitted_params
@@ -91,7 +91,7 @@ class RetreatVerification < ApplicationRecord
   #
   # === Returns:
   #
-  # String
+  # * <tt>String</tt>
   #
   def self.event_key
     'attend_retreat'
@@ -105,7 +105,7 @@ class RetreatVerification < ApplicationRecord
   #
   # === Returns:
   #
-  # retreat_verification with validation errors
+  # * <tt>RetreatVerification</tt> with validation errors
   #
   def self.validate_event_complete(candidate)
     retreat_verification = candidate.retreat_verification

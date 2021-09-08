@@ -157,6 +157,8 @@ describe Candidate do
       expect(candidate.pick_confirmation_name).not_to eq(nil)
     end
 
+    private
+
     def setup_candidate(data)
       candidate = Candidate.new
       data.each do |candidate_data|

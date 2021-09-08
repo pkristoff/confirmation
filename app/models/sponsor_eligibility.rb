@@ -32,6 +32,12 @@ class SponsorEligibility < ApplicationRecord
     scanned_eligibility_id
   end
 
+  # Returns the event_key for this event
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
   def self.event_key
     'sponsor_eligibility'
   end

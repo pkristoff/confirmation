@@ -20,6 +20,8 @@ feature 'Home page' do
                                      expect_messages: [[:flash_notice, I18n.t('messages.reset_password_message_sent')]])
   end
 
+  private
+
   def expect_cand_account_confirmation(cand_id, values = {})
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 

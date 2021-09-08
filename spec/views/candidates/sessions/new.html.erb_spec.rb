@@ -20,6 +20,8 @@ describe 'candidates/sessions/new.html.erb' do
     run_test
   end
 
+  private
+
   def run_test
     render
 

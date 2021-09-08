@@ -42,6 +42,8 @@ describe 'candidates/index.html.erb' do
     )
   end
 
+  private
+
   def expect_index_buttons
     expect(rendered).to have_button(I18n.t('views.common.delete'), count: 2)
     expect(rendered).to have_button(I18n.t('views.nav.email'), count: 2)

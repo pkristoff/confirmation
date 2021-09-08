@@ -5,6 +5,13 @@ RSpec.configure do |config|
   config.include Features::SessionHelpers
 end
 
+# expect message
+#
+# === Parameters:
+#
+# * <tt>:messages</tt>
+# * <tt>:rendered_page</tt>
+#
 def expect_messages(messages, rendered_page = page)
   ids = messages.map { |mp| mp[0] }
   %i[flash_alert flash_notice error_explanation].each do |my_id|
@@ -30,6 +37,14 @@ def expect_messages(messages, rendered_page = page)
   end
 end
 
+# expect message
+#
+# === Parameters:
+#
+# * <tt>:id</tt>
+# * <tt>:message</tt>
+# * <tt>:rendered_page</tt>
+#
 def expect_message(id, message, rendered_page = page)
   %i[flash_alert flash_notice error_explanation].each do |my_id|
     expect(rendered_page).not_to have_selector("div[id=#{my_id}]") unless my_id == id
@@ -44,6 +59,13 @@ def expect_message(id, message, rendered_page = page)
   end
 end
 
+# setup event with picture
+#
+# === Parameters:
+#
+# * <tt>:route</tt>
+# * <tt>:is_verify</tt>
+#
 def event_with_picture_setup(route, is_verify: false)
   @candidate = FactoryBot.create(:candidate, add_new_confirmation_events: false)
   if @is_dev
@@ -59,12 +81,35 @@ def event_with_picture_setup(route, is_verify: false)
   end
 end
 
+# expect download button
+#
+# === Parameters:
+#
+# * <tt>:name</tt>
+# * <tt>:cand_id</tt>
+# * <tt>:dev_path</tt>
+#
 def expect_download_button(name, cand_id, dev_path)
   expect(page).to have_selector("form[action=\"/#{dev_path}download_document/#{cand_id}/.#{name}\"]")
   expect(page).to have_button(I18n.t('views.common.download'))
 end
 
 # rubocop:disable Layout/LineLength
+
+# expect candidate event
+#
+# === Parameters:
+#
+# * <tt>:index</tt>
+# * <tt>:confirmation_event_id</tt>
+# * <tt>:event_key</tt>
+# * <tt>:the_way_due_date</tt>
+# * <tt>:chs_due_date</tt>
+# * <tt>:instructions</tt>
+# * <tt>:verified</tt>
+# * <tt>:completed_date</tt>
+# * <tt>:id_css</tt>
+#
 def expect_candidate_event(index, confirmation_event_id, event_key, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
   page_or_rendered = respond_to?(:page) ? page : rendered
 
@@ -112,6 +157,14 @@ end
 
 # rubocop:enable Layout/LineLength
 
+# expect image upload
+#
+# === Parameters:
+#
+# * <tt>:key</tt>
+# * <tt>:picture_column</tt>
+# * <tt>:label</tt>
+#
 def expect_image_upload(key, picture_column, label)
   # rubocop:disable Layout/LineLength
   expect(page).to have_css("div[id=file-type-message_#{picture_column}]", text: I18n.t('views.common.image_upload_file_types'))
@@ -120,6 +173,13 @@ def expect_image_upload(key, picture_column, label)
   # rubocop:enable Layout/LineLength
 end
 
+# expect remove button
+#
+# === Parameters:
+#
+# * <tt>:hidden_id</tt>
+# * <tt>:field</tt>
+#
 def expect_remove_button(hidden_id, field)
   expect(page).to have_selector("button[type=button][id=remove-#{field}][class=show-div]",
                                 text: I18n.t('views.common.remove_image'))
@@ -128,6 +188,14 @@ def expect_remove_button(hidden_id, field)
   expect(page).to have_selector("input[type=hidden][id=#{hidden_id}][value='']", visible: false)
 end
 
+# expect field
+#
+# === Parameters:
+#
+# * <tt>:label</tt>
+# * <tt>:value</tt>
+# * <tt>:visible</tt>
+#
 def expect_field(label, value, visible: true)
   if value.blank?
     expect(page).to have_field(label, visible: visible)
@@ -136,7 +204,9 @@ def expect_field(label, value, visible: true)
   end
 end
 
-def expect_mail_attadchment_upload
+# checks mail attachment upload
+#
+def expect_mail_attachment_upload
   expect(page).to have_css('div[id=file-type-message-id]', text: I18n.t('views.common.mail_upload_file_types'))
   expect(page).to have_css("input[id=mail_attach_file][type=file][accept='#{SideBar::MAIL_ATTACH_FILE_TYPES}']")
   expect(page).to have_css('label[for=mail_attach_file]', text: I18n.t('label.mail.attach_file'))

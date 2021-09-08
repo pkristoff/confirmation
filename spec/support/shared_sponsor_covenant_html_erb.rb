@@ -186,6 +186,8 @@ shared_context 'sponsor_covenant_html_erb' do
   end
   # rubocop:enable Layout/LineLength
 
+  private
+
   def expect_sponsor_covenant_form(cand_id, dev_path, path_str, is_verify, values = { sponsor_name: SPONSOR_NAME })
     # rubocop:disable Layout/LineLength
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?

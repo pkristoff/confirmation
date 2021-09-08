@@ -2,6 +2,7 @@
 
 module Dev
   # Used when candidate is signed in (as opposed to admin, who has authority to do the same thing).
+  #
   class CandidatesController < CommonCandidatesController
     # CANDIDATE ONLY
 

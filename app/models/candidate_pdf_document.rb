@@ -13,6 +13,10 @@ class CandidatePDFDocument < Prawn::Document
   include Magick
   # Name to save the pdf document
   #
+  # === Parameters:
+  #
+  # * <tt>:candidate</tt> Candidate
+  #
   # === Returns:
   #
   # * <tt>String</tt>

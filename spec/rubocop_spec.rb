@@ -84,11 +84,4 @@ describe 'Internal' do
       expect(system 'rubocop Gemfile').to eq(true)
     end
   end
-
-  describe 'rubocop extension' do
-    it 'should pass initializers' do
-      expect(system 'rubocop spec/rubocop/cop/style/method_documentation.rb').to eq(true)
-      expect(system 'rubocop spec/method_documentation_spec.rb').to eq(true)
-    end
-  end
 end

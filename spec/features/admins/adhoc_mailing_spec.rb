@@ -27,7 +27,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.subject_label'), with: 'The subject')
     expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')
 
-    expect_mail_attadchment_upload
+    expect_mail_attachment_upload
   end
 
   scenario 'admin can send email to multiple candidates' do

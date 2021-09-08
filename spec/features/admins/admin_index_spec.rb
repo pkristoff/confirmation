@@ -25,6 +25,8 @@ feature 'Admin index page', :devise do
     expect_admin(admin)
   end
 
+  private
+
   def expect_admin(admin)
     expect(page).to have_link("delete_#{admin.id}", text: 'Delete')
     expect(page).to have_link("edit_#{admin.id}", text: admin.name)

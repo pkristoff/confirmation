@@ -13,6 +13,12 @@ class CandidateImport
 
   EXTRACTED_ZIP_DIR = 'temp'
 
+  # Returns Array of image columns
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of image columns
+  #
   def self.image_columns
     %w[
       baptismal_certificate.scanned_certificate
@@ -22,6 +28,12 @@ class CandidateImport
     ]
   end
 
+  # Returns Array of transient columns
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of transient columns
+  #
   def self.transient_columns
     %w[
       baptismal_certificate.certificate_picture baptismal_certificate.remove_certificate_picture
@@ -356,7 +368,7 @@ class CandidateImport
     is_zip = !uploaded_file.respond_to?(:original_filename)
     path = is_zip ? uploaded_file : uploaded_file.path
     case File.extname(is_zip ? File.basename(uploaded_file) : uploaded_file.original_filename)
-    when '.xlsx' then
+    when '.xlsx'
       spreadsheet = Roo::Excelx.new(path, file_warning: :ignore)
       spreadsheet.header_line = 1
       spreadsheet.default_sheet = spreadsheet.sheets[0]
@@ -526,7 +538,7 @@ class CandidateImport
   # Array: candidates
   #
   def process_initial_xlsx(candidates, spreadsheet)
-    legal_headers = %w[Last\ Name First\ Name Grade Teen\ Email Parent\ Email\ Address(es) Cardinal\ Gibbons\ HS\ Group]
+    legal_headers = ['Last Name', 'First Name', 'Grade', 'Teen Email', 'Parent Email Address(es)', 'Cardinal Gibbons HS Group']
     header_row = spreadsheet.first
     if header_row[0].strip == legal_headers[0] &&
        header_row[1].strip == legal_headers[1] &&

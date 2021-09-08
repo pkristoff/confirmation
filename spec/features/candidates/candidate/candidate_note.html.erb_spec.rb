@@ -57,6 +57,8 @@ feature 'Candidate sheet candidate', :devise do
                                expect_messages: [[:flash_notice, @updated_message]])
   end
 
+  private
+
   def expect_candidate_note_form(cand_id, path_str, update_id, values = {})
     cand = Candidate.find(cand_id)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
