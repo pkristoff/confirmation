@@ -13,7 +13,7 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.admins'), '/admins'],
       [I18n.t('views.nav.events'), '/edit_multiple_confirmation_events'],
       [I18n.t('views.nav.users'), '/show_visitor'],
-      [I18n.t('views.nav.other'), '/candidate_imports/new'],
+      [I18n.t('views.nav.other'), '#collapseOther'],
       [I18n.t('views.nav.export')]
     ]
 
@@ -135,6 +135,7 @@ describe 'layouts/_side_bar.html.erb' do
                                         text: event_name_trunc.nil? ? event_name : event_name_trunc)
       expect(rendered).to have_link(event_name, href: href) unless href.nil?
     end
+    puts rendered
     expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li", count: total_num_links)
   end
 end
