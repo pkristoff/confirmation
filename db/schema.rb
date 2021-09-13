@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_17_080358) do
+ActiveRecord::Schema.define(version: 2021_09_11_183655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,8 +65,15 @@ ActiveRecord::Schema.define(version: 2020_06_17_080358) do
     t.boolean "first_comm_at_home_parish", default: false, null: false
     t.boolean "baptized_at_home_parish", default: false, null: false
     t.integer "show_empty_radio", default: 0, null: false
+    t.boolean "baptized_catholic", default: false, null: false
+    t.string "prof_church_name"
+    t.date "prof_date"
+    t.bigint "scanned_prof_id"
+    t.bigint "prof_church_address_id"
     t.index ["church_address_id"], name: "index_baptismal_certificates_on_church_address_id"
+    t.index ["prof_church_address_id"], name: "index_baptismal_certificates_on_prof_church_address_id"
     t.index ["scanned_certificate_id"], name: "index_baptismal_certificates_on_scanned_certificate_id"
+    t.index ["scanned_prof_id"], name: "index_baptismal_certificates_on_scanned_prof_id"
   end
 
   create_table "candidate_events", id: :serial, force: :cascade do |t|

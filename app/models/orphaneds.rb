@@ -130,6 +130,8 @@ class Orphaneds
   def orphaned_addresses
     ids(Address).select do |ar_id|
       ids(BaptismalCertificate).map { |bc_info| bc_info[1] }.select { |church_address_id| church_address_id == ar_id }.empty? &&
+        ids(BaptismalCertificate).map { |bc_info| bc_info[2] }
+                                 .select { |prof_church_address_id| prof_church_address_id == ar_id }.empty? &&
         ids(CandidateSheet).map { |bc_info| bc_info[1] }.select { |address_id| address_id == ar_id }.empty?
     end
   end
@@ -236,7 +238,8 @@ class Orphaneds
   #
   def orphaned_scanned_image
     ids(ScannedImage).select do |ar_id|
-      ids(BaptismalCertificate).map { |x| x[2] }.select { |scanned_certificate_id| scanned_certificate_id == ar_id }.empty? &&
+      ids(BaptismalCertificate).map { |x| x[3] }.select { |scanned_certificate_id| scanned_certificate_id == ar_id }.empty? &&
+        ids(BaptismalCertificate).map { |x| x[4] }.select { |scanned_prof_id| scanned_prof_id == ar_id }.empty? &&
         ids(RetreatVerification).map { |x| x[1] }.select { |scanned_retreat_id| scanned_retreat_id == ar_id }.empty? &&
         ids(SponsorCovenant).map { |x| x[1] }.select { |scanned_covenant_id| scanned_covenant_id == ar_id }.empty? &&
         ids(SponsorEligibility).map { |x| x[1] }.select { |scanned_eligibility_id| scanned_eligibility_id == ar_id }.empty?
@@ -272,9 +275,11 @@ class Orphaneds
     ids = case class_sym
           when :Candidate
             Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id,
-                            :pick_confirmation_name_id, :retreat_verification_id, :sponsor_covenant_id, :sponsor_eligibility_id)
+                            :pick_confirmation_name_id, :retreat_verification_id,
+                            :sponsor_covenant_id, :sponsor_eligibility_id)
           when :BaptismalCertificate
-            BaptismalCertificate.pluck(:id, :church_address_id, :scanned_certificate_id)
+            BaptismalCertificate.pluck(:id, :church_address_id, :prof_church_address_id,
+                                       :scanned_certificate_id, :scanned_prof_id)
           when :CandidateSheet
             CandidateSheet.pluck(:id, :address_id)
           when :RetreatVerification

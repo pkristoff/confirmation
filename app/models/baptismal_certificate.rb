@@ -7,12 +7,18 @@ class BaptismalCertificate < ApplicationRecord
   belongs_to(:church_address, class_name: 'Address', validate: true, dependent: :destroy)
   accepts_nested_attributes_for :church_address, allow_destroy: true
 
+  belongs_to(:prof_church_address, class_name: 'Address', validate: true, dependent: :destroy)
+  accepts_nested_attributes_for :prof_church_address, allow_destroy: true
+
   belongs_to(:scanned_certificate, class_name: 'ScannedImage', validate: false, dependent: :destroy)
   accepts_nested_attributes_for(:scanned_certificate, allow_destroy: true)
 
+  belongs_to(:scanned_prof, class_name: 'ScannedImage', validate: false, dependent: :destroy)
+  accepts_nested_attributes_for(:scanned_prof, allow_destroy: true)
+
   after_initialize :build_associations, if: :new_record?
 
-  attr_accessor :certificate_picture, :remove_certificate_picture
+  attr_accessor :certificate_picture, :remove_certificate_picture, :prof_picture, :remove_prof_picture
 
   validate :validate_show_empty_radio
 
@@ -41,9 +47,9 @@ class BaptismalCertificate < ApplicationRecord
   # Validate if show_empty_radio is either or 1
   #
   def validate_show_empty_radio
-    return if show_empty_radio.zero? || show_empty_radio == 1
+    return if show_empty_radio.zero? || show_empty_radio == 1 || show_empty_radio == 2
 
-    errors.add(:show_empty_radio, "can only be 0 or 1 not #{show_empty_radio}")
+    errors.add(:show_empty_radio, "can only be 0 or 1 or 2 not #{show_empty_radio}")
   end
 
   # Validate if event is complete by adding validation errors to active record
@@ -59,7 +65,9 @@ class BaptismalCertificate < ApplicationRecord
   def validate_event_complete(_options = {})
     # 0: user has never saved this thus when baptized_at_home_parish will not show yes or no as selected
     # 1: user has saved a selection for baptized_at_home_parish
-    # 2: First communion is NOT a choice
+    #     if baptized_at_home_parish == true then done
+    #     if baptized_at_home_parish == false then baptized_catholic will not show yes or no as selected
+    # 2: User has chosen baptized_catholic(true or false)
     case show_empty_radio
     when 0
       errors[:base] << I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish)
@@ -69,10 +77,17 @@ class BaptismalCertificate < ApplicationRecord
       basic_valid = validate_basic_info
       return basic_valid if baptized_at_home_parish
 
-      # errors[:base] << I18n.t('messages.error.first_communion_should_be_checked', home_parish: Visitor.home_parish)
-      validate_other_church_info && basic_valid
+      errors[:base] << I18n.t('messages.error.baptized_catholic_should_be_checked')
+      validate_other_church_info
+
+      false
     when 2
-      raise('show_empty_radio should never be 2')
+      basic_valid = validate_basic_info
+
+      other_valid = validate_other_church_info
+      return other_valid && basic_valid if baptized_catholic
+
+      validate_profession_of_faith && other_valid && basic_valid
     else
       raise(I18n.t('messages.error.unknown_show_empty_radio', show_empty_radio: show_empty_radio))
     end
@@ -122,7 +137,9 @@ class BaptismalCertificate < ApplicationRecord
   def self.permitted_params
     BaptismalCertificate.basic_permitted_params.concat(
       [{ church_address_attributes: Address.basic_permitted_params,
-         scanned_certificate_attributes: ScannedImage.permitted_params }]
+         prof_church_address_attributes: Address.basic_permitted_params,
+         scanned_certificate_attributes: ScannedImage.permitted_params,
+         scanned_prof_attributes: ScannedImage.permitted_params }]
     )
   end
 
@@ -135,7 +152,8 @@ class BaptismalCertificate < ApplicationRecord
   def self.basic_permitted_params
     %I[birth_date baptismal_date church_name father_first father_middle father_last
        mother_first mother_middle mother_maiden mother_last certificate_picture remove_certificate_picture
-       scanned_certificate id baptized_at_home_parish first_comm_at_home_parish show_empty_radio]
+       prof_picture remove_prof_picture
+       scanned_certificate id baptized_at_home_parish show_empty_radio prof_church_name prof_date]
   end
 
   # Validation params whether baptized at home parish or not
@@ -148,10 +166,13 @@ class BaptismalCertificate < ApplicationRecord
     params = BaptismalCertificate.basic_permitted_params
     params.delete(:certificate_picture)
     params.delete(:remove_certificate_picture)
+    params.delete(:prof_picture)
+    params.delete(:remove_prof_picture)
     params.delete(:baptized_at_home_parish)
-    params.delete(:first_comm_at_home_parish)
     params.delete(:church_name)
     params.delete(:scanned_certificate)
+    params.delete(:prof_church_name)
+    params.delete(:prof_date)
     params
   end
 
@@ -195,6 +216,7 @@ class BaptismalCertificate < ApplicationRecord
   #
   def build_associations
     church_address || build_church_address
+    prof_church_address || build_prof_church_address
     # scanned_certificate is built on the fly.
   end
 

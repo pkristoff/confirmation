@@ -56,9 +56,10 @@ class Candidate < ApplicationRecord
   # if this fails this is a coding error no user.
   #
   def validate_show_empty_radio
-    return if baptismal_certificate.show_empty_radio.zero? || baptismal_certificate.show_empty_radio == 1
+    show_empty_radio = baptismal_certificate.show_empty_radio
+    return if show_empty_radio.zero? || show_empty_radio == 1 || show_empty_radio == 2
 
-    errors.add(:show_empty_radio, "can only be 0 or 1 not #{baptismal_certificate.show_empty_radio}")
+    errors.add(:show_empty_radio, "can only be 0 or 1 or 2 not #{baptismal_certificate.show_empty_radio}")
   end
 
   # turn off sending verify instructions until admin sends it.

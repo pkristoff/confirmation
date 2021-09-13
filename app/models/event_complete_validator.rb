@@ -16,7 +16,7 @@ class EventCompleteValidator
     @validate_others = validate_others
   end
 
-  # Calcuate status of candidate_event
+  # Calculate status of candidate_event
   #
   # === Parameters:
   #

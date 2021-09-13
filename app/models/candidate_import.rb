@@ -150,7 +150,7 @@ class CandidateImport
     get_columns(params, columns)
     columns.delete(:password)
     columns.delete(:password_confirmation)
-    ['baptismal_certificate.scanned_certificate', 'retreat_verification.scanned_retreat',
+    ['baptismal_certificate.scanned_certificate', 'baptismal_certificate.scanned_prof', 'retreat_verification.scanned_retreat',
      'sponsor_covenant.scanned_covenant', 'sponsor_eligibility.scanned_eligibility'].each do |base|
       ScannedImage.permitted_params.each do |not_exported|
         columns.delete("#{base}.#{not_exported}")

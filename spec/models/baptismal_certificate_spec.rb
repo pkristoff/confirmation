@@ -79,7 +79,7 @@ describe BaptismalCertificate, type: :model do
       it 'should not show yes & show no if has_chosen_baptized_at_home_parish false' do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
         baptismal_certificate.baptized_at_home_parish = false
-        baptismal_certificate.show_empty_radio = 1
+        baptismal_certificate.show_empty_radio = 2
 
         expect(baptismal_certificate.baptized_at_home_parish_show_yes).to eq(false)
         expect(baptismal_certificate.baptized_at_home_parish_show_no).to eq(true)
@@ -108,98 +108,104 @@ describe BaptismalCertificate, type: :model do
   describe 'validate_event_complete' do
     before(:each) do
       Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+      @baptismal_certificate = FactoryBot.create(:baptismal_certificate)
     end
-    it 'should fail validation - new baptismal_certificate validated' do
-      baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-      baptismal_certificate.baptized_at_home_parish = true
-      baptismal_certificate.show_empty_radio = 0
+    describe 'baptized_at_home_parish = true' do
+      it 'should fail validation - new baptismal_certificate validated' do
+        @baptismal_certificate.baptized_at_home_parish = true
+        @baptismal_certificate.show_empty_radio = 0
 
-      expect(baptismal_certificate.validate_event_complete).to eq(false)
-      msgs = baptismal_certificate.errors.full_messages
-      expect(msgs[0]).to eq('I was Baptized at St. Mary Magdalene should be checked.')
-      expect(msgs.size).to eq(1)
+        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs[0]).to eq('I was Baptized at St. Mary Magdalene should be checked.')
+        expect(msgs.size).to eq(1)
+      end
+      it 'should pass validation - user selects Yes and saves' do
+        @baptismal_certificate.baptized_at_home_parish = true
+        @baptismal_certificate.show_empty_radio = 1
+        @baptismal_certificate.church_name = ''
+        @baptismal_certificate.father_first = ''
+
+        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs[0]).to eq("Father first can't be blank")
+        expect(msgs.size).to eq(1)
+      end
+      it 'should fail validation - user selects No removes church_name and saves' do
+        @baptismal_certificate.baptized_at_home_parish = false
+        @baptismal_certificate.baptized_catholic = true
+        @baptismal_certificate.show_empty_radio = 2
+        @baptismal_certificate.church_name = ''
+
+        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs[0]).to eq("Church name can't be blank")
+        expect(msgs.size).to eq(1)
+      end
+      it 'should fail validation - user selects No removes scanned_certificate and saves' do
+        @baptismal_certificate.baptized_at_home_parish = false
+        @baptismal_certificate.baptized_catholic = true
+        @baptismal_certificate.show_empty_radio = 2
+        @baptismal_certificate.scanned_certificate = nil
+
+        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs[0]).to eq("Scanned baptismal certificate can't be blank")
+        expect(msgs.size).to eq(1)
+      end
+      it 'should not fail validation - user selects yes removes scanned_certificate and saves' do
+        @baptismal_certificate.baptized_at_home_parish = true
+        @baptismal_certificate.scanned_certificate = nil
+        @baptismal_certificate.show_empty_radio = 1
+
+        expect(@baptismal_certificate.validate_event_complete).to eq(true)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs.size).to eq(0), "should be no msgs=#{msgs}"
+      end
+      it 'should fail validation - user selects Yes removes father_first and saves' do
+        @baptismal_certificate.baptized_at_home_parish = true
+        @baptismal_certificate.father_first = ''
+        @baptismal_certificate.show_empty_radio = 1
+
+        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs[0]).to eq("Father first can't be blank")
+        expect(msgs.size).to eq(1)
+      end
+
+      it 'should fail validation - user selects No removes street_1 and saves' do
+        @baptismal_certificate.baptized_at_home_parish = false
+        @baptismal_certificate.baptized_catholic = true
+        @baptismal_certificate.show_empty_radio = 2
+        @baptismal_certificate.church_address.street_1 = ''
+
+        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs[0]).to eq("Street 1 can't be blank")
+        expect(msgs.size).to eq(1)
+      end
+
+      it 'should pass validation - user selects Yes removes street_1 and saves' do
+        @baptismal_certificate.baptized_at_home_parish = true
+        @baptismal_certificate.church_address.street_1 = ''
+        @baptismal_certificate.show_empty_radio = 1
+
+        expect(@baptismal_certificate.validate_event_complete).to eq(true)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs.empty?).to be_truthy
+      end
     end
-    it 'should pass validation - user selects Yes and saves' do
-      baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-      baptismal_certificate.baptized_at_home_parish = true
-      baptismal_certificate.show_empty_radio = 1
-      baptismal_certificate.church_name = ''
-      baptismal_certificate.father_first = ''
-
-      expect(baptismal_certificate.validate_event_complete).to eq(false)
-      msgs = baptismal_certificate.errors.full_messages
-      expect(msgs[0]).to eq("Father first can't be blank")
-      expect(msgs.size).to eq(1)
+    describe 'baptized_at_home_parish = false' do
+      before(:each) do
+        @baptismal_certificate = FactoryBot.create(:baptismal_certificate, setup_baptized_catholic: true)
+      end
+      it 'should pass validation' do
+        expect(@baptismal_certificate.validate_event_complete).to eq(true)
+        msgs = @baptismal_certificate.errors.full_messages
+        expect(msgs.empty?).to be_truthy
+      end
     end
   end
-  it 'should fail validation - user selects No removes church_name and saves' do
-    baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-    baptismal_certificate.baptized_at_home_parish = false
-    baptismal_certificate.church_name = ''
-    baptismal_certificate.show_empty_radio = 1
-
-    expect(baptismal_certificate.validate_event_complete).to eq(false)
-    msgs = baptismal_certificate.errors.full_messages
-    expect(msgs[0]).to eq("Church name can't be blank")
-    expect(msgs.size).to eq(1)
-  end
-  it 'should fail validation - user selects No removes scanned_certificate and saves' do
-    baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-    baptismal_certificate.baptized_at_home_parish = false
-    baptismal_certificate.scanned_certificate = nil
-    baptismal_certificate.show_empty_radio = 1
-
-    expect(baptismal_certificate.validate_event_complete).to eq(false)
-    msgs = baptismal_certificate.errors.full_messages
-    expect(msgs[0]).to eq("Scanned baptismal certificate can't be blank")
-    expect(msgs.size).to eq(1)
-  end
-  it 'should fail validation - user selects Yes removes father_first and saves' do
-    baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-    baptismal_certificate.baptized_at_home_parish = true
-    baptismal_certificate.father_first = ''
-    baptismal_certificate.show_empty_radio = 1
-
-    expect(baptismal_certificate.validate_event_complete).to eq(false)
-    msgs = baptismal_certificate.errors.full_messages
-    expect(msgs[0]).to eq("Father first can't be blank")
-    expect(msgs.size).to eq(1)
-  end
-  it 'should fail validation - user selects No removes father_first and saves' do
-    baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-    baptismal_certificate.baptized_at_home_parish = false
-    baptismal_certificate.father_first = ''
-    baptismal_certificate.show_empty_radio = 1
-
-    expect(baptismal_certificate.validate_event_complete).to eq(false)
-    msgs = baptismal_certificate.errors.full_messages
-    expect(msgs[0]).to eq("Father first can't be blank")
-    expect(msgs.size).to eq(1)
-  end
-
-  it 'should fail validation - user selects No removes street_1 and saves' do
-    baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-    baptismal_certificate.baptized_at_home_parish = false
-    baptismal_certificate.church_address.street_1 = ''
-    baptismal_certificate.show_empty_radio = 1
-
-    expect(baptismal_certificate.validate_event_complete).to eq(false)
-    msgs = baptismal_certificate.errors.full_messages
-    expect(msgs[0]).to eq("Street 1 can't be blank")
-    expect(msgs.size).to eq(1)
-  end
-
-  it 'should pass validation - user selects Yes removes street_1 and saves' do
-    baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-    baptismal_certificate.baptized_at_home_parish = true
-    baptismal_certificate.church_address.street_1 = ''
-    baptismal_certificate.show_empty_radio = 1
-
-    expect(baptismal_certificate.validate_event_complete).to eq(true)
-    msgs = baptismal_certificate.errors.full_messages
-    expect(msgs.empty?).to be_truthy
-  end
-
   it 'check permitted_params' do
     expected = [:birth_date,
                 :baptismal_date,
@@ -213,13 +219,19 @@ describe BaptismalCertificate, type: :model do
                 :mother_last,
                 :certificate_picture,
                 :remove_certificate_picture,
+                :prof_picture,
+                :remove_prof_picture,
                 :scanned_certificate,
                 :id,
                 :baptized_at_home_parish,
-                :first_comm_at_home_parish,
                 :show_empty_radio,
+                :prof_church_name,
+                :prof_date,
                 { church_address_attributes: %i[street_1 street_2 city state zip_code id],
-                  scanned_certificate_attributes: %i[filename content_type content id] }]
+                  prof_church_address_attributes: %i[street_1 street_2 city state zip_code id],
+                  scanned_certificate_attributes: %i[filename content_type content id],
+                  scanned_prof_attributes: %i[filename content_type content id] }]
+
     expect(BaptismalCertificate.permitted_params).to eq(expected)
   end
 end

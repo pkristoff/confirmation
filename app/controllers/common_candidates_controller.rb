@@ -629,7 +629,7 @@ class CommonCandidatesController < ApplicationController
     # this handles those attributes.
     if clazz == BaptismalCertificate
       bc = @candidate.baptismal_certificate
-      if bc.show_empty_radio == 1 && !bc.baptized_at_home_parish?
+      if (bc.show_empty_radio == 1 || bc.show_empty_radio == 2) && !bc.baptized_at_home_parish?
         candidate_info_sheet_event = @candidate.get_candidate_event(CandidateSheet.event_key)
         candidate_info_sheet_event.mark_completed(@candidate.validate_event_complete(CandidateSheet),
                                                   CandidateSheet)

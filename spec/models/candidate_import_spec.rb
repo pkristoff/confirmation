@@ -507,6 +507,14 @@ def expect_candidates_empty(wks, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.first_comm_at_home_parish')].value).to eq(0)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.show_empty_radio')].value).to eq(0)
 
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.prof_church_name')].value).to eq(nil)
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.prof_church_address.street_1')].value).to eq('')
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.prof_church_address.street_2')].value).to eq('')
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.prof_church_address.city')].value).to eq('')
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.prof_church_address.state')].value).to eq('')
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.prof_church_address.zip_code')].value).to eq('')
+  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.prof_date')].value).to eq(nil)
+
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_held_at_home_parish')].value).to eq(0)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.start_date')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.end_date')].value).to eq(nil)
@@ -518,7 +526,7 @@ def expect_candidates_empty(wks, candidate_import)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(74)
+  expect(c1_row.size).to eq(82)
 end
 
 def expect_confirmation_events_empty(wks, candidate_import)

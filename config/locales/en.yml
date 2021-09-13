@@ -221,6 +221,7 @@ en:
     database_reset: Database successfully reset.
     disabled: This is turned off
     error:
+      baptized_catholic_should_be_checked: I was Baptized Catholic should be checked.
       baptized_should_be_checked: I was Baptized at %{home_parish} should be checked.
       duplicate_email: is a duplicate email, which is not allowed for a candidate
         - %{name}.

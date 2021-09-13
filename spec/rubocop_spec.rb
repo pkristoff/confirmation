@@ -60,10 +60,6 @@ describe 'Internal' do
       expect(system 'rubocop spec/mailers').to eq(true)
     end
 
-    it 'should pass model spec' do
-      expect(system 'rubocop spec/models').to eq(true)
-    end
-
     it 'should pass support spec' do
       expect(system 'rubocop spec/support').to eq(true)
     end

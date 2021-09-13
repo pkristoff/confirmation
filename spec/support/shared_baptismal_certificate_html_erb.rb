@@ -112,7 +112,7 @@ shared_context 'baptismal_certificate_html_erb' do
   # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = true, show_empty_radio = 1 fc showung - no check' do
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.show_empty_radio = 2
     @candidate.save!
     update_baptismal_certificate(false)
 
@@ -124,7 +124,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, first communion showing' do
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.show_empty_radio = 2
     @candidate.save!
     update_baptismal_certificate(true)
 
@@ -136,7 +136,8 @@ shared_context 'baptismal_certificate_html_erb' do
   scenario 'should not show a validation error for city and zip code' do
     candidate = Candidate.find(@candidate.id)
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.baptized_catholic = true
+    @candidate.baptismal_certificate.show_empty_radio = 2
     candidate.candidate_sheet.address.street_1 = ''
     candidate.candidate_sheet.address.street_2 = ''
     candidate.candidate_sheet.address.city = ''
@@ -170,7 +171,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, fills in template' do
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.baptized_catholic = true
+    @candidate.baptismal_certificate.show_empty_radio = 2
     @candidate.save!
     update_baptismal_certificate(false)
 
@@ -221,7 +223,8 @@ shared_context 'baptismal_certificate_html_erb' do
   # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, fills in template then changes mind she was baptized at stmm' do
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.baptized_catholic = true
+    @candidate.baptismal_certificate.show_empty_radio = 2
     @candidate.save!
     update_baptismal_certificate(false)
     visit @path
@@ -268,7 +271,8 @@ shared_context 'baptismal_certificate_html_erb' do
   # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.baptized_catholic = true
+    @candidate.baptismal_certificate.show_empty_radio = 2
     update_baptismal_certificate(false)
     @candidate.candidate_sheet.while_not_validating_middle_name do
       @candidate.save!
@@ -333,7 +337,8 @@ shared_context 'baptismal_certificate_html_erb' do
   # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.baptized_catholic = true
+    @candidate.baptismal_certificate.show_empty_radio = 2
     update_baptismal_certificate(true)
     @candidate.candidate_sheet.middle_name = ''
     @candidate.candidate_sheet.while_not_validating_middle_name do
@@ -385,7 +390,8 @@ shared_context 'baptismal_certificate_html_erb' do
   scenario 'admin logs in and selects a candidate, checks no for baptized_at_home_parish and updates' do
     # rubocop:disable Layout/LineLength
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.baptized_catholic = true
+    @candidate.baptismal_certificate.show_empty_radio = 2
     @candidate.save!
     # This test was sometimes had middle_name == '' and sometimes not.  So
     # now it is always ''.
@@ -428,7 +434,8 @@ shared_context 'baptismal_certificate_html_erb' do
   # rubocop:disable Layout/LineLength
   scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, adds non-picture data, updates, adds picture, updates - everything is saved' do
     @candidate.baptismal_certificate.baptized_at_home_parish = false
-    @candidate.baptismal_certificate.show_empty_radio = 1
+    @candidate.baptismal_certificate.baptized_catholic = true
+    @candidate.baptismal_certificate.show_empty_radio = 2
     @candidate.save!
     update_baptismal_certificate(false)
     visit @path
