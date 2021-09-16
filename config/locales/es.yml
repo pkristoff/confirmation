@@ -11,15 +11,12 @@ es:
     coming_due_initial_input: Estos eventos aún no se deben.
     coming_due_label: Próximos eventos
     completed_awaiting_approval_label: Eventos completados en espera de aprobación.
-    completed_awaiting_initial_input: Estos son los eventos completados en espera
-      de aprobación. Verifique que la información que ingresó sea correcta, si corresponde.
+    completed_awaiting_initial_input: Estos son los eventos completados en espera de aprobación. Verifique que la información que ingresó sea correcta, si corresponde.
     completed_awaiting_input_label: Eventos completados en espera de aprobación
     completed_events: Eventos
-    completed_initial_input: Estos son los eventos completados. Por favor verifique
-      que el la información que ingresó es correcta, si corresponde.
+    completed_initial_input: Estos son los eventos completados. Por favor verifique que el la información que ingresó es correcta, si corresponde.
     completed_input_label: Eventos completados
-    confirmation_instructions_subject: Sitio web de %{home_parish} para candidatos
-      de confirmación - Instrucciones de verificación del usuario
+    confirmation_instructions_subject: Sitio web de %{home_parish} para candidatos de confirmación - Instrucciones de verificación del usuario
     due_date: Fecha de vencimiento
     events: Eventos
     from_initial_input_html: |
@@ -28,24 +25,20 @@ es:
       %{phone}
     from_input_label: Desde
     information_entered: Información ingresada
-    late_initial_input: Aquí está el estado de sus formularios de confirmación (eventos)
-      que necesitas enviar
+    late_initial_input: Aquí está el estado de sus formularios de confirmación (eventos) que necesitas enviar
     monthly_mail: Correo mensual
     past_due: Eventos vencidos
     pre_coming_due_input_label: El texto de vencimiento anterior
     pre_late_input_label: El texto anterior
-    reset_password_subject: 'Sitio web %{home_parish}  para candidatos de confirmación:
-      restablecer instrucciones de contraseña'
-    salutation_initial_input: Por favor envíeme un correo electrónico si tiene alguna
-      pregunta
+    reset_password_subject: 'Sitio web %{home_parish}  para candidatos de confirmación: restablecer instrucciones de contraseña'
+    salutation_initial_input: Por favor envíeme un correo electrónico si tiene alguna pregunta
     salutation_input_label: Texto de saludo
     subject_initial_input: Estado de la información de confirmación
     subject_label: Tema
     test_adhoc_mail: Probar correo ad hoc
     test_adhoc_subject_initial_input: Correo electrónico de prueba adhoc para %{candidate_account_name}
     test_monthly_mail: Probar el correo mensual
-    test_monthly_mail_subject_initial_input: Correo electrónico de prueba de correo
-      mensual para %{candidate_account_name}
+    test_monthly_mail_subject_initial_input: Correo electrónico de prueba de correo mensual para %{candidate_account_name}
     website_name: Sitio web %{home_parish} para candidatos de confirmación
   events:
     baptismal_certificate: Certificado de bautismo
@@ -71,8 +64,7 @@ es:
       scan: Certificado de bautismo
     candidate_sheet:
       address: Dirección del candidato
-      email: 'Direcciones de correo electrónico: NO ingrese la misma dirección en
-        más de una línea.'
+      email: 'Direcciones de correo electrónico: NO ingrese la misma dirección en más de una línea.'
       name: 'Nombre del candidato (como aparece en su Certificado de Bautismo):'
       other: Otro
     christian_ministry:
@@ -174,8 +166,7 @@ es:
       sponsor_name: Nombre del patrocinador
     sponsor_eligibility:
       sponsor_attends_home_parish: El patrocinador está registrado en %{home_parish}
-      sponsor_attends_home_parish_note: "(Verificaremos con la oficina y nos comunicaremos
-        con usted si hay algún problema)"
+      sponsor_attends_home_parish_note: "(Verificaremos con la oficina y nos comunicaremos con usted si hay algún problema)"
       sponsor_church: La iglesia del patrocinador
       sponsor_eligibility_picture: Formulario de elegibilidad del patrocinador
       sponsor_name: Nombre del patrocinador
@@ -187,15 +178,13 @@ es:
   messages:
     about_updated: Sobre actualizado
     accessed_denied: Acceso denegado.
-    account_confirmed: 'Cuentas de candidatos confirmadas: %{number_confirmed} y ya
-      confirmado {number_not_confirmed}.'
+    account_confirmed: 'Cuentas de candidatos confirmadas: %{number_confirmed} y ya confirmado %{number_not_confirmed}.'
     adhoc_mailing_progress: Envío ad hoc en curso
     adhoc_mailing_test_sent: Prueba de envío ad hoc enviada
     admin_login_needed: Por favor, inicie sesión como administrador para %{message}.
     another_admin: crear otro administrador
     another_candidate: crear otro candidato
-    cand_account_confirmed_next: El siguiente paso es configurar su contraseña. Otro
-      solo se envió un correo electrónico explicando cómo hacer esto.
+    cand_account_confirmed_next: El siguiente paso es configurar su contraseña. Otro solo se envió un correo electrónico explicando cómo hacer esto.
     cand_account_is_confirmed: Felicitaciones %{account_name} por confirmar su cuenta.
     candidate_updated: Candidato %{name} actualizado correctamente
     candidates_deleted: Candidatos eliminados
@@ -209,36 +198,22 @@ es:
       item_2: Clases de confirmacion
       item_3: Práctica de confirmación
       item_4: La misa de confirmación
-      item_5: Asistiré al menos a otra sesión del Grupo de Jóvenes por mes o asistiré
-        a la Escuela Secundaria Católica.
-      paragraph_1: Estoy comprometido con este año de preparación para la Confirmación.
-        Acepto asistir a todas las sesiones requeridas que incluyen
-      paragraph_2: Elegiré participar en todas las sesiones con un corazón abierto
-        y dar el 100% de mí mismo a mi grupo pequeño y a mis líderes de grupos pequeños.
-        Estoy de acuerdo en cultivar una relación con mi patrocinador para aprender
-        de su guía espiritual.
-      paragraph_3: Lo que es más importante, prometo recibir todo lo que Dios tiene
-        guardado para mí este año y dejar que los dones y frutos del Espíritu Santo
-        cobren vida en mi vida.
+      item_5: Asistiré al menos a otra sesión del Grupo de Jóvenes por mes o asistiré a la Escuela Secundaria Católica.
+      paragraph_1: Estoy comprometido con este año de preparación para la Confirmación. Acepto asistir a todas las sesiones requeridas que incluyen
+      paragraph_2: Elegiré participar en todas las sesiones con un corazón abierto y dar el 100% de mí mismo a mi grupo pequeño y a mis líderes de grupos pequeños. Estoy de acuerdo en cultivar una relación con mi patrocinador para aprender de su guía espiritual.
+      paragraph_3: Lo que es más importante, prometo recibir todo lo que Dios tiene guardado para mí este año y dejar que los dones y frutos del Espíritu Santo cobren vida en mi vida.
     database_reset: La base de datos se restableció correctamente.
     disabled: Esto está apagado
     error:
       baptized_catholic_should_be_checked: Me bauticé como católico.
-      baptized_should_be_checked: Debería ser bautizado en %{home_parish} debe ser
-        verificado.
-      duplicate_email: es un correo electrónico duplicado, que no está permitido para
-        un candidato - %{name}.
-      first_communion_should_be_checked: Recibí la Primera Comunión en %{home_parish}
-        debe ser revisado
+      baptized_should_be_checked: Debería ser bautizado en %{home_parish} debe ser verificado.
+      duplicate_email: es un correo electrónico duplicado, que no está permitido para un candidato - %{name}.
       invalid_email: 'es un correo electrónico no válido: %{email}'
-      missing_attribute: "¡Tus cambios fueron guardados! Se debe completar un campo
-        vacío en el formulario para verificarlo:"
-      missing_attributes: "¡Tus cambios fueron guardados! Deben completarse% {err_count}
-        campos vacíos en el formulario para ser verificado:"
+      missing_attribute: "¡Tus cambios fueron guardados! Se debe completar un campo vacío en el formulario para verificarlo:"
+      missing_attributes: "¡Tus cambios fueron guardados! Deben completarse %{err_count} campos vacíos en el formulario para ser verificado:"
       one_email: se debe proporcionar al menos un correo electrónico.
       unknown_show_empty_radio: 'Valor desconocido de show_empty_radio: %{show_empty_radio}'
-    export_to_excel: Trabajan en segundo plano. Se enviará un correo electrónico con
-      hoja de cálculo. al finalizar con %{commit}.
+    export_to_excel: Trabajan en segundo plano. Se enviará un correo electrónico con hoja de cálculo. al finalizar con %{commit}.
     generate_pdf_error: Solo seleccione un candidato
     home_parish_updated: Parroquia local actualizada
     home_updated: Inicio actualizado
@@ -247,14 +222,15 @@ es:
     monthly_mailing_test_sent: Prueba de envío mensual enviada
     no_candidate_selected: Ningún candidato fue seleccionado.
     not_all_confirmation_events_updated: No todos los eventos de confirmación actualizados
+    orphaneds:
+      check:
+        no_orphans_found: No se encontraron huérfanas
+        orphans_found: Huérfanas encontradas
     password:
       confirm_changes: necesitamos su contraseña actual para confirmar sus cambios
       leave_blank: déjelo en blanco si no desea cambiarlo
-      reset_and_confirmed: Su contraseña ha sido modificada con éxito, su usuario nombre
-        ( %{name}) confirmado y ahora ha iniciado sesión.
-      token_expired: El correo electrónico de restablecimiento de contraseña ha caducado
-        o se ha utilizado. Póngase en contacto con el administrador por correo electrónico
-        %{email}
+      reset_and_confirmed: Su contraseña ha sido modificada con éxito, su usuario nombre ( %{name}) confirmado y ahora ha iniciado sesión.
+      token_expired: El correo electrónico de restablecimiento de contraseña ha caducado o se ha utilizado. Póngase en contacto con el administrador por correo electrónico %{email}
     remove_candidate: eliminar a un candidato
     reset_password_message_sent: Restablecer mensajes de contraseña enviados
     save_failed: Error al guardar
@@ -297,24 +273,19 @@ es:
       first_name: Nombre de pila
       last_name: Apellido
       middle_name: Segundo nombre
-      parent_email_1: Correo electrónico principal 1
       password: Contraseña
       password_changed: Contraseña cambiada
     common:
       are_you_sure: "¿Estás seguro?"
-      are_you_sure_delete_candidates: "¿Está seguro de que desea eliminar los candidatos
-        seleccionados?"
       clear_attach_file: Borrar archivo elegido
       confirm_account: Confirmar cuenta
       delete: Borrar
       download: Descargar documento
       email: Email
       generate_pdf: Generar PDF
-      image_upload_file_types: Solo puede cargar un tipo de archivo de .pdf, .jpg,
-        .jpeg, .png
+      image_upload_file_types: Solo puede cargar un tipo de archivo de .pdf, .jpg, .jpeg, .png
       initial_email: Correo electrónico inicial
-      mail_upload_file_types: Solo puede cargar un tipo de archivo de .pdf, .docx,
-        xlsx
+      mail_upload_file_types: Solo puede cargar un tipo de archivo de .pdf, .docx, xlsx
       name: Nombre
       password: Contraseña
       password_confirmation: confirmación de contraseña
@@ -344,18 +315,16 @@ es:
       candidates_export: Candidatos de exportación
       candidates_import: Importar candidatos
       excel_no_pict: Exportar a Excel Sin imágenes escaneadas
-      export_message: Exporte datos actuales a una hoja de cálculo de Excel comprimida
-        con imágenes escaneadas o una hoja de cálculo de Excel sin imágenes escaneadas
+      export_message: Exporte datos actuales a una hoja de cálculo de Excel comprimida con imágenes escaneadas o una hoja de cálculo de Excel sin imágenes escaneadas
       found: Encontró
       import: Importar
-      import_message: Puede importar un archivo xlxs que represente a los candidatos
-        iniciales que vendrán de la iglesia
+      import_message: Puede importar un archivo xlxs que represente a los candidatos iniciales que vendrán de la iglesia
+      missing: Desaparecida
     missing_events:
       add_missing: Agregar eventos faltantes
       added_missing: Eventos faltantes agregados
       check: Verificar eventos
-      check_events_first: No se encontraron eventos faltantes ejecutando Verificar
-        eventos primero.
+      check_events_first: No se encontraron eventos faltantes ejecutando Verificar eventos primero.
       check_for_missing_events: Compruebe si faltan eventos
       missing: Desaparecida
       unknown: Desconocida
@@ -374,12 +343,14 @@ es:
       export_baptized_at_home_parish_title: Bautizado en %{home_parish}
       export_candidate_event_status_title: Estado de eventos candidatos
       export_confirmation_name: Nombres de confirmación
-      export_sponsor_at_home_parish_title: Patrocinador en %{home_parish}
+      export_sponsor_at_home_parish_title: Elegibilidad del patrocinador
+      export_sponsor_covenant_title: Pacto de patrocinador
+      missing_events: Eventos que faltan
       monthly_mass_mailing: Correo mensual
       note: Nota
+      orphaneds: Huérfana
       other: Otra
-      pdf_baptismal_name: PDF para hacer coincidir el nombre del candidato con el
-        bap. nombre
+      pdf_baptismal_name: PDF para hacer coincidir el nombre del candidato con el bap. nombre
       reset_db:
         reset_database: Reset database
         start_new_year: Start new year
@@ -392,12 +363,9 @@ es:
       remove_orphaned_table_rows: Eliminar filas de tablas huérfanas
     reset_db:
       reset_database:
-        bullet_1: 'Eventos de confirmación: todos serán eliminados. Los eventos de
-          confirmación predeterminados se agregarán nuevamente.'
-        bullet_2: 'Candidatos: todos serán eliminados de la base de datos. Se agregará
-          un candidato de prueba.'
-        bullet_3: 'Administradores: todos serán eliminados de la base de datos. Se
-          agregará el administrador predeterminado.'
+        bullet_1: 'Eventos de confirmación: todos serán eliminados. Los eventos de confirmación predeterminados se agregarán nuevamente.'
+        bullet_2: 'Candidatos: todos serán eliminados de la base de datos. Se agregará un candidato de prueba.'
+        bullet_3: 'Administradores: todos serán eliminados de la base de datos. Se agregará el administrador predeterminado.'
         bullet_4: 'Permanecer conectado: NO'
         cannot_recover: No puedes recuperarte de esto.
         confirm: "¿Estás seguro?"
@@ -405,9 +373,7 @@ es:
         title: Restablecer la base de datos
       start_new_year:
         bullet_1: 'Candidatos: todos serán eliminados de la base de datos'
-        bullet_2: Los eventos de confirmación se enviarán por correo electrónico con
-          las instrucciones que permanecen igual, sin embargo, las fechas de vencimiento
-          se establecerán hoy
+        bullet_2: Los eventos de confirmación se enviarán por correo electrónico con las instrucciones que permanecen igual, sin embargo, las fechas de vencimiento se establecerán hoy
         bullet_3: 'Administradores: no afectados'
         bullet_4: 'Permanecer conectado: sí'
         confirm: "¿Estás seguro?"

@@ -11,15 +11,12 @@ en:
     coming_due_initial_input: These events are not due yet.
     coming_due_label: Coming due events
     completed_awaiting_approval_label: Completed events awaiting approval.
-    completed_awaiting_initial_input: These are the completed events awaiting approval.
-      Please verify that the information you entered is correct, if any.
+    completed_awaiting_initial_input: These are the completed events awaiting approval. Please verify that the information you entered is correct, if any.
     completed_awaiting_input_label: Completed events awaiting approval
     completed_events: Events
-    completed_initial_input: These are the completed events. Please verify that the
-      information you entered is correct, if any.
+    completed_initial_input: These are the completed events. Please verify that the information you entered is correct, if any.
     completed_input_label: Completed events
-    confirmation_instructions_subject: "%{home_parish} website for Confirmation Candidates
-      - User Verification instructions"
+    confirmation_instructions_subject: "%{home_parish} website for Confirmation Candidates - User Verification instructions"
     due_date: Due date
     events: Events
     from_initial_input_html: |
@@ -28,14 +25,12 @@ en:
       %{phone}
     from_input_label: From
     information_entered: Information Entered
-    late_initial_input: Here is the status of your Confirmation forms(events) that
-      you need to submit.
+    late_initial_input: Here is the status of your Confirmation forms(events) that you need to submit.
     monthly_mail: Monthly Mail
     past_due: Past due events
     pre_coming_due_input_label: The pre-coming due text
     pre_late_input_label: The pre-late text
-    reset_password_subject: "%{home_parish} website for Confirmation Candidates -
-      Reset password instructions"
+    reset_password_subject: "%{home_parish} website for Confirmation Candidates - Reset password instructions"
     salutation_initial_input: Please email me if you have any questions
     salutation_input_label: Salutation text
     subject_initial_input: Confirmation Information Status
@@ -171,8 +166,7 @@ en:
       sponsor_name: Sponsor's Name
     sponsor_eligibility:
       sponsor_attends_home_parish: Sponsor is registered at %{home_parish}
-      sponsor_attends_home_parish_note: "(We will verify with office and get back
-        with you if there any problems)"
+      sponsor_attends_home_parish_note: "(We will verify with office and get back with you if there any problems)"
       sponsor_church: Sponsor's church
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
       sponsor_name: Sponsor's Name
@@ -184,17 +178,14 @@ en:
   messages:
     about_updated: About updated
     accessed_denied: Accessed denied.
-    account_confirmed: 'Candidate accounts confirmed: %{number_confirmed} and already
-      confirmed %{number_not_confirmed}.'
+    account_confirmed: 'Candidate accounts confirmed: %{number_confirmed} and already confirmed %{number_not_confirmed}.'
     adhoc_mailing_progress: Adhoc mailing in progress
     adhoc_mailing_test_sent: Adhoc mailing test sent
     admin_login_needed: Please login as admin to %{message}.
     another_admin: create another admin
     another_candidate: create another candidate
-    cand_account_confirmed_next: The next step is to setup your password. Another
-      email was just sent explaining how to do this.
-    cand_account_is_confirmed: Congratulations %{account_name} on confirming your
-      account.
+    cand_account_confirmed_next: The next step is to setup your password. Another email was just sent explaining how to do this.
+    cand_account_is_confirmed: Congratulations %{account_name} on confirming your account.
     candidate_updated: Candidate %{name} updated successfully
     candidates_deleted: Candidates deleted
     candidates_removed: All candidates successfully removed.
@@ -207,35 +198,22 @@ en:
       item_2: Confirmation classes
       item_3: Confirmation practice
       item_4: the Confirmation Mass
-      item_5: I will attend at least one other Youth Group session per month or attend
-        Catholic High School.
-      paragraph_1: I am committed to this year of preparation for Confirmation. I
-        agree to attend all of the required sessions which include
-      paragraph_2: I will choose to participate in all sessions with an open heart
-        and give 100% of myself to my small group and my small group leaders. I agree
-        to cultivate a relationship with my sponsor to learn from their spiritual
-        guidance.
-      paragraph_3: Most importantly, I promise to receive all that God has in store
-        for me this year and to let the gifts and fruits of the Holy Spirit come alive
-        in my life.
+      item_5: I will attend at least one other Youth Group session per month or attend Catholic High School.
+      paragraph_1: I am committed to this year of preparation for Confirmation. I agree to attend all of the required sessions which include
+      paragraph_2: I will choose to participate in all sessions with an open heart and give 100% of myself to my small group and my small group leaders. I agree to cultivate a relationship with my sponsor to learn from their spiritual guidance.
+      paragraph_3: Most importantly, I promise to receive all that God has in store for me this year and to let the gifts and fruits of the Holy Spirit come alive in my life.
     database_reset: Database successfully reset.
     disabled: This is turned off
     error:
       baptized_catholic_should_be_checked: I was Baptized Catholic should be checked.
       baptized_should_be_checked: I was Baptized at %{home_parish} should be checked.
-      duplicate_email: is a duplicate email, which is not allowed for a candidate
-        - %{name}.
-      first_communion_should_be_checked: I received First Communion at %{home_parish}
-        should be checked.
+      duplicate_email: is a duplicate email, which is not allowed for a candidate - %{name}.
       invalid_email: 'is an invalid email: %{email}'
-      missing_attribute: 'Your changes were saved!! 1 empty field needs to be filled
-        in on the form to be verified:'
-      missing_attributes: 'Your changes were saved!! %{err_count} empty fields need
-        to be filled in on the form to be verified:'
+      missing_attribute: 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:'
+      missing_attributes: 'Your changes were saved!! %{err_count} empty fields need to be filled in on the form to be verified:'
       one_email: at least one email must be supplied.
       unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
-    export_to_excel: Working in background.  An email with spreadsheet will be sent
-      upon completion with %{commit}.
+    export_to_excel: Working in background.  An email with spreadsheet will be sent upon completion with %{commit}.
     generate_pdf_error: Only select one candidate
     home_parish_updated: Home parish updated
     home_updated: Home updated
@@ -251,10 +229,8 @@ en:
     password:
       confirm_changes: we need your current password to confirm your changes
       leave_blank: leave blank if you don't want to change it
-      reset_and_confirmed: Your password has been changed successfully, your user
-        name (%{name}) confirmed and you are now signed in.
-      token_expired: The reset password email has either expired or has been used.  Please
-        contact Admin via email %{email}
+      reset_and_confirmed: Your password has been changed successfully, your user name (%{name}) confirmed and you are now signed in.
+      token_expired: The reset password email has either expired or has been used.  Please contact Admin via email %{email}
     remove_candidate: remove a candidate
     reset_password_message_sent: Reset password messages sent
     save_failed: Save failed
@@ -297,21 +273,17 @@ en:
       first_name: First name
       last_name: Last name
       middle_name: Middle name
-      parent_email_1: Parent email 1
       password: Password
       password_changed: Password Changed
     common:
       are_you_sure: Are you sure?
-      are_you_sure_delete_candidates: Are you sure you want to delete the selected
-        candidate(s)?
       clear_attach_file: Clear choosen file
       confirm_account: Confirm Account
       delete: Delete
       download: Download document
       email: Email
       generate_pdf: Generate PDF
-      image_upload_file_types: You can only upload a file type of .pdf, .jpg, .jpeg,
-        .png
+      image_upload_file_types: You can only upload a file type of .pdf, .jpg, .jpeg, .png
       initial_email: Initial email
       mail_upload_file_types: You can only upload a file type of .pdf, .docx, xlsx
       name: Name
@@ -343,14 +315,11 @@ en:
       candidates_export: Export Candidates
       candidates_import: Import Candidates
       excel_no_pict: Export to Excel No Scanned Pictures
-      export_message: Export current data to a zipped excel spreadsheet with scanned
-        pictures or an excel spreadsheet without scanned pictures
+      export_message: Export current data to a zipped excel spreadsheet with scanned pictures or an excel spreadsheet without scanned pictures
       found: Found
       import: Import
-      import_message: You can import an xlxs file which represents the initial candidates
-        which will come from the church
+      import_message: You can import an xlxs file which represents the initial candidates which will come from the church
       missing: Missing
-      unknown: Unknown
     missing_events:
       add_missing: Add Missing Events
       added_missing: Added missing events
@@ -379,7 +348,7 @@ en:
       missing_events: Missing Events
       monthly_mass_mailing: Monthly Mailing
       note: Note
-      orphaneds: Orphaneds
+      orphaneds: Orphaned
       other: Other
       pdf_baptismal_name: PDF for matching candidate name to bap. name
       reset_db:
@@ -394,12 +363,9 @@ en:
       remove_orphaned_table_rows: Remove orphaned table rows
     reset_db:
       reset_database:
-        bullet_1: 'Confirmation Events: All will be removed. The default confirmation
-          events will be added back in.'
-        bullet_2: 'Candidates: All will be removed from the database. A test Candidate
-          will be added.'
-        bullet_3: 'Admins: All will be removed from the database. The default Admin
-          will be added.'
+        bullet_1: 'Confirmation Events: All will be removed. The default confirmation events will be added back in.'
+        bullet_2: 'Candidates: All will be removed from the database. A test Candidate will be added.'
+        bullet_3: 'Admins: All will be removed from the database. The default Admin will be added.'
         bullet_4: 'Remain logged in: NO'
         cannot_recover: You cannot recover from this.
         confirm: Are you sure?
@@ -407,8 +373,7 @@ en:
         title: Reset the Database
       start_new_year:
         bullet_1: 'Candidates: All will be removed from the database'
-        bullet_2: Confirmation events will remail with instrutions staying the same
-          however due dates will be set to today
+        bullet_2: Confirmation events will remail with instrutions staying the same however due dates will be set to today
         bullet_3: 'Admins: not affected'
         bullet_4: 'Remain logged in: yes'
         confirm: Are you sure?
