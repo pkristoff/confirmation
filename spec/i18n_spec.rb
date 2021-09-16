@@ -42,7 +42,7 @@ RSpec.describe I18n do
               views.reset_db.start_new_year.message
               views.top_bar.contact_admin_mail]
     y = unused_keys.keys.to_set.map {|arr| arr[0]}.select{|x| !used.include? x}
-    puts "y=#{y}"
+    puts "y=#{y}" unless y.empty?
     expect(y).to be_empty, "#{y.size} unused i18n keys, run `i18n-tasks unused' to show them"
   end
 

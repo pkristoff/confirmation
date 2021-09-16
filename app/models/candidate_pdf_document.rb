@@ -113,8 +113,6 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.baptismal_certificate'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(BaptismalCertificate.event_key), [1, 0], [1, 3])
     grid_label_value2([2, 0], "Baptized at #{Visitor.home_parish}:", bc.baptized_at_home_parish)
-    first_comm = "Received First Communion at #{Visitor.home_parish}:"
-    grid_label_value2([3, 0], first_comm, bc.first_comm_at_home_parish) unless bc.baptized_at_home_parish
     unless bc.baptized_at_home_parish
       grid_label_value([4, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date')}:", bc.birth_date.to_s)
       grid_label_value([4, 2], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date')}:",

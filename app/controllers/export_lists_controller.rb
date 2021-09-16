@@ -7,8 +7,6 @@ class ExportListsController < ApplicationController
   BAPTISM_COLUMNS =
     [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish',
             home_parish: Visitor.home_parish),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.first_comm_at_home_parish',
-            home_parish: Visitor.home_parish),
      I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.father_first'),
@@ -27,7 +25,6 @@ class ExportListsController < ApplicationController
 
   BAPTISM_VALUES =
     [->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish },
-     ->(candidate) { candidate.baptismal_certificate.first_comm_at_home_parish },
      ->(candidate) { candidate.baptismal_certificate.birth_date },
      ->(candidate) { candidate.baptismal_certificate.baptismal_date },
      ->(candidate) { candidate.baptismal_certificate.father_first },

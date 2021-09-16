@@ -431,7 +431,6 @@ def expect_candidates(wks, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.mother_last')].value).to eq('Smith')
   expected_msg = 'actions.png:::png:::temp/c1_scanned_certificate_actions.png'
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.scanned_certificate')].value).to eq(expected_msg)
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.first_comm_at_home_parish')].value).to eq(0)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.show_empty_radio')].value).to eq(0)
 
   expect(c1_row.cells[find_cell_offset(header_row, 'retreat_verification.retreat_held_at_home_parish')].value).to eq(0)
@@ -504,7 +503,6 @@ def expect_candidates_empty(wks, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.mother_last')].value).to eq(nil)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.scanned_certificate')].value).to eq(0)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.baptized_at_home_parish')].value).to eq(0)
-  expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.first_comm_at_home_parish')].value).to eq(0)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.show_empty_radio')].value).to eq(0)
 
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.prof_church_name')].value).to eq(nil)

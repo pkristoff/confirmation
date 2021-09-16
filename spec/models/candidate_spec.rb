@@ -47,7 +47,6 @@ describe Candidate do
     it 'baptized_at_home_parish' do
       candidate = AppFactory.create_candidate
       expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
-      expect(candidate.baptismal_certificate.first_comm_at_home_parish).to eq(false)
     end
   end
 
@@ -217,19 +216,15 @@ describe Candidate do
     it 'baptismal_external_verification?' do
       event_key = BaptismalCertificate.event_key
       @c1.baptismal_certificate.baptized_at_home_parish = false
-      @c1.baptismal_certificate.first_comm_at_home_parish = false
       @c1.get_candidate_event(event_key).completed_date = @today
       @c1.save
       @c2.baptismal_certificate.baptized_at_home_parish = true
-      @c2.baptismal_certificate.first_comm_at_home_parish = false
       @c2.get_candidate_event(event_key).completed_date = @today
       @c2.save
       @c3.baptismal_certificate.baptized_at_home_parish = true
-      @c3.baptismal_certificate.first_comm_at_home_parish = false
       @c3.get_candidate_event(event_key).completed_date = nil
       @c3.save
       @c4.baptismal_certificate.baptized_at_home_parish = false
-      @c4.baptismal_certificate.first_comm_at_home_parish = true
       @c4.get_candidate_event(event_key).completed_date = @today
       @c4.save
 

@@ -210,8 +210,6 @@ class PluckCan
                  baptismal_certificate = BaptismalCertificate.find_by(id: cand_info[4])
                  if baptismal_certificate.baptized_at_home_parish
                    false
-                 elsif baptismal_certificate.first_comm_at_home_parish
-                   false
                  else
                    true
                  end

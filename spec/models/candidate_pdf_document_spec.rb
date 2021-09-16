@@ -24,7 +24,6 @@ def setup_candidate2
     picture = f.read
   end
   bc.baptized_at_home_parish = false
-  bc.first_comm_at_home_parish = false
   bc.scanned_certificate = ::ScannedImage.new(
     filename: filename,
     content_type: 'image/png',
@@ -39,7 +38,6 @@ def setup_candidate3
   ev.completed_date = Time.zone.today
   bc = @candidate3.baptismal_certificate
   bc.baptized_at_home_parish = false
-  bc.first_comm_at_home_parish = true
   bc.save
   ev.save
 end
@@ -55,7 +53,6 @@ def setup_candidate4
     picture = f.read
   end
   bc.baptized_at_home_parish = false
-  bc.first_comm_at_home_parish = false
   bc.scanned_certificate = ::ScannedImage.new(
     filename: filename,
     content_type: 'image/png',
@@ -91,9 +88,10 @@ describe CandidatePDFDocument, type: :model do
     setup_candidate3
     setup_candidate4
     pdf = CandidateNamePDFDocument.new
-    expect(pdf.candidates.size).to eq(2)
+    expect(pdf.candidates.size).to eq(3)
     expect(pdf.candidates[0].bap_first_name).to eq('cc2')
-    expect(pdf.candidates[1].bap_first_name).to eq('cc4')
+    expect(pdf.candidates[1].bap_first_name).to eq('cc3')
+    expect(pdf.candidates[2].bap_first_name).to eq('cc4')
     pdf
   end
 end

@@ -12,7 +12,6 @@ shared_context 'orphaned_scanned_image' do
       AppFactory.add_confirmation_event(BaptismalCertificate.event_key)
       candidate = Candidate.find_by(id: @candidate.id)
       bc = candidate.baptismal_certificate
-      bc.first_comm_at_home_parish = false
       bc.scanned_certificate = FactoryBot.create(:scanned_image,
                                                  filename: 'actions.png',
                                                  content_type: 'image/png',

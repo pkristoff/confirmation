@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(version: 2021_09_11_183655) do
     t.datetime "updated_at", null: false
     t.integer "church_address_id"
     t.integer "scanned_certificate_id"
-    t.boolean "first_comm_at_home_parish", default: false, null: false
     t.boolean "baptized_at_home_parish", default: false, null: false
     t.integer "show_empty_radio", default: 0, null: false
     t.boolean "baptized_catholic", default: false, null: false
