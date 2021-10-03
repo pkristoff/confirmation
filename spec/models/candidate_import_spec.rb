@@ -524,7 +524,7 @@ def expect_candidates_empty(wks, candidate_import)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to eq(nil)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(82)
+  expect(c1_row.size).to eq(84)
 end
 
 def expect_confirmation_events_empty(wks, candidate_import)

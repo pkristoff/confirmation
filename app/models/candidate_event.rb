@@ -245,7 +245,7 @@ class CandidateEvent < ApplicationRecord
   # * <tt>Hash</tt> of information to be verified
   #
   def verifiable_info
-    candidate.get_event_association(Candidate.event_route(event_key)).verifiable_info(candidate)
+    candidate.get_event_association(Candidate.event_route(event_key)).verifiable_info
   end
 
   # Mark candidate complete by setting the completed date

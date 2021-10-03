@@ -44,7 +44,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true, true)
   end
   # rubocop:enable Layout/LineLength
 
@@ -57,7 +57,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true, true)
   end
   # rubocop:enable Layout/LineLength
 
@@ -70,7 +70,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, true)
   end
 
   scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = true, show_empty_radio = 1 fc showing - no check showing' do
@@ -81,7 +81,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, true)
   end
   # rubocop:enable Layout/LineLength
 
@@ -94,7 +94,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, true)
   end
   # rubocop:enable Layout/LineLength
 
@@ -106,7 +106,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, true)
   end
 
   # rubocop:disable Layout/LineLength
@@ -118,7 +118,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, true)
   end
   # rubocop:enable Layout/LineLength
 
@@ -130,7 +130,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verif, false, false)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verif, false, false, false, false)
   end
 
   scenario 'should not show a validation error for city and zip code' do
@@ -151,11 +151,10 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                      false, true)
+                                      false, false, true, true)
     fill_in_form
 
     click_button @update_id
-
     if @is_verify
 
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
@@ -164,7 +163,7 @@ shared_context 'baptismal_certificate_html_erb' do
     else
 
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                        false, false,
+                                        false, false, true, false,
                                         expect_messages: [[:flash_notice, @updated_message]])
     end
   end
@@ -180,7 +179,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
     # rubocop:disable Layout/LineLength
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true)
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, true)
     fill_in_form
 
     click_button @update_id
@@ -193,7 +192,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                        false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
 
     end
     # rubocop:enable Layout/LineLength
@@ -238,7 +238,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                        false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -257,7 +258,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
     else
 
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                        false, true, true, false, expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -285,7 +287,8 @@ shared_context 'baptismal_certificate_html_erb' do
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false,
+
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, true,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 15),
                                                                               "Middle name #{I18n.t('errors.messages.blank')}",
@@ -318,7 +321,8 @@ shared_context 'baptismal_certificate_html_erb' do
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                        false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
     end
 
     expect_db(1, 1)
@@ -328,7 +332,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false)
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false)
 
     expect_db(1, 1) # make sure DB does not increase in size.
   end
@@ -350,14 +354,16 @@ shared_context 'baptismal_certificate_html_erb' do
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false,
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                      false, false, true, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                               "Middle name #{I18n.t('errors.messages.blank')}"]]])
 
     candidate = Candidate.find(@candidate.id)
 
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, expected_messages: [[:flash_notice, @updated_message]])
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                      false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
 
     expect(candidate.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(false), 'Baptismal certificate not verified.'
     expect(candidate.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
@@ -374,7 +380,8 @@ shared_context 'baptismal_certificate_html_erb' do
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
 
     else
-      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, expected_messages: [[:flash_notice, @updated_message]])
+      expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                        false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
     end
 
     cand = Candidate.find_by(id: candidate.id)
@@ -404,7 +411,7 @@ shared_context 'baptismal_certificate_html_erb' do
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, true,
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, true,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
 
@@ -443,7 +450,8 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in_form({ attach_file: false }) # no picture
     click_button @update_id
 
-    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false,
+    expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                      false, false, true, false,
                                       expect_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                               "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"]]])
@@ -459,7 +467,7 @@ shared_context 'baptismal_certificate_html_erb' do
     else
 
       expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                        false, false, expect_messages: [[:flash_notice, @updated_message]])
+                                        false, false, true, false, expect_messages: [[:flash_notice, @updated_message]])
 
       expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
       expect(candidate.baptismal_certificate).not_to eq(nil)
@@ -469,7 +477,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     visit @path
     candidate = Candidate.find(@candidate.id)
-    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false)
+    expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false)
   end
   # rubocop:enable Layout/LineLength
 
@@ -486,17 +494,19 @@ shared_context 'baptismal_certificate_html_erb' do
     visit @path
 
     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                      true, true)
+                                      false, true, true, true)
 
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if @is_verify
-    click_button 'bottom-unverify' if @is_verify
+    # click_button @update_id
+    click_button('bottom-unverify') if @is_verify
 
     candidate = Candidate.find(@candidate.id)
     # rubocop:disable Layout/LineLength
     if @is_verify
+
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), { is_unverified: true })
     else
-      expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true)
+      expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, true)
     end
     # rubocop:enable Layout/LineLength
 
@@ -507,14 +517,24 @@ shared_context 'baptismal_certificate_html_erb' do
   private
 
   # rubocop:disable Layout/LineLength
-  def expect_baptismal_certificate_form(cand_id, dev_path, path_str, button_name, is_verify, hide_baptismal_certificate, dont_show_values,
+  def expect_baptismal_certificate_form(cand_id,
+                                        dev_path,
+                                        path_str,
+                                        button_name,
+                                        is_verify,
+                                        hide_baptized_at_home_parish_info,
+                                        hide_baptized_catholic_info,
+                                        hide_profession_of_faith_info,
+                                        dont_show_values,
                                         values = {
                                           birth_date: dont_show_values ? nil : BIRTH_DATE,
                                           baptismal_date: dont_show_values ? nil : BAPTISMAL_DATE,
 
                                           church_name: dont_show_values ? nil : CHURCH_NAME,
-                                          street_1: dont_show_values ? nil : STREET_1,
-                                          street_2: dont_show_values ? nil : STREET_2,
+                                          street1: dont_show_values ? nil : STREET_1,
+                                          street_1: dont_show_values ? nil : STREET_1, # remove
+                                          street2: dont_show_values ? nil : STREET_2,
+                                          street_2: dont_show_values ? nil : STREET_2, # remove
                                           city: dont_show_values ? nil : CITY,
                                           state: dont_show_values ? nil : STATE,
                                           zip_code: dont_show_values ? nil : ZIP_CODE,
@@ -533,40 +553,48 @@ shared_context 'baptismal_certificate_html_erb' do
                                           last_name: dont_show_values ? nil : LAST_NAME
                                         })
 
+    values = values.merge({
+                            birth_date: dont_show_values ? nil : BIRTH_DATE,
+                            baptismal_date: dont_show_values ? nil : BAPTISMAL_DATE,
+
+                            church_name: dont_show_values ? nil : CHURCH_NAME,
+                            street1: dont_show_values ? nil : STREET_1,
+                            street_1: dont_show_values ? nil : STREET_1, # remove
+                            street2: dont_show_values ? nil : STREET_2,
+                            street_2: dont_show_values ? nil : STREET_2, # remove
+                            city: dont_show_values ? nil : CITY,
+                            state: dont_show_values ? nil : STATE,
+                            zip_code: dont_show_values ? nil : ZIP_CODE,
+
+                            father_first: dont_show_values ? nil : FATHER_FIRST,
+                            father_middle: dont_show_values ? nil : FATHER_MIDDLE,
+                            father_last: dont_show_values ? nil : LAST_NAME,
+
+                            mother_first: dont_show_values ? nil : MOTHER_FIRST,
+                            mother_middle: dont_show_values ? nil : MOTHER_MIDDLE,
+                            mother_maiden: dont_show_values ? nil : MOTHER_MAIDEN,
+                            mother_last: dont_show_values ? nil : LAST_NAME,
+
+                            first_name: dont_show_values ? nil : FIRST_NAME,
+                            middle_name: dont_show_values ? nil : MIDDLE_NAME,
+                            last_name: dont_show_values ? nil : LAST_NAME
+                          })
+
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     cand = Candidate.find(cand_id)
 
     expect_heading(cand, dev_path.empty?, BaptismalCertificate.event_key)
+    # expect(page).to have_selector("div[id=baptized-at-home-parish-info][class=hide-div]")
+    expect(page).to have_selector("div[id=baptized-catholic-info][class='#{hide_baptized_catholic_info ? 'hide-div' : 'show-div'}']")
+    expect(page).to have_selector("div[id=profession-of-faith-info][class='#{hide_profession_of_faith_info ? 'hide-div' : 'show-div'}']")
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/baptismal_certificate\"]")
     expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish))
 
-    yes_id = 'candidate_baptismal_certificate_attributes_baptized_at_home_parish_1'
-    no_id = 'candidate_baptismal_certificate_attributes_baptized_at_home_parish_0'
-    expect(page).to have_selector("input[type=radio][id=#{yes_id}][value='1']", count: 1)
-    expect(page).to have_selector("input[type=radio][id=#{no_id}][value='0']", count: 1)
-
-    should_show_checked = cand.baptismal_certificate.show_empty_radio > 0
-    yes_checked = should_show_checked && cand.baptismal_certificate.baptized_at_home_parish
-    no_checked = should_show_checked && !cand.baptismal_certificate.baptized_at_home_parish
-
-    if should_show_checked
-      expect(find_field(yes_id)).to be_checked if yes_checked
-      expect(find_field(no_id)).not_to be_checked if yes_checked
-
-      expect(find_field(yes_id)).not_to be_checked if no_checked
-      expect(find_field(no_id)).to be_checked if no_checked
-
-    end
-
-    fc_id_yes = 'candidate_baptismal_certificate_attributes_first_comm_at_home_parish_1'
-    fc_id_no = 'candidate_baptismal_certificate_attributes_first_comm_at_home_parish_0'
-
-    expect(page).not_to have_selector("input[type=radio][id=#{fc_id_yes}][value='1']", count: 1)
-    expect(page).not_to have_selector("input[type=radio][id=#{fc_id_no}][value='0']", count: 1)
-
-    expect(page).to have_selector("div[id=baptismal-certificate-top][class='#{hide_baptismal_certificate ? 'hide-div' : 'show-div'}']")
+    baptized_home_parish_radios(cand)
+    baptized_catholic_radios(cand)
+    expect(page).to have_selector("div[id=baptized-at-home-parish-info][class='#{hide_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
 
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), nil)
 
@@ -574,6 +602,8 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'), values[:baptismal_date], visible: true)
 
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_name'), values[:church_name], visible: false)
+
+    expect_address_fields(page, values, false)
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_1'), values[:street_1])
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_2'), values[:street_2])
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.city'), values[:city])
@@ -663,5 +693,41 @@ shared_context 'baptismal_certificate_html_erb' do
     candidate_sheet.middle_name = MIDDLE_NAME
     candidate_sheet.last_name = LAST_NAME
     @candidate.save!
+  end
+
+  def baptized_home_parish_radios(cand)
+    yes_id = 'candidate_baptismal_certificate_attributes_baptized_at_home_parish_1'
+    no_id = 'candidate_baptismal_certificate_attributes_baptized_at_home_parish_0'
+    expect(page).to have_selector("input[type=radio][id=#{yes_id}][value='1']", count: 1)
+    expect(page).to have_selector("input[type=radio][id=#{no_id}][value='0']", count: 1)
+
+    should_show_checked = cand.baptismal_certificate.show_empty_radio > 0
+    yes_checked = should_show_checked && cand.baptismal_certificate.baptized_at_home_parish
+    no_checked = should_show_checked && !cand.baptismal_certificate.baptized_at_home_parish
+
+    return unless should_show_checked
+
+    expect(find_field(yes_id)).to be_checked if yes_checked
+    expect(find_field(no_id)).not_to be_checked if yes_checked
+
+    expect(find_field(yes_id)).not_to be_checked if no_checked
+    expect(find_field(no_id)).to be_checked if no_checked
+  end
+
+  def baptized_catholic_radios(cand)
+    yes_id = 'candidate_baptismal_certificate_attributes_baptized_catholic_1'
+    no_id = 'candidate_baptismal_certificate_attributes_baptized_catholic_0'
+    expect(page).to have_selector("input[type=radio][id=#{yes_id}][value='1']", count: 1)
+    expect(page).to have_selector("input[type=radio][id=#{no_id}][value='0']", count: 1)
+
+    should_show_checked = cand.baptismal_certificate.show_empty_radio > 1
+    yes_checked = should_show_checked && cand.baptismal_certificate.baptized_catholic
+    no_checked = should_show_checked && !cand.baptismal_certificate.baptized_catholic
+
+    expect(find_field(yes_id)).to be_checked if should_show_checked && yes_checked
+    expect(find_field(no_id)).not_to be_checked if should_show_checked && yes_checked
+
+    expect(find_field(yes_id)).not_to be_checked if should_show_checked && no_checked
+    expect(find_field(no_id)).to be_checked if should_show_checked && no_checked
   end
 end

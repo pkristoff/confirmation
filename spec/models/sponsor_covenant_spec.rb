@@ -16,12 +16,12 @@ describe SponsorCovenant, type: :model do
 
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value not including the sponsor church if attends home parish' do
-      verifiables = FactoryBot.create(:sponsor_covenant).verifiable_info(@candidate)
+      verifiables = FactoryBot.create(:sponsor_covenant).verifiable_info
       expected_verifiables = { 'Sponsor name': 'George Sponsor' }
       expect(verifiables).to eq(expected_verifiables)
     end
     it 'should return a hash of :attribute => value not including the sponsor church if does not attend home parish' do
-      verifiables = FactoryBot.create(:sponsor_covenant).verifiable_info(@candidate)
+      verifiables = FactoryBot.create(:sponsor_covenant).verifiable_info
       expected_verifiables = { 'Sponsor name': 'George Sponsor' }
       expect(verifiables).to eq(expected_verifiables)
     end

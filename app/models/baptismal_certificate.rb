@@ -101,7 +101,7 @@ class BaptismalCertificate < ApplicationRecord
   #
   def validate_basic_info
     event_complete_validator = EventCompleteValidator.new(self)
-    event_complete_validator.validate(BaptismalCertificate.basic_validation_params)
+    event_complete_validator.validate(basic_validation_params)
   end
 
   # This validates all the information needed when home parish does not have the baptismal certificate
@@ -112,8 +112,6 @@ class BaptismalCertificate < ApplicationRecord
   #
   def validate_other_church_info
     event_complete = true
-    event_complete_validator = EventCompleteValidator.new(self)
-    event_complete = event_complete_validator.validate(BaptismalCertificate.basic_validate_non_home_parish_params)
     church_address.validate_event_complete
     church_address.errors.full_messages.each do |msg|
       errors[:base] << msg
@@ -123,6 +121,30 @@ class BaptismalCertificate < ApplicationRecord
     found |= !errors.delete(:scanned_certificate).nil?
     if found
       errors[:base] << "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}" # TODO: I18n
+      event_complete = false
+    end
+    event_complete
+  end
+
+  # This validates all the information needed when home parish does not have the baptismal certificate
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt> - whether the event can be marked complete.
+  #
+  def validate_profession_of_faith
+    event_complete = true
+    # event_complete_validator = EventCompleteValidator.new(self)
+    # event_complete = event_complete_validator.validate(BaptismalCertificate.validate_profession_of_faith)
+    prof_church_address.validate_event_complete
+    prof_church_address.errors.full_messages.each do |msg|
+      errors[:base] << msg
+      event_complete = false
+    end
+    found = false
+    found |= !errors.delete(:scanned_prof).nil?
+    if found
+      errors[:base] << "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}" # TODO: I18n
       event_complete = false
     end
     event_complete
@@ -152,8 +174,9 @@ class BaptismalCertificate < ApplicationRecord
   def self.basic_permitted_params
     %I[birth_date baptismal_date church_name father_first father_middle father_last
        mother_first mother_middle mother_maiden mother_last certificate_picture remove_certificate_picture
+       baptized_catholic
        prof_picture remove_prof_picture
-       scanned_certificate id baptized_at_home_parish show_empty_radio prof_church_name prof_date]
+       scanned_certificate scanned_prof id baptized_at_home_parish show_empty_radio prof_church_name prof_date]
   end
 
   # Validation params whether baptized at home parish or not
@@ -162,28 +185,26 @@ class BaptismalCertificate < ApplicationRecord
   #
   # * <tt>Array</tt> of attributes
   #
-  def self.basic_validation_params
+  def basic_validation_params
     params = BaptismalCertificate.basic_permitted_params
+    prof_of_faith = %i[scanned_prof prof_date prof_church_name]
     params.delete(:certificate_picture)
     params.delete(:remove_certificate_picture)
+    params.delete(:baptized_catholic)
+    params.delete(:baptized_at_home_parish)
     params.delete(:prof_picture)
     params.delete(:remove_prof_picture)
-    params.delete(:baptized_at_home_parish)
-    params.delete(:church_name)
-    params.delete(:scanned_certificate)
-    params.delete(:prof_church_name)
-    params.delete(:prof_date)
-    params
-  end
 
-  # returns Array of ...
-  #
-  # === Returns:
-  #
-  # * <tt>Array</tt>
-  #
-  def self.basic_validate_non_home_parish_params
-    %i[church_name scanned_certificate]
+    if baptized_at_home_parish
+      params.delete(:scanned_certificate)
+
+      params.delete(:church_name)
+
+      prof_of_faith.each { |xxx| params.delete xxx }
+    elsif baptized_catholic
+      prof_of_faith.each { |xxx| params.delete xxx }
+    end
+    params
   end
 
   # Validate if event is complete by adding validation errors to active record
@@ -222,55 +243,75 @@ class BaptismalCertificate < ApplicationRecord
 
   # information to be verified by admin
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
   # * <tt>Hash</tt> of information to be verified
   #
-  def verifiable_info(candidate)
-    if candidate.baptismal_certificate.baptized_at_home_parish
-      {
-        Church: Visitor.home_parish
-      }
+  def verifiable_info
+    if baptized_at_home_parish
+      verifiables_baptized_at_home_parish
+    elsif !baptized_at_home_parish && baptized_catholic
+      verifiables_baptized_at_home_parish.merge(verifiables_baptized_catholic)
     else
-      {
-        Birthday: birth_date,
-        'Baptismal date': baptismal_date,
-        'Father\'s name': "#{father_first} #{father_middle} #{father_last}",
-        'Mother\'s name': "#{mother_first} #{mother_middle} #{mother_maiden} #{mother_last}",
-        Church: church_name,
-        Street: church_address.street_1,
-        'Street 2': church_address.street_2,
-        City: church_address.city,
-        State: church_address.state,
-        'Zip Code': church_address.zip_code
-      }
+      verifiables_baptized_at_home_parish.merge(verifiables_baptized_catholic)
+                                         .merge(verifiables_profession_of_faith)
     end
   end
 
   # UI stuff
 
-  # Whether to show baptized as yes
+  # Whether to show baptized catholic as yes
   #
   # === Returns:
   #
   # * <tt>Boolean</tt>
   #
-  def baptized_at_home_parish_show_yes
+  def baptized_catholic_yes_checked
+    chosen_baptized_catholic? && baptized_catholic
+  end
+
+  # UI stuff
+
+  # Whether to show baptized catholic as no
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def baptized_catholic_no_checked
+    chosen_baptized_catholic? && !baptized_catholic?
+  end
+
+  # UI stuff
+
+  # Whether to show baptized at home parish as yes
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def baptized_at_home_parish_yes_checked
     chosen_baptized_at_home_parish? && baptized_at_home_parish
   end
 
-  # Whether to show baptized as no
+  # Whether to show baptized at home parish as no
   #
   # === Returns:
   #
   # * <tt>Boolean</tt>
   #
-  def baptized_at_home_parish_show_no
+  def baptized_at_home_parish_no_checked
     chosen_baptized_at_home_parish? && !baptized_at_home_parish
+  end
+
+  # Whether candidate has chosen that they were baptised at home parish
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def chosen_baptized_catholic?
+    show_empty_radio == 2
   end
 
   # Whether candidate has chosen that they were baptised at home parish
@@ -290,6 +331,70 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def info_show
+    chosen_baptized_at_home_parish?
+  end
+
+  # Whether to show info
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def show_baptized_catholic_radio
     chosen_baptized_at_home_parish? && !baptized_at_home_parish
+  end
+
+  # Whether to show info baptized catholic
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def info_show_baptized_catholic
+    chosen_baptized_catholic? && !baptized_at_home_parish
+  end
+
+  # Whether to show info profession of faith
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def info_show_profession_of_faith
+    chosen_baptized_catholic? && !baptized_catholic
+  end
+
+  private
+
+  def verifiables_baptized_at_home_parish
+    {
+      Birthday: birth_date,
+      'Baptismal date': baptismal_date,
+      'Father\'s name': "#{father_first} #{father_middle} #{father_last}",
+      'Mother\'s name': "#{mother_first} #{mother_middle} #{mother_maiden} #{mother_last}"
+    }
+  end
+
+  def verifiables_baptized_catholic
+    {
+      Church: church_name,
+      Street: church_address.street_1,
+      'Street 2': church_address.street_2,
+      City: church_address.city,
+      State: church_address.state,
+      'Zip Code': church_address.zip_code
+    }
+  end
+
+  def verifiables_profession_of_faith
+    {
+      'Prof date': prof_date,
+      'Prof church': prof_church_name,
+      'Prof street': prof_church_address.street_1,
+      'Prof street 2': prof_church_address.street_2,
+      'Prof city': prof_church_address.city,
+      'Prof state': prof_church_address.state,
+      'Prof zip code': prof_church_address.zip_code
+    }
   end
 end

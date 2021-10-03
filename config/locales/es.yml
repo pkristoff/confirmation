@@ -61,6 +61,7 @@ es:
       father: Nombre del Padre
       mother: Nombre de la madre
       please_fill_out_the_following: 'Por favor complete lo siguiente:'
+      prof_church: Iglesia donde profesión de fe
       scan: Certificado de bautismo
     candidate_sheet:
       address: Dirección del candidato
@@ -86,6 +87,7 @@ es:
       baptismal_certificate:
         baptismal_date: Fecha bautismal
         baptized_at_home_parish: "¿Te bautizaron en %{home_parish}"
+        baptized_catholic: "¿Fuiste bautizada católica?"
         birth_date: Fecha de nacimiento
         certificate_picture: Certificado de bautismo
         church_address:
@@ -104,6 +106,14 @@ es:
         mother_middle: Madre media
         neg: 'No'
         pos: Si
+        prof_church_address:
+          prof_city: Ciudad de profesión
+          prof_state: Estado de profesión
+          prof_street_1: Calle 1 de profesión
+          prof_street_2: Calle 2 de profesión
+          prof_zip_code: Código postal de profesión
+        prof_church_name: Nombre de la iglesia de profesión de fe
+        prof_date: Fecha de la profesión de fe
     candidate_event:
       select: Seleccionar
     candidate_note:

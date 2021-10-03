@@ -205,6 +205,7 @@ shared_context 'retreat_verification_html_erb' do
                                      end_date: '')
 
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if @is_verify
+
     click_button 'bottom-unverify' if @is_verify
 
     candidate = Candidate.find(@candidate.id)

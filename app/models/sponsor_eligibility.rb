@@ -143,15 +143,11 @@ class SponsorEligibility < ApplicationRecord
 
   # information to be verified by admin
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
   # * <tt>Hash</tt> of information to be verified
   #
-  def verifiable_info(_candidate)
+  def verifiable_info
     { 'Sponsor attends': (sponsor_attends_home_parish ? Visitor.home_parish : sponsor_church) }
   end
 end

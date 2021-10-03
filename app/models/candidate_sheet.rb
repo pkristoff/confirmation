@@ -254,15 +254,11 @@ class CandidateSheet < ApplicationRecord
 
   # information to be verified by admin
   #
-  # === Parameters:
-  #
-  # * <tt>:candidate</tt> owner of this association
-  #
   # === Returns:
   #
   # * <tt>Hash</tt> of information to be verified
   #
-  def verifiable_info(_candidate)
+  def verifiable_info
     { name: first_middle_last_name,
       grade: grade,
       program_year: 2,

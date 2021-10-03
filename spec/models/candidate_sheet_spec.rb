@@ -27,8 +27,7 @@ describe CandidateSheet, type: :model do
 
   describe 'event completion attributes' do
     it 'should return a hash of :attribute => value' do
-      candidate = FactoryBot.create(:candidate)
-      verifiables = FactoryBot.create(:candidate_sheet).verifiable_info(candidate)
+      verifiables = FactoryBot.create(:candidate_sheet).verifiable_info
       expected_verifiables = { name: 'Sophia Saraha Young',
                                grade: 10,
                                program_year: 2,
