@@ -314,52 +314,33 @@ describe BaptismalCertificate, type: :model do
                       id
                       show_empty_radio]
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
-        expect_basic_validation_params(baptismal_certificate.basic_validation_params, expected)
+        expect_validation_params(baptismal_certificate.basic_validation_params, expected)
       end
       it 'basic_validation_params setup_baptized_catholic' do
-        expected = %i[birth_date
-                      baptismal_date
-                      father_first
-                      father_middle
-                      father_last
-                      mother_first
-                      mother_middle
-                      mother_maiden
-                      mother_last
+        expected = %i[church_name
+                      scanned_certificate
                       id
-                      show_empty_radio
-                      church_name
-                      scanned_certificate]
+                      show_empty_radio]
         baptismal_certificate = FactoryBot.create(:baptismal_certificate, setup_baptized_catholic: true)
-        expect_basic_validation_params(baptismal_certificate.basic_validation_params, expected)
+        expect_validation_params(baptismal_certificate.baptized_catholic_validation_params, expected)
       end
       it 'basic_validation_params setup_profession_of_faith' do
-        expected = %i[birth_date
-                      baptismal_date
-                      father_first
-                      father_middle
-                      father_last
-                      mother_first
-                      mother_middle
-                      mother_maiden
-                      mother_last
+        expected = %i[scanned_prof
                       id
                       show_empty_radio
-                      church_name
-                      scanned_certificate
-                      scanned_prof
                       prof_church_name
                       prof_date]
         baptismal_certificate = FactoryBot.create(:baptismal_certificate, setup_profession_of_faith: true)
-        expect_basic_validation_params(baptismal_certificate.basic_validation_params, expected)
+        expect_validation_params(baptismal_certificate.prof_of_faith_validation_params, expected)
       end
     end
   end
 
   private
 
-  def expect_basic_validation_params(actual, expected)
+  def expect_validation_params(actual, expected)
     expected.each do |expected_param|
+      puts(actual) unless actual.include?(expected_param)
       expect(actual.include?(expected_param)).to eq(true)
       puts(actual) if actual.size != expected.size
       expect(actual.size).to eq(expected.size)

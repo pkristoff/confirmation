@@ -112,6 +112,8 @@ class BaptismalCertificate < ApplicationRecord
   #
   def validate_other_church_info
     event_complete = true
+    event_complete_validator = EventCompleteValidator.new(self)
+    event_complete_validator.validate(baptized_catholic_validation_params)
     church_address.validate_event_complete
     church_address.errors.full_messages.each do |msg|
       errors[:base] << msg
@@ -134,8 +136,8 @@ class BaptismalCertificate < ApplicationRecord
   #
   def validate_profession_of_faith
     event_complete = true
-    # event_complete_validator = EventCompleteValidator.new(self)
-    # event_complete = event_complete_validator.validate(BaptismalCertificate.validate_profession_of_faith)
+    event_complete_validator = EventCompleteValidator.new(self)
+    event_complete = event_complete_validator.validate(prof_of_faith_validation_params)
     prof_church_address.validate_event_complete
     prof_church_address.errors.full_messages.each do |msg|
       errors[:base] << msg
@@ -179,6 +181,76 @@ class BaptismalCertificate < ApplicationRecord
        scanned_certificate scanned_prof id baptized_at_home_parish show_empty_radio prof_church_name prof_date]
   end
 
+  # Returns array of params to be validated once baptized_in_home_parish
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of symbols
+  #
+  def self.home_parish_validate_params
+    %I[birth_date baptismal_date
+       father_first father_middle father_last
+       mother_first mother_middle mother_maiden mother_last]
+  end
+
+  # Returns array of params when baptized_catholic=true
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of symbols
+  #
+  def self.baptized_catholic_validate_params
+    %i[scanned_certificate church_name]
+  end
+
+  # Returns array of params when baptized_catholic=false
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of symbols
+  #
+  def self.prof_of_faith_validate_params
+    %i[scanned_prof prof_date prof_church_name]
+  end
+
+  # Returns array of params to never validate
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of symbols
+  #
+  def self.do_not_validate_params
+    %i[certificate_picture remove_certificate_picture baptized_catholic baptized_at_home_parish prof_picture remove_prof_picture]
+  end
+
+  # Returns array of params when baptized_catholic=true
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of symbols
+  #
+  def baptized_catholic_validation_params
+    params = BaptismalCertificate.basic_permitted_params
+    BaptismalCertificate.do_not_validate_params.each { |xxx| params.delete xxx }
+    BaptismalCertificate.home_parish_validate_params.each { |xxx| params.delete xxx }
+    BaptismalCertificate.prof_of_faith_validate_params.each { |xxx| params.delete xxx }
+    params
+  end
+
+  # Returns array of params when baptized_catholic=false
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of symbols
+  #
+  def prof_of_faith_validation_params
+    params = BaptismalCertificate.basic_permitted_params
+    BaptismalCertificate.do_not_validate_params.each { |xxx| params.delete xxx }
+    BaptismalCertificate.home_parish_validate_params.each { |xxx| params.delete xxx }
+    BaptismalCertificate.baptized_catholic_validate_params.each { |xxx| params.delete xxx }
+    params
+  end
+
   # Validation params whether baptized at home parish or not
   #
   # === Returns:
@@ -187,23 +259,9 @@ class BaptismalCertificate < ApplicationRecord
   #
   def basic_validation_params
     params = BaptismalCertificate.basic_permitted_params
-    prof_of_faith = %i[scanned_prof prof_date prof_church_name]
-    params.delete(:certificate_picture)
-    params.delete(:remove_certificate_picture)
-    params.delete(:baptized_catholic)
-    params.delete(:baptized_at_home_parish)
-    params.delete(:prof_picture)
-    params.delete(:remove_prof_picture)
-
-    if baptized_at_home_parish
-      params.delete(:scanned_certificate)
-
-      params.delete(:church_name)
-
-      prof_of_faith.each { |xxx| params.delete xxx }
-    elsif baptized_catholic
-      prof_of_faith.each { |xxx| params.delete xxx }
-    end
+    BaptismalCertificate.do_not_validate_params.each { |xxx| params.delete xxx }
+    BaptismalCertificate.baptized_catholic_validate_params.each { |xxx| params.delete xxx }
+    BaptismalCertificate.prof_of_faith_validate_params.each { |xxx| params.delete xxx }
     params
   end
 
