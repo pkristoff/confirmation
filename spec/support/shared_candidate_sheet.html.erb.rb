@@ -31,7 +31,7 @@ shared_context 'candidate_sheet_html_erb' do
     click_button(@update_id)
 
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
-                                expect_messages: [
+                                expected_messages: [
                                   [:flash_notice, @updated_failed_verification],
                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                         "Candidate email #{I18n.t('messages.error.invalid_email', email: 'm')}"]]
@@ -46,7 +46,7 @@ shared_context 'candidate_sheet_html_erb' do
 
     click_button(@update_id)
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
-                                expect_messages: [
+                                expected_messages: [
                                   [:flash_notice, @updated_failed_verification],
                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                         "Candidate email #{I18n.t('messages.error.invalid_email', email: 'mm')}"]]
@@ -74,7 +74,7 @@ shared_context 'candidate_sheet_html_erb' do
     else
 
       expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
-                                  expect_messages: [[:flash_notice, @updated_message]])
+                                  expected_messages: [[:flash_notice, @updated_message]])
 
     end
 
@@ -115,7 +115,7 @@ shared_context 'candidate_sheet_html_erb' do
 
   def expect_candidate_sheet_form(cand_id, path_str, dev_path, update_id, is_verify, values = {})
     cand = Candidate.find(cand_id)
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
     expect_heading(cand, dev_path.empty?, CandidateSheet.event_key)
 

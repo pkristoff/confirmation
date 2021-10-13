@@ -17,13 +17,13 @@ feature 'Home page' do
     visit cand_account_confirmation_url(candidate.id, 'noerrors')
 
     expect_cand_account_confirmation(candidate.id,
-                                     expect_messages: [[:flash_notice, I18n.t('messages.reset_password_message_sent')]])
+                                     expected_messages: [[:flash_notice, I18n.t('messages.reset_password_message_sent')]])
   end
 
   private
 
   def expect_cand_account_confirmation(cand_id, values = {})
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
     candidate = Candidate.find_by(id: cand_id)
 

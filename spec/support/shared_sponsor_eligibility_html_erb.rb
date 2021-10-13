@@ -44,11 +44,13 @@ shared_context 'sponsor_eligibility_html_erb' do
     attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/Baptismal Certificate.png')
     click_button @update_id
 
-    expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
-                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                      [:error_explanation, [I18n.t('messages.error.missing_attribute',
-                                                                                   err_count: 1),
-                                                                            "Sponsor name #{I18n.t('errors.messages.blank')}"]]])
+    expect_sponsor_eligibility_form(
+      @candidate.id, @dev, @path_str, @is_verify,
+      expected_messages: [[:flash_notice, @updated_failed_verification],
+                          [:error_explanation, [I18n.t('messages.error.missing_attribute',
+                                                       err_count: 1),
+                                                "Sponsor name #{I18n.t('errors.messages.blank')}"]]]
+    )
   end
 
   scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, rest showing' do
@@ -71,7 +73,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     click_button @update_id
 
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
-                                    expect_messages: [[:flash_notice, @updated_message]])
+                                    expected_messages: [[:flash_notice, @updated_message]])
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate.sponsor_eligibility.sponsor_church).to eq(SPONSOR_CHURCH)
@@ -89,13 +91,13 @@ shared_context 'sponsor_eligibility_html_erb' do
     fill_in_form
     click_button @update_id
 
-    expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
+    expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify, expected_messages: [[:flash_notice, @updated_message]])
 
     visit @path
     check(I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
     click_button @update_id
 
-    expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
+    expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify, expected_messages: [[:flash_notice, @updated_message]])
 
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(true)
@@ -120,9 +122,9 @@ shared_context 'sponsor_eligibility_html_erb' do
 
     candidate_db = Candidate.find(@candidate.id)
     expect_sponsor_eligibility_form(candidate_db.id, @dev, @path_str, @is_verify,
-                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                      [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                            "Sponsor church #{I18n.t('errors.messages.blank')}"]]])
+                                    expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                        [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                              "Sponsor church #{I18n.t('errors.messages.blank')}"]]])
 
     expect(candidate_db.sponsor_eligibility).not_to eq(nil)
     expect(candidate_db.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
@@ -135,7 +137,7 @@ shared_context 'sponsor_eligibility_html_erb' do
 
     candidate_db_update = Candidate.find(@candidate.id)
     expect_sponsor_eligibility_form(candidate_db_update.id, @dev, @path_str, @is_verify,
-                                    expect_messages: [[:flash_notice, @updated_message]])
+                                    expected_messages: [[:flash_notice, @updated_message]])
     expect(candidate_db_update.sponsor_eligibility).not_to eq(nil)
     expect(candidate_db_update.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
     expect(candidate_db_update.sponsor_eligibility.scanned_eligibility.filename).to eq('actions.png')
@@ -167,9 +169,9 @@ shared_context 'sponsor_eligibility_html_erb' do
     click_button @update_id
 
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
-                                    expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                      [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                            "Scanned sponsor eligibility form #{I18n.t('errors.messages.blank')}"]]])
+                                    expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                        [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                              "Scanned sponsor eligibility form #{I18n.t('errors.messages.blank')}"]]])
 
     expect(page).not_to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
     expect(page).not_to have_selector(img_src_selector)
@@ -178,7 +180,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     click_button @update_id
 
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
-                                    expect_messages: [[:flash_notice, @updated_message]])
+                                    expected_messages: [[:flash_notice, @updated_message]])
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
     expect(candidate.sponsor_eligibility).not_to eq(nil)
@@ -204,7 +206,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     candidate = Candidate.find(@candidate.id)
     expect_sponsor_eligibility_form(candidate.id,
                                     @dev, @path_str, @is_verify,
-                                    expect_messages: [[:flash_notice, @updated_message]],
+                                    expected_messages: [[:flash_notice, @updated_message]],
                                     sponsor_name: '')
     expect(page).to have_selector(img_src_selector)
   end
@@ -213,7 +215,7 @@ shared_context 'sponsor_eligibility_html_erb' do
 
   def expect_sponsor_eligibility_form(cand_id, dev_path, path_str, is_verify, values = { sponsor_name: SPONSOR_NAME })
     # rubocop:disable Layout/LineLength
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
     cand = Candidate.find(cand_id)
     expect_heading(cand, dev_path.empty?, SponsorEligibility.event_key)

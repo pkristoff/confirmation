@@ -50,7 +50,7 @@ shared_context 'sponsor_covenant_html_erb' do
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_message]])
+                                 expected_messages: [[:flash_notice, @updated_message]])
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
   end
@@ -69,7 +69,7 @@ shared_context 'sponsor_covenant_html_erb' do
                                  @dev,
                                  @path_str,
                                  @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_message]])
+                                 expecte3d_messages: [[:flash_notice, @updated_message]])
 
     visit @path
     fill_in(I18n.t('label.sponsor_covenant.sponsor_name'), with: 'xxx')
@@ -79,7 +79,7 @@ shared_context 'sponsor_covenant_html_erb' do
                                  @dev,
                                  @path_str,
                                  @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_message]])
+                                 expected_messages: [[:flash_notice, @updated_message]])
 
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant.sponsor_name).to eq('xxx')
@@ -102,9 +102,9 @@ shared_context 'sponsor_covenant_html_erb' do
 
     candidate_db = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate_db.id, @dev, @path_str, @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute'),
-                                                                         "Sponsor name #{I18n.t('errors.messages.blank')}"]]])
+                                 expecte_messages: [[:flash_notice, @updated_failed_verification],
+                                                    [:error_explanation, [I18n.t('messages.error.missing_attribute'),
+                                                                          "Sponsor name #{I18n.t('errors.messages.blank')}"]]])
 
     expect(candidate_db.sponsor_covenant).not_to eq(nil)
     expect(candidate_db.sponsor_covenant.scanned_covenant.filename).to eq('actions.png')
@@ -115,7 +115,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
     candidate_db_update = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate_db_update.id, @dev, @path_str, @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_message]])
+                                 expected_messages: [[:flash_notice, @updated_message]])
     expect(candidate_db_update.sponsor_covenant).not_to eq(nil)
     expect(candidate_db_update.sponsor_covenant.scanned_covenant.filename).to eq('actions.png')
     expect(candidate_db_update.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
@@ -144,10 +144,12 @@ shared_context 'sponsor_covenant_html_erb' do
     fill_in_form({ covenant_attach_file: false }) # no picture
     click_button @update_id
 
-    expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                         "Scanned sponsor covenant form #{I18n.t('errors.messages.blank')}"]]])
+    expect_sponsor_covenant_form(
+      @candidate.id, @dev, @path_str, @is_verify,
+      expected_messages: [[:flash_notice, @updated_failed_verification],
+                          [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                "Scanned sponsor covenant form #{I18n.t('errors.messages.blank')}"]]]
+    )
 
     expect(page).not_to have_selector(img_src_selector)
 
@@ -155,7 +157,7 @@ shared_context 'sponsor_covenant_html_erb' do
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_message]])
+                                 expected_messages: [[:flash_notice, @updated_message]])
     candidate = Candidate.find(@candidate.id)
     expect(candidate.sponsor_covenant).not_to eq(nil)
 
@@ -179,9 +181,9 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(page).to have_selector(img_src_selector)
     candidate = Candidate.find(@candidate.id)
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                         "Sponsor name #{I18n.t('errors.messages.blank')}"]]],
+                                 expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                     [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                           "Sponsor name #{I18n.t('errors.messages.blank')}"]]],
                                  sponsor_name: '')
   end
   # rubocop:enable Layout/LineLength
@@ -190,7 +192,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
   def expect_sponsor_covenant_form(cand_id, dev_path, path_str, is_verify, values = { sponsor_name: SPONSOR_NAME })
     # rubocop:disable Layout/LineLength
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
     cand = Candidate.find(cand_id)
     expect_heading(cand, dev_path.empty?, SponsorCovenant.event_key)

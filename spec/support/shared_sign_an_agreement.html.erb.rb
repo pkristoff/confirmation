@@ -31,9 +31,9 @@ shared_context 'sign_an_agreement_html_erb' do
 
     candidate = Candidate.find(@cand_id)
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name, @document_key, @event_key, @update_id, @is_verify,
-                                 expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                         I18n.t('messages.signed_agreement_val', field_name: I18n.t('label.sign_agreement.signed_agreement'))]]])
+                                 expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                     [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                           I18n.t('messages.signed_agreement_val', field_name: I18n.t('label.sign_agreement.signed_agreement'))]]])
     # rubocop:enable Layout/LineLength
   end
 
@@ -65,7 +65,7 @@ shared_context 'sign_an_agreement_html_erb' do
     else
       expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name,
                                    @document_key, @event_key, @update_id, @is_verify,
-                                   expect_messages: [[:flash_notice, @updated_message]])
+                                   expected_messages: [[:flash_notice, @updated_message]])
     end
   end
 
@@ -86,7 +86,7 @@ shared_context 'sign_an_agreement_html_erb' do
     expected_msg = I18n.t('messages.signed_agreement_val', field_name: I18n.t('label.sign_agreement.signed_agreement'))
     expect_signed_agreement_form(@cand_id, @dev, candidate.send(@sign_agreement_getter), @form_action, @field_name,
                                  @document_key, @event_key, @update_id, @is_verify,
-                                 expect_messages: [
+                                 expected_messages: [
                                    [:flash_notice, @updated_failed_verification],
                                    [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                          expected_msg]]
@@ -128,7 +128,7 @@ shared_context 'sign_an_agreement_html_erb' do
 
   def expect_signed_agreement_form(cand_id, dev_path, is_agreement_signed, form_action, field_name,
                                    documant_key, event_key, update_id, is_verify, values = {})
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
     cand = Candidate.find(cand_id)
     expect_heading(cand, dev_path.empty?, event_key)

@@ -54,14 +54,14 @@ feature 'Candidate sheet candidate', :devise do
                                @path_str,
                                @update_id,
                                text_area_text: updated_text,
-                               expect_messages: [[:flash_notice, @updated_message]])
+                               expected_messages: [[:flash_notice, @updated_message]])
   end
 
   private
 
   def expect_candidate_note_form(cand_id, path_str, update_id, values = {})
     cand = Candidate.find(cand_id)
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expecteded_messages].nil?
     expected_text = values[:text_area_text].nil? ? 'Admin note' : values[:text_area_text]
 
     expect_heading(cand, I18n.t('label.sidebar.candidate_note'))

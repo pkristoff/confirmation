@@ -214,7 +214,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               false, false, true, false,
-                                              expect_messages: [[:flash_notice, @updated_message]])
+                                              expected_messages: [[:flash_notice, @updated_message]])
           end
         end
         scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, fills in template' do
@@ -238,7 +238,8 @@ shared_context 'baptismal_certificate_html_erb' do
           else
 
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
+                                              false, false, true, false,
+                                              expected_messages: [[:flash_notice, @updated_message]])
 
           end
           # rubocop:enable Layout/LineLength
@@ -279,7 +280,8 @@ shared_context 'baptismal_certificate_html_erb' do
           else
 
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
+                                              false, false, true, false,
+                                              expected_messages: [[:flash_notice, @updated_message]])
 
           end
 
@@ -300,7 +302,8 @@ shared_context 'baptismal_certificate_html_erb' do
           else
 
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, true, true, false, expected_messages: [[:flash_notice, @updated_message]])
+                                              false, true, true, false,
+                                              expected_messages: [[:flash_notice, @updated_message]])
 
           end
 
@@ -326,23 +329,23 @@ shared_context 'baptismal_certificate_html_erb' do
           candidate = Candidate.find(@candidate.id)
 
           expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false,
-                                            expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                              [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 15),
-                                                                                    "Middle name #{I18n.t('errors.messages.blank')}",
-                                                                                    "Birth date #{I18n.t('errors.messages.blank')}",
-                                                                                    "Baptismal date #{I18n.t('errors.messages.blank')}",
-                                                                                    "Church name #{I18n.t('errors.messages.blank')}",
-                                                                                    "Father first #{I18n.t('errors.messages.blank')}",
-                                                                                    "Father middle #{I18n.t('errors.messages.blank')}",
-                                                                                    "Father last #{I18n.t('errors.messages.blank')}",
-                                                                                    "Mother first #{I18n.t('errors.messages.blank')}",
-                                                                                    "Mother middle #{I18n.t('errors.messages.blank')}",
-                                                                                    "Mother maiden #{I18n.t('errors.messages.blank')}",
-                                                                                    "Mother last #{I18n.t('errors.messages.blank')}",
-                                                                                    "Street 1 #{I18n.t('errors.messages.blank')}",
-                                                                                    "City #{I18n.t('errors.messages.blank')}",
-                                                                                    "State #{I18n.t('errors.messages.blank')}",
-                                                                                    "Zip code #{I18n.t('errors.messages.blank')}"]]])
+                                            expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 15),
+                                                                                      "Middle name #{I18n.t('errors.messages.blank')}",
+                                                                                      "Birth date #{I18n.t('errors.messages.blank')}",
+                                                                                      "Baptismal date #{I18n.t('errors.messages.blank')}",
+                                                                                      "Church name #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father first #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father middle #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father last #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother first #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother middle #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother maiden #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother last #{I18n.t('errors.messages.blank')}",
+                                                                                      "Street 1 #{I18n.t('errors.messages.blank')}",
+                                                                                      "City #{I18n.t('errors.messages.blank')}",
+                                                                                      "State #{I18n.t('errors.messages.blank')}",
+                                                                                      "Zip code #{I18n.t('errors.messages.blank')}"]]])
 
           expect_db(1, 1)
 
@@ -369,7 +372,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
           visit @path
           candidate = Candidate.find(@candidate.id)
-          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false)
+          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false,
+                                            expected_messages: [[:flash_notice, @updated_message]])
 
           expect_db(1, 1) # make sure DB does not increase in size.
         end
@@ -390,9 +394,9 @@ shared_context 'baptismal_certificate_html_erb' do
 
           expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             false, false, true, false,
-                                            expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                              [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                    "Middle name #{I18n.t('errors.messages.blank')}"]]])
+                                            expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                                      "Middle name #{I18n.t('errors.messages.blank')}"]]])
 
           candidate = Candidate.find(@candidate.id)
 
@@ -439,29 +443,29 @@ shared_context 'baptismal_certificate_html_erb' do
           candidate = Candidate.find(@candidate.id)
 
           expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false,
-                                            expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                              [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
+                                            expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
 
-                                                                                    "Middle name #{I18n.t('errors.messages.blank')}",
+                                                                                      "Middle name #{I18n.t('errors.messages.blank')}",
 
-                                                                                    "Birth date #{I18n.t('errors.messages.blank')}",
-                                                                                    "Baptismal date #{I18n.t('errors.messages.blank')}",
-                                                                                    "Father first #{I18n.t('errors.messages.blank')}",
-                                                                                    "Father middle #{I18n.t('errors.messages.blank')}",
-                                                                                    "Father last #{I18n.t('errors.messages.blank')}",
-                                                                                    "Mother first #{I18n.t('errors.messages.blank')}",
-                                                                                    "Mother middle #{I18n.t('errors.messages.blank')}",
-                                                                                    "Mother maiden #{I18n.t('errors.messages.blank')}",
-                                                                                    "Mother last #{I18n.t('errors.messages.blank')}",
+                                                                                      "Birth date #{I18n.t('errors.messages.blank')}",
+                                                                                      "Baptismal date #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father first #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father middle #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father last #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother first #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother middle #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother maiden #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother last #{I18n.t('errors.messages.blank')}",
 
-                                                                                    "Church name #{I18n.t('errors.messages.blank')}",
-                                                                                    "Street 1 #{I18n.t('errors.messages.blank')}",
-                                                                                    "City #{I18n.t('errors.messages.blank')}",
-                                                                                    "State #{I18n.t('errors.messages.blank')}",
-                                                                                    "Zip code #{I18n.t('errors.messages.blank')}",
+                                                                                      "Church name #{I18n.t('errors.messages.blank')}",
+                                                                                      "Street 1 #{I18n.t('errors.messages.blank')}",
+                                                                                      "City #{I18n.t('errors.messages.blank')}",
+                                                                                      "State #{I18n.t('errors.messages.blank')}",
+                                                                                      "Zip code #{I18n.t('errors.messages.blank')}",
 
-                                                                                    "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"],
-                                                               16]])
+                                                                                      "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"],
+                                                                 16]])
           # rubocop:enable Layout/LineLength
         end
         # rubocop:disable Layout/LineLength
@@ -474,9 +478,9 @@ shared_context 'baptismal_certificate_html_erb' do
 
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             false, false, true, false,
-                                            expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                              [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                    "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"]]])
+                                            expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                                      "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"]]])
 
           attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
           click_button @update_id
@@ -489,7 +493,7 @@ shared_context 'baptismal_certificate_html_erb' do
           else
 
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false, expect_messages: [[:flash_notice, @updated_message]])
+                                              false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
 
             expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
             expect(candidate.baptismal_certificate).not_to eq(nil)
@@ -499,7 +503,9 @@ shared_context 'baptismal_certificate_html_erb' do
 
           visit @path
           candidate = Candidate.find(@candidate.id)
-          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false)
+          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                            false, false, true, false,
+                                            expected_messages: [[:flash_notice, @updated_message]])
         end
         # rubocop:enable Layout/LineLength
       end
@@ -525,10 +531,10 @@ shared_context 'baptismal_certificate_html_erb' do
           # rubocop:disable Layout/LineLength
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             false, false, false, false,
-                                            expect_messages: [[:flash_notice, fn],
-                                                              [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
-                                                                                    "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}",
-                                                                                    "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"]]])
+                                            expected_messages: [[:flash_notice, fn],
+                                                                [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
+                                                                                      "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}",
+                                                                                      "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"]]])
           # rubocop:enable Layout/LineLength
         end
       end
@@ -551,49 +557,50 @@ shared_context 'baptismal_certificate_html_erb' do
                                         disabled,
                                         values = {})
 
-    values = values.merge({
-                            birth_date: hide_baptized_at_home_parish_info ? nil : BIRTH_DATE,
-                            baptismal_date: hide_baptized_at_home_parish_info ? nil : BAPTISMAL_DATE,
+    values = {
+      expected_messages: [],
+      birth_date: hide_baptized_at_home_parish_info ? nil : BIRTH_DATE,
+      baptismal_date: hide_baptized_at_home_parish_info ? nil : BAPTISMAL_DATE,
 
-                            father_first: hide_baptized_at_home_parish_info ? nil : FATHER_FIRST,
-                            father_middle: hide_baptized_at_home_parish_info ? nil : FATHER_MIDDLE,
-                            father_last: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
+      father_first: hide_baptized_at_home_parish_info ? nil : FATHER_FIRST,
+      father_middle: hide_baptized_at_home_parish_info ? nil : FATHER_MIDDLE,
+      father_last: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
 
-                            mother_first: hide_baptized_at_home_parish_info ? nil : MOTHER_FIRST,
-                            mother_middle: hide_baptized_at_home_parish_info ? nil : MOTHER_MIDDLE,
-                            mother_maiden: hide_baptized_at_home_parish_info ? nil : MOTHER_MAIDEN,
-                            mother_last: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
+      mother_first: hide_baptized_at_home_parish_info ? nil : MOTHER_FIRST,
+      mother_middle: hide_baptized_at_home_parish_info ? nil : MOTHER_MIDDLE,
+      mother_maiden: hide_baptized_at_home_parish_info ? nil : MOTHER_MAIDEN,
+      mother_last: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
 
-                            first_name: hide_baptized_at_home_parish_info ? nil : FIRST_NAME,
-                            middle_name: hide_baptized_at_home_parish_info ? nil : MIDDLE_NAME,
-                            last_name: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
+      first_name: hide_baptized_at_home_parish_info ? nil : FIRST_NAME,
+      middle_name: hide_baptized_at_home_parish_info ? nil : MIDDLE_NAME,
+      last_name: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
 
-                            church_name: hide_baptized_catholic_info ? nil : CHURCH_NAME,
-                            street1: hide_baptized_catholic_info ? nil : STREET_1,
-                            street_1: hide_baptized_catholic_info ? nil : STREET_1, # remove
-                            street2: hide_baptized_catholic_info ? nil : STREET_2,
-                            street_2: hide_baptized_catholic_info ? nil : STREET_2, # remove
-                            city: hide_baptized_catholic_info ? nil : CITY,
-                            state: hide_baptized_catholic_info ? nil : STATE,
-                            zip_code: hide_baptized_catholic_info ? nil : ZIP_CODE,
+      church_name: hide_baptized_catholic_info ? nil : CHURCH_NAME,
+      street1: hide_baptized_catholic_info ? nil : STREET_1,
+      street_1: hide_baptized_catholic_info ? nil : STREET_1, # remove
+      street2: hide_baptized_catholic_info ? nil : STREET_2,
+      street_2: hide_baptized_catholic_info ? nil : STREET_2, # remove
+      city: hide_baptized_catholic_info ? nil : CITY,
+      state: hide_baptized_catholic_info ? nil : STATE,
+      zip_code: hide_baptized_catholic_info ? nil : ZIP_CODE,
 
-                            prof_date: hide_profession_of_faith_info ? nil : PROF_DATE,
-                            prof_church_name: hide_profession_of_faith_info ? nil : PROF_CHURCH_NAME,
-                            prof_street1: hide_profession_of_faith_info ? nil : PROF_STREET_1,
-                            prof_street_1: hide_profession_of_faith_info ? nil : PROF_STREET_1, # remove
-                            prof_street2: hide_profession_of_faith_info ? nil : PROF_STREET_2,
-                            prof_street_2: hide_profession_of_faith_info ? nil : PROF_STREET_2, # remove
-                            prof_city: hide_profession_of_faith_info ? nil : PROF_CITY,
-                            prof_state: hide_profession_of_faith_info ? nil : PROF_STATE,
-                            prof_zip_code: hide_profession_of_faith_info ? nil : PROF_ZIP_CODE
-                          })
+      prof_date: hide_profession_of_faith_info ? nil : PROF_DATE,
+      prof_church_name: hide_profession_of_faith_info ? nil : PROF_CHURCH_NAME,
+      prof_street1: hide_profession_of_faith_info ? nil : PROF_STREET_1,
+      prof_street_1: hide_profession_of_faith_info ? nil : PROF_STREET_1, # remove
+      prof_street2: hide_profession_of_faith_info ? nil : PROF_STREET_2,
+      prof_street_2: hide_profession_of_faith_info ? nil : PROF_STREET_2, # remove
+      prof_city: hide_profession_of_faith_info ? nil : PROF_CITY,
+      prof_state: hide_profession_of_faith_info ? nil : PROF_STATE,
+      prof_zip_code: hide_profession_of_faith_info ? nil : PROF_ZIP_CODE
+    }.merge(values)
 
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
-    if values[:expect_messages].nil? || values[:expect_messages].size < 2
+    if values[:expected_messages].nil? || values[:expected_messages].size < 2
       blank_fields = []
     else
-      blank_fields = values[:expect_messages][1][1] unless values[:expect_messages].nil?
+      blank_fields = values[:expected_messages][1][1] unless values[:expected_messages].nil?
     end
 
     cand = Candidate.find(cand_id)

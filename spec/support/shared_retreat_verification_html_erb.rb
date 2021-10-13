@@ -57,7 +57,7 @@ shared_context 'retreat_verification_html_erb' do
     else
 
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
-                                       expect_messages: [[:flash_notice, @updated_message]])
+                                       expected_messages: [[:flash_notice, @updated_message]])
     end
 
     retreat_verification = candidate.retreat_verification
@@ -91,7 +91,7 @@ shared_context 'retreat_verification_html_erb' do
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: RetreatVerification.event_key), candidate.id, @updated_message)
 
     else
-      expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify, expect_messages: [[:flash_notice, @updated_message]])
+      expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify, expected_messages: [[:flash_notice, @updated_message]])
     end
     # rubocop:enable Layout/LineLength
     retreat_verification = candidate.retreat_verification
@@ -122,12 +122,12 @@ shared_context 'retreat_verification_html_erb' do
 
     # rubocop:disable Layout/LineLength
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
-                                     expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 4),
-                                                                             "Start date #{I18n.t('errors.messages.blank')}",
-                                                                             "End date #{I18n.t('errors.messages.blank')}",
-                                                                             "Who held retreat #{I18n.t('errors.messages.blank')}",
-                                                                             "Where held retreat #{I18n.t('errors.messages.blank')}"]]],
+                                     expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                         [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 4),
+                                                                               "Start date #{I18n.t('errors.messages.blank')}",
+                                                                               "End date #{I18n.t('errors.messages.blank')}",
+                                                                               "Who held retreat #{I18n.t('errors.messages.blank')}",
+                                                                               "Where held retreat #{I18n.t('errors.messages.blank')}"]]],
                                      who_held_retreat: '',
                                      where_held_retreat: '',
                                      start_date: '',
@@ -160,9 +160,9 @@ shared_context 'retreat_verification_html_erb' do
     click_button @update_id
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
-                                     expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                             "Scanned retreat verification #{I18n.t('errors.messages.blank')}"]]])
+                                     expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                         [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                               "Scanned retreat verification #{I18n.t('errors.messages.blank')}"]]])
     # rubocop:enable Layout/LineLength
   end
 
@@ -180,9 +180,9 @@ shared_context 'retreat_verification_html_erb' do
     expected_msg = I18n.t('messages.error.missing_attribute', err_count: 1)
     expected_msg_two = "Who held retreat #{I18n.t('errors.messages.blank')}"
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
-                                     expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                       [:error_explanation, [expected_msg,
-                                                                             expected_msg_two]]],
+                                     expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                         [:error_explanation, [expected_msg,
+                                                                               expected_msg_two]]],
                                      who_held_retreat: '')
   end
 
@@ -236,7 +236,7 @@ shared_context 'retreat_verification_html_erb' do
                                          end_date: END_DATE
                                        })
     # rubocop:disable Layout/LineLength
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
     cand = Candidate.find(cand_id)
     expect_heading(cand, dev_path.empty?, RetreatVerification.event_key)

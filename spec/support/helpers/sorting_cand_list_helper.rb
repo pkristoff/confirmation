@@ -240,7 +240,7 @@ module SortingCandListHelpers
 
     saint_name = with_values ? SAINT_NAME : values[:saint_name]
 
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
     cand = Candidate.find(cand_id)
     expect_heading(cand, dev_path.empty?, PickConfirmationName.event_key)
@@ -297,7 +297,7 @@ module SortingCandListHelpers
     with_values ||= values[:when_service].present?
     with_values ||= values[:helped_me].present?
 
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_meessages].nil?
 
     cand = Candidate.find(cand_id)
     expect_heading(cand, dev_path.empty?, ChristianMinistry.event_key)

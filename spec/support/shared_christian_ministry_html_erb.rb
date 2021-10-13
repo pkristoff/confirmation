@@ -63,7 +63,7 @@ shared_context 'christian_ministry_html_erb' do
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                      what_service: WHAT_SERVICE, where_service: WHERE_SERVICE,
                                      when_service: WHEN_SERVICE, helped_me: HELPED_ME,
-                                     expect_messages: [[:flash_notice, @updated_message]])
+                                     expected_messages: [[:flash_notice, @updated_message]])
     end
 
     expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(@today)
@@ -98,7 +98,7 @@ shared_context 'christian_ministry_html_erb' do
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                      what_service: WHAT_SERVICE, where_service: WHERE_SERVICE,
                                      when_service: WHEN_SERVICE, helped_me: HELPED_ME,
-                                     expect_messages: [[:flash_notice, @updated_message]])
+                                     expected_messages: [[:flash_notice, @updated_message]])
     end
 
     expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(@today)
@@ -126,12 +126,12 @@ shared_context 'christian_ministry_html_erb' do
     expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                    what_service: '', where_service: '',
                                    when_service: '', helped_me: '',
-                                   expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, [expected_msg,
-                                                                           "What service #{I18n.t('errors.messages.blank')}",
-                                                                           "Where service #{I18n.t('errors.messages.blank')}",
-                                                                           "When service #{I18n.t('errors.messages.blank')}",
-                                                                           "Helped me #{I18n.t('errors.messages.blank')}"]]])
+                                   expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                       [:error_explanation, [expected_msg,
+                                                                             "What service #{I18n.t('errors.messages.blank')}",
+                                                                             "Where service #{I18n.t('errors.messages.blank')}",
+                                                                             "When service #{I18n.t('errors.messages.blank')}",
+                                                                             "Helped me #{I18n.t('errors.messages.blank')}"]]])
 
     candidate = Candidate.find(@cand_id)
     expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(nil)
@@ -159,9 +159,9 @@ shared_context 'christian_ministry_html_erb' do
     expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                    what_service: '', where_service: WHERE_SERVICE,
                                    when_service: WHEN_SERVICE, helped_me: HELPED_ME,
-                                   expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                     [:error_explanation, [expected_msg,
-                                                                           "What service #{I18n.t('errors.messages.blank')}"]]])
+                                   expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                       [:error_explanation, [expected_msg,
+                                                                             "What service #{I18n.t('errors.messages.blank')}"]]])
 
     expect_db(1, 0) # make sure DB does not increase in size.
   end

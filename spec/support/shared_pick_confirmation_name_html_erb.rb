@@ -35,7 +35,7 @@ shared_context 'pick_confirmation_name_html_erb' do
   scenario 'admin logs in and selects a candidate, nothing else showing' do
     update_pick_confirmation_name(false)
     visit @path
-    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, expect_messages: [])
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, expected_messages: [])
   end
 
   scenario 'admin logs in and selects a candidate, fills in template' do
@@ -60,7 +60,7 @@ shared_context 'pick_confirmation_name_html_erb' do
                                          @update_id,
                                          @is_verify,
                                          saint_name: '',
-                                         expect_messages: [[:flash_notice, @updated_message]])
+                                         expected_messages: [[:flash_notice, @updated_message]])
       expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
 
       expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(@today)
@@ -79,9 +79,8 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     candidate = Candidate.find(@candidate.id)
 
-    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                                                                                                 [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                                                                                       "Saint name #{I18n.t('errors.messages.blank')}"]]])
+    expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                                                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1), "Saint name #{I18n.t('errors.messages.blank')}"]]])
     expect(candidate.pick_confirmation_name.saint_name).to eq('')
 
     fill_in_form # no picture
@@ -97,7 +96,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
       expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
 
-      expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: SAINT_NAME, expect_messages: [[:flash_notice, @updated_failed_verification]])
+      expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: SAINT_NAME, expected_messages: [[:flash_notice, @updated_failed_verification]])
 
     end
   end
@@ -115,8 +114,8 @@ shared_context 'pick_confirmation_name_html_erb' do
     # rubocop:disable Layout/LineLength
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                        saint_name: '',
-                                       expect_messages: [[:flash_notice, @updated_failed_verification],
-                                                         [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1), "Saint name #{I18n.t('errors.messages.blank')}"]]])
+                                       expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                           [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1), "Saint name #{I18n.t('errors.messages.blank')}"]]])
     # rubocop:enable Layout/LineLength
 
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(nil)

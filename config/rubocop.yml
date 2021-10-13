@@ -25,6 +25,10 @@ Layout/EmptyLinesAroundAttributeAccessor:
   # added  (0.83)
   Enabled: true
 
+Layout/ArrayAlignment:
+  EnforcedStyle: with_first_element
+  Enabled: true
+
 Lint:
   Enabled: true
 

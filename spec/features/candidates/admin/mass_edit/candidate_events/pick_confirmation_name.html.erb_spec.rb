@@ -43,7 +43,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     error_msg = 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:'
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify,
                                        saint_name: '',
-                                       expect_messages: [
+                                       expected_messages: [
                                          [:flash_notice, @updated_failed_verification],
                                          [:error_explanation, [error_msg, 'Saint name can\'t be blank']]
                                        ])

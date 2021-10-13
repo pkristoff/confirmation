@@ -24,7 +24,7 @@ feature 'Check boxes', :devise do
       click_button('top-update')
 
       expect_monthly_mass_mailing_form(checkbox_keys: @checkbox_keys,
-                                       expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
+                                       expected_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
                                        subject_check: checkbox_key != :subject_check,
                                        pre_late_input_check: checkbox_key != :pre_late_input_check,
                                        pre_coming_due_input_check: checkbox_key != :pre_coming_due_input_check,
@@ -53,7 +53,7 @@ feature 'Check boxes', :devise do
       click_button('top-update')
 
       expect_monthly_mass_mailing_form(checkbox_keys: @checkbox_keys,
-                                       expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]],
+                                       expected_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]],
                                        subject_check: checkbox_key != :subject_check,
                                        pre_late_input_check: checkbox_key != :pre_late_input_check,
                                        pre_coming_due_input_check: checkbox_key != :pre_coming_due_input_check,
@@ -70,7 +70,7 @@ feature 'Check boxes', :devise do
   def expect_monthly_mass_mailing_form(values = {})
     # street_1 = values[:street_1].nil? ? STREET_1 : values[:street_1]
 
-    expect_messages(values[:expect_messages])
+    expect_messages(values[:expected_messages])
 
     values[:checkbox_keys].each do |checkbox_key|
       if values[checkbox_key]
@@ -108,7 +108,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-update')
 
-    expect_monthly_mass_mailing_form(expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
+    expect_monthly_mass_mailing_form(expected_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
                                      subject: 'The subject',
                                      subject_checked: false,
                                      pre_late_input: 'The pre_late_input',
@@ -147,7 +147,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-update')
 
-    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]],
+    expect_monthly_mass_mailing_form(expected_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]],
                                      subject: 'The subject',
                                      pre_late_input: 'The pre_late_input',
                                      pre_coming_input: 'The pre_coming_input',
@@ -175,7 +175,7 @@ feature 'Admin monthly mass mailing', :devise do
     click_button('top-update')
 
     # expect_message(:flash_notice, I18n.t('messages.monthly_mailing_progress'))
-    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]])
+    expect_monthly_mass_mailing_form(expected_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]])
   end
 
   scenario 'admin has to select candidate before sending test monthly email' do
@@ -193,7 +193,7 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.from_input_label'), with: 'The from_input'
     click_button('top-test')
 
-    expect_monthly_mass_mailing_form(expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
+    expect_monthly_mass_mailing_form(expected_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
                                      subject: 'The subject',
                                      pre_late_input: 'The pre_late_input',
                                      pre_coming_input: 'The pre_coming_input',
@@ -219,7 +219,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     # expect_message(:flash_notice, I18n.t('messages.monthly_mailing_test_sent'))
     # expect_default_values
-    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]])
+    expect_monthly_mass_mailing_form(expected_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]])
   end
 
   scenario 'admin can send test email to a candidate' do
@@ -243,7 +243,7 @@ feature 'Admin monthly mass mailing', :devise do
     check("candidate_candidate_ids_#{candidate1.id}")
     click_button('top-test')
 
-    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]],
+    expect_monthly_mass_mailing_form(expected_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]],
                                      subject: 'The subject',
                                      pre_late_input: 'The pre_late_input',
                                      pre_coming_input: 'The pre_coming_input',
@@ -276,7 +276,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-test')
 
-    expect_monthly_mass_mailing_form(expect_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]],
+    expect_monthly_mass_mailing_form(expected_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]],
                                      subject: 'The subject',
                                      pre_late_input: 'The pre_late_input',
                                      pre_coming_input: 'The pre_coming_input',
@@ -290,7 +290,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     click_button('top-test')
 
-    expect_monthly_mass_mailing_form(expect_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
+    expect_monthly_mass_mailing_form(expected_messages: [[:flash_alert, I18n.t('messages.no_candidate_selected')]],
                                      subject: 'The subject',
                                      pre_late_input: 'The pre_late_input',
                                      pre_coming_input: 'The pre_coming_input',
@@ -315,7 +315,7 @@ feature 'Admin monthly mass mailing', :devise do
 
     # street_1 = values[:street_1].nil? ? STREET_1 : values[:street_1]
 
-    expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
     expect(page).to have_field(I18n.t('email.subject_label'),
                                with: values[:subject].presence ? values[:subject] : I18n.t('email.subject_initial_input'))
     expected_msg = I18n.t('email.late_initial_input')
