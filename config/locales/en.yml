@@ -62,6 +62,7 @@ en:
       mother: Mother name
       please_fill_out_the_following: 'Please fill out the following:'
       prof_church: Church where profession of faith
+      prof_scan: Profession of faith
       scan: Baptismal certificate
     candidate_sheet:
       address: Candidate's Address
@@ -114,6 +115,9 @@ en:
           prof_zip_code: Profession zip code
         prof_church_name: Name of church of profession of faith
         prof_date: Date of profession of faith
+        prof_picture: Profession Picture
+        remove_prof_image: Remove scanned prof image
+        replace_prof_image: Replace scanned prof image
     candidate_event:
       select: Select
     candidate_note:

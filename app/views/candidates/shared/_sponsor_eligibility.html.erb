@@ -40,7 +40,10 @@
                    remove_field: se_fields.hidden_field(:remove_sponsor_eligibility_picture, value: ''),
                    scanned_image: pluck_image,
                    scanned_image_field: se_fields.file_field(:sponsor_eligibility_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_sponsor_eligibility_attributes_remove_sponsor_eligibility_picture', 'sponsor_eligibility_picture');"),
-                   scanned_image_label: se_fields.label(:sponsor_eligibility_picture, t('label.sponsor_eligibility.sponsor_eligibility_picture'))
+                   scanned_image_label: se_fields.label(:sponsor_eligibility_picture, t('label.sponsor_eligibility.sponsor_eligibility_picture')),
+                   remove_label: t('views.common.remove_image'),
+                   replace_label: t('views.common.replace_image')
+        %>
         %>
 
       </div>

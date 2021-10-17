@@ -189,9 +189,11 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture_image
     @candidate = Candidate.find(params[:id])
     scanned_image = nil
+    scanned_prof_image = nil
     case params[:event_route].to_sym
     when Event::Route::BAPTISMAL_CERTIFICATE
       scanned_image = @candidate.baptismal_certificate.scanned_image
+      scanned_prof_image = @candidate.baptismal_certificate.scanned_prof_image
     when Event::Route::SPONSOR_COVENANT
       scanned_image = @candidate.sponsor_covenant.scanned_image
     when Event::Route::SPONSOR_ELIGIBILITY
@@ -202,6 +204,7 @@ class CommonCandidatesController < ApplicationController
       flash['alert'] = "Unknown event_route #{params[:event_route]}"
     end
     send_image(scanned_image) unless scanned_image.nil?
+    send_image(scanned_prof_image) unless scanned_prof_image.nil?
   end
 
   # edit pick_confirmation_name information
@@ -490,6 +493,27 @@ class CommonCandidatesController < ApplicationController
         )
       end
     end
+
+    # copied from above
+    baptized_at_home_parish = cand_parms[:baptismal_certificate_attributes][:baptized_at_home_parish] == '1'
+    baptized_catholic = cand_parms[:baptismal_certificate_attributes][:baptized_catholic] == '1'
+    baptismal_certificate = @candidate.baptismal_certificate
+    if !baptized_at_home_parish && !baptized_catholic
+      baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
+      if baptismal_certificate_params[:remove_prof_picture] == 'Remove'
+        baptismal_certificate.scanned_prof.destroy
+        baptismal_certificate.scanned_certificate_id = nil
+        baptismal_certificate.save!
+      else
+        setup_file_params(
+          baptismal_certificate_params[:prof_picture],
+          baptismal_certificate,
+          :scanned_prof_attributes,
+          params[:candidate][:baptismal_certificate_attributes]
+        )
+      end
+    end
+
     event_with_picture_update_private(BaptismalCertificate, { admin_verified: is_verify })
   end
 

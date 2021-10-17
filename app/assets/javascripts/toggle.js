@@ -120,10 +120,14 @@ confirmation_toggle = function () {
     function update_show_empty_radio( for_type ) {
         var ele = document.getElementsByName( 'candidate[baptismal_certificate_attributes][show_empty_radio]' )[ 0 ];
         if ( for_type === 'baptism' ) {
-            if ( ele.value === '0' || ele.value === '2' ) {
+            if ( ele.value === '0' ) {
                 ele.value = '1';
             }
-        } else {
+            else if ( ele.value === '1' ) {
+                ele.value = '2';
+            }
+        }
+        else {
             console.log( 'Toggle.js Unknown for_type=' + for_type )
         }
 
@@ -131,15 +135,35 @@ confirmation_toggle = function () {
 
     }
 
-    function baptised_yes() {
-        toggle_top( '#all-baptismal-certificate-info', 'show' )
-        toggle_top( '#baptismal-certificate-top', 'hide' );
+    function baptized_yes() {
+        toggle_top( '#baptized-at-home-parish-info', 'show' )
+        toggle_top( '#baptized-catholic-radios', 'hide' )
+        toggle_top( '#baptized-catholic-info', 'hide' )
+        toggle_top( '#profession-of-faith-info', 'hide' )
         update_show_empty_radio( 'baptism' );
     }
 
-    function baptised_no() {
-        toggle_top( '#all-baptismal-certificate-info', 'show' )
-        toggle_top( '#baptismal-certificate-top', 'show' )
+    function baptized_no() {
+        toggle_top( '#baptized-at-home-parish-info', 'show' )
+        toggle_top( '#baptized-catholic-radios', 'show' )
+        if ( $( '#candidate_baptismal_certificate_attributes_baptized_catholic_1' )[0].checked ) {
+            baptized_catholic_yes();
+        }
+        else if ( $( '#candidate_baptismal_certificate_attributes_baptized_catholic_0' )[0].checked ) {
+            baptized_catholic_no();
+        }
+        update_show_empty_radio( 'baptism' );
+    }
+
+    function baptized_catholic_yes() {
+        toggle_top( '#baptized-catholic-info', 'show' )
+        toggle_top( '#profession-of-faith-info', 'hide' );
+        update_show_empty_radio( 'baptism' );
+    }
+
+    function baptized_catholic_no() {
+        toggle_top( '#baptized-catholic-info', 'hide' )
+        toggle_top( '#profession-of-faith-info', 'show' );
         update_show_empty_radio( 'baptism' );
     }
 
@@ -169,8 +193,10 @@ confirmation_toggle = function () {
     }
 
     return {
-        baptised_no:           baptised_no,
-        baptised_yes:          baptised_yes,
+        baptized_no:           baptized_no,
+        baptized_yes:          baptized_yes,
+        baptized_catholic_yes: baptized_catholic_yes,
+        baptized_catholic_no:  baptized_catholic_no,
         clear_attached_file:   clear_attached_file,
         instructions:          instructions,
         instructionText:       instructionText,

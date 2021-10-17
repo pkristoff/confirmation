@@ -519,23 +519,39 @@ shared_context 'baptismal_certificate_html_erb' do
 
           visit @path
 
+          expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'), nil)
+
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             false, false, false, false)
           # fill_in(I18n.t('label.candidate_sheet.first_name'), with: '')
           # fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first'), with: '')
           click_button @update_id
 
-          fn = I18n.t('messages.updated_not_verified', cand_name: @candidate.first_last_name) if @is_verify
-          fn = I18n.t('messages.updated', cand_name: @candidate.first_last_name) unless @is_verify
-
           # rubocop:disable Layout/LineLength
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             false, false, false, false,
-                                            expected_messages: [[:flash_notice, fn],
+                                            expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                 [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
                                                                                       "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}",
                                                                                       "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"]]])
           # rubocop:enable Layout/LineLength
+
+          attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'),
+                      'spec/fixtures/actions.png')
+          attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'),
+                      'spec/fixtures/actions.png')
+          click_button @update_id
+
+          if @is_verify
+
+            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
+                                              @candidate.id, @updated_message)
+
+          else
+            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                              false, false, false, false,
+                                              expected_messages: [[:flash_notice, @updated_message]])
+          end
         end
       end
     end

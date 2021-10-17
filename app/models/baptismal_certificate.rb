@@ -33,6 +33,17 @@ class BaptismalCertificate < ApplicationRecord
     scanned_certificate
   end
 
+  # A method for retrieving the scanned profession of faith image for this
+  # event.
+  #
+  # === Returns:
+  #
+  # * <tt>ScannedImage</tt>
+  #
+  def scanned_prof_image
+    scanned_prof
+  end
+
   # A common method for retrieving the scanned image id for this
   # event.
   #

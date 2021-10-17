@@ -7,9 +7,9 @@
     <%= t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish) %>
     <br/>
     <br/>
-    <%= bc_fields.radio_button :baptized_at_home_parish, '1', checked: bc.baptized_at_home_parish_yes_checked, onclick: 'confirmation_toggle().baptised_yes();' %>
+    <%= bc_fields.radio_button :baptized_at_home_parish, '1', checked: bc.baptized_at_home_parish_yes_checked, onclick: 'confirmation_toggle().baptized_yes();' %>
     <%= bc_fields.label :baptized_at_home_parish, i18n_yes %>
-    <%= bc_fields.radio_button :baptized_at_home_parish, '0', checked: bc.baptized_at_home_parish_no_checked, onclick: 'confirmation_toggle().baptised_no();' %>
+    <%= bc_fields.radio_button :baptized_at_home_parish, '0', checked: bc.baptized_at_home_parish_no_checked, onclick: 'confirmation_toggle().baptized_no();' %>
     <%= bc_fields.label :baptized_at_home_parish, i18n_no %>
   </div>
   <div id="baptized-at-home-parish-info" class="<%= bc.info_show ? 'show-div' : 'hide-div' %>">
@@ -114,16 +114,18 @@
                remove_field: bc_fields.hidden_field(:remove_certificate_picture, value: ''),
                scanned_image: pluck_image,
                scanned_image_field: bc_fields.file_field(:certificate_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture');"),
-               scanned_image_label: bc_fields.label(:certificate_picture, t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
+               scanned_image_label: bc_fields.label(:certificate_picture, t('label.baptismal_certificate.baptismal_certificate.certificate_picture')),
+               remove_label: t('views.common.remove_image'),
+               replace_label: t('views.common.replace_image')
     %>
 
     <div id="baptized-catholic-radios" class="<%= bc.show_baptized_catholic_radio ? 'show-div' : 'hide-div' %>">
       <%= t('label.baptismal_certificate.baptismal_certificate.baptized_catholic') %>
       <br/>
       <br/>
-      <%= bc_fields.radio_button :baptized_catholic, '1', checked: bc.baptized_catholic_yes_checked, onclick: 'confirmation_toggle().baptised_yes();' %>
+      <%= bc_fields.radio_button :baptized_catholic, '1', checked: bc.baptized_catholic_yes_checked, onclick: 'confirmation_toggle().baptized_catholic_yes();' %>
       <%= bc_fields.label :baptized_catholic, i18n_yes %>
-      <%= bc_fields.radio_button :baptized_catholic, '0', checked: bc.baptized_catholic_no_checked, onclick: 'confirmation_toggle().baptised_no();' %>
+      <%= bc_fields.radio_button :baptized_catholic, '0', checked: bc.baptized_catholic_no_checked, onclick: 'confirmation_toggle().baptized_catholic_no();' %>
       <%= bc_fields.label :baptized_catholic, i18n_no %>
     </div>
     <div id="baptized-catholic-info" class="<%= bc.info_show_baptized_catholic ? 'show-div' : 'hide-div' %>">
@@ -163,50 +165,69 @@
           <% end %>
         </div>
       <% end %>
-      <div id="profession-of-faith-info" class="<%= bc.info_show_profession_of_faith ? 'show-div' : 'hide-div' %>">
-        <%= field_set_tag t('field_set.baptismal_certificate.prof_church'), class: 'fieldset' do %>
-          <div class="fieldset-div">
-            <div class="field">
-              <%= bc_fields.label :prof_date, t('label.baptismal_certificate.baptismal_certificate.prof_date') %>
-              <br/>
-              <%= bc_fields.text_field :prof_date %>
-            </div>
-            <div class="field">
-              <%= bc_fields.label :prof_church_name, t('label.baptismal_certificate.baptismal_certificate.prof_church_name') %>
-              <br/>
-              <%= bc_fields.text_field :prof_church_name %>
-            </div>
-            <%= bc_fields.fields_for :prof_church_address do |prof_address_fields| %>
-              <div class="field">
-                <%= prof_address_fields.label :street_1, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_1') %>
-                <br/>
-                <%= prof_address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
-              </div>
-              <div class="field">
-                <%= prof_address_fields.label :street_2, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_2') %>
-                <br/>
-                <%= prof_address_fields.text_field :street_2, autocomplete: 'address-line2' %>
-              </div>
-              <div class="field">
-                <%= prof_address_fields.label :city, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_city') %>
-                <br/>
-                <%= prof_address_fields.text_field :city, autocomplete: 'address-level2' %>
-              </div>
-              <div class="field">
-                <%= prof_address_fields.label :state, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_state') %>
-                <br/>
-                <%= prof_address_fields.text_field :state, autocomplete: 'address-level1' %>
-              </div>
-              <div class="field">
-                <%= prof_address_fields.label :zip_code, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_zip_code') %>
-                <br/>
-                <%= prof_address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
-              </div>
-            <% end %>
+    </div>
+    <div id="profession-of-faith-info" class="<%= bc.info_show_profession_of_faith ? 'show-div' : 'hide-div' %>">
+      <%= field_set_tag t('field_set.baptismal_certificate.prof_church'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= bc_fields.label :prof_date, t('label.baptismal_certificate.baptismal_certificate.prof_date') %>
+            <br/>
+            <%= bc_fields.date_field :prof_date %>
           </div>
+          <div class="field">
+            <%= bc_fields.label :prof_church_name, t('label.baptismal_certificate.baptismal_certificate.prof_church_name') %>
+            <br/>
+            <%= bc_fields.text_field :prof_church_name %>
+          </div>
+          <%= bc_fields.fields_for :prof_church_address do |prof_address_fields| %>
+            <div class="field">
+              <%= prof_address_fields.label :street_1, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_1') %>
+              <br/>
+              <%= prof_address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
+            </div>
+            <div class="field">
+              <%= prof_address_fields.label :street_2, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_2') %>
+              <br/>
+              <%= prof_address_fields.text_field :street_2, autocomplete: 'address-line2' %>
+            </div>
+            <div class="field">
+              <%= prof_address_fields.label :city, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_city') %>
+              <br/>
+              <%= prof_address_fields.text_field :city, autocomplete: 'address-level2' %>
+            </div>
+            <div class="field">
+              <%= prof_address_fields.label :state, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_state') %>
+              <br/>
+              <%= prof_address_fields.text_field :state, autocomplete: 'address-level1' %>
+            </div>
+            <div class="field">
+              <%= prof_address_fields.label :zip_code, t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_zip_code') %>
+              <br/>
+              <%= prof_address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
+            </div>
+          <% end %>
 
-        <% end %>
-      </div>
+          <% pluck_prof_image = PluckCan.image(event_association.scanned_prof_image) %>
+
+          <%= render "candidates/shared/scanned_image",
+
+                     url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_route) : event_with_picture_image_path(candidate.id, @event_with_picture_route)),
+                     candidate: candidate,
+
+                     fieldset_text: t('field_set.baptismal_certificate.prof_scan'),
+                     field: :prof_picture,
+                     remove_id: :candidate_baptismal_certificate_attributes_remove_prof_picture,
+                     remove_field: bc_fields.hidden_field(:remove_prof_picture, value: ''),
+                     scanned_image: pluck_image,
+                     scanned_image_field: bc_fields.file_field(:prof_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_baptismal_certificate_attributes_remove_prof_picture', 'prof_picture');"),
+                     scanned_image_label: bc_fields.label(:prof_picture, t('label.baptismal_certificate.baptismal_certificate.prof_picture')),
+                     remove_label: t('label.baptismal_certificate.baptismal_certificate.remove_prof_image'),
+                     replace_label: t('label.baptismal_certificate.baptismal_certificate.replace_prof_image')
+          %>
+          %>
+        </div>
+
+      <% end %>
     </div>
   </div>
 
