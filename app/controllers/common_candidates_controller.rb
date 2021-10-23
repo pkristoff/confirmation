@@ -189,11 +189,14 @@ class CommonCandidatesController < ApplicationController
   def event_with_picture_image
     @candidate = Candidate.find(params[:id])
     scanned_image = nil
-    scanned_prof_image = nil
     case params[:event_route].to_sym
     when Event::Route::BAPTISMAL_CERTIFICATE
-      scanned_image = @candidate.baptismal_certificate.scanned_image
-      scanned_prof_image = @candidate.baptismal_certificate.scanned_prof_image
+      other = params[:is_other]
+      other = true if params[:is_other] == 'true'
+      other = false if params[:is_other] == 'false'
+      # other = params[:is_other] == 'true' ? true : params[:is_other] == 'false' ? false : params[:is_other]
+      scanned_image = @candidate.baptismal_certificate.scanned_image unless other
+      scanned_image = @candidate.baptismal_certificate.scanned_prof_image if other
     when Event::Route::SPONSOR_COVENANT
       scanned_image = @candidate.sponsor_covenant.scanned_image
     when Event::Route::SPONSOR_ELIGIBILITY
@@ -204,7 +207,6 @@ class CommonCandidatesController < ApplicationController
       flash['alert'] = "Unknown event_route #{params[:event_route]}"
     end
     send_image(scanned_image) unless scanned_image.nil?
-    send_image(scanned_prof_image) unless scanned_prof_image.nil?
   end
 
   # edit pick_confirmation_name information

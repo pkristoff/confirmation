@@ -216,7 +216,7 @@ describe BaptismalCertificate, type: :model do
         expect(msgs[1]).to eq("Scanned baptismal certificate can't be blank")
         expect(msgs.size).to eq(2)
       end
-      it 'should fail validation - have not filled in church nsme snd address' do
+      it 'should fail validation - have not filled in church name snd address' do
         @baptismal_certificate.church_name = ''
         @baptismal_certificate.church_address.street_1 = ''
         @baptismal_certificate.church_address.zip_code = ''

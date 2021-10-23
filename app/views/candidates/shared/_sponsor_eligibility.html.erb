@@ -34,7 +34,7 @@
                    url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_route) : event_with_picture_image_path(candidate.id, @event_with_picture_route)),
                    candidate: candidate,
 
-                   fieldset_text: '',
+                   fieldset_text: t('field_set.sponsor_eligibility'),
                    field: :sponsor_eligibility_picture,
                    remove_id: :candidate_sponsor_eligibility_attributes_remove_sponsor_eligibility_picture,
                    remove_field: se_fields.hidden_field(:remove_sponsor_eligibility_picture, value: ''),
@@ -43,7 +43,6 @@
                    scanned_image_label: se_fields.label(:sponsor_eligibility_picture, t('label.sponsor_eligibility.sponsor_eligibility_picture')),
                    remove_label: t('views.common.remove_image'),
                    replace_label: t('views.common.replace_image')
-        %>
         %>
 
       </div>

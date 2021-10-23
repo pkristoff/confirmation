@@ -137,10 +137,10 @@ Rails.application.routes.draw do
     put 'event_with_picture_verify/:id/:event_route', to: 'candidates#event_with_picture_verify_update', as: 'event_with_picture_verify_update'
 
     get 'dev/show_event_with_picture.:id', to: 'dev/candidates#show_event_with_picture', as: 'dev_show_event_with_picture'
-    get 'dev/event_with_picture_image/:id/:event_route', to: 'dev/candidates#event_with_picture_image', as: 'dev_event_with_picture_image'
+    get 'dev/event_with_picture_image/:id/:event_route(/is_other/:is_other)', to: 'dev/candidates#event_with_picture_image', as: 'dev_event_with_picture_image'
 
     get 'show_event_with_picture.:id', to: 'candidates#show_event_with_picture', as: 'show_event_with_picture'
-    get 'event_with_picture_image/:id/:event_route', to: 'candidates#event_with_picture_image', as: 'event_with_picture_image'
+    get 'event_with_picture_image/:id/:event_route(/is_other/:is_other)', to: 'candidates#event_with_picture_image', as: 'event_with_picture_image'
 
     # admin confirmation_events
 

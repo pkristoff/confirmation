@@ -236,12 +236,9 @@ shared_context 'sponsor_eligibility_html_erb' do
 
     expect(page).to have_button(@update_id)
 
-    remove_count = 0 if cand.sponsor_eligibility.scanned_eligibility.nil?
-    remove_count = 1 unless cand.sponsor_eligibility.scanned_eligibility.nil?
-
     expect_remove_button('candidate_sponsor_eligibility_attributes_remove_sponsor_eligibility_picture', 'sponsor_eligibility_picture') unless cand.sponsor_eligibility.scanned_eligibility.nil?
-    expect(page).to have_button(I18n.t('views.common.remove_image'), count: remove_count)
-    expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
+    expect(page).to have_button(I18n.t('views.common.remove_image'), count: 1)
+    expect(page).to have_button(I18n.t('views.common.replace_image'), count: 1)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 1) if is_verify
     expect_download_button(Event::Route::SPONSOR_ELIGIBILITY, cand_id, dev_path)
     # rubocop:enable Layout/LineLength

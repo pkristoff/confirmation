@@ -202,11 +202,9 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_field(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), nil)
 
     expect(page).to have_button(@update_id)
-    remove_count = 0 if cand.sponsor_covenant.scanned_covenant.nil?
-    remove_count = 1 unless cand.sponsor_covenant.scanned_covenant.nil?
     expect_remove_button('candidate_sponsor_covenant_attributes_remove_sponsor_covenant_picture', 'sponsor_covenant_picture') unless cand.sponsor_covenant.scanned_covenant.nil?
-    expect(page).to have_button(I18n.t('views.common.remove_image'), count: remove_count)
-    expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
+    expect(page).to have_button(I18n.t('views.common.remove_image'), count: 1)
+    expect(page).to have_button(I18n.t('views.common.replace_image'), count: 1)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 1) if is_verify
     expect_download_button(Event::Route::SPONSOR_COVENANT, cand_id, dev_path)
     # rubocop:enable Layout/LineLength

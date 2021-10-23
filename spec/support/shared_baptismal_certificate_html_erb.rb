@@ -46,34 +46,33 @@ shared_context 'baptismal_certificate_html_erb' do
       @candidate.baptismal_certificate.show_empty_radio = 0
       @candidate.save!
     end
-    feature 'baptized_at_home_parish = false' do
-      before(:each) do
-        @candidate.baptismal_certificate.baptized_at_home_parish = false
-        @candidate.save!
-      end
-      scenario 'admin logs in and selects a candidate nothing else showing' do
-        update_baptismal_certificate
-
-        visit @path
-
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true, false)
-      end
-    end
-
-    feature 'baptized_at_home_parish = true' do
-      before(:each) do
-        @candidate.baptismal_certificate.baptized_at_home_parish = true
-        @candidate.save!
-      end
+    feature 'initial screens' do
       scenario 'admin logs in and selects a candidate, nothing else showing' do
         update_baptismal_certificate
 
         visit @path
 
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true, false)
+        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                          true, true, true, false)
+      end
+    end
+    feature 'error messages' do
+      scenario 'do not fill in any fields should get baptized at home parish should be checked' do
+        update_baptismal_certificate
+
+        visit @path
+        click_button @update_id
+
+        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true, false,
+                                          expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                              # rubocop:disable Layout/LineLength
+                                                              [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                                    I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish)]]])
+        # rubocop:enable Layout/LineLength
       end
     end
   end
+
   feature 'show_empty_radio = 1' do
     before(:each) do
       @candidate.baptismal_certificate.show_empty_radio = 1
@@ -84,51 +83,78 @@ shared_context 'baptismal_certificate_html_erb' do
         @candidate.baptismal_certificate.baptized_at_home_parish = true
         @candidate.save!
       end
-      scenario 'admin logs in and selects a candidate, nothing else showing' do
-        update_baptismal_certificate(home_parish_fields: true)
+      feature 'initial screens' do
+        scenario 'admin logs in and selects a candidate, nothing else showing' do
+          update_baptismal_certificate(home_parish_fields: true)
 
-        visit @path
+          visit @path
 
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
-      end
-      scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = true, show_empty_radio = 1' do
-        update_baptismal_certificate(home_parish_fields: true)
-
-        visit @path
-
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
-      end
-      scenario 'admin un-verifies a verified baptized event' do
-        expect(@is_verify == true || @is_verify == false).to eq(true)
-
-        event_key = BaptismalCertificate.event_key
-        @candidate.get_candidate_event(event_key).completed_date = @today
-        @candidate.get_candidate_event(event_key).verified = true
-        @candidate.save!
-
-        update_baptismal_certificate(home_parish_fields: true)
-
-        visit @path
-
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                          false, true, true, false)
-
-        expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if @is_verify
-
-        click_button('bottom-unverify') if @is_verify
-
-        candidate = Candidate.find(@candidate.id)
-        # rubocop:disable Layout/LineLength
-        if @is_verify
-
-          expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), { is_unverified: true })
-        else
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
         end
-        # rubocop:enable Layout/LineLength
 
-        expect(candidate.get_candidate_event(event_key).completed_date).to eq(@today)
-        expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
+        scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = true, show_empty_radio = 1' do
+          update_baptismal_certificate(home_parish_fields: true)
+
+          visit @path
+
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+        end
+      end
+      feature 'error messages' do
+        scenario 'does not fill in any fields should only get fields for baptized home parish' do
+          update_baptismal_certificate
+
+          visit @path
+          fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+          click_button @update_id
+
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false,
+                                            expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                # rubocop:disable Layout/LineLength
+                                                                [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 9),
+                                                                                      "Birth date #{I18n.t('errors.messages.blank')}",
+                                                                                      "Baptismal date #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father first #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father middle #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father last #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother first #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother middle #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother maiden #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother last #{I18n.t('errors.messages.blank')}"]]])
+          # rubocop:enable Layout/LineLength
+        end
+        scenario 'admin un-verifies a verified baptized event' do
+          expect(@is_verify == true || @is_verify == false).to eq(true)
+
+          event_key = BaptismalCertificate.event_key
+          @candidate.get_candidate_event(event_key).completed_date = @today
+          @candidate.get_candidate_event(event_key).verified = true
+          @candidate.save!
+
+          update_baptismal_certificate(home_parish_fields: true)
+
+          visit @path
+
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                            false, true, true, false)
+
+          expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if @is_verify
+
+          click_button('bottom-unverify') if @is_verify
+
+          candidate = Candidate.find(@candidate.id)
+          # rubocop:disable Layout/LineLength
+          if @is_verify
+
+            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), { is_unverified: true })
+          else
+            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+          end
+          # rubocop:enable Layout/LineLength
+
+          expect(candidate.get_candidate_event(event_key).completed_date).to eq(@today)
+          expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
+        end
       end
     end
     feature 'baptized_at_home_parish = false' do
@@ -136,22 +162,49 @@ shared_context 'baptismal_certificate_html_erb' do
         @candidate.baptismal_certificate.baptized_at_home_parish = false
         @candidate.save!
       end
-      scenario 'admin logs in and selects a candidate, fc showing - no check showing' do
-        update_baptismal_certificate(home_parish_fields: true)
+      feature 'initial screens' do
+        scenario 'admin logs in and selects a candidate, fc showing - no check showing' do
+          update_baptismal_certificate(home_parish_fields: true)
 
-        visit @path
+          visit @path
 
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                            false, true, true, false)
+        end
+        # rubocop:disable Layout/LineLength
+        scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = true, show_empty_radio = 1 fc showing - yes check' do
+          # rubocop:enable Layout/LineLength
+          update_baptismal_certificate(home_parish_fields: true)
+
+          visit @path
+
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+        end
       end
+      feature 'error messages' do
+        scenario 'does not fill in any fields should only get fields for baptized home parish plus baptized catholic' do
+          update_baptismal_certificate
 
-      # rubocop:disable Layout/LineLength
-      scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = true, show_empty_radio = 1 fc showing - yes check' do
-        # rubocop:enable Layout/LineLength
-        update_baptismal_certificate(home_parish_fields: true)
+          visit @path
+          fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+          click_button @update_id
 
-        visit @path
-
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false,
+                                            expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                # rubocop:disable Layout/LineLength
+                                                                [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 10),
+                                                                                      "Birth date #{I18n.t('errors.messages.blank')}",
+                                                                                      "Baptismal date #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father first #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father middle #{I18n.t('errors.messages.blank')}",
+                                                                                      "Father last #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother first #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother middle #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother maiden #{I18n.t('errors.messages.blank')}",
+                                                                                      "Mother last #{I18n.t('errors.messages.blank')}",
+                                                                                      I18n.t('messages.error.baptized_catholic_should_be_checked')]]])
+          # rubocop:enable Layout/LineLength
+        end
       end
     end
   end
@@ -166,391 +219,339 @@ shared_context 'baptismal_certificate_html_erb' do
         @candidate.baptismal_certificate.baptized_at_home_parish = false
         @candidate.save!
       end
-      scenario 'admin logs in and selects a candidate, fc showing - no check' do
-        update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
+      feature 'initial screens' do
+        scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, first communion showing' do
+          update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
 
-        visit @path
+          visit @path
 
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, false, false)
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verif, false, false, false, false)
+        end
       end
-
-      scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, first communion showing' do
-        update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
-
-        visit @path
-
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verif, false, false, false, false)
-      end
+      # feature 'error messages' do
+      #
+      # end
       feature 'baptized_catholic = true' do
         before(:each) do
           @candidate.baptismal_certificate.baptized_catholic = true
           @candidate.save!
         end
-        scenario 'should not show a validation error for city and zip code' do
-          candidate = Candidate.find(@candidate.id)
-          candidate.candidate_sheet.address.street_1 = ''
-          candidate.candidate_sheet.address.street_2 = ''
-          candidate.candidate_sheet.address.city = ''
-          candidate.candidate_sheet.address.state = ''
-          candidate.candidate_sheet.address.zip_code = ''
-          suc = candidate.save!
-          expect(suc).to be(true)
+        # feature 'initial screens' do
+        #
+        # end
+        feature 'error messages' do
+          scenario 'should not show a validation error for city and zip code' do
+            @candidate.save!
+            update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
 
-          @candidate.save!
-          update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
+            visit @path
+            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                              false, false, true, false)
+            fill_in_form
 
-          visit @path
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                            false, false, true, false)
-          fill_in_form
+            click_button @update_id
+            if @is_verify
 
-          click_button @update_id
-          if @is_verify
+              expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
+                                                @candidate.id, @updated_message)
 
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
-                                              candidate.id, @updated_message)
+            else
 
-          else
-
-            expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false,
-                                              expected_messages: [[:flash_notice, @updated_message]])
+              expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                                false, false, true, false,
+                                                expected_messages: [[:flash_notice, @updated_message]])
+            end
           end
-        end
-        scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, fills in template' do
-          update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
+          scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, fills in template' do
+            update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
 
-          expect_db(1, 0)
+            expect_db(1, 0)
 
-          visit @path
+            visit @path
+            # rubocop:disable Layout/LineLength
+            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                              false, false, true, false)
+            fill_in_form
+
+            click_button @update_id
+
+            candidate = Candidate.find(@candidate.id)
+
+            if @is_verify
+
+              expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
+
+            else
+
+              expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                                false, false, true, false,
+                                                expected_messages: [[:flash_notice, @updated_message]])
+
+            end
+            # rubocop:enable Layout/LineLength
+            expect(candidate.baptismal_certificate.birth_date.to_s).to eq(BIRTH_DATE)
+            expect(candidate.baptismal_certificate.baptismal_date.to_s).to eq(BAPTISMAL_DATE)
+            expect(candidate.baptismal_certificate.church_name).to eq(CHURCH_NAME)
+            expect(candidate.baptismal_certificate.church_address.street_1).to eq(STREET_1)
+            expect(candidate.baptismal_certificate.church_address.street_2).to eq(STREET_2)
+            expect(candidate.baptismal_certificate.church_address.city).to eq(CITY)
+            expect(candidate.baptismal_certificate.church_address.state).to eq(STATE)
+            expect(candidate.baptismal_certificate.church_address.zip_code).to eq(ZIP_CODE)
+            expect(candidate.baptismal_certificate.father_first).to eq(FATHER_FIRST)
+            expect(candidate.baptismal_certificate.father_middle).to eq(FATHER_MIDDLE)
+            expect(candidate.baptismal_certificate.father_last).to eq(LAST_NAME)
+            expect(candidate.baptismal_certificate.mother_first).to eq(MOTHER_FIRST)
+            expect(candidate.baptismal_certificate.mother_middle).to eq(MOTHER_MIDDLE)
+            expect(candidate.baptismal_certificate.mother_maiden).to eq(MOTHER_MAIDEN)
+            expect(candidate.baptismal_certificate.mother_last).to eq(LAST_NAME)
+
+            expect(candidate.candidate_sheet.first_name).to eq(FIRST_NAME)
+            expect(candidate.candidate_sheet.middle_name).to eq(MIDDLE_NAME)
+            expect(candidate.candidate_sheet.last_name).to eq(LAST_NAME)
+
+            expect_db(1, 1) # make sure DB does not increase in size.
+          end
+          scenario 'admin logs in and selects a candidate, unfills in template then changes mind she was baptized at stmm' do
+            update_baptismal_certificate
+            visit @path
+            fill_in_form
+            click_button @update_id
+
+            candidate = Candidate.find(@candidate.id)
+            if @is_verify
+
+              expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
+                                                candidate.id, @updated_message)
+
+            else
+
+              expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                                false, false, true, false,
+                                                expected_messages: [[:flash_notice, @updated_message]])
+
+            end
+
+            visit @path
+
+            choose('candidate_baptismal_certificate_attributes_baptized_at_home_parish_1')
+            # since js is not called set show_empty_radio as update_show_empty_radio would do
+            find(:id, 'candidate_baptismal_certificate_attributes_show_empty_radio', visible: false).set('1')
+
+            click_button @update_id
+
+            candidate = Candidate.find(@candidate.id)
+            if @is_verify
+
+              expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
+                                                candidate.id, @updated_message)
+
+            else
+
+              expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                                false, true, true, false,
+                                                expected_messages: [[:flash_notice, @updated_message]])
+
+            end
+
+            expect(candidate.baptismal_certificate).not_to eq(nil) # always created now
+            expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(true)
+            expect(candidate.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(@today)
+            expect(candidate.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(@is_verify)
+          end
           # rubocop:disable Layout/LineLength
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false)
-          fill_in_form
+          scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do
+            update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
+            @candidate.candidate_sheet.middle_name = ''
+            @candidate.candidate_sheet.while_not_validating_middle_name do
+              @candidate.save!
+            end
 
-          click_button @update_id
+            visit @path
+            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+            click_button @update_id
 
-          candidate = Candidate.find(@candidate.id)
-
-          if @is_verify
-
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
-
-          else
+            candidate = Candidate.find(@candidate.id)
 
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               false, false, true, false,
-                                              expected_messages: [[:flash_notice, @updated_message]])
+                                              expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                  [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                                        "Middle name #{I18n.t('errors.messages.blank')}"]]])
 
+            candidate = Candidate.find(@candidate.id)
+
+            expect(candidate.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(false), 'Baptismal certificate not verified.'
+            expect(candidate.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
+
+            expect(candidate.get_candidate_event(CandidateSheet.event_key).verified).to eq(false)
+            expect(candidate.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(nil)
+
+            fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+
+            click_button @update_id
+
+            if @is_verify
+
+              expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
+
+            else
+              expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                                false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
+            end
+
+            cand = Candidate.find_by(id: candidate.id)
+            expect(cand.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(@is_verify), 'Baptismal certificate not verified.'
+            expect(cand.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
+
+            # candidate_information_sheet if completed is automatically verified
+            expect(cand.get_candidate_event(CandidateSheet.event_key).verified?).to eq(true)
+            expect(cand.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(Time.zone.today)
           end
           # rubocop:enable Layout/LineLength
-          expect(candidate.baptismal_certificate.birth_date.to_s).to eq(BIRTH_DATE)
-          expect(candidate.baptismal_certificate.baptismal_date.to_s).to eq(BAPTISMAL_DATE)
-          expect(candidate.baptismal_certificate.church_name).to eq(CHURCH_NAME)
-          expect(candidate.baptismal_certificate.church_address.street_1).to eq(STREET_1)
-          expect(candidate.baptismal_certificate.church_address.street_2).to eq(STREET_2)
-          expect(candidate.baptismal_certificate.church_address.city).to eq(CITY)
-          expect(candidate.baptismal_certificate.church_address.state).to eq(STATE)
-          expect(candidate.baptismal_certificate.church_address.zip_code).to eq(ZIP_CODE)
-          expect(candidate.baptismal_certificate.father_first).to eq(FATHER_FIRST)
-          expect(candidate.baptismal_certificate.father_middle).to eq(FATHER_MIDDLE)
-          expect(candidate.baptismal_certificate.father_last).to eq(LAST_NAME)
-          expect(candidate.baptismal_certificate.mother_first).to eq(MOTHER_FIRST)
-          expect(candidate.baptismal_certificate.mother_middle).to eq(MOTHER_MIDDLE)
-          expect(candidate.baptismal_certificate.mother_maiden).to eq(MOTHER_MAIDEN)
-          expect(candidate.baptismal_certificate.mother_last).to eq(LAST_NAME)
+          scenario 'admin logs in and selects a candidate, checks no for baptized_at_home_parish and updates' do
+            # rubocop:disable Layout/LineLength
+            # This test was sometimes had middle_name == '' and sometimes not.  So
+            # now it is always ''.
+            @candidate.candidate_sheet.middle_name = ''
+            @candidate.save!(validate: false)
+            update_baptismal_certificate
 
-          expect(candidate.candidate_sheet.first_name).to eq(FIRST_NAME)
-          expect(candidate.candidate_sheet.middle_name).to eq(MIDDLE_NAME)
-          expect(candidate.candidate_sheet.last_name).to eq(LAST_NAME)
+            visit @path
 
-          expect_db(1, 1) # make sure DB does not increase in size.
-        end
-        scenario 'admin logs in and selects a candidate, unfills in template then changes mind she was baptized at stmm' do
-          update_baptismal_certificate
-          visit @path
-          fill_in_form
-          click_button @update_id
+            click_button @update_id
 
-          candidate = Candidate.find(@candidate.id)
-          if @is_verify
+            candidate = Candidate.find(@candidate.id)
 
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
-                                              candidate.id, @updated_message)
+            expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false,
+                                              expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                  [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
 
-          else
+                                                                                        "Middle name #{I18n.t('errors.messages.blank')}",
 
+                                                                                        "Birth date #{I18n.t('errors.messages.blank')}",
+                                                                                        "Baptismal date #{I18n.t('errors.messages.blank')}",
+                                                                                        "Father first #{I18n.t('errors.messages.blank')}",
+                                                                                        "Father middle #{I18n.t('errors.messages.blank')}",
+                                                                                        "Father last #{I18n.t('errors.messages.blank')}",
+                                                                                        "Mother first #{I18n.t('errors.messages.blank')}",
+                                                                                        "Mother middle #{I18n.t('errors.messages.blank')}",
+                                                                                        "Mother maiden #{I18n.t('errors.messages.blank')}",
+                                                                                        "Mother last #{I18n.t('errors.messages.blank')}",
+
+                                                                                        "Church name #{I18n.t('errors.messages.blank')}",
+                                                                                        "Street 1 #{I18n.t('errors.messages.blank')}",
+                                                                                        "City #{I18n.t('errors.messages.blank')}",
+                                                                                        "State #{I18n.t('errors.messages.blank')}",
+                                                                                        "Zip code #{I18n.t('errors.messages.blank')}",
+
+                                                                                        "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"],
+                                                                   16]])
+            # rubocop:enable Layout/LineLength
+          end
+          # rubocop:disable Layout/LineLength
+          scenario 'admin logs in and selects a candidate, adds non-picture data, updates, adds picture, updates - everything is saved' do
+            update_baptismal_certificate
+            visit @path
+
+            fill_in_form({ attach_file: false }) # no picture
+            click_button @update_id
+
+            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                              false, false, true, false,
+                                              expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                  [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                                        "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"]]])
+
+            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+            click_button @update_id
+
+            candidate = Candidate.find(@candidate.id)
+            if @is_verify
+
+              expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
+
+            else
+
+              expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                                false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
+
+              expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
+              expect(candidate.baptismal_certificate).not_to eq(nil)
+              expect(candidate.baptismal_certificate.scanned_certificate).not_to eq(nil)
+
+            end
+
+            visit @path
+            candidate = Candidate.find(@candidate.id)
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               false, false, true, false,
                                               expected_messages: [[:flash_notice, @updated_message]])
-
           end
-
-          visit @path
-
-          choose('candidate_baptismal_certificate_attributes_baptized_at_home_parish_1')
-          # since js is not called set show_empty_radio as update_show_empty_radio would do
-          find(:id, 'candidate_baptismal_certificate_attributes_show_empty_radio', visible: false).set('1')
-
-          click_button @update_id
-
-          candidate = Candidate.find(@candidate.id)
-          if @is_verify
-
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
-                                              candidate.id, @updated_message)
-
-          else
-
-            expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, true, true, false,
-                                              expected_messages: [[:flash_notice, @updated_message]])
-
-          end
-
-          expect(candidate.baptismal_certificate).not_to eq(nil) # always created now
-          expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(true)
-          expect(candidate.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(@today)
-          expect(candidate.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(@is_verify)
-        end
-        # rubocop:disable Layout/LineLength
-        scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do
-          update_baptismal_certificate
-          @candidate.candidate_sheet.middle_name = ''
-          @candidate.candidate_sheet.while_not_validating_middle_name do
-            @candidate.save!
-          end
-
-          expect_db(1, 0)
-
-          visit @path
-          attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
-          click_button @update_id
-
-          candidate = Candidate.find(@candidate.id)
-
-          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false,
-                                            expected_messages: [[:flash_notice, @updated_failed_verification],
-                                                                [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 15),
-                                                                                      "Middle name #{I18n.t('errors.messages.blank')}",
-                                                                                      "Birth date #{I18n.t('errors.messages.blank')}",
-                                                                                      "Baptismal date #{I18n.t('errors.messages.blank')}",
-                                                                                      "Church name #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father first #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father middle #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father last #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother first #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother middle #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother maiden #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother last #{I18n.t('errors.messages.blank')}",
-                                                                                      "Street 1 #{I18n.t('errors.messages.blank')}",
-                                                                                      "City #{I18n.t('errors.messages.blank')}",
-                                                                                      "State #{I18n.t('errors.messages.blank')}",
-                                                                                      "Zip code #{I18n.t('errors.messages.blank')}"]]])
-
-          expect_db(1, 1)
-
-          expect(page).to have_selector(img_src_selector)
-
-          fill_in_form({ attach_file: false }) # no picture
-          click_button @update_id
-
-          candidate = Candidate.find(@candidate.id)
-
-          if @is_verify
-
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
-
-          else
-            expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
-          end
-
-          expect_db(1, 1)
-          expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
-          expect(candidate.baptismal_certificate).not_to eq(nil)
-          expect(candidate.baptismal_certificate.scanned_certificate).not_to eq(nil)
-
-          visit @path
-          candidate = Candidate.find(@candidate.id)
-          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false,
-                                            expected_messages: [[:flash_notice, @updated_message]])
-
-          expect_db(1, 1) # make sure DB does not increase in size.
-        end
-        # rubocop:enable Layout/LineLength
-        # rubocop:disable Layout/LineLength
-        scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do
-          update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
-          @candidate.candidate_sheet.middle_name = ''
-          @candidate.candidate_sheet.while_not_validating_middle_name do
-            @candidate.save!
-          end
-
-          visit @path
-          attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
-          click_button @update_id
-
-          candidate = Candidate.find(@candidate.id)
-
-          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                            false, false, true, false,
-                                            expected_messages: [[:flash_notice, @updated_failed_verification],
-                                                                [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                      "Middle name #{I18n.t('errors.messages.blank')}"]]])
-
-          candidate = Candidate.find(@candidate.id)
-
-          expect(candidate.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(false), 'Baptismal certificate not verified.'
-          expect(candidate.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
-
-          expect(candidate.get_candidate_event(CandidateSheet.event_key).verified).to eq(false)
-          expect(candidate.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(nil)
-
-          fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
-
-          click_button @update_id
-
-          if @is_verify
-
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
-
-          else
-            expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
-          end
-
-          cand = Candidate.find_by(id: candidate.id)
-          expect(cand.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(@is_verify), 'Baptismal certificate not verified.'
-          expect(cand.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
-
-          # candidate_information_sheet if completed is automatically verified
-          expect(cand.get_candidate_event(CandidateSheet.event_key).verified?).to eq(true)
-          expect(cand.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(Time.zone.today)
-        end
-        # rubocop:enable Layout/LineLength
-        scenario 'admin logs in and selects a candidate, checks no for baptized_at_home_parish and updates' do
-          # rubocop:disable Layout/LineLength
-          # This test was sometimes had middle_name == '' and sometimes not.  So
-          # now it is always ''.
-          @candidate.candidate_sheet.middle_name = ''
-          @candidate.save!(validate: false)
-          update_baptismal_certificate
-
-          visit @path
-
-          click_button @update_id
-
-          candidate = Candidate.find(@candidate.id)
-
-          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false,
-                                            expected_messages: [[:flash_notice, @updated_failed_verification],
-                                                                [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
-
-                                                                                      "Middle name #{I18n.t('errors.messages.blank')}",
-
-                                                                                      "Birth date #{I18n.t('errors.messages.blank')}",
-                                                                                      "Baptismal date #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father first #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father middle #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father last #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother first #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother middle #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother maiden #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother last #{I18n.t('errors.messages.blank')}",
-
-                                                                                      "Church name #{I18n.t('errors.messages.blank')}",
-                                                                                      "Street 1 #{I18n.t('errors.messages.blank')}",
-                                                                                      "City #{I18n.t('errors.messages.blank')}",
-                                                                                      "State #{I18n.t('errors.messages.blank')}",
-                                                                                      "Zip code #{I18n.t('errors.messages.blank')}",
-
-                                                                                      "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"],
-                                                                 16]])
           # rubocop:enable Layout/LineLength
         end
-        # rubocop:disable Layout/LineLength
-        scenario 'admin logs in and selects a candidate, adds non-picture data, updates, adds picture, updates - everything is saved' do
-          update_baptismal_certificate
-          visit @path
-
-          fill_in_form({ attach_file: false }) # no picture
-          click_button @update_id
-
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                            false, false, true, false,
-                                            expected_messages: [[:flash_notice, @updated_failed_verification],
-                                                                [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                      "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"]]])
-
-          attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
-          click_button @update_id
-
-          candidate = Candidate.find(@candidate.id)
-          if @is_verify
-
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key), candidate.id, @updated_message)
-
-          else
-
-            expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
-
-            expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
-            expect(candidate.baptismal_certificate).not_to eq(nil)
-            expect(candidate.baptismal_certificate.scanned_certificate).not_to eq(nil)
-
-          end
-
-          visit @path
-          candidate = Candidate.find(@candidate.id)
-          expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                            false, false, true, false,
-                                            expected_messages: [[:flash_notice, @updated_message]])
-        end
-        # rubocop:enable Layout/LineLength
       end
       feature 'baptized_catholic = false' do
         before(:each) do
           @candidate.baptismal_certificate.baptized_catholic = false
           @candidate.save!
         end
-        scenario 'should not show a validation error scanned baptismal certificate & profession of faith' do
-          update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true, prof_of_faith: true)
+        # feature 'initial screens' do
+        #   scenario 'everything filled in' do
+        #     update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true, prof_of_faith: true)
+        #
+        #     visit @path
+        #     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+        #                                       false, true, false, false)
+        #   end
+        #   scenario 'everything empty in' do
+        #     update_baptismal_certificate(home_parish_fields: false, baptized_catholic: false, prof_of_faith: false)
+        #
+        #     visit @path
+        #     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+        #                                       false, true, false, false)
+        #   end
+        # end
+        feature 'error messages' do
+          scenario 'should not show a validation error scanned baptismal certificate & profession of faith' do
+            update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true, prof_of_faith: true)
 
-          visit @path
+            visit @path
 
-          expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'), nil)
+            expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'), nil)
 
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                            false, false, false, false)
-          # fill_in(I18n.t('label.candidate_sheet.first_name'), with: '')
-          # fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first'), with: '')
-          click_button @update_id
+            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                              false, false, false, false)
+            # fill_in(I18n.t('label.candidate_sheet.first_name'), with: '')
+            # fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first'), with: '')
+            click_button @update_id
 
-          # rubocop:disable Layout/LineLength
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                            false, false, false, false,
-                                            expected_messages: [[:flash_notice, @updated_failed_verification],
-                                                                [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
-                                                                                      "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}",
-                                                                                      "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"]]])
-          # rubocop:enable Layout/LineLength
-
-          attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'),
-                      'spec/fixtures/actions.png')
-          attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'),
-                      'spec/fixtures/actions.png')
-          click_button @update_id
-
-          if @is_verify
-
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
-                                              @candidate.id, @updated_message)
-
-          else
+            # rubocop:disable Layout/LineLength
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               false, false, false, false,
-                                              expected_messages: [[:flash_notice, @updated_message]])
+                                              expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                  [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
+                                                                                        "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}",
+                                                                                        "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"]]])
+            # rubocop:enable Layout/LineLength
+
+            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'),
+                        'spec/fixtures/actions.png')
+            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'),
+                        'spec/fixtures/actions.png')
+            click_button @update_id
+
+            if @is_verify
+
+              expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
+                                                @candidate.id, @updated_message)
+
+            else
+              # expect_loaded_scanned_images
+
+              expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                                false, false, false, false,
+                                                expected_messages: [[:flash_notice, @updated_message]])
+            end
           end
         end
       end
@@ -643,10 +644,10 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
 
     expect(page).to have_button(button_name, count: 2)
-    remove_count = cand.baptismal_certificate.scanned_certificate.nil? ? 0 : 1
+    # remove_count = cand.baptismal_certificate.scanned_certificate.nil? ? 0 : 1
     expect_remove_button('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture') unless cand.baptismal_certificate.scanned_certificate.nil?
-    expect(page).to have_button(I18n.t('views.common.remove_image'), count: remove_count)
-    expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
+    expect(page).to have_button(I18n.t('views.common.remove_image'), count: 1)
+    expect(page).to have_button(I18n.t('views.common.replace_image'), count: 1)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
     expect_download_button(Event::Document::BAPTISMAL_CERTIFICATE, cand_id, dev_path)
     # rubocop:enable Layout/LineLength
@@ -678,44 +679,52 @@ shared_context 'baptismal_certificate_html_erb' do
     # rubocop:enable Layout/LineLength
   end
 
-  def img_src_selector
-    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/baptismal_certificate\"]"
+  def img_src_selector(is_other: nil)
+    return "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/baptismal_certificate\"]" if is_other.nil?
+
+    # rubocop:disable Layout/LineLength
+    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/baptismal_certificate/is_other/#{is_other}\"]" unless is_other.nil?
+    # rubocop:enable Layout/LineLength
   end
 
   def update_baptismal_certificate(home_parish_fields: false, baptized_catholic: false, prof_of_faith: false)
-    return unless home_parish_fields
+    if home_parish_fields
+      # return unless home_parish_fields
 
-    baptismal_certificate = @candidate.baptismal_certificate
+      baptismal_certificate = @candidate.baptismal_certificate
 
-    candidate_sheet = @candidate.candidate_sheet
+      candidate_sheet = @candidate.candidate_sheet
 
-    baptismal_certificate.birth_date = Date.parse(BIRTH_DATE)
-    baptismal_certificate.baptismal_date = Date.parse(BAPTISMAL_DATE)
+      baptismal_certificate.birth_date = Date.parse(BIRTH_DATE)
+      baptismal_certificate.baptismal_date = Date.parse(BAPTISMAL_DATE)
 
-    baptismal_certificate.father_first = FATHER_FIRST
-    baptismal_certificate.father_middle = FATHER_MIDDLE
-    baptismal_certificate.father_last = LAST_NAME
+      baptismal_certificate.father_first = FATHER_FIRST
+      baptismal_certificate.father_middle = FATHER_MIDDLE
+      baptismal_certificate.father_last = LAST_NAME
 
-    baptismal_certificate.mother_first = MOTHER_FIRST
-    baptismal_certificate.mother_middle = MOTHER_MIDDLE
-    baptismal_certificate.mother_maiden = MOTHER_MAIDEN
-    baptismal_certificate.mother_last = LAST_NAME
+      baptismal_certificate.mother_first = MOTHER_FIRST
+      baptismal_certificate.mother_middle = MOTHER_MIDDLE
+      baptismal_certificate.mother_maiden = MOTHER_MAIDEN
+      baptismal_certificate.mother_last = LAST_NAME
 
-    candidate_sheet.first_name = FIRST_NAME
-    candidate_sheet.middle_name = MIDDLE_NAME
-    candidate_sheet.last_name = LAST_NAME
+      candidate_sheet.first_name = FIRST_NAME
+      candidate_sheet.middle_name = MIDDLE_NAME
+      candidate_sheet.last_name = LAST_NAME
 
-    @candidate.save!
+      @candidate.save!
+    end
 
-    return unless baptized_catholic
+    if baptized_catholic
+      # return unless baptized_catholic
 
-    baptismal_certificate.church_name = CHURCH_NAME
-    baptismal_certificate.church_address.street_1 = STREET_1
-    baptismal_certificate.church_address.street_2 = STREET_2
-    baptismal_certificate.church_address.city = CITY
-    baptismal_certificate.church_address.state = STATE
-    baptismal_certificate.church_address.zip_code = ZIP_CODE
-    @candidate.save!
+      baptismal_certificate.church_name = CHURCH_NAME
+      baptismal_certificate.church_address.street_1 = STREET_1
+      baptismal_certificate.church_address.street_2 = STREET_2
+      baptismal_certificate.church_address.city = CITY
+      baptismal_certificate.church_address.state = STATE
+      baptismal_certificate.church_address.zip_code = ZIP_CODE
+      @candidate.save!
+    end
 
     return unless prof_of_faith
 

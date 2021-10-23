@@ -81,6 +81,8 @@ class PluckCan
   # * <tt>String</tt> representing image filename
   #
   def self.image_filename(pluck_image)
+    return '' if pluck_image.nil?
+
     pluck_image[2]
   end
 
@@ -95,6 +97,8 @@ class PluckCan
   # * <tt>Binary</tt> representing image type
   #
   def self.image_content_type(pluck_image)
+    return nil if pluck_image.nil?
+
     pluck_image[2]
   end
 
@@ -109,6 +113,8 @@ class PluckCan
   # * <tt>Binary</tt> representing image content
   #
   def self.image_content(pluck_image)
+    return nil if pluck_image.nil?
+
     pluck_image[3]
   end
 

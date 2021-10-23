@@ -105,7 +105,7 @@
 
     <%= render "candidates/shared/scanned_image",
 
-               url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_route) : event_with_picture_image_path(candidate.id, @event_with_picture_route)),
+               url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_route, 'false') : event_with_picture_image_path(candidate.id, @event_with_picture_route, 'false')),
                candidate: candidate,
 
                fieldset_text: t('field_set.baptismal_certificate.scan'),
@@ -118,7 +118,6 @@
                remove_label: t('views.common.remove_image'),
                replace_label: t('views.common.replace_image')
     %>
-
     <div id="baptized-catholic-radios" class="<%= bc.show_baptized_catholic_radio ? 'show-div' : 'hide-div' %>">
       <%= t('label.baptismal_certificate.baptismal_certificate.baptized_catholic') %>
       <br/>
@@ -211,7 +210,7 @@
 
           <%= render "candidates/shared/scanned_image",
 
-                     url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_route) : event_with_picture_image_path(candidate.id, @event_with_picture_route)),
+                     url_for_image: url_for(is_dev ? dev_event_with_picture_image_path(candidate.id, @event_with_picture_route, 'true') : event_with_picture_image_path(candidate.id, @event_with_picture_route, 'true')),
                      candidate: candidate,
 
                      fieldset_text: t('field_set.baptismal_certificate.prof_scan'),
@@ -223,7 +222,6 @@
                      scanned_image_label: bc_fields.label(:prof_picture, t('label.baptismal_certificate.baptismal_certificate.prof_picture')),
                      remove_label: t('label.baptismal_certificate.baptismal_certificate.remove_prof_image'),
                      replace_label: t('label.baptismal_certificate.baptismal_certificate.replace_prof_image')
-          %>
           %>
         </div>
 

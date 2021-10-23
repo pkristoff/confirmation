@@ -253,11 +253,10 @@ shared_context 'retreat_verification_html_erb' do
     expect_image_upload('retreat_verification', 'retreat_verification_picture', I18n.t('label.retreat_verification.retreat_verification_picture'))
 
     expect(page).to have_button(@update_id)
-    remove_count = cand.retreat_verification.scanned_retreat.nil? ? 0 : 1
     expect_remove_button('candidate_retreat_verification_attributes_remove_retreat_verification_picture', 'retreat_verification_picture') unless cand.retreat_verification.scanned_retreat.nil?
     # rubocop:enable Layout/LineLength
-    expect(page).to have_button(I18n.t('views.common.remove_image'), count: remove_count)
-    expect(page).to have_button(I18n.t('views.common.replace_image'), count: remove_count)
+    expect(page).to have_button(I18n.t('views.common.remove_image'), count: 1)
+    expect(page).to have_button(I18n.t('views.common.replace_image'), count: 1)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
     expect_download_button(Event::Document::RETREAT_VERIFICATION, cand_id, dev_path)
   end

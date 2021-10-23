@@ -82,14 +82,14 @@ class BaptismalCertificate < ApplicationRecord
     case show_empty_radio
     when 0
       errors[:base] << I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish)
-      validate_basic_info
+      # validate_basic_info
       false
     when 1
       basic_valid = validate_basic_info
       return basic_valid if baptized_at_home_parish
 
       errors[:base] << I18n.t('messages.error.baptized_catholic_should_be_checked')
-      validate_other_church_info
+      # validate_other_church_info
 
       false
     when 2
