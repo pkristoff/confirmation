@@ -46,6 +46,10 @@ shared_context 'baptismal_certificate_html_erb' do
     before(:each) do
       @candidate.baptismal_certificate.show_empty_radio = 0
       @candidate.save!
+      @bc_form_info.show_checked_baptized_at_home_parish = false
+      @bc_form_info.yes_checked_baptized_at_home_parish = false
+      @bc_form_info.no_checked_baptized_at_home_parish = false
+      @bc_form_info.show_checked_baptized_catholic = false
     end
     feature 'initial screens' do
       scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -79,11 +83,15 @@ shared_context 'baptismal_certificate_html_erb' do
     before(:each) do
       @candidate.baptismal_certificate.show_empty_radio = 1
       @candidate.save!
+      @bc_form_info.show_checked_baptized_at_home_parish = true
+      @bc_form_info.show_checked_baptized_catholic = false
     end
     feature 'baptized_at_home_parish = true' do
       before(:each) do
         @candidate.baptismal_certificate.baptized_at_home_parish = true
         @candidate.save!
+        @bc_form_info.yes_checked_baptized_at_home_parish = true
+        @bc_form_info.no_checked_baptized_at_home_parish = false
       end
       feature 'initial screens' do
         scenario 'admin logs in and selects a candidate, nothing else showing' do
@@ -167,6 +175,8 @@ shared_context 'baptismal_certificate_html_erb' do
       before(:each) do
         @candidate.baptismal_certificate.baptized_at_home_parish = false
         @candidate.save!
+        @bc_form_info.yes_checked_baptized_at_home_parish = false
+        @bc_form_info.no_checked_baptized_at_home_parish = true
       end
       feature 'initial screens' do
         scenario 'admin logs in and selects a candidate, fc showing - no check showing' do
@@ -221,11 +231,15 @@ shared_context 'baptismal_certificate_html_erb' do
     before(:each) do
       @candidate.baptismal_certificate.show_empty_radio = 2
       @candidate.save!
+      @bc_form_info.show_checked_baptized_at_home_parish = true
+      @bc_form_info.show_checked_baptized_catholic = true
     end
     feature 'baptized_at_home_parish = false' do
       before(:each) do
         @candidate.baptismal_certificate.baptized_at_home_parish = false
         @candidate.save!
+        @bc_form_info.yes_checked_baptized_at_home_parish = false
+        @bc_form_info.no_checked_baptized_at_home_parish = true
       end
       feature 'initial screens' do
         scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, first communion showing' do
@@ -243,6 +257,8 @@ shared_context 'baptismal_certificate_html_erb' do
       feature 'baptized_catholic = true' do
         before(:each) do
           @candidate.baptismal_certificate.baptized_catholic = true
+          @bc_form_info.yes_checked_baptized_catholic = true
+          @bc_form_info.no_checked_baptized_catholic = false
           @candidate.save!
         end
         # feature 'initial screens' do
@@ -347,6 +363,10 @@ shared_context 'baptismal_certificate_html_erb' do
             find(:id, 'candidate_baptismal_certificate_attributes_show_empty_radio', visible: false).set('1')
 
             click_button @update_id
+
+            @bc_form_info.show_checked_baptized_catholic = false
+            @bc_form_info.yes_checked_baptized_at_home_parish = true
+            @bc_form_info.no_checked_baptized_at_home_parish = false
 
             candidate = Candidate.find(@candidate.id)
             if @is_verify
@@ -505,6 +525,8 @@ shared_context 'baptismal_certificate_html_erb' do
         before(:each) do
           @candidate.baptismal_certificate.baptized_catholic = false
           @candidate.save!
+          @bc_form_info.yes_checked_baptized_catholic = false
+          @bc_form_info.no_checked_baptized_catholic = true
         end
         # feature 'initial screens' do
         #   scenario 'everything filled in' do
@@ -604,11 +626,11 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), nil)
 
-    baptized_home_parish_radios(cand)
+    baptized_home_parish_radios(bc_form_info)
     expect(page).to have_selector("div[id=baptized-at-home-parish-info][class='#{!bc_form_info.show_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
     expect_home_parish(page, disabled, bc_form_info.show_baptized_at_home_parish_info, blank_fields, values)
 
-    baptized_catholic_radios(cand)
+    baptized_catholic_radios(bc_form_info)
     expect(page).to have_selector("div[id=baptized-catholic-info][class='#{!bc_form_info.show_baptized_catholic_info ? 'hide-div' : 'show-div'}']")
     expect_baptized_catholic(page, disabled, bc_form_info.show_baptized_catholic_info, blank_fields, values)
 
@@ -712,17 +734,21 @@ shared_context 'baptismal_certificate_html_erb' do
     @candidate.save!
   end
 
-  def baptized_home_parish_radios(cand)
+  def baptized_home_parish_radios(bc_form_info)
     yes_id = 'candidate_baptismal_certificate_attributes_baptized_at_home_parish_1'
     no_id = 'candidate_baptismal_certificate_attributes_baptized_at_home_parish_0'
     expect(page).to have_selector("input[type=radio][id=#{yes_id}][value='1']", count: 1)
     expect(page).to have_selector("input[type=radio][id=#{no_id}][value='0']", count: 1)
 
-    should_show_checked = cand.baptismal_certificate.show_empty_radio > 0
-    yes_checked = should_show_checked && cand.baptismal_certificate.baptized_at_home_parish
-    no_checked = should_show_checked && !cand.baptismal_certificate.baptized_at_home_parish
+    should_show_checked = bc_form_info.show_checked_baptized_at_home_parish
+    yes_checked = should_show_checked && bc_form_info.yes_checked_baptized_at_home_parish
+    no_checked = should_show_checked && bc_form_info.no_checked_baptized_at_home_parish
+    # no_checked = should_show_checked && !cand.baptismal_certificate.baptized_at_home_parish
 
-    return false unless should_show_checked
+    expect(find_field(yes_id)).not_to be_checked unless should_show_checked
+    expect(find_field(no_id)).not_to be_checked unless should_show_checked
+
+    return unless should_show_checked
 
     expect(find_field(yes_id)).to be_checked if yes_checked
     expect(find_field(no_id)).not_to be_checked if yes_checked
@@ -732,15 +758,18 @@ shared_context 'baptismal_certificate_html_erb' do
     true
   end
 
-  def baptized_catholic_radios(cand)
+  def baptized_catholic_radios(bc_form_info)
     yes_id = 'candidate_baptismal_certificate_attributes_baptized_catholic_1'
     no_id = 'candidate_baptismal_certificate_attributes_baptized_catholic_0'
     expect(page).to have_selector("input[type=radio][id=#{yes_id}][value='1']", count: 1)
     expect(page).to have_selector("input[type=radio][id=#{no_id}][value='0']", count: 1)
 
-    should_show_checked = cand.baptismal_certificate.show_empty_radio > 1
-    yes_checked = should_show_checked && cand.baptismal_certificate.baptized_catholic
-    no_checked = should_show_checked && !cand.baptismal_certificate.baptized_catholic
+    should_show_checked = bc_form_info.show_checked_baptized_catholic
+    # should_show_checked = cand.baptismal_certificate.show_empty_radio > 1
+    yes_checked = should_show_checked && bc_form_info.yes_checked_baptized_catholic
+    no_checked = should_show_checked && bc_form_info.no_checked_baptized_catholic
+    # yes_checked = should_show_checked && cand.baptismal_certificate.baptized_catholic
+    # no_checked = should_show_checked && !cand.baptismal_certificate.baptized_catholic
 
     expect(find_field(yes_id)).to be_checked if should_show_checked && yes_checked
     expect(find_field(no_id)).not_to be_checked if should_show_checked && yes_checked
@@ -816,7 +845,13 @@ end
 class ExpectBCFormInfo
   attr_accessor :show_baptized_at_home_parish_info,
                 :show_baptized_catholic_info,
-                :show_profession_of_faith_info
+                :show_profession_of_faith_info,
+                :show_checked_baptized_at_home_parish,
+                :yes_checked_baptized_at_home_parish,
+                :no_checked_baptized_at_home_parish,
+                :show_checked_baptized_catholic,
+                :yes_checked_baptized_catholic,
+                :no_checked_baptized_catholic
 
   def show_info(show_home_parish_info, show_hide_baptized_catholic_info, show_profession_info)
     @show_baptized_at_home_parish_info = show_home_parish_info
