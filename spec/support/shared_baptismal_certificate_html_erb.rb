@@ -40,6 +40,7 @@ shared_context 'baptismal_certificate_html_erb' do
     @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name) if @is_verify
     @updated_message = I18n.t('messages.updated', cand_name: cand_name) unless @is_verify
     @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name) unless @is_verify
+    @bc_form_info = ExpectBCFormInfo.new
   end
   feature 'show_empty_radio = 0' do
     before(:each) do
@@ -53,7 +54,7 @@ shared_context 'baptismal_certificate_html_erb' do
         visit @path
 
         expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                          true, true, true, false)
+                                          @bc_form_info.show_info(false, false, false), false)
       end
     end
     feature 'error messages' do
@@ -63,7 +64,8 @@ shared_context 'baptismal_certificate_html_erb' do
         visit @path
         click_button @update_id
 
-        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, true, true, true, false,
+        expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                          @bc_form_info.show_info(false, false, false), false,
                                           expected_messages: [[:flash_notice, @updated_failed_verification],
                                                               # rubocop:disable Layout/LineLength
                                                               [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
@@ -89,7 +91,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
           visit @path
 
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                            @bc_form_info.show_info(true, false, false), false)
         end
 
         scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = true, show_empty_radio = 1' do
@@ -97,7 +100,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
           visit @path
 
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                            @bc_form_info.show_info(true, false, false), false)
         end
       end
       feature 'error messages' do
@@ -108,7 +112,8 @@ shared_context 'baptismal_certificate_html_erb' do
           fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
           click_button @update_id
 
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false,
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                            @bc_form_info.show_info(true, false, false), false,
                                             expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                 # rubocop:disable Layout/LineLength
                                                                 [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 9),
@@ -136,7 +141,7 @@ shared_context 'baptismal_certificate_html_erb' do
           visit @path
 
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                            false, true, true, false)
+                                            @bc_form_info.show_info(true, false, false), false)
 
           expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if @is_verify
 
@@ -148,7 +153,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
             expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), { is_unverified: true })
           else
-            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                              @bc_form_info.show_info(true, false, false), false)
           end
           # rubocop:enable Layout/LineLength
 
@@ -169,7 +175,7 @@ shared_context 'baptismal_certificate_html_erb' do
           visit @path
 
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                            false, true, true, false)
+                                            @bc_form_info.show_info(true, false, false), false)
         end
         # rubocop:disable Layout/LineLength
         scenario 'admin logs in and selects a candidate, initial baptized_at_home_parish = true, show_empty_radio = 1 fc showing - yes check' do
@@ -178,7 +184,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
           visit @path
 
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false)
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                            @bc_form_info.show_info(true, false, false), false)
         end
       end
       feature 'error messages' do
@@ -189,7 +196,8 @@ shared_context 'baptismal_certificate_html_erb' do
           fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
           click_button @update_id
 
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify, false, true, true, false,
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                            @bc_form_info.show_info(true, false, false), false,
                                             expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                 # rubocop:disable Layout/LineLength
                                                                 [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 10),
@@ -225,7 +233,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
           visit @path
 
-          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verif, false, false, false, false)
+          expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verif,
+                                            @bc_form_info.show_info(true, true, true), false)
         end
       end
       # feature 'error messages' do
@@ -246,7 +255,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
             visit @path
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false)
+                                              @bc_form_info.show_info(true, true, false), false)
             fill_in_form
 
             click_button @update_id
@@ -258,7 +267,7 @@ shared_context 'baptismal_certificate_html_erb' do
             else
 
               expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                                false, false, true, false,
+                                                @bc_form_info.show_info(true, true, false), false,
                                                 expected_messages: [[:flash_notice, @updated_message]])
             end
           end
@@ -270,7 +279,7 @@ shared_context 'baptismal_certificate_html_erb' do
             visit @path
             # rubocop:disable Layout/LineLength
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false)
+                                              @bc_form_info.show_info(true, true, false), false)
             fill_in_form
 
             click_button @update_id
@@ -284,7 +293,7 @@ shared_context 'baptismal_certificate_html_erb' do
             else
 
               expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                                false, false, true, false,
+                                                @bc_form_info.show_info(true, true, false), false,
                                                 expected_messages: [[:flash_notice, @updated_message]])
 
             end
@@ -326,7 +335,7 @@ shared_context 'baptismal_certificate_html_erb' do
             else
 
               expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                                false, false, true, false,
+                                                @bc_form_info.show_info(true, true, false), false,
                                                 expected_messages: [[:flash_notice, @updated_message]])
 
             end
@@ -348,7 +357,7 @@ shared_context 'baptismal_certificate_html_erb' do
             else
 
               expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                                false, true, true, false,
+                                                @bc_form_info.show_info(true, false, false), false,
                                                 expected_messages: [[:flash_notice, @updated_message]])
 
             end
@@ -373,7 +382,7 @@ shared_context 'baptismal_certificate_html_erb' do
             candidate = Candidate.find(@candidate.id)
 
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false,
+                                              @bc_form_info.show_info(true, true, false), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                                         "Middle name #{I18n.t('errors.messages.blank')}"]]])
@@ -396,7 +405,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
             else
               expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                                false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
+                                                @bc_form_info.show_info(true, true, false), false, expected_messages: [[:flash_notice, @updated_message]])
             end
 
             cand = Candidate.find_by(id: candidate.id)
@@ -422,7 +431,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
             candidate = Candidate.find(@candidate.id)
 
-            expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify, false, false, true, false,
+            expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                              @bc_form_info.show_info(true, true, false), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
 
@@ -457,7 +467,7 @@ shared_context 'baptismal_certificate_html_erb' do
             click_button @update_id
 
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false,
+                                              @bc_form_info.show_info(true, true, false), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                                         "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"]]])
@@ -473,7 +483,8 @@ shared_context 'baptismal_certificate_html_erb' do
             else
 
               expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                                false, false, true, false, expected_messages: [[:flash_notice, @updated_message]])
+                                                @bc_form_info.show_info(true, true, false), false,
+                                                expected_messages: [[:flash_notice, @updated_message]])
 
               expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
               expect(candidate.baptismal_certificate).not_to eq(nil)
@@ -484,7 +495,7 @@ shared_context 'baptismal_certificate_html_erb' do
             visit @path
             candidate = Candidate.find(@candidate.id)
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, true, false,
+                                              @bc_form_info.show_info(true, true, false), false,
                                               expected_messages: [[:flash_notice, @updated_message]])
           end
           # rubocop:enable Layout/LineLength
@@ -501,14 +512,14 @@ shared_context 'baptismal_certificate_html_erb' do
         #
         #     visit @path
         #     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-        #                                       false, true, false, false)
+        #                                       @bc_form_info.show_info(true, false, true), false)
         #   end
         #   scenario 'everything empty in' do
         #     update_baptismal_certificate(home_parish_fields: false, baptized_catholic: false, prof_of_faith: false)
         #
         #     visit @path
         #     expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-        #                                       false, true, false, false)
+        #                                       @bc_form_info.show_info(true, false, true), false)
         #   end
         # end
         feature 'error messages' do
@@ -520,14 +531,14 @@ shared_context 'baptismal_certificate_html_erb' do
             expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'), nil)
 
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, false, false)
+                                              @bc_form_info.show_info(true, true, true), false)
             # fill_in(I18n.t('label.candidate_sheet.first_name'), with: '')
             # fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first'), with: '')
             click_button @update_id
 
             # rubocop:disable Layout/LineLength
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                              false, false, false, false,
+                                              @bc_form_info.show_info(true, true, true), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
                                                                                         "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}",
@@ -549,7 +560,7 @@ shared_context 'baptismal_certificate_html_erb' do
               # expect_loaded_scanned_images
 
               expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
-                                                false, false, false, false,
+                                                @bc_form_info.show_info(true, true, true), false,
                                                 expected_messages: [[:flash_notice, @updated_message]])
             end
           end
@@ -568,49 +579,11 @@ shared_context 'baptismal_certificate_html_erb' do
                                         path_str,
                                         button_name,
                                         is_verify,
-                                        hide_baptized_at_home_parish_info,
-                                        hide_baptized_catholic_info,
-                                        hide_profession_of_faith_info,
+                                        bc_form_info,
                                         disabled,
                                         values = {})
 
-    values = {
-      expected_messages: [],
-      birth_date: hide_baptized_at_home_parish_info ? nil : BIRTH_DATE,
-      baptismal_date: hide_baptized_at_home_parish_info ? nil : BAPTISMAL_DATE,
-
-      father_first: hide_baptized_at_home_parish_info ? nil : FATHER_FIRST,
-      father_middle: hide_baptized_at_home_parish_info ? nil : FATHER_MIDDLE,
-      father_last: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
-
-      mother_first: hide_baptized_at_home_parish_info ? nil : MOTHER_FIRST,
-      mother_middle: hide_baptized_at_home_parish_info ? nil : MOTHER_MIDDLE,
-      mother_maiden: hide_baptized_at_home_parish_info ? nil : MOTHER_MAIDEN,
-      mother_last: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
-
-      first_name: hide_baptized_at_home_parish_info ? nil : FIRST_NAME,
-      middle_name: hide_baptized_at_home_parish_info ? nil : MIDDLE_NAME,
-      last_name: hide_baptized_at_home_parish_info ? nil : LAST_NAME,
-
-      church_name: hide_baptized_catholic_info ? nil : CHURCH_NAME,
-      street1: hide_baptized_catholic_info ? nil : STREET_1,
-      street_1: hide_baptized_catholic_info ? nil : STREET_1, # remove
-      street2: hide_baptized_catholic_info ? nil : STREET_2,
-      street_2: hide_baptized_catholic_info ? nil : STREET_2, # remove
-      city: hide_baptized_catholic_info ? nil : CITY,
-      state: hide_baptized_catholic_info ? nil : STATE,
-      zip_code: hide_baptized_catholic_info ? nil : ZIP_CODE,
-
-      prof_date: hide_profession_of_faith_info ? nil : PROF_DATE,
-      prof_church_name: hide_profession_of_faith_info ? nil : PROF_CHURCH_NAME,
-      prof_street1: hide_profession_of_faith_info ? nil : PROF_STREET_1,
-      prof_street_1: hide_profession_of_faith_info ? nil : PROF_STREET_1, # remove
-      prof_street2: hide_profession_of_faith_info ? nil : PROF_STREET_2,
-      prof_street_2: hide_profession_of_faith_info ? nil : PROF_STREET_2, # remove
-      prof_city: hide_profession_of_faith_info ? nil : PROF_CITY,
-      prof_state: hide_profession_of_faith_info ? nil : PROF_STATE,
-      prof_zip_code: hide_profession_of_faith_info ? nil : PROF_ZIP_CODE
-    }.merge(values)
+    values = bc_form_info.values.merge(values)
 
     expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
@@ -627,19 +600,19 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/baptismal_certificate\"]")
     expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish))
 
-    expect(page).to have_selector("div[id=baptized-at-home-parish-info][class='#{hide_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
+    expect(page).to have_selector("div[id=baptized-at-home-parish-info][class='#{!bc_form_info.show_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
 
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), nil)
 
     baptized_home_parish_radios(cand)
-    expect(page).to have_selector("div[id=baptized-at-home-parish-info][class='#{hide_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
-    expect_home_parish(page, disabled, !hide_baptized_at_home_parish_info, blank_fields, values)
+    expect(page).to have_selector("div[id=baptized-at-home-parish-info][class='#{!bc_form_info.show_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
+    expect_home_parish(page, disabled, bc_form_info.show_baptized_at_home_parish_info, blank_fields, values)
 
     baptized_catholic_radios(cand)
-    expect(page).to have_selector("div[id=baptized-catholic-info][class='#{hide_baptized_catholic_info ? 'hide-div' : 'show-div'}']")
-    expect_baptized_catholic(page, disabled, !hide_baptized_catholic_info, blank_fields, values)
+    expect(page).to have_selector("div[id=baptized-catholic-info][class='#{!bc_form_info.show_baptized_catholic_info ? 'hide-div' : 'show-div'}']")
+    expect_baptized_catholic(page, disabled, bc_form_info.show_baptized_catholic_info, blank_fields, values)
 
-    expect(page).to have_selector("div[id=profession-of-faith-info][class='#{hide_profession_of_faith_info ? 'hide-div' : 'show-div'}']")
+    expect(page).to have_selector("div[id=profession-of-faith-info][class='#{!bc_form_info.show_profession_of_faith_info ? 'hide-div' : 'show-div'}']")
 
     expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
 
@@ -837,5 +810,58 @@ shared_context 'baptismal_certificate_html_erb' do
       disabled,
       vis
     )
+  end
+end
+
+class ExpectBCFormInfo
+  attr_accessor :show_baptized_at_home_parish_info,
+                :show_baptized_catholic_info,
+                :show_profession_of_faith_info
+
+  def show_info(show_home_parish_info, show_hide_baptized_catholic_info, show_profession_info)
+    @show_baptized_at_home_parish_info = show_home_parish_info
+    @show_baptized_catholic_info = show_hide_baptized_catholic_info
+    @show_profession_of_faith_info = show_profession_info
+    self
+  end
+
+  def values
+    {
+      expected_messages: [],
+      birth_date: !show_baptized_at_home_parish_info ? nil : BIRTH_DATE,
+      baptismal_date: !show_baptized_at_home_parish_info ? nil : BAPTISMAL_DATE,
+
+      father_first: !show_baptized_at_home_parish_info ? nil : FATHER_FIRST,
+      father_middle: !show_baptized_at_home_parish_info ? nil : FATHER_MIDDLE,
+      father_last: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
+
+      mother_first: !show_baptized_at_home_parish_info ? nil : MOTHER_FIRST,
+      mother_middle: !show_baptized_at_home_parish_info ? nil : MOTHER_MIDDLE,
+      mother_maiden: !show_baptized_at_home_parish_info ? nil : MOTHER_MAIDEN,
+      mother_last: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
+
+      first_name: !show_baptized_at_home_parish_info ? nil : FIRST_NAME,
+      middle_name: !show_baptized_at_home_parish_info ? nil : MIDDLE_NAME,
+      last_name: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
+
+      church_name: !show_baptized_catholic_info ? nil : CHURCH_NAME,
+      street1: !show_baptized_catholic_info ? nil : STREET_1,
+      street_1: !show_baptized_catholic_info ? nil : STREET_1, # remove
+      street2: !show_baptized_catholic_info ? nil : STREET_2,
+      street_2: !show_baptized_catholic_info ? nil : STREET_2, # remove
+      city: !show_baptized_catholic_info ? nil : CITY,
+      state: !show_baptized_catholic_info ? nil : STATE,
+      zip_code: !show_baptized_catholic_info ? nil : ZIP_CODE,
+
+      prof_date: !show_profession_of_faith_info ? nil : PROF_DATE,
+      prof_church_name: !show_profession_of_faith_info ? nil : PROF_CHURCH_NAME,
+      prof_street1: !show_profession_of_faith_info ? nil : PROF_STREET_1,
+      prof_street_1: !show_profession_of_faith_info ? nil : PROF_STREET_1, # remove
+      prof_street2: !show_profession_of_faith_info ? nil : PROF_STREET_2,
+      prof_street_2: !show_profession_of_faith_info ? nil : PROF_STREET_2, # remove
+      prof_city: !show_profession_of_faith_info ? nil : PROF_CITY,
+      prof_state: !show_profession_of_faith_info ? nil : PROF_STATE,
+      prof_zip_code: !show_profession_of_faith_info ? nil : PROF_ZIP_CODE
+    }
   end
 end
