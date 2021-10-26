@@ -243,7 +243,7 @@ shared_context 'baptismal_certificate_html_erb' do
       end
       feature 'initial screens' do
         scenario 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, first communion showing' do
-          update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true)
+          update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true, prof_of_faith: true)
 
           visit @path
 
@@ -428,13 +428,13 @@ shared_context 'baptismal_certificate_html_erb' do
                                                 @bc_form_info.show_info(true, true, false), false, expected_messages: [[:flash_notice, @updated_message]])
             end
 
-            cand = Candidate.find_by(id: candidate.id)
-            expect(cand.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(@is_verify), 'Baptismal certificate not verified.'
-            expect(cand.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
+            candidate = Candidate.find_by(id: candidate.id)
+            expect(candidate.get_candidate_event(BaptismalCertificate.event_key).verified).to eq(@is_verify), 'Baptismal certificate not verified.'
+            expect(candidate.get_candidate_event(BaptismalCertificate.event_key).completed_date).to eq(Time.zone.today)
 
             # candidate_information_sheet if completed is automatically verified
-            expect(cand.get_candidate_event(CandidateSheet.event_key).verified?).to eq(true)
-            expect(cand.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(Time.zone.today)
+            expect(candidate.get_candidate_event(CandidateSheet.event_key).verified?).to eq(true)
+            expect(candidate.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(Time.zone.today)
           end
           # rubocop:enable Layout/LineLength
           scenario 'admin logs in and selects a candidate, checks no for baptized_at_home_parish and updates' do
@@ -615,9 +615,9 @@ shared_context 'baptismal_certificate_html_erb' do
       blank_fields = values[:expected_messages][1][1] unless values[:expected_messages].nil?
     end
 
-    cand = Candidate.find(cand_id)
+    candidate = Candidate.find(cand_id)
 
-    expect_heading(cand, dev_path.empty?, BaptismalCertificate.event_key)
+    expect_heading(candidate, dev_path.empty?, BaptismalCertificate.event_key)
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/baptismal_certificate\"]")
     expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish))
@@ -626,21 +626,16 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), nil)
 
-    baptized_home_parish_radios(bc_form_info)
-    expect(page).to have_selector("div[id=baptized-at-home-parish-info][class='#{!bc_form_info.show_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
-    expect_home_parish(page, disabled, bc_form_info.show_baptized_at_home_parish_info, blank_fields, values)
+    expect_home_parish(page, bc_form_info, blank_fields, disabled, values)
 
-    baptized_catholic_radios(bc_form_info)
-    expect(page).to have_selector("div[id=baptized-catholic-info][class='#{!bc_form_info.show_baptized_catholic_info ? 'hide-div' : 'show-div'}']")
-    expect_baptized_catholic(page, disabled, bc_form_info.show_baptized_catholic_info, blank_fields, values)
+    expect_baptized_catholic(page, bc_form_info, blank_fields, disabled, values)
 
-    expect(page).to have_selector("div[id=profession-of-faith-info][class='#{!bc_form_info.show_profession_of_faith_info ? 'hide-div' : 'show-div'}']")
+    expect_profession_of_faith(page, bc_form_info, blank_fields, disabled, values)
 
     expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
 
     expect(page).to have_button(button_name, count: 2)
-    # remove_count = cand.baptismal_certificate.scanned_certificate.nil? ? 0 : 1
-    expect_remove_button('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture') unless cand.baptismal_certificate.scanned_certificate.nil?
+    expect_remove_button('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture')
     expect(page).to have_button(I18n.t('views.common.remove_image'), count: 1)
     expect(page).to have_button(I18n.t('views.common.replace_image'), count: 1)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
@@ -684,8 +679,6 @@ shared_context 'baptismal_certificate_html_erb' do
 
   def update_baptismal_certificate(home_parish_fields: false, baptized_catholic: false, prof_of_faith: false)
     if home_parish_fields
-      # return unless home_parish_fields
-
       baptismal_certificate = @candidate.baptismal_certificate
 
       candidate_sheet = @candidate.candidate_sheet
@@ -710,8 +703,6 @@ shared_context 'baptismal_certificate_html_erb' do
     end
 
     if baptized_catholic
-      # return unless baptized_catholic
-
       baptismal_certificate.church_name = CHURCH_NAME
       baptismal_certificate.church_address.street_1 = STREET_1
       baptismal_certificate.church_address.street_2 = STREET_2
@@ -743,7 +734,6 @@ shared_context 'baptismal_certificate_html_erb' do
     should_show_checked = bc_form_info.show_checked_baptized_at_home_parish
     yes_checked = should_show_checked && bc_form_info.yes_checked_baptized_at_home_parish
     no_checked = should_show_checked && bc_form_info.no_checked_baptized_at_home_parish
-    # no_checked = should_show_checked && !cand.baptismal_certificate.baptized_at_home_parish
 
     expect(find_field(yes_id)).not_to be_checked unless should_show_checked
     expect(find_field(no_id)).not_to be_checked unless should_show_checked
@@ -765,11 +755,8 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(page).to have_selector("input[type=radio][id=#{no_id}][value='0']", count: 1)
 
     should_show_checked = bc_form_info.show_checked_baptized_catholic
-    # should_show_checked = cand.baptismal_certificate.show_empty_radio > 1
     yes_checked = should_show_checked && bc_form_info.yes_checked_baptized_catholic
     no_checked = should_show_checked && bc_form_info.no_checked_baptized_catholic
-    # yes_checked = should_show_checked && cand.baptismal_certificate.baptized_catholic
-    # no_checked = should_show_checked && !cand.baptismal_certificate.baptized_catholic
 
     expect(find_field(yes_id)).to be_checked if should_show_checked && yes_checked
     expect(find_field(no_id)).not_to be_checked if should_show_checked && yes_checked
@@ -779,14 +766,14 @@ shared_context 'baptismal_certificate_html_erb' do
     should_show_checked
   end
 
-  def expect_baptized_catholic(rendered_or_page, disabled, visible, blank_fields, values)
+  def expect_baptized_catholic_fields(rendered_or_page, disabled, visible, blank_fields, values)
     text_fields = %i[church_name]
 
     ExpectAddress.expect_address_fields(rendered_or_page, values, disabled, blank_fields, visible)
 
     text_fields.each do |sym|
       val = values[sym]
-      val = '' if ExpectAddress.blank_field(blank_fields, "label.baptismal_certificate.baptismal_certificate.#{sym}")
+      val = '' if ExpectAddress.blank_field?(blank_fields, "label.baptismal_certificate.baptismal_certificate.#{sym}")
       ExpectFields.expect_have_field_text(
         rendered_or_page,
         I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
@@ -798,11 +785,65 @@ shared_context 'baptismal_certificate_html_erb' do
     end
   end
 
-  def expect_home_parish(rendered_or_page, disabled, visible, blank_fields, values)
+  def expect_baptized_catholic(rendered_or_page, bc_form_info, blank_fields, disabled, values)
+    baptized_catholic_radios(bc_form_info)
+    # rubocop:disable Layout/LineLength
+    expect(rendered_or_page).to have_selector("div[id=baptized-catholic-info][class='#{!bc_form_info.show_baptized_catholic_info ? 'hide-div' : 'show-div'}']")
+    # rubocop:enable Layout/LineLength
+    expect_baptized_catholic_fields(rendered_or_page, disabled, bc_form_info.show_baptized_catholic_info, blank_fields, values)
+  end
+
+  def expect_profession_of_faith_fields(rendered_or_page, disabled, visible, blank_fields, values)
+    text_fields = %i[prof_church_name]
+
+    val = values[:prof_date]
+    val = '' if ExpectAddress.blank_field?(blank_fields, 'label.baptismal_certificate.baptismal_certificate.prof_date')
+    vis = visible && !val.empty?
+    ExpectFields.expect_have_field_date(
+      rendered_or_page,
+      I18n.t('label.baptismal_certificate.baptismal_certificate.prof_date'),
+      'candidate_baptismal_certificate_attributes_prof_date',
+      val,
+      disabled,
+      vis
+    )
+
+    ExpectAddress.expect_prof_address_fields(rendered_or_page, values, disabled, blank_fields, visible)
+
+    text_fields.each do |sym|
+      val = values[sym]
+      val = '' if ExpectAddress.blank_field?(blank_fields, "label.baptismal_certificate.baptismal_certificate.#{sym}")
+      ExpectFields.expect_have_field_text(
+        rendered_or_page,
+        I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
+        "candidate_baptismal_certificate_attributes_#{sym}",
+        val,
+        disabled,
+        visible
+      )
+    end
+  end
+
+  def expect_profession_of_faith(rendered_or_page, bc_form_info, blank_fields, disabled, values)
+    # rubocop:disable Layout/LineLength
+    expect(rendered_or_page).to have_selector("div[id=profession-of-faith-info][class='#{!bc_form_info.show_profession_of_faith_info ? 'hide-div' : 'show-div'}']")
+    expect_profession_of_faith_fields(rendered_or_page, disabled, bc_form_info.show_profession_of_faith_info, blank_fields, values)
+    # rubocop:enable Layout/LineLength
+  end
+
+  def expect_home_parish(rendered_or_page, bc_form_info, blank_fields, disabled, values)
+    baptized_home_parish_radios(bc_form_info)
+    # rubocop:disable Layout/LineLength
+    expect(rendered_or_page).to have_selector("div[id=baptized-at-home-parish-info][class='#{!bc_form_info.show_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
+    # rubocop:enable Layout/LineLength
+    expect_home_parish_fields(rendered_or_page, disabled, bc_form_info.show_baptized_at_home_parish_info, blank_fields, values)
+  end
+
+  def expect_home_parish_fields(rendered_or_page, disabled, visible, blank_fields, values)
     cs_text_fields = %i[first_name middle_name last_name]
     cs_text_fields.each do |sym|
       val = values[sym]
-      val = '' if ExpectAddress.blank_field(blank_fields, "label.candidate_sheet.#{sym}")
+      val = '' if ExpectAddress.blank_field?(blank_fields, "label.candidate_sheet.#{sym}")
       ExpectFields.expect_have_field_text(
         rendered_or_page,
         I18n.t("label.candidate_sheet.#{sym}"),
@@ -817,7 +858,7 @@ shared_context 'baptismal_certificate_html_erb' do
                      mother_first mother_middle mother_maiden mother_last]
     text_fields.each do |sym|
       val = values[sym]
-      val = '' if ExpectAddress.blank_field(blank_fields, "label.baptismal_certificate.baptismal_certificate.#{sym}")
+      val = '' if ExpectAddress.blank_field?(blank_fields, "label.baptismal_certificate.baptismal_certificate.#{sym}")
       ExpectFields.expect_have_field_text(
         rendered_or_page,
         I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
@@ -829,7 +870,7 @@ shared_context 'baptismal_certificate_html_erb' do
     end
 
     val = values[:birth_date]
-    val = '' if ExpectAddress.blank_field(blank_fields, 'label.baptismal_certificate.baptismal_certificate.birth_date')
+    val = '' if ExpectAddress.blank_field?(blank_fields, 'label.baptismal_certificate.baptismal_certificate.birth_date')
     vis = visible && !val.empty?
     ExpectFields.expect_have_field_date(
       rendered_or_page,
@@ -842,6 +883,8 @@ shared_context 'baptismal_certificate_html_erb' do
   end
 end
 
+# Helper class to hold expected values
+#
 class ExpectBCFormInfo
   attr_accessor :show_baptized_at_home_parish_info,
                 :show_baptized_catholic_info,
