@@ -607,13 +607,9 @@ shared_context 'baptismal_certificate_html_erb' do
 
     values = bc_form_info.values.merge(values)
 
-    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
+    bc_form_info.add_blank_fields(values[:expected_messages])
 
-    if values[:expected_messages].nil? || values[:expected_messages].size < 2
-      blank_fields = []
-    else
-      blank_fields = values[:expected_messages][1][1] unless values[:expected_messages].nil?
-    end
+    expect_messages(values[:expected_messages]) unless values[:expected_messages].nil?
 
     candidate = Candidate.find(cand_id)
 
@@ -622,15 +618,13 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/baptismal_certificate\"]")
     expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish))
 
-    expect(page).to have_selector("div[id=baptized-at-home-parish-info][class='#{!bc_form_info.show_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
-
     expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), nil)
 
-    expect_home_parish(page, bc_form_info, blank_fields, disabled, values)
+    expect_home_parish(page, bc_form_info, disabled)
 
-    expect_baptized_catholic(page, bc_form_info, blank_fields, disabled, values)
+    expect_baptized_catholic(page, bc_form_info, disabled)
 
-    expect_profession_of_faith(page, bc_form_info, blank_fields, disabled, values)
+    expect_profession_of_faith(page, bc_form_info, disabled)
 
     expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
 
@@ -766,14 +760,13 @@ shared_context 'baptismal_certificate_html_erb' do
     should_show_checked
   end
 
-  def expect_baptized_catholic_fields(rendered_or_page, disabled, visible, blank_fields, values)
+  def expect_baptized_catholic_fields(rendered_or_page, disabled, visible, bc_form_info)
     text_fields = %i[church_name]
 
-    ExpectAddress.expect_address_fields(rendered_or_page, values, disabled, blank_fields, visible)
+    ExpectAddress.expect_address_fields(rendered_or_page, bc_form_info, disabled, visible)
 
     text_fields.each do |sym|
-      val = values[sym]
-      val = '' if ExpectAddress.blank_field?(blank_fields, "label.baptismal_certificate.baptismal_certificate.#{sym}")
+      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
         I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
@@ -785,19 +778,18 @@ shared_context 'baptismal_certificate_html_erb' do
     end
   end
 
-  def expect_baptized_catholic(rendered_or_page, bc_form_info, blank_fields, disabled, values)
+  def expect_baptized_catholic(rendered_or_page, bc_form_info, disabled)
     baptized_catholic_radios(bc_form_info)
     # rubocop:disable Layout/LineLength
     expect(rendered_or_page).to have_selector("div[id=baptized-catholic-info][class='#{!bc_form_info.show_baptized_catholic_info ? 'hide-div' : 'show-div'}']")
     # rubocop:enable Layout/LineLength
-    expect_baptized_catholic_fields(rendered_or_page, disabled, bc_form_info.show_baptized_catholic_info, blank_fields, values)
+    expect_baptized_catholic_fields(rendered_or_page, disabled, bc_form_info.show_baptized_catholic_info, bc_form_info)
   end
 
-  def expect_profession_of_faith_fields(rendered_or_page, disabled, visible, blank_fields, values)
+  def expect_profession_of_faith_fields(rendered_or_page, disabled, visible, bc_form_info)
     text_fields = %i[prof_church_name]
 
-    val = values[:prof_date]
-    val = '' if ExpectAddress.blank_field?(blank_fields, 'label.baptismal_certificate.baptismal_certificate.prof_date')
+    val = bc_form_info.field_value(:prof_date, 'label.baptismal_certificate.baptismal_certificate')
     vis = visible && !val.empty?
     ExpectFields.expect_have_field_date(
       rendered_or_page,
@@ -808,11 +800,10 @@ shared_context 'baptismal_certificate_html_erb' do
       vis
     )
 
-    ExpectAddress.expect_prof_address_fields(rendered_or_page, values, disabled, blank_fields, visible)
+    ExpectAddress.expect_prof_address_fields(rendered_or_page, bc_form_info, disabled, visible)
 
     text_fields.each do |sym|
-      val = values[sym]
-      val = '' if ExpectAddress.blank_field?(blank_fields, "label.baptismal_certificate.baptismal_certificate.#{sym}")
+      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
         I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
@@ -824,26 +815,25 @@ shared_context 'baptismal_certificate_html_erb' do
     end
   end
 
-  def expect_profession_of_faith(rendered_or_page, bc_form_info, blank_fields, disabled, values)
+  def expect_profession_of_faith(rendered_or_page, bc_form_info, disabled)
     # rubocop:disable Layout/LineLength
     expect(rendered_or_page).to have_selector("div[id=profession-of-faith-info][class='#{!bc_form_info.show_profession_of_faith_info ? 'hide-div' : 'show-div'}']")
-    expect_profession_of_faith_fields(rendered_or_page, disabled, bc_form_info.show_profession_of_faith_info, blank_fields, values)
+    expect_profession_of_faith_fields(rendered_or_page, disabled, bc_form_info.show_profession_of_faith_info, bc_form_info)
     # rubocop:enable Layout/LineLength
   end
 
-  def expect_home_parish(rendered_or_page, bc_form_info, blank_fields, disabled, values)
+  def expect_home_parish(rendered_or_page, bc_form_info, disabled)
     baptized_home_parish_radios(bc_form_info)
     # rubocop:disable Layout/LineLength
     expect(rendered_or_page).to have_selector("div[id=baptized-at-home-parish-info][class='#{!bc_form_info.show_baptized_at_home_parish_info ? 'hide-div' : 'show-div'}']")
     # rubocop:enable Layout/LineLength
-    expect_home_parish_fields(rendered_or_page, disabled, bc_form_info.show_baptized_at_home_parish_info, blank_fields, values)
+    expect_home_parish_fields(rendered_or_page, disabled, bc_form_info, bc_form_info.show_baptized_at_home_parish_info)
   end
 
-  def expect_home_parish_fields(rendered_or_page, disabled, visible, blank_fields, values)
+  def expect_home_parish_fields(rendered_or_page, disabled, bc_form_info, visible)
     cs_text_fields = %i[first_name middle_name last_name]
     cs_text_fields.each do |sym|
-      val = values[sym]
-      val = '' if ExpectAddress.blank_field?(blank_fields, "label.candidate_sheet.#{sym}")
+      val = bc_form_info.field_value(sym, 'label.candidate_sheet')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
         I18n.t("label.candidate_sheet.#{sym}"),
@@ -857,8 +847,7 @@ shared_context 'baptismal_certificate_html_erb' do
     text_fields = %i[father_first father_middle father_last
                      mother_first mother_middle mother_maiden mother_last]
     text_fields.each do |sym|
-      val = values[sym]
-      val = '' if ExpectAddress.blank_field?(blank_fields, "label.baptismal_certificate.baptismal_certificate.#{sym}")
+      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
         I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
@@ -869,17 +858,19 @@ shared_context 'baptismal_certificate_html_erb' do
       )
     end
 
-    val = values[:birth_date]
-    val = '' if ExpectAddress.blank_field?(blank_fields, 'label.baptismal_certificate.baptismal_certificate.birth_date')
-    vis = visible && !val.empty?
-    ExpectFields.expect_have_field_date(
-      rendered_or_page,
-      I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'),
-      'candidate_baptismal_certificate_attributes_birth_date',
-      val,
-      disabled,
-      vis
-    )
+    date_fields = %i[birth_date baptismal_date]
+    date_fields.each do |sym|
+      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
+      vis = visible && !val.empty?
+      ExpectFields.expect_have_field_date(
+        rendered_or_page,
+        I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
+        "candidate_baptismal_certificate_attributes_#{sym}",
+        val,
+        disabled,
+        vis
+      )
+    end
   end
 end
 
@@ -894,52 +885,81 @@ class ExpectBCFormInfo
                 :no_checked_baptized_at_home_parish,
                 :show_checked_baptized_catholic,
                 :yes_checked_baptized_catholic,
-                :no_checked_baptized_catholic
+                :no_checked_baptized_catholic,
+                :values,
+                :blank_fields
+
+  def field_value(sym, i18_label_base)
+    val = values[sym]
+    val = '' if blank_field?("#{i18_label_base}.#{sym}")
+    val
+  end
 
   def show_info(show_home_parish_info, show_hide_baptized_catholic_info, show_profession_info)
     @show_baptized_at_home_parish_info = show_home_parish_info
     @show_baptized_catholic_info = show_hide_baptized_catholic_info
     @show_profession_of_faith_info = show_profession_info
+    init_values
     self
   end
 
-  def values
-    {
-      expected_messages: [],
-      birth_date: !show_baptized_at_home_parish_info ? nil : BIRTH_DATE,
-      baptismal_date: !show_baptized_at_home_parish_info ? nil : BAPTISMAL_DATE,
+  def add_blank_fields(expected_messages)
+    if expected_messages.nil? || expected_messages.size < 2
+      @blank_fields = []
+    else
+      @blank_fields = expected_messages[1][1] unless expected_messages.nil?
+    end
+  end
 
-      father_first: !show_baptized_at_home_parish_info ? nil : FATHER_FIRST,
-      father_middle: !show_baptized_at_home_parish_info ? nil : FATHER_MIDDLE,
-      father_last: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
+  # determine if a field should have a value or not
+  #
+  # === Parameters:
+  #
+  # * <tt>:i18n_path</tt>
+  #
+  def blank_field?(i18n_path)
+    # 1st part of message is in english the second half is translated
+    blank_fields.include? "#{I18n.t(i18n_path, locale: 'en')} #{I18n.t('errors.messages.blank')}"
+  end
 
-      mother_first: !show_baptized_at_home_parish_info ? nil : MOTHER_FIRST,
-      mother_middle: !show_baptized_at_home_parish_info ? nil : MOTHER_MIDDLE,
-      mother_maiden: !show_baptized_at_home_parish_info ? nil : MOTHER_MAIDEN,
-      mother_last: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
+  def init_values
+    @values =
+      {
+        expected_messages: [],
+        birth_date: !show_baptized_at_home_parish_info ? nil : BIRTH_DATE,
+        baptismal_date: !show_baptized_at_home_parish_info ? nil : BAPTISMAL_DATE,
 
-      first_name: !show_baptized_at_home_parish_info ? nil : FIRST_NAME,
-      middle_name: !show_baptized_at_home_parish_info ? nil : MIDDLE_NAME,
-      last_name: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
+        father_first: !show_baptized_at_home_parish_info ? nil : FATHER_FIRST,
+        father_middle: !show_baptized_at_home_parish_info ? nil : FATHER_MIDDLE,
+        father_last: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
 
-      church_name: !show_baptized_catholic_info ? nil : CHURCH_NAME,
-      street1: !show_baptized_catholic_info ? nil : STREET_1,
-      street_1: !show_baptized_catholic_info ? nil : STREET_1, # remove
-      street2: !show_baptized_catholic_info ? nil : STREET_2,
-      street_2: !show_baptized_catholic_info ? nil : STREET_2, # remove
-      city: !show_baptized_catholic_info ? nil : CITY,
-      state: !show_baptized_catholic_info ? nil : STATE,
-      zip_code: !show_baptized_catholic_info ? nil : ZIP_CODE,
+        mother_first: !show_baptized_at_home_parish_info ? nil : MOTHER_FIRST,
+        mother_middle: !show_baptized_at_home_parish_info ? nil : MOTHER_MIDDLE,
+        mother_maiden: !show_baptized_at_home_parish_info ? nil : MOTHER_MAIDEN,
+        mother_last: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
 
-      prof_date: !show_profession_of_faith_info ? nil : PROF_DATE,
-      prof_church_name: !show_profession_of_faith_info ? nil : PROF_CHURCH_NAME,
-      prof_street1: !show_profession_of_faith_info ? nil : PROF_STREET_1,
-      prof_street_1: !show_profession_of_faith_info ? nil : PROF_STREET_1, # remove
-      prof_street2: !show_profession_of_faith_info ? nil : PROF_STREET_2,
-      prof_street_2: !show_profession_of_faith_info ? nil : PROF_STREET_2, # remove
-      prof_city: !show_profession_of_faith_info ? nil : PROF_CITY,
-      prof_state: !show_profession_of_faith_info ? nil : PROF_STATE,
-      prof_zip_code: !show_profession_of_faith_info ? nil : PROF_ZIP_CODE
-    }
+        first_name: !show_baptized_at_home_parish_info ? nil : FIRST_NAME,
+        middle_name: !show_baptized_at_home_parish_info ? nil : MIDDLE_NAME,
+        last_name: !show_baptized_at_home_parish_info ? nil : LAST_NAME,
+
+        church_name: !show_baptized_catholic_info ? nil : CHURCH_NAME,
+        street1: !show_baptized_catholic_info ? nil : STREET_1,
+        street_1: !show_baptized_catholic_info ? nil : STREET_1, # remove
+        street2: !show_baptized_catholic_info ? nil : STREET_2,
+        street_2: !show_baptized_catholic_info ? nil : STREET_2, # remove
+        city: !show_baptized_catholic_info ? nil : CITY,
+        state: !show_baptized_catholic_info ? nil : STATE,
+        zip_code: !show_baptized_catholic_info ? nil : ZIP_CODE,
+
+        prof_date: !show_profession_of_faith_info ? nil : PROF_DATE,
+        prof_church_name: !show_profession_of_faith_info ? nil : PROF_CHURCH_NAME,
+        prof_street1: !show_profession_of_faith_info ? nil : PROF_STREET_1,
+        prof_street_1: !show_profession_of_faith_info ? nil : PROF_STREET_1, # remove
+        prof_street2: !show_profession_of_faith_info ? nil : PROF_STREET_2,
+        prof_street_2: !show_profession_of_faith_info ? nil : PROF_STREET_2, # remove
+        prof_city: !show_profession_of_faith_info ? nil : PROF_CITY,
+        prof_state: !show_profession_of_faith_info ? nil : PROF_STATE,
+        prof_zip_code: !show_profession_of_faith_info ? nil : PROF_ZIP_CODE
+      }
   end
 end

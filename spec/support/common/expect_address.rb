@@ -15,23 +15,21 @@ module ExpectAddress
     # === Parameters:
     #
     # * <tt>:rendered_or_page</tt> html
-    # * <tt>:values</tt>
+    # * <tt>:bc_form_info</tt>
     # * <tt>:disabled</tt>
-    # * <tt>:blank_fields</tt>
     # * <tt>:visible</tt>
     # * <tt>:form_txt_address</tt>
     #
-    def expect_address_fields(rendered_or_page, values, disabled, blank_fields, visible, form_txt_address = '')
+    def expect_address_fields(rendered_or_page, bc_form_info, disabled, visible, form_txt_address = '')
       include ExpectFields
       text_fields = %i[street1 street2 city state zip_code]
       text_fields.each do |sym|
         str = sym
         str = 'street_1' if sym == :street1
         str = 'street_2' if sym == :street2
-        val = values[str.to_sym]
-        val = '' if blank_field?(blank_fields, "label.baptismal_certificate.baptismal_certificate.church_address.#{str}")
+        val = bc_form_info.field_value(str.to_sym, 'label.baptismal_certificate.baptismal_certificate.church_address')
         street1_i18_path = 'label.baptismal_certificate.baptismal_certificate.church_address.street_1'
-        val = '' if sym == :street2 && blank_field?(blank_fields, street1_i18_path)
+        val = '' if sym == :street2 && bc_form_info.blank_field?(street1_i18_path)
         ExpectFields.expect_have_field_text(
           rendered_or_page,
           I18n.t("label.baptismal_certificate.baptismal_certificate.church_address.#{str}"),
@@ -44,17 +42,29 @@ module ExpectAddress
       end
     end
 
-    def expect_prof_address_fields(rendered_or_page, values, disabled, blank_fields, visible, form_txt_address = '')
+    # expect profession of faith address fields
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:bc_form_info</tt>
+    # * <tt>:disabled</tt>
+    # * <tt>:visible</tt>
+    # * <tt>:form_txt_address</tt>
+    #
+    def expect_prof_address_fields(rendered_or_page, bc_form_info, disabled, visible, form_txt_address = '')
       include ExpectFields
       text_fields = %i[street1 street2 city state zip_code]
       text_fields.each do |sym|
         str = sym
         str = 'street_1' if sym == :street1
         str = 'street_2' if sym == :street2
-        val = values["prof_#{str}".to_sym]
-        val = '' if blank_field?(blank_fields, "label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_#{str}")
-        street1_i18_path = 'label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_1'
-        val = '' if sym == :street2 && blank_field?(blank_fields, street1_i18_path)
+        # rubocop:disable Layout/LineLength
+        val = bc_form_info.field_value("prof_#{str}".to_sym, 'label.baptismal_certificate.baptismal_certificate.prof_church_address')
+        # rubocop:enable Layout/LineLength
+        # if street1 is blank then assume blank2 is blank.
+        prof_street1_i18_path = 'label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_1'
+        val = '' if sym == :street2 && bc_form_info.blank_field?(prof_street1_i18_path)
         ExpectFields.expect_have_field_text(
           rendered_or_page,
           I18n.t("label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_#{str}"),
@@ -65,18 +75,6 @@ module ExpectAddress
           form_txt_address
         )
       end
-    end
-
-    # determine if a field should have a value or not
-    #
-    # === Parameters:
-    #
-    # * <tt>:fields</tt> blank field error messages
-    # * <tt>:i18n_path</tt>
-    #
-    def blank_field?(fields, i18n_path)
-      # 1st part of message is in english the second half is translated
-      fields.include? "#{I18n.t(i18n_path, locale: 'en')} #{I18n.t('errors.messages.blank')}"
     end
   end
 end
