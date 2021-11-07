@@ -89,16 +89,17 @@ class BaptismalCertificate < ApplicationRecord
       return basic_valid if baptized_at_home_parish
 
       errors[:base] << I18n.t('messages.error.baptized_catholic_should_be_checked')
-      # validate_other_church_info
 
       false
     when 2
       basic_valid = validate_basic_info
 
-      other_valid = validate_other_church_info
-      return other_valid && basic_valid if baptized_catholic
+      if baptized_catholic
 
-      validate_profession_of_faith && other_valid && basic_valid
+        validate_other_church_info && basic_valid
+      else
+        validate_profession_of_faith && basic_valid
+      end
     else
       raise(I18n.t('messages.error.unknown_show_empty_radio', show_empty_radio: show_empty_radio))
     end
@@ -420,7 +421,7 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def info_show_baptized_catholic
-    chosen_baptized_catholic? && !baptized_at_home_parish
+    chosen_baptized_catholic? && !baptized_at_home_parish && baptized_catholic
   end
 
   # Whether to show info profession of faith

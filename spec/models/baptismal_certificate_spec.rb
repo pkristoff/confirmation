@@ -155,7 +155,7 @@ describe BaptismalCertificate, type: :model do
 
         expect(baptismal_certificate.info_show).to eq(true)
         expect(baptismal_certificate.show_baptized_catholic_radio).to eq(true)
-        expect(baptismal_certificate.info_show_baptized_catholic).to eq(true)
+        expect(baptismal_certificate.info_show_baptized_catholic).to eq(false)
         expect(baptismal_certificate.info_show_profession_of_faith).to eq(true)
       end
     end

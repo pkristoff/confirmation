@@ -83,7 +83,7 @@ class PluckCan
   def self.image_filename(pluck_image)
     return '' if pluck_image.nil?
 
-    pluck_image[2]
+    pluck_image[1]
   end
 
   # Returns the image type

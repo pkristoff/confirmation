@@ -14,15 +14,16 @@
       <% if PluckCan.image_content(scanned_image).nil? %>
         <div><p> too large to show.</p></div>
       <% else %>
-        <div id="scanned-image-<%= field %>" class="show-div">
+        <div id="div-scanned-image-<%= field %>" class="show-div">
           <% if ['application/pdf'].include? PluckCan.image_content_type(scanned_image) %>
             <object data="<%= url_for_image %>"
                     type="<%= PluckCan.image_content_type(scanned_image) %>"
                     width="600" height=783"
-                    alt="<%= "Did not receive the #{PluckCan.image_content_type(scanned_image).split('/')[1]} picture: #{PluckCan.image_filename(scanned_image)}" %>"></object>
+                    alt="<%= "Did not receive the file: #{PluckCan.image_filename(scanned_image)} of type #{PluckCan.image_content_type(scanned_image).split('/')[1]}" %>"></object>
           <% else %>
-            <img src="<%= url_for_image %>"
-                 alt="<%= "Did not receive the #{PluckCan.image_content_type(scanned_image).split('/')[1]} picture: #{PluckCan.image_filename(scanned_image)}" %>"/>
+            <img id='img-scanned-image-<%= field %>'
+                 src="<%= url_for_image %>"
+                 alt="<%= "Did not receive the file: #{PluckCan.image_filename(scanned_image)} of type #{PluckCan.image_content_type(scanned_image).split('/')[1]}" %>"/>
           <% end %>
         </div>
       <% end %>

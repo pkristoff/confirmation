@@ -362,7 +362,7 @@ class CommonCandidatesController < ApplicationController
   #
   def admin_verified_private(candidate_event, event_key)
     render_called = false
-    cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
+    cand_name = @candidate.first_last_name
     if @candidate.errors.any?
       flash['notice'] = I18n.t('messages.updated_not_verified', cand_name: cand_name)
     else
@@ -476,47 +476,52 @@ class CommonCandidatesController < ApplicationController
                                    :last_name]
     )
 
-    baptized_at_home_parish = cand_parms[:baptismal_certificate_attributes][:baptized_at_home_parish] == '1'
-    baptismal_certificate = @candidate.baptismal_certificate
-    unless baptized_at_home_parish
-      baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
-      if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
-        # tried moving this into BaptismalCertificate but the id did not get set
-        baptismal_certificate.scanned_certificate.destroy
-        # destroy does not set scanned_certificate_id to nil
-        baptismal_certificate.scanned_certificate_id = nil
-        baptismal_certificate.save!
-      else
-        setup_file_params(
-          baptismal_certificate_params[:certificate_picture],
-          baptismal_certificate,
-          :scanned_certificate_attributes,
-          params[:candidate][:baptismal_certificate_attributes]
-        )
-      end
-    end
+    handle_scanned_certificate(cand_parms[:baptismal_certificate_attributes])
 
-    # copied from above
-    baptized_at_home_parish = cand_parms[:baptismal_certificate_attributes][:baptized_at_home_parish] == '1'
-    baptized_catholic = cand_parms[:baptismal_certificate_attributes][:baptized_catholic] == '1'
-    baptismal_certificate = @candidate.baptismal_certificate
-    if !baptized_at_home_parish && !baptized_catholic
-      baptismal_certificate_params = cand_parms[:baptismal_certificate_attributes]
-      if baptismal_certificate_params[:remove_prof_picture] == 'Remove'
-        baptismal_certificate.scanned_prof.destroy
-        baptismal_certificate.scanned_certificate_id = nil
-        baptismal_certificate.save!
-      else
-        setup_file_params(
-          baptismal_certificate_params[:prof_picture],
-          baptismal_certificate,
-          :scanned_prof_attributes,
-          params[:candidate][:baptismal_certificate_attributes]
-        )
-      end
-    end
+    handle_scanned_prof(cand_parms[:baptismal_certificate_attributes])
 
     event_with_picture_update_private(BaptismalCertificate, { admin_verified: is_verify })
+  end
+
+  def handle_scanned_prof(baptismal_certificate_params)
+    baptized_at_home_parish = baptismal_certificate_params[:baptized_at_home_parish] == '1'
+    baptized_catholic = baptismal_certificate_params[:baptized_catholic] == '1'
+    baptismal_certificate = @candidate.baptismal_certificate
+    return unless !baptized_at_home_parish && !baptized_catholic
+
+    if baptismal_certificate_params[:remove_prof_picture] == 'Remove'
+      baptismal_certificate.scanned_prof.destroy
+      baptismal_certificate.scanned_certificate_id = nil
+      baptismal_certificate.save!
+    else
+      setup_file_params(
+        baptismal_certificate_params[:prof_picture],
+        baptismal_certificate,
+        :scanned_prof_attributes,
+        params[:candidate][:baptismal_certificate_attributes]
+      )
+    end
+  end
+
+  def handle_scanned_certificate(baptismal_certificate_params)
+    baptized_at_home_parish = baptismal_certificate_params[:baptized_at_home_parish] == '1'
+    baptismal_certificate = @candidate.baptismal_certificate
+    return if baptized_at_home_parish.nil?
+
+    if baptismal_certificate_params[:remove_certificate_picture] == 'Remove'
+      # tried moving this into BaptismalCertificate but the id did not get set
+      baptismal_certificate.scanned_certificate.destroy
+      # destroy does not set scanned_certificate_id to nil
+      baptismal_certificate.scanned_certificate_id = nil
+      baptismal_certificate.save!
+    else
+      setup_file_params(
+        baptismal_certificate_params[:certificate_picture],
+        baptismal_certificate,
+        :scanned_certificate_attributes,
+        params[:candidate][:baptismal_certificate_attributes]
+      )
+    end
   end
 
   # handle updating SponsorCovenant including
@@ -681,7 +686,7 @@ class CommonCandidatesController < ApplicationController
     scanned_content_type = nil
     scanned_content = nil
     scanned_image_id = nil
-    unless file.nil? && association.scanned_image.nil?
+    if !file.nil? && association.scanned_image.nil?
       scanned_image_id = association.scanned_image_id
       scanned_filename = file ? File.basename(file.original_filename) : association.scanned_image.filename
       scanned_content_type = file ? file.content_type : association.scanned_image.content_type

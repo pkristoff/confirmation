@@ -212,3 +212,27 @@ def expect_mail_attachment_upload
   expect(page).to have_css('label[for=mail_attach_file]', text: I18n.t('label.mail.attach_file'))
   expect(page).to have_css('button[id=clear-attach_file]', text: I18n.t('views.common.clear_attach_file'))
 end
+
+# creates a ScannedImage suitable for setting to an event
+#
+# === Returns:
+#
+# * <tt>:ScannedImage</tt>
+#
+def create_scanned_image
+  content = ''
+  File.open(File.join('spec/fixtures/actions.png'), 'rb') do |f|
+    content = f.read
+  end
+  ScannedImage.new(
+    filename: 'actions.png',
+    content_type: 'image/png',
+    content: content
+  )
+end
+
+# prints html - meant for debugging
+#
+def phtml
+  puts page.html
+end
