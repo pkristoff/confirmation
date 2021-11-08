@@ -62,14 +62,13 @@ class CandidatePDFDocument < Prawn::Document
     title_page
     start_new_page
 
-    # move back after candidate_sheet
-    baptismal_certificate
-    start_new_page
-
     covenant_agreement
     start_new_page
 
     candidate_sheet
+    start_new_page
+
+    baptismal_certificate
     start_new_page
 
     sponsor_covenant
