@@ -7,6 +7,8 @@ class ExportListsController < ApplicationController
   BAPTISM_COLUMNS =
     [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish',
             home_parish: Visitor.home_parish),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_catholic'),
+     'Show empty radio',
      I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.father_first'),
@@ -16,15 +18,28 @@ class ExportListsController < ApplicationController
      I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'),
+
+     I18n.t('label.baptismal_certificate.baptismal_certificate.church_name'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_1'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_2'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.city'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.state'),
      I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture')].freeze
+
+     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_date'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_name'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_1'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_2'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_city'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_state'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_zip_code'),
+     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture')].freeze
 
   BAPTISM_VALUES =
     [->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish },
+     ->(candidate) { candidate.baptismal_certificate.baptized_catholic },
+     ->(candidate) { candidate.baptismal_certificate.show_empty_radio },
      ->(candidate) { candidate.baptismal_certificate.birth_date },
      ->(candidate) { candidate.baptismal_certificate.baptismal_date },
      ->(candidate) { candidate.baptismal_certificate.father_first },
@@ -34,12 +49,23 @@ class ExportListsController < ApplicationController
      ->(candidate) { candidate.baptismal_certificate.mother_middle },
      ->(candidate) { candidate.baptismal_certificate.mother_maiden },
      ->(candidate) { candidate.baptismal_certificate.mother_last },
+     ->(candidate) { !candidate.baptismal_certificate.scanned_certificate.nil? },
+
+     ->(candidate) { candidate.baptismal_certificate.church_name },
      ->(candidate) { candidate.baptismal_certificate.church_address.street_1 },
      ->(candidate) { candidate.baptismal_certificate.church_address.street_2 },
      ->(candidate) { candidate.baptismal_certificate.church_address.city },
      ->(candidate) { candidate.baptismal_certificate.church_address.state },
      ->(candidate) { candidate.baptismal_certificate.church_address.zip_code },
-     ->(candidate) { !candidate.baptismal_certificate.scanned_certificate.nil? }].freeze
+
+     ->(candidate) { candidate.baptismal_certificate.prof_date },
+     ->(candidate) { candidate.baptismal_certificate.prof_church_name },
+     ->(candidate) { candidate.baptismal_certificate.prof_church_address.street_1 },
+     ->(candidate) { candidate.baptismal_certificate.prof_church_address.street_2 },
+     ->(candidate) { candidate.baptismal_certificate.prof_church_address.city },
+     ->(candidate) { candidate.baptismal_certificate.prof_church_address.state },
+     ->(candidate) { candidate.baptismal_certificate.prof_church_address.zip_code },
+     ->(candidate) { !candidate.baptismal_certificate.scanned_prof.nil? }].freeze
 
   # downloads pdf file with candidate name and scanned Bap Cert if ready to be verified.
   #
