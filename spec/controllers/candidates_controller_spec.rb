@@ -257,6 +257,11 @@ describe CandidatesController do
          bc.mother_middle = 'Abettem'
          bc.mother_maiden = 'Abemaiden'
          bc.mother_last = 'Smith'
+         bc.church_name = 'St. V'
+         bc.church_address.street_1 = 'CCC Rd.'
+         bc.church_address.city = 'CCC'
+         bc.church_address.state = 'RI'
+         bc.church_address.zip_code = '23456'
 
          cs = candidate.candidate_sheet
          cs.first_name = 'Candy'
@@ -282,6 +287,13 @@ describe CandidatesController do
              mother_middle: bc.mother_middle,
              mother_maiden: bc.mother_maiden,
              mother_last: bc.mother_last,
+             church_name: bc.church_name,
+             church_address_attributes: {
+               street_1: bc.church_address.street_1,
+               city: bc.church_address.city,
+               state: bc.church_address.state,
+               zip_code: bc.church_address.zip_code
+             },
              id: bc.id
            }
          }

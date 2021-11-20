@@ -104,7 +104,7 @@ describe CandidatePDFDocument, type: :model do
     it 'should generate document name' do
       candidate = FactoryBot.create(:candidate)
       document_name = CandidatePDFDocument.document_name(Candidate.find(candidate.id))
-      expect(document_name).to eq('2020 Agusta Sophia.pdf')
+      expect(document_name).to eq('2021-2022 Agusta Sophia.pdf')
     end
   end
   describe 'generates the pdf' do

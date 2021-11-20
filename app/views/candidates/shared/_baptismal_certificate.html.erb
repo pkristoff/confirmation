@@ -3,18 +3,60 @@
   <% bc = bc_fields.object %>
   <% i18n_yes = t('label.baptismal_certificate.baptismal_certificate.pos') %>
   <% i18n_no = t('label.baptismal_certificate.baptismal_certificate.neg') %>
-  <div id="baptized-at-home-parish-radios" class="field">
-    <%= t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish) %>
-    <br/>
-    <br/>
-    <%= bc_fields.radio_button :baptized_at_home_parish, '1', checked: bc.baptized_at_home_parish_yes_checked, onclick: 'confirmation_toggle().baptized_yes();' %>
-    <%= bc_fields.label :baptized_at_home_parish, i18n_yes %>
-    <%= bc_fields.radio_button :baptized_at_home_parish, '0', checked: bc.baptized_at_home_parish_no_checked, onclick: 'confirmation_toggle().baptized_no();' %>
-    <%= bc_fields.label :baptized_at_home_parish, i18n_no %>
+  <div id="baptized-at-home-parish-radios-fieldset" class="<%= bc.show_baptized_at_home_parish_radio ? 'show-div' : 'hide-div' %>">
+    <%= field_set_tag t('field_set.baptismal_certificate.question'), class: 'fieldset' do %>
+      <div class="fieldset-div">
+        <%= t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish) %>
+        <br/>
+        <br/>
+        <%= bc_fields.radio_button :baptized_at_home_parish, '1', checked: bc.baptized_at_home_parish_yes_checked, onclick: 'confirmation_toggle().baptized_yes();' %>
+        <%= bc_fields.label :baptized_at_home_parish, i18n_yes %>
+        <%= bc_fields.radio_button :baptized_at_home_parish, '0', checked: bc.baptized_at_home_parish_no_checked, onclick: 'confirmation_toggle().baptized_no();' %>
+        <%= bc_fields.label :baptized_at_home_parish, i18n_no %>
+      </div>
+    <% end %>
   </div>
   <div id="baptized-at-home-parish-info" class="<%= bc.info_show ? 'show-div' : 'hide-div' %>">
     <h2 class="fieldset">
       <%= t('field_set.baptismal_certificate.please_fill_out_the_following') %></h2>
+    <div id="baptized-catholic-info" class="<%= bc.info_show_baptized_catholic ? 'show-div' : 'hide-div' %>">
+      <%= field_set_tag t('field_set.baptismal_certificate.church'), class: 'fieldset' do %>
+        <div class="fieldset-div">
+          <div class="field">
+            <%= bc_fields.label :church_name, t('label.baptismal_certificate.baptismal_certificate.church_name') %>
+            <br/>
+            <%= bc_fields.text_field :church_name %>
+          </div>
+          <%= bc_fields.fields_for :church_address do |address_fields| %>
+            <div class="field">
+              <%= address_fields.label :street_1, t('label.baptismal_certificate.baptismal_certificate.church_address.street_1') %>
+              <br/>
+              <%= address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
+            </div>
+            <div class="field">
+              <%= address_fields.label :street_2, t('label.baptismal_certificate.baptismal_certificate.church_address.street_2') %>
+              <br/>
+              <%= address_fields.text_field :street_2, autocomplete: 'address-line2' %>
+            </div>
+            <div class="field">
+              <%= address_fields.label :city, t('label.baptismal_certificate.baptismal_certificate.church_address.city') %>
+              <br/>
+              <%= address_fields.text_field :city, autocomplete: 'address-level2' %>
+            </div>
+            <div class="field">
+              <%= address_fields.label :state, t('label.baptismal_certificate.baptismal_certificate.church_address.state') %>
+              <br/>
+              <%= address_fields.text_field :state, autocomplete: 'address-level1' %>
+            </div>
+            <div class="field">
+              <%= address_fields.label :zip_code, t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code') %>
+              <br/>
+              <%= address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
     <%= field_set_tag t('field_set.baptismal_certificate.dates'), class: 'fieldset' do %>
       <div class="fieldset-div">
         <div class="field">
@@ -118,50 +160,19 @@
                remove_label: t('views.common.remove_image'),
                replace_label: t('views.common.replace_image')
     %>
-    <div id="baptized-catholic-radios" class="<%= bc.show_baptized_catholic_radio ? 'show-div' : 'hide-div' %>">
-      <%= t('label.baptismal_certificate.baptismal_certificate.baptized_catholic') %>
-      <br/>
-      <br/>
-      <%= bc_fields.radio_button :baptized_catholic, '1', checked: bc.baptized_catholic_yes_checked, onclick: 'confirmation_toggle().baptized_catholic_yes();' %>
-      <%= bc_fields.label :baptized_catholic, i18n_yes %>
-      <%= bc_fields.radio_button :baptized_catholic, '0', checked: bc.baptized_catholic_no_checked, onclick: 'confirmation_toggle().baptized_catholic_no();' %>
-      <%= bc_fields.label :baptized_catholic, i18n_no %>
-    </div>
-    <div id="baptized-catholic-info" class="<%= bc.info_show_baptized_catholic ? 'show-div' : 'hide-div' %>">
-      <%= field_set_tag t('field_set.baptismal_certificate.church'), class: 'fieldset' do %>
+    <div id='baptized-catholic-radios-fieldset' class='<%= bc.show_baptized_catholic_radio ? 'show-div' : 'hide-div' %>'>
+      <%= field_set_tag t('field_set.baptismal_certificate.question'),
+                        class: "fieldset" do %>
         <div class="fieldset-div">
-          <div class="field">
-            <%= bc_fields.label :church_name, t('label.baptismal_certificate.baptismal_certificate.church_name') %>
+          <div id="baptized-catholic-radios" class="">
+            <%= t('label.baptismal_certificate.baptismal_certificate.baptized_catholic') %>
             <br/>
-            <%= bc_fields.text_field :church_name %>
+            <br/>
+            <%= bc_fields.radio_button :baptized_catholic, '1', checked: bc.baptized_catholic_yes_checked, onclick: 'confirmation_toggle().baptized_catholic_yes();' %>
+            <%= bc_fields.label :baptized_catholic, i18n_yes %>
+            <%= bc_fields.radio_button :baptized_catholic, '0', checked: bc.baptized_catholic_no_checked, onclick: 'confirmation_toggle().baptized_catholic_no();' %>
+            <%= bc_fields.label :baptized_catholic, i18n_no %>
           </div>
-          <%= bc_fields.fields_for :church_address do |address_fields| %>
-            <div class="field">
-              <%= address_fields.label :street_1, t('label.baptismal_certificate.baptismal_certificate.church_address.street_1') %>
-              <br/>
-              <%= address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
-            </div>
-            <div class="field">
-              <%= address_fields.label :street_2, t('label.baptismal_certificate.baptismal_certificate.church_address.street_2') %>
-              <br/>
-              <%= address_fields.text_field :street_2, autocomplete: 'address-line2' %>
-            </div>
-            <div class="field">
-              <%= address_fields.label :city, t('label.baptismal_certificate.baptismal_certificate.church_address.city') %>
-              <br/>
-              <%= address_fields.text_field :city, autocomplete: 'address-level2' %>
-            </div>
-            <div class="field">
-              <%= address_fields.label :state, t('label.baptismal_certificate.baptismal_certificate.church_address.state') %>
-              <br/>
-              <%= address_fields.text_field :state, autocomplete: 'address-level1' %>
-            </div>
-            <div class="field">
-              <%= address_fields.label :zip_code, t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code') %>
-              <br/>
-              <%= address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
-            </div>
-          <% end %>
         </div>
       <% end %>
     </div>

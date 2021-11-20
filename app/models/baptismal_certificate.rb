@@ -86,19 +86,20 @@ class BaptismalCertificate < ApplicationRecord
       false
     when 1
       basic_valid = validate_basic_info
-      return basic_valid if baptized_at_home_parish
+      church_info = validate_other_church_info
+      return basic_valid && church_info if baptized_at_home_parish
 
       errors[:base] << I18n.t('messages.error.baptized_catholic_should_be_checked')
 
       false
     when 2
       basic_valid = validate_basic_info
+      church_info = validate_other_church_info
 
       if baptized_catholic
-
-        validate_other_church_info && basic_valid
+        church_info && basic_valid
       else
-        validate_profession_of_faith && basic_valid
+        validate_profession_of_faith && church_info && basic_valid
       end
     else
       raise(I18n.t('messages.error.unknown_show_empty_radio', show_empty_radio: show_empty_radio))
@@ -246,6 +247,7 @@ class BaptismalCertificate < ApplicationRecord
     BaptismalCertificate.do_not_validate_params.each { |xxx| params.delete xxx }
     BaptismalCertificate.home_parish_validate_params.each { |xxx| params.delete xxx }
     BaptismalCertificate.prof_of_faith_validate_params.each { |xxx| params.delete xxx }
+    params.delete(:scanned_certificate) if baptized_at_home_parish
     params
   end
 
@@ -404,7 +406,7 @@ class BaptismalCertificate < ApplicationRecord
     chosen_baptized_at_home_parish?
   end
 
-  # Whether to show info
+  # Whether to show radio
   #
   # === Returns:
   #
@@ -414,14 +416,25 @@ class BaptismalCertificate < ApplicationRecord
     chosen_baptized_at_home_parish? && !baptized_at_home_parish
   end
 
-  # Whether to show info baptized catholic
+  # Whether to show radio
+  # Always show - here for consistency
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt> true
+  #
+  def show_baptized_at_home_parish_radio
+    true
+  end
+
+  # Whether to show info baptized catholic info
   #
   # === Returns:
   #
   # * <tt>Boolean</tt>
   #
   def info_show_baptized_catholic
-    chosen_baptized_catholic? && !baptized_at_home_parish && baptized_catholic
+    chosen_baptized_at_home_parish? # chosen_baptized_catholic? && !baptized_at_home_parish && baptized_catholic
   end
 
   # Whether to show info profession of faith

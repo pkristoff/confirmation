@@ -61,8 +61,9 @@ es:
       father: Nombre del Padre
       mother: Nombre de la madre
       please_fill_out_the_following: 'Por favor complete lo siguiente:'
-      prof_church: Iglesia donde profesión de fe
+      prof_church: 'Iglesia donde se hizo profesión de fe:'
       prof_scan: Profesión de fe
+      question: Pregunta
       scan: Certificado de bautismo
     candidate_sheet:
       address: Dirección del candidato
@@ -218,8 +219,8 @@ es:
     database_reset: La base de datos se restableció correctamente.
     disabled: Esto está apagado
     error:
-      baptized_catholic_should_be_checked: Me bauticé como católico.
-      baptized_should_be_checked: Debería ser bautizado en %{home_parish} debe ser verificado.
+      baptized_catholic_should_be_checked: "¿Fuiste católico bautizado? debe comprobarse."
+      baptized_should_be_checked: "¿Te bautizaron en %{home_parish}? debe comprobarse."
       duplicate_email: es un correo electrónico duplicado, que no está permitido para un candidato - %{name}.
       invalid_email: 'es un correo electrónico no válido: %{email}'
       missing_attribute: "¡Tus cambios fueron guardados! Se debe completar un campo vacío en el formulario para verificarlo:"

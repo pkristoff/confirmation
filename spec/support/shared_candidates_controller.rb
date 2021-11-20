@@ -38,7 +38,14 @@ shared_context 'baptismal_certificate' do
                                                                    mother_first: 'Abette',
                                                                    mother_middle: 'Abettem',
                                                                    mother_maiden: 'Abemaiden',
-                                                                   mother_last: 'Smith' },
+                                                                   mother_last: 'Smith',
+                                                                   church_name: 'st. fff',
+                                                                   church_address_attributes: {
+                                                                     street_1: 'str1',
+                                                                     city: 'nashville',
+                                                                     state: 'OH',
+                                                                     zip_code: '12345'
+                                                                   } },
                                candidate_sheet_attributes: { first_name: 'Abett',
                                                              middle_name: 'Abettm',
                                                              last_name: 'Smith' } } }

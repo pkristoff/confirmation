@@ -149,11 +149,12 @@ class CandidatePDFDocument < Prawn::Document
         grid_label_value([5, 0], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.prof_date')}:", bc.prof_date)
         grid_label_value([6, 1], "#{I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_name')}:",
                          bc.prof_church_name)
-        grid_address([7, 0], 'label.baptismal_certificate.baptismal_certificate.prof_church_address', bc.prof_church_address, true)
+        grid_address([7, 0], 'label.baptismal_certificate.baptismal_certificate.prof_church_address',
+                     bc.prof_church_address, true)
 
         common_image(bc.scanned_certificate, I18n.t('field_set.baptismal_certificate.prof_scan'))
       else
-        grid_label([2, 0], [2, 2], "Baptised Catholic not chosen") unless bc.baptized_at_home_parish
+        grid_label([2, 0], [2, 2], 'Baptised Catholic not chosen') unless bc.baptized_at_home_parish
       end
     else
       grid_label([2, 0], [2, 2], "Baptised at #{Visitor.home_parish} not chosen")

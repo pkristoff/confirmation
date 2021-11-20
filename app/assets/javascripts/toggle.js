@@ -154,17 +154,35 @@ confirmation_toggle = function () {
 
     }
 
+    function update_church_default_values(use_home_parish){
+        var name_dv = use_home_parish ? "St. Mary Magdalene" : ""
+        var street1_dv = use_home_parish ? "725 Magdala Place" : ""
+        var street2_dv = ""
+        var city_dv = use_home_parish ? "Apex" : ""
+        var state_dv = use_home_parish ? "NC" : ""
+        var zip_code_dv = use_home_parish ? "27502" : ""
+        // document.getElementById("candidate_baptismal_certificate_attributes_church_name").defaultValue = name_dv;
+        document.getElementById("candidate_baptismal_certificate_attributes_church_name").value = name_dv;
+        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_street_1").value = street1_dv;
+        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_street_2").value = street2_dv;
+        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_city").value = city_dv;
+        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_state").value = state_dv;
+        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_zip_code").value = zip_code_dv;
+    }
+
     function baptized_yes() {
         toggle_top( '#baptized-at-home-parish-info', 'show' )
-        toggle_top( '#baptized-catholic-radios', 'hide' )
-        toggle_top( '#baptized-catholic-info', 'hide' )
+        toggle_top( '#baptized-catholic-radios-fieldset', 'hide' )
+        toggle_top( '#baptized-catholic-info', 'show' )
         toggle_top( '#profession-of-faith-info', 'hide' )
         update_show_empty_radio( 'baptism' );
+        update_church_default_values(true);
     }
 
     function baptized_no() {
         toggle_top( '#baptized-at-home-parish-info', 'show' )
-        toggle_top( '#baptized-catholic-radios', 'show' )
+        toggle_top( '#baptized-catholic-info', 'show' )
+        toggle_top( '#baptized-catholic-radios-fieldset ', 'show' )
         if ( $( '#candidate_baptismal_certificate_attributes_baptized_catholic_1' )[ 0 ].checked ) {
             baptized_catholic_yes();
         }
@@ -172,6 +190,7 @@ confirmation_toggle = function () {
             baptized_catholic_no();
         }
         update_show_empty_radio( 'baptism' );
+        update_church_default_values(false);
     }
 
     function baptized_catholic_yes() {
