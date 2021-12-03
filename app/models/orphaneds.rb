@@ -132,7 +132,8 @@ class Orphaneds
       ids(BaptismalCertificate).map { |bc_info| bc_info[1] }.select { |church_address_id| church_address_id == ar_id }.empty? &&
         ids(BaptismalCertificate).map { |bc_info| bc_info[2] }
                                  .select { |prof_church_address_id| prof_church_address_id == ar_id }.empty? &&
-        ids(CandidateSheet).map { |bc_info| bc_info[1] }.select { |address_id| address_id == ar_id }.empty?
+        ids(CandidateSheet).map { |bc_info| bc_info[1] }.select { |address_id| address_id == ar_id }.empty? &&
+        ids(Visitor).map { |visitor_info| visitor_info[1] }.select { |address_id| address_id == ar_id }.empty?
     end
   end
 
@@ -288,6 +289,8 @@ class Orphaneds
             SponsorCovenant.pluck(:id, :scanned_covenant_id)
           when :SponsorEligibility
             SponsorEligibility.pluck(:id, :scanned_eligibility_id)
+          when :Visitor
+            Visitor.pluck(:id, :home_parish_address_id)
           when :ToDo
             ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id)
           else

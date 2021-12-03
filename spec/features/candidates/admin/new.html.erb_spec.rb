@@ -11,6 +11,7 @@ feature 'Orphan removal', :devise do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     @orphaneds = Orphaneds.new
+    expect(Visitor.visitor.home_parish).to eq('St. Mary Magdalene')
   end
 
   after(:each) do
@@ -20,6 +21,7 @@ feature 'Orphan removal', :devise do
     before(:each) do
     end
     scenario 'Check with no orphans' do
+      expect(Visitor.visitor.home_parish).to eq('St. Mary Magdalene')
       visit orphaneds_check_path
       click_button I18n.t('views.orphaneds.check_orphaned_table_rows')
 

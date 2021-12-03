@@ -244,7 +244,9 @@ module ViewsHelpers
     expect(RetreatVerification.all.size).to eq(candidate_size), "RetreatVerification size #{RetreatVerification.all.size} did not meet expected #{candidate_size}"
     expect(SponsorCovenant.all.size).to eq(candidate_size), "SponsorCovenant size #{SponsorCovenant.all.size} did not meet expected #{candidate_size}"
 
-    expect(Address.all.size).to eq(candidate_size * 3), "Address size #{Address.all.size} did not meet expected #{candidate_size * 3}"
+    # each candidate has 3 + the home parish
+    expeced_address_size = candidate_size * 3 + (Visitor.first.nil? ? 0 : 1)
+    expect(Address.all.size).to eq(expeced_address_size), "Address size #{Address.all.size} did not meet expected #{expeced_address_size}"
     expect(CandidateEvent.all.size).to eq(candidate_size * conf_event_size), "CandidateEvent size #{CandidateEvent.all.size} did not meet expected #{candidate_size * conf_event_size}"
     expect(ToDo.all.size).to eq(CandidateEvent.all.size), "ToDo size #{ToDo.all.size} did not meet expected #{CandidateEvent.all.size}"
 

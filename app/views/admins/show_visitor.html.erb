@@ -7,6 +7,33 @@
       <br/>
       <%= f.label :home_parish, t('label.visitor.home_parish') %>
       <%= f.text_field :home_parish %>
+      <%= f.fields_for :home_parish_address do |home_parish_address_fields| %>
+        <div class="field">
+          <%= home_parish_address_fields.label :street_1, t('label.visitor.home_parish_address.street_1') %>
+          <br/>
+          <%= home_parish_address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
+        </div>
+        <div class="field">
+          <%= home_parish_address_fields.label :street_2, t('label.visitor.home_parish_address.street_2') %>
+          <br/>
+          <%= home_parish_address_fields.text_field :street_2, autocomplete: 'address-line2' %>
+        </div>
+        <div class="field">
+          <%= home_parish_address_fields.label :city, t('label.visitor.home_parish_address.city') %>
+           <br/>
+          <%= home_parish_address_fields.text_field :city, autocomplete: 'address-level2' %>
+        </div>
+        <div class="field">
+          <%= home_parish_address_fields.label :state, t('label.visitor.home_parish_address.state') %>
+          <br/>
+          <%= home_parish_address_fields.text_field :state, autocomplete: 'address-level1' %>
+        </div>
+        <div class="field">
+          <%= home_parish_address_fields.label :zip_code, t('label.visitor.home_parish_address.zip_code') %>
+          <br/>
+          <%= home_parish_address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
+        </div>
+      <% end %>
 
       <%= f.submit t('views.common.update_home_parish'), id: "bottom-update-home-parish" %>
     <% end %>

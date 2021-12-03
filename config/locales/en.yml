@@ -188,7 +188,13 @@ en:
       about: About
       contact_information: Contact Information
       home: Home
-      home_parish: Home parish
+      home_parish: 'Home parish:'
+      home_parish_address:
+        city: City
+        state: State
+        street_1: Street 1
+        street_2: Street 2
+        zip_code: Zip code
   messages:
     about_updated: About updated
     accessed_denied: Accessed denied.
@@ -368,7 +374,6 @@ en:
       reset_db:
         reset_database: Reset database
         start_new_year: Start new year
-      toggle_navigation: Toggle navigation
       users: Users
     orphaneds:
       check_orphaned_table_rows: Check orphaned table rows

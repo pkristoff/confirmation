@@ -15,7 +15,7 @@ feature 'Home page' do
   scenario 'a visitor visits the home page' do
     visit root_path
 
-    expect(page).to have_selector('button', text: 'Toggle navigation')
+    expect(page).to have_selector('span[class=navbar-toggler-icon]', count: 1)
 
     expect(page).to have_selector('a', text: I18n.t('views.top_bar.home'))
     expect(page).to have_selector('a', text: I18n.t('views.top_bar.about'))

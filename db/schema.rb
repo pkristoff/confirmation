@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_11_183655) do
+ActiveRecord::Schema.define(version: 2021_11_28_223818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,6 +215,8 @@ ActiveRecord::Schema.define(version: 2021_09_11_183655) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "home_parish"
+    t.bigint "home_parish_address_id"
+    t.index ["home_parish_address_id"], name: "index_visitors_on_home_parish_address_id"
   end
 
   add_foreign_key "candidates", "baptismal_certificates"

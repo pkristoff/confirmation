@@ -500,24 +500,24 @@ class AdminsController < ApplicationController
     when t('views.common.update_home')
       visitor = visitor_db_or_new
 
-      param_permitted = visitor.update(params.require(:visitor).permit(Visitor.basic_permitted_params))
+      param_permitted = visitor.update(params.require(:visitor).permit(Visitor.permitted_params))
       flash[:notice] = t('messages.home_updated') if param_permitted
 
     when t('views.common.update_about')
       visitor = visitor_db_or_new
-      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
+      if visitor.update(visitor_param.permit(Visitor.permitted_params))
         flash[:notice] = t('messages.about_updated')
         Rails.logger.info "visitor.about=#{visitor.about}"
       end
     when t('views.common.update_information_contact')
       visitor = visitor_db_or_new
-      if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
+      if visitor.update(visitor_param.permit(Visitor.permitted_params))
         flash[:notice] = t('messages.contact_information_updated')
         Rails.logger.info "visitor.contact=#{visitor.contact}"
       end
     when t('views.common.update_home_parish')
       visitor = visitor_db_or_new
-      flash[:notice] = t('messages.home_parish_updated') if visitor.update(visitor_param.permit(Visitor.basic_permitted_params))
+      flash[:notice] = t('messages.home_parish_updated') if visitor.update(visitor_param.permit(Visitor.permitted_params))
     else
       flash[:alert] = "Unkown commit param: #{commit}"
     end

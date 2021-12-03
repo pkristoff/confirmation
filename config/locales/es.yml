@@ -188,7 +188,13 @@ es:
       about: Acerca de
       contact_information: Información del contacto
       home: Casa
-      home_parish: Parroquia de origen
+      home_parish: 'Parroquia de origen:'
+      home_parish_address:
+        city: Ciudad
+        state: Estado
+        street_1: Calle 1
+        street_2: Calle 2
+        zip_code: Código postal
   messages:
     about_updated: Sobre actualizado
     accessed_denied: Acceso denegado.
@@ -368,7 +374,6 @@ es:
       reset_db:
         reset_database: Reset database
         start_new_year: Start new year
-      toggle_navigation: Navegación de palanca
       users: Los usuarios
     orphaneds:
       check_orphaned_table_rows: Verificar filas de tablas huérfanas

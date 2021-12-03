@@ -49,7 +49,10 @@ class ExportExcelJob
     ensure
       delete_dir(dir)
     end
-    Rails.logger.info("export_to_excel_no_pictures - response=#{response}")
+    Rails.logger.info("export_to_excel_no_pictures - SendGridMail-response=#{response}")
+    Rails.logger.info("export_to_excel_no_pictures - SendGridMail-response=#{response.status_code}")
+    Rails.logger.info("export_to_excel_no_pictures - SendGridMail-response=#{response.body}")
+    Rails.logger.info("export_to_excel_no_pictures - SendGridMail-response=#{response.public_methods}")
     response
   end
 

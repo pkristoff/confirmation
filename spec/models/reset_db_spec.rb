@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 describe ResetDB, type: :model do
+  before(:each) do
+    # make sure Visitor instance has been created
+    Visitor.visitor
+  end
+
   describe 'start new year' do
     it 'should start a new year will clean out candidates and all its associations' do
       FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
@@ -8,7 +13,7 @@ describe ResetDB, type: :model do
 
       expect(Admin.all.size).to eq(1)
 
-      cand_assoc = { Address: 0,
+      cand_assoc = { Address: 1,
                      BaptismalCertificate: 0,
                      Candidate: 0,
                      CandidateEvent: 0,
@@ -42,7 +47,7 @@ describe ResetDB, type: :model do
 
       expect(Admin.all.size).to eq(1)
 
-      cand_assoc = { Address: 9,
+      cand_assoc = { Address: 10,
                      BaptismalCertificate: 3,
                      Candidate: 3,
                      CandidateEvent: 27,
@@ -85,7 +90,7 @@ describe ResetDB, type: :model do
 
       expect(Admin.all.size).to eq(1)
 
-      cand_assoc = { Address: 0,
+      cand_assoc = { Address: 1,
                      BaptismalCertificate: 0,
                      Candidate: 0,
                      CandidateEvent: 0,
@@ -131,7 +136,7 @@ describe ResetDB, type: :model do
       expect(ConfirmationEvent.all.size).to eq(9)
       expect(Candidate.all.size).to eq(3)
 
-      cand_assoc = { Address: 13,
+      cand_assoc = { Address: 14,
                      BaptismalCertificate: 4,
                      Candidate: 3,
                      CandidateEvent: 28,
