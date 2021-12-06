@@ -71,7 +71,6 @@ feature 'admins/show_visitor.html.erb' do
     fill_in(I18n.t('label.visitor.home_parish_address.zip_code'), with: zip_code_change)
     click_button('top-update-home-parish')
 
-    puts page.html
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, concact: CONTACT_INIT_VALUE,
                           street1: street1_change, street2: street2_change, city: city_change,
