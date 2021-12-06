@@ -26,32 +26,38 @@
             <%= bc_fields.label :church_name, t('label.baptismal_certificate.baptismal_certificate.church_name') %>
             <br/>
             <%= bc_fields.text_field :church_name %>
+            <input type="hidden" name="default_value_home_parish" id="dv-home-parish" value="<%= Visitor.visitor.home_parish %>">
           </div>
           <%= bc_fields.fields_for :church_address do |address_fields| %>
             <div class="field">
               <%= address_fields.label :street_1, t('label.baptismal_certificate.baptismal_certificate.church_address.street_1') %>
               <br/>
               <%= address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
+              <input type="hidden" name="default_value_street_1" id="dv-street1" value="<%= Visitor.visitor.home_parish_address.street_1 %>">
             </div>
             <div class="field">
               <%= address_fields.label :street_2, t('label.baptismal_certificate.baptismal_certificate.church_address.street_2') %>
               <br/>
               <%= address_fields.text_field :street_2, autocomplete: 'address-line2' %>
+              <input type="hidden" name="default_value_street_2" id="dv-street2" value="<%= Visitor.visitor.home_parish_address.street_2 %>">
             </div>
             <div class="field">
               <%= address_fields.label :city, t('label.baptismal_certificate.baptismal_certificate.church_address.city') %>
               <br/>
               <%= address_fields.text_field :city, autocomplete: 'address-level2' %>
+              <input type="hidden" name="default_value_city" id="dv-city" value="<%= Visitor.visitor.home_parish_address.city %>">
             </div>
             <div class="field">
               <%= address_fields.label :state, t('label.baptismal_certificate.baptismal_certificate.church_address.state') %>
               <br/>
-              <%= address_fields.text_field :state, autocomplete: 'address-level1' %>
+              <%= address_fields.text_field :state, autocomplete: 'state' %>
+              <input type="hidden" name="default_value_state" id="dv-state" value="<%= Visitor.visitor.home_parish_address.state %>">
             </div>
             <div class="field">
               <%= address_fields.label :zip_code, t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code') %>
               <br/>
               <%= address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
+              <input type="hidden" name="default_value_zip_code" id="dv-zip_code" value="<%= Visitor.visitor.home_parish_address.zip_code %>">
             </div>
           <% end %>
         </div>

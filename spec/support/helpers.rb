@@ -233,6 +233,11 @@ end
 
 # prints html - meant for debugging
 #
-def phtml
-  puts page.html
+# === Parameters:
+#
+# * <tt>:html</tt> page or rendered
+#
+def phtml(html = nil)
+  puts html.html unless html.nil?
+  puts page.html if html.nil?
 end

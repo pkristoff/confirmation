@@ -881,9 +881,36 @@ shared_context 'baptismal_certificate_html_erb' do
   end
 
   def expect_baptized_catholic_fields(rendered_or_page, disabled, visible, bc_form_info)
-    text_fields = %i[church_name]
-
     ExpectAddress.expect_address_fields(rendered_or_page, bc_form_info, disabled, visible)
+
+    text_fields = %i[church_name]
+    text_fields.each do |sym|
+      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
+      ExpectFields.expect_have_field_text(
+        rendered_or_page,
+        I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
+        "candidate_baptismal_certificate_attributes_#{sym}",
+        val,
+        disabled,
+        visible
+      )
+    end
+    val = bc_form_info.field_value(:dv_church_name, '')
+    ExpectFields.expect_have_field_hidden(
+      rendered_or_page,
+      'dv-home-parish',
+      val
+    )
+
+    ExpectAddress.address_fields.each do |address_field|
+      field_id = "dv-#{address_field}".to_sym
+      val = bc_form_info.field_value(field_id, '')
+      ExpectFields.expect_have_field_hidden(
+        rendered_or_page,
+        field_id,
+        val
+      )
+    end
 
     text_fields.each do |sym|
       val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
@@ -1067,13 +1094,19 @@ class ExpectBCFormInfo
 
         # baptized catholic info
         church_name: !show_baptized_catholic_info ? nil : CHURCH_NAME,
+        dv_church_name: Visitor.home_parish,
         street1: !show_baptized_catholic_info ? nil : STREET_1,
+        dv_street1: Visitor.visitor.home_parish_address.street_1,
         street_1: !show_baptized_catholic_info ? nil : STREET_1, # remove
         street2: !show_baptized_catholic_info ? nil : STREET_2,
+        dv_street2: Visitor.visitor.home_parish_address.street_2,
         street_2: !show_baptized_catholic_info ? nil : STREET_2, # remove
         city: !show_baptized_catholic_info ? nil : CITY,
+        dv_city: Visitor.visitor.home_parish_address.city,
         state: !show_baptized_catholic_info ? nil : STATE,
+        dv_state: Visitor.visitor.home_parish_address.state,
         zip_code: !show_baptized_catholic_info ? nil : ZIP_CODE,
+        dv_zip_code: Visitor.visitor.home_parish_address.zip_code,
 
         # profession of faith info
         prof_date: !show_profession_of_faith_info ? nil : PROF_DATE,

@@ -31,13 +31,15 @@ feature 'admins/show_visitor.html.erb' do
     visit show_visitor_path
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
-                          home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, contact: CONTACT_INIT_VALUE })
+                          home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, contact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '' })
   end
 
   scenario 'edit the visitor home page change home parish' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, concact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
                           expected_messages: [] })
 
     fill_in(I18n.t('label.visitor.home_parish'), with: HOME_PARISH_CHANGED_VALUE)
@@ -45,6 +47,35 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_CHANGED_VALUE,
                           home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, concact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
+                          expected_messages: [[:flash_notice, I18n.t('messages.home_parish_updated')]] })
+  end
+
+  scenario 'change home parish address' do
+    visit show_visitor_path
+    expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
+                          home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, concact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
+                          expected_messages: [] })
+
+    street1_change = '1212 victory way'
+    street2_change = 'apt 2'
+    city_change = 'georgeville'
+    state_change = 'WY'
+    zip_code_change = '95036'
+
+    fill_in(I18n.t('label.visitor.home_parish_address.street_1'), with: street1_change)
+    fill_in(I18n.t('label.visitor.home_parish_address.street_2'), with: street2_change)
+    fill_in(I18n.t('label.visitor.home_parish_address.city'), with: city_change)
+    fill_in(I18n.t('label.visitor.home_parish_address.state'), with: state_change)
+    fill_in(I18n.t('label.visitor.home_parish_address.zip_code'), with: zip_code_change)
+    click_button('top-update-home-parish')
+
+    puts page.html
+    expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
+                          home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, concact: CONTACT_INIT_VALUE,
+                          street1: street1_change, street2: street2_change, city: city_change,
+                          state: state_change, zip_code: zip_code_change,
                           expected_messages: [[:flash_notice, I18n.t('messages.home_parish_updated')]] })
   end
 
@@ -52,6 +83,7 @@ feature 'admins/show_visitor.html.erb' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, concact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
                           expected_messages: [] })
 
     fill_in(I18n.t('label.visitor.home'), with: HOME_CHANGED_VALUE)
@@ -59,6 +91,7 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_CHANGED_VALUE, about: ABOUT_INIT_VALUE, contact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
                           expected_messages: [[:flash_notice, I18n.t('messages.home_updated')]] })
   end
 
@@ -66,6 +99,7 @@ feature 'admins/show_visitor.html.erb' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, concact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
                           expected_messages: [] })
 
     fill_in(I18n.t('label.visitor.about'), with: ABOUT_CHANGED_VALUE)
@@ -73,6 +107,7 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_INIT_VALUE, about: ABOUT_CHANGED_VALUE, contact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
                           expected_messages: [[:flash_notice, I18n.t('messages.about_updated')]] })
   end
 
@@ -80,6 +115,7 @@ feature 'admins/show_visitor.html.erb' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, concact: CONTACT_INIT_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
                           expected_messages: [] })
 
     fill_in(I18n.t('label.visitor.contact_information'), with: CONTACT_CHANGED_VALUE)
@@ -87,6 +123,7 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_INIT_VALUE, about: ABOUT_INIT_VALUE, contact: CONTACT_CHANGED_VALUE,
+                          street1: '', street2: '', city: '', state: '', zip_code: '',
                           expected_messages: [[:flash_notice, I18n.t('messages.contact_information_updated')]] })
   end
 
@@ -98,7 +135,9 @@ feature 'admins/show_visitor.html.erb' do
     expect(page).to have_css("section[id='home_parish']")
     expect(page).to have_css "section[id='home_parish'] form[action='/update_visitor/#{@visitor.id}']"
     expect(page).to have_field(I18n.t('label.visitor.home_parish'), with: values[:home_parish])
-    expect(page).to have_field(I18n.t('label.visitor.home_parish_address.street_1'))
+
+    expect_home_parish_address(values)
+
     i18n = I18n.t('views.common.update_home_parish')
     loc = "section[id='home_parish'] input[id='top-update-home-parish'][type='submit'][value='#{i18n}']"
     expect(page).to have_css(loc)
@@ -134,5 +173,54 @@ feature 'admins/show_visitor.html.erb' do
     expect(page).to have_css(expected_msg)
 
     expect(page).to have_css('section', count: 4)
+  end
+
+  def expect_home_parish_address(values)
+    expect(Address.count).to eq(1)
+    ExpectFields.expect_have_field_text(
+      page,
+      I18n.t('label.visitor.home_parish_address.street_1'),
+      'visitor_home_parish_address_attributes_street_1',
+      values[:street1],
+      false,
+      true,
+      ''
+    )
+    ExpectFields.expect_have_field_text(
+      page,
+      I18n.t('label.visitor.home_parish_address.street_2'),
+      'visitor_home_parish_address_attributes_street_2',
+      values[:street2],
+      false,
+      true,
+      ''
+    )
+    ExpectFields.expect_have_field_text(
+      page,
+      I18n.t('label.visitor.home_parish_address.city'),
+      'visitor_home_parish_address_attributes_city',
+      values[:city],
+      false,
+      true,
+      ''
+    )
+    ExpectFields.expect_have_field_text(
+      page,
+      I18n.t('label.visitor.home_parish_address.state'),
+      'visitor_home_parish_address_attributes_state',
+      values[:state],
+      false,
+      true,
+      ''
+    )
+    ExpectFields.expect_have_field_text(
+      page,
+      I18n.t('label.visitor.home_parish_address.zip_code'),
+      'visitor_home_parish_address_attributes_zip_code',
+      values[:zip_code],
+      false,
+      true,
+      ''
+    )
   end
 end

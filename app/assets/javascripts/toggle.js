@@ -155,12 +155,12 @@ confirmation_toggle = function () {
     }
 
     function update_church_default_values(use_home_parish){
-        var name_dv = use_home_parish ? "St. Mary Magdalene" : ""
-        var street1_dv = use_home_parish ? "725 Magdala Place" : ""
-        var street2_dv = ""
-        var city_dv = use_home_parish ? "Apex" : ""
-        var state_dv = use_home_parish ? "NC" : ""
-        var zip_code_dv = use_home_parish ? "27502" : ""
+        var name_dv = use_home_parish ? document.getElementById('dv-home-parish').value : ""
+        var street1_dv = use_home_parish ? document.getElementById('dv-street1').value : ""
+        var street2_dv = use_home_parish ? document.getElementById('dv-street2').value : ""
+        var city_dv = use_home_parish ? document.getElementById('dv-city').value : ""
+        var state_dv = use_home_parish ? document.getElementById('dv-state').value : ""
+        var zip_code_dv = use_home_parish ? document.getElementById('dv-zip-code').value : ""
         // document.getElementById("candidate_baptismal_certificate_attributes_church_name").defaultValue = name_dv;
         document.getElementById("candidate_baptismal_certificate_attributes_church_name").value = name_dv;
         document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_street_1").value = street1_dv;

@@ -43,5 +43,19 @@ module ExpectFields
       expect(rendered_or_page).to have_selector("#{pre_selector}input[type=text][id=#{field_id}][value='#{value}']") if visible
       expect(rendered_or_page).to have_selector("#{pre_selector}input[type=text][id=#{field_id}]") unless visible
     end
+
+    # expect a hidden field
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:field_id</tt>
+    # * <tt>:value</tt>
+    # * <tt>:pre_selector</tt> constraint of where field is located
+    #
+    def expect_have_field_hidden(rendered_or_page, field_id, value, pre_selector = '')
+      expect(rendered_or_page).to have_selector("#{pre_selector}input[type=hidden][id='#{field_id}'][value='#{value}']",
+                                                visible: false)
+    end
   end
 end

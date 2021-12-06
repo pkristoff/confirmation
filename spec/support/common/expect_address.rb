@@ -10,6 +10,12 @@ module ExpectAddress
     include Capybara::Node::Finders
     include ExpectFields
 
+    # list address fields
+    #
+    def address_fields
+      %i[street1 street2 city state zip_code]
+    end
+
     # expect address fields
     #
     # === Parameters:
@@ -22,7 +28,7 @@ module ExpectAddress
     #
     def expect_address_fields(rendered_or_page, bc_form_info, disabled, visible, form_txt_address = '')
       include ExpectFields
-      text_fields = %i[street1 street2 city state zip_code]
+      text_fields = address_fields
       text_fields.each do |sym|
         str = sym
         str = 'street_1' if sym == :street1
