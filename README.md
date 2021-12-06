@@ -79,6 +79,9 @@ This application requires:
   * db:schema:load creates tables and columns within the (existing) database following schema.rb
   * db:setup does db:create, db:schema:load, db:seed
   * db:reset does db:drop, db:setup
+* heroku cli migration
+  * heroku run --app confirmation-staging rake db:version
+  * heroku run --app confirmation-production rake db:version
 * Learn more about [MD-markdown] (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 * Gmail mailing do https://accounts.google.com/DisplayUnlockCaptcha if gmail is not authenticating.
 * hiding passwords http://railsapps.github.io/rails-environment-variables.html
