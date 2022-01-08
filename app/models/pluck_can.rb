@@ -258,11 +258,13 @@ class PluckCan
   # * <tt>:event_key</tt> DB name.
   # * <tt>:attending</tt> The way or catholic hs.
   #
-  def status(cand_id, event_key, _attending)
+  def status(cand_id, event_key, attending)
     event_info = @cand_event_info[cand_id].find do |cand_event_for_cand|
       cand_event_for_cand[3] == event_key
     end
-    CandidateEvent.status(event_info[6],
+    due_date = event_info[7]
+    due_date = event_info[6] if attending == Candidate::THE_WAY
+    CandidateEvent.status(due_date,
                           event_info[5],
                           event_info[4])
   end
