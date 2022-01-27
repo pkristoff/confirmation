@@ -72,11 +72,11 @@
                 <div class="fieldset-div">
                   <div class="field">
                     <%= cs_fields.label :grade, I18n.t('label.candidate_sheet.grade') %><br/>
-                    <%= cs_fields.number_field :grade, min: 8, max: 12 %>
+                    <%= cs_fields.number_field :grade, min: 8, max: 12, required: true %> (9-12)
                   </div>
                   <div class="field">
                     <%= cs_fields.label :program_year, I18n.t('label.candidate_sheet.program_year') %><br/>
-                    <%= cs_fields.number_field :program_year, min: 1, max: 2 %>
+                    <%= cs_fields.number_field :program_year, min: 1, max: 2, required: true %> (1-2)
                   </div>
                 </div>
             <% end %>
