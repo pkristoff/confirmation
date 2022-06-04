@@ -64,12 +64,6 @@ end
 
 describe CandidatePDFDocument, type: :model do
   before(:each) do
-  end
-  it 'should generate document name' do
-    document_name = CandidateNamePDFDocument.document_name
-    expect(document_name).to eq('Compare Baptismal Name.pdf')
-  end
-  it 'should generate a document' do
     @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
     @candidate1.candidate_sheet.first_name = 'cc1'
     @candidate2 = FactoryBot.create(:candidate, account_name: 'c2', add_new_confirmation_events: false)
@@ -87,11 +81,17 @@ describe CandidatePDFDocument, type: :model do
     setup_candidate2
     setup_candidate3
     setup_candidate4
+  end
+  it 'should generate document name' do
+    document_name = CandidateNamePDFDocument.document_name
+    expect(document_name).to eq('Compare Baptismal Name.pdf')
+  end
+  it 'should generate a document' do
     pdf = CandidateNamePDFDocument.new
-    expect(pdf.candidates.size).to eq(3)
-    expect(pdf.candidates[0].bap_first_name).to eq('cc2')
-    expect(pdf.candidates[1].bap_first_name).to eq('cc3')
-    expect(pdf.candidates[2].bap_first_name).to eq('cc4')
+    expect(pdf.plucked_bap_candidates.size).to eq(3)
+    expect(pdf.plucked_bap_candidates[0].first_name).to eq('cc2')
+    expect(pdf.plucked_bap_candidates[1].first_name).to eq('cc3')
+    expect(pdf.plucked_bap_candidates[2].first_name).to eq('cc4')
     pdf
   end
 end

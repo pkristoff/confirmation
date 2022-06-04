@@ -6,14 +6,14 @@
 class CandidateNamePDFDocument < Prawn::Document
   include Magick
 
-  attr_accessor :candidates
+  attr_accessor :plucked_bap_candidates
 
   # init
   #
   def initialize
     super()
-    candidate_infos = PluckCan.pluck_bap_candidates
-    @candidates = candidate_infos.reject(&:nil?)
+    plucked_bap_cands = PluckBapCandidate.pluck_bap_candidates
+    @plucked_bap_candidates = plucked_bap_cands.reject(&:nil?)
     do_document
   end
 
@@ -27,7 +27,7 @@ class CandidateNamePDFDocument < Prawn::Document
   #
   def do_document
     title_page
-    @candidates.each do |cand|
+    @plucked_bap_candidates.each do |cand|
       page(cand)
     end
   end
@@ -39,12 +39,12 @@ class CandidateNamePDFDocument < Prawn::Document
   # * <tt>:candidate</tt> candidate waiting verification
   #
   def page(candidate)
-    baptismal_certificate = BaptismalCertificate.find_by(id: candidate.bap_bc_id)
+    baptismal_certificate = BaptismalCertificate.find_by(id: candidate.baptismal_certificate_id)
     start_new_page
     define_grid_page
-    grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", candidate.bap_first_name)
-    grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.middle_name')}:", candidate.bap_middle_name)
-    grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.last_name')}:", candidate.bap_last_name)
+    grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", candidate.first_name)
+    grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.middle_name')}:", candidate.middle_name)
+    grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.last_name')}:", candidate.last_name)
 
     common_image(baptismal_certificate.scanned_certificate)
   end
