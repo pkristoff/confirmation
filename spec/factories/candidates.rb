@@ -17,7 +17,7 @@ FactoryBot.define do
       candidate.candidate_sheet.middle_name = 'Saraha'
       candidate.candidate_sheet.last_name = 'Agusta'
       candidate.candidate_sheet.grade = 10
-      candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_the_way')
+      candidate.candidate_sheet.attending = Candidate::THE_WAY
       # overwrite the already created address
       candidate.candidate_sheet.address&.destroy
       candidate.candidate_sheet.address = FactoryBot.create(:address)

@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 ruby '2.6.8'
+gem 'psych', '< 4'
 # gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'bootstrap'
 gem 'caxlsx'
@@ -28,7 +29,7 @@ gem 'tinymce-rails'
 gem 'uglifier'
 gem 'zip-zip'
 # refering to master - remove branch
-gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
+gem 'sinatra'
 gem 'sucker_punch'
 group :development do
   gem 'better_errors'

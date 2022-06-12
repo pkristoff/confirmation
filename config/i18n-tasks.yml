@@ -3,7 +3,7 @@
 # The "main" locale.
 base_locale: en
 ## All available locales are inferred from the data by default. Alternatively, specify them explicitly:
-# locales: [es, fr]
+locales: [ en, es ]
 ## Reporting locale, default: en. Available: en, ru.
 # internal_locale: en
 
@@ -23,8 +23,8 @@ data:
   # Locale files to write new keys to, based on a list of key pattern => file rules. Matched from top to bottom:
   # `i18n-tasks normalize -p` will force move the keys according to these rules
   write:
-    ## For example, write devise and simple form keys to their respective files:
-    # - ['{devise, simple_form}.*', 'config/locales/\1.%{locale}.yml']
+    # For example, write devise and simple form keys to their respective files:
+    - [ '{devise, simple_form}.*', 'config/locales/\1.%{locale}.yml' ]
     ## Catch-all default:
     # - config/locales/%{locale}.yml
 
@@ -92,17 +92,40 @@ search:
 #   deepl_api_key: "48E92789-57A3-466A-9959-1A1A1A1A1A1A"
 
 ## Do not consider these keys missing:
-# ignore_missing:
-# - 'errors.messages.{accepted,blank,invalid,too_short,too_long}'
-# - '{devise,simple_form}.*'
+ignore_missing:
+  # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
+  - 'errors.messages.{not_saved.one, not_saved.other, blank, account_name_not_found, reset_password}'
+  - '{devise,simple_form}.*'
+  # used in a flash[:alert]1
+  - 'alert.reset_password'
 
-## Consider these keys used:
-# ignore_unused:
-# - 'activerecord.attributes.*'
-# - '{devise,kaminari,will_paginate}.*'
-# - 'simple_form.{yes,no}'
-# - 'simple_form.{placeholders,hints,labels}.*'
-# - 'simple_form.{error_notification,required}.:'
+# Consider these keys used:
+ignore_unused:
+  #  - 'activerecord.attributes.*'
+  #  - '{devise,kaminari,will_paginate}.*'
+  #  - 'simple_form.{yes,no}'
+  #  - 'simple_form.{placeholders,hints,labels}.*'
+  #  - 'simple_form.{error_notification,required}.:'
+
+  # This is messed up.  how to rename The Way
+  # This is used in an if statement
+  - 'model.candidate.attending_the_way'
+
+  # email messages don't work
+  - 'email.closing_input_label'
+  - 'email.completed_awaiting_input_label'
+  - 'email.from_input_label'
+  - 'email.pre_coming_due_input_label'
+  - 'email.pre_late_input_label'
+  - 'email.reset_password_subject'
+  - 'email.salutation_input_label'
+  - 'views.top_bar.contact_admin_mail'
+
+  #  - 'views.reset_db.reset_database.message'
+  #  - 'views.reset_db.start_new_year.message'
+  #  - 'views.reset_db.reset_database.message'
+  #  - 'views.reset_db.start_new_year.message'
+  - 'views.top_bar.contact_admin_mail'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

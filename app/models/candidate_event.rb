@@ -20,7 +20,7 @@ class CandidateEvent < ApplicationRecord
   # * <tt>Date</tt>
   #
   def due_date
-    if candidate.candidate_sheet.attending == Candidate::THE_WAY
+    if candidate.candidate_sheet.attending == Attending::THE_WAY
       confirmation_event.the_way_due_date
     else
       confirmation_event.chs_due_date

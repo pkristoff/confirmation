@@ -278,6 +278,7 @@ en:
     admins:
       account_name: Account name
       admin: Admin
+      contact_phone: Contact phone
       current_password: Current password
       email: Email
       sign_in: Sign in admin
@@ -356,7 +357,6 @@ en:
       candidates: Candidates
       edit: Edit
       edit_account: Edit account
-      email: Email
       events: Events
       export: Export
       export_attend_retreat_title: Retreat at %{home_parish}
@@ -388,7 +388,6 @@ en:
         bullet_4: 'Remain logged in: NO'
         cannot_recover: You cannot recover from this.
         confirm: Are you sure?
-        message: This will
         title: Reset the Database
       start_new_year:
         bullet_1: 'Candidates: All will be removed from the database'
@@ -396,7 +395,6 @@ en:
         bullet_3: 'Admins: not affected'
         bullet_4: 'Remain logged in: yes'
         confirm: Are you sure?
-        message: This will
         title: Start new year
     title:
       instruction_link: Show/hide instructions

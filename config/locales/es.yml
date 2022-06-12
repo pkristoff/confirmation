@@ -278,6 +278,7 @@ es:
     admins:
       account_name: Nombre de la cuenta
       admin: Administración
+      contact_phone: Teléfono de contacto
       current_password: Contraseña actual
       email: Email
       sign_in: Iniciar sesión admin
@@ -356,7 +357,6 @@ es:
       candidates: Candidatas
       edit: Editar
       edit_account: Editar cuenta
-      email: Email
       events: Eventos
       export: Exportar
       export_attend_retreat_title: Retiro en %{home_parish}
@@ -388,7 +388,6 @@ es:
         bullet_4: 'Permanecer conectado: NO'
         cannot_recover: No puedes recuperarte de esto.
         confirm: "¿Estás seguro?"
-        message: Comienza año nuevo
         title: Restablecer la base de datos
       start_new_year:
         bullet_1: 'Candidatos: todos serán eliminados de la base de datos'
@@ -396,7 +395,6 @@ es:
         bullet_3: 'Administradores: no afectados'
         bullet_4: 'Permanecer conectado: sí'
         confirm: "¿Estás seguro?"
-        message: Esta voluntad
         title: Comienza año nuevo
     title:
       instruction_link: Mostrar/ocultar instrucciones

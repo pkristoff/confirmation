@@ -9,41 +9,18 @@ RSpec.describe I18n do
   let(:inconsistent_interpolations) { i18n.inconsistent_interpolations }
 
   it 'does not have missing keys' do
-    # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
-    not_missing = %w[alert.reset_password
-                     errors.messages.not_saved.one
-                     errors.messages.not_saved.other
-                     errors.messages.blank
-                     errors.messages.account_name_not_found
-                     errors.messages.reset_password
-                     devise.mailer.reset_password_instructions.subject
-                     devise.failure.unconfirmed
-                     views.common.remember_me]
-    y = missing_keys.keys.to_set.map {|arr| arr[0]}.select{|x| !not_missing.include? x}
-    expect(y).to be_empty, "Missing #{y.count} i18n keys missing #{y}, (hint remove from  en.yml & es.yml) run `i18n-tasks missing' to show them"
+    # Look at ignore_missing in i18n-tasks.yml for a list of should be ignored
+    puts "missing_keys=#{missing_keys.keys.map{|arr| arr}}" unless missing_keys.empty?
+    expect(missing_keys).to be_empty, "#{missing_keys.size} missing i18n keys, run `i18n-tasks missing' to show them"
   end
 
   it 'does not have unused keys' do
-    used = %w[email.closing_input_label
-              email.completed_awaiting_input_label
-              email.from_input_label
-              email.pre_coming_due_input_label
-              email.pre_late_input_label
-              email.reset_password_subject
-              email.salutation_input_label
-              views.admins.current_password
-              views.candidates.account_name
-              views.common.password_confirmation
-              views.nav.email
-              views.reset_db.reset_database.message
-              views.reset_db.start_new_year.message
-              views.top_bar.contact_admin_mail
-              views.reset_db.reset_database.message
-              views.reset_db.start_new_year.message
-              views.top_bar.contact_admin_mail]
-    y = unused_keys.keys.to_set.map {|arr| arr[0]}.select{|x| !used.include? x}
-    puts "y=#{y}" unless y.empty?
-    expect(y).to be_empty, "#{y.size} unused i18n keys, run `i18n-tasks unused' to show them"
+    puts "unused_keys=#{unused_keys.keys.map{|arr| arr}}" unless unused_keys.empty?
+    # Look at I18n-tasks.yml ignore_unused: if get an error and it is used.
+    # This means the file(s) it is used in is not checked
+    #
+    # Look at ignore_unused in i18n-tasks.yml for a list of should be ignored
+    expect(unused_keys).to be_empty, "#{unused_keys.size} unused i18n keys, run `i18n-tasks unused' to show them"
   end
 
   it 'files are normalized' do
