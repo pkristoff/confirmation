@@ -43,7 +43,7 @@ class ExportExcelJob
     path = "#{dir}/export_no_pictures.xlsx"
     begin
       Dir.mkdir(dir)
-      CandidateImport.new.to_xlsx(dir).serialize(path, true)
+      CandidateImport.new.to_xlsx(dir).serialize(path, confirm_valid: true)
       Rails.logger.info("export_to_excel_no_pictures - serialize=#{path}")
       response = SendGridMail.new(admin, []).export_to_excel_no_pictures_message(path)
     ensure
