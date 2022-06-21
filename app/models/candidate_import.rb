@@ -515,9 +515,7 @@ class CandidateImport
       export_filename = entry[:export_filename]
       image = entry[:image]
       begin
-        File.open(export_filename, 'wb') do |f|
-          f.write image.content
-        end
+        File.binwrite(export_filename, image.content)
       rescue StandardError => e
         Rails.logger.info "Exception opening file for image: #{export_filename}"
         Rails.logger.info "Error message #{e.message}"

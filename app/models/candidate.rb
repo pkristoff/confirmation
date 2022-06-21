@@ -229,7 +229,7 @@ class Candidate < ApplicationRecord
     complete = true
     association = association_class.validate_event_complete(self)
     association.errors.full_messages.each do |msg|
-      errors[:base] << msg
+      errors.add(:base, msg)
       complete = false
     end
     complete
@@ -249,7 +249,7 @@ class Candidate < ApplicationRecord
     complete = true
     association = association_class.validate_creation_complete(self)
     association.errors.full_messages.each do |msg|
-      errors[:base] << msg
+      errors.add(:base, msg)
       complete = false
     end
     complete
@@ -795,7 +795,9 @@ class Candidate < ApplicationRecord
 
   def keep_interesting_errors(covenant_errors)
     errors.messages[:base].clone.each do |msg|
+      # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
       errors.messages[:base].delete(msg) if covenant_errors.detect { |xxx| msg.include? xxx }.nil?
+      # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
     end
   end
 end

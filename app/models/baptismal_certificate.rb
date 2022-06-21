@@ -81,7 +81,7 @@ class BaptismalCertificate < ApplicationRecord
     # 2: User has chosen baptized_catholic(true or false)
     case show_empty_radio
     when 0
-      errors[:base] << I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish)
+      errors.add(:base, I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish))
       # validate_basic_info
       false
     when 1
@@ -89,7 +89,7 @@ class BaptismalCertificate < ApplicationRecord
       church_info = validate_other_church_info
       return basic_valid && church_info if baptized_at_home_parish
 
-      errors[:base] << I18n.t('messages.error.baptized_catholic_should_be_checked')
+      errors.add(:base, I18n.t('messages.error.baptized_catholic_should_be_checked'))
 
       false
     when 2
@@ -129,16 +129,15 @@ class BaptismalCertificate < ApplicationRecord
     event_complete_validator.validate(baptized_catholic_validation_params)
     church_address.validate_event_complete
     church_address.errors.full_messages.each do |msg|
-      errors[:base] << msg
+      errors.add(:base, msg)
       event_complete = false
     end
     found = false
     found |= !errors.delete(:scanned_certificate).nil?
-    if found
-      errors[:base] << "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}" # TODO: I18n
-      event_complete = false
-    end
-    event_complete
+    return event_complete unless found
+
+    errors.add(:base, "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}")
+    false
   end
 
   # This validates all the information needed when home parish does not have the baptismal certificate
@@ -153,13 +152,13 @@ class BaptismalCertificate < ApplicationRecord
     event_complete = event_complete_validator.validate(prof_of_faith_validation_params)
     prof_church_address.validate_event_complete
     prof_church_address.errors.full_messages.each do |msg|
-      errors[:base] << msg
+      errors.add(:base, msg)
       event_complete = false
     end
     found = false
     found |= !errors.delete(:scanned_prof).nil?
     if found
-      errors[:base] << "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}" # TODO: I18n
+      errors.add(:base, "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}") # TODO: I18n
       event_complete = false
     end
     event_complete

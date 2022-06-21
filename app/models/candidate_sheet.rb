@@ -71,7 +71,7 @@ class CandidateSheet < ApplicationRecord
     event_complete = errors.none?
     address.validate_event_complete
     address.errors.full_messages.each do |msg|
-      errors[:base] << msg
+      errors.add(:base, msg)
       event_complete = false
     end
     event_complete

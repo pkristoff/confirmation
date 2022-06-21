@@ -431,9 +431,7 @@ class CommonCandidatesController < ApplicationController
     image_file_path = "tmp/#{scanned_image.filename}"
     jpg_file_path = "#{image_file_path}.jpg"
     pdf_file_path = "#{image_file_path}.pdf"
-    File.open(pdf_file_path, 'wb') do |f|
-      f.write(scanned_image.content)
-    end
+    File.binwrite(pdf_file_path, scanned_image.content)
     begin
       pdf = Magick::ImageList.new(pdf_file_path)
 
@@ -637,7 +635,7 @@ class CommonCandidatesController < ApplicationController
         flash['alert'] = "Save of #{event_key} failed"
       end
     else
-      flash['alert'] = 'Update_attributes fails'
+      flash['alert'] = I18n.t('messages.alert.common.update')
     end
     render_called
   end

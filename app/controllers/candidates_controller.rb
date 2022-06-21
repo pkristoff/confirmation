@@ -43,7 +43,7 @@ class CandidatesController < CommonCandidatesController
       cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
       flash['notice'] = I18n.t('messages.updated', cand_name: cand_name)
     else
-      flash['alert'] = 'Update_attributes fails'
+      flash['alert'] = I18n.t('messages.alert.common.update')
     end
     @resource = @candidate
     render :candidate_note

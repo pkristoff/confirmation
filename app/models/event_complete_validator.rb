@@ -61,7 +61,7 @@ class EventCompleteValidator
 
     sub_association.validates_presence_of attributes
     sub_association.errors.full_messages.each do |msg|
-      @association.errors[:base] << msg
+      @association.errors.add(:base, msg)
     end
   end
 end

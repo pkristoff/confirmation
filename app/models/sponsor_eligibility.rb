@@ -71,7 +71,9 @@ class SponsorEligibility < ApplicationRecord
 
     found = false
     found |= !errors.delete(:scanned_eligibility).nil?
-    errors[:base] << "Scanned sponsor eligibility form #{I18n.t('errors.messages.blank')}" if found
+    return unless found
+
+    errors.add(:base, :blank, message: "Scanned sponsor eligibility form #{I18n.t('errors.messages.blank')}")
   end
 
   # Editable attributes

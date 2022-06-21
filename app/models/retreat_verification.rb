@@ -44,8 +44,9 @@ class RetreatVerification < ApplicationRecord
     # convert empty picture attributes to something the user can understand
     found = false
     found |= !errors.delete(:scanned_retreat).nil?
+    return unless found
 
-    errors[:base] << "Scanned retreat verification #{I18n.t('errors.messages.blank')}" if found
+    errors.add(:base, "Scanned retreat verification #{I18n.t('errors.messages.blank')}")
   end
 
   # Editable attributes

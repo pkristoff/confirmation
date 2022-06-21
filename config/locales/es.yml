@@ -202,6 +202,9 @@ es:
     adhoc_mailing_progress: Envío ad hoc en curso
     adhoc_mailing_test_sent: Prueba de envío ad hoc enviada
     admin_login_needed: Por favor, inicie sesión como administrador para %{message}.
+    alert:
+      common:
+        update: La actualización de atributos falla
     another_admin: crear otro administrador
     another_candidate: crear otro candidato
     cand_account_confirmed_next: El siguiente paso es configurar su contraseña. Otro solo se envió un correo electrónico explicando cómo hacer esto.

@@ -49,8 +49,9 @@ class SponsorCovenant < ApplicationRecord
     # convert empty picture attributes to something the user can understand
     found = false
     found |= !errors.delete(:scanned_covenant).nil?
+    return unless found
 
-    errors[:base] << "Scanned sponsor covenant form #{I18n.t('errors.messages.blank')}" if found
+    errors.add(:base, "Scanned sponsor covenant form #{I18n.t('errors.messages.blank')}")
   end
 
   # Editable attributes

@@ -202,6 +202,9 @@ en:
     adhoc_mailing_progress: Adhoc mailing in progress
     adhoc_mailing_test_sent: Adhoc mailing test sent
     admin_login_needed: Please login as admin to %{message}.
+    alert:
+      common:
+        update: Update_attributes fails
     another_admin: create another admin
     another_candidate: create another candidate
     cand_account_confirmed_next: The next step is to setup your password. Another email was just sent explaining how to do this.

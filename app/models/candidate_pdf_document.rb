@@ -309,9 +309,7 @@ class CandidatePDFDocument < Prawn::Document
       Dir.mkdir('tmp') unless Dir.exist?('tmp')
       pdf_file_path = "tmp/#{scanned_image.filename}".downcase
       jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
-      File.open(pdf_file_path, 'wb') do |f|
-        f.write(scanned_image.content)
-      end
+      File.binwrite(pdf_file_path, scanned_image.content)
       begin
         pdf = Magick::ImageList.new(pdf_file_path)
         y_inc = image_height / pdf.size
@@ -332,9 +330,7 @@ class CandidatePDFDocument < Prawn::Document
     else
       Dir.mkdir('tmp') unless Dir.exist?('tmp')
       file_path = "tmp/#{scanned_image.filename}"
-      File.open(file_path, 'wb') do |f|
-        f.write(scanned_image.content)
-      end
+      File.binwrite(file_path, scanned_image.content)
       begin
         # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
         bounding_box([image_x, image_y], width: image_width, height: image_height) do
