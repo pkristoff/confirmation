@@ -70,11 +70,7 @@ class CandidateSheet < ApplicationRecord
     validate_emails
     event_complete = errors.none?
     address.validate_event_complete
-    address.errors.full_messages.each do |msg|
-      errors.add(:base, msg)
-      event_complete = false
-    end
-    event_complete
+    propagate_errors_up(address, event_complete)
   end
 
   # Validate if event is complete by adding validation errors to active record

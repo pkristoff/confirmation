@@ -226,13 +226,8 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def validate_event_complete(association_class)
-    complete = true
     association = association_class.validate_event_complete(self)
-    association.errors.full_messages.each do |msg|
-      errors.add(:base, msg)
-      complete = false
-    end
-    complete
+    propagate_errors_up(association, true)
   end
 
   # Validate if association_class event is complete by adding validation errors to active record
@@ -246,13 +241,8 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def validate_creation_complete(association_class)
-    complete = true
     association = association_class.validate_creation_complete(self)
-    association.errors.full_messages.each do |msg|
-      errors.add(:base, msg)
-      complete = false
-    end
-    complete
+    propagate_errors_up(association, true)
   end
 
   # Array of email addresses ignoring the fact they could be nil - devise

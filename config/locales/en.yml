@@ -235,6 +235,7 @@ en:
       missing_attribute: 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:'
       missing_attributes: 'Your changes were saved!! %{err_count} empty fields need to be filled in on the form to be verified:'
       one_email: at least one email must be supplied.
+      scanned_baptismal_certificate: Scanned baptismal certificate %{message}
       unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
     export_to_excel: Working in background.  An email with spreadsheet will be sent upon completion with %{commit}.
     generate_pdf_error: Only select one candidate

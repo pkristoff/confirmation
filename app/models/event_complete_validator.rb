@@ -40,7 +40,7 @@ class EventCompleteValidator
     @association.validates_presence_of attributes
     return unless @association.errors.any?
 
-    # if we find errors the try the other_attributes
+    # if we find errors then try the other_attributes
     @association.errors.clear
     @association.validates_presence_of other_attributes
     return unless @association.errors.any?
@@ -60,8 +60,6 @@ class EventCompleteValidator
     return unless @validate_others
 
     sub_association.validates_presence_of attributes
-    sub_association.errors.full_messages.each do |msg|
-      @association.errors.add(:base, msg)
-    end
+    propagate_errors_up(sub_association, true)
   end
 end

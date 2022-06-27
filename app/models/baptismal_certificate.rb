@@ -82,7 +82,6 @@ class BaptismalCertificate < ApplicationRecord
     case show_empty_radio
     when 0
       errors.add(:base, I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish))
-      # validate_basic_info
       false
     when 1
       basic_valid = validate_basic_info
@@ -124,20 +123,15 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Boolean</tt> - whether the event can be marked complete.
   #
   def validate_other_church_info
-    event_complete = true
     event_complete_validator = EventCompleteValidator.new(self)
     event_complete_validator.validate(baptized_catholic_validation_params)
-    church_address.validate_event_complete
-    church_address.errors.full_messages.each do |msg|
-      errors.add(:base, msg)
-      event_complete = false
-    end
-    found = false
-    found |= !errors.delete(:scanned_certificate).nil?
-    return event_complete unless found
-
-    errors.add(:base, "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}")
-    false
+    event_complete = church_address.validate_event_complete
+    event_complete = propagate_errors_up(church_address, event_complete)
+    rename_scanned_image_error_message(
+      :scanned_certificate,
+      I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))
+    )
+    event_complete
   end
 
   # This validates all the information needed when home parish does not have the baptismal certificate
@@ -147,20 +141,15 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Boolean</tt> - whether the event can be marked complete.
   #
   def validate_profession_of_faith
-    event_complete = true
     event_complete_validator = EventCompleteValidator.new(self)
     event_complete = event_complete_validator.validate(prof_of_faith_validation_params)
-    prof_church_address.validate_event_complete
-    prof_church_address.errors.full_messages.each do |msg|
-      errors.add(:base, msg)
-      event_complete = false
-    end
-    found = false
-    found |= !errors.delete(:scanned_prof).nil?
-    if found
-      errors.add(:base, "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}") # TODO: I18n
-      event_complete = false
-    end
+    event_complete = prof_church_address.validate_event_complete && event_complete
+    event_complete = propagate_errors_up(prof_church_address, event_complete)
+    rename_scanned_image_error_message(
+      :scanned_prof,
+      # I18n next line
+      "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"
+    )
     event_complete
   end
 
