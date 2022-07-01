@@ -447,8 +447,8 @@ class CommonCandidatesController < ApplicationController
                 type: 'image/jpg',
                 disposition: 'inline'
     ensure
-      File.delete(pdf_file_path) if File.exist?(pdf_file_path)
-      File.delete(jpg_file_path) if File.exist?(jpg_file_path)
+      File.delete(pdf_file_path)
+      File.delete(jpg_file_path)
     end
   end
 

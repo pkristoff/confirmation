@@ -264,8 +264,6 @@ Style/StringConcatenation:
 Naming/VariableNumber:
   Enabled: false
 
-Gemspec/DateAssignment: # (new in 1.10)
-  Enabled: false
 Layout/LineEndStringConcatenationIndentation: # (new in 1.18)
   Enabled: false
 Layout/SpaceBeforeBrackets: # (new in 1.7)
@@ -443,5 +441,14 @@ Rails/RootPublicPath: # new in 2.15
 Rails/StripHeredoc: # new in 2.15
   Enabled: true
 Rails/ToFormattedS: # new in 2.15
+  Enabled: true
+
+Layout/LineContinuationLeadingSpace: # new in 1.31
+  Enabled: true
+Layout/LineContinuationSpacing: # new in 1.31
+  Enabled: true
+Lint/ConstantOverwrittenInRescue: # new in 1.31
+  Enabled: true
+Lint/NonAtomicFileOperation: # new in 1.31
   Enabled: true
 #For more information: https://docs.rubocop.org/rubocop/versioning.html

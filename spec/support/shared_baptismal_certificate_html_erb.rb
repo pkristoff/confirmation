@@ -528,8 +528,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                                         "City #{I18n.t('errors.messages.blank')}",
                                                                                         "State #{I18n.t('errors.messages.blank')}",
                                                                                         "Zip code #{I18n.t('errors.messages.blank')}",
-
-                                                                                        "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"],
+                                                                                        I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))],
                                                                    16]])
             # rubocop:enable Layout/LineLength
           end
@@ -545,7 +544,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                               @bc_form_info.show_info(true, true, false), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                        "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}"]]])
+                                                                                        I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))]]])
 
             attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
             click_button @update_id
@@ -602,7 +601,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                               @bc_form_info.show_info(true, true, true), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
-                                                                                        "Scanned baptismal certificate #{I18n.t('errors.messages.blank')}",
+                                                                                        I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank')),
                                                                                         "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"]]])
             # rubocop:enable Layout/LineLength
 

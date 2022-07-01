@@ -99,7 +99,7 @@ shared_context 'retreat_verification_html_erb' do
     expect(retreat_verification.where_held_retreat).to eq(WHERE_HELD_RETREAT)
     expect(retreat_verification.start_date).to eq(START_DATE)
     expect(retreat_verification.end_date).to eq(END_DATE)
-    expect(retreat_verification.scanned_retreat.filename).to eq('actions+for+spec+testing.png')
+    expect(retreat_verification.scanned_retreat.filename).to eq('actions for spec testing.png')
 
     expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(@today)
     expect(CandidateEvent.find(@candidate_event_id).verified).to eq(@is_verify)
@@ -134,7 +134,7 @@ shared_context 'retreat_verification_html_erb' do
                                      end_date: '')
     # rubocop:enable Layout/LineLength
 
-    expect(Candidate.find(@cand_id).retreat_verification.scanned_retreat.filename).to eq('actions+for+spec+testing.png')
+    expect(Candidate.find(@cand_id).retreat_verification.scanned_retreat.filename).to eq('actions for spec testing.png')
 
     expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(nil)
 
