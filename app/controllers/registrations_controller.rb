@@ -18,10 +18,7 @@ class RegistrationsController < Devise::RegistrationsController
       res.valid? # copied from super_create
       AppFactory.add_candidate_events(res)
       res.candidate_sheet.validate_emails # no longer part of save
-      res.candidate_sheet.errors.each do |key, msg|
-        key_not_used = res.errors.messages[key].empty? && res.errors.messages["candidate_sheet.#{key}".to_sym].empty?
-        res.errors.add key, msg if key_not_used
-      end
+      res.propagate_errors_up(res.candidate_sheet, true)
       if res.errors.any?
         flash.now.alert = I18n.t('views.common.save_failed', failee: "#{cs['first_name']} #{cs['last_name']}")
       else

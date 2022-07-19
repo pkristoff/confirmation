@@ -7,6 +7,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   # This assumes child_association has been validated and
   # moves the errors messages from child association to self errors
+  # making sure no duplicate errors.
   #
   # === Parameters:
   #
@@ -18,9 +19,10 @@ class ApplicationRecord < ActiveRecord::Base
   # * <tt>Boolean</tt> - returns whether child_association is complete.
   #
   def propagate_errors_up(child_association, event_complete)
-    child_association.errors.full_messages.each do |msg|
-      errors.add(:base, msg)
-      event_complete = false
+    child_association.errors.full_messages.each do |full_msg|
+      already_propagated = errors.full_messages.include?(full_msg)
+      errors.add(:base, full_msg) unless already_propagated
+      event_complete = false unless already_propagated
     end
     event_complete
   end

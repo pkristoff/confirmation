@@ -5,36 +5,36 @@
 #
 class ExportListsController < ApplicationController
   BAPTISM_COLUMNS =
-    [I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish',
+    [I18n.t('activerecord.attributes.baptismal_certificate.baptized_at_home_parish',
             home_parish: Visitor.home_parish),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_catholic'),
+     I18n.t('activerecord.attributes.baptismal_certificate.baptized_catholic'),
      'Show empty radio',
-     I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.father_first'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.father_last'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'),
+     I18n.t('activerecord.attributes.baptismal_certificate.birth_date'),
+     I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'),
+     I18n.t('activerecord.attributes.baptismal_certificate.father_first'),
+     I18n.t('activerecord.attributes.baptismal_certificate.father_middle'),
+     I18n.t('activerecord.attributes.baptismal_certificate.father_last'),
+     I18n.t('activerecord.attributes.baptismal_certificate.mother_first'),
+     I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'),
+     I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'),
+     I18n.t('activerecord.attributes.baptismal_certificate.mother_last'),
+     I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'),
 
-     I18n.t('label.baptismal_certificate.baptismal_certificate.church_name'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_1'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_2'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.city'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.state'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code'),
+     I18n.t('activerecord.attributes.baptismal_certificate.church_name'),
+     I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'),
+     I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_2'),
+     I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'),
+     I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'),
+     I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'),
 
-     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_date'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_name'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_1'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_street_2'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_city'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_state'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_church_address.prof_zip_code'),
-     I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture')].freeze
+     I18n.t('activerecord.attributes.baptismal_certificate.prof_date'),
+     I18n.t('activerecord.attributes.baptismal_certificate.prof_church_name'),
+     I18n.t('activerecord.attributes.baptismal_certificate.prof_church_address/address.street_1'),
+     I18n.t('activerecord.attributes.baptismal_certificate.prof_church_address/address.street_2'),
+     I18n.t('activerecord.attributes.baptismal_certificate.prof_church_address/address.city'),
+     I18n.t('activerecord.attributes.baptismal_certificate.prof_church_address/address.state'),
+     I18n.t('activerecord.attributes.baptismal_certificate.prof_church_address/address.zip_code'),
+     I18n.t('activerecord.attributes.baptismal_certificate.prof_picture')].freeze
 
   BAPTISM_VALUES =
     [->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish },
@@ -272,7 +272,8 @@ class ExportListsController < ApplicationController
 
   def add_wb(wbk, candidates, title, extra_columns, value_lambdas)
     wbk.add_worksheet(name: title) do |sheet|
-      headers = [I18n.t('label.candidate_sheet.first_name'), I18n.t('label.candidate_sheet.last_name')]
+      headers = [I18n.t('activerecord.attributes.candidate_sheet.first_name'),
+                 I18n.t('activerecord.attributes.candidate_sheet.last_name')]
       extra_columns.each { |extra_column| headers.push(extra_column) }
       sheet.add_row(headers)
       candidates.each do |candidate|

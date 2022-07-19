@@ -42,9 +42,9 @@ class CandidateNamePDFDocument < Prawn::Document
     baptismal_certificate = BaptismalCertificate.find_by(id: candidate.baptismal_certificate_id)
     start_new_page
     define_grid_page
-    grid_label_value([1, 0], "#{I18n.t('label.candidate_sheet.first_name')}:", candidate.first_name)
-    grid_label_value([1, 2], "#{I18n.t('label.candidate_sheet.middle_name')}:", candidate.middle_name)
-    grid_label_value([2, 0], "#{I18n.t('label.candidate_sheet.last_name')}:", candidate.last_name)
+    grid_label_value([1, 0], "#{I18n.t('activerecord.attributes.candidate_sheet.first_name')}:", candidate.first_name)
+    grid_label_value([1, 2], "#{I18n.t('activerecord.attributes.candidate_sheet.middle_name')}:", candidate.middle_name)
+    grid_label_value([2, 0], "#{I18n.t('activerecord.attributes.candidate_sheet.last_name')}:", candidate.last_name)
 
     common_image(baptismal_certificate.scanned_certificate)
   end

@@ -40,11 +40,12 @@ shared_context 'new_candidate_spec' do
 
       fill_in_form_values
 
-      fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: '')
+      fill_in(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), with: '')
 
       click_button I18n.t('views.common.update')
 
-      expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one', resource: :candidate),
+      expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one',
+                                                    resource: I18n.t('activerecord.models.candidate').downcase),
                                              I18n.t('messages.error.one_email')]],
                        [:flash_alert, I18n.t('views.common.save_failed', failee: 'George Smith')]])
 
@@ -55,7 +56,7 @@ shared_context 'new_candidate_spec' do
       visit new_candidate_path
 
       fill_in_form_values
-      fill_in(I18n.t('label.candidate_sheet.middle_name'), with: '')
+      fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: '')
 
       click_button I18n.t('views.common.update')
 
@@ -68,12 +69,15 @@ shared_context 'new_candidate_spec' do
       visit new_candidate_path
 
       fill_in_form_values
-      fill_in(I18n.t('label.candidate_sheet.first_name'), with: '')
+      fill_in(I18n.t('activerecord.attributes.candidate_sheet.first_name'), with: '')
 
       click_button I18n.t('views.common.update')
 
-      expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one', resource: :candidate),
-                                             "Candidate sheet first name #{I18n.t('errors.messages.blank')}"]],
+      expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one',
+                                                    resource: I18n.t('activerecord.models.candidate').downcase),
+                                             I18n.t('errors.format',
+                                                    attribute: I18n.t('activerecord.attributes.candidate_sheet.first_name'),
+                                                    message: I18n.t('errors.messages.blank'))]],
                        [:flash_alert, I18n.t('views.common.save_failed', failee: 'Smith')]])
 
       expect(Candidate.all.size).to eq(0)
@@ -84,17 +88,20 @@ shared_context 'new_candidate_spec' do
 
       fill_in_form_values
 
-      fill_in(I18n.t('label.candidate_sheet.last_name'), with: '')
+      fill_in(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: '')
 
       click_button I18n.t('views.common.update')
 
-      expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one', resource: :candidate),
-                                             "Candidate sheet last name #{I18n.t('errors.messages.blank')}"]],
+      expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one',
+                                                    resource: I18n.t('activerecord.models.candidate').downcase),
+                                             I18n.t('errors.format',
+                                                    attribute: I18n.t('activerecord.attributes.candidate_sheet.last_name'),
+                                                    message: I18n.t('errors.messages.blank'))]],
                        [:flash_alert, I18n.t('views.common.save_failed', failee: 'George')]])
 
       expect(Candidate.all.size).to eq(0)
 
-      fill_in(I18n.t('label.candidate_sheet.last_name'), with: 'Smith')
+      fill_in(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: 'Smith')
 
       click_button I18n.t('views.common.update')
 
@@ -108,12 +115,15 @@ shared_context 'new_candidate_spec' do
 
       fill_in_form_values
 
-      fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: 'Smithgr@.com')
+      fill_in(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), with: 'Smithgr@.com')
 
       click_button I18n.t('views.common.update')
 
-      expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one', resource: :candidate),
-                                             "Candidate email #{I18n.t('messages.error.invalid_email', email: 'smithgr@.com')}"]],
+      expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one',
+                                                    resource: I18n.t('activerecord.models.candidate').downcase),
+                                             I18n.t('errors.format',
+                                                    attribute: I18n.t('activerecord.attributes.candidate_sheet.candidate_email'),
+                                                    message: I18n.t('messages.error.invalid_email', email: 'smithgr@.com'))]],
                        [:flash_alert, I18n.t('views.common.save_failed', failee: 'George')]])
 
       expect(Candidate.all.size).to eq(0)
@@ -145,14 +155,14 @@ shared_context 'new_candidate_spec' do
   private
 
   def fill_in_form_values(first = 'George', middle = 'Ralph', last = 'Smith', email = 'Smithgr@gmail.com')
-    fill_in(I18n.t('views.candidates.first_name'), with: first)
-    fill_in(I18n.t('views.candidates.middle_name'), with: middle)
-    fill_in(I18n.t('views.candidates.last_name'), with: last)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.first_name'), with: first)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: middle)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: last)
 
-    fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: email)
-    fill_in(I18n.t('label.candidate_sheet.parent_email_1'), with: '')
-    fill_in(I18n.t('label.candidate_sheet.parent_email_2'), with: '')
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), with: email)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.parent_email_1'), with: '')
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.parent_email_2'), with: '')
 
-    fill_in(I18n.t('label.candidate_sheet.grade'), with: 10)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.grade'), with: 10)
   end
 end

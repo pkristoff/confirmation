@@ -142,6 +142,8 @@ Rails/ShortI18n:
 Rails/WhereExists:
 # added  (2.7)
   Enabled: true
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
 
 Security:
   Enabled: true

@@ -18,6 +18,11 @@ feature 'Baptismal Certificate candidate', :devise do
     Warden.test_reset!
   end
 
+  context 'test english' do
+    let(:locale) { 'en' }
+    it_behaves_like 'baptismal_certificate_html_erb'
+  end
+
   # dev
   context 'test spanish' do
     let(:locale) { 'es' }
@@ -25,9 +30,4 @@ feature 'Baptismal Certificate candidate', :devise do
     it_behaves_like 'baptismal_certificate_html_erb'
   end
   # dev
-
-  context 'test english' do
-    let(:locale) { 'en' }
-    it_behaves_like 'baptismal_certificate_html_erb'
-  end
 end

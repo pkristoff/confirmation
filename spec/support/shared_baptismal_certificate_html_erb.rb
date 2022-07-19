@@ -117,28 +117,29 @@ shared_context 'baptismal_certificate_html_erb' do
           update_baptismal_certificate
 
           visit @path
-          fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+          fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: MIDDLE_NAME)
           click_button @update_id
 
           # rubocop:disable Layout/LineLength
+          blank_messgage = I18n.t('errors.messages.blank')
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             @bc_form_info.show_info(true, true, false), false,
                                             expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                 [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 14),
-                                                                                      "Birth date #{I18n.t('errors.messages.blank')}",
-                                                                                      "Baptismal date #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father first #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father middle #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father last #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother first #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother middle #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother maiden #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother last #{I18n.t('errors.messages.blank')}",
-                                                                                      "Church name #{I18n.t('errors.messages.blank')}",
-                                                                                      "Street 1 #{I18n.t('errors.messages.blank')}",
-                                                                                      "City #{I18n.t('errors.messages.blank')}",
-                                                                                      "State #{I18n.t('errors.messages.blank')}",
-                                                                                      "Zip code #{I18n.t('errors.messages.blank')}"]]])
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), message: blank_messgage),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), message: blank_messgage)]]])
           # rubocop:enable Layout/LineLength
         end
 
@@ -252,7 +253,7 @@ shared_context 'baptismal_certificate_html_erb' do
           update_baptismal_certificate
 
           visit @path
-          fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+          fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: MIDDLE_NAME)
           click_button @update_id
 
           # rubocop:disable Layout/LineLength
@@ -260,20 +261,20 @@ shared_context 'baptismal_certificate_html_erb' do
                                             @bc_form_info.show_info(true, true, false), false,
                                             expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                 [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
-                                                                                      "Birth date #{I18n.t('errors.messages.blank')}",
-                                                                                      "Baptismal date #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father first #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father middle #{I18n.t('errors.messages.blank')}",
-                                                                                      "Father last #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother first #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother middle #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother maiden #{I18n.t('errors.messages.blank')}",
-                                                                                      "Mother last #{I18n.t('errors.messages.blank')}",
-                                                                                      "Church name #{I18n.t('errors.messages.blank')}",
-                                                                                      "Street 1 #{I18n.t('errors.messages.blank')}",
-                                                                                      "City #{I18n.t('errors.messages.blank')}",
-                                                                                      "State #{I18n.t('errors.messages.blank')}",
-                                                                                      "Zip code #{I18n.t('errors.messages.blank')}",
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), message: I18n.t('errors.messages.blank')),
                                                                                       I18n.t('messages.error.baptized_catholic_should_be_checked')]]])
           # rubocop:enable Layout/LineLength
         end
@@ -449,7 +450,7 @@ shared_context 'baptismal_certificate_html_erb' do
             end
 
             visit @path
-            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
             click_button @update_id
 
             candidate = Candidate.find(@candidate.id)
@@ -457,7 +458,9 @@ shared_context 'baptismal_certificate_html_erb' do
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               @bc_form_info.show_info(true, true, false), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
-                                                                  [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1), "Middle name #{I18n.t('errors.messages.blank')}"]]],
+                                                                  [:error_explanation,
+                                                                   [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                    I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.candidate_sheet.middle_name'), message: I18n.t('errors.messages.blank'))]]],
                                               expect_scanned_image: true)
 
             candidate = Candidate.find(@candidate.id)
@@ -468,7 +471,7 @@ shared_context 'baptismal_certificate_html_erb' do
             expect(candidate.get_candidate_event(CandidateSheet.event_key).verified).to eq(false)
             expect(candidate.get_candidate_event(CandidateSheet.event_key).completed_date).to eq(nil)
 
-            fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+            fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: MIDDLE_NAME)
 
             click_button @update_id
 
@@ -511,23 +514,24 @@ shared_context 'baptismal_certificate_html_erb' do
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
 
-                                                                                        "Middle name #{I18n.t('errors.messages.blank')}",
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.candidate_sheet.middle_name'), message: I18n.t('errors.messages.blank')),
 
-                                                                                        "Birth date #{I18n.t('errors.messages.blank')}",
-                                                                                        "Baptismal date #{I18n.t('errors.messages.blank')}",
-                                                                                        "Father first #{I18n.t('errors.messages.blank')}",
-                                                                                        "Father middle #{I18n.t('errors.messages.blank')}",
-                                                                                        "Father last #{I18n.t('errors.messages.blank')}",
-                                                                                        "Mother first #{I18n.t('errors.messages.blank')}",
-                                                                                        "Mother middle #{I18n.t('errors.messages.blank')}",
-                                                                                        "Mother maiden #{I18n.t('errors.messages.blank')}",
-                                                                                        "Mother last #{I18n.t('errors.messages.blank')}",
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name'), message: I18n.t('errors.messages.blank')),
 
-                                                                                        "Church name #{I18n.t('errors.messages.blank')}",
-                                                                                        "Street 1 #{I18n.t('errors.messages.blank')}",
-                                                                                        "City #{I18n.t('errors.messages.blank')}",
-                                                                                        "State #{I18n.t('errors.messages.blank')}",
-                                                                                        "Zip code #{I18n.t('errors.messages.blank')}",
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), message: I18n.t('errors.messages.blank')),
+
                                                                                         I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))],
                                                                    16]])
             # rubocop:enable Layout/LineLength
@@ -546,7 +550,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                                         I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))]]])
 
-            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
             click_button @update_id
 
             candidate = Candidate.find(@candidate.id)
@@ -590,7 +594,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
             visit @path
 
-            expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'), nil)
+            expect_field(I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'), nil)
 
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               @bc_form_info.show_info(true, true, true), false)
@@ -605,9 +609,9 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                                         "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"]]])
             # rubocop:enable Layout/LineLength
 
-            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'),
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'),
                         'spec/fixtures/actions.png')
-            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'),
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'),
                         'spec/fixtures/actions.png')
             click_button @update_id
 
@@ -628,9 +632,9 @@ shared_context 'baptismal_certificate_html_erb' do
             update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true, prof_of_faith: true)
 
             visit @path
-            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'),
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'),
                         'spec/fixtures/actions.png')
-            attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'),
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'),
                         'spec/fixtures/actions.png')
             click_button @update_id
 
@@ -659,7 +663,7 @@ shared_context 'baptismal_certificate_html_erb' do
   def expect_no_scanned_image
     expect(page).to have_selector('div[id=file-type-message_certificate_picture]',
                                   text: I18n.t('views.common.image_upload_file_types'))
-    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), nil)
+    expect_field(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), nil)
     begin
       div = page.find '#div-scanned-image-certificate_picture'
     rescue Capybara::ElementNotFound
@@ -672,7 +676,7 @@ shared_context 'baptismal_certificate_html_erb' do
   def expect_no_prof_scanned_image
     expect(page).to have_selector('div[id=file-type-message_prof_picture]',
                                   text: I18n.t('views.common.image_upload_file_types'))
-    expect_field(I18n.t('label.baptismal_certificate.baptismal_certificate.prof_picture'), nil)
+    expect_field(I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'), nil)
     begin
       div = page.find '#div-scanned-image-prof_picture'
     rescue Capybara::ElementNotFound
@@ -721,7 +725,7 @@ shared_context 'baptismal_certificate_html_erb' do
     expect_heading(candidate, dev_path.empty?, BaptismalCertificate.event_key)
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/baptismal_certificate\"]")
-    expect(page).to have_selector('div', text: I18n.t('label.baptismal_certificate.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish))
+    expect(page).to have_selector('div', text: I18n.t('activerecord.attributes.baptismal_certificate.baptized_at_home_parish', home_parish: Visitor.home_parish))
 
     expect_no_scanned_image unless values[:expect_scanned_image]
     expect_no_prof_scanned_image unless values[:expect_prof_scanned_image]
@@ -734,7 +738,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     expect_profession_of_faith(page, bc_form_info, disabled)
 
-    expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'))
+    expect_image_upload('baptismal_certificate', 'certificate_picture', I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'))
 
     expect(page).to have_button(button_name, count: 2)
     expect_remove_button('candidate_baptismal_certificate_attributes_remove_certificate_picture', 'certificate_picture')
@@ -747,30 +751,30 @@ shared_context 'baptismal_certificate_html_erb' do
 
   def fill_in_form(attach_file: true)
     # basic_info
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.birth_date'), with: BIRTH_DATE)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.baptismal_date'), with: BAPTISMAL_DATE)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.father_first'), with: FATHER_FIRST)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.father_middle'), with: FATHER_MIDDLE)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.father_last'), with: LAST_NAME)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_first'), with: MOTHER_FIRST)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_middle'), with: MOTHER_MIDDLE)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_maiden'), with: MOTHER_MAIDEN)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.mother_last'), with: LAST_NAME)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), with: BIRTH_DATE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), with: BAPTISMAL_DATE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_first'), with: FATHER_FIRST)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), with: FATHER_MIDDLE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_last'), with: LAST_NAME)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), with: MOTHER_FIRST)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), with: MOTHER_MIDDLE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), with: MOTHER_MAIDEN)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), with: LAST_NAME)
 
-    fill_in(I18n.t('label.candidate_sheet.first_name'), with: FIRST_NAME)
-    fill_in(I18n.t('label.candidate_sheet.middle_name'), with: MIDDLE_NAME)
-    fill_in(I18n.t('label.candidate_sheet.last_name'), with: LAST_NAME)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.first_name'), with: FIRST_NAME)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: LAST_NAME)
 
     # baptized catholic info
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_name'), with: CHURCH_NAME)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_1'), with: STREET_1)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.street_2'), with: STREET_2)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.city'), with: CITY)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.state'), with: STATE)
-    fill_in(I18n.t('label.baptismal_certificate.baptismal_certificate.church_address.zip_code'), with: ZIP_CODE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_name'), with: CHURCH_NAME)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), with: STREET_1)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_2'), with: STREET_2)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), with: CITY)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), with: STATE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), with: ZIP_CODE)
 
     # rubocop:disable Layout/LineLength
-    attach_file(I18n.t('label.baptismal_certificate.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png') if attach_file
+    attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png') if attach_file
     # rubocop:enable Layout/LineLength
   end
 
@@ -884,10 +888,10 @@ shared_context 'baptismal_certificate_html_erb' do
 
     text_fields = %i[church_name]
     text_fields.each do |sym|
-      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
+      val = bc_form_info.field_value(sym, 'activerecord.attributes.baptismal_certificate')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
-        I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
+        I18n.t("activerecord.attributes.baptismal_certificate.#{sym}"),
         "candidate_baptismal_certificate_attributes_#{sym}",
         val,
         disabled,
@@ -912,10 +916,10 @@ shared_context 'baptismal_certificate_html_erb' do
     end
 
     text_fields.each do |sym|
-      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
+      val = bc_form_info.field_value(sym, 'activerecord.attributes.baptismal_certificate')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
-        I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
+        I18n.t("activerecord.attributes.baptismal_certificate.#{sym}"),
         "candidate_baptismal_certificate_attributes_#{sym}",
         val,
         disabled,
@@ -935,11 +939,11 @@ shared_context 'baptismal_certificate_html_erb' do
   def expect_profession_of_faith_fields(rendered_or_page, disabled, visible, bc_form_info)
     text_fields = %i[prof_church_name]
 
-    val = bc_form_info.field_value(:prof_date, 'label.baptismal_certificate.baptismal_certificate')
+    val = bc_form_info.field_value(:prof_date, 'activerecord.attributes.baptismal_certificate')
     vis = visible && !val.empty?
     ExpectFields.expect_have_field_date(
       rendered_or_page,
-      I18n.t('label.baptismal_certificate.baptismal_certificate.prof_date'),
+      I18n.t('activerecord.attributes.baptismal_certificate.prof_date'),
       'candidate_baptismal_certificate_attributes_prof_date',
       val,
       disabled,
@@ -949,10 +953,10 @@ shared_context 'baptismal_certificate_html_erb' do
     ExpectAddress.expect_prof_address_fields(rendered_or_page, bc_form_info, disabled, visible)
 
     text_fields.each do |sym|
-      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
+      val = bc_form_info.field_value(sym, 'activerecord.attributes.baptismal_certificate')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
-        I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
+        I18n.t("activerecord.attributes.baptismal_certificate.#{sym}"),
         "candidate_baptismal_certificate_attributes_#{sym}",
         val,
         disabled,
@@ -979,10 +983,10 @@ shared_context 'baptismal_certificate_html_erb' do
   def expect_home_parish_fields(rendered_or_page, disabled, bc_form_info, visible)
     cs_text_fields = %i[first_name middle_name last_name]
     cs_text_fields.each do |sym|
-      val = bc_form_info.field_value(sym, 'label.candidate_sheet')
+      val = bc_form_info.field_value(sym, 'activerecord.attributes.candidate_sheet')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
-        I18n.t("label.candidate_sheet.#{sym}"),
+        I18n.t("activerecord.attributes.candidate_sheet.#{sym}"),
         "candidate_candidate_sheet_attributes_#{sym}",
         val,
         disabled,
@@ -993,10 +997,10 @@ shared_context 'baptismal_certificate_html_erb' do
     text_fields = %i[father_first father_middle father_last
                      mother_first mother_middle mother_maiden mother_last]
     text_fields.each do |sym|
-      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
+      val = bc_form_info.field_value(sym, 'activerecord.attributes.baptismal_certificate')
       ExpectFields.expect_have_field_text(
         rendered_or_page,
-        I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
+        I18n.t("activerecord.attributes.baptismal_certificate.#{sym}"),
         "candidate_baptismal_certificate_attributes_#{sym}",
         val,
         disabled,
@@ -1006,11 +1010,11 @@ shared_context 'baptismal_certificate_html_erb' do
 
     date_fields = %i[birth_date baptismal_date]
     date_fields.each do |sym|
-      val = bc_form_info.field_value(sym, 'label.baptismal_certificate.baptismal_certificate')
+      val = bc_form_info.field_value(sym, 'activerecord.attributes.baptismal_certificate')
       vis = visible && !val.empty?
       ExpectFields.expect_have_field_date(
         rendered_or_page,
-        I18n.t("label.baptismal_certificate.baptismal_certificate.#{sym}"),
+        I18n.t("activerecord.attributes.baptismal_certificate.#{sym}"),
         "candidate_baptismal_certificate_attributes_#{sym}",
         val,
         disabled,
@@ -1064,8 +1068,7 @@ class ExpectBCFormInfo
   # * <tt>:i18n_path</tt>
   #
   def blank_field?(i18n_path)
-    # 1st part of message is in english the second half is translated
-    blank_fields.include? "#{I18n.t(i18n_path, locale: 'en')} #{I18n.t('errors.messages.blank')}"
+    blank_fields.include?(I18n.t('errors.format', attribute: I18n.t(i18n_path), message: I18n.t('errors.messages.blank')))
   end
 
   def init_values

@@ -25,17 +25,17 @@
     <%= field_set_tag t('field_set.candidate_sheet.email'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <div class="field">
-            <%= cs_fields.label :candidate_email, I18n.t('label.candidate_sheet.candidate_email') %><br/>
+            <%= cs_fields.label :candidate_email %><br/>
             <%= cs_fields.email_field :candidate_email %>
           </div>
 
           <div class="field">
-            <%= cs_fields.label :parent_email_1, I18n.t('label.candidate_sheet.parent_email_1') %><br/>
+            <%= cs_fields.label :parent_email_1 %><br/>
             <%= cs_fields.email_field :parent_email_1 %>
           </div>
 
           <div class="field">
-            <%= cs_fields.label :parent_email_2, I18n.t('label.candidate_sheet.parent_email_2') %><br/>
+            <%= cs_fields.label :parent_email_2 %><br/>
             <%= cs_fields.email_field :parent_email_2 %>
           </div>
         </div>
@@ -44,7 +44,7 @@
     <%= field_set_tag t('field_set.candidate_sheet.other'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <div class="field">
-            <%= cs_fields.label :grade, I18n.t('label.candidate_sheet.grade') %><br/>
+            <%= cs_fields.label :grade %><br/>
             <%= cs_fields.number_field :grade, min: 8, max: 12 %>
           </div>
 

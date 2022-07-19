@@ -342,7 +342,9 @@ class Candidate < ApplicationRecord
   # keep only first, middle, and last names error messages
   #
   def keep_bc_errors
-    keep_interesting_errors(%w[First Middle Last])
+    keep_interesting_errors([I18n.t('activerecord.attributes.candidate_sheet.first_name'),
+                             I18n.t('activerecord.attributes.candidate_sheet.middle_name'),
+                             I18n.t('activerecord.attributes.candidate_sheet.last_name')])
   end
 
   # Confirm user account when changing password

@@ -30,27 +30,35 @@ shared_context 'candidate_sheet_html_erb' do
 
     click_button(@update_id)
 
+    # rubocop:disable Layout/LineLength
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expected_messages: [
                                   [:flash_notice, @updated_failed_verification],
                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                        "Candidate email #{I18n.t('messages.error.invalid_email', email: 'm')}"]]
+                                                        I18n.t('errors.format',
+                                                               attribute: I18n.t('activerecord.attributes.candidate_sheet.candidate_email'),
+                                                               message: I18n.t('messages.error.invalid_email', email: 'm'))]]
                                 ])
+    # rubocop:enable Layout/LineLength
   end
 
   # rubocop:disable Layout/LineLength
   scenario 'candidate logs in, selects candidate sheet, has filled out candidate sheet previsouly puts in invalid email, attempts to save an invalid sheet' do
     # rubocop:enable Layout/LineLength
     visit @path
-    fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: 'mm')
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), with: 'mm')
 
     click_button(@update_id)
+    # rubocop:disable Layout/LineLength
     expect_candidate_sheet_form(@candidate.id, @path_str, @dev, @update_id, @is_verify,
                                 expected_messages: [
                                   [:flash_notice, @updated_failed_verification],
                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                        "Candidate email #{I18n.t('messages.error.invalid_email', email: 'mm')}"]]
+                                                        I18n.t('errors.format',
+                                                               attribute: I18n.t('activerecord.attributes.candidate_sheet.candidate_email'),
+                                                               message: I18n.t('messages.error.invalid_email', email: 'm'))]]
                                 ])
+    # rubocop:enable Layout/LineLength
   end
 
   scenario 'candidate fills out candidate sheet' do
@@ -122,28 +130,34 @@ shared_context 'candidate_sheet_html_erb' do
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 
     candidate_sheet = cand.candidate_sheet
-    expect(page).to have_field(I18n.t('label.candidate_sheet.first_name'), with: candidate_sheet.first_name, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.middle_name'),
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.first_name'),
+                               with: candidate_sheet.first_name, type: 'text')
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.middle_name'),
                                with: candidate_sheet.middle_name, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.last_name'), with: candidate_sheet.last_name, type: 'text')
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.last_name'),
+                               with: candidate_sheet.last_name, type: 'text')
 
-    expect(page).to have_field(I18n.t('label.candidate_sheet.address.street_1'),
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.street_1'),
                                with: candidate_sheet.address.street_1, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.address.street_2'),
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.street_2'),
                                with: candidate_sheet.address.street_2, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.address.city'), with: candidate_sheet.address.city, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.address.state'), with: candidate_sheet.address.state, type: 'text')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.address.zip_code'),
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.city'),
+                               with: candidate_sheet.address.city, type: 'text')
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.state'),
+                               with: candidate_sheet.address.state, type: 'text')
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.zip_code'),
                                with: candidate_sheet.address.zip_code, type: 'text')
 
-    expect(page).to have_field(I18n.t('label.candidate_sheet.grade'), with: candidate_sheet.grade, type: 'number')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.program_year'), with: candidate_sheet.program_year, type: 'number')
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.grade'),
+                               with: candidate_sheet.grade, type: 'number')
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.program_year'),
+                               with: candidate_sheet.program_year, type: 'number')
 
-    expect(page).to have_field(I18n.t('label.candidate_sheet.candidate_email'),
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'),
                                with: candidate_sheet.candidate_email, type: 'email')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.parent_email_1'),
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.parent_email_1'),
                                with: candidate_sheet.parent_email_1, type: 'email')
-    expect(page).to have_field(I18n.t('label.candidate_sheet.parent_email_2'),
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.parent_email_2'),
                                with: candidate_sheet.parent_email_2, type: 'email')
 
     expect(page).to have_button(update_id)
@@ -153,19 +167,19 @@ shared_context 'candidate_sheet_html_erb' do
   private
 
   def fill_in_form(candidate_sheet)
-    fill_in(I18n.t('label.candidate_sheet.first_name'), with: candidate_sheet.first_name)
-    fill_in(I18n.t('label.candidate_sheet.middle_name'), with: candidate_sheet.middle_name)
-    fill_in(I18n.t('label.candidate_sheet.last_name'), with: candidate_sheet.last_name)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.first_name'), with: candidate_sheet.first_name)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: candidate_sheet.middle_name)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: candidate_sheet.last_name)
 
     address = candidate_sheet.address
-    fill_in(I18n.t('label.candidate_sheet.address.street_1'), with: address.street_1)
-    fill_in(I18n.t('label.candidate_sheet.address.street_2'), with: address.street_2)
-    fill_in(I18n.t('label.candidate_sheet.address.city'), with: address.city)
-    fill_in(I18n.t('label.candidate_sheet.address.state'), with: address.state)
-    fill_in(I18n.t('label.candidate_sheet.address.zip_code'), with: address.zip_code)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.street_1'), with: address.street_1)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.street_2'), with: address.street_2)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.city'), with: address.city)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.state'), with: address.state)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.zip_code'), with: address.zip_code)
 
-    fill_in(I18n.t('label.candidate_sheet.candidate_email'), with: candidate_sheet.candidate_email)
-    fill_in(I18n.t('label.candidate_sheet.parent_email_1'), with: candidate_sheet.parent_email_1)
-    fill_in(I18n.t('label.candidate_sheet.parent_email_2'), with: candidate_sheet.parent_email_2)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), with: candidate_sheet.candidate_email)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.parent_email_1'), with: candidate_sheet.parent_email_1)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.parent_email_2'), with: candidate_sheet.parent_email_2)
   end
 end

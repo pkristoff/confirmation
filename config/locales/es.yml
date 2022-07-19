@@ -1,5 +1,68 @@
 ---
 es:
+  activerecord:
+    attributes:
+      address:
+        city: Ciudad
+        state: Estado
+        street_1: Calle 1
+        street_2: Calle 2
+        zip_code: Código postal
+      baptismal_certificate:
+        baptismal_date: Fecha bautismal
+        baptized_at_home_parish: "¿Te bautizaron en %{home_parish}"
+        baptized_catholic: "¿Fuiste bautizada católica?"
+        birth_date: Fecha de nacimiento
+        certificate_picture: Certificado de bautismo
+        church_address/address:
+          city: Ciudad
+          state: Estado
+          street_1: Calle 1
+          street_2: Calle 2
+          zip_code: Código postal
+        church_name: Nombre de la iglesia
+        father_first: Padre primero
+        father_last: Padre pasado
+        father_middle: Padre medio
+        mother_first: Madre primero
+        mother_last: Madre última
+        mother_maiden: Madre soltera
+        mother_middle: Madre media
+        prof_church_address/address:
+          city: Ciudad de profesión
+          state: Estado de profesión
+          street_1: Calle 1 de profesión
+          street_2: Calle 2 de profesión
+          zip_code: Código postal de profesión
+        prof_church_name: Nombre de la iglesia de profesión de fe
+        prof_date: Fecha de la profesión de fe
+        prof_picture: Imagen de profesión
+        remove_prof_image: Eliminar imagen de perfil escaneada
+        replace_prof_image: Reemplazar imagen de perfil escaneada
+        scanned_prof_of_faith_image: Profesión escaneada de fe
+      candidate:
+        account_name: Nombre de la cuenta
+      candidate_sheet:
+        attending: Asistiendo
+        candidate_email: Correo electrónico del candidato
+        church_address/address:
+          city: Ciudad
+          state: Estado
+          street_1: Calle 1
+          street_2: Calle 2
+          zip_code: Código postal
+        first_name: Nombre de pila
+        grade: Grado
+        last_name: Apellido
+        middle_name: Segundo nombre
+        parent_email_1: Correo electrónico principal 1
+        parent_email_2: Correo electrónico principal 2
+        program_year: Año del programa
+    models:
+      address: Address
+      baptismal_certificate: Certificado de bautismo
+      candidate: Candidata
+      candidate_sheet: Candidate Sheet
   devise:
     failure:
       timeout: Su sesión expiró. Inicia sesión de nuevo para continuar.
@@ -87,58 +150,12 @@ es:
       contact_phone: Teléfono de contacto
     baptismal_certificate:
       baptismal_certificate:
-        baptismal_date: Fecha bautismal
-        baptized_at_home_parish: "¿Te bautizaron en %{home_parish}"
-        baptized_catholic: "¿Fuiste bautizada católica?"
-        birth_date: Fecha de nacimiento
-        certificate_picture: Certificado de bautismo
-        church_address:
-          city: Ciudad
-          state: Estado
-          street_1: Calle 1
-          street_2: Calle 2
-          zip_code: Código postal
-        church_name: Nombre de la iglesia
-        father_first: Padre primero
-        father_last: Padre pasado
-        father_middle: Padre medio
-        mother_first: Madre primero
-        mother_last: Madre última
-        mother_maiden: Madre soltera
-        mother_middle: Madre media
         neg: 'No'
         pos: Si
-        prof_church_address:
-          prof_city: Ciudad de profesión
-          prof_state: Estado de profesión
-          prof_street_1: Calle 1 de profesión
-          prof_street_2: Calle 2 de profesión
-          prof_zip_code: Código postal de profesión
-        prof_church_name: Nombre de la iglesia de profesión de fe
-        prof_date: Fecha de la profesión de fe
-        prof_picture: Imagen de profesión
-        remove_prof_image: Quitar imagen escaneada prof
-        replace_prof_image: Reemplazar imagen prof escaneada
     candidate_event:
       select: Seleccionar
     candidate_note:
       note: Nota
-    candidate_sheet:
-      address:
-        city: Ciudad
-        state: Estado
-        street_1: Calle 1
-        street_2: Calle 2
-        zip_code: Código postal
-      attending: Asistiendo
-      candidate_email: Correo electrónico del candidato
-      first_name: Nombre de pila
-      grade: Grado
-      last_name: Apellido
-      middle_name: Segundo nombre
-      parent_email_1: Correo electrónico principal 1
-      parent_email_2: Correo electrónico principal 2
-      program_year: Año del programa
     christian_ministry:
       helped_me: Esta experiencia me ayudó por
       what_service: "¿Cuál fue el servicio?"

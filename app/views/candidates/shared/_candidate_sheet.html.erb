@@ -6,17 +6,17 @@
             <%= field_set_tag t('field_set.candidate_sheet.name'), class: 'fieldset' do %>
                 <div class="fieldset-div">
                   <div class="field">
-                    <%= cs_fields.label :first_name, I18n.t('label.candidate_sheet.first_name') %><br/>
+                    <%= cs_fields.label :first_name %><br/>
                     <%= cs_fields.text_field :first_name, autofocus: true %>
                   </div>
 
                   <div class="field">
-                    <%= cs_fields.label :middle_name, I18n.t('label.candidate_sheet.middle_name') %><br/>
+                    <%= cs_fields.label :middle_name %><br/>
                     <%= cs_fields.text_field :middle_name %>
                   </div>
 
                   <div class="field">
-                    <%= cs_fields.label :last_name, I18n.t('label.candidate_sheet.last_name') %><br/>
+                    <%= cs_fields.label :last_name %><br/>
                     <%= cs_fields.text_field :last_name %>
                   </div>
                 </div>
@@ -26,23 +26,23 @@
                 <div class="fieldset-div">
                   <%= cs_fields.fields_for :address do |address_fields| %>
                       <div class="field">
-                        <%= address_fields.label :street_1, I18n.t('label.candidate_sheet.address.street_1') %><br/>
+                        <%= address_fields.label :street_1 %><br/>
                         <%= address_fields.text_field :street_1 %>
                       </div>
                       <div class="field">
-                        <%= address_fields.label :street_2, I18n.t('label.candidate_sheet.address.street_2') %><br/>
+                        <%= address_fields.label :street_2 %><br/>
                         <%= address_fields.text_field :street_2 %>
                       </div>
                       <div class="field">
-                        <%= address_fields.label :city, I18n.t('label.candidate_sheet.address.city') %><br/>
+                        <%= address_fields.label :city %><br/>
                         <%= address_fields.text_field :city %>
                       </div>
                       <div class="field">
-                        <%= address_fields.label :state, I18n.t('label.candidate_sheet.address.state') %><br/>
+                        <%= address_fields.label :state %><br/>
                         <%= address_fields.text_field :state %>
                       </div>
                       <div class="field">
-                        <%= address_fields.label :zip_code, I18n.t('label.candidate_sheet.address.zip_code') %><br/>
+                        <%= address_fields.label :zip_code %><br/>
                         <%= address_fields.text_field :zip_code %>
                       </div>
                   <% end %>
@@ -52,17 +52,17 @@
             <%= field_set_tag t('field_set.candidate_sheet.email'), class: 'fieldset' do %>
                 <div class="fieldset-div">
                   <div class="field">
-                    <%= cs_fields.label :candidate_email, I18n.t('label.candidate_sheet.candidate_email') %><br/>
+                    <%= cs_fields.label :candidate_email %><br/>
                     <%= cs_fields.email_field :candidate_email %>
                   </div>
 
                   <div class="field">
-                    <%= cs_fields.label :parent_email_1, I18n.t('label.candidate_sheet.parent_email_1') %><br/>
+                    <%= cs_fields.label :parent_email_1 %><br/>
                     <%= cs_fields.email_field :parent_email_1 %>
                   </div>
 
                   <div class="field">
-                    <%= cs_fields.label :parent_email_2, I18n.t('label.candidate_sheet.parent_email_2') %><br/>
+                    <%= cs_fields.label :parent_email_2 %><br/>
                     <%= cs_fields.email_field :parent_email_2 %>
                   </div>
                 </div>
@@ -71,11 +71,11 @@
             <%= field_set_tag t('field_set.candidate_sheet.other'), class: 'fieldset' do %>
                 <div class="fieldset-div">
                   <div class="field">
-                    <%= cs_fields.label :grade, I18n.t('label.candidate_sheet.grade') %><br/>
+                    <%= cs_fields.label :grade %><br/>
                     <%= cs_fields.number_field :grade, min: 8, max: 12, required: true %> (9-12)
                   </div>
                   <div class="field">
-                    <%= cs_fields.label :program_year, I18n.t('label.candidate_sheet.program_year') %><br/>
+                    <%= cs_fields.label :program_year %><br/>
                     <%= cs_fields.number_field :program_year, min: 1, max: 2, required: true %> (1-2)
                   </div>
                 </div>

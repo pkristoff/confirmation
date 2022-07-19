@@ -22,14 +22,14 @@ module ViewsHelpers
   #
   def expect_create_candidate(rendered_or_page)
     expect(rendered_or_page).to have_selector('h2', text: I18n.t('views.candidates.create_new_candidate'))
-    expect(rendered_or_page).to have_field(I18n.t('views.candidates.first_name'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('views.candidates.middle_name'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('views.candidates.last_name'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('label.candidate_sheet.candidate_email'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('label.candidate_sheet.parent_email_1'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('label.candidate_sheet.parent_email_2'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.first_name'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.last_name'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.parent_email_1'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.parent_email_2'), text: '')
 
-    expect(rendered_or_page).to have_field(I18n.t('label.candidate_sheet.grade'), text: '')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.grade'), text: '')
     expect(rendered_or_page).to have_unchecked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
     expect(rendered_or_page).to have_checked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
   end
@@ -57,19 +57,19 @@ module ViewsHelpers
     first_name_autofocus = is_candidate_signed_in_and_not_new ? '[autofocus="autofocus"]' : ''
     candidate_autofocus = is_candidate_signed_in_and_not_new ? '' : '[autofocus="autofocus"]'
 
-    expect(rendered_or_page).to have_field('Account name', type: 'text', readonly: is_candidate_signed_in_and_not_new)
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate.account_name'), type: 'text', readonly: is_candidate_signed_in_and_not_new)
     expect(rendered_or_page).to have_selector("input[id=candidate_account_name]#{candidate_autofocus}")
 
-    expect(rendered_or_page).to have_field('First name', with: (candidate ? candidate.candidate_sheet.first_name : ''), type: 'text')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.first_name'), with: (candidate ? candidate.candidate_sheet.first_name : ''), type: 'text')
     expect(rendered_or_page).to have_selector("input[id=candidate_candidate_sheet_attributes_first_name]#{first_name_autofocus}")
-    expect(rendered_or_page).to have_field('Middle name', with: (candidate ? candidate.candidate_sheet.middle_name : ''), type: 'text')
-    expect(rendered_or_page).to have_field('Last name', with: (candidate ? candidate.candidate_sheet.last_name : ''), type: 'text')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: (candidate ? candidate.candidate_sheet.middle_name : ''), type: 'text')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: (candidate ? candidate.candidate_sheet.last_name : ''), type: 'text')
 
-    expect(rendered_or_page).to have_field('Street 1', with: (candidate ? candidate.candidate_sheet.address.street_1 : ''), type: 'text')
-    expect(rendered_or_page).to have_field('Street 2', with: (candidate ? candidate.candidate_sheet.address.street_2 : ''), type: 'text')
-    expect(rendered_or_page).to have_field('City', with: (candidate ? candidate.candidate_sheet.address.city : ''), type: 'text')
-    expect(rendered_or_page).to have_field('State', with: (candidate ? candidate.candidate_sheet.address.state : ''), type: 'text')
-    expect(rendered_or_page).to have_field('Zip code', with: (candidate ? candidate.candidate_sheet.address.zip_code : ''), type: 'text')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.street_1'), with: (candidate ? candidate.candidate_sheet.address.street_1 : ''), type: 'text')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.street_2'), with: (candidate ? candidate.candidate_sheet.address.street_2 : ''), type: 'text')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.city'), with: (candidate ? candidate.candidate_sheet.address.city : ''), type: 'text')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.state'), with: (candidate ? candidate.candidate_sheet.address.state : ''), type: 'text')
+    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.zip_code'), with: (candidate ? candidate.candidate_sheet.address.zip_code : ''), type: 'text')
 
     if candidate
       expect(rendered_or_page).to have_field('Grade', with: candidate.candidate_sheet.grade, type: 'number')

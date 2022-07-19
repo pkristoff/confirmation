@@ -22,15 +22,15 @@
   <% column_headers_in_order.push(t('views.events.verified')) %>
 <% end %>
 
-<% column_headers_in_order.push(t('label.candidate_sheet.last_name')) %>
-<% column_headers_in_order.push(t('label.candidate_sheet.first_name')) %>
-<% column_headers_in_order.push(t('label.candidate_sheet.attending')) %>
+<% column_headers_in_order.push(t('activerecord.attributes.candidate_sheet.last_name')) %>
+<% column_headers_in_order.push(t('activerecord.attributes.candidate_sheet.first_name')) %>
+<% column_headers_in_order.push(t('activerecord.attributes.candidate_sheet.attending')) %>
 
 <% if confirmation_event %>
   <% column_headers_in_order.push(confirmation_event.event_key) %>
 <% else %>
-  <% column_headers_in_order.insert(column_headers_in_order.index(t('label.candidate_sheet.attending')), t('label.candidate_sheet.grade')) %>
-  <% column_headers_in_order.insert(column_headers_in_order.index(t('label.candidate_sheet.attending')), t('label.candidate_sheet.program_year')) %>
+  <% column_headers_in_order.insert(column_headers_in_order.index(t('activerecord.attributes.candidate_sheet.attending')), t('activerecord.attributes.candidate_sheet.grade')) %>
+  <% column_headers_in_order.insert(column_headers_in_order.index(t('activerecord.attributes.candidate_sheet.attending')), t('activerecord.attributes.candidate_sheet.program_year')) %>
   <% column_headers_in_order.push(I18n.t('events.candidate_covenant_agreement')) %>
   <% column_headers_in_order.push(I18n.t('events.candidate_information_sheet')) %>
   <% column_headers_in_order.push(I18n.t('events.baptismal_certificate')) %>

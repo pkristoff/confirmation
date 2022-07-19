@@ -18,15 +18,15 @@ feature 'Baptismal Certificate admin', :devise do
     Warden.test_reset!
   end
 
+  context 'test english' do
+    let(:locale) { 'en' }
+    it_behaves_like 'baptismal_certificate_html_erb'
+  end
+
   context 'test spanish' do
     let(:locale) { 'es' }
 
     it_behaves_like 'baptismal_certificate_html_erb'
   end
   # dev
-
-  context 'test english' do
-    let(:locale) { 'en' }
-    it_behaves_like 'baptismal_certificate_html_erb'
-  end
 end

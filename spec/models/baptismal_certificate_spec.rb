@@ -294,8 +294,14 @@ describe BaptismalCertificate, type: :model do
 
         expect(@baptismal_certificate.validate_event_complete).to eq(false)
         msgs = @baptismal_certificate.errors.full_messages
-        expect(msgs[0]).to eq("Prof date can't be blank")
-        expect(msgs[1]).to eq("Scanned Profession 0f faith can't be blank")
+        expect(msgs[0]).to eq(I18n.t('errors.format',
+                                     attribute: I18n.t('activerecord.attributes.baptismal_certificate.prof_date'),
+                                     message: I18n.t('errors.messages.blank')))
+        expect(msgs[1]).to eq(I18n.t('errors.format',
+                                     # rubocop:disable Layout/LineLength
+                                     attribute: I18n.t('activerecord.attributes.baptismal_certificate.scanned_prof_of_faith_image'),
+                                     # rubocop:enable Layout/LineLength
+                                     message: I18n.t('errors.messages.blank')))
         expect(msgs.size).to eq(2)
       end
       it 'should fail validation - have not filled in church name snd address' do
@@ -305,9 +311,15 @@ describe BaptismalCertificate, type: :model do
 
         expect(@baptismal_certificate.validate_event_complete).to eq(false)
         msgs = @baptismal_certificate.errors.full_messages
-        expect(msgs[0]).to eq("Prof church name can't be blank")
-        expect(msgs[1]).to eq("Street 1 can't be blank")
-        expect(msgs[2]).to eq("Zip code can't be blank")
+        expect(msgs[0]).to eq(I18n.t('errors.format',
+                                     attribute: I18n.t('activerecord.attributes.baptismal_certificate.prof_church_name'),
+                                     message: I18n.t('errors.messages.blank')))
+        expect(msgs[1]).to eq(I18n.t('errors.format',
+                                     attribute: I18n.t('activerecord.attributes.address.street_1'),
+                                     message: I18n.t('errors.messages.blank')))
+        expect(msgs[2]).to eq(I18n.t('errors.format',
+                                     attribute: I18n.t('activerecord.attributes.address.zip_code'),
+                                     message: I18n.t('errors.messages.blank')))
         expect(msgs.size).to eq(3)
       end
     end
