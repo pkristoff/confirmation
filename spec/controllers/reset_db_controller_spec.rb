@@ -15,8 +15,18 @@ describe ResetDbController do
 
       expect(Admin.all.size).to eq(1)
       expect(Admin.all.size).to eq(1)
+      visitor = FactoryBot.create(:visitor, home_parish: 'a name')
+      visitor.home_parish_address.street_1 = 'a street 1'
+      visitor.save
+      expect(Visitor.all.size).to eq(1)
+      expect(Visitor.visitor.home_parish).to eq('a name')
+      expect(Visitor.visitor.home_parish_address.street_1).to eq('a street 1')
 
       post :reset_database
+
+      expect(Visitor.all.size).to eq(1)
+      expect(Visitor.visitor.home_parish).to eq('Change to home parish of confirmation')
+      expect(Visitor.visitor.home_parish_address.street_1).to eq('')
 
       expect(response).to redirect_to(root_url)
       candidates = Candidate.all
@@ -50,7 +60,7 @@ describe ResetDbController do
       admin.contact_phone = '919-999-9999'
       admin.save
 
-      Visitor.visitor('xxx', '<home></home>', '<about></about>', '919-999-9999')
+      FactoryBot.create(:visitor, home_parish: 'xxx', home: '<home></home>', about: '<about></about>', contact: '919-999-9999')
 
       post :reset_database
 

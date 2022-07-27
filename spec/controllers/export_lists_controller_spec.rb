@@ -2,7 +2,7 @@
 
 describe ExportListsController do
   before(:each) do
-    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+    FactoryBot.create(:visitor)
 
     c1 = FactoryBot.create(:candidate, account_name: 'c1')
     c1.candidate_sheet.first_name = 'Paul'
@@ -46,7 +46,7 @@ describe ExportListsController do
     @c1.save
 
     expect_send_data([@c1], [], [], [@c2], 'Baptized', 'baptized.xlsx', :baptism,
-                     ExportListsController::BAPTISM_COLUMNS,
+                     ExportListsController.baptism_columns,
                      ExportListsController::BAPTISM_VALUES)
   end
 
@@ -56,7 +56,7 @@ describe ExportListsController do
     @c1.save
 
     expect_send_data([@c1], [], [], [@c2], 'Retreat', 'retreat.xlsx', :retreat,
-                     ExportListsController::RETREAT_COLUMNS,
+                     ExportListsController.retreat_columns,
                      ExportListsController::RETREAT_VALUES)
   end
 
@@ -83,7 +83,7 @@ describe ExportListsController do
     @c1.get_candidate_event(SponsorEligibility.event_key).completed_date = @today
     @c1.save
     expect_send_data([@c1], [], [], [@c2], 'Sponsor', 'sponsor_eligibility.xlsx', :sponsor_eligibility,
-                     ExportListsController::SPONSOR_ELIGIBILITY_COLUMNS,
+                     ExportListsController.sponsor_eligibility_columns,
                      ExportListsController::SPONSOR_ELIGIBILITY_VALUES)
   end
 

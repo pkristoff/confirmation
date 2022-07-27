@@ -10,7 +10,7 @@ feature 'Navigation links', :devise do
   #   When I visit the home page
   #   Then I see "home," "sign in," and "sign up"
   scenario 'view navigation links' do
-    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+    FactoryBot.create(:visitor)
     visit root_path
     expect(page).to have_content('Home')
     expect(page).to have_content('Sign in')

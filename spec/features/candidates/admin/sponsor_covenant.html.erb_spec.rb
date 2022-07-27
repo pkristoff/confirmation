@@ -13,7 +13,7 @@ feature 'Sponsor Covenant admin', :devise do
     @path_str = 'event_with_picture'
     @update_id = 'top-update'
     @button_name = I18n.t('views.common.update')
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     @updated_message = I18n.t('messages.updated', cand_name: cand_name)
     @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
   end

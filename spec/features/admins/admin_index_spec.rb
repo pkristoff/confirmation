@@ -8,6 +8,11 @@ Warden.test_mode!
 #   So I can see who has registered
 feature 'Admin index page', :devise do
   include Warden::Test::Helpers
+
+  before do
+    FactoryBot.create(:visitor)
+  end
+
   after(:each) do
     Warden.test_reset!
   end

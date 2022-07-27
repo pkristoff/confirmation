@@ -2,13 +2,14 @@
 
 shared_context 'sign_an_agreement_html_erb' do
   before(:each) do
+    FactoryBot.create(:visitor)
     AppFactory.add_confirmation_events
     @cand_id = @candidate.id
 
     page.driver.header 'Accept-Language', locale
     I18n.locale = locale
 
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     if @is_verify
       @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
       @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)

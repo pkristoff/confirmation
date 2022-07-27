@@ -3,7 +3,7 @@
 shared_context 'orphaned_scanned_image' do
   include ViewsHelpers
   before(:each) do
-    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+    FactoryBot.create(:visitor)
     @today = Time.zone.today
   end
 

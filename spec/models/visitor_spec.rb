@@ -2,7 +2,7 @@
 
 RSpec.describe Visitor, type: :model do
   before(:each) do
-    @visitor = Visitor.visitor('St. Mary Magdalene', '<p>home text</p>', '<p>about text</p>', '<p>contact me</p>')
+    @visitor = FactoryBot.create(:visitor)
   end
   it 'should return home text.' do
     expect(@visitor.home).to eq('<p>home text</p>')

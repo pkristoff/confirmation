@@ -5,6 +5,9 @@
 #   I want to sign in
 #   So I can visit protected areas of the site
 feature 'Sign in', :devise do
+  before do
+    FactoryBot.create(:visitor)
+  end
   # Scenario: Candidate cannot sign in if not registered
   #   Given I do not exist as a candidate
   #   When I sign in with valid credentials
@@ -69,12 +72,9 @@ feature 'Sign in', :devise do
 
     fill_in('Account name', with: 'xxx')
     click_button('Reset Password')
-
-    # rubocop:disable Layout/LineLength
-    expect_messages([[:flash_alert, 'Account name (xxx) not found. If you are having problems please contact replace me - contact'],
+    expect_messages([[:flash_alert, 'Account name (xxx) not found. If you are having problems please contact <p>contact me</p>'],
                      [:error_explanation, ['1 error prohibited reset password from being sent:',
                                            'Account name was not found: xxx']]])
-    # rubocop:enable Layout/LineLength
   end
 
   # Scenario: Candidate can't login decides to 'Resend confirmation instructions'

@@ -64,6 +64,7 @@ end
 
 describe CandidatePDFDocument, type: :model do
   before(:each) do
+    FactoryBot.create(:visitor)
     @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
     @candidate1.candidate_sheet.first_name = 'cc1'
     @candidate2 = FactoryBot.create(:candidate, account_name: 'c2', add_new_confirmation_events: false)
@@ -98,13 +99,14 @@ end
 
 describe CandidatePDFDocument, type: :model do
   before(:each) do
+    FactoryBot.create(:visitor)
     AppFactory.add_confirmation_events
   end
   describe 'other tests that dont generate the file' do
     it 'should generate document name' do
       candidate = FactoryBot.create(:candidate)
       document_name = CandidatePDFDocument.document_name(Candidate.find(candidate.id))
-      expect(document_name).to eq('2021-2022 Agusta Sophia.pdf')
+      expect(document_name).to eq('2021-2022 Augusta Sophia.pdf')
     end
   end
   describe 'generates the pdf' do

@@ -9,13 +9,10 @@ feature 'Contact page' do
   #   When I visit the contact page
   #   Then I see "Welcome"
   before(:each) do
-    @visitor_id = Visitor.visitor('St. Mary Magdalene',
-                                  I18n.t('views.top_bar.home'),
-                                  I18n.t('views.top_bar.about'),
-                                  '<p>contact me</p>').id
+    @visitor_id = FactoryBot.create(:visitor).id
   end
   scenario 'a visitor visits the home page' do
-    visit contact_information_path
+    visit contact_path
 
     expect(page).to have_selector('span[class=navbar-toggler-icon]', count: 1)
 
@@ -24,7 +21,7 @@ feature 'Contact page' do
     expect(page).to have_selector('a', text: I18n.t('views.top_bar.sign_in', name: ''))
     expect(page).to have_selector('a', text: I18n.t('views.top_bar.sign_in', name: 'admin'))
     expect(page).to have_selector('a', text: 'Sign in admin')
-    expect(page).to have_selector('a', text: I18n.t('views.top_bar.contact_information'))
+    expect(page).to have_selector('a', text: I18n.t('views.top_bar.contact'))
     expect(page).to have_selector('a', text: I18n.t('views.top_bar.aboutApp'))
     expect(page).to have_selector('p', text: 'contact me')
   end
@@ -36,7 +33,7 @@ feature 'Contact page' do
     # rubocop:enable Layout/LineLength
     visitor.save
 
-    visit contact_information_path
+    visit contact_path
 
     expect(page).to have_selector('a[style="text-align:center;"]',
                                   text: 'Contact Admin via email stmm.confirmation@kristoffs.com')

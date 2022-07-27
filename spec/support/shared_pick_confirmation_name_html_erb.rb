@@ -11,6 +11,7 @@ SAINT_NAME = 'George Sponsor'
 shared_context 'pick_confirmation_name_html_erb' do
   include ViewsHelpers
   before(:each) do
+    FactoryBot.create(:visitor)
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by(account_name: @candidate.account_name)
     @cand_id = @candidate.id
@@ -18,7 +19,7 @@ shared_context 'pick_confirmation_name_html_erb' do
     page.driver.header 'Accept-Language', locale
     I18n.locale = locale
 
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     if @is_verify
       @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
       @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)

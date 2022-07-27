@@ -2,6 +2,10 @@
 
 describe SendGridMail, type: :model do
   include ViewsHelpers
+
+  before do
+    FactoryBot.create(:visitor)
+  end
   describe 'monthly_reminder testing' do
     before(:each) do
       @admin = FactoryBot.create(:admin)

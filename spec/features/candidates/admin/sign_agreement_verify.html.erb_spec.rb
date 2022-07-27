@@ -17,7 +17,7 @@ feature 'Sign Covenant Agreement Verify admin sign in', :devise do
 
     @path_str = 'sign_agreement_verify'
     @update_id = 'top-update-verify'
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
     @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)
 

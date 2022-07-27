@@ -4,7 +4,13 @@
 # Handles exporting to excel spread sheets.
 #
 class ExportListsController < ApplicationController
-  BAPTISM_COLUMNS =
+  # Baptized columns
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> I18n strings
+  #
+  def self.baptism_columns
     [I18n.t('activerecord.attributes.baptismal_certificate.baptized_at_home_parish',
             home_parish: Visitor.home_parish),
      I18n.t('activerecord.attributes.baptismal_certificate.baptized_catholic'),
@@ -35,6 +41,7 @@ class ExportListsController < ApplicationController
      I18n.t('activerecord.attributes.baptismal_certificate.prof_church_address/address.state'),
      I18n.t('activerecord.attributes.baptismal_certificate.prof_church_address/address.zip_code'),
      I18n.t('activerecord.attributes.baptismal_certificate.prof_picture')].freeze
+  end
 
   BAPTISM_VALUES =
     [->(candidate) { candidate.baptismal_certificate.baptized_at_home_parish },
@@ -90,7 +97,7 @@ class ExportListsController < ApplicationController
     external, to_be_verified, verified, not_complete = Candidate.baptismal_external_verification
 
     p = create_xlsx(external, to_be_verified, verified, not_complete, 'Baptized',
-                    ExportListsController::BAPTISM_COLUMNS,
+                    ExportListsController.baptism_columns,
                     ExportListsController::BAPTISM_VALUES)
     send_data p.to_stream.read, type: 'application/xlsx', filename: 'baptized.xlsx'
   end
@@ -115,12 +122,19 @@ class ExportListsController < ApplicationController
     send_data p.to_stream.read, type: 'application/xlsx', filename: 'confirmation_name.xlsx'
   end
 
-  RETREAT_COLUMNS =
+  # columns for retreat
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> I18n strings
+  #
+  def self.retreat_columns
     [I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish),
      I18n.t('label.retreat_verification.start_date'),
      I18n.t('label.retreat_verification.end_date'),
      I18n.t('label.retreat_verification.who_held_retreat'),
      I18n.t('label.retreat_verification.where_held_retreat')].freeze
+  end
 
   RETREAT_VALUES =
     [->(candidate) { candidate.retreat_verification.retreat_held_at_home_parish },
@@ -139,7 +153,7 @@ class ExportListsController < ApplicationController
     external, to_be_verified, verified, not_complete = Candidate.retreat_external_verification
 
     p = create_xlsx(external, to_be_verified, verified, not_complete, 'Retreat',
-                    ExportListsController::RETREAT_COLUMNS,
+                    ExportListsController.retreat_columns,
                     ExportListsController::RETREAT_VALUES)
     send_data p.to_stream.read, type: 'application/xlsx', filename: 'retreat.xlsx'
   end
@@ -175,12 +189,18 @@ class ExportListsController < ApplicationController
   def sponsor_eligibility
     external, to_be_verified, verified, not_complete = Candidate.sponsor_eligibility_external_verification
     p = create_xlsx(external, to_be_verified, verified, not_complete, 'Sponsor',
-                    ExportListsController::SPONSOR_ELIGIBILITY_COLUMNS,
+                    ExportListsController.sponsor_eligibility_columns,
                     ExportListsController::SPONSOR_ELIGIBILITY_VALUES)
     send_data p.to_stream.read, type: 'application/xlsx', filename: 'sponsor_eligibility.xlsx'
   end
 
-  SPONSOR_ELIGIBILITY_COLUMNS =
+  # columns for sponsor eligibility
+  #
+  # === Returns:
+  #
+  # * <tt>send_data</tt> for spreadsheet
+  #
+  def self.sponsor_eligibility_columns
     [
       I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish',
              home_parish: Visitor.home_parish),
@@ -188,6 +208,7 @@ class ExportListsController < ApplicationController
       I18n.t('label.sponsor_eligibility.sponsor_church'),
       I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture')
     ].freeze
+  end
 
   SPONSOR_ELIGIBILITY_VALUES =
     [

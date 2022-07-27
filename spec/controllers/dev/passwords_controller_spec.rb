@@ -2,7 +2,7 @@
 
 describe Dev::PasswordsController do
   before(:each) do
-    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+    FactoryBot.create(:visitor)
   end
 
   describe 'edit' do

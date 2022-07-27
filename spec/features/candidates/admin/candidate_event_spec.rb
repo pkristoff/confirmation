@@ -10,6 +10,7 @@ feature 'Candidate event', :devise do
   include Warden::Test::Helpers
 
   before(:each) do
+    FactoryBot.create(:visitor)
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @candidate = Candidate.find(candidate.id)

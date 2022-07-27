@@ -5,6 +5,7 @@ describe 'Check Events' do
   include Warden::Test::Helpers
 
   before(:each) do
+    FactoryBot.create(:visitor)
     @missing_events = MissingEvents.new
   end
 

@@ -344,6 +344,7 @@ describe Candidate do
 
   describe 'password_reset_message' do
     it 'should return a DeliveryMessage' do
+      FactoryBot.create(:visitor)
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       delivery = c1.password_reset_message(
         FactoryBot.create(:admin),

@@ -12,7 +12,7 @@ describe 'candidates/show.html.erb' do
     expect(rendered).to have_selector('p', text: 'Id: sophiaagusta')
     expect(rendered).to have_selector('p', text: 'First name: Sophia')
     expect(rendered).to have_selector('p', text: 'Middle name: Saraha')
-    expect(rendered).to have_selector('p', text: 'Last name: Agusta')
+    expect(rendered).to have_selector('p', text: 'Last name: Augusta')
     expect(rendered).to have_selector('p', text: "Attending: #{I18n.t('views.candidates.attending_the_way')}")
     expect(rendered).to have_selector('p', text: 'Grade: 10')
     expect(rendered).to have_selector('p', text: 'Program Year: 2')

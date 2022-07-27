@@ -5,6 +5,10 @@ Warden.test_mode!
 feature 'Candidate sheet candidate', :devise do
   include Warden::Test::Helpers
 
+  before do
+    FactoryBot.create(:visitor)
+  end
+
   before(:each) do
     @cand_id = FactoryBot.create(:candidate).id
     admin = FactoryBot.create(:admin)
@@ -14,7 +18,7 @@ feature 'Candidate sheet candidate', :devise do
 
     @path_str = 'candidate_note'
     @update_id = 'top-update'
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     @updated_message = I18n.t('messages.updated', cand_name: cand_name)
     @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
     @is_verify = false

@@ -18,7 +18,7 @@ class VisitorsController < ApplicationController
 
   # setup for contact in help menu
   #
-  def contact_information
+  def contact
     @visitor = Visitor.first
   end
 

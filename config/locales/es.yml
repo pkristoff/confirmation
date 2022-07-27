@@ -58,11 +58,23 @@ es:
         parent_email_1: Correo electrónico principal 1
         parent_email_2: Correo electrónico principal 2
         program_year: Año del programa
+      visitor:
+        about: Acerca de
+        contact: Contacto
+        home: Casa
+        home_parish: 'Parroquia de origen:'
+        home_parish_address/address:
+          city: Ciudad
+          state: Estado
+          street_1: Calle 1
+          street_2: Calle 2
+          zip_code: Código postal
     models:
       address: Address
       baptismal_certificate: Certificado de bautismo
       candidate: Candidata
       candidate_sheet: Candidate Sheet
+      visitor: Visitante
   devise:
     failure:
       timeout: Su sesión expiró. Inicia sesión de nuevo para continuar.
@@ -201,17 +213,6 @@ es:
       sponsor_church: La iglesia del patrocinador
       sponsor_eligibility_picture: Formulario de elegibilidad del patrocinador
       sponsor_name: Nombre del patrocinador
-    visitor:
-      about: Acerca de
-      contact_information: Información del contacto
-      home: Casa
-      home_parish: 'Parroquia de origen:'
-      home_parish_address:
-        city: Ciudad
-        state: Estado
-        street_1: Calle 1
-        street_2: Calle 2
-        zip_code: Código postal
   messages:
     about_updated: Sobre actualizado
     accessed_denied: Acceso denegado.
@@ -231,7 +232,7 @@ es:
     candidates_removed: Todos los candidatos eliminados con éxito.
     confirmation_email_sent: Correo de Confirmación Mandado.
     confirmation_events_updated: "¡Eventos de confirmación actualizados!"
-    contact_information_updated: Información de contacto actualizada
+    contact_updated: Contacto actualizada
     covenant_agreement:
       and: y
       item_1: el retiro de confirmación
@@ -342,9 +343,9 @@ es:
       update: Actualizar
       update_about: Actualización sobre
       update_candidates_event: Evento de actualización para candidatos
+      update_contact: Actualizar de contacto
       update_home: Actualizar inicio
       update_home_parish: Actualización de la parroquia de origen
-      update_information_contact: Actualizar información de contacto
       update_verify: Actualizar y verificar
     events:
       chs_due_date: Fecha de vencimiento de la escuela secundaria católica
@@ -423,9 +424,9 @@ es:
       about: Acerca de
       aboutApp: Acerca de la aplicación de confirmación
       candidate_checklist: Lista de verificación de candidatos
+      contact: Contacto
       contact_admin_mail: mailto:%{email}?subject=%{subject}
       contact_admin_mail_text: "%{email}"
-      contact_information: Información del contacto
       help: Ayuda
       home: Casa
       send_grid: Enviar cuadrícula

@@ -5,14 +5,13 @@
 #   I want to visit about page
 #   So I can learn more about the website
 feature 'About page' do
+  before(:each) do
+    @visitor_id = FactoryBot.create(:visitor).id
+  end
   # Scenario: Visit the about page
   #   Given I am a visitor
   #   When I visit the about page
   #   Then I see "about text"
-  before(:each) do
-    v = Visitor.visitor('St. Mary Magdalene', 'replace me - home', '<p>about text</p>', 'replace me - contaclt')
-    @visitor_id = v.id
-  end
   scenario 'a visitor visits the about page' do
     visit about_path
 
@@ -23,7 +22,7 @@ feature 'About page' do
     expect(page).to have_selector('a', text: I18n.t('views.top_bar.sign_in', name: ''))
     expect(page).to have_selector('a', text: I18n.t('views.top_bar.sign_in', name: 'admin'))
     expect(page).to have_selector('a', text: 'Sign in admin')
-    expect(page).to have_selector('a', text: I18n.t('views.top_bar.contact_information'))
+    expect(page).to have_selector('a', text: I18n.t('views.top_bar.contact'))
     expect(page).to have_selector('a', text: I18n.t('views.top_bar.aboutApp'))
     expect(page).to have_selector('p', text: 'about text')
   end

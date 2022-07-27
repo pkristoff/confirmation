@@ -108,6 +108,7 @@ en:
       year: Year
   errors:
     format: "%{attribute} %{message}"
+    format_blank: "%{attribute} can't be blank"
     messages:
       accepted: must be accepted
       blank: can't be blank

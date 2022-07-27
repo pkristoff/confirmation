@@ -51,10 +51,11 @@ class ResetDB
     Admin.find_each(&:delete)
 
     # clean out Visitor
-    Visitor.visitor('Change to home parish of confirmation',
-                    'HTML for home page',
-                    'HTML for about page',
-                    'HTML for contact page')
+    Visitor.find_each(&:destroy)
+    Visitor.create!(home_parish: 'Change to home parish of confirmation',
+                    home: 'HTML for home page',
+                    about: 'HTML for about page',
+                    contact: 'HTML for contact page')
 
     AppFactory.add_confirmation_events
 

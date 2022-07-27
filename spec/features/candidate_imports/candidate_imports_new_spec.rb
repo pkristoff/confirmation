@@ -11,6 +11,7 @@ feature 'Other', :devise do
   include Warden::Test::Helpers
 
   before(:each) do
+    FactoryBot.create(:visitor)
     @today = Time.zone.today
   end
 

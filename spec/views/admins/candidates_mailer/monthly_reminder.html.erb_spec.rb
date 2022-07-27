@@ -2,6 +2,7 @@
 
 describe 'candidates_mailer/monthly_reminder.html.erb' do
   before(:each) do
+    FactoryBot.create(:visitor)
     @today = Time.zone.today
     @render_mail_text = true
 
@@ -97,7 +98,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Prof state', '']
         info << ['Prof zip code', '']
       when CandidateSheet.event_key
-        info << [:name, 'Sophia Saraha Agusta']
+        info << [:name, 'Sophia Saraha Augusta']
         info << [:grade, '10']
         info << [:program_year, '2']
         info << [:street_1, '2120 Frissell Ave.']
@@ -157,7 +158,7 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << ['Prof state', '']
         info << ['Prof zip code', '']
       when CandidateSheet.event_key
-        info << [:name, 'Sophia Saraha Agusta']
+        info << [:name, 'Sophia Saraha Augusta']
         info << [:grade, '10']
         info << [:program_year, '2']
         info << [:street_1, '2120 Frissell Ave.']

@@ -7,6 +7,7 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
   include Warden::Test::Helpers
 
   before(:each) do
+    FactoryBot.create(:visitor)
     @candidate1 = Candidate.find_by(account_name: create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
     @candidate2 = Candidate.find_by(account_name: create_candidate('Paul', 'Richard', 'Kristoff').account_name)
     @candidates = [@candidate1, @candidate2]

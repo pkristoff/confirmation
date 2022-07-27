@@ -3,7 +3,7 @@
 shared_context 'baptismal_certificate' do
   include ViewsHelpers
   before(:each) do
-    Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
+    FactoryBot.create(:visitor)
     AppFactory.add_confirmation_event(BaptismalCertificate.event_key)
     @today = Time.zone.today
   end
@@ -115,7 +115,7 @@ shared_context 'baptismal_certificate' do
                   candidate: { baptismal_certificate_attributes: vps } }
 
     expect(response.status).to eq(200)
-    expect(flash[:notice]).to eq(I18n.t('messages.updated', cand_name: 'Sophia Agusta'))
+    expect(flash[:notice]).to eq(I18n.t('messages.updated', cand_name: 'Sophia Augusta'))
   end
 
   [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|

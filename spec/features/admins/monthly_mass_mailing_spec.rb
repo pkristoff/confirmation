@@ -7,6 +7,7 @@ feature 'Check boxes', :devise do
   include Warden::Test::Helpers
 
   before(:each) do
+    FactoryBot.create(:visitor)
     @checkbox_keys = %i[subject_check pre_late_input_check pre_coming_due_input_check
                         completed_awaiting_input_check completed_input_check salutation_input_check
                         closing_input_check from_input_check]
@@ -85,6 +86,10 @@ end
 feature 'Admin monthly mass mailing', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
+
+  before do
+    FactoryBot.create(:visitor)
+  end
 
   after(:each) do
     Warden.test_reset!

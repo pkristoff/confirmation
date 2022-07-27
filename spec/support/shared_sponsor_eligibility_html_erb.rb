@@ -7,14 +7,15 @@ SPONSOR_ELIGIBILITY_EVENT = SponsorEligibility.event_key
 
 shared_context 'sponsor_eligibility_html_erb' do
   include ViewsHelpers
-  before(:each) do
+  before do
+    FactoryBot.create(:visitor)
     event_with_picture_setup(Event::Route::SPONSOR_ELIGIBILITY, { is_verify: @is_verify })
     AppFactory.add_confirmation_events
 
     page.driver.header 'Accept-Language', locale
     I18n.locale = locale
 
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     if @is_verify
       @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
       @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)

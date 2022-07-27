@@ -490,7 +490,7 @@ class AdminsController < ApplicationController
   # * <tt>:visitor</tt>
   # ** <code>views.common.update_home</code>
   # ** <code>views.common.update_about</code>
-  # ** <code>views.common.update_contact_information</code>
+  # ** <code>views.common.update_contact</code>
   #
   def update_visitor
     Rails.logger.info "params=#{params}"
@@ -509,10 +509,10 @@ class AdminsController < ApplicationController
         flash[:notice] = t('messages.about_updated')
         Rails.logger.info "visitor.about=#{visitor.about}"
       end
-    when t('views.common.update_information_contact')
+    when t('views.common.update_contact')
       visitor = visitor_db_or_new
       if visitor.update(visitor_param.permit(Visitor.permitted_params))
-        flash[:notice] = t('messages.contact_information_updated')
+        flash[:notice] = t('messages.contact_updated')
         Rails.logger.info "visitor.contact=#{visitor.contact}"
       end
     when t('views.common.update_home_parish')

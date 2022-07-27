@@ -7,6 +7,7 @@
 shared_context 'new_candidate_spec' do
   include ViewsHelpers
   before(:each) do
+    FactoryBot.create(:visitor)
     page.driver.header 'Accept-Language', locale
     I18n.locale = locale
   end
@@ -75,9 +76,8 @@ shared_context 'new_candidate_spec' do
 
       expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one',
                                                     resource: I18n.t('activerecord.models.candidate').downcase),
-                                             I18n.t('errors.format',
-                                                    attribute: I18n.t('activerecord.attributes.candidate_sheet.first_name'),
-                                                    message: I18n.t('errors.messages.blank'))]],
+                                             I18n.t('errors.format_blank',
+                                                    attribute: I18n.t('activerecord.attributes.candidate_sheet.first_name'))]],
                        [:flash_alert, I18n.t('views.common.save_failed', failee: 'Smith')]])
 
       expect(Candidate.all.size).to eq(0)
@@ -94,9 +94,8 @@ shared_context 'new_candidate_spec' do
 
       expect_messages([[:error_explanation, [I18n.t('errors.messages.not_saved.one',
                                                     resource: I18n.t('activerecord.models.candidate').downcase),
-                                             I18n.t('errors.format',
-                                                    attribute: I18n.t('activerecord.attributes.candidate_sheet.last_name'),
-                                                    message: I18n.t('errors.messages.blank'))]],
+                                             I18n.t('errors.format_blank',
+                                                    attribute: I18n.t('activerecord.attributes.candidate_sheet.last_name'))]],
                        [:flash_alert, I18n.t('views.common.save_failed', failee: 'George')]])
 
       expect(Candidate.all.size).to eq(0)

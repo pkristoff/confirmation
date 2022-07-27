@@ -7,6 +7,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
   Warden.test_mode!
 
   before(:each) do
+    FactoryBot.create(:visitor)
     @update_id = 'top-update-verify'
     @path_str = 'christian_ministry_verify'
     @dev = ''

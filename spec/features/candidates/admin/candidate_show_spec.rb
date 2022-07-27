@@ -9,6 +9,10 @@ Warden.test_mode!
 feature 'Candidate profile page', :devise do
   include Warden::Test::Helpers
 
+  before do
+    FactoryBot.create(:visitor)
+  end
+
   after(:each) do
     Warden.test_reset!
   end

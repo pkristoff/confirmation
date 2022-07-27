@@ -7,6 +7,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
   Warden.test_mode!
 
   before(:each) do
+    FactoryBot.create(:visitor)
     @update_id = 'top-update-verify'
     @path_str = 'pick_confirmation_name_verify'
     @dev = ''

@@ -5,6 +5,9 @@
 #   I want to sign out
 #   So I can protect my account from unauthorized access
 feature 'Sign out', :devise do
+  before do
+    FactoryBot.create(:visitor)
+  end
   # Scenario: Candidate signs out successfully
   #   Given I am signed in
   #   When I sign out

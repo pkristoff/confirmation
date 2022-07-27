@@ -6,6 +6,10 @@ feature 'Admin monthly mass mailing', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
+  before do
+    FactoryBot.create(:visitor)
+  end
+
   after(:each) do
     Warden.test_reset!
   end

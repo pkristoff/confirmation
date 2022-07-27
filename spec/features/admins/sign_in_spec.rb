@@ -5,6 +5,10 @@
 #   I want to sign in
 #   So I can visit protected areas of the site
 feature 'Sign in', :devise do
+  before do
+    FactoryBot.create(:visitor)
+  end
+
   context 'I do not exist as an Admin' do
     # Scenario: Admin cannot sign in if not registered
     #   Given I do not exist as a admin

@@ -2,7 +2,7 @@
 
 describe AdminsController do
   before(:each) do
-    Visitor.visitor('St. Mary Magdalene', '<p>home text</p>', '<p>about text</p>', '<p>contact me</p>')
+    FactoryBot.create(:visitor)
     @admin = login_admin
   end
   it 'should NOT have a current_candidate' do

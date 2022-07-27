@@ -3,13 +3,14 @@
 shared_context 'candidate_sheet_html_erb' do
   include ViewsHelpers
   before(:each) do
+    FactoryBot.create(:visitor)
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by(account_name: @candidate.account_name)
 
     page.driver.header 'Accept-Language', locale
     I18n.locale = locale
 
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     if @is_verify
       @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
       @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)

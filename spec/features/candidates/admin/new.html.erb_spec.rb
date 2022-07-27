@@ -8,6 +8,7 @@ feature 'Orphan removal', :devise do
   include Warden::Test::Helpers
 
   before(:each) do
+    FactoryBot.create(:visitor)
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     @orphaneds = Orphaneds.new

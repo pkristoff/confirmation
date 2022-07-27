@@ -17,7 +17,7 @@ PROF_STATE = 'GA'
 PROF_ZIP_CODE = '64579'
 FATHER_FIRST = 'Paul'
 FATHER_MIDDLE = 'The'
-LAST_NAME = 'Agusta'
+LAST_NAME = 'Augusta'
 MOTHER_FIRST = 'Paulette'
 MOTHER_MIDDLE = 'Thette'
 MOTHER_MAIDEN = 'Mary'
@@ -27,6 +27,7 @@ MIDDLE_NAME = 'xxx'
 shared_context 'baptismal_certificate_html_erb' do
   include ViewsHelpers
   before(:each) do
+    FactoryBot.create(:visitor)
     event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, { is_verify: @is_verify })
     AppFactory.add_confirmation_events
     @today = Time.zone.today
@@ -35,7 +36,7 @@ shared_context 'baptismal_certificate_html_erb' do
 
     @button_name = I18n.t('views.common.update_verify') if @is_verify
     @button_name = I18n.t('views.common.update') unless @is_verify
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name) if @is_verify
     @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name) if @is_verify
     @updated_message = I18n.t('messages.updated', cand_name: cand_name) unless @is_verify
@@ -1098,17 +1099,17 @@ class ExpectBCFormInfo
         church_name: !show_baptized_catholic_info ? nil : CHURCH_NAME,
         dv_church_name: Visitor.home_parish,
         street1: !show_baptized_catholic_info ? nil : STREET_1,
-        dv_street1: Visitor.visitor.home_parish_address.street_1,
+        "dv-street1": Visitor.visitor.home_parish_address.street_1,
         street_1: !show_baptized_catholic_info ? nil : STREET_1, # remove
         street2: !show_baptized_catholic_info ? nil : STREET_2,
-        dv_street2: Visitor.visitor.home_parish_address.street_2,
+        "dv-street2": Visitor.visitor.home_parish_address.street_2,
         street_2: !show_baptized_catholic_info ? nil : STREET_2, # remove
         city: !show_baptized_catholic_info ? nil : CITY,
-        dv_city: Visitor.visitor.home_parish_address.city,
+        "dv-city": Visitor.visitor.home_parish_address.city,
         state: !show_baptized_catholic_info ? nil : STATE,
-        dv_state: Visitor.visitor.home_parish_address.state,
+        "dv-state": Visitor.visitor.home_parish_address.state,
         zip_code: !show_baptized_catholic_info ? nil : ZIP_CODE,
-        dv_zip_code: Visitor.visitor.home_parish_address.zip_code,
+        "dv-zip_code": Visitor.visitor.home_parish_address.zip_code,
 
         # profession of faith info
         prof_date: !show_profession_of_faith_info ? nil : PROF_DATE,

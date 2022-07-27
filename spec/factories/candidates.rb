@@ -15,7 +15,7 @@ FactoryBot.define do
       candidate.candidate_sheet.parent_email_1 = 'test@example.com'
       candidate.candidate_sheet.first_name = 'Sophia'
       candidate.candidate_sheet.middle_name = 'Saraha'
-      candidate.candidate_sheet.last_name = 'Agusta'
+      candidate.candidate_sheet.last_name = 'Augusta'
       candidate.candidate_sheet.grade = 10
       candidate.candidate_sheet.attending = Candidate::THE_WAY
       # overwrite the already created address

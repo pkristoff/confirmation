@@ -2,8 +2,7 @@
 
 describe ResetDB, type: :model do
   before(:each) do
-    # make sure Visitor instance has been created
-    Visitor.visitor
+    FactoryBot.create(:visitor)
   end
 
   describe 'start new year' do

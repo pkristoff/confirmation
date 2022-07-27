@@ -8,6 +8,7 @@ END_DATE = Time.zone.today - 5
 shared_context 'retreat_verification_html_erb' do
   include ViewsHelpers
   before(:each) do
+    FactoryBot.create(:visitor)
     event_with_picture_setup(Event::Route::RETREAT_VERIFICATION, { is_verify: @is_verify })
     AppFactory.add_confirmation_events
 
@@ -21,7 +22,7 @@ shared_context 'retreat_verification_html_erb' do
     page.driver.header 'Accept-Language', locale
     I18n.locale = locale
 
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     if @is_verify
       @updated_message = I18n.t('messages.updated_verified', cand_name: cand_name)
       @updated_failed_verification = I18n.t('messages.updated_not_verified', cand_name: cand_name)

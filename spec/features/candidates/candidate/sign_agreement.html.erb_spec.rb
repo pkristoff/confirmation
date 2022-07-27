@@ -17,7 +17,7 @@ feature 'Sign Covenant Agreement candidate login in', :devise do
 
     @path_str = 'sign_agreement'
     @update_id = 'top-update'
-    cand_name = 'Sophia Agusta'
+    cand_name = 'Sophia Augusta'
     @updated_message = I18n.t('messages.updated', cand_name: cand_name)
     @updated_failed_verification = I18n.t('messages.updated', cand_name: cand_name)
 

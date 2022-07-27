@@ -3,6 +3,7 @@
 describe 'layouts/_side_bar.html.erb' do
   include DeviseHelpers
   before(:each) do
+    FactoryBot.create(:visitor)
     @admin_link_names_in_order = [
       [I18n.t('views.nav.add_new_admin'), '/admins/sign_up'],
       [I18n.t('views.nav.edit_account'), '/admins/edit'],
@@ -24,18 +25,25 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.reset_db.start_new_year'), '/reset_db/show_start_new_year'],
       [I18n.t('views.nav.missing_events'), '/missing_events/check']
     ]
-
-    # rubocop:disable Layout/LineLength
-    @admin_export_link_names_in_order = [
-      [I18n.t('views.nav.export_confirmation_name'), '/export_lists/confirmation_name'],
-      [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), '/export_lists/retreat', nil, 'Retreat at St. Ma...'],
-      [I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/baptism', nil, 'Baptized at St. M...'],
-      [I18n.t('views.nav.export_sponsor_covenant_title'), '/export_lists/sponsor', nil, 'Sponsor covenant'],
-      [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/sponsor', nil, 'Sponsor eligibility'],
-      [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events', nil, 'Candidate Events ...'],
-      [I18n.t('views.nav.pdf_baptismal_name'), '/export_lists/bap_name', nil, 'DF for matching ...']
-    ]
-    # rubocop:enable Layout/LineLength
+    # list of export link names in order
+    #
+    # === Returns:
+    #
+    # * <code>Array</code> I18n strings
+    #
+    def admin_export_link_names_in_order
+      [
+        [I18n.t('views.nav.export_confirmation_name'), '/export_lists/confirmation_name'],
+        # rubocop:disable Layout/LineLength
+        [I18n.t('views.nav.export_attend_retreat_title', home_parish: Visitor.home_parish), '/export_lists/retreat', nil, 'Retreat at St. Ma...'],
+        [I18n.t('views.nav.export_baptized_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/baptism', nil, 'Baptized at St. M...'],
+        [I18n.t('views.nav.export_sponsor_covenant_title'), '/export_lists/sponsor', nil, 'Sponsor covenant'],
+        [I18n.t('views.nav.export_sponsor_at_home_parish_title', home_parish: Visitor.home_parish), '/export_lists/sponsor', nil, 'Sponsor eligibility'],
+        # rubocop:enable Layout/LineLength
+        [I18n.t('views.nav.export_candidate_event_status_title'), '/export_lists/events', nil, 'Candidate Events ...'],
+        [I18n.t('views.nav.pdf_baptismal_name'), '/export_lists/bap_name', nil, 'DF for matching ...']
+      ]
+    end
 
     @candidate_link_names_in_order = [
       [I18n.t('label.sidebar.candidate_covenant_agreement'), '<dev>/sign_agreement.<id>.covenant_agreement'],
@@ -86,9 +94,9 @@ describe 'layouts/_side_bar.html.erb' do
 
       expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5)
 
-      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 7)
+      expect_links_in_order(admin_export_link_names_in_order, 'export-sidebar', '', 7)
 
-      expect(rendered).to_not have_selector('p[id="candidate: Sophia Agusta"]')
+      expect(rendered).to_not have_selector('p[id="candidate: Sophia Augusta"]')
     end
   end
 
@@ -105,8 +113,8 @@ describe 'layouts/_side_bar.html.erb' do
 
       expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5) # +1 is for candidate
 
-      expect_links_in_order(@admin_export_link_names_in_order, 'export-sidebar', '', 7)
-      expect(rendered).to have_selector('p[id="candidate"]', text: 'Candidate: Sophia Agusta')
+      expect_links_in_order(admin_export_link_names_in_order, 'export-sidebar', '', 7)
+      expect(rendered).to have_selector('p[id="candidate"]', text: 'Candidate: Sophia Augusta')
 
       expect_links_in_order(@candidate_link_names_in_order,
                             'candidate-sidebar',

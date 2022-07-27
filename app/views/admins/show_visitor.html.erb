@@ -5,31 +5,32 @@
     <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
       <%= f.submit t('views.common.update_home_parish'), id: "top-update-home-parish" %>
       <br/>
-      <%= f.label :home_parish, t('label.visitor.home_parish') %>
+      <%= f.label :home_parish %>
       <%= f.text_field :home_parish %>
+      <br/>
       <%= f.fields_for :home_parish_address do |home_parish_address_fields| %>
         <div class="field">
-          <%= home_parish_address_fields.label :street_1, t('label.visitor.home_parish_address.street_1') %>
+          <%= home_parish_address_fields.label :street_1 %>
           <br/>
           <%= home_parish_address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
         </div>
         <div class="field">
-          <%= home_parish_address_fields.label :street_2, t('label.visitor.home_parish_address.street_2') %>
+          <%= home_parish_address_fields.label :street_2 %>
           <br/>
           <%= home_parish_address_fields.text_field :street_2, autocomplete: 'address-line2' %>
         </div>
         <div class="field">
-          <%= home_parish_address_fields.label :city, t('label.visitor.home_parish_address.city') %>
+          <%= home_parish_address_fields.label :city %>
            <br/>
           <%= home_parish_address_fields.text_field :city, autocomplete: 'address-level2' %>
         </div>
         <div class="field">
-          <%= home_parish_address_fields.label :state, t('label.visitor.home_parish_address.state') %>
+          <%= home_parish_address_fields.label :state %>
           <br/>
           <%= home_parish_address_fields.text_field :state, autocomplete: 'address-level1' %>
         </div>
         <div class="field">
-          <%= home_parish_address_fields.label :zip_code, t('label.visitor.home_parish_address.zip_code') %>
+          <%= home_parish_address_fields.label :zip_code %>
           <br/>
           <%= home_parish_address_fields.text_field :zip_code, autocomplete: 'postal-code' %>
         </div>
@@ -43,7 +44,7 @@
     <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
       <%= f.submit t('views.common.update_home'), id: "top-update-home" %>
       <br/>
-      <%= f.label(:home, t('label.visitor.home')) %>
+      <%= f.label(:home) %>
       <%= f.text_area :home, class: "tinymce_home", rows: 20, cols: 120 %>
 
       <%= f.submit t('views.common.update_home'), id: "bottom-update-home" %>
@@ -55,7 +56,7 @@
     <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
       <%= f.submit t('views.common.update_about'), id: "top-update-about" %>
       <br/>
-      <%= f.label(:about, t('label.visitor.about')) %>
+      <%= f.label(:about) %>
       <%= f.text_area :about, class: "tinymce_about", rows: 20, cols: 120 %>
 
       <%= f.submit t('views.common.update_about'), id: "bottom-update-about" %>
@@ -64,12 +65,12 @@
 
   <section id="contact">
     <%= form_for @visitor, url: update_visitor_path(@visitor.id), method: :post do |f| %>
-      <%= f.submit t('views.common.update_information_contact'), id: "top-update-contact" %>
+      <%= f.submit t('views.common.update_contact'), id: "top-update-contact" %>
       <br/>
-      <%= f.label(:contact, t('label.visitor.contact_information')) %>
+      <%= f.label(:contact) %>
       <%= f.text_area :contact, class: "tinymce_contact", rows: 20, cols: 120 %>
 
-      <%= f.submit t('views.common.update_information_contact'), id: "bottom-update-contact" %>
+      <%= f.submit t('views.common.update_contact'), id: "bottom-update-contact" %>
     <% end %>
   </section>
 </article>

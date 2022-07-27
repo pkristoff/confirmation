@@ -19,7 +19,7 @@
             <%= I18n.t('views.top_bar.help') %>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-            <li><%= link_to I18n.t('views.top_bar.contact_information'), contact_information_path, class: 'dropdown-item' %></li>
+            <li><%= link_to I18n.t('views.top_bar.contact'), contact_path, class: 'dropdown-item' %></li>
             <% if candidate_signed_in? %>
               <li><%= link_to I18n.t('views.top_bar.candidate_checklist'), download_document_path(current_candidate.id, Event::Document::CANDIDATE_CHECKLIST), { class: 'dropdown-item', method: :put } %></li>
             <% end %>

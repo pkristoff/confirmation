@@ -58,11 +58,23 @@ en:
         parent_email_1: Parent email 1
         parent_email_2: Parent email 2
         program_year: Program Year
+      visitor:
+        about: About
+        contact: Contact
+        home: Home
+        home_parish: Home parish
+        home_parish_address/address:
+          city: City
+          state: State
+          street_1: Street 1
+          street_2: Street 2
+          zip_code: Zip code
     models:
       address: Address
       baptismal_certificate: Baptismal certificate
       candidate: Candidate
       candidate_sheet: Candidate sheet
+      visitor: Visitor
   devise:
     failure:
       timeout: Your session expired. Please sign in again to continue.
@@ -201,17 +213,6 @@ en:
       sponsor_church: Sponsor's church
       sponsor_eligibility_picture: Sponsor's Eligibiliy form
       sponsor_name: Sponsor's Name
-    visitor:
-      about: About
-      contact_information: Contact Information
-      home: Home
-      home_parish: 'Home parish:'
-      home_parish_address:
-        city: City
-        state: State
-        street_1: Street 1
-        street_2: Street 2
-        zip_code: Zip code
   messages:
     about_updated: About updated
     accessed_denied: Accessed denied.
@@ -231,7 +232,7 @@ en:
     candidates_removed: All candidates successfully removed.
     confirmation_email_sent: Confirmation email sent.
     confirmation_events_updated: Updated ConfirmationEvents!
-    contact_information_updated: Contact information updated
+    contact_updated: Contact updated
     covenant_agreement:
       and: and
       item_1: the Confirmation Retreat
@@ -342,9 +343,9 @@ en:
       update: Update
       update_about: Update about
       update_candidates_event: Update event for candidates
+      update_contact: Update contact
       update_home: Update home
       update_home_parish: Update home parish
-      update_information_contact: Update contact information
       update_verify: Update & Verify
     events:
       chs_due_date: Catholic High School Due date
@@ -423,9 +424,9 @@ en:
       about: About
       aboutApp: About Confirmation App
       candidate_checklist: Candidate checklist
+      contact: Contact
       contact_admin_mail: mailto:%{email}?subject=%{subject}
       contact_admin_mail_text: "%{email}"
-      contact_information: Contact Information
       help: Help
       home: Home
       send_grid: Send Grid
