@@ -58,6 +58,11 @@ en:
         parent_email_1: Parent email 1
         parent_email_2: Parent email 2
         program_year: Program Year
+      christian_ministry:
+        helped_me: This experience helped me by
+        what_service: What was the service?
+        when_service: When did you do the service?
+        where_service: Where did the service take place?
       visitor:
         about: About
         contact: Contact
@@ -74,6 +79,7 @@ en:
       baptismal_certificate: Baptismal certificate
       candidate: Candidate
       candidate_sheet: Candidate sheet
+      christian_ministry: Christian ministry
       visitor: Visitor
   devise:
     failure:
@@ -168,11 +174,6 @@ en:
       select: Select
     candidate_note:
       note: Note
-    christian_ministry:
-      helped_me: This experience helped me by
-      what_service: What was the service?
-      when_service: When did you do the service?
-      where_service: Where did the service take place?
     confirmation_name:
       saint: Saint
       saint_name: Saint name

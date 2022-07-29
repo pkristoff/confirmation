@@ -153,7 +153,7 @@ shared_context 'christian_ministry_html_erb' do
 
     visit @path
     fill_in_form
-    fill_in(I18n.t('label.christian_ministry.what_service'), with: nil)
+    fill_in(I18n.t('activerecord.attributes.christian_ministry.what_service'), with: nil)
     click_button @update_id
 
     expected_msg = I18n.t('messages.error.missing_attribute', err_count: 1)
@@ -205,10 +205,10 @@ shared_context 'christian_ministry_html_erb' do
   private
 
   def fill_in_form
-    fill_in(I18n.t('label.christian_ministry.what_service'), with: WHAT_SERVICE)
-    fill_in(I18n.t('label.christian_ministry.where_service'), with: WHERE_SERVICE)
-    fill_in(I18n.t('label.christian_ministry.when_service'), with: WHEN_SERVICE)
-    fill_in(I18n.t('label.christian_ministry.helped_me'), with: HELPED_ME)
+    fill_in(I18n.t('activerecord.attributes.christian_ministry.what_service'), with: WHAT_SERVICE)
+    fill_in(I18n.t('activerecord.attributes.christian_ministry.where_service'), with: WHERE_SERVICE)
+    fill_in(I18n.t('activerecord.attributes.christian_ministry.when_service'), with: WHEN_SERVICE)
+    fill_in(I18n.t('activerecord.attributes.christian_ministry.helped_me'), with: HELPED_ME)
   end
 
   def img_src_selector

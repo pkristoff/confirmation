@@ -58,6 +58,11 @@ es:
         parent_email_1: Correo electrónico principal 1
         parent_email_2: Correo electrónico principal 2
         program_year: Año del programa
+      christian_ministry:
+        helped_me: Esta experiencia me ayudó
+        what_service: "¿Cuál fue el servicio?"
+        when_service: "¿Cuándo hiciste el servicio?"
+        where_service: "¿Dónde tuvo lugar el servicio?"
       visitor:
         about: Acerca de
         contact: Contacto
@@ -73,7 +78,8 @@ es:
       address: Address
       baptismal_certificate: Certificado de bautismo
       candidate: Candidata
-      candidate_sheet: Candidate Sheet
+      candidate_sheet: Hoja de candidato
+      christian_ministry: ministerio cristiano
       visitor: Visitante
   devise:
     failure:
@@ -168,11 +174,6 @@ es:
       select: Seleccionar
     candidate_note:
       note: Nota
-    christian_ministry:
-      helped_me: Esta experiencia me ayudó por
-      what_service: "¿Cuál fue el servicio?"
-      when_service: "¿Cuándo hiciste el servicio?"
-      where_service: "¿Dónde tuvo lugar el servicio?"
     confirmation_name:
       saint: Santo
       saint_name: Santo nombre

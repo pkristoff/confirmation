@@ -197,10 +197,10 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.christian_ministry'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(ChristianMinistry.event_key), [1, 0], [1, 3])
 
-    grid_label_value2([2, 0], "#{I18n.t('label.christian_ministry.what_service')}:", cm.what_service)
-    grid_label_value2([3, 0], "#{I18n.t('label.christian_ministry.where_service')}:", cm.where_service)
-    grid_label_value2([4, 0], "#{I18n.t('label.christian_ministry.when_service')}:", cm.when_service)
-    grid_label_value2([5, 0], "#{I18n.t('label.christian_ministry.helped_me')}:", cm.helped_me)
+    grid_label_value2([2, 0], "#{I18n.t('activerecord.attributes.christian_ministry.what_service')}:", cm.what_service)
+    grid_label_value2([3, 0], "#{I18n.t('activerecord.attributes.christian_ministry.where_service')}:", cm.where_service)
+    grid_label_value2([4, 0], "#{I18n.t('activerecord.attributes.christian_ministry.when_service')}:", cm.when_service)
+    grid_label_value2([5, 0], "#{I18n.t('activerecord.attributes.christian_ministry.helped_me')}:", cm.helped_me)
   end
 
   # Generate confirmation name

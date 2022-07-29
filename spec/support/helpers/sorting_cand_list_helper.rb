@@ -306,10 +306,10 @@ module SortingCandListHelpers
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 
-    expect_field(I18n.t('label.christian_ministry.what_service'), with_values ? values[:what_service] : '')
-    expect_field(I18n.t('label.christian_ministry.where_service'), with_values ? values[:where_service] : '')
-    expect_field(I18n.t('label.christian_ministry.when_service'), with_values ? values[:when_service] : '')
-    expect_field(I18n.t('label.christian_ministry.helped_me'), with_values ? values[:helped_me] : '')
+    expect_field(I18n.t('activerecord.attributes.christian_ministry.what_service'), with_values ? values[:what_service] : '')
+    expect_field(I18n.t('activerecord.attributes.christian_ministry.where_service'), with_values ? values[:where_service] : '')
+    expect_field(I18n.t('activerecord.attributes.christian_ministry.when_service'), with_values ? values[:when_service] : '')
+    expect_field(I18n.t('activerecord.attributes.christian_ministry.helped_me'), with_values ? values[:helped_me] : '')
 
     expect(page).to have_button(update_id)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
