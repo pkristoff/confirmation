@@ -9,19 +9,19 @@
 
         <div id="two_column">
           <div id="left-col" class="left_col field-inst">
-            <%= f.label :the_way_due_date, t('label.events.the_way_due_date') %>
+            <%= f.label :the_way_due_date %>
             <%= f.date_field :the_way_due_date %>
           </div>
 
           <div id="right-col" class="right_col field-inst">
-            <%= f.label :chs_due_date, t('label.events.chs_due_date') %>
+            <%= f.label :chs_due_date %>
             <%= f.date_field :chs_due_date %>
           </div>
         </div>
 
         <% inst_area_id = "instruction-area-#{confirmation_event.id}" %>
         <div class="field-inst">
-          <%= f.label :instructions, t('label.events.instructions'), onclick: "confirmation_toggle().instructionText('##{inst_area_id}')" %>
+          <%= f.label :instructions, onclick: "confirmation_toggle().instructionText('##{inst_area_id}')" %>
           <span id='<%= inst_area_id %>' class="hide-div">
             <%= f.text_area :instructions, class: "tinymce_#{confirmation_event.id}", rows: 20, cols: 120 %>
           </span>

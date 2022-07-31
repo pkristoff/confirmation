@@ -63,6 +63,10 @@ es:
         what_service: "¿Cuál fue el servicio?"
         when_service: "¿Cuándo hiciste el servicio?"
         where_service: "¿Dónde tuvo lugar el servicio?"
+      confirmation_event:
+        chs_due_date: Fecha de vencimiento de la escuela secundaria católica
+        instructions: Instrucciones
+        the_way_due_date: La fecha de vencimiento del camino
       pick_confirmation_name:
         saint: Santo
         saint_name: Santo nombre
@@ -83,6 +87,7 @@ es:
       candidate: Candidata
       candidate_sheet: Hoja de candidato
       christian_ministry: ministerio cristiano
+      confirmation_event: Evento de confirmación
       pick_confirmation_name: Nombre de confirmación
       visitor: Visitante
   devise:
@@ -178,10 +183,6 @@ es:
       select: Seleccionar
     candidate_note:
       note: Nota
-    events:
-      chs_due_date: Fecha de vencimiento de la escuela secundaria católica
-      instructions: Instrucciones
-      the_way_due_date: La fecha de vencimiento del camino
     mail:
       attach_file: Adjuntar archivo
     retreat_verification:

@@ -63,6 +63,10 @@ en:
         what_service: What was the service?
         when_service: When did you do the service?
         where_service: Where did the service take place?
+      confirmation_event:
+        chs_due_date: Catholic high school due date
+        instructions: Instructions
+        the_way_due_date: The Way due date
       pick_confirmation_name:
         saint: Saint
         saint_name: Saint name
@@ -83,6 +87,7 @@ en:
       candidate: Candidate
       candidate_sheet: Candidate sheet
       christian_ministry: Christian ministry
+      confirmation_event: Confirmation event
       pick_confirmation_name: Confirmation name
       visitor: Visitor
   devise:
@@ -178,10 +183,6 @@ en:
       select: Select
     candidate_note:
       note: Note
-    events:
-      chs_due_date: Catholic high school due date
-      instructions: Instructions
-      the_way_due_date: The Way due date
     mail:
       attach_file: Attach file
     retreat_verification:
