@@ -118,17 +118,27 @@ shared_context 'retreat_verification_html_erb' do
     candidate.save
     visit @path
 
-    attach_file(I18n.t('label.retreat_verification.retreat_verification_picture'), 'spec/fixtures/actions for spec testing.png')
+    attach_file(I18n.t('activerecord.attributes.retreat_verification.retreat_verification_picture'),
+                'spec/fixtures/actions for spec testing.png')
     click_button @update_id
 
     # rubocop:disable Layout/LineLength
+    blank_messgage = I18n.t('errors.messages.blank')
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expected_messages: [[:flash_notice, @updated_failed_verification],
                                                          [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 4),
-                                                                               "Start date #{I18n.t('errors.messages.blank')}",
-                                                                               "End date #{I18n.t('errors.messages.blank')}",
-                                                                               "Who held retreat #{I18n.t('errors.messages.blank')}",
-                                                                               "Where held retreat #{I18n.t('errors.messages.blank')}"]]],
+                                                                               I18n.t('errors.format',
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.start_date'),
+                                                                                      message: blank_messgage),
+                                                                               I18n.t('errors.format',
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.end_date'),
+                                                                                      message: blank_messgage),
+                                                                               I18n.t('errors.format',
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.who_held_retreat'),
+                                                                                      message: blank_messgage),
+                                                                               I18n.t('errors.format',
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.where_held_retreat'),
+                                                                                      message: blank_messgage)]]],
                                      who_held_retreat: '',
                                      where_held_retreat: '',
                                      start_date: '',
@@ -175,15 +185,19 @@ shared_context 'retreat_verification_html_erb' do
 
     fill_in_form(true, { check_checkbox: false })
 
-    fill_in(I18n.t('label.retreat_verification.who_held_retreat', home_parish: Visitor.home_parish), with: nil)
+    fill_in(I18n.t('activerecord.attributes.retreat_verification.who_held_retreat', home_parish: Visitor.home_parish), with: nil)
     click_button @update_id
 
     expected_msg = I18n.t('messages.error.missing_attribute', err_count: 1)
-    expected_msg_two = "Who held retreat #{I18n.t('errors.messages.blank')}"
+    blank_messgage = I18n.t('errors.messages.blank')
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expected_messages: [[:flash_notice, @updated_failed_verification],
                                                          [:error_explanation, [expected_msg,
-                                                                               expected_msg_two]]],
+                                                                               I18n.t('errors.format',
+                                                                                      # rubocop:disable Layout/LineLength
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.who_held_retreat'),
+                                                                                      # rubocop:enable Layout/LineLength
+                                                                                      message: blank_messgage)]]],
                                      who_held_retreat: '')
   end
 
@@ -244,14 +258,14 @@ shared_context 'retreat_verification_html_erb' do
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/retreat_verification\"]")
 
-    expect_field(I18n.t('label.retreat_verification.retreat_verification_picture'), nil)
+    expect_field(I18n.t('activerecord.attributes.retreat_verification.retreat_verification_picture'), nil)
 
-    expect_field(I18n.t('label.retreat_verification.who_held_retreat'), values[:who_held_retreat])
-    expect_field(I18n.t('label.retreat_verification.where_held_retreat'), values[:where_held_retreat])
-    expect_field(I18n.t('label.retreat_verification.start_date'), values[:start_date])
-    expect_field(I18n.t('label.retreat_verification.end_date'), values[:end_date])
+    expect_field(I18n.t('activerecord.attributes.retreat_verification.who_held_retreat'), values[:who_held_retreat])
+    expect_field(I18n.t('activerecord.attributes.retreat_verification.where_held_retreat'), values[:where_held_retreat])
+    expect_field(I18n.t('activerecord.attributes.retreat_verification.start_date'), values[:start_date])
+    expect_field(I18n.t('activerecord.attributes.retreat_verification.end_date'), values[:end_date])
 
-    expect_image_upload('retreat_verification', 'retreat_verification_picture', I18n.t('label.retreat_verification.retreat_verification_picture'))
+    expect_image_upload('retreat_verification', 'retreat_verification_picture', I18n.t('activerecord.attributes.retreat_verification.retreat_verification_picture'))
 
     expect(page).to have_button(@update_id)
     expect_remove_button('candidate_retreat_verification_attributes_remove_retreat_verification_picture', 'retreat_verification_picture') unless cand.retreat_verification.scanned_retreat.nil?
@@ -263,12 +277,14 @@ shared_context 'retreat_verification_html_erb' do
   end
 
   def fill_in_form(retreat_verification_attach_file, check_checkbox: true)
-    check(I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish)) if check_checkbox
-    fill_in(I18n.t('label.retreat_verification.who_held_retreat'), with: WHO_HELD_RETREAT)
-    fill_in(I18n.t('label.retreat_verification.where_held_retreat'), with: WHERE_HELD_RETREAT)
-    fill_in(I18n.t('label.retreat_verification.start_date'), with: START_DATE)
-    fill_in(I18n.t('label.retreat_verification.end_date'), with: END_DATE)
-    label = I18n.t('label.retreat_verification.retreat_verification_picture')
+    # rubocop:disable Layout/LineLength
+    check(I18n.t('activerecord.attributes.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish)) if check_checkbox
+    # rubocop:enable Layout/LineLength
+    fill_in(I18n.t('activerecord.attributes.retreat_verification.who_held_retreat'), with: WHO_HELD_RETREAT)
+    fill_in(I18n.t('activerecord.attributes.retreat_verification.where_held_retreat'), with: WHERE_HELD_RETREAT)
+    fill_in(I18n.t('activerecord.attributes.retreat_verification.start_date'), with: START_DATE)
+    fill_in(I18n.t('activerecord.attributes.retreat_verification.end_date'), with: END_DATE)
+    label = I18n.t('activerecord.attributes.retreat_verification.retreat_verification_picture')
     attach_file(label, 'spec/fixtures/actions for spec testing.png') if retreat_verification_attach_file
   end
 

@@ -59,7 +59,8 @@ feature 'Admin events page', :devise do
     within_fieldset I18n.t('events.candidate_information_sheet') do
       expect(page).to have_selector("input[id=confirmation_events_#{info_event.id}_the_way_due_date][value='2016-10-02']")
       expect(page).to have_selector("input[id=confirmation_events_#{info_event.id}_chs_due_date][value='2016-10-29']")
-      expect(page).to have_field(I18n.t('activerecord.attributes.confirmation_event.instructions'), text: '<p>CIS instructions</p>')
+      expect(page).to have_field(I18n.t('activerecord.attributes.confirmation_event.instructions'),
+                                 text: '<p>CIS instructions</p>')
     end
   end
 

@@ -129,11 +129,11 @@ class ExportListsController < ApplicationController
   # * <tt>Array</tt> I18n strings
   #
   def self.retreat_columns
-    [I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish),
-     I18n.t('label.retreat_verification.start_date'),
-     I18n.t('label.retreat_verification.end_date'),
-     I18n.t('label.retreat_verification.who_held_retreat'),
-     I18n.t('label.retreat_verification.where_held_retreat')].freeze
+    [I18n.t('activerecord.attributes.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish),
+     I18n.t('activerecord.attributes.retreat_verification.start_date'),
+     I18n.t('activerecord.attributes.retreat_verification.end_date'),
+     I18n.t('activerecord.attributes.retreat_verification.who_held_retreat'),
+     I18n.t('activerecord.attributes.retreat_verification.where_held_retreat')].freeze
   end
 
   RETREAT_VALUES =

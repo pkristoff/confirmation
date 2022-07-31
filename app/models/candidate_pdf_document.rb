@@ -233,18 +233,20 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.retreat_verification'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(RetreatVerification.event_key), [1, 0], [1, 3])
 
-    label_message = I18n.t('label.retreat_verification.retreat_held_at_home_parish', home_parish: Visitor.home_parish)
+    label_message = I18n.t('activerecord.attributes.retreat_verification.retreat_held_at_home_parish',
+                           home_parish: Visitor.home_parish)
     grid_label_value2([2, 0], "#{label_message}:", rv.retreat_held_at_home_parish)
 
     return if rv.retreat_held_at_home_parish
 
-    grid_label_value2([3, 0], "#{I18n.t('label.retreat_verification.start_date')}:", rv.start_date)
-    grid_label_value2([4, 0], "#{I18n.t('label.retreat_verification.end_date')}:", rv.end_date)
+    grid_label_value2([3, 0], "#{I18n.t('activerecord.attributes.retreat_verification.start_date')}:", rv.start_date)
+    grid_label_value2([4, 0], "#{I18n.t('activerecord.attributes.retreat_verification.end_date')}:", rv.end_date)
 
-    grid_label_value2([5, 0], "#{I18n.t('label.retreat_verification.who_held_retreat')}:", rv.who_held_retreat)
-    grid_label_value2([6, 0], "#{I18n.t('label.retreat_verification.where_held_retreat')}:", rv.where_held_retreat)
+    grid_label_value2([5, 0], "#{I18n.t('activerecord.attributes.retreat_verification.who_held_retreat')}:", rv.who_held_retreat)
+    grid_label_value2([6, 0], "#{I18n.t('activerecord.attributes.retreat_verification.where_held_retreat')}:",
+                      rv.where_held_retreat)
 
-    common_image(rv.scanned_retreat, I18n.t('label.retreat_verification.retreat_verification_picture'))
+    common_image(rv.scanned_retreat, I18n.t('activerecord.attributes.retreat_verification.retreat_verification_picture'))
   end
 
   # Generate Sponsor covenant

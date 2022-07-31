@@ -70,6 +70,13 @@ en:
       pick_confirmation_name:
         saint: Saint
         saint_name: Saint name
+      retreat_verification:
+        end_date: Retreat end date
+        retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
+        retreat_verification_picture: Retreat Verification Form
+        start_date: Retreat start date
+        where_held_retreat: Where was the retreat held?
+        who_held_retreat: Who held the retreat? (such as St. Andrews, CGHS, etc.)
       visitor:
         about: About
         contact: Contact
@@ -89,6 +96,7 @@ en:
       christian_ministry: Christian ministry
       confirmation_event: Confirmation event
       pick_confirmation_name: Confirmation name
+      retreat_verification: Retreat verification
       visitor: Visitor
   devise:
     failure:
@@ -185,13 +193,6 @@ en:
       note: Note
     mail:
       attach_file: Attach file
-    retreat_verification:
-      end_date: Retreat end date
-      retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
-      retreat_verification_picture: Retreat Verification Form
-      start_date: Retreat start date
-      where_held_retreat: Where was the retreat held?
-      who_held_retreat: Who held the retreat? (such as St. Andrews, CGHS, etc.)
     sidebar:
       baptismal_certificate: Baptismal Certificate
       candidate_covenant_agreement: Covenant Agreement

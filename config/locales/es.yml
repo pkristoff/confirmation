@@ -70,6 +70,13 @@ es:
       pick_confirmation_name:
         saint: Santo
         saint_name: Santo nombre
+      retreat_verification:
+        end_date: Fecha de finalización del retiro
+        retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
+        retreat_verification_picture: Formulario de verificación de retiro
+        start_date: Fecha de inicio del retiro
+        where_held_retreat: "¿Dónde se realizó el retiro?"
+        who_held_retreat: "¿Quién realizó el retiro? (como St. Andrews, CGHS, etc.)"
       visitor:
         about: Acerca de
         contact: Contacto
@@ -89,6 +96,7 @@ es:
       christian_ministry: ministerio cristiano
       confirmation_event: Evento de confirmación
       pick_confirmation_name: Nombre de confirmación
+      retreat_verification: Verificación de retiro
       visitor: Visitante
   devise:
     failure:
@@ -185,13 +193,6 @@ es:
       note: Nota
     mail:
       attach_file: Adjuntar archivo
-    retreat_verification:
-      end_date: Fecha de finalización del retiro
-      retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
-      retreat_verification_picture: Formulario de verificación de retiro
-      start_date: Fecha de inicio del retiro
-      where_held_retreat: "¿Dónde se realizó el retiro?"
-      who_held_retreat: "¿Quién realizó el retiro? (como St. Andrews, CGHS, etc.)"
     sidebar:
       baptismal_certificate: Certificado de bautismo
       candidate_covenant_agreement: Acuerdo de pacto
