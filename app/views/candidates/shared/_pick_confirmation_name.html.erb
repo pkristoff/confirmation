@@ -3,8 +3,8 @@
 
         <%= field_set_tag t('field_set.confirmation_name.saint'), class: 'fieldset' do %>
             <div class="field">
-              <%= pcn_fields.label :saint_name, t('label.confirmation_name.saint_name') %><br/>
-              <%= t('label.confirmation_name.saint') %> <%= pcn_fields.text_field :saint_name, class: 'saint-name'%>
+              <%= pcn_fields.label :saint_name %><br/>
+              <%= t('activerecord.attributes.pick_confirmation_name.saint') %> <%= pcn_fields.text_field :saint_name %>
             </div>
         <% end %>
     <% end %>

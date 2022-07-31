@@ -63,6 +63,9 @@ es:
         what_service: "¿Cuál fue el servicio?"
         when_service: "¿Cuándo hiciste el servicio?"
         where_service: "¿Dónde tuvo lugar el servicio?"
+      pick_confirmation_name:
+        saint: Santo
+        saint_name: Santo nombre
       visitor:
         about: Acerca de
         contact: Contacto
@@ -80,6 +83,7 @@ es:
       candidate: Candidata
       candidate_sheet: Hoja de candidato
       christian_ministry: ministerio cristiano
+      pick_confirmation_name: Nombre de confirmación
       visitor: Visitante
   devise:
     failure:
@@ -174,9 +178,6 @@ es:
       select: Seleccionar
     candidate_note:
       note: Nota
-    confirmation_name:
-      saint: Santo
-      saint_name: Santo nombre
     events:
       chs_due_date: Fecha de vencimiento de la escuela secundaria católica
       instructions: Instrucciones

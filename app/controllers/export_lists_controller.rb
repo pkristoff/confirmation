@@ -103,7 +103,7 @@ class ExportListsController < ApplicationController
   end
 
   CONFIRMATION_NAME_NAMES =
-    [I18n.t('label.confirmation_name.saint_name')].freeze
+    [I18n.t('activerecord.attributes.pick_confirmation_name.saint_name')].freeze
 
   CONFIRMATION_NAME_VALUES =
     [->(candidate) { candidate.pick_confirmation_name.saint_name }].freeze

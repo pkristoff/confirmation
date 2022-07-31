@@ -63,6 +63,9 @@ en:
         what_service: What was the service?
         when_service: When did you do the service?
         where_service: Where did the service take place?
+      pick_confirmation_name:
+        saint: Saint
+        saint_name: Saint name
       visitor:
         about: About
         contact: Contact
@@ -80,6 +83,7 @@ en:
       candidate: Candidate
       candidate_sheet: Candidate sheet
       christian_ministry: Christian ministry
+      pick_confirmation_name: Confirmation name
       visitor: Visitor
   devise:
     failure:
@@ -174,9 +178,6 @@ en:
       select: Select
     candidate_note:
       note: Note
-    confirmation_name:
-      saint: Saint
-      saint_name: Saint name
     events:
       chs_due_date: Catholic high school due date
       instructions: Instructions

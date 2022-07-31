@@ -249,7 +249,7 @@ module SortingCandListHelpers
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}.#{cand_id}\"]")
 
-    expect_field(I18n.t('label.confirmation_name.saint_name'), with_values ? saint_name : '')
+    expect_field(I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'), with_values ? saint_name : '')
 
     expect(page).to have_button(update_id)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify

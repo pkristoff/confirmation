@@ -41,19 +41,23 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
-    error_msg = 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:'
+    error_msg = I18n.t('messages.error.missing_attribute')
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev, @update_id, @is_verify,
                                        saint_name: '',
                                        expected_messages: [
                                          [:flash_notice, @updated_failed_verification],
-                                         [:error_explanation, [error_msg, 'Saint name can\'t be blank']]
+                                         [:error_explanation,
+                                          [error_msg,
+                                           I18n.t('errors.format',
+                                                  attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'),
+                                                  message: I18n.t('errors.messages.blank'))]]
                                        ])
     candidate_event = candidate.get_candidate_event(PickConfirmationName.event_key)
     expect(candidate_event.completed_date).to eq(nil)
     expect(candidate_event.verified).to eq(false)
 
     # usually admin should not do this
-    fill_in('Saint name', with: 'St. Admin')
+    fill_in(I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'), with: 'St. Admin')
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)

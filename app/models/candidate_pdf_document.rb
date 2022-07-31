@@ -211,7 +211,7 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.confirmation_name'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(PickConfirmationName.event_key), [1, 0], [1, 3])
 
-    grid_label_value2([2, 0], I18n.t('label.confirmation_name.saint_name'), cn.saint_name)
+    grid_label_value2([2, 0], I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'), cn.saint_name)
   end
 
   # Generate Covenant agreement

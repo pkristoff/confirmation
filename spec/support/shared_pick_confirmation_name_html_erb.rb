@@ -81,7 +81,10 @@ shared_context 'pick_confirmation_name_html_erb' do
     candidate = Candidate.find(@candidate.id)
 
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expected_messages: [[:flash_notice, @updated_failed_verification],
-                                                                                                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1), "Saint name #{I18n.t('errors.messages.blank')}"]]])
+                                                                                                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                                                                                                         I18n.t('errors.format',
+                                                                                                                                                                attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'),
+                                                                                                                                                                message: I18n.t('errors.messages.blank'))]]])
     expect(candidate.pick_confirmation_name.saint_name).to eq('')
 
     fill_in_form # no picture
@@ -108,7 +111,7 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     visit @path
     fill_in_form
-    fill_in(I18n.t('label.confirmation_name.saint_name'), with: nil)
+    fill_in(I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'), with: nil)
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
@@ -116,9 +119,11 @@ shared_context 'pick_confirmation_name_html_erb' do
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
                                        saint_name: '',
                                        expected_messages: [[:flash_notice, @updated_failed_verification],
-                                                           [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1), "Saint name #{I18n.t('errors.messages.blank')}"]]])
+                                                           [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
+                                                                                 I18n.t('errors.format',
+                                                                                        attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'),
+                                                                                        message: I18n.t('errors.messages.blank'))]]])
     # rubocop:enable Layout/LineLength
-
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(nil)
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to eq(false)
   end
@@ -157,7 +162,7 @@ shared_context 'pick_confirmation_name_html_erb' do
   private
 
   def fill_in_form
-    fill_in(I18n.t('label.confirmation_name.saint_name'), with: SAINT_NAME)
+    fill_in(I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'), with: SAINT_NAME)
   end
 
   def update_pick_confirmation_name(with_values)
