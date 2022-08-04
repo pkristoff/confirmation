@@ -40,17 +40,20 @@ shared_context 'sponsor_eligibility_html_erb' do
     update_sponsor_eligibility(false)
     visit @path
 
-    fill_in(I18n.t('label.sponsor_eligibility.sponsor_name'), with: '')
-    fill_in(I18n.t('label.sponsor_eligibility.sponsor_church'), with: SPONSOR_CHURCH)
-    attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/Baptismal Certificate.png')
+    fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_name'), with: '')
+    fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_church'), with: SPONSOR_CHURCH)
+    i18n_string_picture = 'activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'
+    attach_file(I18n.t(i18n_string_picture), 'spec/fixtures/Baptismal Certificate.png')
     click_button @update_id
 
+    i18n_string = 'activerecord.attributes.sponsor_covenant.sponsor_name'
     expect_sponsor_eligibility_form(
       @candidate.id, @dev, @path_str, @is_verify,
       expected_messages: [[:flash_notice, @updated_failed_verification],
                           [:error_explanation, [I18n.t('messages.error.missing_attribute',
                                                        err_count: 1),
-                                                "Sponsor name #{I18n.t('errors.messages.blank')}"]]]
+                                                I18n.t('errors.format_blank',
+                                                       attribute: I18n.t(i18n_string))]]]
     )
   end
 
@@ -95,7 +98,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify, expected_messages: [[:flash_notice, @updated_message]])
 
     visit @path
-    check(I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
+    check(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
     click_button @update_id
 
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify, expected_messages: [[:flash_notice, @updated_message]])
@@ -118,14 +121,15 @@ shared_context 'sponsor_eligibility_html_erb' do
 
     visit @path
 
-    attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
 
     candidate_db = Candidate.find(@candidate.id)
     expect_sponsor_eligibility_form(candidate_db.id, @dev, @path_str, @is_verify,
                                     expected_messages: [[:flash_notice, @updated_failed_verification],
                                                         [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                              "Sponsor church #{I18n.t('errors.messages.blank')}"]]])
+                                                                              I18n.t('errors.format_blank',
+                                                                                     attribute: I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_church'))]]])
 
     expect(candidate_db.sponsor_eligibility).not_to eq(nil)
     expect(candidate_db.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
@@ -177,7 +181,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect(page).not_to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
     expect(page).not_to have_selector(img_src_selector)
 
-    attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
 
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
@@ -200,8 +204,8 @@ shared_context 'sponsor_eligibility_html_erb' do
     visit @path
     fill_in_form
 
-    attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
-    fill_in(I18n.t('label.sponsor_eligibility.sponsor_name'), with: 'george')
+    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
+    fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_name'), with: 'george')
     click_button @update_id
 
     candidate = Candidate.find(@candidate.id)
@@ -226,14 +230,14 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect(page).to have_selector("div[id=sponsor-eligibility-top][class=\"#{visibility}\"]")
 
     if cand.sponsor_eligibility.sponsor_attends_home_parish
-      expect(page).to have_checked_field(I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
+      expect(page).to have_checked_field(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
     else
-      expect(page).not_to have_checked_field(I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
+      expect(page).not_to have_checked_field(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish))
     end
 
-    expect_field(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), nil)
+    expect_field(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), nil)
 
-    expect_field(I18n.t('label.sponsor_eligibility.sponsor_name'), cand.sponsor_eligibility.sponsor_attends_home_parish ? nil : values[:sponsor_name])
+    expect_field(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_name'), cand.sponsor_eligibility.sponsor_attends_home_parish ? nil : values[:sponsor_name])
 
     expect(page).to have_button(@update_id)
 
@@ -246,10 +250,11 @@ shared_context 'sponsor_eligibility_html_erb' do
   end
 
   def fill_in_form(eligibility_attach_file: true)
-    fill_in(I18n.t('label.sponsor_eligibility.sponsor_name'), with: SPONSOR_NAME)
-    fill_in(I18n.t('label.sponsor_eligibility.sponsor_church'), with: SPONSOR_CHURCH)
+    fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_name'), with: SPONSOR_NAME)
+    fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_church'), with: SPONSOR_CHURCH)
     filename = 'spec/fixtures/Baptismal Certificate.png'
-    attach_file(I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture'), filename) if eligibility_attach_file
+    i18n_string = 'activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'
+    attach_file(I18n.t(i18n_string), filename) if eligibility_attach_file
   end
 
   def img_src_selector

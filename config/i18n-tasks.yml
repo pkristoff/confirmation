@@ -115,6 +115,7 @@ search:
 ignore_missing:
   # these are used in _error_messages.html.erb and defined in devise.en.  Do marking them not missing
   - 'errors.messages.{not_saved.one, not_saved.other, blank, account_name_not_found, reset_password}'
+  - 'errors.format_blank'
   - '{devise,simple_form}.*'
   # used in a flash[:alert]1
   - 'alert.reset_password'

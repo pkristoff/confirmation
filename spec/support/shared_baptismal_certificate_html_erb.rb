@@ -122,25 +122,24 @@ shared_context 'baptismal_certificate_html_erb' do
           click_button @update_id
 
           # rubocop:disable Layout/LineLength
-          blank_messgage = I18n.t('errors.messages.blank')
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             @bc_form_info.show_info(true, true, false), false,
                                             expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                 [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 14),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), message: blank_messgage),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), message: blank_messgage)]]])
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'))]]])
           # rubocop:enable Layout/LineLength
         end
 
@@ -262,20 +261,20 @@ shared_context 'baptismal_certificate_html_erb' do
                                             @bc_form_info.show_info(true, true, false), false,
                                             expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                 [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), message: I18n.t('errors.messages.blank')),
-                                                                                      I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), message: I18n.t('errors.messages.blank')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state')),
+                                                                                      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code')),
                                                                                       I18n.t('messages.error.baptized_catholic_should_be_checked')]]])
           # rubocop:enable Layout/LineLength
         end
@@ -461,7 +460,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation,
                                                                    [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                    I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.candidate_sheet.middle_name'), message: I18n.t('errors.messages.blank'))]]],
+                                                                    I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.candidate_sheet.middle_name'))]]],
                                               expect_scanned_image: true)
 
             candidate = Candidate.find(@candidate.id)
@@ -515,24 +514,24 @@ shared_context 'baptismal_certificate_html_erb' do
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 16),
 
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.candidate_sheet.middle_name'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.candidate_sheet.middle_name')),
 
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name'), message: I18n.t('errors.messages.blank')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.birth_date')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_first')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_middle')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.father_last')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_first')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_middle')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.mother_last')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_name')),
 
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), message: I18n.t('errors.messages.blank')),
-                                                                                        I18n.t('errors.format', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), message: I18n.t('errors.messages.blank')),
-
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state')),
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code')),
+                                                                                        # should use I18n.t('activerecord ...')
                                                                                         I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))],
                                                                    16]])
             # rubocop:enable Layout/LineLength
@@ -1069,7 +1068,7 @@ class ExpectBCFormInfo
   # * <tt>:i18n_path</tt>
   #
   def blank_field?(i18n_path)
-    blank_fields.include?(I18n.t('errors.format', attribute: I18n.t(i18n_path), message: I18n.t('errors.messages.blank')))
+    blank_fields.include?(I18n.t('errors.format_blank', attribute: I18n.t(i18n_path)))
   end
 
   def init_values

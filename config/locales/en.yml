@@ -77,6 +77,19 @@ en:
         start_date: Retreat start date
         where_held_retreat: Where was the retreat held?
         who_held_retreat: Who held the retreat? (such as St. Andrews, CGHS, etc.)
+      sponsor_covenant:
+        scanned_covenant/scanned_images:
+          content: Scanned covenant content
+          content_type: Scanned covenant content type
+          filename: Scanned covenant filename
+        sponsor_covenant_picture: Sponsor Covenant
+        sponsor_name: Sponsor's Name
+      sponsor_eligibility:
+        sponsor_attends_home_parish: Sponsor is registered at %{home_parish}
+        sponsor_attends_home_parish_note: "(We will verify with office and get back with you if there any problems)"
+        sponsor_church: Sponsor's church
+        sponsor_eligibility_picture: Sponsor's Eligibiliy form
+        sponsor_name: Sponsor's Name
       visitor:
         about: About
         contact: Contact
@@ -97,6 +110,8 @@ en:
       confirmation_event: Confirmation event
       pick_confirmation_name: Confirmation name
       retreat_verification: Retreat verification
+      sponsor_covenant: Sponsor Covenant
+      sponsor_eligibility: Sponsor eligibility
       visitor: Visitor
   devise:
     failure:
@@ -208,15 +223,6 @@ en:
       signed_agreement: By checking you agree to the above.
     sorting:
       total_selected: Total Selected
-    sponsor_covenant:
-      sponsor_covenant_picture: Sponsor Covenant
-      sponsor_name: Sponsor's Name
-    sponsor_eligibility:
-      sponsor_attends_home_parish: Sponsor is registered at %{home_parish}
-      sponsor_attends_home_parish_note: "(We will verify with office and get back with you if there any problems)"
-      sponsor_church: Sponsor's church
-      sponsor_eligibility_picture: Sponsor's Eligibiliy form
-      sponsor_name: Sponsor's Name
   messages:
     about_updated: About updated
     accessed_denied: Accessed denied.

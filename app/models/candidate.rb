@@ -336,7 +336,7 @@ class Candidate < ApplicationRecord
   # keep only sponsor_name error messages
   #
   def keep_sponsor_name_error
-    keep_interesting_errors(['Sponsor name'])
+    keep_interesting_errors([I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name')])
   end
 
   # keep only first, middle, and last names error messages

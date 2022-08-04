@@ -51,7 +51,8 @@ class SponsorCovenant < ApplicationRecord
     found |= !errors.delete(:scanned_covenant).nil?
     return unless found
 
-    errors.add(:base, "Scanned sponsor covenant form #{I18n.t('errors.messages.blank')}")
+    errors.add(:base, I18n.t('errors.format_blank',
+                             attribute: I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture')))
   end
 
   # Editable attributes

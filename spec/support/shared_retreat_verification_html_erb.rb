@@ -123,22 +123,18 @@ shared_context 'retreat_verification_html_erb' do
     click_button @update_id
 
     # rubocop:disable Layout/LineLength
-    blank_messgage = I18n.t('errors.messages.blank')
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expected_messages: [[:flash_notice, @updated_failed_verification],
                                                          [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 4),
-                                                                               I18n.t('errors.format',
-                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.start_date'),
-                                                                                      message: blank_messgage),
-                                                                               I18n.t('errors.format',
-                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.end_date'),
-                                                                                      message: blank_messgage),
-                                                                               I18n.t('errors.format',
-                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.who_held_retreat'),
-                                                                                      message: blank_messgage),
-                                                                               I18n.t('errors.format',
-                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.where_held_retreat'),
-                                                                                      message: blank_messgage)]]],
+                                                                               I18n.t('errors.format_blank',
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.start_date')),
+                                                                               I18n.t('errors.format_blank',
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.end_date')),
+                                                                               I18n.t('errors.format_blank',
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.who_held_retreat')),
+                                                                               I18n.t('errors.format_blank',
+                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.where_held_retreat'))]]],
+
                                      who_held_retreat: '',
                                      where_held_retreat: '',
                                      start_date: '',
@@ -189,15 +185,13 @@ shared_context 'retreat_verification_html_erb' do
     click_button @update_id
 
     expected_msg = I18n.t('messages.error.missing_attribute', err_count: 1)
-    blank_messgage = I18n.t('errors.messages.blank')
+    i18n_string = 'activerecord.attributes.retreat_verification.who_held_retreat'
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      expected_messages: [[:flash_notice, @updated_failed_verification],
                                                          [:error_explanation, [expected_msg,
-                                                                               I18n.t('errors.format',
-                                                                                      # rubocop:disable Layout/LineLength
-                                                                                      attribute: I18n.t('activerecord.attributes.retreat_verification.who_held_retreat'),
-                                                                                      # rubocop:enable Layout/LineLength
-                                                                                      message: blank_messgage)]]],
+                                                                               I18n.t('errors.format_blank',
+                                                                                      attribute: I18n.t(i18n_string))]]],
+
                                      who_held_retreat: '')
   end
 

@@ -31,7 +31,7 @@ describe ExportListsController do
   end
 
   it 'should create an xlsx with extra columns' do
-    column_name = I18n.t('label.sponsor_covenant.sponsor_name')
+    column_name = I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name')
 
     package = controller.create_xlsx([], [@c1, @c2], [], [], 'foo', [column_name],
                                      [->(candidate) { candidate.sponsor_covenant.sponsor_name }])

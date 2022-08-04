@@ -82,9 +82,8 @@ shared_context 'pick_confirmation_name_html_erb' do
 
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, saint_name: '', expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                                                                                    [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                                                                                         I18n.t('errors.format',
-                                                                                                                                                                attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'),
-                                                                                                                                                                message: I18n.t('errors.messages.blank'))]]])
+                                                                                                                                                         I18n.t('errors.format_blank',
+                                                                                                                                                                attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'))]]])
     expect(candidate.pick_confirmation_name.saint_name).to eq('')
 
     fill_in_form # no picture
@@ -120,9 +119,8 @@ shared_context 'pick_confirmation_name_html_erb' do
                                        saint_name: '',
                                        expected_messages: [[:flash_notice, @updated_failed_verification],
                                                            [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                 I18n.t('errors.format',
-                                                                                        attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'),
-                                                                                        message: I18n.t('errors.messages.blank'))]]])
+                                                                                 I18n.t('errors.format_blank',
+                                                                                        attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'))]]])
     # rubocop:enable Layout/LineLength
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(nil)
     expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to eq(false)

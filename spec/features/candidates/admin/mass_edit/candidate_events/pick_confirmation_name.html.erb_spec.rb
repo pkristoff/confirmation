@@ -48,9 +48,9 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
                                          [:flash_notice, @updated_failed_verification],
                                          [:error_explanation,
                                           [error_msg,
-                                           I18n.t('errors.format',
-                                                  attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'),
-                                                  message: I18n.t('errors.messages.blank'))]]
+                                           I18n.t('errors.format_blank',
+                                                  attribute:
+                                                    I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'))]]
                                        ])
     candidate_event = candidate.get_candidate_event(PickConfirmationName.event_key)
     expect(candidate_event.completed_date).to eq(nil)

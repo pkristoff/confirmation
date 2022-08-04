@@ -257,7 +257,7 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.sponsor_covenant'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(SponsorCovenant.event_key), [1, 0], [1, 3])
 
-    grid_label_value2([2, 0], "#{I18n.t('label.sponsor_covenant.sponsor_name')}:", sc.sponsor_name)
+    grid_label_value2([2, 0], "#{I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name')}:", sc.sponsor_name)
 
     common_image(sc.scanned_covenant, I18n.t('field_set.sponsor_covenant'))
   end
@@ -270,13 +270,14 @@ class CandidatePDFDocument < Prawn::Document
     page_header(I18n.t('label.sidebar.sponsor_eligibility'), [0, 0], [0, 3])
     common_event(@candidate.get_candidate_event(SponsorEligibility.event_key), [1, 0], [1, 3])
 
-    label_message = I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish)
+    label_message = I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_attends_home_parish',
+                           home_parish: Visitor.home_parish)
     grid_label_value2([3, 0], "#{label_message}:", se.sponsor_attends_home_parish)
 
     return if se.sponsor_attends_home_parish
 
-    grid_label_value([4, 0], "#{I18n.t('label.sponsor_eligibility.sponsor_church')}:", se.sponsor_church)
-    common_image(se.scanned_image, I18n.t('field_set.sponsor_eligibility.scanned_eligibility'))
+    grid_label_value([4, 0], "#{I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_church')}:", se.sponsor_church)
+    common_image(se.scanned_image, I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'))
   end
 
   # Generate image

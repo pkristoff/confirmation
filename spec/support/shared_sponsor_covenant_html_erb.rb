@@ -73,7 +73,7 @@ shared_context 'sponsor_covenant_html_erb' do
                                  expecte3d_messages: [[:flash_notice, @updated_message]])
 
     visit @path
-    fill_in(I18n.t('label.sponsor_covenant.sponsor_name'), with: 'xxx')
+    fill_in(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name'), with: 'xxx')
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id,
@@ -98,7 +98,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
     visit @path
 
-    attach_file(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
 
     candidate_db = Candidate.find(@candidate.id)
@@ -149,12 +149,13 @@ shared_context 'sponsor_covenant_html_erb' do
       @candidate.id, @dev, @path_str, @is_verify,
       expected_messages: [[:flash_notice, @updated_failed_verification],
                           [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                "Scanned sponsor covenant form #{I18n.t('errors.messages.blank')}"]]]
+                                                I18n.t('errors.format_blank',
+                                                       attribute: I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'))]]]
     )
 
     expect(page).not_to have_selector(img_src_selector)
 
-    attach_file(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png')
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
@@ -176,7 +177,7 @@ shared_context 'sponsor_covenant_html_erb' do
     visit @path
     fill_in_form
 
-    fill_in(I18n.t('label.sponsor_covenant.sponsor_name'), with: nil)
+    fill_in(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name'), with: nil)
     click_button @update_id
 
     expect(page).to have_selector(img_src_selector)
@@ -184,7 +185,8 @@ shared_context 'sponsor_covenant_html_erb' do
     expect_sponsor_covenant_form(candidate.id, @dev, @path_str, @is_verify,
                                  expected_messages: [[:flash_notice, @updated_failed_verification],
                                                      [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                           "Sponsor name #{I18n.t('errors.messages.blank')}"]]],
+                                                                           I18n.t('errors.format_blank',
+                                                                                  attribute: I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name'))]]],
                                  sponsor_name: '')
   end
   # rubocop:enable Layout/LineLength
@@ -200,7 +202,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{dev_path}#{path_str}/#{cand_id}/sponsor_covenant\"]")
 
-    expect_field(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), nil)
+    expect_field(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'), nil)
 
     expect(page).to have_button(@update_id)
     expect_remove_button('candidate_sponsor_covenant_attributes_remove_sponsor_covenant_picture', 'sponsor_covenant_picture') unless cand.sponsor_covenant.scanned_covenant.nil?
@@ -212,8 +214,9 @@ shared_context 'sponsor_covenant_html_erb' do
   end
 
   def fill_in_form(covenant_attach_file: true)
-    fill_in(I18n.t('label.sponsor_covenant.sponsor_name'), with: SPONSOR_NAME)
-    attach_file(I18n.t('label.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png') if covenant_attach_file
+    fill_in(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name'), with: SPONSOR_NAME)
+    i18n_string = 'activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'
+    attach_file(I18n.t(i18n_string), 'spec/fixtures/actions.png') if covenant_attach_file
   end
 
   def img_src_selector

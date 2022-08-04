@@ -159,8 +159,8 @@ class ExportListsController < ApplicationController
   end
 
   SPONSOR_COVENANT_COLUMNS =
-    [I18n.t('label.sponsor_covenant.sponsor_name'),
-     I18n.t('label.sponsor_covenant.sponsor_covenant_picture')].freeze
+    [I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name'),
+     I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture')].freeze
 
   SPONSOR_COVENANT_VALUES =
     [->(candidate) { candidate.sponsor_covenant.sponsor_name },
@@ -202,11 +202,11 @@ class ExportListsController < ApplicationController
   #
   def self.sponsor_eligibility_columns
     [
-      I18n.t('label.sponsor_eligibility.sponsor_attends_home_parish',
+      I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_attends_home_parish',
              home_parish: Visitor.home_parish),
-      I18n.t('label.sponsor_covenant.sponsor_name'),
-      I18n.t('label.sponsor_eligibility.sponsor_church'),
-      I18n.t('label.sponsor_eligibility.sponsor_eligibility_picture')
+      I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name'),
+      I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_church'),
+      I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture')
     ].freeze
   end
 

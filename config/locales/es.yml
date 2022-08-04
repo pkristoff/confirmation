@@ -72,11 +72,24 @@ es:
         saint_name: Santo nombre
       retreat_verification:
         end_date: Fecha de finalización del retiro
-        retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
+        retreat_held_at_home_parish: "¿Asistió a un retiro de confirmación de %{home_parish}?"
         retreat_verification_picture: Formulario de verificación de retiro
         start_date: Fecha de inicio del retiro
         where_held_retreat: "¿Dónde se realizó el retiro?"
         who_held_retreat: "¿Quién realizó el retiro? (como St. Andrews, CGHS, etc.)"
+      sponsor_covenant:
+        scanned_covenant/scanned_images:
+          content: Contenido del pacto escaneado
+          content_type: Tipo de contenido de convenio escaneado
+          filename: Nombre de archivo de pacto escaneado
+        sponsor_covenant_picture: Pacto del patrocinador
+        sponsor_name: Nombre del patrocinador
+      sponsor_eligibility:
+        sponsor_attends_home_parish: El patrocinador está registrado en %{home_parish}
+        sponsor_attends_home_parish_note: "(Verificaremos con la oficina y nos comunicaremos con usted si hay algún problema)"
+        sponsor_church: La iglesia del patrocinador
+        sponsor_eligibility_picture: Formulario de elegibilidad del patrocinador
+        sponsor_name: Nombre del patrocinador
       visitor:
         about: Acerca de
         contact: Contacto
@@ -97,6 +110,8 @@ es:
       confirmation_event: Evento de confirmación
       pick_confirmation_name: Nombre de confirmación
       retreat_verification: Verificación de retiro
+      sponsor_covenant: Pacto del patrocinador y elegibilidad del patrocinador
+      sponsor_eligibility: Elegibilidad del patrocinador
       visitor: Visitante
   devise:
     failure:
@@ -208,15 +223,6 @@ es:
       signed_agreement: Al marcar está de acuerdo con lo anterior.
     sorting:
       total_selected: Total seleccionado
-    sponsor_covenant:
-      sponsor_covenant_picture: Pacto del patrocinador
-      sponsor_name: Nombre del patrocinador
-    sponsor_eligibility:
-      sponsor_attends_home_parish: El patrocinador está registrado en %{home_parish}
-      sponsor_attends_home_parish_note: "(Verificaremos con la oficina y nos comunicaremos con usted si hay algún problema)"
-      sponsor_church: La iglesia del patrocinador
-      sponsor_eligibility_picture: Formulario de elegibilidad del patrocinador
-      sponsor_name: Nombre del patrocinador
   messages:
     about_updated: Sobre actualizado
     accessed_denied: Acceso denegado.

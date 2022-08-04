@@ -2,7 +2,7 @@
   <%= field_set_tag t('field_set.sponsor_eligibility'), class: 'fieldset' do %>
     <div class="fieldset-div">
       <div class="field">
-        <%= sc_covenant_fields.label :sponsor_name, t('label.sponsor_eligibility.sponsor_name') %><br/>
+        <%= sc_covenant_fields.label :sponsor_name %><br/>
         <%= sc_covenant_fields.text_field :sponsor_name %>
       </div>
     </div>
@@ -13,17 +13,17 @@
     <div class="fieldset-div">
       <div class="field">
         <%= se_fields.check_box :sponsor_attends_home_parish, onclick: 'confirmation_toggle().toggle_top(\'#sponsor-eligibility-top\', \'toggle\', \'#sponsor-at-home-parish\');' %>
-        <%= se_fields.label :sponsor_attends_home_parish, t('label.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish) %>
+        <%= se_fields.label :sponsor_attends_home_parish, t('activerecord.attributes.sponsor_eligibility.sponsor_attends_home_parish', home_parish: Visitor.home_parish) %>
       </div>
 
       <% class_attends = @candidate.sponsor_eligibility.sponsor_attends_home_parish ? 'show-div' : @candidate.sponsor_eligibility.sponsor_attends_home_parish == true ? 'show-div' : 'hide-div' %>
       <% class_top = @candidate.sponsor_eligibility.sponsor_attends_home_parish ? 'hide-div' : @candidate.sponsor_eligibility.sponsor_attends_home_parish == true ? 'hide-div' : 'show-div' %>
 
-      <div id="sponsor-at-home-parish" class="<%= class_attends %>"><p><%= t('label.sponsor_eligibility.sponsor_attends_home_parish_note') %></p></div>
+      <div id="sponsor-at-home-parish" class="<%= class_attends %>"><p><%= t('activerecord.attributes.sponsor_eligibility.sponsor_attends_home_parish_note') %></p></div>
 
       <div id="sponsor-eligibility-top" class="<%= class_top %>">
         <div class="field">
-          <%= se_fields.label :sponsor_church, t('label.sponsor_eligibility.sponsor_church') %><br/>
+          <%= se_fields.label :sponsor_church %><br/>
           <%= se_fields.text_field :sponsor_church %>
         </div>
 
@@ -40,7 +40,7 @@
                    remove_field: se_fields.hidden_field(:remove_sponsor_eligibility_picture, value: ''),
                    scanned_image: pluck_image,
                    scanned_image_field: se_fields.file_field(:sponsor_eligibility_picture, accept: SideBar::IMAGE_FILE_TYPES, onchange: "confirmation_toggle().scanned_image_chosen('candidate_sponsor_eligibility_attributes_remove_sponsor_eligibility_picture', 'sponsor_eligibility_picture');"),
-                   scanned_image_label: se_fields.label(:sponsor_eligibility_picture, t('label.sponsor_eligibility.sponsor_eligibility_picture')),
+                   scanned_image_label: se_fields.label(:sponsor_eligibility_picture),
                    remove_label: t('views.common.remove_image'),
                    replace_label: t('views.common.replace_image')
         %>
