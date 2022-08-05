@@ -13,7 +13,7 @@ es:
         baptized_at_home_parish: "¿Te bautizaron en %{home_parish}"
         baptized_catholic: "¿Fuiste bautizada católica?"
         birth_date: Fecha de nacimiento
-        certificate_picture: Certificado de bautismo
+        certificate_picture: Acta de bautismo escaneada
         church_address/address:
           city: Ciudad
           state: Estado
@@ -36,7 +36,7 @@ es:
           zip_code: Código postal de profesión
         prof_church_name: Nombre de la iglesia de profesión de fe
         prof_date: Fecha de la profesión de fe
-        prof_picture: Imagen de profesión
+        prof_picture: Profesión escaneada Imagen
         remove_prof_image: Eliminar imagen de perfil escaneada
         replace_prof_image: Reemplazar imagen de perfil escaneada
         scanned_prof_of_faith_image: Profesión escaneada de fe
@@ -73,7 +73,7 @@ es:
       retreat_verification:
         end_date: Fecha de finalización del retiro
         retreat_held_at_home_parish: "¿Asistió a un retiro de confirmación de %{home_parish}?"
-        retreat_verification_picture: Formulario de verificación de retiro
+        retreat_verification_picture: Verificación de retirada escaneada
         start_date: Fecha de inicio del retiro
         where_held_retreat: "¿Dónde se realizó el retiro?"
         who_held_retreat: "¿Quién realizó el retiro? (como St. Andrews, CGHS, etc.)"
@@ -82,13 +82,13 @@ es:
           content: Contenido del pacto escaneado
           content_type: Tipo de contenido de convenio escaneado
           filename: Nombre de archivo de pacto escaneado
-        sponsor_covenant_picture: Pacto del patrocinador
+        sponsor_covenant_picture: Pacto patrocinador escaneado
         sponsor_name: Nombre del patrocinador
       sponsor_eligibility:
         sponsor_attends_home_parish: El patrocinador está registrado en %{home_parish}
         sponsor_attends_home_parish_note: "(Verificaremos con la oficina y nos comunicaremos con usted si hay algún problema)"
         sponsor_church: La iglesia del patrocinador
-        sponsor_eligibility_picture: Formulario de elegibilidad del patrocinador
+        sponsor_eligibility_picture: Elegibilidad escaneada del patrocinador
         sponsor_name: Nombre del patrocinador
       visitor:
         about: Acerca de
@@ -263,7 +263,6 @@ es:
       missing_attribute: "¡Tus cambios fueron guardados! Se debe completar un campo vacío en el formulario para verificarlo:"
       missing_attributes: "¡Tus cambios fueron guardados! Deben completarse %{err_count} campos vacíos en el formulario para ser verificado:"
       one_email: se debe proporcionar al menos un correo electrónico.
-      scanned_baptismal_certificate: Acta de bautismo escaneada %{message}
       unknown_show_empty_radio: 'Valor desconocido de show_empty_radio: %{show_empty_radio}'
     export_to_excel: Trabajan en segundo plano. Se enviará un correo electrónico con hoja de cálculo. al finalizar con %{commit}.
     generate_pdf_error: Solo seleccione un candidato

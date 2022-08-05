@@ -129,7 +129,7 @@ class BaptismalCertificate < ApplicationRecord
     event_complete = propagate_errors_up(church_address, event_complete)
     rename_scanned_image_error_message(
       :scanned_certificate,
-      I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))
+      I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'))
     )
     event_complete
   end
@@ -148,7 +148,8 @@ class BaptismalCertificate < ApplicationRecord
     rename_scanned_image_error_message(
       :scanned_prof,
       # I18n next line
-      "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"
+      I18n.t('errors.format_blank',
+             attribute: I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'))
     )
     event_complete
   end

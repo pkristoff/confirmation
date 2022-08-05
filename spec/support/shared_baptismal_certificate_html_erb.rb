@@ -531,8 +531,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                                         I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city')),
                                                                                         I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state')),
                                                                                         I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code')),
-                                                                                        # should use I18n.t('activerecord ...')
-                                                                                        I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))],
+                                                                                        I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'))],
                                                                    16]])
             # rubocop:enable Layout/LineLength
           end
@@ -548,7 +547,8 @@ shared_context 'baptismal_certificate_html_erb' do
                                               @bc_form_info.show_info(true, true, false), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
-                                                                                        I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank'))]]])
+                                                                                        I18n.t('errors.format_blank',
+                                                                                               attribute: I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'))]]])
 
             attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
             click_button @update_id
@@ -605,8 +605,10 @@ shared_context 'baptismal_certificate_html_erb' do
                                               @bc_form_info.show_info(true, true, true), false,
                                               expected_messages: [[:flash_notice, @updated_failed_verification],
                                                                   [:error_explanation, [I18n.t('messages.error.missing_attributes', err_count: 2),
-                                                                                        I18n.t('messages.error.scanned_baptismal_certificate', message: I18n.t('errors.messages.blank')),
-                                                                                        "Scanned Profession 0f faith #{I18n.t('errors.messages.blank')}"]]])
+                                                                                        I18n.t('errors.format_blank',
+                                                                                               attribute: I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture')),
+                                                                                        I18n.t('errors.format_blank',
+                                                                                               attribute: I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'))]]])
             # rubocop:enable Layout/LineLength
 
             attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'),

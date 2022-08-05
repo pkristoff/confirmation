@@ -298,7 +298,7 @@ describe BaptismalCertificate, type: :model do
         expect(msgs[0]).to eq(I18n.t('errors.format_blank',
                                      attribute: I18n.t('activerecord.attributes.baptismal_certificate.prof_date')))
         # rubocop:disable Layout/LineLength
-        expect(msgs[1]).to eq(I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.scanned_prof_of_faith_image')))
+        expect(msgs[1]).to eq(I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.prof_picture')))
         # rubocop:enable Layout/LineLength
         expect(msgs.size).to eq(2)
       end

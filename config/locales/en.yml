@@ -13,7 +13,7 @@ en:
         baptized_at_home_parish: Were you baptized at %{home_parish}?
         baptized_catholic: Were you baptized catholic?
         birth_date: Birth date
-        certificate_picture: Baptismal certificate
+        certificate_picture: Scanned baptismal certificate
         church_address/address:
           city: City
           state: State
@@ -36,7 +36,7 @@ en:
           zip_code: Profession zip code
         prof_church_name: Name of church of profession of faith
         prof_date: Date of profession of faith
-        prof_picture: Profession Picture
+        prof_picture: Scanned profession Picture
         remove_prof_image: Remove scanned prof image
         replace_prof_image: Replace scanned prof image
         scanned_prof_of_faith_image: Scanned Profession 0f faith
@@ -73,7 +73,7 @@ en:
       retreat_verification:
         end_date: Retreat end date
         retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
-        retreat_verification_picture: Retreat Verification Form
+        retreat_verification_picture: Scanned retreat verification
         start_date: Retreat start date
         where_held_retreat: Where was the retreat held?
         who_held_retreat: Who held the retreat? (such as St. Andrews, CGHS, etc.)
@@ -82,13 +82,13 @@ en:
           content: Scanned covenant content
           content_type: Scanned covenant content type
           filename: Scanned covenant filename
-        sponsor_covenant_picture: Sponsor Covenant
+        sponsor_covenant_picture: Scanned sponsor Covenant
         sponsor_name: Sponsor's Name
       sponsor_eligibility:
         sponsor_attends_home_parish: Sponsor is registered at %{home_parish}
         sponsor_attends_home_parish_note: "(We will verify with office and get back with you if there any problems)"
         sponsor_church: Sponsor's church
-        sponsor_eligibility_picture: Sponsor's Eligibiliy form
+        sponsor_eligibility_picture: Scanned sponsor's eligibility
         sponsor_name: Sponsor's Name
       visitor:
         about: About
@@ -263,7 +263,6 @@ en:
       missing_attribute: 'Your changes were saved!! 1 empty field needs to be filled in on the form to be verified:'
       missing_attributes: 'Your changes were saved!! %{err_count} empty fields need to be filled in on the form to be verified:'
       one_email: at least one email must be supplied.
-      scanned_baptismal_certificate: Scanned baptismal certificate %{message}
       unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
     export_to_excel: Working in background.  An email with spreadsheet will be sent upon completion with %{commit}.
     generate_pdf_error: Only select one candidate
