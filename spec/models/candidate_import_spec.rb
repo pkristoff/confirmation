@@ -78,8 +78,8 @@ describe CandidateImport do
         'Row 5: Parent email 2 is an invalid email: rannunz',
         'Row 6: Candidate email at least one email must be supplied.'
       ]
-      candidate_import.errors.each_with_index do |candidate, index|
-        expect(candidate[1]).to eq(error_messages[index])
+      candidate_import.errors.full_messages.each_with_index do |full_message, index|
+        expect(full_message).to eq(error_messages[index])
       end
       expect(candidate_import.errors.size).to eq(5)
     end
@@ -126,12 +126,26 @@ describe CandidateImport do
   end
 end
 
+# expect_confirmation_event
+#
+# === Parameters:
+#
+# * <tt>:event_key</tt>
+# * <tt>:way_date</tt>
+# * <tt>:chs_date</tt>
+#
+# === Returns:
+#
+# * <tt>Boolean</tt>
+#
 def expect_confirmation_event(event_key, way_date, chs_date)
   confirmation_event = ConfirmationEvent.find_by(event_key: event_key)
   expect(confirmation_event.the_way_due_date.to_s).to eq(way_date)
   expect(confirmation_event.chs_due_date.to_s).to eq(chs_date)
 end
 
+# expect_initial_conf_events
+#
 def expect_initial_conf_events
   today = Time.zone.today.to_s
 
@@ -298,57 +312,87 @@ describe 'image_filename' do
   end
 end
 
+# add_baptismal_certificate_image
+#
+# === Parameters:
+#
+# * <tt>:candidate</tt>
+#
 def add_baptismal_certificate_image(candidate)
   filename = 'actions.png'
   baptismal_certificate = candidate.baptismal_certificate
   candidate.baptismal_certificate.build_scanned_certificate
   baptismal_certificate.scanned_certificate.filename = filename
   baptismal_certificate.scanned_certificate.content_type = 'image/png'
-  File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+  File.open(File.join('spec/fixtures/files/', filename), 'rb') do |f|
     baptismal_certificate.scanned_certificate.content = f.read
   end
   candidate.save
 end
 
+# add_retreat_verification_image
+#
+# === Parameters:
+#
+# * <tt>:candidate</tt>
+#
 def add_retreat_verification_image(candidate)
   filename = 'actions.png'
   retreat_verification = candidate.retreat_verification
   candidate.retreat_verification.build_scanned_retreat
   retreat_verification.scanned_retreat.filename = filename
   retreat_verification.scanned_retreat.content_type = 'image/png'
-  File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+  File.open(File.join('spec/fixtures/files/', filename), 'rb') do |f|
     retreat_verification.scanned_retreat.content = f.read
   end
   candidate.save
 end
 
+# add_sponsor_covenant_image
+#
+# === Parameters:
+#
+# * <tt>:candidate</tt>
+#
 def add_sponsor_covenant_image(candidate)
   filename = 'actions.png'
   sponsor_covenant = candidate.sponsor_covenant
   candidate.sponsor_covenant.build_scanned_covenant
   sponsor_covenant.scanned_covenant.filename = filename
   sponsor_covenant.scanned_covenant.content_type = 'image/png'
-  File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+  File.open(File.join('spec/fixtures/files/', filename), 'rb') do |f|
     sponsor_covenant.scanned_covenant.content = f.read
   end
   candidate.save
 end
 
+# add_sponsor_eligibility_image
+#
+# === Parameters:
+#
+# * <tt>:candidate</tt>
+#
 def add_sponsor_eligibility_image(candidate)
   filename = 'actions.png'
   sponsor_eligibility = candidate.sponsor_eligibility
   sponsor_eligibility.build_scanned_eligibility
   sponsor_eligibility.scanned_eligibility.filename = filename
   sponsor_eligibility.scanned_eligibility.content_type = 'image/png'
-  File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+  File.open(File.join('spec/fixtures/files/', filename), 'rb') do |f|
     sponsor_eligibility.scanned_eligibility.content = f.read
   end
   candidate.save
 end
 
+# create_scanned_image
+#
+# === Returns:
+#
+# * <tt>ScannedImage</tt>
+#
 def create_scanned_image
   content = ''
-  File.open(File.join('spec/fixtures/actions.png'), 'rb') do |f|
+  File.open(File.join('spec/fixtures/files/actions.png'), 'rb') do |f|
     content = f.read
   end
   ScannedImage.new(
@@ -358,6 +402,12 @@ def create_scanned_image
   )
 end
 
+# expect_candidate
+#
+# === Parameters:
+#
+# * <tt>:values</tt>
+#
 def expect_candidate(values)
   candidate = Candidate.find_by(account_name: values[:account_name])
   values.each_key do |key|
@@ -379,6 +429,13 @@ def expect_candidate(values)
   expect(candidate.candidate_events.size).to eq(all_event_keys.size)
 end
 
+# expect_candidates
+#
+# === Parameters:
+#
+# * <tt>:wks</tt>
+# * <tt>:candidate_import</tt>
+#
 def expect_candidates(wks, candidate_import)
   header_row = wks.rows[0]
   candidate_import.xlsx_columns.each_with_index do |column_name, index|
@@ -453,6 +510,13 @@ def expect_candidates(wks, candidate_import)
   expect(c3_row.cells[0].value).to eq('c3')
 end
 
+# expect_candidates_empty
+#
+# === Parameters:
+#
+# * <tt>:wks</tt>
+# * <tt>:candidate_import</tt>
+#
 def expect_candidates_empty(wks, candidate_import)
   header_row = wks.rows[0]
   candidate_import.xlsx_columns.each_with_index do |column_name, index|
@@ -527,6 +591,13 @@ def expect_candidates_empty(wks, candidate_import)
   expect(c1_row.size).to eq(84)
 end
 
+# expect_confirmation_events_empty
+#
+# === Parameters:
+#
+# * <tt>:wks</tt>
+# * <tt>:candidate_import</tt>
+#
 def expect_confirmation_events_empty(wks, candidate_import)
   header_row = wks.rows[0]
   expect(header_row.cells.size).to eq(5)
@@ -548,6 +619,17 @@ def expect_confirmation_events_empty(wks, candidate_import)
   end
 end
 
+# expect_confirmation_events
+#
+# === Parameters:
+#
+# * <tt>:wks</tt>
+# * <tt>:candidate_import</tt>
+#
+# === Returns:
+#
+# * <tt>Boolean</tt>
+#
 def expect_confirmation_events(wks, candidate_import)
   header_row = wks.rows[0]
   expect(header_row.cells.size).to eq(5)
@@ -569,6 +651,8 @@ def expect_confirmation_events(wks, candidate_import)
   end
 end
 
+# expect_import_with_events
+#
 def expect_import_with_events
   expect_confirmation_event(Candidate.parent_meeting_event_key, '2016-06-30', '2016-06-03')
   expect_confirmation_event(RetreatVerification.event_key, '2016-05-31', '2016-05-03')
@@ -596,11 +680,19 @@ def expect_import_with_events
   expect_candidate(foo_bar)
 end
 
+# expect_keys
+#
+# === Parameters:
+#
+# * <tt>:obj</tt>
+# * <tt>:attributes</tt>
+#
+# === Returns:
+#
+# * <tt>Boolean</tt>
+#
 def expect_keys(obj, attributes)
   attributes.each_key do |sub_key|
-    # puts obj.class
-    # puts "#{obj.first_name}" if obj.class.to_s == 'CandidateSheet'
-    # puts "#{obj.confirmation_event.event_key}:#{sub_key}" if obj.class.to_s == 'CandidateSheet'
     if attributes[sub_key].is_a?(Hash)
       expect_keys(obj.send(sub_key), attributes[sub_key])
     else
@@ -609,6 +701,17 @@ def expect_keys(obj, attributes)
   end
 end
 
+# find_cell_offset
+#
+# === Parameters:
+#
+# * <tt>:header_row</tt>
+# * <tt>:column_name</tt>
+#
+# === Returns:
+#
+# * <tt>Integer</tt>
+#
 def find_cell_offset(header_row, column_name)
   index = -1
   header_row.find do |cell|
@@ -618,6 +721,12 @@ def find_cell_offset(header_row, column_name)
   index
 end
 
+# all_event_keys
+#
+# === Returns:
+#
+# * <tt>Array</tt>
+#
 def all_event_keys
   config = YAML.load_file('config/locales/en.yml')
   every_event_keys = []
@@ -627,6 +736,12 @@ def all_event_keys
   every_event_keys
 end
 
+# foo_bar
+#
+# === Returns:
+#
+# * <tt>Hash</tt>
+#
 def foo_bar
   {
     account_name: 'foobar',
@@ -689,6 +804,12 @@ def foo_bar
   }
 end
 
+# paul_kristoff
+#
+# === Returns:
+#
+# * <tt>Hash</tt>
+#
 def paul_kristoff
   {
     account_name: 'paulkristoff',
@@ -751,6 +872,12 @@ def paul_kristoff
   }
 end
 
+# vicki_kristoff
+#
+# === Returns:
+#
+# * <tt>Hash</tt>
+#
 def vicki_kristoff
   {
     account_name: 'vickikristoff',
@@ -813,6 +940,12 @@ def vicki_kristoff
   }
 end
 
+# save_upload
+#
+# === Parameters:
+#
+# * <tt>:dir</tt>
+#
 def clean_dir(dir)
   return unless Dir.exist?(dir)
 
@@ -829,6 +962,14 @@ def clean_dir(dir)
   Dir.rmdir(dir)
 end
 
+# expect_image_values
+#
+# === Parameters:
+#
+# * <tt>:candidate</tt>
+# * <tt>:image_column_mapping_key</tt>
+# * <tt>:image_filename</tt>
+#
 def expect_image_values(candidate, image_column_mapping_key, image_filename)
   value_methods = @image_column_mappings[image_column_mapping_key]
   expect(image_column_value(candidate, "#{value_methods}.filename")).to eq(image_filename)
@@ -836,6 +977,17 @@ def expect_image_values(candidate, image_column_mapping_key, image_filename)
   expect(image_column_value(candidate, "#{value_methods}.content")).not_to eq(nil)
 end
 
+# save_upload
+#
+# === Parameters:
+#
+# * <tt>:candidate_import</tt>
+# * <tt>:uploaded_file</tt>
+#
+# === Returns:
+#
+# * <tt>Boolean</tt>
+#
 def save_upload(candidate_import, uploaded_file)
   import_result = candidate_import.load_initial_file(uploaded_file)
   raise "Errors:  #{candidate[1]}" unless candidate_import.errors.empty?

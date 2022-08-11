@@ -450,7 +450,7 @@ shared_context 'baptismal_certificate_html_erb' do
             end
 
             visit @path
-            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/files/actions.png')
             click_button @update_id
 
             candidate = Candidate.find(@candidate.id)
@@ -550,7 +550,7 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                                         I18n.t('errors.format_blank',
                                                                                                attribute: I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'))]]])
 
-            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png')
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/files/actions.png')
             click_button @update_id
 
             candidate = Candidate.find(@candidate.id)
@@ -612,9 +612,9 @@ shared_context 'baptismal_certificate_html_erb' do
             # rubocop:enable Layout/LineLength
 
             attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'),
-                        'spec/fixtures/actions.png')
+                        'spec/fixtures/files/actions.png')
             attach_file(I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'),
-                        'spec/fixtures/actions.png')
+                        'spec/fixtures/files/actions.png')
             click_button @update_id
 
             if @is_verify
@@ -635,9 +635,9 @@ shared_context 'baptismal_certificate_html_erb' do
 
             visit @path
             attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'),
-                        'spec/fixtures/actions.png')
+                        'spec/fixtures/files/actions.png')
             attach_file(I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'),
-                        'spec/fixtures/actions.png')
+                        'spec/fixtures/files/actions.png')
             click_button @update_id
 
             if @is_verify
@@ -776,7 +776,7 @@ shared_context 'baptismal_certificate_html_erb' do
     fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), with: ZIP_CODE)
 
     # rubocop:disable Layout/LineLength
-    attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/actions.png') if attach_file
+    attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/files/actions.png') if attach_file
     # rubocop:enable Layout/LineLength
   end
 
@@ -1041,26 +1041,17 @@ class ExpectBCFormInfo
                 :values,
                 :blank_fields
 
+  # determine if a field should have a value or not
+  #
+  # === Parameters:
+  #
+  # * <tt>:sym</tt> field name
+  # * <tt>:i18_label_base</tt>
+  #
   def field_value(sym, i18_label_base)
     val = values[sym]
     val = '' if blank_field?("#{i18_label_base}.#{sym}")
     val
-  end
-
-  def show_info(show_home_parish_info, show_baptized_catholic_info, show_profession_info)
-    @show_baptized_at_home_parish_info = show_home_parish_info
-    @show_baptized_catholic_info = show_baptized_catholic_info
-    @show_profession_of_faith_info = show_profession_info
-    init_values
-    self
-  end
-
-  def add_blank_fields(expected_messages)
-    if expected_messages.nil? || expected_messages.size < 2
-      @blank_fields = []
-    else
-      @blank_fields = expected_messages[1][1] unless expected_messages.nil?
-    end
   end
 
   # determine if a field should have a value or not
@@ -1072,6 +1063,38 @@ class ExpectBCFormInfo
   def blank_field?(i18n_path)
     blank_fields.include?(I18n.t('errors.format_blank', attribute: I18n.t(i18n_path)))
   end
+
+  # Set attributes expect to be showing
+  #
+  # === Parameters:
+  #
+  # * <tt>:show_home_parish_info</tt>
+  # * <tt>:show_baptized_catholic_info</tt>
+  # * <tt>:show_profession_info</tt>
+  #
+  def show_info(show_home_parish_info, show_baptized_catholic_info, show_profession_info)
+    @show_baptized_at_home_parish_info = show_home_parish_info
+    @show_baptized_catholic_info = show_baptized_catholic_info
+    @show_profession_of_faith_info = show_profession_info
+    init_values
+    self
+  end
+
+  # determine which fields should be blank bbased on expected error messages
+  #
+  # === Parameters:
+  #
+  # * <tt>:expected_messages</tt>
+  #
+  def add_blank_fields(expected_messages)
+    if expected_messages.nil? || expected_messages.size < 2
+      @blank_fields = []
+    else
+      @blank_fields = expected_messages[1][1] unless expected_messages.nil?
+    end
+  end
+
+  private
 
   def init_values
     @values =

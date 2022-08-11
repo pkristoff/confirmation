@@ -24,7 +24,7 @@ feature 'Other', :devise do
       admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
-      attach_file :candidate_import_file, 'spec/fixtures/Small.xlsx'
+      attach_file :candidate_import_file, 'spec/fixtures/files/Small.xlsx'
       click_button I18n.t('views.imports.import')
       expect_message(:flash_notice, I18n.t('messages.import_successful'))
     end
@@ -40,7 +40,7 @@ feature 'Other', :devise do
       admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
-      attach_file :candidate_import_file, 'spec/fixtures/Invalid.xlsx'
+      attach_file :candidate_import_file, 'spec/fixtures/files/Invalid.xlsx'
       click_button 'Import'
 
       expect_message(:error_explanation, ['5 errors prohibited this import from completing:',

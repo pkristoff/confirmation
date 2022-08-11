@@ -202,7 +202,7 @@ private
 
 def create_scanned_image
   content = ''
-  File.open(File.join('spec/fixtures/actions.png'), 'rb') do |f|
+  File.open(File.join('spec/fixtures/files/actions.png'), 'rb') do |f|
     content = f.read
   end
   ScannedImage.new(

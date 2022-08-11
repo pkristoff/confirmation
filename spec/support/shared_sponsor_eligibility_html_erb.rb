@@ -43,7 +43,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_name'), with: '')
     fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_church'), with: SPONSOR_CHURCH)
     i18n_string_picture = 'activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'
-    attach_file(I18n.t(i18n_string_picture), 'spec/fixtures/Baptismal Certificate.png')
+    attach_file(I18n.t(i18n_string_picture), 'spec/fixtures/files/Baptismal Certificate.png')
     click_button @update_id
 
     i18n_string = 'activerecord.attributes.sponsor_covenant.sponsor_name'
@@ -121,7 +121,7 @@ shared_context 'sponsor_eligibility_html_erb' do
 
     visit @path
 
-    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/files/actions.png')
     click_button @update_id
 
     candidate_db = Candidate.find(@candidate.id)
@@ -181,7 +181,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect(page).not_to have_selector("img[src=\"/#{@dev}upload_sponsor_eligibility_image.#{@candidate.id}\"]")
     expect(page).not_to have_selector(img_src_selector)
 
-    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/files/actions.png')
     click_button @update_id
 
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
@@ -204,7 +204,9 @@ shared_context 'sponsor_eligibility_html_erb' do
     visit @path
     fill_in_form
 
-    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/actions.png')
+    # rubocop:disable Layout/LineLength
+    attach_file(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'), 'spec/fixtures/files/actions.png')
+    # rubocop:enable Layout/LineLength
     fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_name'), with: 'george')
     click_button @update_id
 
@@ -252,7 +254,7 @@ shared_context 'sponsor_eligibility_html_erb' do
   def fill_in_form(eligibility_attach_file: true)
     fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_name'), with: SPONSOR_NAME)
     fill_in(I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_church'), with: SPONSOR_CHURCH)
-    filename = 'spec/fixtures/Baptismal Certificate.png'
+    filename = 'spec/fixtures/files/Baptismal Certificate.png'
     i18n_string = 'activerecord.attributes.sponsor_eligibility.sponsor_eligibility_picture'
     attach_file(I18n.t(i18n_string), filename) if eligibility_attach_file
   end

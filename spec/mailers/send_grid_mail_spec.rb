@@ -476,19 +476,53 @@ end
 # SendGridMailSpec
 #
 class SendGridMailSpec < SendGridMail
+  # save_upload
+  #
+  # === Parameters:
+  #
+  # * <tt>:admin</tt>
+  # * <tt>:candidates</tt>
+  # * <tt>:options</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>SendGridMailSpec</tt>
+  #
   def initialize(admin, candidates, _options = {})
     super(admin, candidates)
   end
 
+  # post_email
+  #
+  # === Parameters:
+  #
+  # * <tt>:sg_mail</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>DummyGoodResponse</tt>
+  #
   def post_email(sg_mail)
     @sg_mail = sg_mail
     DummyGoodResponse.new
   end
 
+  # expanded_text
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
   def expanded_text
     @sg_mail.contents.first['value']
   end
 
+  # attachments
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt>
+  #
   def attachments
     @sg_mail.attachments
   end
@@ -498,14 +532,32 @@ end
 # Dummy response
 #
 class DummyGoodResponse
+  # initialize
+  #
+  # === Returns:
+  #
+  # * <tt>DummyGoodResponse</tt>
+  #
   def initialize
     raise(RuntimteError, 'Not in test mode') unless Rails.env.test?
   end
 
+  # status_code
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
   def status_code
     '202'
   end
 
+  # body
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt>
+  #
   def body
     'testing response body'
   end

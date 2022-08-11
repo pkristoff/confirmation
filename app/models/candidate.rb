@@ -336,15 +336,19 @@ class Candidate < ApplicationRecord
   # keep only sponsor_name error messages
   #
   def keep_sponsor_name_error
-    keep_interesting_errors([I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name')])
+    keep_interesting_errors(
+      [I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name'))]
+    )
   end
 
   # keep only first, middle, and last names error messages
   #
   def keep_bc_errors
-    keep_interesting_errors([I18n.t('activerecord.attributes.candidate_sheet.first_name'),
-                             I18n.t('activerecord.attributes.candidate_sheet.middle_name'),
-                             I18n.t('activerecord.attributes.candidate_sheet.last_name')])
+    # rubocop:disable Layout/LineLength
+    keep_interesting_errors([I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.candidate_sheet.first_name')),
+                             I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.candidate_sheet.middle_name')),
+                             I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.candidate_sheet.last_name'))])
+    # rubocop:enable Layout/LineLength
   end
 
   # Confirm user account when changing password
@@ -786,10 +790,8 @@ class Candidate < ApplicationRecord
   private
 
   def keep_interesting_errors(covenant_errors)
-    errors.messages[:base].clone.each do |msg|
-      # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-      errors.messages[:base].delete(msg) if covenant_errors.detect { |xxx| msg.include? xxx }.nil?
-      # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+    errors.clone.each do |error|
+      errors.delete(error.attribute, error.type) if covenant_errors.detect { |xxx| error.type == xxx }.nil?
     end
   end
 end

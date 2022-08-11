@@ -202,8 +202,6 @@ en:
       baptismal_certificate:
         neg: 'No'
         pos: 'Yes'
-    candidate_event:
-      select: Select
     candidate_note:
       note: Note
     mail:

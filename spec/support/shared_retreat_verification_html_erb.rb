@@ -119,7 +119,7 @@ shared_context 'retreat_verification_html_erb' do
     visit @path
 
     attach_file(I18n.t('activerecord.attributes.retreat_verification.retreat_verification_picture'),
-                'spec/fixtures/actions for spec testing.png')
+                'spec/fixtures/files/actions for spec testing.png')
     click_button @update_id
 
     # rubocop:disable Layout/LineLength
@@ -279,7 +279,7 @@ shared_context 'retreat_verification_html_erb' do
     fill_in(I18n.t('activerecord.attributes.retreat_verification.start_date'), with: START_DATE)
     fill_in(I18n.t('activerecord.attributes.retreat_verification.end_date'), with: END_DATE)
     label = I18n.t('activerecord.attributes.retreat_verification.retreat_verification_picture')
-    attach_file(label, 'spec/fixtures/actions for spec testing.png') if retreat_verification_attach_file
+    attach_file(label, 'spec/fixtures/files/actions for spec testing.png') if retreat_verification_attach_file
   end
 
   def img_src_selector

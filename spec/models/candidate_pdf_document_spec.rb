@@ -20,7 +20,7 @@ def setup_candidate2
   picture = nil
   bc = @candidate2.baptismal_certificate
   filename = 'actions.png'
-  File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+  File.open(File.join('spec/fixtures/files', filename), 'rb') do |f|
     picture = f.read
   end
   bc.baptized_at_home_parish = false
@@ -49,7 +49,7 @@ def setup_candidate4
   picture = nil
   bc = @candidate4.baptismal_certificate
   filename = 'actions.png'
-  File.open(File.join('spec/fixtures/', filename), 'rb') do |f|
+  File.open(File.join('spec/fixtures/files/', filename), 'rb') do |f|
     picture = f.read
   end
   bc.baptized_at_home_parish = false
@@ -113,7 +113,7 @@ describe CandidatePDFDocument, type: :model do
     before(:each) do
       @candidate = FactoryBot.create(:candidate)
       AppFactory.add_confirmation_events
-      File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
+      File.open('spec/fixtures/files/Baptismal Certificate.pdf', 'rb') do |f|
         @candidate.baptismal_certificate.scanned_certificate =
           ScannedImage.new(
             filename: 'Baptismal Certificate.pdf',
@@ -121,7 +121,7 @@ describe CandidatePDFDocument, type: :model do
             content: f.read
           )
       end
-      File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
+      File.open('spec/fixtures/files/Baptismal Certificate.pdf', 'rb') do |f|
         @candidate.retreat_verification.scanned_retreat =
           ScannedImage.new(
             filename: 'Baptismal Certificate.PDF',

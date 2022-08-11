@@ -109,7 +109,7 @@ feature 'Admin monthly mass mailing', :devise do
     fill_in I18n.t('email.closing_input_label'), with: 'The closing_text'
     fill_in I18n.t('email.salutation_input_label'), with: 'The salutation_text'
     fill_in I18n.t('email.from_input_label'), with: 'The from_text'
-    attach_file(I18n.t('label.mail.attach_file'), 'spec/fixtures/Initial candidates update.xlsx')
+    attach_file(I18n.t('label.mail.attach_file'), 'spec/fixtures/files/Initial candidates update.xlsx')
 
     click_button('top-update')
 
@@ -305,6 +305,8 @@ feature 'Admin monthly mass mailing', :devise do
                                      salutation_input: 'The salutation_input',
                                      from_input: 'The from_input')
   end
+
+  private
 
   def expect_monthly_mass_mailing_form(values = {
     subject: I18n.t('email.subject_initial_input'),

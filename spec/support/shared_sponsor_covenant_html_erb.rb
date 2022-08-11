@@ -98,7 +98,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
     visit @path
 
-    attach_file(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/files/actions.png')
     click_button @update_id
 
     candidate_db = Candidate.find(@candidate.id)
@@ -155,7 +155,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
     expect(page).not_to have_selector(img_src_selector)
 
-    attach_file(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/actions.png')
+    attach_file(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'), 'spec/fixtures/files/actions.png')
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
@@ -216,7 +216,7 @@ shared_context 'sponsor_covenant_html_erb' do
   def fill_in_form(covenant_attach_file: true)
     fill_in(I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name'), with: SPONSOR_NAME)
     i18n_string = 'activerecord.attributes.sponsor_covenant.sponsor_covenant_picture'
-    attach_file(I18n.t(i18n_string), 'spec/fixtures/actions.png') if covenant_attach_file
+    attach_file(I18n.t(i18n_string), 'spec/fixtures/files/actions.png') if covenant_attach_file
   end
 
   def img_src_selector

@@ -620,18 +620,26 @@ end
 # An exception used when running tests and you are not connected to the internet.
 #
 class OfflineResponse
+  # Do not alow if not testing
+  #
   def initialize
     raise(RuntimteError, 'Not in test mode') unless Rails.env.test?
   end
 
+  # override to allow testing when not connected to internet
+  #
   def code
     '202'
   end
 
+  # override to allow testing when not connected to internet
+  #
   def body
     ''
   end
 
+  # override to allow testing when not connected to internet
+  #
   def to_hash
     {}
   end

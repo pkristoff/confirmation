@@ -673,7 +673,7 @@ class CommonCandidatesController < ApplicationController
 
     candidate_info_covenant_event = @candidate.get_candidate_event(SponsorCovenant.event_key)
     candidate_info_covenant_event.mark_completed(@candidate.validate_event_complete(SponsorCovenant),
-                                                 SponsorCovenant)
+                                                 clazz)
     @candidate.keep_sponsor_name_error
     candidate_info_covenant_event.save
     # TODO: what happens here of if save fails

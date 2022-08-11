@@ -312,7 +312,7 @@ describe CandidatesController do
        end],
       [Event::Route::SPONSOR_COVENANT, lambda do |candidate|
         candidate.sponsor_covenant.sponsor_name = 'mmm'
-        File.open('spec/fixtures/Baptismal Certificate.pdf', 'rb') do |f|
+        File.open('spec/fixtures/files/Baptismal Certificate.pdf', 'rb') do |f|
           candidate.sponsor_covenant.scanned_covenant =
             candidate.sponsor_covenant.build_scanned_covenant(
               filename: 'Baptismal Certificate.pdf',

@@ -246,13 +246,6 @@ describe Candidate do
       expect_external_verification(Candidate.confirmation_name_external_verification, [], [@c1], [@c2], [@c3, @c4])
     end
 
-    def expect_external_verification(actual, external, to_be_verified, verified, not_complete)
-      expect(actual[0]).to eq(external)
-      expect(actual[1]).to eq(to_be_verified)
-      expect(actual[2]).to eq(verified)
-      expect(actual[3]).to eq(not_complete)
-    end
-
     it 'retreat_external_verification?' do
       event_key = RetreatVerification.event_key
       @c1.retreat_verification.retreat_held_at_home_parish = false
@@ -368,6 +361,15 @@ describe Candidate do
       expect(Candidate.genertate_account_name('Last', '')).to eq('last')
       expect(Candidate.genertate_account_name('Last', 'First')).to eq('lastfirst')
     end
+  end
+
+  private
+
+  def expect_external_verification(actual, external, to_be_verified, verified, not_complete)
+    expect(actual[0]).to eq(external)
+    expect(actual[1]).to eq(to_be_verified)
+    expect(actual[2]).to eq(verified)
+    expect(actual[3]).to eq(not_complete)
   end
 
   def create_candidate_local(account_name, first, last)
