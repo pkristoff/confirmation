@@ -242,7 +242,7 @@ es:
     confirmation_events_updated: "¡Eventos de confirmación actualizados!"
     contact_updated: Contacto actualizada
     covenant_agreement:
-      and: y
+      and: "y"
       item_1: el retiro de confirmación
       item_2: Clases de confirmacion
       item_3: Práctica de confirmación

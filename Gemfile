@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.0'
-gem 'psych', '< 4'
+ruby '2.7.6'
+gem 'psych'
 # gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'bootstrap'
 gem 'caxlsx'

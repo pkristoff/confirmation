@@ -458,3 +458,5 @@ Lint/RequireRangeParentheses: # new in 1.32
   Enabled: true
 Style/EmptyHeredoc: # new in 1.32
   Enabled: true
+Style/MagicCommentFormat: # new in 1.35
+  Enabled: true

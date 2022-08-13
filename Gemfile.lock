@@ -116,8 +116,8 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    debase (2.3.2)
-      debase-ruby_core_source (~> 0.10.11)
+    debase (0.2.4.1)
+      debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (0.10.16)
     devise (4.8.1)
       bcrypt (~> 3.0)
@@ -202,7 +202,8 @@ GEM
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
-    psych (3.3.2)
+    psych (4.0.4)
+      stringio
     public_suffix (4.0.7)
     puma (5.6.4)
       nio4r (~> 2.0)
@@ -258,7 +259,8 @@ GEM
     rainbow (3.1.1)
     raindrops (0.20.0)
     rake (13.0.6)
-    rdoc (6.3.3)
+    rdoc (6.4.0)
+      psych (>= 4.0.0)
     regexp_parser (2.5.0)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -285,14 +287,14 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
-    rubocop (1.34.1)
+    rubocop (1.35.0)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.1.2.1)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.20.0, < 2.0)
+      rubocop-ast (>= 1.20.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.21.0)
@@ -305,8 +307,8 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
     rubocop-rspec (2.12.1)
       rubocop (~> 1.31)
-    ruby-debug-ide (2.3.1)
-      debase (~> 2.3.2)
+    ruby-debug-ide (0.7.3)
+      rake (>= 0.8.1)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
     ruby_http_client (3.5.5)
@@ -346,6 +348,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stringio (3.0.2)
     sucker_punch (3.0.1)
       concurrent-ruby (~> 1.0)
     terminal-table (3.0.2)
@@ -409,7 +412,7 @@ DEPENDENCIES
   launchy
   pg
   prawn
-  psych (< 4)
+  psych
   puma
   rails (= 6.1.6.1)
   rails-controller-testing
@@ -440,7 +443,7 @@ DEPENDENCIES
   zip-zip
 
 RUBY VERSION
-   ruby 2.7.0p0
+   ruby 2.7.6p219
 
 BUNDLED WITH
-   2.1.2
+   2.1.4
