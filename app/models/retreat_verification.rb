@@ -38,7 +38,7 @@ class RetreatVerification < ApplicationRecord
   # * <tt>:options</tt>
   #
   def validate_event_complete(_options = {})
-    event_complete_validator = EventCompleteValidator.new(self, { validate_others: !retreat_held_at_home_parish })
+    event_complete_validator = EventCompleteValidator.new(self, validate_others: !retreat_held_at_home_parish)
     event_complete_validator.validate([], RetreatVerification.basic_validation_params)
     # event_complete_validator = EventCompleteValidator.new(self).validate(RetreatVerification.basic_validation_params)
     # convert empty picture attributes to something the user can understand

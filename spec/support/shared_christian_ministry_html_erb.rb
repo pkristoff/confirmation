@@ -192,7 +192,7 @@ shared_context 'christian_ministry_html_erb' do
     candidate = Candidate.find(@candidate.id)
     if @is_verify
       # rubocop:disable Layout/LineLength
-      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), { is_unverified: true })
+      expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), is_unverified: true)
       # rubocop:enable Layout/LineLength
     else
       expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)

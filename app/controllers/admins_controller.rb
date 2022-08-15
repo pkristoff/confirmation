@@ -390,17 +390,17 @@ class AdminsController < ApplicationController
                                    :attach_file)
 
     # mail_param = params[:mail]
-    subject_input = MailPart.new_subject(mail_param[:subject], { show: mail_param[:subject_check] })
-    pre_late_input = MailPart.new_pre_late_input(mail_param[:pre_late_input], { show: mail_param[:pre_late_input_check] })
+    subject_input = MailPart.new_subject(mail_param[:subject], show: mail_param[:subject_check])
+    pre_late_input = MailPart.new_pre_late_input(mail_param[:pre_late_input], show: mail_param[:pre_late_input_check])
     pre_coming_due_input =
-      MailPart.new_pre_coming_due_input(mail_param[:pre_coming_due_input], { show: mail_param[:pre_coming_due_input_check] })
+      MailPart.new_pre_coming_due_input(mail_param[:pre_coming_due_input], show: mail_param[:pre_coming_due_input_check])
     completed_awaiting_input =
       MailPart.new_completed_awaiting_input(mail_param[:completed_awaiting_input],
-                                            { show: mail_param[:completed_awaiting_input_check] })
-    completed_input = MailPart.new_completed_input(mail_param[:completed_input], { show: mail_param[:completed_input_check] })
-    salutation_input = MailPart.new_salutation_input(mail_param[:salutation_input], { show: mail_param[:salutation_input_check] })
-    closing_input = MailPart.new_closing_input(mail_param[:closing_input], { show: mail_param[:closing_input_check] })
-    from_input = MailPart.new_from_input(mail_param[:from_input], { show: mail_param[:from_input_check] })
+                                            show: mail_param[:completed_awaiting_input_check])
+    completed_input = MailPart.new_completed_input(mail_param[:completed_input], show: mail_param[:completed_input_check])
+    salutation_input = MailPart.new_salutation_input(mail_param[:salutation_input], show: mail_param[:salutation_input_check])
+    closing_input = MailPart.new_closing_input(mail_param[:closing_input], show: mail_param[:closing_input_check])
+    from_input = MailPart.new_from_input(mail_param[:from_input], show: mail_param[:from_input_check])
     attach_file = mail_param[:attach_file]
 
     candidate_ids = params[:candidate][:candidate_ids]

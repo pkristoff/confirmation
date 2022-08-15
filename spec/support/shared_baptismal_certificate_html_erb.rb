@@ -28,7 +28,7 @@ shared_context 'baptismal_certificate_html_erb' do
   include ViewsHelpers
   before(:each) do
     FactoryBot.create(:visitor)
-    event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, { is_verify: @is_verify })
+    event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, is_verify: @is_verify)
     AppFactory.add_confirmation_events
     @today = Time.zone.today
     page.driver.header 'Accept-Language', locale
@@ -156,7 +156,7 @@ shared_context 'baptismal_certificate_html_erb' do
             expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key),
                                               @candidate.id, I18n.t('messages.updated_verified',
                                                                     cand_name: @candidate.first_last_name),
-                                              { is_unverified: false })
+                                              is_unverified: false)
           else
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               @bc_form_info.show_info(true, true, false), false,
@@ -187,7 +187,7 @@ shared_context 'baptismal_certificate_html_erb' do
           # rubocop:disable Layout/LineLength
           if @is_verify
 
-            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), { is_unverified: true })
+            expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id, I18n.t('messages.updated_unverified', cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"), is_unverified: true)
           else
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               @bc_form_info.show_info(true, true, false), false)
@@ -540,7 +540,7 @@ shared_context 'baptismal_certificate_html_erb' do
             update_baptismal_certificate
             visit @path
 
-            fill_in_form({ attach_file: false }) # no picture
+            fill_in_form(attach_file: false) # no picture
             click_button @update_id
 
             expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,

@@ -148,7 +148,7 @@ shared_context 'pick_confirmation_name_html_erb' do
       expected_msg = I18n.t('messages.updated_unverified',
                             cand_name: "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}")
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id,
-                                        expected_msg, { is_unverified: true })
+                                        expected_msg, is_unverified: true)
     else
       expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify)
     end

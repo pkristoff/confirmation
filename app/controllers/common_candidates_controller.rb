@@ -22,7 +22,7 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
     event_key = params[:event_route]
-    render_event_with_picture(false, event_key, { is_verify: true })
+    render_event_with_picture(false, event_key, is_verify: true)
   end
 
   # update event_with_picture verify event
@@ -104,7 +104,7 @@ class CommonCandidatesController < ApplicationController
       flash[:alert] = I18n.t('messages.unknown_parameter', name: 'candidate')
     end
     @resource = @candidate
-    render_event_with_picture(render_called, event_route, { is_verify: is_verify })
+    render_event_with_picture(render_called, event_route, is_verify: is_verify)
   end
 
   # edit candidate_sheet information
@@ -298,7 +298,7 @@ class CommonCandidatesController < ApplicationController
     render_called = agreement_update_private(Candidate.covenant_agreement_event_key,
                                              'signed_agreement',
                                              I18n.t('label.sign_agreement.signed_agreement'),
-                                             { admin_verified: true })
+                                             admin_verified: true)
     render :sign_agreement_verify unless render_called
   end
 
@@ -478,7 +478,7 @@ class CommonCandidatesController < ApplicationController
 
     handle_scanned_prof(cand_parms[:baptismal_certificate_attributes])
 
-    event_with_picture_update_private(BaptismalCertificate, { admin_verified: is_verify })
+    event_with_picture_update_private(BaptismalCertificate, admin_verified: is_verify)
   end
 
   def handle_scanned_prof(baptismal_certificate_params)
@@ -549,7 +549,7 @@ class CommonCandidatesController < ApplicationController
                         :scanned_covenant_attributes, sponsor_covenant_params)
     end
 
-    event_with_picture_update_private(SponsorCovenant, { admin_verified: is_verify })
+    event_with_picture_update_private(SponsorCovenant, admin_verified: is_verify)
   end
 
   # handle updating SponsorEligibility including
@@ -579,7 +579,7 @@ class CommonCandidatesController < ApplicationController
                         :scanned_eligibility_attributes, sponsor_eligibility_params)
     end
 
-    event_with_picture_update_private(SponsorEligibility, { admin_verified: is_verify })
+    event_with_picture_update_private(SponsorEligibility, admin_verified: is_verify)
   end
 
   # handle updating RetreatVerification including
@@ -611,7 +611,7 @@ class CommonCandidatesController < ApplicationController
         :scanned_retreat_attributes, retreat_verification_params
       )
     end
-    event_with_picture_update_private(RetreatVerification, { admin_verified: is_verify })
+    event_with_picture_update_private(RetreatVerification, admin_verified: is_verify)
   end
 
   def event_with_picture_update_private(clazz, admin_verified: false)

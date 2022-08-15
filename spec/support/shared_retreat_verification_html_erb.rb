@@ -9,7 +9,7 @@ shared_context 'retreat_verification_html_erb' do
   include ViewsHelpers
   before(:each) do
     FactoryBot.create(:visitor)
-    event_with_picture_setup(Event::Route::RETREAT_VERIFICATION, { is_verify: @is_verify })
+    event_with_picture_setup(Event::Route::RETREAT_VERIFICATION, is_verify: @is_verify)
     AppFactory.add_confirmation_events
 
     @candidate_event_id = @candidate.get_candidate_event(RetreatVerification.event_key).id
@@ -163,7 +163,7 @@ shared_context 'retreat_verification_html_erb' do
 
     visit @path
 
-    fill_in_form(false, { check_checkbox: false })
+    fill_in_form(false, check_checkbox: false)
     click_button @update_id
 
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
@@ -179,7 +179,7 @@ shared_context 'retreat_verification_html_erb' do
     candidate.save
     visit @path
 
-    fill_in_form(true, { check_checkbox: false })
+    fill_in_form(true, check_checkbox: false)
 
     fill_in(I18n.t('activerecord.attributes.retreat_verification.who_held_retreat', home_parish: Visitor.home_parish), with: nil)
     click_button @update_id
@@ -222,7 +222,7 @@ shared_context 'retreat_verification_html_erb' do
       expected_msg = "#{candidate.candidate_sheet.first_name} #{candidate.candidate_sheet.last_name}"
       expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: event_key), candidate.id,
                                         I18n.t('messages.updated_unverified',
-                                               cand_name: expected_msg), { is_unverified: true })
+                                               cand_name: expected_msg), is_unverified: true)
     else
       expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                        who_held_retreat: '',

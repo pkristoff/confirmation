@@ -100,7 +100,7 @@ feature 'Sign in', :devise do
   # puts in right email
   scenario 'Resend confirmation instructions: good email' do
     AppFactory.add_confirmation_events
-    create_candidate('c1', { should_confirm: false })
+    create_candidate('c1', should_confirm: false)
     # need admin contact info even though candidate is logged in
     FactoryBot.create(:admin)
 

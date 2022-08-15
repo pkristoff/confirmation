@@ -313,9 +313,9 @@ describe AdminsController do
 
   describe 'confirm account' do
     before(:each) do
-      @c1 = create_candidate('c1', { should_confirm: false })
-      @c2 = create_candidate('c2', { should_confirm: false })
-      @c3 = create_candidate('c3', { should_confirm: false })
+      @c1 = create_candidate('c1', should_confirm: false)
+      @c2 = create_candidate('c2', should_confirm: false)
+      @c3 = create_candidate('c3', should_confirm: false)
     end
 
     it 'should confirm all accounts' do

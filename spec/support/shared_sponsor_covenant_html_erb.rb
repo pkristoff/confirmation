@@ -6,7 +6,7 @@ shared_context 'sponsor_covenant_html_erb' do
   include ViewsHelpers
   before(:each) do
     FactoryBot.create(:visitor)
-    event_with_picture_setup(Event::Route::SPONSOR_COVENANT, { is_verify: @is_verify })
+    event_with_picture_setup(Event::Route::SPONSOR_COVENANT, is_verify: @is_verify)
     AppFactory.add_confirmation_events
 
     page.driver.header 'Accept-Language', locale
@@ -47,7 +47,7 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(@candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
 
     visit @path
-    fill_in_form({ covenant_attach_file: true })
+    fill_in_form(covenant_attach_file: true)
     click_button @update_id
 
     expect_sponsor_covenant_form(@candidate.id, @dev, @path_str, @is_verify,
@@ -111,7 +111,7 @@ shared_context 'sponsor_covenant_html_erb' do
     expect(candidate_db.sponsor_covenant.scanned_covenant.filename).to eq('actions.png')
     expect(candidate_db.sponsor_covenant.sponsor_name).to eq('')
 
-    fill_in_form({ covenant_attach_file: false }) # no picture
+    fill_in_form(covenant_attach_file: false) # no picture
     click_button @update_id
 
     candidate_db_update = Candidate.find(@candidate.id)
@@ -142,7 +142,7 @@ shared_context 'sponsor_covenant_html_erb' do
 
     visit @path
 
-    fill_in_form({ covenant_attach_file: false }) # no picture
+    fill_in_form(covenant_attach_file: false) # no picture
     click_button @update_id
 
     expect_sponsor_covenant_form(

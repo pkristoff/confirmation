@@ -25,7 +25,7 @@ describe CandidateImportsController do
       c1.save
 
       candidate_import = CandidateImport.new
-      excel = candidate_import.to_xlsx('dir', { from_spec: true })
+      excel = candidate_import.to_xlsx('dir', from_spec: true)
 
       excel.workbook do |wb|
         ['Confirmation Events', 'Candidates with events'].each_with_index do |expected_name, index|
@@ -55,7 +55,7 @@ describe CandidateImportsController do
       c1.save
 
       candidate_import = CandidateImport.new
-      excel = candidate_import.to_xlsx('dir', { from_spec: true })
+      excel = candidate_import.to_xlsx('dir', from_spec: true)
 
       excel.workbook do |wb|
         ['Confirmation Events', 'Candidates with events'].each_with_index do |expected_name, index|

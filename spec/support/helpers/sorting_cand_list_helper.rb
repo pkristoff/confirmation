@@ -146,7 +146,7 @@ module SortingCandListHelpers
                 [I18n.t('views.events.verified'), true, [:verified]])
     unless confirmation_event.nil?
       cols.append(
-        [confirmation_event.event_key, true, '', expect_event(confirmation_event.event_key, { verify: true })]
+        [confirmation_event.event_key, true, '', expect_event(confirmation_event.event_key, verify: true)]
       )
     end
     cols
@@ -170,7 +170,7 @@ module SortingCandListHelpers
       [I18n.t('views.events.verified'), true, [:candidate_event, event_key, :verified]]
     )
     cols.append(
-      [PickConfirmationName.event_key, true, '', expect_event(event_key, { verify: true })]
+      [PickConfirmationName.event_key, true, '', expect_event(event_key, verify: true)]
     )
     cols
   end

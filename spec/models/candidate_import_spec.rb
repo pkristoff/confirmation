@@ -106,7 +106,7 @@ describe CandidateImport do
     delete_dir(dir_name)
     begin
       Dir.mkdir(dir_name)
-      package = candidate_import.to_xlsx(dir_name, { from_spec: true })
+      package = candidate_import.to_xlsx(dir_name, from_spec: true)
       package.workbook do |wb|
         wb.worksheets.each do |ws|
           case ws.name

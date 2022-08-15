@@ -23,7 +23,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_body(text, show: true)
-    MailPart.new(BODY, text, { show: show })
+    MailPart.new(BODY, text, show: show)
   end
 
   # Instantiation for subject
@@ -34,7 +34,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_subject(text, show: true)
-    MailPart.new(SUBJECT, text, { show: show })
+    MailPart.new(SUBJECT, text, show: show)
   end
 
   # Instantiation for pre_late_input
@@ -45,7 +45,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_pre_late_input(text, show: true)
-    MailPart.new(PRE_LATE_INPUT, text, { show: show })
+    MailPart.new(PRE_LATE_INPUT, text, show: show)
   end
 
   # Instantiation for pre_coming_due_input
@@ -56,7 +56,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_pre_coming_due_input(text, show: true)
-    MailPart.new(PRE_COMING_DUE_INPUT, text, { show: show })
+    MailPart.new(PRE_COMING_DUE_INPUT, text, show: show)
   end
 
   # Instantiation for completed_awaiting_input
@@ -67,7 +67,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_completed_awaiting_input(text, show: true)
-    MailPart.new(COMPLETED_AWAITING_INPUT, text, { show: show })
+    MailPart.new(COMPLETED_AWAITING_INPUT, text, show: show)
   end
 
   # Instantiation for completed_input
@@ -78,7 +78,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_completed_input(text, show: true)
-    MailPart.new(COMPLETED_INPUT, text, { show: show })
+    MailPart.new(COMPLETED_INPUT, text, show: show)
   end
 
   # Instantiation for salutation_input
@@ -89,7 +89,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_salutation_input(text, show: true)
-    MailPart.new(SALUTATION_INPUT, text, { show: show })
+    MailPart.new(SALUTATION_INPUT, text, show: show)
   end
 
   # Instantiation for closing_input
@@ -100,7 +100,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_closing_input(text, show: true)
-    MailPart.new(CLOSING_INPUT, text, { show: show })
+    MailPart.new(CLOSING_INPUT, text, show: show)
   end
 
   # Instantiation for from_input
@@ -111,7 +111,7 @@ class MailPart
   # * <tt>:show</tt> whether or not to show the div
   #
   def self.new_from_input(text, show: true)
-    MailPart.new(FROM_INPUT, text, { show: show })
+    MailPart.new(FROM_INPUT, text, show: show)
   end
 
   # Instantiation

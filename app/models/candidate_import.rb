@@ -131,7 +131,7 @@ class CandidateImport
   # * <tt>Package</tt> package
   #
   def to_xlsx(dir, from_spec: false)
-    p = create_xlsx_package(dir, { from_spec: from_spec })
+    p = create_xlsx_package(dir, from_spec: from_spec)
     # the Package will be generated with a shared string table
     p.use_shared_strings = true
     p

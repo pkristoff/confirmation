@@ -368,7 +368,7 @@ describe SendGridMail, type: :model do
       it 'should expand the adhoc email for candidate with no body' do
         send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
         send_grid_mail.adhoc(MailPart.new_subject(ViewsHelpers::SUBJECT), nil,
-                             MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT, { show: false }))
+                             MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT, show: false))
 
         body = Capybara.string(send_grid_mail.expanded_text)
         expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
@@ -384,7 +384,7 @@ describe SendGridMail, type: :model do
         send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
         send_grid_mail.monthly_mass_mailing(MailPart.new_subject(ViewsHelpers::SUBJECT),
                                             nil,
-                                            pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT, { show: false }),
+                                            pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT, show: false),
                                             pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
                                             completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT),
                                             completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT), closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
@@ -409,12 +409,12 @@ describe SendGridMail, type: :model do
           send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
           send_grid_mail.monthly_mass_mailing(MailPart.new_subject(ViewsHelpers::SUBJECT),
                                               nil,
-                                              pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT, { show: entry != :pre_late_input }),
-                                              pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT, { show: entry != :pre_coming_due_input }),
-                                              completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT, { show: entry != :completed_awaiting_input }),
-                                              completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT, { show: entry != :completed_input }),
-                                              closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT, { show: entry != :closing_input }),
-                                              salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT, { show: entry != :salutation_input }),
+                                              pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT, show: entry != :pre_late_input),
+                                              pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT, show: entry != :pre_coming_due_input),
+                                              completed_awaiting_input: MailPart.new_completed_awaiting_input(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT, show: entry != :completed_awaiting_input),
+                                              completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT, show: entry != :completed_input),
+                                              closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT, show: entry != :closing_input),
+                                              salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT, show: entry != :salutation_input),
                                               from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N, name: @admin.contact_name, email: @admin.email, phone: @admin.contact_phone)))
 
           body = Capybara.string(send_grid_mail.expanded_text)

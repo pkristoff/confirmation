@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.6'
+ruby '3.1.2'
 gem 'psych'
 # gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'bootstrap'
@@ -15,6 +15,7 @@ gem 'jbuilder'
 gem 'jquery-rails'
 gem 'jquery-tablesorter'
 gem 'jquery-turbolinks'
+gem 'net-smtp'
 gem 'pg'
 gem 'prawn'
 gem 'puma'
@@ -33,7 +34,7 @@ gem 'sinatra'
 gem 'sucker_punch'
 group :development do
   gem 'better_errors'
-  gem 'debase'
+  gem 'debase', '~>0.2.5.beta2'
   gem 'hub', require: nil
   # does not exist in rails 5.0
   # gem 'quiet_assets'

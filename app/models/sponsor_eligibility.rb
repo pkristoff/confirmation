@@ -65,7 +65,7 @@ class SponsorEligibility < ApplicationRecord
   # * <tt>:options</tt>
   #
   def validate_event_complete(_options = {})
-    event_complete_validator = EventCompleteValidator.new(self, { validate_others: !sponsor_attends_home_parish })
+    event_complete_validator = EventCompleteValidator.new(self, validate_others: !sponsor_attends_home_parish)
     event_complete_validator.validate(SponsorEligibility.attends_home_parish_validation_params,
                                       SponsorEligibility.not_attends_home_parish_params)
 
