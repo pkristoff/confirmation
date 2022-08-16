@@ -52,11 +52,9 @@ group :development, :test do
   gem 'faker'
   gem 'rails-controller-testing'
   gem 'rails_real_favicon'
+  gem 'rspec-rails'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-end
-group :production, :development, :test do
-  gem 'rspec-rails'
 end
 group :production do
   gem 'rails_12factor'
