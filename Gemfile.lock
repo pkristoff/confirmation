@@ -189,6 +189,10 @@ GEM
     minitest (5.16.2)
     mustermann (2.0.2)
       ruby2_keywords (~> 0.0.1)
+    net-pop (0.1.1)
+      digest
+      net-protocol
+      timeout
     net-protocol (0.1.3)
       timeout
     net-smtp (0.3.1)
@@ -417,6 +421,7 @@ DEPENDENCIES
   jquery-turbolinks
   launchy
   matrix
+  net-pop
   net-smtp
   pg
   prawn
