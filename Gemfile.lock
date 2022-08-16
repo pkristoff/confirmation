@@ -447,7 +447,7 @@ DEPENDENCIES
   sprockets (~> 3.7.2)
   sucker_punch
   tinymce-rails
-  uglifier (~> 4.1.20)
+  uglifier
   unicorn
   web-console
   zip-zip
