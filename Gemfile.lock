@@ -371,8 +371,6 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unicode-display_width (2.2.0)
     unicorn (6.1.0)
       kgio (~> 2.6)
@@ -447,7 +445,6 @@ DEPENDENCIES
   sprockets (~> 3.7.2)
   sucker_punch
   tinymce-rails
-  uglifier (~> 4.2.0)
   unicorn
   web-console
   zip-zip

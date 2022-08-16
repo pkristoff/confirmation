@@ -27,7 +27,7 @@ gem 'sdoc'
 gem 'sendgrid-ruby'
 gem 'sprockets', '~> 3.7.2'
 gem 'tinymce-rails'
-gem 'uglifier', '~> 4.2.0'
+#ngem 'uglifier', '~> 4.2.0'
 gem 'zip-zip'
 # refering to master - remove branch
 gem 'sinatra'
