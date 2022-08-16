@@ -418,6 +418,7 @@ DEPENDENCIES
   jquery-tablesorter
   jquery-turbolinks
   launchy
+  matrix
   net-smtp
   pg
   prawn

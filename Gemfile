@@ -57,6 +57,7 @@ group :development, :test do
   gem 'rubocop-rspec'
 end
 group :production do
+  gem 'matrix'
   gem 'rails_12factor'
   gem 'unicorn'
 end
