@@ -189,6 +189,10 @@ GEM
     minitest (5.16.2)
     mustermann (2.0.2)
       ruby2_keywords (~> 0.0.1)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
     net-pop (0.1.1)
       digest
       net-protocol
@@ -360,6 +364,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stringio (3.0.2)
+    strscan (3.0.1)
     sucker_punch (3.0.1)
       concurrent-ruby (~> 1.0)
     terminal-table (3.0.2)
@@ -421,6 +426,7 @@ DEPENDENCIES
   jquery-turbolinks
   launchy
   matrix
+  net-imap
   net-pop
   net-smtp
   pg
