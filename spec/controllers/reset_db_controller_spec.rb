@@ -2,7 +2,7 @@
 
 describe ResetDbController do
   describe 'reset_database' do
-    it 'should reset database' do
+    it 'reset database' do
       expect(Candidate.all.size).to eq(0)
       FactoryBot.create(:candidate, account_name: 'a1')
       FactoryBot.create(:candidate, account_name: 'a2')
@@ -52,7 +52,7 @@ describe ResetDbController do
       expect(Admin.all.size).to eq(1)
     end
 
-    it 'should reset database Visitor and Admin are reset' do
+    it 'reset database Visitor and Admin are reset' do
       admin = login_admin
 
       admin.email = 'foo@bar.com'
@@ -77,7 +77,7 @@ describe ResetDbController do
       expect(admin.contact_phone).to eq('919-999-9999')
     end
 
-    it 'should remove all ConfirmationEvent and related ToDo & CandidateEvent' do
+    it 'remove all ConfirmationEvent and related ToDo & CandidateEvent' do
       expect(Candidate.all.size).to eq(0)
       expect(ConfirmationEvent.all.size).to eq(0)
       expect(CandidateEvent.all.size).to eq(0)

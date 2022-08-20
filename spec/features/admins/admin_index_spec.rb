@@ -6,22 +6,22 @@ Warden.test_mode!
 #   As a admin
 #   I want to see a list of admins
 #   So I can see who has registered
-feature 'Admin index page', :devise do
+describe 'Admin index page', :devise do
   include Warden::Test::Helpers
 
   before do
     FactoryBot.create(:visitor)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  # Scenario: Admin listed on index page
+  # it: Admin listed on index page
   #   Given I am signed in
   #   When I visit the admin index page
   #   Then I see my own email address
-  scenario 'admin sees own email address' do
+  it 'admin sees own email address' do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     visit admins_path

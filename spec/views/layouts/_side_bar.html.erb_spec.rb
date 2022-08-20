@@ -2,7 +2,7 @@
 
 describe 'layouts/_side_bar.html.erb' do
   include DeviseHelpers
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @admin_link_names_in_order = [
       [I18n.t('views.nav.add_new_admin'), '/admins/sign_up'],
@@ -62,7 +62,7 @@ describe 'layouts/_side_bar.html.erb' do
     ]
   end
 
-  context 'visitor no one logged in' do
+  context 'when visitor no one logged in' do
     it 'nav links layout for visitor' do
       render
 
@@ -70,7 +70,7 @@ describe 'layouts/_side_bar.html.erb' do
     end
   end
 
-  context 'login as candidate' do
+  context 'when login as candidate' do
     it 'nav links layout for candidate' do
       candidate = login_candidate
 
@@ -84,7 +84,7 @@ describe 'layouts/_side_bar.html.erb' do
     end
   end
 
-  context 'login as admin' do
+  context 'when login as admin' do
     it 'nav links layout for admin' do
       login_admin
 
@@ -96,11 +96,11 @@ describe 'layouts/_side_bar.html.erb' do
 
       expect_links_in_order(admin_export_link_names_in_order, 'export-sidebar', '', 7)
 
-      expect(rendered).to_not have_selector('p[id="candidate: Sophia Augusta"]')
+      expect(rendered).not_to have_selector('p[id="candidate: Sophia Augusta"]')
     end
   end
 
-  context 'login as admin and editing a candidate' do
+  context 'when login as admin and editing a candidate' do
     it 'nav links layout for admin' do
       login_admin
 

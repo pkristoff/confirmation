@@ -4,31 +4,30 @@ Warden.test_mode!
 
 require 'constants'
 
-feature 'Orphan removal', :devise do
+describe 'Orphan removal', :devise do
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     @orphaneds = Orphaneds.new
-    expect(Visitor.visitor.home_parish).to eq('St. Mary Magdalene')
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
-  context 'Orphaned check' do
-    before(:each) do
-    end
-    scenario 'Check with no orphans' do
+
+  context 'when orphaned check' do
+    it 'Check with no orphans' do
       expect(Visitor.visitor.home_parish).to eq('St. Mary Magdalene')
       visit orphaneds_check_path
       click_button I18n.t('views.orphaneds.check_orphaned_table_rows')
 
       expect_message(:flash_notice, I18n.t('messages.orphaneds.check.no_orphans_found'))
     end
-    scenario 'Check with orphans' do
+
+    it 'Check with orphans' do
       expected_orphans
       visit orphaneds_check_path
       click_button I18n.t('views.orphaneds.check_orphaned_table_rows')
@@ -45,13 +44,15 @@ feature 'Orphan removal', :devise do
       expect(page).to have_selector('li[id=Address]', text: 'Address: 1')
       expect(page).to have_selector('li[id=ToDo]', text: 'ToDo: 1')
     end
+
     describe 'Remove' do
-      scenario 'Remove with no orphans' do
+      it 'Remove with no orphans' do
         visit orphaneds_check_path
         click_button I18n.t('views.orphaneds.remove_orphaned_table_rows')
         expect_message(:flash_notice, I18n.t('messages.orphaneds.check.no_orphans_found'))
       end
-      scenario 'Remove with orphans' do
+
+      it 'Remove with orphans' do
         expected_orphans
         visit orphaneds_check_path
         click_button I18n.t('views.orphaneds.remove_orphaned_table_rows')

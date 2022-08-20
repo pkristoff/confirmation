@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 describe ResetDB, type: :model do
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
   end
 
   describe 'start new year' do
-    it 'should start a new year will clean out candidates and all its associations' do
+    it 'start a new year will clean out candidates and all its associations' do
       FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
       AppFactory.add_confirmation_events
 
@@ -191,9 +191,9 @@ describe ResetDB, type: :model do
       ResetDB.reset_database
 
       expect(Candidate.all.size).to eq(1)
-      expect(Candidate.find_by(account_name: 'vickikristoff')).not_to eq(nil)
+      expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be_nil
       expect(Admin.all.size).to eq(1)
-      expect(Admin.find_by(email: Admin.first.email)).not_to eq(nil)
+      expect(Admin.find_by(email: Admin.first.email)).not_to be_nil
     end
   end
 end

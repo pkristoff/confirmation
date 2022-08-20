@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'sign_an_agreement_html_erb' do
-  before(:each) do
+  # rubocop:enable RSpec/ContextWording
+  before do
     FactoryBot.create(:visitor)
     AppFactory.add_confirmation_events
     @cand_id = @candidate.id
@@ -19,7 +21,7 @@ shared_context 'sign_an_agreement_html_erb' do
     end
   end
 
-  scenario 'admin visits form and pushes update' do
+  it 'admin visits form and pushes update' do
     # rubocop:disable Layout/LineLength
     @candidate.signed_agreement = false
     @candidate.save
@@ -38,7 +40,7 @@ shared_context 'sign_an_agreement_html_erb' do
     # rubocop:enable Layout/LineLength
   end
 
-  scenario 'user(candidate or admin) logs in, selects signing an agreement, has signed agreement previously' do
+  it 'user(candidate or admin) logs in, selects signing an agreement, has signed agreement previously' do
     @candidate.signed_agreement = true
     @candidate.save
     visit @path
@@ -48,7 +50,7 @@ shared_context 'sign_an_agreement_html_erb' do
                                  @document_key, @event_key, @update_id, @is_verify)
   end
 
-  scenario 'user(candidate or admin) logs in, signs agreement' do
+  it 'user(candidate or admin) logs in, signs agreement' do
     @candidate.send(@sign_agreement_setter, false)
     @candidate.save
 
@@ -70,7 +72,7 @@ shared_context 'sign_an_agreement_html_erb' do
     end
   end
 
-  scenario 'candidate unsigns agreement' do
+  it 'candidate unsigns agreement' do
     @candidate.send(@sign_agreement_setter, true)
     @candidate.save
 
@@ -94,9 +96,9 @@ shared_context 'sign_an_agreement_html_erb' do
                                  ])
   end
 
-  scenario 'admin un-verifies a verified sponsor agreement event' do
+  it 'admin un-verifies a verified sponsor agreement event' do
     # rubocop:disable Layout/LineLength
-    expect(@is_verify == true || @is_verify == false).to eq(true)
+    expect(@is_verify == true || @is_verify == false).to be(true)
 
     event_key = @event_key
     candidate = Candidate.find(@cand_id)

@@ -6,24 +6,24 @@ Warden.test_mode!
 #   As a candidate
 #   I want to edit my candidate profile
 #   So I can change my email address
-feature 'Candidate edit', :devise do
+describe 'Candidate edit', :devise do
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @admin = FactoryBot.create(:admin)
     login_as(@admin, scope: :admin)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  # Scenario: Candidate changes email address
+  # it: Candidate changes email address
   #   Given I am signed in
   #   When I change my email address
   #   Then I see an account updated message
-  scenario 'candidate changes email address' do
+  it 'candidate changes email address' do
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
 

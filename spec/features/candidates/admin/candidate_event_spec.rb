@@ -6,10 +6,10 @@ Warden.test_mode!
 #   As a candidate
 #   I want to edit my candidate profile
 #   So I can change my email address
-feature 'Candidate event', :devise do
+describe 'Candidate event', :devise do
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
@@ -18,11 +18,11 @@ feature 'Candidate event', :devise do
     login_as(@admin, scope: :admin)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  scenario 'candidate changes email address' do
+  it 'candidate changes email address' do
     visit event_candidate_path(@candidate.id)
 
     # if this fails then going to wrong controller
@@ -30,7 +30,7 @@ feature 'Candidate event', :devise do
     expect_confirmation_events(false)
   end
 
-  scenario 'candidate changes email address' do
+  it 'candidate changes email address - 2' do
     @candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_catholic_high_school')
     @candidate.save
     visit event_candidate_path(@candidate.id)

@@ -4,16 +4,16 @@
 #   As a visitor
 #   I want to visit a home page
 #   So I can learn more about the website
-feature 'Home page' do
-  # Scenario: Visit the home page
+describe 'Home page' do
+  # it: Visit the home page
   #   Given I am a visitor
   #   When I visit the home page
   #   Then I see "Welcome"
-  before(:each) do
+  before do
     @visitor_id = FactoryBot.create(:visitor).id
-    # @visitor_id = Visitor.visitor('St. Mary Magdalene', '<p>home text</p>', 'replace me - about', 'replace me - contaclt').id
   end
-  scenario 'a visitor visits the home page' do
+
+  it 'a visitor visits the home page' do
     visit root_path
 
     expect(page).to have_selector('span[class=navbar-toggler-icon]', count: 1)
@@ -28,7 +28,7 @@ feature 'Home page' do
     expect(page).to have_selector('p', text: 'home text')
   end
 
-  scenario 'html sanitized and gets embeded into the home page' do
+  it 'html sanitized and gets embeded into the home page' do
     visitor = Visitor.find_by(id: @visitor_id)
     visitor.home = '<p id="xxx" style="text-align:center"> The rain in spain </p>'
     visitor.save

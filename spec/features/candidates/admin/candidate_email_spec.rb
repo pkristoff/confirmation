@@ -2,11 +2,11 @@
 
 Warden.test_mode!
 
-feature 'Candidate email', :devise do
+describe 'Candidate email', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
@@ -24,18 +24,18 @@ feature 'Candidate email', :devise do
                    @candidate3]
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  scenario 'admin cannot email candidates if none are selected' do
+  it 'admin cannot email candidates if none are selected' do
     visit candidates_path
     click_button('top-update-email')
 
     expect_message(:flash_alert, I18n.t('messages.no_candidate_selected'))
   end
 
-  scenario 'admin can email candidates if they are selected' do
+  it 'admin can email candidates if they are selected' do
     visit candidates_path
 
     check("candidate_candidate_ids_#{@candidate1.id}")

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 describe Dev::PasswordsController do
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
   end
 
   describe 'edit' do
-    it 'should error if token has expired' do
+    it 'error if token has expired' do
       admin = login_admin
 
       candidate = FactoryBot.create(:candidate)
@@ -24,7 +24,7 @@ describe Dev::PasswordsController do
       expect(flash[:alert]).to eq(I18n.t('messages.password.token_expired', email: admin.email))
     end
 
-    it 'should bring up then the edit password pane if token ok' do
+    it 'bring up then the edit password pane if token ok' do
       admin = login_admin
       candidate = FactoryBot.create(:candidate)
       token = candidate.send_reset_password_instructions(admin)
@@ -39,10 +39,10 @@ describe Dev::PasswordsController do
   end
 
   describe 'update' do
-    it 'should reset password' do
+    it 'reset password' do
       admin = login_admin
       candidate = FactoryBot.create(:candidate, should_confirm: true)
-      expect(candidate.account_confirmed?).to eq(true)
+      expect(candidate.account_confirmed?).to be(true)
       token = candidate.send_reset_password_instructions(admin)
       candidate.save
 
@@ -54,13 +54,13 @@ describe Dev::PasswordsController do
       candidate = Candidate.find(candidate.id)
       expect(response.status).to eq(302)
       expect(response).to redirect_to(event_candidate_registration_path(candidate))
-      expect(candidate.valid_password?('therainin')).to eq(true)
+      expect(candidate.valid_password?('therainin')).to be(true)
     end
 
-    it 'should reset password and confirm candidate account' do
+    it 'reset password and confirm candidate account' do
       admin = login_admin
       candidate = FactoryBot.create(:candidate, should_confirm: false)
-      expect(candidate.account_confirmed?).to eq(false)
+      expect(candidate.account_confirmed?).to be(false)
       token = candidate.send_reset_password_instructions(admin)
       candidate.save
 
@@ -74,8 +74,8 @@ describe Dev::PasswordsController do
       expect(response.status).to eq(302)
       expect(response).to redirect_to(event_candidate_registration_path(candidate))
       expect(flash[:notice]).to eq(I18n.t('messages.password.reset_and_confirmed', name: candidate.account_name))
-      expect(candidate.valid_password?('therainin')).to eq(true)
-      expect(candidate.account_confirmed?).to eq(true)
+      expect(candidate.valid_password?('therainin')).to be(true)
+      expect(candidate.account_confirmed?).to be(true)
     end
   end
 end

@@ -4,7 +4,7 @@ include DeviseHelpers
 include DeviseRails5Helpers
 describe 'candidates/edit.html.erb' do
   include ViewsHelpers
-  before(:each) do
+  before do
     @resource_class = Candidate
 
     @resource = FactoryBot.create(:candidate)

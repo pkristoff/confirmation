@@ -3,7 +3,7 @@
 describe Candidate do
   include ActionDispatch::TestProcess
 
-  before(:each) do
+  before do
     @today = Time.zone.today
   end
 
@@ -46,12 +46,12 @@ describe Candidate do
 
     it 'baptized_at_home_parish' do
       candidate = AppFactory.create_candidate
-      expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
+      expect(candidate.baptismal_certificate.baptized_at_home_parish).to be(false)
     end
   end
 
   describe 'candidate_events_sorted' do
-    before(:each) do
+    before do
       @candidates_with_data = [
         { candidate: setup_candidate(
           []
@@ -150,10 +150,10 @@ describe Candidate do
       end
     end
 
-    it 'should create sponsor_covenant and pick_confirmation_name' do
+    it 'create sponsor_covenant and pick_confirmation_name' do
       candidate = Candidate.new
-      expect(candidate.sponsor_covenant).not_to eq(nil)
-      expect(candidate.pick_confirmation_name).not_to eq(nil)
+      expect(candidate.sponsor_covenant).not_to be_nil
+      expect(candidate.pick_confirmation_name).not_to be_nil
     end
 
     private
@@ -175,7 +175,7 @@ describe Candidate do
   end
 
   describe 'delete associations' do
-    it 'should delete associations when deleted' do
+    it 'delete associations when deleted' do
       candidate = FactoryBot.create(:candidate)
 
       expect_event_association(candidate.baptismal_certificate, 1)
@@ -199,7 +199,7 @@ describe Candidate do
   end
 
   describe 'external verification' do
-    before(:each) do
+    before do
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c2 = create_candidate_local('c2', 'Vicki', 'Kristoff')
       c3 = create_candidate_local('c3', 'Karen', 'Kristoff')
@@ -293,50 +293,45 @@ describe Candidate do
   end
 
   describe 'password' do
-    it 'should return false if password is not initial password' do
+    it 'return false if password is not initial password' do
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c1.password = 'abcdefghij'
-      expect(c1.password_changed?).to eq(true)
+      expect(c1.password_changed?).to be(true)
     end
 
-    it 'should return false if password is initial password' do
+    it 'return false if password is initial password' do
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       c1.password = Event::Other::INITIAL_PASSWORD
-      expect(c1.password_changed?).to eq(false)
-    end
-
-    it 'should return true if password is changed back to initial password' do
-      c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
-      c1.password = 'abcdefghij'
-      expect(c1.password_changed?).to eq(true)
-      c1.password = Event::Other::INITIAL_PASSWORD
+      expect(c1.password_changed?).to be(false)
     end
   end
 
   describe 'confirm_account' do
-    it 'should confirm an unconfirmed account' do
+    it 'confirm an unconfirmed account' do
       candidate = FactoryBot.create(:candidate, should_confirm: false)
-      expect(candidate.account_confirmed?).to eq(false)
+      expect(candidate.account_confirmed?).to be(false)
       candidate.confirm_account
-      expect(candidate.account_confirmed?).to eq(true)
+      expect(candidate.account_confirmed?).to be(true)
     end
-    it 'should confirm a confirmed account' do
+
+    it 'confirm a confirmed account' do
       candidate = FactoryBot.create(:candidate, should_confirm: true)
-      expect(candidate.account_confirmed?).to eq(true)
+      expect(candidate.account_confirmed?).to be(true)
       candidate.confirm_account
-      expect(candidate.account_confirmed?).to eq(true)
+      expect(candidate.account_confirmed?).to be(true)
     end
-    it 'should confirm a confirmed account that started not confirmed' do
+
+    it 'confirm a confirmed account that started not confirmed' do
       candidate = FactoryBot.create(:candidate, should_confirm: false)
-      expect(candidate.account_confirmed?).to eq(false)
+      expect(candidate.account_confirmed?).to be(false)
       candidate.confirm_account
       candidate.confirm_account
-      expect(candidate.account_confirmed?).to eq(true)
+      expect(candidate.account_confirmed?).to be(true)
     end
   end
 
   describe 'password_reset_message' do
-    it 'should return a DeliveryMessage' do
+    it 'return a DeliveryMessage' do
       FactoryBot.create(:visitor)
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
       delivery = c1.password_reset_message(
@@ -345,12 +340,12 @@ describe Candidate do
                                  subject: MailPart.new_subject('sub'),
                                  body_text: MailPart.new_body(''))
       )
-      expect(delivery).not_to eq(nil)
+      expect(delivery).not_to be_nil
       text = delivery.message.body.to_s
 
-      expect(text).not_to eq(nil)
-      expect(text.include?('Hello c1!')).to eq(true)
-      expect(text.include?('Your Username is: c1')).to eq(true)
+      expect(text).not_to be_nil
+      expect(text.include?('Hello c1!')).to be(true)
+      expect(text.include?('Your Username is: c1')).to be(true)
     end
   end
 

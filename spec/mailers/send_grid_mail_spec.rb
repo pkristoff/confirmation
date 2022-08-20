@@ -6,15 +6,16 @@ describe SendGridMail, type: :model do
   before do
     FactoryBot.create(:visitor)
   end
+
   describe 'monthly_reminder testing' do
-    before(:each) do
+    before do
       @admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
     end
 
-    it 'should expand the adhoc email for candidate with no attachment' do
+    it 'expand the adhoc email for candidate with no attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.adhoc(MailPart.new_subject(ViewsHelpers::SUBJECT), nil,
                            MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT))
@@ -23,10 +24,10 @@ describe SendGridMail, type: :model do
       expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
       expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
-      expect(send_grid_mail.attachments.empty?).to eq(true)
+      expect(send_grid_mail.attachments.empty?).to be(true)
     end
 
-    it 'should expand the adhoc email for candidate with attachment' do
+    it 'expand the adhoc email for candidate with attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.adhoc(MailPart.new_subject(ViewsHelpers::SUBJECT),
                            fixture_file_upload('Baptismal Certificate.pdf'),
@@ -41,7 +42,7 @@ describe SendGridMail, type: :model do
       expect(attachment['filename']).to eq('Baptismal Certificate.pdf')
     end
 
-    it 'should expand the adhoc test email for candidate with no attachment' do
+    it 'expand the adhoc test email for candidate with no attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.adhoc_test(MailPart.new_subject(ViewsHelpers::SUBJECT), nil,
                                 MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT))
@@ -55,10 +56,10 @@ describe SendGridMail, type: :model do
       expect(body).to have_css('p[id=first_name]', text: @candidate.candidate_sheet.first_name)
       expect(body).to have_css('p[id=body_text]', text: ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT)
 
-      expect(send_grid_mail.attachments.empty?).to eq(true)
+      expect(send_grid_mail.attachments.empty?).to be(true)
     end
 
-    it 'should expand the adhoc test email for candidate with attachment' do
+    it 'expand the adhoc test email for candidate with attachment' do
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.adhoc_test(MailPart.new_subject(ViewsHelpers::SUBJECT),
                                 fixture_file_upload('Baptismal Certificate.pdf'),
@@ -78,7 +79,7 @@ describe SendGridMail, type: :model do
       expect(attachment['filename']).to eq('Baptismal Certificate.pdf')
     end
 
-    it 'should expand the account confirmation instructions for candidate' do
+    it 'expand the account confirmation instructions for candidate' do
       send_grid_mail = SendGridMail.new(@admin, [@candidate])
       text = send_grid_mail.expand_text_ci(@candidate)
 
@@ -89,7 +90,7 @@ describe SendGridMail, type: :model do
       expect_basic_admin_info(body, 'Account%20confirmation%20instructions')
     end
 
-    it 'should expand the monthly reminder email for candidate with no attachment' do
+    it 'expand the monthly reminder email for candidate with no attachment' do
       # rubocop:disable Layout/LineLength
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.monthly_mass_mailing(MailPart.new_subject(ViewsHelpers::SUBJECT),
@@ -117,11 +118,11 @@ describe SendGridMail, type: :model do
                                             email: @admin.email,
                                             phone: @admin.contact_phone))
 
-      expect(send_grid_mail.attachments.empty?).to eq(true)
+      expect(send_grid_mail.attachments.empty?).to be(true)
       # rubocop:enable Layout/LineLength
     end
 
-    it 'should expand the monthly reminder email with file attachment for candidate' do
+    it 'expand the monthly reminder email with file attachment for candidate' do
       # rubocop:disable Layout/LineLength
       send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
       send_grid_mail.monthly_mass_mailing(MailPart.new_subject(ViewsHelpers::SUBJECT),
@@ -155,7 +156,7 @@ describe SendGridMail, type: :model do
       # rubocop:enable Layout/LineLength
     end
 
-    it 'should expand the reset password for candidate' do
+    it 'expand the reset password for candidate' do
       send_grid_mail = SendGridMail.new(@admin, [@candidate])
       text = send_grid_mail.expand_text_rp(@candidate)
 
@@ -167,37 +168,39 @@ describe SendGridMail, type: :model do
   end
 
   describe 'convert_if_not_production' do
-    before(:each) do
+    before do
       @admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
     end
 
-    it 'should return nil' do
+    it 'return nil' do
       send_grid_mail = SendGridMail.new(@admin, [@candidate])
       expect(send_grid_mail.convert_if_not_production(nil)).to be_nil
     end
 
     describe 'PIPELINE' do
-      it 'should return PIPELINE=nil' do
+      it 'return PIPELINE=nil' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_if_not_production(nil)).to be_nil
       end
-      it 'should return PIPELINE=nil for convert_emails' do
+
+      it 'return PIPELINE=nil for convert_emails' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_emails([nil], ['stmm.confirmation@kristoffs.com'])).to eq([nil])
       end
 
-      it 'should return local email when multiple emails when PIPELINE=nil' do
+      it 'return local email when multiple emails when PIPELINE=nil' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_if_not_production('prk1@test.com')).to eq('paul@kristoffs.com')
         expect(send_grid_mail.convert_if_not_production('prk2@test.com')).to eq('paul.kristoff@kristoffs.com')
       end
-      it 'should return local email when multiple emails when PIPELINE=nil for convert_emails' do
+
+      it 'return local email when multiple emails when PIPELINE=nil for convert_emails' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         # rubocop:disable Layout/LineLength
@@ -205,7 +208,7 @@ describe SendGridMail, type: :model do
         # rubocop:enable Layout/LineLength
       end
 
-      it 'should return local email when multiple emails and one local when PIPELINE=nil' do
+      it '1. return local email when multiple emails and one local when PIPELINE=nil' do
         # rubocop:disable Layout/LineLength
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
@@ -213,7 +216,8 @@ describe SendGridMail, type: :model do
         expect(send_grid_mail.convert_if_not_production('prk2@test.com', ['paul@kristoffs.com'], ['paul@kristoffs.com'])).to eq('paul.kristoff@kristoffs.com')
         # rubocop:enable Layout/LineLength
       end
-      it 'should return local email when multiple emails and one local when PIPELINE=nil for convert_emails' do
+
+      it '2. return local email when multiple emails and one local when PIPELINE=nil for convert_emails' do
         # rubocop:disable Layout/LineLength
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
@@ -221,13 +225,14 @@ describe SendGridMail, type: :model do
         # rubocop:enable Layout/LineLength
       end
 
-      it 'should return local email when multiple emails and one local when PIPELINE=nil' do
+      it '3. return local email when multiple emails and one local when PIPELINE=nil' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_if_not_production('paul.kristoff@kristoffs.com')).to eq('paul.kristoff@kristoffs.com')
         expect(send_grid_mail.convert_if_not_production('prk2@test.com')).to eq('paul@kristoffs.com')
       end
-      it 'should return local email when multiple emails and one local when PIPELINE=nil for convert_emails' do
+
+      it '4. return local email when multiple emails and one local when PIPELINE=nil for convert_emails' do
         Rails.application.secrets.pipeline = nil
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         # rubocop:disable Layout/LineLength
@@ -235,24 +240,26 @@ describe SendGridMail, type: :model do
         # rubocop:enable Layout/LineLength
       end
 
-      it 'should return local email when PIPELINE=staging' do
+      it 'return local email when PIPELINE=staging' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_if_not_production('prk@test.com')).to eq('paul@kristoffs.com')
       end
-      it 'should return local email when PIPELINE=staging for convert_emails' do
+
+      it 'return local email when PIPELINE=staging for convert_emails' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_emails(['prk@test.com'], ['stmm.confirmation@kristoffs.com'])).to eq(['paul@kristoffs.com'])
       end
 
-      it 'should return local email when multiple emails when PIPELINE=staging' do
+      it '5. return local email when multiple emails when PIPELINE=staging' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_if_not_production('prk1@test.com')).to eq('paul@kristoffs.com')
         expect(send_grid_mail.convert_if_not_production('prk2@test.com')).to eq('paul.kristoff@kristoffs.com')
       end
-      it 'should return local email when multiple emails when PIPELINE=staging for convert_emails' do
+
+      it '6. return local email when multiple emails when PIPELINE=staging for convert_emails' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         # rubocop:disable Layout/LineLength
@@ -260,7 +267,7 @@ describe SendGridMail, type: :model do
         # rubocop:enable Layout/LineLength
       end
 
-      it 'should return local email when multiple emails when PIPELINE=staging' do
+      it '7. return local email when multiple emails when PIPELINE=staging' do
         # rubocop:disable Layout/LineLength
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
@@ -269,7 +276,8 @@ describe SendGridMail, type: :model do
         expect(send_grid_mail.convert_if_not_production('medical@kristoffs.com', ['paul.kristoff@kristoffs.com', 'paul@kristoffs.com'], ['paul@kristoffs.com'])).to eq('retail@kristoffs.com')
         # rubocop:enable Layout/LineLength
       end
-      it 'should return local email when multiple emails when PIPELINE=staging' do
+
+      it '8. return local email when multiple emails when PIPELINE=staging' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         # rubocop:disable Layout/LineLength
@@ -277,7 +285,7 @@ describe SendGridMail, type: :model do
         # rubocop:enable Layout/LineLength
       end
 
-      it 'should return local email when multiple emails when PIPELINE=staging' do
+      it '9. return local email when multiple emails when PIPELINE=staging' do
         # rubocop:disable Layout/LineLength
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
@@ -287,7 +295,8 @@ describe SendGridMail, type: :model do
         expect(send_grid_mail.convert_if_not_production('prk3@test.com', ['paul@kristoffs.com', 'retail@kristoffs.com', 'paul.kristoff@kristoffs.com'])).to eq('justfaith@kristoffs.com')
         # rubocop:enable Layout/LineLength
       end
-      it 'should return local email when multiple emails when PIPELINE=staging for convert_emails' do
+
+      it '10. return local email when multiple emails when PIPELINE=staging for convert_emails' do
         Rails.application.secrets.pipeline = 'staging'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         # rubocop:disable Layout/LineLength
@@ -295,35 +304,38 @@ describe SendGridMail, type: :model do
         # rubocop:enable Layout/LineLength
       end
 
-      it 'should return unchanged email when PIPELINE=production' do
+      it 'return unchanged email when PIPELINE=production' do
         Rails.application.secrets.pipeline = 'production'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_if_not_production('prk@test.com')).to eq('prk@test.com')
       end
-      it 'should return unchanged email when PIPELINE=production for convert_emails' do
+
+      it 'return unchanged email when PIPELINE=production for convert_emails' do
         Rails.application.secrets.pipeline = 'production'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_emails(%w[prk@test.com], ['stmm.confirmation@kristoffs.com'])).to eq(%w[prk@test.com])
       end
 
-      it 'should return nil when PIPELINE=production' do
+      it 'return nil when PIPELINE=production' do
         Rails.application.secrets.pipeline = 'production'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_if_not_production(nil)).to be_nil
       end
-      it 'should return nil when PIPELINE=production for convert_emails' do
+
+      it 'return nil when PIPELINE=production for convert_emails' do
         Rails.application.secrets.pipeline = 'production'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_emails([nil], ['stmm.confirmation@kristoffs.com'])).to eq([nil])
       end
 
-      it 'should return unchanged emails when multiple emails when PIPELINE=production' do
+      it 'return unchanged emails when multiple emails when PIPELINE=production' do
         Rails.application.secrets.pipeline = 'production'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         expect(send_grid_mail.convert_if_not_production('prk1@test.com')).to eq('prk1@test.com')
         expect(send_grid_mail.convert_if_not_production('retail@test.com')).to eq('retail@test.com')
       end
-      it 'should return unchanged emails when multiple emails when PIPELINE=production for convert_emails' do
+
+      it 'return unchanged emails when multiple emails when PIPELINE=production for convert_emails' do
         Rails.application.secrets.pipeline = 'production'
         send_grid_mail = SendGridMail.new(@admin, [@candidate])
         # rubocop:disable Layout/LineLength
@@ -334,7 +346,7 @@ describe SendGridMail, type: :model do
   end
 
   describe 'categories' do
-    it 'should have 4 categories' do
+    it 'have 4 categories' do
       admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       send_grid_mail = SendGridMailSpec.new(admin, [candidate])
@@ -343,7 +355,8 @@ describe SendGridMail, type: :model do
                                         candidate.account_name)
       expect(mail.categories.size).to eq(4)
     end
-    it 'should have 4 categories with values' do
+
+    it 'have 4 categories with values' do
       admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       send_grid_mail = SendGridMailSpec.new(admin, [candidate])
@@ -358,14 +371,15 @@ describe SendGridMail, type: :model do
   end
 
   describe 'show and hide' do
-    before(:each) do
+    before do
       @admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
     end
+
     describe 'adhoc' do
-      it 'should expand the adhoc email for candidate with no body' do
+      it 'expand the adhoc email for candidate with no body' do
         send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
         send_grid_mail.adhoc(MailPart.new_subject(ViewsHelpers::SUBJECT), nil,
                              MailPart.new_body(ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT, show: false))
@@ -375,11 +389,12 @@ describe SendGridMail, type: :model do
         # key Test
         expect(body).not_to have_css('p[id=body_text]')
 
-        expect(send_grid_mail.attachments.empty?).to eq(true)
+        expect(send_grid_mail.attachments.empty?).to be(true)
       end
     end
+
     describe 'monthly mass mailing' do
-      it 'should expand the monthly reminder email for candidate with no pre_late_input' do
+      it 'expand the monthly reminder email for candidate with no pre_late_input' do
         # rubocop:disable Layout/LineLength
         send_grid_mail = SendGridMailSpec.new(@admin, [@candidate])
         send_grid_mail.monthly_mass_mailing(MailPart.new_subject(ViewsHelpers::SUBJECT),
@@ -399,10 +414,11 @@ describe SendGridMail, type: :model do
         expect(body).to have_css('p[id=salutation_input]', text: ViewsHelpers::SALUTATION_INITIAL_INPUT)
         expect(body).to have_css('p[id=from_input]', text: I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N, name: @admin.contact_name, email: @admin.email, phone: @admin.contact_phone))
 
-        expect(send_grid_mail.attachments.empty?).to eq(true)
+        expect(send_grid_mail.attachments.empty?).to be(true)
         # rubocop:enable Layout/LineLength
       end
-      it 'should expand the monthly reminder email for candidate with no entry for each MailPart' do
+
+      it 'expand the monthly reminder email for candidate with no entry for each MailPart' do
         # rubocop:disable Layout/LineLength
         %i[pre_late_input pre_coming_due_input completed_awaiting_input completed_input
            closing_input salutation_input from_input].each do |entry|
@@ -447,7 +463,7 @@ describe SendGridMail, type: :model do
           expect(body).to have_css('p[id=from_input]', text: I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N, name: @admin.contact_name, email: @admin.email, phone: @admin.contact_phone)) unless entry == :from_input
           expect(body).not_to have_css('p[id=from_input]', text: 'Vicki Kristoff test@example.com 919-249-5629 ') if entry == :from_input
 
-          expect(send_grid_mail.attachments.empty?).to eq(true)
+          expect(send_grid_mail.attachments.empty?).to be(true)
           # rubocop:enable Layout/LineLength
         end
       end

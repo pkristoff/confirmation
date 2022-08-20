@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe ExportListsController do
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
 
     c1 = FactoryBot.create(:candidate, account_name: 'c1')
@@ -23,14 +23,14 @@ describe ExportListsController do
     @today = Time.zone.today
   end
 
-  it 'should create an xlsx' do
+  it 'create an xlsx' do
     package = controller.create_xlsx([], [@c1, @c2], [], [], 'foo')
 
     expect(package.core.creator).to eq('Admin')
     check_workbook(package)
   end
 
-  it 'should create an xlsx with extra columns' do
+  it 'create an xlsx with extra columns' do
     column_name = I18n.t('activerecord.attributes.sponsor_covenant.sponsor_name')
 
     package = controller.create_xlsx([], [@c1, @c2], [], [], 'foo', [column_name],
@@ -40,7 +40,7 @@ describe ExportListsController do
     check_workbook(package, column_name, %w[George Wilma])
   end
 
-  it 'should return a xlxs Baptized attachment' do
+  it 'return a xlxs Baptized attachment' do
     @c1.baptismal_certificate.baptized_at_home_parish = true
     @c1.get_candidate_event(BaptismalCertificate.event_key).completed_date = @today
     @c1.save
@@ -50,7 +50,7 @@ describe ExportListsController do
                      ExportListsController::BAPTISM_VALUES)
   end
 
-  it 'should return a xlxs retreat attachment' do
+  it 'return a xlxs retreat attachment' do
     @c1.retreat_verification.retreat_held_at_home_parish = true
     @c1.get_candidate_event(RetreatVerification.event_key).completed_date = @today
     @c1.save
@@ -60,7 +60,7 @@ describe ExportListsController do
                      ExportListsController::RETREAT_VALUES)
   end
 
-  it 'should return a xlxs confirmation name attachment' do
+  it 'return a xlxs confirmation name attachment' do
     @c1.pick_confirmation_name.saint_name = 'Paul'
     @c1.get_candidate_event(PickConfirmationName.event_key).completed_date = @today
     @c1.save
@@ -70,7 +70,7 @@ describe ExportListsController do
                      ExportListsController::CONFIRMATION_NAME_VALUES)
   end
 
-  it 'should return a xlxs sponsor covenant attachment' do
+  it 'return a xlxs sponsor covenant attachment' do
     @c1.get_candidate_event(SponsorCovenant.event_key).completed_date = @today
     @c1.save
     expect_send_data([], [@c1], [], [@c2], 'Sponsor', 'sponsor_covenant.xlsx', :sponsor_covenant,
@@ -78,7 +78,7 @@ describe ExportListsController do
                      ExportListsController::SPONSOR_COVENANT_VALUES)
   end
 
-  it 'should return a xlxs sponsor eligibility attachment' do
+  it 'return a xlxs sponsor eligibility attachment' do
     @c1.sponsor_eligibility.sponsor_attends_home_parish = true
     @c1.get_candidate_event(SponsorEligibility.event_key).completed_date = @today
     @c1.save
@@ -87,7 +87,7 @@ describe ExportListsController do
                      ExportListsController::SPONSOR_ELIGIBILITY_VALUES)
   end
 
-  it 'should return a xlxs event attachment' do
+  it 'return a xlxs event attachment' do
     expect_send_data([], [@c1, @c2], [], [], 'Events', 'events.xlsx', :events,
                      ExportListsController.event_columns,
                      ExportListsController.event_values)

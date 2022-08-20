@@ -5,6 +5,7 @@ describe 'admins/registrations/new.html.erb' do
   before do
     @resource_class = Admin
   end
+
   it 'Form layout' do
     render
 

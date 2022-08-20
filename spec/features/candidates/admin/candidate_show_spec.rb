@@ -2,26 +2,26 @@
 
 Warden.test_mode!
 
-# Feature: Candidate profile page
+#  describe: Candidate profile page
 #   As a candidate
 #   I want to visit my candidate profile page
 #   So I can see my personal account data
-feature 'Candidate profile page', :devise do
+describe 'Candidate profile page', :devise do
   include Warden::Test::Helpers
 
   before do
     FactoryBot.create(:visitor)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  # Scenario: Admin sees candidate profile
+  # it: Admin sees candidate profile
   #   Given Admin is signed in
   #   When I visit the candidate profile page
   #   Then I see account_name
-  scenario 'candidate sees own profile' do
+  it 'candidate sees own profile' do
     admin = FactoryBot.create(:admin)
     candidate = FactoryBot.create(:candidate)
     candidate2 = FactoryBot.create(:candidate, account_name: 'other')

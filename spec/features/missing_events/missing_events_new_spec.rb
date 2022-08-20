@@ -4,20 +4,21 @@ describe 'Check Events' do
   include ViewsHelpers
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @missing_events = MissingEvents.new
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
-  # Scenario: Admin sees confirmation events that are missing, unknown, & found
+
+  # it: Admin sees confirmation events that are missing, unknown, & found
   #   Given Admin is signed in
   #   When I visit the Other page
   #   and click the click 'Check Event' button
   #   Then I see confirmation events that are missing, unknown, & found
-  scenario 'admin can see if confirmation event is missing' do
+  it 'admin can see if confirmation event is missing' do
     setup_unknown_missing_events
 
     admin = FactoryBot.create(:admin)
@@ -45,12 +46,12 @@ describe 'Check Events' do
                                        text: 'unknown event')
   end
 
-  # Scenario: Admin wants to add missing events back into the DB but has not pushed 'Check Events'
+  # it: Admin wants to add missing events back into the DB but has not pushed 'Check Events'
   #   Given Admin is signed in
   #   When I visit the Other page
   #   and click the click 'Add Missing Events' button
   #   Then I see message saying to 'Check Events' first
-  scenario 'admin gets message saying no missing events' do
+  it 'admin gets message saying no missing events' do
     setup_unknown_missing_events
 
     admin = FactoryBot.create(:admin)
@@ -62,13 +63,13 @@ describe 'Check Events' do
     expect_message(:flash_notice, I18n.t('views.missing_events.added_missing'))
   end
 
-  # Scenario: Admin wants to add missing events back into the DB
+  # it: Admin wants to add missing events back into the DB
   #   Given Admin is signed in
   #   When I visit the Other page
   #   and click the click 'Check Events' button
   #   and click the click 'Add Missing Events' button
   #   Then I see missing event is now in the found events.
-  scenario 'admin gets message saying no missing events' do
+  it 'admin gets message saying no missing events - 2' do
     setup_unknown_missing_events
 
     admin = FactoryBot.create(:admin)

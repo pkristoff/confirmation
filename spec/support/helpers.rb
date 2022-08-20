@@ -185,7 +185,7 @@ def expect_remove_button(hidden_id, field)
                                 text: I18n.t('views.common.remove_image'))
   expect(page).to have_selector("button[type=button][id=replace-#{field}][class=hide-div]",
                                 text: I18n.t('views.common.replace_image'))
-  expect(page).to have_selector("input[type=hidden][id=#{hidden_id}][value='']", visible: false)
+  expect(page).to have_selector("input[type=hidden][id=#{hidden_id}][value='']", visible: :hidden)
 end
 
 # expect field

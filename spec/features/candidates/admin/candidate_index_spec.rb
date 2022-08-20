@@ -6,7 +6,7 @@ Warden.test_mode!
 #   As a candidate
 #   I want to see a list of candidates
 #   So I can see who has registered
-feature 'Candidate index page', :devise do
+describe 'Candidate index page', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
@@ -14,11 +14,11 @@ feature 'Candidate index page', :devise do
     FactoryBot.create(:visitor)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  scenario 'admin can get list of candidates' do
+  it 'admin can get list of candidates' do
     FactoryBot.create(:candidate, account_name: 'c1')
     FactoryBot.create(:candidate, account_name: 'c3')
     FactoryBot.create(:candidate, account_name: 'c2')

@@ -6,21 +6,21 @@ Warden.test_mode!
 #   As a admin
 #   I want to delete my admin profile
 #   So I can close my account
-feature 'Other', :devise do
+describe 'Other', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @today = Time.zone.today
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
   describe 'Import Candidates' do
-    scenario 'admin can import candidates via excel spreadsheet' do
+    it 'admin can import candidates via excel spreadsheet - 2' do
       admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path
@@ -29,14 +29,14 @@ feature 'Other', :devise do
       expect_message(:flash_notice, I18n.t('messages.import_successful'))
     end
 
-    scenario 'candidate cannot import candidates' do
+    it 'candidate cannot import candidates' do
       candidate = FactoryBot.create(:candidate)
       login_as(candidate, scope: :candidate)
       visit new_candidate_import_path
       expect_message(:flash_alert, I18n.t('devise.failure.unauthenticated'))
     end
 
-    scenario 'admin can import candidates via excel spreadsheet' do
+    it 'admin can import candidates via excel spreadsheet - 3' do
       admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
       visit new_candidate_import_path

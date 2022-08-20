@@ -62,8 +62,8 @@ def setup_candidate4
   ev.save
 end
 
-describe CandidatePDFDocument, type: :model do
-  before(:each) do
+describe 'CandidatePDFDocument', type: :model do
+  before do
     FactoryBot.create(:visitor)
     @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
     @candidate1.candidate_sheet.first_name = 'cc1'
@@ -83,11 +83,13 @@ describe CandidatePDFDocument, type: :model do
     setup_candidate3
     setup_candidate4
   end
-  it 'should generate document name' do
+
+  it 'generate document name' do
     document_name = CandidateNamePDFDocument.document_name
     expect(document_name).to eq('Compare Baptismal Name.pdf')
   end
-  it 'should generate a document' do
+
+  it 'generate a document' do
     pdf = CandidateNamePDFDocument.new
     expect(pdf.plucked_bap_candidates.size).to eq(3)
     expect(pdf.plucked_bap_candidates[0].first_name).to eq('cc2')
@@ -97,20 +99,22 @@ describe CandidatePDFDocument, type: :model do
   end
 end
 
-describe CandidatePDFDocument, type: :model do
-  before(:each) do
+describe 'CandidatePDFDocument 2', type: :model do
+  before do
     FactoryBot.create(:visitor)
     AppFactory.add_confirmation_events
   end
+
   describe 'other tests that dont generate the file' do
-    it 'should generate document name' do
+    it 'generate document name' do
       candidate = FactoryBot.create(:candidate)
       document_name = CandidatePDFDocument.document_name(Candidate.find(candidate.id))
       expect(document_name).to eq('2021-2022 Augusta Sophia.pdf')
     end
   end
+
   describe 'generates the pdf' do
-    before(:each) do
+    before do
       @candidate = FactoryBot.create(:candidate)
       AppFactory.add_confirmation_events
       File.open('spec/fixtures/files/Baptismal Certificate.pdf', 'rb') do |f|
@@ -131,7 +135,8 @@ describe CandidatePDFDocument, type: :model do
       end
       @candidate.save
     end
-    it 'should generate a pdf with a pdf image and no traceback.' do
+
+    it 'generate a pdf with a pdf image and no traceback.' do
       CandidatePDFDocument.new(Candidate.find(@candidate.id))
     end
   end

@@ -2,14 +2,11 @@
 
 Warden.test_mode!
 
-feature 'Candidate sheet candidate', :devise do
+describe 'Candidate sheet candidate', :devise do
   include Warden::Test::Helpers
 
   before do
     FactoryBot.create(:visitor)
-  end
-
-  before(:each) do
     @cand_id = FactoryBot.create(:candidate).id
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
@@ -24,11 +21,11 @@ feature 'Candidate sheet candidate', :devise do
     @is_verify = false
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  scenario 'admin logs in, selects candidate note' do
+  it 'admin logs in, selects candidate note' do
     cand = Candidate.find(@cand_id)
     cand.candidate_sheet.candidate_email = 'm'
     cand.save(validate: false)
@@ -38,7 +35,7 @@ feature 'Candidate sheet candidate', :devise do
     expect_candidate_note_form(@cand_id, @path_str, @update_id)
   end
 
-  scenario 'admin logs in, selects candidate note, changes it and saves' do
+  it 'admin logs in, selects candidate note, changes it and saves' do
     cand = Candidate.find(@cand_id)
     cand.candidate_sheet.candidate_email = 'm'
     cand.save(validate: false)

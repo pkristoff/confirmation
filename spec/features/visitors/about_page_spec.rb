@@ -4,15 +4,16 @@
 #   As a visitor
 #   I want to visit about page
 #   So I can learn more about the website
-feature 'About page' do
-  before(:each) do
+describe 'About page' do
+  before do
     @visitor_id = FactoryBot.create(:visitor).id
   end
-  # Scenario: Visit the about page
+
+  # it: Visit the about page
   #   Given I am a visitor
   #   When I visit the about page
   #   Then I see "about text"
-  scenario 'a visitor visits the about page' do
+  it 'a visitor visits the about page' do
     visit about_path
 
     expect(page).to have_selector('span[class=navbar-toggler-icon]', count: 1)
@@ -27,7 +28,7 @@ feature 'About page' do
     expect(page).to have_selector('p', text: 'about text')
   end
 
-  scenario 'html sanitized and gets embeded into the about page' do
+  it 'html sanitized and gets embeded into the about page' do
     visitor = Visitor.find_by(id: @visitor_id)
     visitor.about = '<p id="xxx" style="text-align:center"> The rain in spain </p>'
     visitor.save

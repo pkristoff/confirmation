@@ -6,7 +6,7 @@ describe 'candidates/sessions/new.html.erb' do
     @resource_class = Candidate
   end
 
-  after(:each) do
+  after do
     I18n.locale = 'en'
   end
 

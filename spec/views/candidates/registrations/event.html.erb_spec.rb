@@ -4,12 +4,12 @@ describe 'candidates/registrations/event.html.erb' do
   include DeviseHelpers
   include ViewsHelpers
   describe 'Form layout' do
-    before(:each) do
+    before do
       login_candidate
       AppFactory.add_confirmation_events
     end
 
-    it 'attending == The Way ' do
+    it 'attending == The Way' do
       allow(controller).to receive(:event_class) { '' }
 
       render

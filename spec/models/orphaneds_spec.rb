@@ -13,6 +13,7 @@ describe Orphaneds, type: :model do
       FactoryBot.create(:candidate)
       expect_no_orphaned_associations
     end
+
     it 'orphaned associations' do
       orphans = expected_orphans
       FactoryBot.create(:candidate)

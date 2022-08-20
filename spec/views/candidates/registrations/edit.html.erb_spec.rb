@@ -5,7 +5,7 @@ include DeviseHelpers
 describe 'candidates/registrations/edit.html.erb' do
   include ViewsHelpers
 
-  before(:each) do
+  before do
     @resource_class = Candidate
   end
 

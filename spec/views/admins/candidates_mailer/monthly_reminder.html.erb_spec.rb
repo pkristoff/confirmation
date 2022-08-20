@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'candidates_mailer/monthly_reminder.html.erb' do
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @today = Time.zone.today
     @render_mail_text = true

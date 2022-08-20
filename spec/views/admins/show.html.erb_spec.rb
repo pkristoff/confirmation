@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'admins/show.html.erb' do
-  before(:each) do
+  before do
     assign(:admin, FactoryBot.create(:admin))
   end
 

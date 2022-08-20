@@ -58,7 +58,7 @@ RSpec.configure do |config|
   # Turn off transactional fixtures (delete, comment or set it to `false`)
   # config.use_transactional_fixtures = true
 
-  # config.before(:each) do
+  # config.before do
   #   DatabaseCleaner.strategy = :transaction
   # end
   #
@@ -67,7 +67,7 @@ RSpec.configure do |config|
   #   DatabaseCleaner.strategy = :truncation
   # end
   #
-  # config.before(:each) do
+  # config.before do
   #   DatabaseCleaner.start
   # end
   #

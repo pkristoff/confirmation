@@ -2,7 +2,7 @@
 
 describe 'shared/sorting_candidate_selection' do
   include ViewsHelpers
-  before(:each) do
+  before do
     @candidate1 = Candidate.find_by(account_name: create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
     @candidate2 = Candidate.find_by(account_name: create_candidate('Paul', 'Richard', 'Kristoff').account_name)
     @candidates = [@candidate1, @candidate2]
@@ -15,7 +15,7 @@ describe 'shared/sorting_candidate_selection' do
   end
 
   describe 'basic view' do
-    it 'should have this view' do
+    it 'have this view' do
       render 'shared/sorting_candidate_selection',
              confirmation_event: @confirmation_event,
              candidates: @candidates,

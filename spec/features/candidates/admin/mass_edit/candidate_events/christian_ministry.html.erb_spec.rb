@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :devise do
+describe 'Admin verifies christian ministry from Mass Edit Candidates Event', :devise do
   include ViewsHelpers
 
   include Warden::Test::Helpers
   Warden.test_mode!
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @update_id = 'top-update-verify'
     @path_str = 'christian_ministry_verify'
@@ -20,7 +20,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     @confirmation_event = ConfirmationEvent.find_by(event_key: ChristianMinistry.event_key)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
@@ -30,7 +30,7 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
   # Admin clicks 'Update and Verify'
   # Admin sees a event validation error with no admin validation
   # editor stays open
-  scenario 'admin' do
+  it 'admin' do
     visit mass_edit_candidates_event_path(@confirmation_event.id)
 
     expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
@@ -51,8 +51,8 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
                                                                              'Helped me can\'t be blank']]])
     candidate = Candidate.find(@cand_id)
     candidate_event = candidate.get_candidate_event(ChristianMinistry.event_key)
-    expect(candidate_event.completed_date).to eq(nil)
-    expect(candidate_event.verified).to eq(false)
+    expect(candidate_event.completed_date).to be_nil
+    expect(candidate_event.verified).to be(false)
 
     # usually admin should not do this
     fill_in('What was the service?', with: 'aaa')
@@ -64,16 +64,17 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
     candidate = Candidate.find(@cand_id)
     expect_mass_edit_candidates_event(@confirmation_event, candidate.id, nil)
     candidate_event = candidate.get_candidate_event(@confirmation_event.event_key)
-    expect(candidate_event.completed?)
+    expect(candidate_event.completed?).to be(true)
     expect(candidate_event.completed_date).to eq(Time.zone.today)
-    expect(candidate_event.verified).to eq(true)
+    expect(candidate_event.verified).to be(true)
   end
+
   # Admin opens mass edit candidates event for pick candidate event
   # Admin clicks link for candidate who is awaiting admin
   # christian ministry editor opens.
   # Admin clicks 'Update and Verify'
   # The mass_edit_candidates_event is opened and candidate has been verified.
-  scenario 'admin' do
+  it 'admin - 2' do
     completed_date = Time.zone.today - 1
     candidate = Candidate.find(@cand_id)
     candidate.christian_ministry.what_service = 'What'
@@ -99,6 +100,6 @@ feature 'Admin verifies christian ministry from Mass Edit Candidates Event', :de
 
     expect(candidate_event.completed?).to be(true)
     expect(candidate_event.completed_date).to eq(completed_date)
-    expect(candidate_event.verified).to eq(true)
+    expect(candidate_event.verified).to be(true)
   end
 end

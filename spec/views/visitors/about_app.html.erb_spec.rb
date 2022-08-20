@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'visitors/about_app.html.erb' do
-  before(:each) do
+  before do
     last_version = `git describe --tags --always`
     dash_splits = last_version.strip.split('-')
     split_v = dash_splits[0].split('.')

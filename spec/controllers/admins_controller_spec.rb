@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
 describe AdminsController do
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @admin = login_admin
   end
-  it 'should NOT have a current_candidate' do
-    expect(subject.current_candidate).to eq(nil)
+
+  it 'NOT have a current_candidate' do
+    expect(subject.current_candidate).to be_nil
   end
 
   describe 'authentication' do
-    it 'should fail authentication' do
+    it 'fail authentication' do
       login_candidate
       get :index
-      expect(@candidates).to eq(nil)
+      expect(@candidates).to be_nil
     end
 
-    it 'should pass authentication and set @admins' do
+    it 'pass authentication and set @admins' do
       get :index
       expect(subject.admins.size).to eq(1)
     end
@@ -27,6 +28,7 @@ describe AdminsController do
       controller.set_confirmation_events
       expect(controller.confirmation_events.size).to eq(0)
     end
+
     it 'is sorted one event' do
       ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
       controller.set_confirmation_events
@@ -34,6 +36,7 @@ describe AdminsController do
       expect(confirmation_events.first).to eq(ce1)
       expect(confirmation_events.size).to eq(1)
     end
+
     it 'is sorted two event' do
       ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
       ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
@@ -43,6 +46,7 @@ describe AdminsController do
       expect(confirmation_events.second).to eq(ce1)
       expect(confirmation_events.size).to eq(2)
     end
+
     it 'is sorted three event' do
       ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
       ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
@@ -54,6 +58,7 @@ describe AdminsController do
       expect(confirmation_events.third).to eq(ce1)
       expect(confirmation_events.size).to eq(3)
     end
+
     it 'is sorted three event: one nil' do
       ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
       ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
@@ -65,6 +70,7 @@ describe AdminsController do
       expect(confirmation_events.third).to eq(ce1)
       expect(confirmation_events.size).to eq(3)
     end
+
     it 'is sorted three event: two nil' do
       ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
       ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
@@ -76,6 +82,7 @@ describe AdminsController do
       expect(confirmation_events.third).to eq(ce1)
       expect(confirmation_events.size).to eq(3)
     end
+
     it 'is sorted three event: two nil 2' do
       ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
       ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
@@ -90,14 +97,14 @@ describe AdminsController do
   end
 
   describe 'mass_edit_candidates_event_update' do
-    before(:each) do
+    before do
       @confirmation_event = AppFactory.add_confirmation_event(CandidateSheet.event_key)
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')
     end
 
-    it 'should NOT update any candidate\'s candidate_event' do
+    it 'NOT update any candidate\'s candidate_event' do
       put :mass_edit_candidates_event_update,
           params: { id: @confirmation_event.id,
                     completed_date: '2016-09-04',
@@ -107,7 +114,8 @@ describe AdminsController do
       expect_candidate_event(@c2, '', false)
       expect_candidate_event(@c3, '2016-07-23', false)
     end
-    it 'should update only c2\'s candidate_event' do
+
+    it 'update only c2\'s candidate_event' do
       put :mass_edit_candidates_event_update,
           params: { id: @confirmation_event.id,
                     completed_date: '2016-09-04',
@@ -118,7 +126,8 @@ describe AdminsController do
       expect_candidate_event(@c2, '2016-09-04', true)
       expect_candidate_event(@c3, '2016-07-23', false)
     end
-    it 'should update only c1\'s & c3\'s candidate_event' do
+
+    it 'update only c1\'s & c3\'s candidate_event' do
       put :mass_edit_candidates_event_update,
           params: { id: @confirmation_event.id,
                     completed_date: '2016-09-04',
@@ -141,12 +150,13 @@ describe AdminsController do
   end
 
   describe 'mass monthly mailing' do
-    before(:each) do
+    before do
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')
     end
-    it 'should set @candidates' do
+
+    it 'set @candidates' do
       controller.monthly_mass_mailing
 
       expect(controller.candidate_info.size).to eq(3)
@@ -157,13 +167,14 @@ describe AdminsController do
   end
 
   describe 'mass monthly mailing update' do
-    before(:each) do
+    before do
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')
       AppFactory.add_confirmation_events
     end
-    it 'should set @candidates' do
+
+    it 'set @candidates' do
       request.env['HTTP_REFERER'] = monthly_mass_mailing_path
 
       put :monthly_mass_mailing_update,
@@ -178,13 +189,13 @@ describe AdminsController do
                     commit: I18n.t('email.monthly_mail') }
 
       expect_message(:notice, I18n.t('messages.monthly_mailing_progress'))
-      expect(render_template('edit_multiple_confirmation_events'))
+      # expect(render_template('edit_multiple_confirmation_events'))
       expect(response.status).to eq(200)
     end
   end
 
   describe 'mass edit candidates update' do
-    before(:each) do
+    before do
       @c1 = create_candidate('c1')
       @c2 = create_candidate('c2')
       @c3 = create_candidate('c3')
@@ -198,7 +209,7 @@ describe AdminsController do
             params: { commit: AdminsController::DELETE }
 
         expect_message(:alert, I18n.t('messages.no_candidate_selected'))
-        expect(render_template('edit_multiple_confirmation_events'))
+        # expect(render_template('edit_multiple_confirmation_events'))
         expect(response.status).to eq(302)
       end
 
@@ -207,7 +218,7 @@ describe AdminsController do
             params: { commit: AdminsController::EMAIL }
 
         expect_message(:alert, I18n.t('messages.no_candidate_selected'))
-        expect(render_template('edit_multiple_confirmation_events'))
+        # expect(render_template('edit_multiple_confirmation_events'))
         expect(response.status).to eq(302)
       end
 
@@ -216,7 +227,7 @@ describe AdminsController do
             params: { commit: AdminsController::RESET_PASSWORD }
 
         expect_message(:alert, I18n.t('messages.no_candidate_selected'))
-        expect(render_template('edit_multiple_confirmation_events'))
+        # expect(render_template('edit_multiple_confirmation_events'))
         expect(response.status).to eq(302)
       end
 
@@ -225,52 +236,52 @@ describe AdminsController do
             params: { commit: AdminsController::INITIAL_EMAIL }
 
         expect_message(:alert, I18n.t('messages.no_candidate_selected'))
-        expect(render_template('edit_multiple_confirmation_events'))
+        # expect(render_template('edit_multiple_confirmation_events'))
         expect(response.status).to eq(302)
       end
     end
 
     describe 'admin login' do
       describe 'No candidate selected' do
-        it 'delete should return no_candidate_selected if none selected' do
+        it 'delete return no_candidate_selected if none selected' do
           put :mass_edit_candidates_update,
               params: { commit: AdminsController::DELETE }
 
           expect_message(:alert, I18n.t('messages.no_candidate_selected'))
-          expect(render_template('edit_multiple_confirmation_events'))
+          # expect(render_template('edit_multiple_confirmation_events'))
           expect(response.status).to eq(302)
         end
 
-        it 'email should return no_candidate_selected if none selected' do
+        it 'email return no_candidate_selected if none selected' do
           put :mass_edit_candidates_update,
               params: { commit: AdminsController::EMAIL }
 
           expect_message(:alert, I18n.t('messages.no_candidate_selected'))
-          expect(render_template('edit_multiple_confirmation_events'))
+          # expect(render_template('edit_multiple_confirmation_events'))
           expect(response.status).to eq(302)
         end
 
-        it 'reset-password should return no_candidate_selected if none selected' do
+        it 'reset-password return no_candidate_selected if none selected' do
           put :mass_edit_candidates_update,
               params: { commit: AdminsController::RESET_PASSWORD }
 
           expect_message(:alert, I18n.t('messages.no_candidate_selected'))
-          expect(render_template('edit_multiple_confirmation_events'))
+          # expect(render_template('edit_multiple_confirmation_events'))
           expect(response.status).to eq(302)
         end
 
-        it 'initial-email should return no_candidate_selected if none selected' do
+        it 'initial-email return no_candidate_selected if none selected' do
           put :mass_edit_candidates_update,
               params: { commit: AdminsController::INITIAL_EMAIL }
 
           expect_message(:alert, I18n.t('messages.no_candidate_selected'))
-          expect(render_template('edit_multiple_confirmation_events'))
+          # expect(render_template('edit_multiple_confirmation_events'))
           expect(response.status).to eq(302)
         end
       end
 
       describe 'delete' do
-        it 'should delete candidate if selected' do
+        it 'delete candidate if selected' do
           put :mass_edit_candidates_update,
               params: { candidate: { candidate_ids: [@c2.id] },
                         button: AdminsController::DELETE }
@@ -278,20 +289,12 @@ describe AdminsController do
           expect_message(:notice, I18n.t('messages.candidates_deleted'))
           candidates = Candidate.all
           expect(candidates.size).to eq(2)
-          expect(candidates.include?(@c2)).to eq(false)
+          expect(candidates.include?(@c2)).to be(false)
         end
       end
-      describe 'email' do
-        it 'should render monthly mass mailing when email' do
-          put :mass_edit_candidates_update,
-              params: { candidate: { candidate_ids: [@c2.id] },
-                        button: AdminsController::EMAIL }
 
-          expect(render_template('monthly_mass_mailing'))
-        end
-      end
       describe 'reset password' do
-        it 'should send reset password email when ' do
+        it 'send reset password email when ...' do
           put :mass_edit_candidates_update,
               params: { candidate: { candidate_ids: [@c1.id, @c2.id] },
                         button: AdminsController::RESET_PASSWORD }
@@ -299,8 +302,9 @@ describe AdminsController do
           expect_message(:notice, I18n.t('messages.reset_password_message_sent'))
         end
       end
+
       describe 'initial email' do
-        it 'should send initial email with reset password when ' do
+        it 'send initial email with reset password when ...' do
           put :mass_edit_candidates_update,
               params: { candidate: { candidate_ids: [@c2.id, @c3.id] },
                         button: AdminsController::INITIAL_EMAIL }
@@ -312,13 +316,13 @@ describe AdminsController do
   end
 
   describe 'confirm account' do
-    before(:each) do
+    before do
       @c1 = create_candidate('c1', should_confirm: false)
       @c2 = create_candidate('c2', should_confirm: false)
       @c3 = create_candidate('c3', should_confirm: false)
     end
 
-    it 'should confirm all accounts' do
+    it 'confirm all accounts' do
       ids = [@c1.id, @c2.id, @c3.id]
       request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
 
@@ -328,11 +332,11 @@ describe AdminsController do
 
       expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size, number_not_confirmed: 0))
       ids.each do |id|
-        expect(Candidate.find(id).account_confirmed?).to eq(true)
+        expect(Candidate.find(id).account_confirmed?).to be(true)
       end
     end
 
-    it 'should confirm all accounts sent' do
+    it 'confirm all accounts sent' do
       ids = [@c1.id, @c3.id]
       request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
 
@@ -342,12 +346,12 @@ describe AdminsController do
 
       expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size, number_not_confirmed: 0))
       ids.each do |id|
-        expect(Candidate.find(id).account_confirmed?).to eq(true)
+        expect(Candidate.find(id).account_confirmed?).to be(true)
       end
-      expect(Candidate.find(@c2.id).account_confirmed?).to eq(false)
+      expect(Candidate.find(@c2.id).account_confirmed?).to be(false)
     end
 
-    it 'should confirm all accounts sent except confirmed ones' do
+    it 'confirm all accounts sent except confirmed ones' do
       c2 = Candidate.find(@c2.id)
       c2.confirm_account
       c2.save
@@ -361,7 +365,7 @@ describe AdminsController do
 
       expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size - 1, number_not_confirmed: 1))
       ids.each do |id|
-        expect(Candidate.find(id).account_confirmed?).to eq(true)
+        expect(Candidate.find(id).account_confirmed?).to be(true)
       end
     end
   end
@@ -381,7 +385,7 @@ describe AdminsController do
 
   def expect_message(id, message)
     %i[alert notice].each do |my_id|
-      expect(flash[my_id]).to eq(nil) unless my_id == id
+      expect(flash[my_id]).to be_nil unless my_id == id
     end
     expect(flash[id]).to eq(message) unless id.nil?
   end

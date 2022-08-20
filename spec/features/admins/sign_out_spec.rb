@@ -4,16 +4,16 @@
 #   As a candidate
 #   I want to sign out
 #   So I can protect my account from unauthorized access
-feature 'Sign out', :devise do
+describe 'Sign out', :devise do
   before do
     FactoryBot.create(:visitor)
   end
 
-  # Scenario: Candidate signs out successfully
+  # it: Candidate signs out successfully
   #   Given I am signed in
   #   When I sign out
   #   Then I see a signed out message
-  scenario 'candidate signs out successfully' do
+  it 'candidate signs out successfully' do
     admin = FactoryBot.create(:admin)
     signin_admin(admin.account_name, admin.password)
     expect_message(:flash_notice, I18n.t('devise.sessions.signed_in'))

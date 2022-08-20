@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'baptismal_certificate' do
+  # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     AppFactory.add_confirmation_event(BaptismalCertificate.event_key)
     @today = Time.zone.today
   end
 
-  it 'should show baptismal_certificate for the candidate.' do
-    expect(@candidate.baptismal_certificate).not_to eq(nil)
+  it 'show baptismal_certificate for the candidate.' do
+    expect(@candidate.baptismal_certificate).not_to be_nil
 
     put :event_with_picture, params: { id: @candidate.id, event_route: Event::Route::BAPTISMAL_CERTIFICATE }
 
@@ -17,14 +19,14 @@ shared_context 'baptismal_certificate' do
     expect(controller.candidate).to eq(@candidate)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{@candidate.id}/baptismal_certificate")
 
-    expect(controller.candidate.baptismal_certificate).not_to eq(nil)
+    expect(controller.candidate.baptismal_certificate).not_to be_nil
   end
 
-  it 'show should update the candidate baptismal_certificate info and update Candidate event.' do
+  it 'show update the candidate baptismal_certificate info and update Candidate event.' do
     candidate = Candidate.find(@candidate.id)
 
     candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
-    expect(candidate_event.completed_date).to eq(nil)
+    expect(candidate_event.completed_date).to be_nil
     put :event_with_picture_update,
         params: { id: candidate.id,
                   event_route: Event::Route::BAPTISMAL_CERTIFICATE,
@@ -54,16 +56,16 @@ shared_context 'baptismal_certificate' do
     candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
-    expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(true)
+    expect(candidate.baptismal_certificate.baptized_at_home_parish).to be(true)
     expect(candidate_event.completed_date).to eq(@today)
   end
 
-  it 'show should illegal parameter.' do
+  it 'show illegal parameter.' do
     candidate = Candidate.find(@candidate.id)
     candidate.baptismal_certificate = BaptismalCertificate.new
     candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
-    expect(candidate_event.completed_date).to eq(nil)
-    expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
+    expect(candidate_event.completed_date).to be_nil
+    expect(candidate.baptismal_certificate.baptized_at_home_parish).to be(false)
 
     put :event_with_picture_update, params: { id: candidate.id, event_route: Event::Route::BAPTISMAL_CERTIFICATE }
 
@@ -71,17 +73,17 @@ shared_context 'baptismal_certificate' do
     candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
-    expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
-    expect(candidate_event.completed_date).to eq(nil)
+    expect(candidate.baptismal_certificate.baptized_at_home_parish).to be(false)
+    expect(candidate_event.completed_date).to be_nil
 
     # expect(response).to render_template('candidates/event_with_picture')
     expect(flash[:alert]).to eq('Unknown Parameter: candidate')
   end
 
-  it 'should show illegal parameter.' do
+  it 'show illegal parameter.' do
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
-    expect(candidate_event.completed_date).to eq(nil)
+    expect(candidate_event.completed_date).to be_nil
 
     put :event_with_picture_update,
         params: { id: candidate.id,
@@ -94,8 +96,8 @@ shared_context 'baptismal_certificate' do
 
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}event_with_picture/#{candidate.id}/baptismal_certificate")
-    expect(candidate.baptismal_certificate.baptized_at_home_parish).to eq(false)
-    expect(candidate.baptismal_certificate).not_to eq(nil)
+    expect(candidate.baptismal_certificate.baptized_at_home_parish).to be(false)
+    expect(candidate.baptismal_certificate).not_to be_nil
     expect(candidate_event.completed_date.to_s).to eq('')
 
     # expect(response).to render_template('candidates/event_with_picture')
@@ -119,15 +121,15 @@ shared_context 'baptismal_certificate' do
   end
 
   [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
-    it "Admin removes baptismal picture and undoes events completed state.  commit = #{commit_value}" do
+    it "Admin removes baptismal picture and undoes events completed state. commit = #{commit_value}" do
       candidate = Candidate.find(@candidate.id)
       baptismal_certificate = make_valid_bc(candidate)
 
       update_event(candidate, @today, false, BaptismalCertificate.event_key)
       candidate.save
 
-      expect(baptismal_certificate.scanned_certificate).to_not be_nil
-      expect(baptismal_certificate.scanned_certificate_id).to_not be_nil
+      expect(baptismal_certificate.scanned_certificate).not_to be_nil
+      expect(baptismal_certificate.scanned_certificate_id).not_to be_nil
 
       cand_bc_params = valid_parameters_bc(baptismal_certificate.id)
 
@@ -141,8 +143,8 @@ shared_context 'baptismal_certificate' do
       baptismal_certificate = candidate.baptismal_certificate
       expect(baptismal_certificate.scanned_certificate).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(baptismal_certificate.scanned_certificate_id).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(baptismal_certificate.scanned_certificate).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
-      expect(baptismal_certificate.scanned_certificate_id).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(baptismal_certificate.scanned_certificate).not_to be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(baptismal_certificate.scanned_certificate_id).not_to be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
@@ -156,7 +158,7 @@ shared_context 'baptismal_certificate' do
       update_event(candidate, @today, true, BaptismalCertificate.event_key)
       candidate.save
 
-      expect(baptismal_certificate.scanned_certificate).to_not be_nil
+      expect(baptismal_certificate.scanned_certificate).not_to be_nil
 
       cand_bc_params = valid_parameters_bc(baptismal_certificate.id)
 
@@ -227,12 +229,14 @@ shared_context 'baptismal_certificate' do
   end
 end
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'sign_agreement' do
-  before(:each) do
+  # rubocop:enable RSpec/ContextWording
+  before do
     @today = Time.zone.today
   end
 
-  it 'should show sign_agreement for the candidate.' do
+  it 'show sign_agreement for the candidate.' do
     get :sign_agreement, params: { id: @candidate.id }
 
     # expect(response).to render_template('sign_agreement')
@@ -240,12 +244,12 @@ shared_context 'sign_agreement' do
     expect(@request.fullpath).to eq("/#{@dev}sign_agreement.#{@candidate.id}")
   end
 
-  it 'show should update the candidate to signing the confirmation agreement and update Candidate event.' do
+  it 'show update the candidate to signing the confirmation agreement and update Candidate event.' do
     AppFactory.add_confirmation_event(Candidate.covenant_agreement_event_key)
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(Candidate.covenant_agreement_event_key)
-    expect(candidate_event.completed_date).to eq(nil)
+    expect(candidate_event.completed_date).to be_nil
 
     put :sign_agreement_update, params: { id: candidate.id, candidate: { signed_agreement: 1 } }
 
@@ -254,26 +258,28 @@ shared_context 'sign_agreement' do
 
     expect(response.status).to eq(200)
     expect(@request.fullpath).to eq("/#{@dev}sign_agreement.#{candidate.id}")
-    expect(candidate.signed_agreement).to eq(true)
+    expect(candidate.signed_agreement).to be(true)
     expect(candidate_event.completed_date).to eq(@today)
   end
 end
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'retreat_verification' do
-  before(:each) do
+  # rubocop:enable RSpec/ContextWording
+  before do
     AppFactory.add_confirmation_event(RetreatVerification.event_key)
     @today = Time.zone.today
   end
 
   [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
-    it "Admin removes retreat verification picture and undoes events completed state.  commit = #{commit_value}" do
+    it "Admin removes retreat verification picture and undoes events completed state. commit = #{commit_value}" do
       candidate = Candidate.find(@candidate.id)
       retreat_verification = make_valid_rv(candidate)
 
       update_event(candidate, @today, false, RetreatVerification.event_key)
       candidate.save
 
-      expect(retreat_verification.scanned_retreat).to_not be_nil
+      expect(retreat_verification.scanned_retreat).not_to be_nil
 
       cand_rv_params = valid_parameters_rv(retreat_verification.id)
 
@@ -286,7 +292,7 @@ shared_context 'retreat_verification' do
       candidate = Candidate.find(@candidate.id)
       retreat_verification = candidate.retreat_verification
       expect(retreat_verification.scanned_retreat).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(retreat_verification.scanned_retreat).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(retreat_verification.scanned_retreat).not_to be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(RetreatVerification.event_key)
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
@@ -300,8 +306,8 @@ shared_context 'retreat_verification' do
       update_event(candidate, @today, true, RetreatVerification.event_key)
       candidate.save
 
-      expect(retreat_verification.scanned_retreat).to_not be_nil
-      expect(retreat_verification.scanned_retreat_id).to_not be_nil
+      expect(retreat_verification.scanned_retreat).not_to be_nil
+      expect(retreat_verification.scanned_retreat_id).not_to be_nil
 
       cand_bc_params = valid_parameters_rv(retreat_verification.id)
 
@@ -351,20 +357,23 @@ shared_context 'retreat_verification' do
   end
 end
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'sponsor_covenant' do
-  before(:each) do
+  # rubocop:enable RSpec/ContextWording
+  before do
     AppFactory.add_confirmation_event(SponsorCovenant.event_key)
     @today = Time.zone.today
   end
+
   [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
-    it "Admin removes sponsor covenant picture and undoes events completed state.  commit = #{commit_value}" do
+    it "Admin removes sponsor covenant picture and undoes events completed state. commit = #{commit_value}" do
       candidate = Candidate.find(@candidate.id)
       sponsor_covenant = make_valid_sc(candidate)
 
       update_event(candidate, @today, false, SponsorCovenant.event_key)
       candidate.save
 
-      expect(sponsor_covenant.scanned_covenant).to_not be_nil
+      expect(sponsor_covenant.scanned_covenant).not_to be_nil
 
       cand_sc_params = valid_parameters_sc(sponsor_covenant.id)
 
@@ -377,7 +386,7 @@ shared_context 'sponsor_covenant' do
       candidate = Candidate.find(@candidate.id)
       sponsor_covenant = candidate.sponsor_covenant
       expect(sponsor_covenant.scanned_covenant).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(sponsor_covenant.scanned_covenant).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_covenant.scanned_covenant).not_to be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(SponsorCovenant.event_key)
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
@@ -391,8 +400,8 @@ shared_context 'sponsor_covenant' do
       update_event(candidate, @today, true, SponsorCovenant.event_key)
       candidate.save
 
-      expect(sponsor_covenant.scanned_covenant).to_not be_nil
-      expect(sponsor_covenant.scanned_covenant_id).to_not be_nil
+      expect(sponsor_covenant.scanned_covenant).not_to be_nil
+      expect(sponsor_covenant.scanned_covenant_id).not_to be_nil
 
       cand_sc_params = valid_parameters_sc(sponsor_covenant.id)
 
@@ -434,22 +443,25 @@ shared_context 'sponsor_covenant' do
   end
 end
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'sponsor_eligibility' do
-  before(:each) do
+  # rubocop:enable RSpec/ContextWording
+  before do
     AppFactory.add_confirmation_event(SponsorEligibility.event_key)
     AppFactory.add_confirmation_event(SponsorCovenant.event_key)
     @today = Time.zone.today
   end
+
   [I18n.t('views.common.update'), I18n.t('views.common.update_verify'), I18n.t('views.common.un_verify')].each do |commit_value|
-    it "Admin removes sponsor eligibility picture and undoes events completed state.  commit = #{commit_value}" do
+    it "Admin removes sponsor eligibility picture and undoes events completed state. commit = #{commit_value}" do
       candidate = Candidate.find(@candidate.id)
       sponsor_eligibility = make_valid_se(candidate)
 
       update_event(candidate, @today, false, SponsorEligibility.event_key)
       candidate.save
 
-      expect(sponsor_eligibility.scanned_eligibility).to_not be_nil
-      expect(sponsor_eligibility.scanned_eligibility_id).to_not be_nil
+      expect(sponsor_eligibility.scanned_eligibility).not_to be_nil
+      expect(sponsor_eligibility.scanned_eligibility_id).not_to be_nil
 
       cand_se_params = valid_parameters_se(sponsor_eligibility.id)
 
@@ -463,8 +475,8 @@ shared_context 'sponsor_eligibility' do
       sponsor_eligibility = candidate.sponsor_eligibility
       expect(sponsor_eligibility.scanned_eligibility).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(sponsor_eligibility.scanned_eligibility_id).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(sponsor_eligibility.scanned_eligibility).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
-      expect(sponsor_eligibility.scanned_eligibility_id).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_eligibility.scanned_eligibility).not_to be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_eligibility.scanned_eligibility_id).not_to be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(SponsorEligibility.event_key)
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
@@ -478,7 +490,7 @@ shared_context 'sponsor_eligibility' do
       update_event(candidate, @today, true, SponsorEligibility.event_key)
       candidate.save
 
-      expect(sponsor_eligibility.scanned_eligibility).to_not be_nil
+      expect(sponsor_eligibility.scanned_eligibility).not_to be_nil
 
       cand_se_params = valid_parameters_se(sponsor_eligibility.id)
 
@@ -496,7 +508,7 @@ shared_context 'sponsor_eligibility' do
       expect(candidate_event.verified).to be(false)
     end
 
-    it "Admin removes sponsor eligibility picture and undoes events completed state.  commit = #{commit_value}" do
+    it "Admin removes sponsor eligibility picture and undoes events completed state. commit = #{commit_value}" do
       candidate = Candidate.find(@candidate.id)
       sponsor_eligibility = make_valid_se(candidate)
 
@@ -514,7 +526,7 @@ shared_context 'sponsor_eligibility' do
       candidate = Candidate.find(@candidate.id)
       sponsor_eligibility = candidate.sponsor_eligibility
       expect(sponsor_eligibility.scanned_eligibility).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-      expect(sponsor_eligibility.scanned_eligibility).to_not be_nil if commit_value == I18n.t('views.common.un_verify')
+      expect(sponsor_eligibility.scanned_eligibility).not_to be_nil if commit_value == I18n.t('views.common.un_verify')
       candidate_event = candidate.get_candidate_event(SponsorEligibility.event_key)
       expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
       expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
@@ -546,12 +558,14 @@ shared_context 'sponsor_eligibility' do
   end
 end
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'candidate_information_sheet' do
-  before(:each) do
+  # rubocop:enable RSpec/ContextWording
+  before do
     @today = Time.zone.today
   end
 
-  it 'should show information_sheet for the candidate.' do
+  it 'show information_sheet for the candidate.' do
     get :candidate_sheet, params: { id: @candidate.id }
 
     # expect(response).to render_template('candidate_sheet')
@@ -559,12 +573,12 @@ shared_context 'candidate_information_sheet' do
     expect(@request.fullpath).to eq("/#{@dev}candidate_sheet.#{@candidate.id}")
   end
 
-  it 'show should update the candidate to fill out candidate sheet and update Candidate event.' do
+  it 'show update the candidate to fill out candidate sheet and update Candidate event.' do
     AppFactory.add_confirmation_event(CandidateSheet.event_key)
 
     candidate = Candidate.find(@candidate.id)
     candidate_event = candidate.get_candidate_event(CandidateSheet.event_key)
-    expect(candidate_event.completed_date).to eq(nil)
+    expect(candidate_event.completed_date).to be_nil
 
     put :candidate_sheet_update,
         params: { id: candidate.id,

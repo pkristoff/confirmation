@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 describe PluckCan, type: :model do
-  before(:each) do
+  before do
     AppFactory.add_confirmation_events
   end
+
   describe 'status' do
-    before(:each) do
+    before do
       @cand_id = 1
       fake_id = 99
       plucked_can_event = []
@@ -17,11 +18,13 @@ describe PluckCan, type: :model do
       @plucked_can = PluckCan.new([@cand_id, 'c1', now, '', 'last', 'first', 10, 2, Candidate::THE_WAY],
                                   cand_event_info)
     end
-    it 'should be late for CATHOLIC_HIGH_SCHOOL' do
+
+    it 'be late for CATHOLIC_HIGH_SCHOOL' do
       expect(@plucked_can.status(@cand_id,
                                  RetreatVerification.event_key, Candidate::CATHOLIC_HIGH_SCHOOL)).to eq(I18n.t('status.late'))
     end
-    it 'should be coming due for THE_WAY' do
+
+    it 'be coming due for THE_WAY' do
       expect(@plucked_can.status(@cand_id,
                                  RetreatVerification.event_key, Candidate::THE_WAY)).to eq(I18n.t('status.coming_due'))
     end

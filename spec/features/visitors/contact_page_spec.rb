@@ -3,15 +3,16 @@
 # Feature: Contact page
 #   As a visitor
 #   I want to visit a contact page via help menu
-feature 'Contact page' do
-  # Scenario: Visit the contact page
+describe 'Contact page' do
+  # it: Visit the contact page
   #   Given I am a visitor
   #   When I visit the contact page
   #   Then I see "Welcome"
-  before(:each) do
+  before do
     @visitor_id = FactoryBot.create(:visitor).id
   end
-  scenario 'a visitor visits the home page' do
+
+  it 'a visitor visits the home page' do
     visit contact_path
 
     expect(page).to have_selector('span[class=navbar-toggler-icon]', count: 1)
@@ -26,7 +27,7 @@ feature 'Contact page' do
     expect(page).to have_selector('p', text: 'contact me')
   end
 
-  scenario 'html sanitized and gets embeded into the contact page' do
+  it 'html sanitized and gets embeded into the contact page' do
     visitor = Visitor.find_by(id: @visitor_id)
     # rubocop:disable Layout/LineLength
     visitor.contact = '<a href="mailto:stmm.confirmation@kristoffs.com?subject=Help" id="foo" style="text-align: center;" target="_top">Contact Admin via email stmm.confirmation@kristoffs.com</a>'

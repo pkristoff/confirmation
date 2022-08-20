@@ -3,7 +3,7 @@
 describe MissingEvents, type: :model do
   describe 'check_missing_events' do
     include ViewsHelpers
-    it 'should show "Sponsor Covenant" is missing.' do
+    it 'show "Sponsor Covenant" is missing.' do
       ResetDB.start_new_year
       setup_unknown_missing_events
       missing_events = MissingEvents.new
@@ -17,7 +17,7 @@ describe MissingEvents, type: :model do
       expect(missing_events.unknown_confirmation_events[0]).to eq('unknown event')
     end
 
-    it 'should add "Sponsor Covenant".' do
+    it 'add "Sponsor Covenant".' do
       ResetDB.start_new_year
       missing_events = MissingEvents.new
       setup_unknown_missing_events

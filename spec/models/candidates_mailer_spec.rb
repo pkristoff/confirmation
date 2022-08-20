@@ -3,7 +3,7 @@
 describe CandidatesMailer, type: :model do
   include ViewsHelpers
   describe 'monthly_reminder testing' do
-    before(:each) do
+    before do
       admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
@@ -26,7 +26,7 @@ describe CandidatesMailer, type: :model do
     end
 
     describe 'monthly_reminder' do
-      it 'should create a mail form' do
+      it 'create a mail form' do
         admin = AppFactory.create_admin(email: 'candidate@example.com',
                                         contact_name: 'Vicki Kristoff',
                                         contact_phone: '919-911-9191')
@@ -54,7 +54,7 @@ describe CandidatesMailer, type: :model do
     end
 
     describe 'monthly_reminder_test' do
-      it 'should create a mail form' do
+      it 'create a mail form' do
         admin = AppFactory.create_admin(email: 'candidate@example.com')
 
         coming_due_values = @candidate.candidate_events.map do |ce|
@@ -84,7 +84,7 @@ describe CandidatesMailer, type: :model do
   end
 
   describe 'adhoc mail' do
-    before(:each) do
+    before do
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)
@@ -96,7 +96,7 @@ describe CandidatesMailer, type: :model do
     end
 
     describe 'adhoc' do
-      it 'should create an adhoc mail form' do
+      it 'create an adhoc mail form' do
         mail = CandidatesMailer.adhoc(@admin, @text)
         expect(mail.to).to eq([@candidate.candidate_sheet.candidate_email, @candidate.candidate_sheet.parent_email_1])
         expect(mail.from).to eq([I18n.t(ViewsHelpers::FROM_EMAIL_I18N, email: @admin.email)])
@@ -111,7 +111,7 @@ describe CandidatesMailer, type: :model do
     end
 
     describe 'adhoc test' do
-      it 'should create an adhoc test mail form' do
+      it 'create an adhoc test mail form' do
         admin = AppFactory.create_admin(email: 'candidate@example.com')
 
         mail = CandidatesMailer.adhoc_test(admin, @text)

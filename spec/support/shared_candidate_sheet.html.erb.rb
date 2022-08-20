@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'candidate_sheet_html_erb' do
+  # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by(account_name: @candidate.account_name)
@@ -20,7 +22,7 @@ shared_context 'candidate_sheet_html_erb' do
     end
   end
 
-  scenario 'candidate logs in, selects candidate sheet, attempts to save an invalid sheet' do
+  it 'candidate logs in, selects candidate sheet, attempts to save an invalid sheet' do
     cand = Candidate.find(@candidate.id)
     cand.candidate_sheet.candidate_email = 'm'
     cand.save(validate: false)
@@ -44,7 +46,7 @@ shared_context 'candidate_sheet_html_erb' do
   end
 
   # rubocop:disable Layout/LineLength
-  scenario 'candidate logs in, selects candidate sheet, has filled out candidate sheet previsouly puts in invalid email, attempts to save an invalid sheet' do
+  it 'candidate logs in, selects candidate sheet, has filled out candidate sheet previsouly puts in invalid email, attempts to save an invalid sheet' do
     # rubocop:enable Layout/LineLength
     visit @path
     fill_in(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), with: 'mm')
@@ -62,7 +64,7 @@ shared_context 'candidate_sheet_html_erb' do
     # rubocop:enable Layout/LineLength
   end
 
-  scenario 'candidate fills out candidate sheet' do
+  it 'candidate fills out candidate sheet' do
     expect_db(1, 0)
 
     visit @path
@@ -90,8 +92,8 @@ shared_context 'candidate_sheet_html_erb' do
     expect_db(1, 0) # make sure DB does not increase in size.
   end
 
-  scenario 'admin un-verifies a verified candidate sheet event' do
-    expect(@is_verify == true || @is_verify == false).to eq(true)
+  it 'admin un-verifies a verified candidate sheet event' do
+    expect(@is_verify == true || @is_verify == false).to be(true)
 
     event_key = CandidateSheet.event_key
     today = Time.zone.today

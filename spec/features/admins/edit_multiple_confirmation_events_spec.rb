@@ -2,11 +2,11 @@
 
 Warden.test_mode!
 
-feature 'Admin edit_multiple_confirmation_events', :devise do
+describe 'Admin edit_multiple_confirmation_events', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @candidate1 = Candidate.find_by(account_name: create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
     @candidate2 = Candidate.find_by(account_name: create_candidate('Paul', 'Richard', 'Kristoff').account_name)
@@ -19,11 +19,11 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
     @today = Time.zone.today
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  scenario 'admin changes event value hits update' do
+  it 'admin changes event value hits update' do
     visit edit_multiple_confirmation_events_path
 
     confirmation_event = ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key)
@@ -44,7 +44,7 @@ feature 'Admin edit_multiple_confirmation_events', :devise do
     expect(page).to have_css("textarea[id=#{instructions_id}]", text: 'Very important instructions')
   end
 
-  scenario 'admin clicks the updates candidates events button' do
+  it 'admin clicks the updates candidates events button' do
     candidate = Candidate.find_by(account_name: @candidate1.account_name)
     event_key = PickConfirmationName.event_key
     candidate_event = candidate.get_candidate_event(event_key)

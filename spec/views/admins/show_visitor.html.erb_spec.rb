@@ -14,20 +14,22 @@ HOME_CHANGED_VALUE = '<div id="foo">ccc yyy</div>'
 ABOUT_INIT_VALUE = '<code>About</code>'
 ABOUT_CHANGED_VALUE = '<div id="bar">ddd zzz</div>'
 
+# rubocop:disable RSpec/Capybara/FeatureMethods
 feature 'admins/show_visitor.html.erb' do
+  # rubocop:enable RSpec/Capybara/FeatureMethods
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     @visitor = FactoryBot.create(:visitor)
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  scenario 'display the visitor home page' do
+  it 'display the visitor home page' do
     visit show_visitor_path
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
@@ -35,7 +37,7 @@ feature 'admins/show_visitor.html.erb' do
                           street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502' })
   end
 
-  scenario 'edit the visitor home page change home parish' do
+  it 'edit the visitor home page change home parish' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
@@ -51,7 +53,7 @@ feature 'admins/show_visitor.html.erb' do
                           expected_messages: [[:flash_notice, I18n.t('messages.home_parish_updated')]] })
   end
 
-  scenario 'change home parish address' do
+  it 'change home parish address' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
@@ -78,7 +80,7 @@ feature 'admins/show_visitor.html.erb' do
                           expected_messages: [[:flash_notice, I18n.t('messages.home_parish_updated')]] })
   end
 
-  scenario 'edit the visitor home page change home value' do
+  it 'edit the visitor home page change home value' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
@@ -94,7 +96,7 @@ feature 'admins/show_visitor.html.erb' do
                           expected_messages: [[:flash_notice, I18n.t('messages.home_updated')]] })
   end
 
-  scenario 'edit the visitor home page change about value' do
+  it 'edit the visitor home page change about value' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
@@ -110,7 +112,7 @@ feature 'admins/show_visitor.html.erb' do
                           expected_messages: [[:flash_notice, I18n.t('messages.about_updated')]] })
   end
 
-  scenario 'edit the visitor home page change contact value' do
+  it 'edit the visitor home page change contact value' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',

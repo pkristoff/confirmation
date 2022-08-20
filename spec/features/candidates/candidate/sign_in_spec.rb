@@ -4,25 +4,26 @@
 #   As a candidate
 #   I want to sign in
 #   So I can visit protected areas of the site
-feature 'Sign in', :devise do
+describe 'Sign in', :devise do
   before do
     FactoryBot.create(:visitor)
   end
-  # Scenario: Candidate cannot sign in if not registered
+
+  # it: Candidate cannot sign in if not registered
   #   Given I do not exist as a candidate
   #   When I sign in with valid credentials
   #   Then I see an invalid credentials message
-  scenario 'candidate cannot sign in if not registered' do
+  it 'candidate cannot sign in if not registered' do
     signin_candidate('test@example.com', 'please123')
     expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Account name'))
   end
 
-  # Scenario: Candidate can sign in with valid credentials
+  # it: Candidate can sign in with valid credentials
   #   Given I exist as a candidate
   #   And I am not signed in
   #   When I sign in with valid credentials
   #   Then I see a success message
-  scenario 'candidate can sign in with valid credentials' do
+  it 'candidate can sign in with valid credentials' do
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
 
@@ -31,40 +32,41 @@ feature 'Sign in', :devise do
     expect_message(:flash_notice, I18n.t('devise.sessions.signed_in'))
   end
 
-  # Scenario: Candidate cannot sign in with wrong email
+  # it: Candidate cannot sign in with wrong email
   #   Given I exist as a candidate
   #   And I am not signed in
   #   When I sign in with a wrong email
   #   Then I see an invalid email message
-  scenario 'candidate cannot sign in with wrong email' do
+  it 'candidate cannot sign in with wrong email' do
     candidate = FactoryBot.create(:candidate)
     signin_candidate('invalid@email.com', candidate.password)
     expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Account name'))
   end
 
-  # Scenario: Candidate cannot sign in with wrong password
+  # it: Candidate cannot sign in with wrong password
   #   Given I exist as a candidate
   #   And I am not signed in
   #   When I sign in with a wrong password
   #   Then I see an invalid password message
-  scenario 'candidate cannot sign in with wrong password' do
+  it 'candidate cannot sign in with wrong password' do
     candidate = FactoryBot.create(:candidate)
     signin_candidate(candidate.candidate_sheet.parent_email_1, 'invalidpass')
     expect_message(:flash_alert, I18n.t('devise.failure.not_found_in_database', authentication_keys: 'Account name'))
   end
 
-  # Scenario: Candidate signing in should not create orphaned associations
+  # it: Candidate signing in should not create orphaned associations
   #   Given I exist as a candidate
   #   And I am not signed in
   #   When I sign in
   #   Then orphaned associations should not be created.
-  scenario 'candidate cannot sign in with wrong password' do
+  it 'candidate cannot sign in with wrong password -2' do
     AppFactory.add_confirmation_events
     candidate1 = create_candidate_old('Vicki', 'Anne', 'Kristoff')
     signin_candidate(candidate1.account_name, candidate1.password)
     expect_no_orphaned_associations
   end
-  scenario 'candidate forgot password, tries to reset it, but gives wrong account name' do
+
+  it 'candidate forgot password, tries to reset it, but gives wrong account name' do
     AppFactory.add_confirmation_events
     visit new_candidate_session_path
     click_link 'Forgot your password?'
@@ -77,9 +79,9 @@ feature 'Sign in', :devise do
                                            'Account name was not found: xxx']]])
   end
 
-  # Scenario: Candidate can't login decides to 'Resend confirmation instructions'
+  # it: Candidate can't login decides to 'Resend confirmation instructions'
   # but puts in wrong email
-  scenario 'Resend confirmation instructions: wrong email' do
+  it 'Resend confirmation instructions: wrong email' do
     AppFactory.add_confirmation_events
     visit new_candidate_session_path
     expect(page.html).to have_selector('a[href="/dev/candidates/confirmation/new"]',
@@ -96,9 +98,9 @@ feature 'Sign in', :devise do
                     ])
   end
 
-  # Scenario: Candidate can't login decides to 'Resend confirmation instructions'
+  # it: Candidate can't login decides to 'Resend confirmation instructions'
   # puts in right email
-  scenario 'Resend confirmation instructions: good email' do
+  it 'Resend confirmation instructions: good email' do
     AppFactory.add_confirmation_events
     create_candidate('c1', should_confirm: false)
     # need admin contact info even though candidate is logged in

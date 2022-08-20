@@ -55,7 +55,7 @@ module ExpectFields
     #
     def expect_have_field_hidden(rendered_or_page, field_id, value, pre_selector = '')
       expect(rendered_or_page).to have_selector("#{pre_selector}input[type=hidden][id='#{field_id}'][value='#{value}']",
-                                                visible: false)
+                                                visible: :hidden)
     end
   end
 end

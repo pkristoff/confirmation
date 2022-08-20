@@ -3,7 +3,7 @@
 describe 'candidates/event.html.erb' do
   include DeviseHelpers
   include ViewsHelpers
-  before(:each) do
+  before do
     @resource_class = Candidate
 
     candidate = FactoryBot.create(:candidate)

@@ -6,21 +6,21 @@ Warden.test_mode!
 #   As a admin
 #   I want to visit my admin profile page
 #   So I can see my personal account data
-feature 'Admin profile page', :devise do
+describe 'Admin profile page', :devise do
   include Warden::Test::Helpers
   before do
     FactoryBot.create(:visitor)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  # Scenario: Admin sees own profile
+  # it: Admin sees own profile
   #   Given I am signed in
   #   When I visit the admin profile page
   #   Then I see my own email address
-  scenario 'admin sees own profile' do
+  it 'admin sees own profile' do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     visit admin_path(admin)

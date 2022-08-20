@@ -6,7 +6,7 @@ describe 'admins/sessions/new.html.erb' do
     @resource_class = Admin
   end
 
-  after(:each) do
+  after do
     I18n.locale = 'en'
   end
 

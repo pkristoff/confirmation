@@ -2,21 +2,22 @@
 
 Warden.test_mode!
 
-feature 'Check boxes', :devise do
+describe 'Check boxes', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @checkbox_keys = %i[subject_check pre_late_input_check pre_coming_due_input_check
                         completed_awaiting_input_check completed_input_check salutation_input_check
                         closing_input_check from_input_check]
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
-  scenario 'uncheck no candidates checked' do
+
+  it 'uncheck no candidates checked' do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     @checkbox_keys.each do |checkbox_key|
@@ -37,7 +38,7 @@ feature 'Check boxes', :devise do
     end
   end
 
-  scenario 'uncheck  candidates checked' do
+  it 'uncheck candidates checked' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
     admin = FactoryBot.create(:admin)
@@ -83,7 +84,7 @@ feature 'Check boxes', :devise do
   end
 end
 
-feature 'Admin monthly mass mailing', :devise do
+describe 'Admin monthly mass mailing', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
@@ -91,11 +92,11 @@ feature 'Admin monthly mass mailing', :devise do
     FactoryBot.create(:visitor)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  scenario 'admin has to select candidate before sending monthly email' do
+  it 'admin has to select candidate before sending monthly email' do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     visit monthly_mass_mailing_path
@@ -127,7 +128,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect_mail_attachment_upload
   end
 
-  scenario 'admin can send email to multiple candidates' do
+  it 'admin can send email to multiple candidates' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
@@ -163,7 +164,7 @@ feature 'Admin monthly mass mailing', :devise do
                                      from_input: 'The from_input')
   end
 
-  scenario 'admin can send email to multiple candidates with default values' do
+  it 'admin can send email to multiple candidates with default values' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
@@ -183,7 +184,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect_monthly_mass_mailing_form(expected_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_progress')]])
   end
 
-  scenario 'admin has to select candidate before sending test monthly email' do
+  it 'admin has to select candidate before sending test monthly email' do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
     visit monthly_mass_mailing_path
@@ -209,7 +210,7 @@ feature 'Admin monthly mass mailing', :devise do
                                      from_input: 'The from_input')
   end
 
-  scenario 'admin can send test email to a candidate with default values' do
+  it 'admin can send test email to a candidate with default values' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
     admin = FactoryBot.create(:admin)
@@ -227,7 +228,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect_monthly_mass_mailing_form(expected_messages: [[:flash_notice, I18n.t('messages.monthly_mailing_test_sent')]])
   end
 
-  scenario 'admin can send test email to a candidate' do
+  it 'admin can send test email to a candidate' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
     admin = FactoryBot.create(:admin)
@@ -259,7 +260,7 @@ feature 'Admin monthly mass mailing', :devise do
                                      from_input: 'The from_input')
   end
 
-  scenario 'admin has to select candidate second time through for monthly mass mailing test test' do
+  it 'admin has to select candidate second time through for monthly mass mailing test test' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
     admin = FactoryBot.create(:admin)

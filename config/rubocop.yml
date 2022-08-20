@@ -481,17 +481,33 @@ RSpec/SubjectDeclaration: # new in 2.5
 RSpec/VerifiedDoubleReference: # new in 2.10.0
   Enabled: true
 RSpec/Capybara/SpecificMatcher: # new in 2.12
-  Enabled: true
+  Enabled: false
 RSpec/FactoryBot/SyntaxMethods: # new in 2.7
   Enabled: false
 RSpec/Rails/AvoidSetupHook: # new in 2.4
   Enabled: true
 RSpec/Rails/HaveHttpStatus: # new in 2.12
-  Enabled: true
+  Enabled: false
 
 RSpec/DescribedClass:
   Enabled: false
 RSpec/ExampleLength:
   Enabled: false
 RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/InstanceVariable:
+  Enabled: false
+RSpec/NamedSubject:
+  Enabled: false
+RSpec/FilePath:
+  Enabled: false
+RSpec/ReturnFromStub:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/MessageSpies:
+  Enabled: false
+RSpec/MultipleDescribes:
   Enabled: false

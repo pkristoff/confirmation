@@ -8,9 +8,11 @@ end
 
 SAINT_NAME = 'George Sponsor'
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'pick_confirmation_name_html_erb' do
+  # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     AppFactory.add_confirmation_events
     @candidate = Candidate.find_by(account_name: @candidate.account_name)
@@ -33,13 +35,13 @@ shared_context 'pick_confirmation_name_html_erb' do
     @today = Time.zone.today
   end
 
-  scenario 'admin logs in and selects a candidate, nothing else showing' do
+  it 'admin logs in and selects a candidate, nothing else showing' do
     update_pick_confirmation_name(false)
     visit @path
     expect_pick_confirmation_name_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify, expected_messages: [])
   end
 
-  scenario 'admin logs in and selects a candidate, fills in template' do
+  it 'admin logs in and selects a candidate, fills in template' do
     update_pick_confirmation_name(false)
 
     expect_db(1, 0)
@@ -65,14 +67,14 @@ shared_context 'pick_confirmation_name_html_erb' do
       expect(candidate.pick_confirmation_name.saint_name).to eq(SAINT_NAME)
 
       expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(@today)
-      expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to eq(false)
+      expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to be(false)
 
       expect_db(1, 0) # make sure DB does not increase in size.
     end
   end
 
   # rubocop:disable Layout/LineLength
-  scenario 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do
+  it 'admin logs in and selects a candidate, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     update_pick_confirmation_name(false)
     visit @path
 
@@ -105,7 +107,7 @@ shared_context 'pick_confirmation_name_html_erb' do
   end
   # rubocop:enable Layout/LineLength
 
-  scenario 'admin logs in and selects a candidate, fills in template, except saint_name' do
+  it 'admin logs in and selects a candidate, fills in template, except saint_name' do
     update_pick_confirmation_name(false)
 
     visit @path
@@ -122,12 +124,12 @@ shared_context 'pick_confirmation_name_html_erb' do
                                                                                  I18n.t('errors.format_blank',
                                                                                         attribute: I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'))]]])
     # rubocop:enable Layout/LineLength
-    expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to eq(nil)
-    expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to eq(false)
+    expect(candidate.get_candidate_event(PickConfirmationName.event_key).completed_date).to be_nil
+    expect(candidate.get_candidate_event(PickConfirmationName.event_key).verified).to be(false)
   end
 
-  scenario 'admin un-verifies a verified pick confirmation name event' do
-    expect(@is_verify == true || @is_verify == false).to eq(true)
+  it 'admin un-verifies a verified pick confirmation name event' do
+    expect(@is_verify == true || @is_verify == false).to be(true)
 
     event_key = PickConfirmationName.event_key
     candidate = Candidate.find(@cand_id)

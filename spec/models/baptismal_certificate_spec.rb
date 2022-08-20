@@ -9,11 +9,13 @@ describe BaptismalCertificate, type: :model do
       expect_baptized_at_home_parish(baptismal_certificate)
       expect_baptized_catholic(baptismal_certificate, false)
     end
+
     it 'can retrieve info if baptized_at_home_parish=false && baptized_catholic=true' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate, setup_baptized_catholic: true)
       expect_baptized_at_home_parish(baptismal_certificate)
       expect_baptized_catholic(baptismal_certificate, true)
     end
+
     it 'can retrieve info if baptized_at_home_parish=false && baptized_catholic=false' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate, setup_profession_of_faith: true)
       expect_baptized_at_home_parish(baptismal_certificate)
@@ -56,146 +58,163 @@ describe BaptismalCertificate, type: :model do
   end
 
   describe 'show check and divs' do
-    before(:each) do
+    before do
       @baptismal_certificate = FactoryBot.create(:baptismal_certificate)
     end
+
     describe 'show_empty_radio=0' do
-      before(:each) do
+      before do
         @baptismal_certificate.show_empty_radio = 0
       end
+
       describe 'baptized_at_home_parish=false' do
-        before(:each) do
+        before do
           @baptismal_certificate.baptized_at_home_parish = false
         end
+
         it 'baptized_at_home_parish not chosen false' do
-          expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to eq(true)
-          expect(@baptismal_certificate.show_baptized_catholic_radio).to eq(false)
+          expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to be(true)
+          expect(@baptismal_certificate.show_baptized_catholic_radio).to be(false)
 
-          expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_catholic_yes_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_catholic_no_checked).to eq(false)
+          expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to be(false)
+          expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to be(false)
+          expect(@baptismal_certificate.baptized_catholic_yes_checked).to be(false)
+          expect(@baptismal_certificate.baptized_catholic_no_checked).to be(false)
 
-          expect(@baptismal_certificate.info_show).to eq(false)
-          expect(@baptismal_certificate.info_show_baptized_catholic).to eq(false)
-          expect(@baptismal_certificate.info_show_profession_of_faith).to eq(false)
+          expect(@baptismal_certificate.info_show).to be(false)
+          expect(@baptismal_certificate.info_show_baptized_catholic).to be(false)
+          expect(@baptismal_certificate.info_show_profession_of_faith).to be(false)
         end
       end
-      describe 'baptized_at_home_parish=false' do
-        before(:each) do
+
+      describe 'baptized_at_home_parish=false 2' do
+        before do
           @baptismal_certificate.baptized_at_home_parish = true
         end
+
         it 'run queries' do
-          expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to eq(true)
-          expect(@baptismal_certificate.show_baptized_catholic_radio).to eq(false)
+          expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to be(true)
+          expect(@baptismal_certificate.show_baptized_catholic_radio).to be(false)
 
-          expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_catholic_yes_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_catholic_no_checked).to eq(false)
+          expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to be(false)
+          expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to be(false)
+          expect(@baptismal_certificate.baptized_catholic_yes_checked).to be(false)
+          expect(@baptismal_certificate.baptized_catholic_no_checked).to be(false)
 
-          expect(@baptismal_certificate.info_show).to eq(false)
-          expect(@baptismal_certificate.info_show_baptized_catholic).to eq(false)
-          expect(@baptismal_certificate.info_show_profession_of_faith).to eq(false)
+          expect(@baptismal_certificate.info_show).to be(false)
+          expect(@baptismal_certificate.info_show_baptized_catholic).to be(false)
+          expect(@baptismal_certificate.info_show_profession_of_faith).to be(false)
         end
       end
+
       it 'run queries' do
-        expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to eq(true)
-        expect(@baptismal_certificate.show_baptized_catholic_radio).to eq(false)
+        expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to be(true)
+        expect(@baptismal_certificate.show_baptized_catholic_radio).to be(false)
 
-        expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to eq(false)
-        expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to eq(false)
-        expect(@baptismal_certificate.baptized_catholic_yes_checked).to eq(false)
-        expect(@baptismal_certificate.baptized_catholic_no_checked).to eq(false)
+        expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to be(false)
+        expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to be(false)
+        expect(@baptismal_certificate.baptized_catholic_yes_checked).to be(false)
+        expect(@baptismal_certificate.baptized_catholic_no_checked).to be(false)
 
-        expect(@baptismal_certificate.info_show).to eq(false)
-        expect(@baptismal_certificate.info_show_baptized_catholic).to eq(false)
-        expect(@baptismal_certificate.info_show_profession_of_faith).to eq(false)
+        expect(@baptismal_certificate.info_show).to be(false)
+        expect(@baptismal_certificate.info_show_baptized_catholic).to be(false)
+        expect(@baptismal_certificate.info_show_profession_of_faith).to be(false)
       end
     end
+
     describe 'show_empty_radio=1' do
-      before(:each) do
+      before do
         @baptismal_certificate.show_empty_radio = 1
       end
+
       describe 'baptized_at_home_parish=true' do
-        before(:each) do
+        before do
           @baptismal_certificate.baptized_at_home_parish = true
         end
+
         it 'run queries' do
-          expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to eq(true)
-          expect(@baptismal_certificate.show_baptized_catholic_radio).to eq(false)
+          expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to be(true)
+          expect(@baptismal_certificate.show_baptized_catholic_radio).to be(false)
 
-          expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to eq(true)
-          expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_catholic_yes_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_catholic_no_checked).to eq(false)
+          expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to be(true)
+          expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to be(false)
+          expect(@baptismal_certificate.baptized_catholic_yes_checked).to be(false)
+          expect(@baptismal_certificate.baptized_catholic_no_checked).to be(false)
 
-          expect(@baptismal_certificate.info_show).to eq(true)
-          expect(@baptismal_certificate.info_show_baptized_catholic).to eq(true)
-          expect(@baptismal_certificate.info_show_profession_of_faith).to eq(false)
+          expect(@baptismal_certificate.info_show).to be(true)
+          expect(@baptismal_certificate.info_show_baptized_catholic).to be(true)
+          expect(@baptismal_certificate.info_show_profession_of_faith).to be(false)
         end
       end
+
       describe 'baptized_at_home_parish=false' do
-        before(:each) do
+        before do
           @baptismal_certificate.baptized_at_home_parish = false
         end
+
         it 'run queries' do
-          expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to eq(true)
-          expect(@baptismal_certificate.show_baptized_catholic_radio).to eq(true)
+          expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to be(true)
+          expect(@baptismal_certificate.show_baptized_catholic_radio).to be(true)
 
-          expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to eq(true)
-          expect(@baptismal_certificate.baptized_catholic_yes_checked).to eq(false)
-          expect(@baptismal_certificate.baptized_catholic_no_checked).to eq(false)
+          expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to be(false)
+          expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to be(true)
+          expect(@baptismal_certificate.baptized_catholic_yes_checked).to be(false)
+          expect(@baptismal_certificate.baptized_catholic_no_checked).to be(false)
 
-          expect(@baptismal_certificate.info_show).to eq(true)
-          expect(@baptismal_certificate.info_show_baptized_catholic).to eq(true)
-          expect(@baptismal_certificate.info_show_profession_of_faith).to eq(false)
+          expect(@baptismal_certificate.info_show).to be(true)
+          expect(@baptismal_certificate.info_show_baptized_catholic).to be(true)
+          expect(@baptismal_certificate.info_show_profession_of_faith).to be(false)
         end
       end
     end
+
     describe 'show_empty_radio=2' do
-      before(:each) do
+      before do
         @baptismal_certificate.show_empty_radio = 2
       end
+
       describe 'baptized_at_home_parish=false' do
-        before(:each) do
+        before do
           @baptismal_certificate.baptized_at_home_parish = false
         end
+
         describe 'baptized_catholic=true' do
-          before(:each) do
+          before do
             @baptismal_certificate.baptized_catholic = true
           end
+
           it 'run queries' do
-            expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to eq(true)
-            expect(@baptismal_certificate.show_baptized_catholic_radio).to eq(true)
+            expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to be(true)
+            expect(@baptismal_certificate.show_baptized_catholic_radio).to be(true)
 
-            expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to eq(false)
-            expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to eq(true)
-            expect(@baptismal_certificate.baptized_catholic_yes_checked).to eq(true)
-            expect(@baptismal_certificate.baptized_catholic_no_checked).to eq(false)
+            expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to be(false)
+            expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to be(true)
+            expect(@baptismal_certificate.baptized_catholic_yes_checked).to be(true)
+            expect(@baptismal_certificate.baptized_catholic_no_checked).to be(false)
 
-            expect(@baptismal_certificate.info_show).to eq(true)
-            expect(@baptismal_certificate.info_show_baptized_catholic).to eq(true)
-            expect(@baptismal_certificate.info_show_profession_of_faith).to eq(false)
+            expect(@baptismal_certificate.info_show).to be(true)
+            expect(@baptismal_certificate.info_show_baptized_catholic).to be(true)
+            expect(@baptismal_certificate.info_show_profession_of_faith).to be(false)
           end
         end
+
         describe 'baptized_catholic=false' do
-          before(:each) do
+          before do
             @baptismal_certificate.baptized_catholic = false
           end
+
           it 'run queries' do
-            expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to eq(true)
-            expect(@baptismal_certificate.show_baptized_catholic_radio).to eq(true)
+            expect(@baptismal_certificate.show_baptized_at_home_parish_radio).to be(true)
+            expect(@baptismal_certificate.show_baptized_catholic_radio).to be(true)
 
-            expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to eq(false)
-            expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to eq(true)
-            expect(@baptismal_certificate.baptized_catholic_yes_checked).to eq(false)
-            expect(@baptismal_certificate.baptized_catholic_no_checked).to eq(true)
+            expect(@baptismal_certificate.baptized_at_home_parish_yes_checked).to be(false)
+            expect(@baptismal_certificate.baptized_at_home_parish_no_checked).to be(true)
+            expect(@baptismal_certificate.baptized_catholic_yes_checked).to be(false)
+            expect(@baptismal_certificate.baptized_catholic_no_checked).to be(true)
 
-            expect(@baptismal_certificate.info_show).to eq(true)
-            expect(@baptismal_certificate.info_show_baptized_catholic).to eq(true)
-            expect(@baptismal_certificate.info_show_profession_of_faith).to eq(true)
+            expect(@baptismal_certificate.info_show).to be(true)
+            expect(@baptismal_certificate.info_show_baptized_catholic).to be(true)
+            expect(@baptismal_certificate.info_show_profession_of_faith).to be(true)
           end
         end
       end
@@ -203,70 +222,79 @@ describe BaptismalCertificate, type: :model do
   end
 
   describe 'validate_event_complete' do
-    before(:each) do
+    before do
       FactoryBot.create(:visitor)
       # Visitor.visitor('St. Mary Magdalene', 'replace me - home', 'replace me - about', 'replace me - contaclt')
       @baptismal_certificate = FactoryBot.create(:baptismal_certificate)
     end
+
     describe 'baptized_at_home_parish = true' do
       it 'pass validation' do
         add_address
-        expect(@baptismal_certificate.validate_event_complete).to eq(true)
+        expect(@baptismal_certificate.validate_event_complete).to be(true)
       end
+
       it 'pass validation scanned_certificate' do
         add_address
         @baptismal_certificate.scanned_certificate = nil
-        expect(@baptismal_certificate.validate_event_complete).to eq(true)
+        expect(@baptismal_certificate.validate_event_complete).to be(true)
       end
-      it 'should fail validation - have not chosen baptized_at_home_parish' do
+
+      it 'fail validation - have not chosen baptized_at_home_parish' do
         @baptismal_certificate.show_empty_radio = 0
 
-        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        expect(@baptismal_certificate.validate_event_complete).to be(false)
         msgs = @baptismal_certificate.errors.full_messages
         expect(msgs[0]).to eq(I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish))
         expect(msgs.size).to eq(1)
       end
-      it 'should fail validation - have not filled in fathers first name' do
+
+      it 'fail validation - have not filled in fathers first name' do
         add_address
         @baptismal_certificate.father_first = ''
 
-        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        expect(@baptismal_certificate.validate_event_complete).to be(false)
         msgs = @baptismal_certificate.errors.full_messages
         expect(msgs[0]).to eq("Father first can't be blank")
         expect(msgs.size).to eq(1)
       end
     end
+
     describe 'Baptized Catholic - baptized_at_home_parish = false baptized_cbaptized = true' do
-      before(:each) do
+      before do
         @baptismal_certificate = FactoryBot.create(:baptismal_certificate, setup_baptized_catholic: true)
       end
+
       it 'pass validation' do
-        expect(@baptismal_certificate.validate_event_complete).to eq(true)
+        expect(@baptismal_certificate.validate_event_complete).to be(true)
       end
-      it 'should fail validation - have not chosen baptized_at_home_parish' do
+
+      it 'fail validation - have not chosen baptized_at_home_parish' do
         @baptismal_certificate.show_empty_radio = 1
 
-        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        expect(@baptismal_certificate.validate_event_complete).to be(false)
         msgs = @baptismal_certificate.errors.full_messages
         expect(msgs[0]).to eq(I18n.t('messages.error.baptized_catholic_should_be_checked'))
         expect(msgs.size).to eq(1)
       end
-      it 'should fail validation - have not filled in fathers first name && scanned_certificate' do
+
+      it 'fail validation - have not filled in fathers first name && scanned_certificate' do
         @baptismal_certificate.father_first = ''
         @baptismal_certificate.scanned_certificate = nil
 
-        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        expect(@baptismal_certificate.validate_event_complete).to be(false)
         msgs = @baptismal_certificate.errors.full_messages
         expect(msgs[0]).to eq("Father first can't be blank")
         expect(msgs[1]).to eq("Scanned baptismal certificate can't be blank")
         expect(msgs.size).to eq(2)
       end
-      it 'should fail validation - have not filled in church name snd address' do
+
+      it 'fail validation - have not filled in church name snd address' do
         @baptismal_certificate.church_name = ''
         @baptismal_certificate.church_address.street_1 = ''
         @baptismal_certificate.church_address.zip_code = ''
 
-        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        expect(@baptismal_certificate.validate_event_complete).to be(false)
         msgs = @baptismal_certificate.errors.full_messages
         expect(msgs[0]).to eq("Church name can't be blank")
         expect(msgs[1]).to eq("Street 1 can't be blank")
@@ -274,26 +302,30 @@ describe BaptismalCertificate, type: :model do
         expect(msgs.size).to eq(3)
       end
     end
+
     describe 'Profession of faith - baptized_at_home_parish = false baptized_cbaptized = false' do
-      before(:each) do
+      before do
         @baptismal_certificate = FactoryBot.create(:baptismal_certificate, setup_profession_of_faith: true)
       end
+
       it 'pass validation' do
-        expect(@baptismal_certificate.validate_event_complete).to eq(true)
+        expect(@baptismal_certificate.validate_event_complete).to be(true)
       end
-      it 'should fail validation - have not chosen baptized_catholic' do
+
+      it 'fail validation - have not chosen baptized_catholic' do
         @baptismal_certificate.show_empty_radio = 1
 
-        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        expect(@baptismal_certificate.validate_event_complete).to be(false)
         msgs = @baptismal_certificate.errors.full_messages
         expect(msgs[0]).to eq(I18n.t('messages.error.baptized_catholic_should_be_checked'))
         expect(msgs.size).to eq(1)
       end
-      it 'should fail validation - have not filled in fathers first name && scanned_certificate' do
+
+      it 'fail validation - have not filled in fathers first name && scanned_certificate' do
         @baptismal_certificate.prof_date = ''
         @baptismal_certificate.scanned_prof = nil
 
-        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        expect(@baptismal_certificate.validate_event_complete).to be(false)
         msgs = @baptismal_certificate.errors.full_messages
         expect(msgs[0]).to eq(I18n.t('errors.format_blank',
                                      attribute: I18n.t('activerecord.attributes.baptismal_certificate.prof_date')))
@@ -302,12 +334,13 @@ describe BaptismalCertificate, type: :model do
         # rubocop:enable Layout/LineLength
         expect(msgs.size).to eq(2)
       end
-      it 'should fail validation - have not filled in church name snd address' do
+
+      it 'fail validation - have not filled in church name snd address' do
         @baptismal_certificate.prof_church_name = ''
         @baptismal_certificate.prof_church_address.street_1 = ''
         @baptismal_certificate.prof_church_address.zip_code = ''
 
-        expect(@baptismal_certificate.validate_event_complete).to eq(false)
+        expect(@baptismal_certificate.validate_event_complete).to be(false)
         msgs = @baptismal_certificate.errors.full_messages
         expect(msgs[0]).to eq(I18n.t('errors.format_blank',
                                      attribute: I18n.t('activerecord.attributes.baptismal_certificate.prof_church_name')))
@@ -351,6 +384,7 @@ describe BaptismalCertificate, type: :model do
 
       expect(BaptismalCertificate.permitted_params).to eq(expected)
     end
+
     describe 'basic_validation_params' do
       it 'basic_validation_params = baptized_at_home_parish = true' do
         expected = %i[birth_date
@@ -367,6 +401,7 @@ describe BaptismalCertificate, type: :model do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate)
         expect_validation_params(baptismal_certificate.basic_validation_params, expected)
       end
+
       it 'basic_validation_params setup_baptized_catholic' do
         expected = %i[church_name
                       scanned_certificate
@@ -375,6 +410,7 @@ describe BaptismalCertificate, type: :model do
         baptismal_certificate = FactoryBot.create(:baptismal_certificate, setup_baptized_catholic: true)
         expect_validation_params(baptismal_certificate.baptized_catholic_validation_params, expected)
       end
+
       it 'basic_validation_params setup_profession_of_faith' do
         expected = %i[scanned_prof
                       id
@@ -392,7 +428,7 @@ describe BaptismalCertificate, type: :model do
   def expect_validation_params(actual, expected)
     expected.each do |expected_param|
       puts(actual) unless actual.include?(expected_param)
-      expect(actual.include?(expected_param)).to eq(true)
+      expect(actual.include?(expected_param)).to be(true)
       puts(actual) if actual.size != expected.size
       expect(actual.size).to eq(expected.size)
     end
@@ -420,8 +456,8 @@ describe BaptismalCertificate, type: :model do
   end
 
   def expect_profession_of_faith(baptismal_certificate, with_values)
-    expect(baptismal_certificate.baptized_at_home_parish).to eq(false)
-    expect(baptismal_certificate.baptized_catholic).to eq(false)
+    expect(baptismal_certificate.baptized_at_home_parish).to be(false)
+    expect(baptismal_certificate.baptized_catholic).to be(false)
     expect(baptismal_certificate.show_empty_radio).to eq(2)
     expect(baptismal_certificate.prof_date.to_s).to match with_values ? '1990-10-20' : ''
     expect(baptismal_certificate.prof_church_name).to match with_values ? 'St. Anthonys' : ''

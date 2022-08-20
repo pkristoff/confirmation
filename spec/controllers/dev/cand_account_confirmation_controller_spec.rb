@@ -2,7 +2,7 @@
 
 describe Dev::CandAccountConfirmationsController do
   describe 'show' do
-    it 'should show an error message that the token is invalid' do
+    it 'show an error message that the token is invalid' do
       candidate = FactoryBot.create(:candidate)
       token = 'xxx'
       candidate.confirmed_at = nil
@@ -17,7 +17,7 @@ describe Dev::CandAccountConfirmationsController do
       expect(@request.fullpath).to eq("/dev/candidates/confirmation?confirmation_token=#{token}&id=#{candidate.id}")
     end
 
-    it 'should confirm the candidate and show a message on cand_account_confirmation.html.erb' do
+    it 'confirm the candidate and show a message on cand_account_confirmation.html.erb' do
       candidate = FactoryBot.create(:candidate, should_confirm: false)
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]
@@ -32,7 +32,7 @@ describe Dev::CandAccountConfirmationsController do
       expect(@request.fullpath).to eq("/dev/candidates/confirmation?confirmation_token=#{token}&id=#{candidate.id}")
     end
 
-    it 'should fail confirmation because of expired token' do
+    it 'fail confirmation because of expired token' do
       candidate = FactoryBot.create(:candidate, should_confirm: false)
 
       @request.env['devise.mapping'] = Devise.mappings[:candidate]

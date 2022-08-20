@@ -2,7 +2,7 @@
 
 Warden.test_mode!
 
-feature 'Admin monthly mass mailing', :devise do
+describe 'Admin monthly mass mailing', :devise do
   include ViewsHelpers
   include Warden::Test::Helpers
 
@@ -10,11 +10,11 @@ feature 'Admin monthly mass mailing', :devise do
     FactoryBot.create(:visitor)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  scenario 'admin has to select candidate' do
+  it 'admin has to select candidate' do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
 
@@ -34,7 +34,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect_mail_attachment_upload
   end
 
-  scenario 'admin can send email to multiple candidates' do
+  it 'admin can send email to multiple candidates' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
@@ -57,7 +57,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')
   end
 
-  scenario 'admin can send test adhoc email to self' do
+  it 'admin can send test adhoc email to self' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
     admin = FactoryBot.create(:admin)
@@ -77,7 +77,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')
   end
 
-  scenario 'admin has to select candidate for adhoc test' do
+  it 'admin has to select candidate for adhoc test' do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
 
@@ -93,7 +93,7 @@ feature 'Admin monthly mass mailing', :devise do
     expect(page).to have_field(I18n.t('email.body_label'), with: 'The body')
   end
 
-  scenario 'admin has to select candidate second time through for adhoc test' do
+  it 'admin has to select candidate second time through for adhoc test' do
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
 
     admin = FactoryBot.create(:admin)

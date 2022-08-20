@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'candidates/show.html.erb' do
-  before(:each) do
+  before do
     assign(:candidate, FactoryBot.create(:candidate))
   end
 

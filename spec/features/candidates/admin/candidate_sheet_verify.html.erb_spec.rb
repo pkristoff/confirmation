@@ -2,10 +2,10 @@
 
 Warden.test_mode!
 
-feature 'Candidate sheet admin', :devise do
+describe 'Candidate sheet admin', :devise do
   include Warden::Test::Helpers
 
-  before(:each) do
+  before do
     @admin = FactoryBot.create(:admin)
     @candidate = FactoryBot.create(:candidate)
     login_as(@admin, scope: :admin)
@@ -18,18 +18,18 @@ feature 'Candidate sheet admin', :devise do
     @is_verify = true
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
-  context 'test spanish' do
-    let(:locale) { 'es' }
+  context 'with english' do
+    let(:locale) { 'en' }
 
     it_behaves_like 'candidate_sheet_html_erb'
   end
 
-  context 'test english' do
-    let(:locale) { 'en' }
+  context 'with spanish' do
+    let(:locale) { 'es' }
 
     it_behaves_like 'candidate_sheet_html_erb'
   end

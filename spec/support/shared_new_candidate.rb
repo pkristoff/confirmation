@@ -4,39 +4,41 @@
 #   As a visitor
 #   I want to sign up
 #   So I can visit protected areas of the site
+# rubocop:disable RSpec/ContextWording
 shared_context 'new_candidate_spec' do
+  # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     page.driver.header 'Accept-Language', locale
     I18n.locale = locale
   end
 
-  # Scenario: Visitor cannot sign up without logging in
+  # it: Visitor cannot sign up without logging in
   #   Given I am not signed in
   #   When I sign up with a valid email address and password
   #   Then I see a successful sign up message
-  scenario 'Visitor cannot sign up without logging in' do
+  it 'Visitor cannot sign up without logging in' do
     visit new_candidate_path
     expect_message(:flash_alert, I18n.t('devise.failure.unauthenticated'))
   end
 
   describe 'Sign in admin' do
-    before(:each) do
+    before do
       admin = FactoryBot.create(:admin)
       signin_admin(admin.account_name, admin.password)
       AppFactory.add_confirmation_events
     end
 
-    # Scenario: Admin can create a new candidate
+    # it: Admin can create a new candidate
     #   Given Admin si signed in
-    scenario 'visitor can sign up with valid candidate id, email address and password' do
+    it 'visitor can sign up with valid candidate id, email address and password' do
       visit new_candidate_path
 
       expect_create_candidate(page)
     end
 
-    scenario 'admin cannot create candidate with no emails' do
+    it 'admin cannot create candidate with no emails' do
       visit new_candidate_path
 
       fill_in_form_values
@@ -53,7 +55,7 @@ shared_context 'new_candidate_spec' do
       expect(Candidate.all.size).to eq(0)
     end
 
-    scenario 'admin can create candidate with missing middle name' do
+    it 'admin can create candidate with missing middle name' do
       visit new_candidate_path
 
       fill_in_form_values
@@ -66,7 +68,7 @@ shared_context 'new_candidate_spec' do
       expect(Candidate.all.size).to eq(1)
     end
 
-    scenario 'admin cannot create candidate with missing first name' do
+    it 'admin cannot create candidate with missing first name' do
       visit new_candidate_path
 
       fill_in_form_values
@@ -83,7 +85,7 @@ shared_context 'new_candidate_spec' do
       expect(Candidate.all.size).to eq(0)
     end
 
-    scenario 'admin cannot create candidate with missing last name but can after correcting it' do
+    it 'admin cannot create candidate with missing last name but can after correcting it' do
       visit new_candidate_path
 
       fill_in_form_values
@@ -109,7 +111,7 @@ shared_context 'new_candidate_spec' do
       expect(Candidate.all.size).to eq(1)
     end
 
-    scenario 'admin cannot create candidate with an invalid email' do
+    it 'admin cannot create candidate with an invalid email' do
       visit new_candidate_path
 
       fill_in_form_values
@@ -128,7 +130,7 @@ shared_context 'new_candidate_spec' do
       expect(Candidate.all.size).to eq(0)
     end
 
-    scenario 'admin can create 2 candidates in a row' do
+    it 'admin can create 2 candidates in a row' do
       visit new_candidate_path
 
       fill_in_form_values

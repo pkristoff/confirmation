@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event', :devise do
+describe 'Admin verifies Pick confirmation name from Mass Edit Candidates Event', :devise do
   include ViewsHelpers
 
   include Warden::Test::Helpers
   Warden.test_mode!
 
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @update_id = 'top-update-verify'
     @path_str = 'pick_confirmation_name_verify'
@@ -20,7 +20,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     @confirmation_event = ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key)
   end
 
-  after(:each) do
+  after do
     Warden.test_reset!
   end
 
@@ -30,7 +30,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
   # Admin clicks 'Update and Verify'
   # Admin sees a event validation error with no admin validation
   # editor stays open
-  scenario 'admin' do
+  it 'admin' do
     visit mass_edit_candidates_event_path(@confirmation_event.id)
 
     expect_mass_edit_candidates_event(@confirmation_event, @cand_id, nil)
@@ -53,8 +53,8 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
                                                     I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'))]]
                                        ])
     candidate_event = candidate.get_candidate_event(PickConfirmationName.event_key)
-    expect(candidate_event.completed_date).to eq(nil)
-    expect(candidate_event.verified).to eq(false)
+    expect(candidate_event.completed_date).to be_nil
+    expect(candidate_event.verified).to be(false)
 
     # usually admin should not do this
     fill_in(I18n.t('activerecord.attributes.pick_confirmation_name.saint_name'), with: 'St. Admin')
@@ -63,9 +63,9 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
     candidate = Candidate.find(@cand_id)
     expect_mass_edit_candidates_event(@confirmation_event, candidate.id, nil)
     candidate_event = candidate.get_candidate_event(@confirmation_event.event_key)
-    expect(candidate_event.completed?)
+    expect(candidate_event.completed?).to be(true)
     expect(candidate_event.completed_date).to eq(Time.zone.today)
-    expect(candidate_event.verified).to eq(true)
+    expect(candidate_event.verified).to be(true)
   end
 
   # Admin opens mass edit candidates event for pick candidate event
@@ -73,7 +73,7 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
   # Pick confirmation name editor opens.
   # Admin clicks 'Update and Verify'
   # The mass_edit_candidates_event is opened and candidate has been verified.
-  scenario 'admin' do
+  it 'admin - 2' do
     completed_date = Time.zone.today - 1
     candidate = Candidate.find(@cand_id)
     candidate.pick_confirmation_name.saint_name = 'Paul'
@@ -96,6 +96,6 @@ feature 'Admin verifies Pick confirmation name from Mass Edit Candidates Event',
 
     expect(candidate_event.completed?).to be(true)
     expect(candidate_event.completed_date).to eq(completed_date)
-    expect(candidate_event.verified).to eq(true)
+    expect(candidate_event.verified).to be(true)
   end
 end

@@ -222,8 +222,8 @@ module SortingCandListHelpers
 
     event_key = confirmation_event.event_key
     expect(cand.get_candidate_event(event_key).completed_date).to eq(Time.zone.today) unless updated_message.nil?
-    expect(cand.get_candidate_event(event_key).verified).to eq(true) if updated_message && !is_unverified
-    expect(cand.get_candidate_event(event_key).verified).to eq(false) if is_unverified
+    expect(cand.get_candidate_event(event_key).verified).to be(true) if updated_message && !is_unverified
+    expect(cand.get_candidate_event(event_key).verified).to be(false) if is_unverified
   end
 
   # Expect Pick Confirmation Name

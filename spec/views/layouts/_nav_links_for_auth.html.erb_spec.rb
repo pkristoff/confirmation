@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe 'layouts/_nav_links_for_auth.html.erb' do
-  context 'visitor no one logged in' do
+  context 'when visitor no one logged in' do
     it 'nav links layout for visitor' do
       render
 
@@ -11,7 +11,8 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
       expect(rendered).to have_link(I18n.t('views.top_bar.sign_in', name: 'admin'), href: '/admins/sign_in')
     end
   end
-  context 'login as candidate' do
+
+  context 'when login as candidate' do
     it 'nav links layout for candidate' do
       login_candidate
 
@@ -22,7 +23,8 @@ describe 'layouts/_nav_links_for_auth.html.erb' do
       expect(rendered).to have_link(I18n.t('views.top_bar.sign_out'), href: '/dev/candidates/sign_out')
     end
   end
-  context 'login as admin' do
+
+  context 'when login as admin' do
     it 'nav links layout for admin' do
       login_admin
 

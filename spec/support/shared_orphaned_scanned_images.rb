@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'orphaned_scanned_image' do
+  # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @today = Time.zone.today
   end
 
   describe 'baptismal_certificate' do
-    before(:each) do
+    before do
       AppFactory.add_confirmation_event(BaptismalCertificate.event_key)
       candidate = Candidate.find_by(id: @candidate.id)
       bc = candidate.baptismal_certificate
@@ -19,7 +21,7 @@ shared_context 'orphaned_scanned_image' do
       candidate.save
     end
 
-    it 'should remove the scanned image for a baptismal_certificate' do
+    it 'remove the scanned image for a baptismal_certificate' do
       remove_scanned_image(Candidate.find_by(id: @candidate.id),
                            Event::Route::BAPTISMAL_CERTIFICATE,
                            { baptismal_certificate_attributes: { baptized_at_home_parish: '0', show_empty_radio: 0,
@@ -29,7 +31,7 @@ shared_context 'orphaned_scanned_image' do
   end
 
   describe 'retreat_verification' do
-    before(:each) do
+    before do
       AppFactory.add_confirmation_event(RetreatVerification.event_key)
       candidate = Candidate.find_by(id: @candidate.id)
       rv = candidate.retreat_verification
@@ -40,7 +42,7 @@ shared_context 'orphaned_scanned_image' do
       candidate.save
     end
 
-    it 'should remove the scanned image for a retreat_verification' do
+    it 'remove the scanned image for a retreat_verification' do
       remove_scanned_image(Candidate.find_by(id: @candidate.id),
                            Event::Route::RETREAT_VERIFICATION,
                            { retreat_verification_attributes: { remove_retreat_verification_picture: 'Remove',
@@ -49,7 +51,7 @@ shared_context 'orphaned_scanned_image' do
   end
 
   describe 'sponsor_covenant' do
-    before(:each) do
+    before do
       AppFactory.add_confirmation_event(SponsorCovenant.event_key)
       candidate = Candidate.find_by(id: @candidate.id)
       sc = candidate.sponsor_covenant
@@ -60,7 +62,7 @@ shared_context 'orphaned_scanned_image' do
       candidate.save
     end
 
-    it 'should remove the scanned image for a sponsor_covenant' do
+    it 'remove the scanned image for a sponsor_covenant' do
       remove_scanned_image(Candidate.find_by(id: @candidate.id),
                            Event::Route::SPONSOR_COVENANT,
                            { sponsor_covenant_attributes: { remove_sponsor_covenant_picture: 'Remove',
@@ -69,7 +71,7 @@ shared_context 'orphaned_scanned_image' do
   end
 
   describe 'sponsor_eligibility' do
-    before(:each) do
+    before do
       AppFactory.add_confirmation_event(SponsorEligibility.event_key)
       AppFactory.add_confirmation_event(SponsorCovenant.event_key)
       candidate = Candidate.find_by(id: @candidate.id)
@@ -82,7 +84,7 @@ shared_context 'orphaned_scanned_image' do
       candidate.save
     end
 
-    it 'should remove the scanned image for a sponsor_covenant' do
+    it 'remove the scanned image for a sponsor_covenant' do
       remove_scanned_image(Candidate.find_by(id: @candidate.id),
                            Event::Route::SPONSOR_ELIGIBILITY,
                            { sponsor_eligibility_attributes: { remove_sponsor_eligibility_picture: 'Remove',
@@ -100,8 +102,8 @@ def remove_scanned_image(candidate, route, attributes)
                 event_route: route,
                 candidate: attributes }
   candidate = Candidate.find_by(id: candidate.id)
-  expect(candidate.get_event_association(route).scanned_image).to eq(nil)
+  expect(candidate.get_event_association(route).scanned_image).to be_nil
   # ignoring this fact for now
-  # expect(candidate.get_event_association(route).scanned_image_id).to eq(nil)
+  # expect(candidate.get_event_association(route).scanned_image_id).to be_nil
   expect(ScannedImage.all.size).to eq(0)
 end

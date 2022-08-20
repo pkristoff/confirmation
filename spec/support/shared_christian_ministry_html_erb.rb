@@ -11,9 +11,11 @@ RSpec.configure do |c|
   c.include SortingCandListHelpers
 end
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'christian_ministry_html_erb' do
+  # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     @today = Time.zone.today
     @cand_id = @candidate.id
@@ -35,7 +37,7 @@ shared_context 'christian_ministry_html_erb' do
     AppFactory.add_confirmation_events
   end
 
-  scenario 'admin logs in and selects a candidate, nothing else showing' do
+  it 'admin logs in and selects a candidate, nothing else showing' do
     update_christian_ministry(false)
     visit @path
 
@@ -44,7 +46,7 @@ shared_context 'christian_ministry_html_erb' do
                                    when_service: '', helped_me: '')
   end
 
-  scenario 'admin logs in and selects a candidate, fills in template and no picture' do
+  it 'admin logs in and selects a candidate, fills in template and no picture' do
     update_christian_ministry(false)
 
     expect_db(1, 0)
@@ -68,7 +70,7 @@ shared_context 'christian_ministry_html_erb' do
     end
 
     expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(@today)
-    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to eq(true)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to be(true)
 
     visit @path
 
@@ -79,7 +81,7 @@ shared_context 'christian_ministry_html_erb' do
     expect_db(1, 0) # make sure DB does not increase in size.
   end
 
-  scenario 'admin logs in and selects a candidate, fills in template and picture' do
+  it 'admin logs in and selects a candidate, fills in template and picture' do
     update_christian_ministry(false)
 
     expect_db(1, 0)
@@ -103,7 +105,7 @@ shared_context 'christian_ministry_html_erb' do
     end
 
     expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(@today)
-    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to eq(true)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to be(true)
 
     visit @path
     expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
@@ -113,7 +115,7 @@ shared_context 'christian_ministry_html_erb' do
     expect_db(1, 0) # make sure DB does not increase in size.
   end
 
-  scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
+  it 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
     candidate = Candidate.find(@cand_id)
     candidate.save
     update_christian_ministry(false)
@@ -135,8 +137,8 @@ shared_context 'christian_ministry_html_erb' do
                                                                              "Helped me #{I18n.t('errors.messages.blank')}"]]])
 
     candidate = Candidate.find(@cand_id)
-    expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to eq(nil)
-    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to eq(false)
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).completed_date).to be_nil
+    expect(candidate.get_candidate_event(ChristianMinistry.event_key).verified).to be(false)
 
     visit @path
     expect_christian_ministry_form(@cand_id, @path_str, @dev_path, @update_id, @is_verify,
@@ -146,7 +148,7 @@ shared_context 'christian_ministry_html_erb' do
     expect_db(1, 0) # make sure DB does not increase in size.
   end
 
-  scenario 'admin logs in and selects a candidate, fills in template, except saint_name' do
+  it 'admin logs in and selects a candidate, fills in template, except saint_name' do
     update_christian_ministry(false)
 
     expect_db(1, 0)
@@ -167,8 +169,8 @@ shared_context 'christian_ministry_html_erb' do
     expect_db(1, 0) # make sure DB does not increase in size.
   end
 
-  scenario 'admin un-verifies a verified christian ministry event' do
-    expect(@is_verify == true || @is_verify == false).to eq(true)
+  it 'admin un-verifies a verified christian ministry event' do
+    expect(@is_verify == true || @is_verify == false).to be(true)
 
     event_key = ChristianMinistry.event_key
     candidate = Candidate.find(@cand_id)

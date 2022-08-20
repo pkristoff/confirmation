@@ -6,6 +6,7 @@ describe 'admins/registrations/edit.html.erb' do
     @resource_class = Admin
     @resource = FactoryBot.create(:admin)
   end
+
   it 'Form layout' do
     render
 

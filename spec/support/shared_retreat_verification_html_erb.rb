@@ -5,9 +5,11 @@ WHERE_HELD_RETREAT = 'Over there'
 START_DATE = Time.zone.today - 10
 END_DATE = Time.zone.today - 5
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'retreat_verification_html_erb' do
+  # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
-  before(:each) do
+  before do
     FactoryBot.create(:visitor)
     event_with_picture_setup(Event::Route::RETREAT_VERIFICATION, is_verify: @is_verify)
     AppFactory.add_confirmation_events
@@ -32,7 +34,7 @@ shared_context 'retreat_verification_html_erb' do
     end
   end
 
-  scenario 'admin logs in and selects a candidate, nothing else showing' do
+  it 'admin logs in and selects a candidate, nothing else showing' do
     visit @path
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
                                      who_held_retreat: '',
@@ -41,7 +43,7 @@ shared_context 'retreat_verification_html_erb' do
                                      end_date: '')
   end
 
-  scenario 'admin logs in and selects a candidate, fills in template and no picture' do
+  it 'admin logs in and selects a candidate, fills in template and no picture' do
     expect_db(1, 0)
 
     visit @path
@@ -62,12 +64,12 @@ shared_context 'retreat_verification_html_erb' do
     end
 
     retreat_verification = candidate.retreat_verification
-    expect(retreat_verification.retreat_held_at_home_parish).to eq(true)
+    expect(retreat_verification.retreat_held_at_home_parish).to be(true)
     expect(retreat_verification.who_held_retreat).to eq(WHO_HELD_RETREAT)
     expect(retreat_verification.where_held_retreat).to eq(WHERE_HELD_RETREAT)
     expect(retreat_verification.start_date).to eq(START_DATE)
     expect(retreat_verification.end_date).to eq(END_DATE)
-    expect(retreat_verification.scanned_retreat).to eq(nil)
+    expect(retreat_verification.scanned_retreat).to be_nil
 
     expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(@today)
     expect(CandidateEvent.find(@candidate_event_id).verified).to eq(@is_verify)
@@ -78,7 +80,7 @@ shared_context 'retreat_verification_html_erb' do
     expect_db(1, 0) # make sure DB does not increase in size.
   end
 
-  scenario 'admin logs in and selects a candidate, fills in template and picture' do
+  it 'admin logs in and selects a candidate, fills in template and picture' do
     expect_db(1, 0)
     visit @path
     fill_in_form(true)
@@ -111,7 +113,7 @@ shared_context 'retreat_verification_html_erb' do
     expect_db(1, 1) # make sure DB does not increase in size.
   end
 
-  scenario 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
+  it 'admin logs in and selects a candidate, adds picture, updates, updates - everything is saved' do
     expect_db(1, 0)
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = false
@@ -143,7 +145,7 @@ shared_context 'retreat_verification_html_erb' do
 
     expect(Candidate.find(@cand_id).retreat_verification.scanned_retreat.filename).to eq('actions for spec testing.png')
 
-    expect(CandidateEvent.find(@candidate_event_id).completed_date).to eq(nil)
+    expect(CandidateEvent.find(@candidate_event_id).completed_date).to be_nil
 
     visit @path
     expect_retreat_verification_form(@cand_id, @dev, @path_str, @is_verify,
@@ -155,7 +157,7 @@ shared_context 'retreat_verification_html_erb' do
     expect_db(1, 1) # make sure DB does not increase in size.
   end
 
-  scenario 'admin logs in and selects a candidate, fills in form except picture.' do
+  it 'admin logs in and selects a candidate, fills in form except picture.' do
     # rubocop:disable Layout/LineLength
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = false
@@ -173,7 +175,7 @@ shared_context 'retreat_verification_html_erb' do
     # rubocop:enable Layout/LineLength
   end
 
-  scenario 'admin logs in and selects a candidate, fills in template, except Who held retreat' do
+  it 'admin logs in and selects a candidate, fills in template, except Who held retreat' do
     candidate = Candidate.find(@cand_id)
     candidate.retreat_verification.retreat_held_at_home_parish = false
     candidate.save
@@ -195,8 +197,8 @@ shared_context 'retreat_verification_html_erb' do
                                      who_held_retreat: '')
   end
 
-  scenario 'admin un-verifies a verified retreat verification event' do
-    expect(@is_verify == true || @is_verify == false).to eq(true)
+  it 'admin un-verifies a verified retreat verification event' do
+    expect(@is_verify == true || @is_verify == false).to be(true)
 
     event_key = RetreatVerification.event_key
     candidate = Candidate.find(@cand_id)

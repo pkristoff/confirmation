@@ -4,15 +4,16 @@
 #   As a candidate
 #   I want to sign out
 #   So I can protect my account from unauthorized access
-feature 'Sign out', :devise do
+describe 'Sign out', :devise do
   before do
     FactoryBot.create(:visitor)
   end
-  # Scenario: Candidate signs out successfully
+
+  # it: Candidate signs out successfully
   #   Given I am signed in
   #   When I sign out
   #   Then I see a signed out message
-  scenario 'candidate signs out successfully' do
+  it 'candidate signs out successfully' do
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
 

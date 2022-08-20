@@ -3,21 +3,22 @@
 describe ApplicationController do
   index = 0
   describe 'event_class' do
-    context 'confirmation due_date not set' do
+    context 'when confirmation due_date not set' do
       let(:confirmation_event) { FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
-      it 'should always return event-unitialized' do
+
+      it 'always return event-unitialized' do
         candidate = FactoryBot.create(:candidate)
         candidate_event = candidate.add_candidate_event(confirmation_event)
         expect(controller.event_class(candidate_event)).to eq('event-unitialized')
       end
     end
 
-    context 'confirmation due_date is set' do
+    context 'when confirmation due_date is set' do
       index += 1 while Candidate.find_by(account_name: "bar_#{index}")
 
       candidate = FactoryBot.create(:candidate, account_name: "bar_#{index}")
-      let(:confirmation_event_no_due_date) { FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
       today = Time.zone.today
+      let(:confirmation_event_no_due_date) { FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
       let(:confirmation_event_today) do
         FactoryBot.create(:confirmation_event, the_way_due_date: today, chs_due_date: today)
       end
@@ -27,7 +28,6 @@ describe ApplicationController do
       let(:confirmation_event_today_minus40) do
         FactoryBot.create(:confirmation_event, the_way_due_date: today - 40, chs_due_date: today - 40)
       end
-
       let(:candidate_event_not_completed_no_due_date) do
         create_candidate_event(candidate, nil, false, confirmation_event_no_due_date)
       end
@@ -40,7 +40,6 @@ describe ApplicationController do
       let(:candidate_event_not_completed_today_minus40) do
         create_candidate_event(candidate, nil, false, confirmation_event_today_minus40)
       end
-
       let(:candidate_event_not_verified_no_due_date) do
         create_candidate_event(candidate, today, false, confirmation_event_no_due_date)
       end
@@ -53,7 +52,6 @@ describe ApplicationController do
       let(:candidate_event_not_verified_today_minus40) do
         create_candidate_event(candidate, today, false, confirmation_event_today_minus40)
       end
-
       let(:candidate_event_completed_no_due_date) do
         create_candidate_event(candidate, today, true, confirmation_event_no_due_date)
       end
@@ -67,7 +65,7 @@ describe ApplicationController do
         create_candidate_event(candidate, today, true, confirmation_event_today_minus40)
       end
 
-      it 'should always return event-awaiting-candidate' do
+      it 'always return event-awaiting-candidate' do
         expect(controller.event_class(candidate_event_not_completed_no_due_date)).to eq('event-unitialized')
         expect(controller.event_class(candidate_event_not_completed_today)).to eq('event-coming-due')
         expect(controller.event_class(candidate_event_not_completed_today_plus40)).to eq('event-awaiting-candidate')
@@ -86,15 +84,15 @@ describe ApplicationController do
     end
   end
 
-  context 'sorting' do
-    it 'should return a direction' do
+  context 'with sorting' do
+    it 'return a direction' do
       expect(controller.sort_direction(nil)).to eq('asc')
       expect(controller.sort_direction('xxx')).to eq('asc')
       expect(controller.sort_direction('asc')).to eq('asc')
       expect(controller.sort_direction('desc')).to eq('desc')
     end
 
-    it 'should return a column' do
+    it 'return a column' do
       expect(controller.sort_column(nil)).to eq('account_name')
       expect(controller.sort_column('xxx')).to eq('account_name')
       expect(controller.sort_column('candidate_sheet.xxx')).to eq('account_name')
@@ -110,34 +108,38 @@ describe ApplicationController do
     end
   end
 
-  context 'candidates_info' do
-    before(:each) do
+  context 'when candidates_info' do
+    before do
       @c3 = create_candidate('c3')
       @c2 = create_candidate('c2')
       @c1 = create_candidate('c1')
     end
-    it 'should sort (direction: :asc, sort: :account_name) by default' do
+
+    it 'sort (direction: :asc, sort: :account_name) by default' do
       controller.candidates_info
       expect(controller.candidate_info.size).to eq(3)
       expect(controller.candidate_info[0].account_name).to eq(@c1.account_name)
       expect(controller.candidate_info[1].account_name).to eq(@c2.account_name)
       expect(controller.candidate_info[2].account_name).to eq(@c3.account_name)
     end
-    it 'should sort (direction: :desc, sort: :account_name)' do
+
+    it 'sort (direction: :desc, sort: :account_name)' do
       controller.candidates_info(direction: :desc, sort: :account_name)
       expect(controller.candidate_info.size).to eq(3)
       expect(controller.candidate_info[0].account_name).to eq(@c3.account_name)
       expect(controller.candidate_info[1].account_name).to eq(@c2.account_name)
       expect(controller.candidate_info[2].account_name).to eq(@c1.account_name)
     end
-    it 'should sort (sort: :candidate_sheets.middle_name)' do
+
+    it 'sort (sort: :candidate_sheets.middle_name)' do
       controller.candidates_info(sort: :'candidate_sheets.middle_name')
       expect(controller.candidate_info.size).to eq(3)
       expect(controller.candidate_info[0].account_name).to eq(@c1.account_name)
       expect(controller.candidate_info[1].account_name).to eq(@c2.account_name)
       expect(controller.candidate_info[2].account_name).to eq(@c3.account_name)
     end
-    it 'should sort (direction: :desc, sort: :candidate_sheets.last_name)' do
+
+    it 'sort (direction: :desc, sort: :candidate_sheets.last_name)' do
       controller.candidates_info(direction: :desc, sort: :'candidate_sheets.last_name')
       expect(controller.candidate_info.size).to eq(3)
       expect(controller.candidate_info[0].account_name).to eq(@c1.account_name)

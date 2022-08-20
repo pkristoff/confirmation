@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 describe CandidatesController do
-  before(:each) do
+  before do
     @admdin = login_admin
     @today = Time.zone.today
   end
 
-  it 'should NOT have a current_candidate' do
-    expect(subject.current_candidate).to eq(nil)
+  it 'NOT have a current_candidate' do
+    expect(subject.current_candidate).to be_nil
   end
 
-  it 'should show sorted list of candidates' do
+  it 'show sorted list of candidates' do
     c1 = create_candidate('c1')
     c2 = create_candidate('c2')
     c3 = create_candidate('c3')
@@ -23,7 +23,7 @@ describe CandidatesController do
     expect(controller.candidate_info[2].account_name).to eq(c3.account_name)
   end
 
-  it 'should show sorted list of candidates based on first_name' do
+  it 'show sorted list of candidates based on first_name' do
     c1 = create_candidate('c1')
     c2 = create_candidate('c2')
     c3 = create_candidate('c3')
@@ -37,7 +37,7 @@ describe CandidatesController do
     end
   end
 
-  it 'should show sorted list of candidates based on last_name' do
+  it 'show sorted list of candidates based on last_name' do
     c1 = create_candidate('c1')
     c2 = create_candidate('c2')
     c3 = create_candidate('c3')
@@ -76,7 +76,7 @@ describe CandidatesController do
   end
 
   describe 'show' do
-    it 'show should show candidate.' do
+    it 'show show candidate.' do
       candidate = FactoryBot.create(:candidate)
       get :show, params: { id: candidate.id }
       # expect(response).to render_template('show')
@@ -86,13 +86,13 @@ describe CandidatesController do
   end
 
   describe 'pick_confirmation_name_verify' do
-    before(:each) do
+    before do
       c1 = create_candidate('c1')
       @c1_id = c1.id
       AppFactory.add_confirmation_event(PickConfirmationName.event_key)
     end
 
-    it 'should set @candidate' do
+    it 'set @candidate' do
       get :pick_confirmation_name_verify, params: { id: @c1_id }
 
       cand = Candidate.find(@c1_id)
@@ -101,7 +101,7 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
     end
 
-    it 'should stay on pick_confirmation_name_verify, since it should not pass validation' do
+    it 'stay on pick_confirmation_name_verify, since it not pass validation' do
       put :pick_confirmation_name_verify_update,
           params: { id: @c1_id,
                     candidate: { pick_confirmation_name_attributes:
@@ -113,11 +113,11 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/pick_confirmation_name_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(PickConfirmationName.event_key)
-      expect(cand_event.completed_date).to eq(nil)
-      expect(cand_event.verified).to eq(false)
+      expect(cand_event.completed_date).to be_nil
+      expect(cand_event.verified).to be(false)
     end
 
-    it 'should goes back to mass_edit_candidates_event, updating verified' do
+    it 'goes back to mass_edit_candidates_event, updating verified' do
       completed_date = @today - 20
       cand = Candidate.find(@c1_id)
       cand.pick_confirmation_name.saint_name = 'george'
@@ -139,10 +139,10 @@ describe CandidatesController do
 
       cand_event = cand.get_candidate_event(PickConfirmationName.event_key)
       expect(cand_event.completed_date).to eq(completed_date)
-      expect(cand_event.verified).to eq(true)
+      expect(cand_event.verified).to be(true)
     end
 
-    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+    it 'goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
       put :pick_confirmation_name_verify_update,
           params: { id: @c1_id,
                     candidate: { pick_confirmation_name_attributes:
@@ -157,18 +157,18 @@ describe CandidatesController do
 
       cand_event = cand.get_candidate_event(PickConfirmationName.event_key)
       expect(cand_event.completed_date).to eq(@today)
-      expect(cand_event.verified).to eq(true)
+      expect(cand_event.verified).to be(true)
     end
   end
 
   describe 'sign_agreement_verify' do
-    before(:each) do
+    before do
       c1 = create_candidate('c1')
       @c1_id = c1.id
       AppFactory.add_confirmation_event(Candidate.covenant_agreement_event_key)
     end
 
-    it 'should set @candidate' do
+    it 'set @candidate' do
       get :sign_agreement_verify, params: { id: @c1_id }
 
       cand = Candidate.find(@c1_id)
@@ -177,7 +177,7 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}")
     end
 
-    it 'should stay on sign_agreement_verify, since it should not pass validation' do
+    it 'stay on sign_agreement_verify, since it not pass validation' do
       put :sign_agreement_verify_update,
           params: { id: @c1_id, candidate: { signed_agreement: '0' } }
 
@@ -187,11 +187,11 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/sign_agreement_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(Candidate.covenant_agreement_event_key)
-      expect(cand_event.completed_date).to eq(nil)
-      expect(cand_event.verified).to eq(false)
+      expect(cand_event.completed_date).to be_nil
+      expect(cand_event.verified).to be(false)
     end
 
-    it 'should goes back to mass_edit_candidates_event, updating verified' do
+    it 'goes back to mass_edit_candidates_event, updating verified' do
       completed_date = @today - 20
       cand = Candidate.find(@c1_id)
       cand.signed_agreement = true
@@ -212,16 +212,16 @@ describe CandidatesController do
 
       cand_event = cand.get_candidate_event(Candidate.covenant_agreement_event_key)
       expect(cand_event.completed_date).to eq(completed_date)
-      expect(cand_event.verified).to eq(true)
+      expect(cand_event.verified).to be(true)
     end
 
-    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+    it 'goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
       put :sign_agreement_verify_update,
           params: { id: @c1_id,
                     candidate: { signed_agreement: '1' } }
 
       cand = Candidate.find(@c1_id)
-      expect(cand.signed_agreement).to eq(true)
+      expect(cand.signed_agreement).to be(true)
 
       expect(controller.candidate).to eq(cand)
       # expect(response).to render_template('admins/mass_edit_candidates_event')
@@ -229,12 +229,12 @@ describe CandidatesController do
 
       cand_event = cand.get_candidate_event(Candidate.covenant_agreement_event_key)
       expect(cand_event.completed_date).to eq(@today)
-      expect(cand_event.verified).to eq(true)
+      expect(cand_event.verified).to be(true)
     end
   end
 
   describe 'event_with_picture_verify' do
-    before(:each) do
+    before do
       c1 = create_candidate('c1')
       @c1_id = c1.id
       AppFactory.add_confirmation_event(BaptismalCertificate.event_key)
@@ -355,7 +355,7 @@ describe CandidatesController do
       valid_setter = event_info[1]
       generate_cand_parms = event_info[2]
 
-      it "should set @candidate: #{event_route}" do
+      it "set @candidate: #{event_route}" do
         get :event_with_picture_verify, params: { id: @c1_id, event_route: event_route }
 
         cand = Candidate.find(@c1_id)
@@ -364,7 +364,7 @@ describe CandidatesController do
         expect(@request.fullpath).to eq("/event_with_picture_verify/#{cand.id}/#{event_route}")
       end
 
-      it "should stay on event_with_picture_verify, since it should not pass validation: #{event_route}" do
+      it "stay on event_with_picture_verify, since it not pass validation: #{event_route}" do
         put :event_with_picture_verify_update, params: { id: @c1_id, event_route: event_route }
 
         cand = Candidate.find(@c1_id)
@@ -373,11 +373,11 @@ describe CandidatesController do
         expect(@request.fullpath).to eq("/event_with_picture_verify/#{cand.id}/#{event_route}")
 
         cand_event = cand.get_candidate_event(Candidate.event_key_from_route(event_route))
-        expect(cand_event.completed_date).to eq(nil)
-        expect(cand_event.verified).to eq(false)
+        expect(cand_event.completed_date).to be_nil
+        expect(cand_event.verified).to be(false)
       end
 
-      it "should goes back to mass_edit_candidates_event, updating verified: #{event_route}" do
+      it "goes back to mass_edit_candidates_event, updating verified: #{event_route}" do
         completed_date = @today - 20
         cand = Candidate.find(@c1_id)
         valid_setter.call(cand)
@@ -400,19 +400,19 @@ describe CandidatesController do
 
         cand_event = cand.get_candidate_event(Candidate.event_key_from_route(event_route))
         expect(cand_event.completed_date).to eq(completed_date)
-        expect(cand_event.verified).to eq(true), "cand event (#{cand_event.confirmation_event.event_key} was verified"
+        expect(cand_event.verified).to be(true), "cand event (#{cand_event.confirmation_event.event_key} was verified"
       end
     end
   end
 
   describe 'christian_ministry_verify' do
-    before(:each) do
+    before do
       c1 = create_candidate('c1')
       @c1_id = c1.id
       AppFactory.add_confirmation_event(ChristianMinistry.event_key)
     end
 
-    it 'should set @candidate' do
+    it 'set @candidate' do
       get :christian_ministry_verify, params: { id: @c1_id }
 
       cand = Candidate.find(@c1_id)
@@ -421,7 +421,7 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
     end
 
-    it 'should stay on christian_ministry_verify, since it should not pass validation' do
+    it 'stay on christian_ministry_verify, since it not pass validation' do
       put :christian_ministry_verify_update,
           params: { id: @c1_id,
                     candidate: { christian_ministry_attributes:
@@ -437,11 +437,11 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/christian_ministry_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(ChristianMinistry.event_key)
-      expect(cand_event.completed_date).to eq(nil)
-      expect(cand_event.verified).to eq(false)
+      expect(cand_event.completed_date).to be_nil
+      expect(cand_event.verified).to be(false)
     end
 
-    it 'should goes back to mass_edit_candidates_event, updating verified' do
+    it 'goes back to mass_edit_candidates_event, updating verified' do
       completed_date = @today - 20
       cand = Candidate.find(@c1_id)
       cand.christian_ministry.what_service = 'xxx'
@@ -470,10 +470,10 @@ describe CandidatesController do
 
       cand_event = cand.get_candidate_event(ChristianMinistry.event_key)
       expect(cand_event.completed_date).to eq(completed_date)
-      expect(cand_event.verified).to eq(true)
+      expect(cand_event.verified).to be(true)
     end
 
-    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+    it 'goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
       put :christian_ministry_verify_update,
           params: { id: @c1_id,
                     candidate: { christian_ministry_attributes:
@@ -495,18 +495,18 @@ describe CandidatesController do
 
       cand_event = cand.get_candidate_event(ChristianMinistry.event_key)
       expect(cand_event.completed_date).to eq(@today)
-      expect(cand_event.verified).to eq(true)
+      expect(cand_event.verified).to be(true)
     end
   end
 
   describe 'candidate_sheet_verify' do
-    before(:each) do
+    before do
       c0 = FactoryBot.create(:candidate)
       @c0_id = c0.id
       AppFactory.add_confirmation_event(CandidateSheet.event_key)
     end
 
-    it 'should set @candidate' do
+    it 'set @candidate' do
       get :candidate_sheet_verify, params: { id: @c0_id }
 
       cand = Candidate.find(@c0_id)
@@ -515,7 +515,7 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/candidate_sheet_verify.#{cand.id}")
     end
 
-    it 'should stay on christian_ministry_verify, since it should not pass validation' do
+    it 'stay on christian_ministry_verify, since it not pass validation' do
       cand = Candidate.find(@c0_id)
       cand.candidate_sheet.candidate_email = 'm'
       cand.save(validate: false)
@@ -535,11 +535,11 @@ describe CandidatesController do
       expect(@request.fullpath).to eq("/candidate_sheet_verify.#{cand.id}")
 
       cand_event = cand.get_candidate_event(CandidateSheet.event_key)
-      expect(cand_event.completed_date).to eq(nil)
-      expect(cand_event.verified).to eq(false)
+      expect(cand_event.completed_date).to be_nil
+      expect(cand_event.verified).to be(false)
     end
 
-    it 'should goes back to mass_edit_candidates_event, updating verified' do
+    it 'goes back to mass_edit_candidates_event, updating verified' do
       completed_date = @today - 20
       cand = Candidate.find(@c0_id)
       cand.candidate_sheet.candidate_email = 'foo@kristoffs.com'
@@ -565,10 +565,10 @@ describe CandidatesController do
 
       cand_event = cand.get_candidate_event(CandidateSheet.event_key)
       expect(cand_event.completed_date).to eq(completed_date)
-      expect(cand_event.verified).to eq(true)
+      expect(cand_event.verified).to be(true)
     end
 
-    it 'should goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
+    it 'goes back to mass_edit_candidates_event, updating verified when admin fills in missing data' do
       cand = Candidate.find(@c0_id)
       cand.candidate_sheet.candidate_email = 'm'
       cand.save(validate: false)
@@ -596,16 +596,16 @@ describe CandidatesController do
       expect(controller.candidate).to eq(cand)
       # expect(response).to render_template('admins/mass_edit_candidates_event')
 
-      expect(@request.fullpath.include?("/candidate_sheet_verify.#{cand.id}")).to eq(true)
+      expect(@request.fullpath.include?("/candidate_sheet_verify.#{cand.id}")).to be(true)
 
       cand_event = cand.get_candidate_event(CandidateSheet.event_key)
       expect(cand_event.completed_date).to eq(@today)
-      expect(cand_event.verified).to eq(true)
+      expect(cand_event.verified).to be(true)
     end
   end
 
   describe 'behaves like' do
-    before(:each) do
+    before do
       @candidate = FactoryBot.create(:candidate)
       @dev = ''
       @dev_registration = ''

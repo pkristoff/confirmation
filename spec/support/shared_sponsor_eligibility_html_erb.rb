@@ -5,7 +5,9 @@ SPONSOR_CHURCH = 'St. George'
 
 SPONSOR_ELIGIBILITY_EVENT = SponsorEligibility.event_key
 
+# rubocop:disable RSpec/ContextWording
 shared_context 'sponsor_eligibility_html_erb' do
+  # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
   before do
     FactoryBot.create(:visitor)
@@ -25,7 +27,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     end
   end
 
-  scenario 'admin logs in and selects a candidate, checks sponsor_attends_home_parish, nothing else showing' do
+  it 'admin logs in and selects a candidate, checks sponsor_attends_home_parish, nothing else showing' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = true
     @candidate.save
     update_sponsor_eligibility(false)
@@ -34,7 +36,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify)
   end
 
-  scenario 'admin logs in and selects a candidate, checks sponsor_attends_home_parish, Sponsor name is blank' do
+  it 'admin logs in and selects a candidate, checks sponsor_attends_home_parish, Sponsor name is blank' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_eligibility(false)
@@ -57,7 +59,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     )
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, rest showing' do
+  it 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, rest showing' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_eligibility(true)
@@ -66,11 +68,11 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify)
   end
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template' do
+  it 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_eligibility(false)
-    expect(@candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
+    expect(@candidate.sponsor_eligibility.sponsor_attends_home_parish).to be(false)
 
     visit @path
     fill_in_form(eligibility_attach_file: true)
@@ -84,7 +86,7 @@ shared_context 'sponsor_eligibility_html_erb' do
   end
 
   # rubocop:disable Layout/LineLength
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template then changes mind she was baptized at stmm' do
+  it 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template then changes mind she was baptized at stmm' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_eligibility(false)
@@ -104,15 +106,15 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify, expected_messages: [[:flash_notice, @updated_message]])
 
     candidate = Candidate.find(@candidate.id)
-    expect(candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(true)
-    expect(candidate.sponsor_eligibility).not_to eq(nil)
+    expect(candidate.sponsor_eligibility.sponsor_attends_home_parish).to be(true)
+    expect(candidate.sponsor_eligibility).not_to be_nil
 
     expect_db(1, 1) # , 2) # make sure DB does not increase in size.
   end
   # rubocop:enable Layout/LineLength
 
   # rubocop:disable Layout/LineLength
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
+  it 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds picture, updates, adds rest of valid data, updates - everything is saved' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_eligibility(true)
@@ -131,8 +133,8 @@ shared_context 'sponsor_eligibility_html_erb' do
                                                                               I18n.t('errors.format_blank',
                                                                                      attribute: I18n.t('activerecord.attributes.sponsor_eligibility.sponsor_church'))]]])
 
-    expect(candidate_db.sponsor_eligibility).not_to eq(nil)
-    expect(candidate_db.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
+    expect(candidate_db.sponsor_eligibility).not_to be_nil
+    expect(candidate_db.sponsor_eligibility.sponsor_attends_home_parish).to be(false)
     expect(candidate_db.sponsor_eligibility.scanned_eligibility.filename).to eq('actions.png')
     expect(candidate_db.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate_db.sponsor_eligibility.sponsor_church).to eq('')
@@ -143,8 +145,8 @@ shared_context 'sponsor_eligibility_html_erb' do
     candidate_db_update = Candidate.find(@candidate.id)
     expect_sponsor_eligibility_form(candidate_db_update.id, @dev, @path_str, @is_verify,
                                     expected_messages: [[:flash_notice, @updated_message]])
-    expect(candidate_db_update.sponsor_eligibility).not_to eq(nil)
-    expect(candidate_db_update.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
+    expect(candidate_db_update.sponsor_eligibility).not_to be_nil
+    expect(candidate_db_update.sponsor_eligibility.sponsor_attends_home_parish).to be(false)
     expect(candidate_db_update.sponsor_eligibility.scanned_eligibility.filename).to eq('actions.png')
     expect(candidate_db_update.sponsor_covenant.sponsor_name).to eq(SPONSOR_NAME)
     expect(candidate_db_update.sponsor_eligibility.sponsor_church).to eq(SPONSOR_CHURCH)
@@ -153,7 +155,7 @@ shared_context 'sponsor_eligibility_html_erb' do
     # this errors periodically
     expect(event.candidate).to eq(candidate_db_update)
     expect(event.completed_date).to eq(Time.zone.today)
-    expect(event.verified).to eq(false)
+    expect(event.verified).to be(false)
 
     visit @path
     candidate_db_visit = Candidate.find(@candidate.id)
@@ -164,7 +166,7 @@ shared_context 'sponsor_eligibility_html_erb' do
   # rubocop:enable Layout/LineLength
 
   # rubocop:disable Layout/LineLength
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds non-picture data, updates, adds picture, updates - everything is saved' do
+  it 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, adds non-picture data, updates, adds picture, updates - everything is saved' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_eligibility(false)
@@ -187,9 +189,9 @@ shared_context 'sponsor_eligibility_html_erb' do
     expect_sponsor_eligibility_form(@candidate.id, @dev, @path_str, @is_verify,
                                     expected_messages: [[:flash_notice, @updated_message]])
     candidate = Candidate.find(@candidate.id)
-    expect(candidate.sponsor_eligibility.sponsor_attends_home_parish).to eq(false)
-    expect(candidate.sponsor_eligibility).not_to eq(nil)
-    expect(candidate.sponsor_eligibility.scanned_eligibility.filename).not_to eq(nil)
+    expect(candidate.sponsor_eligibility.sponsor_attends_home_parish).to be(false)
+    expect(candidate.sponsor_eligibility).not_to be_nil
+    expect(candidate.sponsor_eligibility.scanned_eligibility.filename).not_to be_nil
 
     visit @path
     candidate = Candidate.find(@candidate.id)
@@ -197,7 +199,7 @@ shared_context 'sponsor_eligibility_html_erb' do
   end
   # rubocop:enable Layout/LineLength
 
-  scenario 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template' do
+  it 'admin logs in and selects a candidate, unchecks sponsor_attends_home_parish, fills in template' do
     @candidate.sponsor_eligibility.sponsor_attends_home_parish = false
     @candidate.save
     update_sponsor_eligibility(false)

@@ -2,22 +2,22 @@
 
 describe CandidateImportsController do
   describe 'new' do
-    it 'should fail authentication' do
+    it 'fail authentication' do
       login_candidate
       get :new
       expect(response).to redirect_to(new_admin_session_path)
-      expect(controller.candidate_import).to eq(nil)
+      expect(controller.candidate_import).to be_nil
     end
 
-    it 'should create a new CandidateImport' do
+    it 'create a new CandidateImport' do
       login_admin
       get :new
       # expect(response).to render_template('new')
       expect(response.status).to eq(200)
-      expect(controller.candidate_import).not_to eq(nil)
+      expect(controller.candidate_import).not_to be_nil
     end
 
-    it 'the spread sheet should reflect what the candidate has input - sponsor' do
+    it 'the spread sheet reflect what the candidate has input - sponsor - 0' do
       c1 = FactoryBot.create(:candidate, account_name: 'a1')
       c1.sponsor_covenant.sponsor_name = 'Baz'
       c1.sponsor_eligibility.sponsor_attends_home_parish = true
@@ -33,9 +33,6 @@ describe CandidateImportsController do
         end
 
         worksheet = wb.worksheets[1]
-        # print_worksheet(worksheet)
-        # expect(Candidate.all.size).to eq(1)
-        # expect(worksheet.rows.size).to eq(2)
         a1_row = worksheet.rows[1]
         expect(value_for_header(wb.worksheets[1], 'account_name', a1_row)).to eq('a1')
         expect(value_for_header(wb.worksheets[1], 'sponsor_covenant.sponsor_name', a1_row)).to eq('Baz')
@@ -45,7 +42,8 @@ describe CandidateImportsController do
         expect(value_for_header(wb.worksheets[1], 'sponsor_eligibility.scanned_eligibility', a1_row)).to eq(0)
       end
     end
-    it 'the spread sheet should reflect what the candidate has input - sponsor' do
+
+    it 'the spread sheet reflect what the candidate has input - sponsor - 1' do
       c1 = FactoryBot.create(:candidate, account_name: 'a1')
       c1.sponsor_covenant.sponsor_name = 'Baz'
       c1.sponsor_eligibility.sponsor_attends_home_parish = false
@@ -82,33 +80,33 @@ describe CandidateImportsController do
   end
 
   describe 'create' do
-    it 'should fail authentication' do
+    it 'fail authentication' do
       login_candidate
       post :import_candidates
       expect(response).to redirect_to(new_admin_session_path)
-      expect(controller.candidate_import).to eq(nil)
+      expect(controller.candidate_import).to be_nil
     end
 
-    it 'should import candidates with valid excel file' do
+    it 'import candidates with valid excel file' do
       login_admin
       uploaded_file = fixture_file_upload('Small.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       post :import_candidates, params: { candidate_import: { file: uploaded_file } }
       expect(response).to redirect_to(root_url)
-      expect(controller.candidate_import).not_to eq(nil)
+      expect(controller.candidate_import).not_to be_nil
       expect(controller.candidate_import.errors.size).to eq(0)
     end
 
-    it 'should import candidates with invalid excel file' do
+    it 'import candidates with invalid excel file' do
       login_admin
       uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       post :import_candidates, params: { candidate_import: { file: uploaded_file } }
-      expect(controller.candidate_import).not_to eq(nil)
+      expect(controller.candidate_import).not_to be_nil
       expect(controller.candidate_import.errors.size).to eq(5)
     end
   end
 
   describe 'export_to_excel' do
-    it 'should bad commit.' do
+    it 'bad commit.' do
       login_admin
 
       FactoryBot.create(:candidate, account_name: 'a1')
@@ -117,7 +115,8 @@ describe CandidateImportsController do
 
       post :export_to_excel, params: { commit: 'bad commit', format: 'xlsx' }
 
-      expect(response.body).to have_css('a[href="http://test.host/candidate_imports/new"]')
+      puts response.body
+      expect(response.body).to have_link('', href: 'http://test.host/candidate_imports/new')
     end
   end
 

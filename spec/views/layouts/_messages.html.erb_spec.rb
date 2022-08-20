@@ -4,6 +4,7 @@ describe 'layouts/_messages.html.erb' do
   before do
     allow(view).to receive_messages(flash: [%w[notice nnn'], %w[error errormessage], %w[error errormessage2]])
   end
+
   it 'Form layout' do
     render
 

@@ -4,15 +4,16 @@
 #   As a visitor
 #   I want to visit a home page
 #   So I can learn more about the website
-feature 'Home page' do
+describe 'Home page' do
   before do
     FactoryBot.create(:visitor)
   end
-  # Scenario: Visit the home page
+
+  # it: Visit the home page
   #   Given I am a visitor
   #   When I visit the home page
   #   Then I see "Welcome"
-  scenario 'visit the home page' do
+  it 'visit the home page' do
     candidate = FactoryBot.create(:candidate, should_confirm: false)
     candidate.save
     FactoryBot.create(:admin)
