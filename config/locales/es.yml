@@ -42,6 +42,8 @@ es:
         scanned_prof_of_faith_image: Profesión escaneada de fe
       candidate:
         account_name: Nombre de la cuenta
+        candidate_note: Nota
+        deferred: Diferida
       candidate_sheet:
         attending: Asistiendo
         candidate_email: Correo electrónico del candidato
@@ -202,8 +204,6 @@ es:
       baptismal_certificate:
         neg: 'No'
         pos: Si
-    candidate_note:
-      note: Nota
     mail:
       attach_file: Adjuntar archivo
     sidebar:
@@ -213,6 +213,7 @@ es:
       candidate_note: Nota
       christian_ministry: Ministerio cristiano
       confirmation_name: Nombre de confirmacion
+      deferred: Diferida
       parent_meeting: Reunión de información para padres
       retreat_verification: Asistir al retiro
       sponsor_covenant: Pacto del patrocinador
@@ -384,6 +385,7 @@ es:
       adhoc_mailing: Envío ad hoc
       admins: Administradoras
       candidates: Candidatas
+      deferred: Diferida
       edit: Editar
       edit_account: Editar cuenta
       events: Eventos

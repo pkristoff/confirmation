@@ -28,12 +28,16 @@
              confirmation_event: nil,
              other_columns: {
                  headers: [
+                     t('views.nav.deferred'),
                      t('views.nav.edit'),
                      t('views.nav.note')
                  ],
                  rows: [
-                     lambda { |id| link_to t('views.nav.edit'), event_candidate_path(id) },
-                     lambda { |id| link_to t('views.nav.note'), candidate_note_path(id) }
+                     lambda do |candidate_info|
+                       link_to candidate_info.deferred.to_s, deferred_path(candidate_info.id)
+                     end,
+                     lambda { |candidate_info| link_to t('views.nav.edit'), event_candidate_path(candidate_info.id) },
+                     lambda { |candidate_info| link_to t('views.nav.note'), candidate_note_path(candidate_info.id) }
                  ]
              },
              route: :candidates,

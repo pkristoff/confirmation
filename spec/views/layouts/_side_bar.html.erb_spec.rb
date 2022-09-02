@@ -106,10 +106,11 @@ describe 'layouts/_side_bar.html.erb' do
 
       @resource = FactoryBot.create(:candidate)
       @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.candidate_note'), '/candidate_note.<id>'])
+      @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.deferred'), '/deferred.<id>'])
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 34) # +1 is for candidate
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 35) # +1 is for candidate
 
       expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5) # +1 is for candidate
 
@@ -137,7 +138,6 @@ describe 'layouts/_side_bar.html.erb' do
                info[1].gsub('<dev>', dev)
              end
       href = href.gsub('<id>', candidate_id) unless href.nil?
-
       event_name = event_name.gsub(/([\w\s]{17}).+/, '\1...') if event_name.size > SideBar::TRUNCATELENGTH
       expect(rendered).to have_selector("ul[id='#{sidebar_id}'] li:nth-child(#{index + 1})",
                                         text: event_name_trunc.nil? ? event_name : event_name_trunc)

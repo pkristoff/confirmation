@@ -46,6 +46,17 @@ update_total_selections = function () {
     }
 };
 
+// Set the default filter to false for the deferred filter
+// https://forum.jquery.com/topic/tablesorter-filter-functions-external-select-box-to-filter-by-column
+init_deferred_filter = function () {
+    let deferredColumnInput = document.querySelector( 'thead>tr>td>input[data-column="1"]' );
+    let val =   false;
+    deferredColumnInput.value = val;
+    // table.config.widgetOptions.filter_initialized
+    $( 'table' )[ 0 ].config.widgetOptions.filter_initialized = true
+    $( "#candidate_list_table" ).trigger( 'search', [val] );
+}
+
 confirmation_toggle = function () {
 
     function instructions( e ) {
@@ -119,7 +130,7 @@ confirmation_toggle = function () {
 
     function update_show_empty_radio( for_type ) {
         var ele = document.getElementsByName( 'candidate[baptismal_certificate_attributes][show_empty_radio]' )[ 0 ];
-        console.log( 'show_empty_radio before=' + ele.value )
+        console.log( 'show_empty_radio before=' + ele.value )````
         if ( for_type === 'baptism' ) {
             switch ( ele.value ) {
                 case '0':
@@ -130,11 +141,10 @@ confirmation_toggle = function () {
                     ele.value = '1';
                     break;
                 default:
-                    console.log( 'Toggle.js Unknown for show_empty_radio' + ele.value)
+                    console.log( 'Toggle.js Unknown for show_empty_radio' + ele.value )
             }
         }
-        else
-        if ( for_type === 'catholic' ) {
+        else if ( for_type === 'catholic' ) {
             switch ( ele.value ) {
                 case '0':
                 case '1':
@@ -144,9 +154,10 @@ confirmation_toggle = function () {
                     ele.value = '2';
                     break;
                 default:
-                    console.log( 'Toggle.js Unknown for show_empty_radio' + ele.value)
+                    console.log( 'Toggle.js Unknown for show_empty_radio' + ele.value )
             }
-        } else {
+        }
+        else {
             console.log( 'Toggle.js Unknown for_type=' + for_type )
         }
 
@@ -154,20 +165,20 @@ confirmation_toggle = function () {
 
     }
 
-    function update_church_default_values(use_home_parish){
-        var name_dv = use_home_parish ? document.getElementById('dv-home-parish').value : ""
-        var street1_dv = use_home_parish ? document.getElementById('dv-street1').value : ""
-        var street2_dv = use_home_parish ? document.getElementById('dv-street2').value : ""
-        var city_dv = use_home_parish ? document.getElementById('dv-city').value : ""
-        var state_dv = use_home_parish ? document.getElementById('dv-state').value : ""
-        var zip_code_dv = use_home_parish ? document.getElementById('dv-zip_code').value : ""
+    function update_church_default_values( use_home_parish ) {
+        var name_dv = use_home_parish ? document.getElementById( 'dv-home-parish' ).value : ""
+        var street1_dv = use_home_parish ? document.getElementById( 'dv-street1' ).value : ""
+        var street2_dv = use_home_parish ? document.getElementById( 'dv-street2' ).value : ""
+        var city_dv = use_home_parish ? document.getElementById( 'dv-city' ).value : ""
+        var state_dv = use_home_parish ? document.getElementById( 'dv-state' ).value : ""
+        var zip_code_dv = use_home_parish ? document.getElementById( 'dv-zip_code' ).value : ""
         // document.getElementById("candidate_baptismal_certificate_attributes_church_name").defaultValue = name_dv;
-        document.getElementById("candidate_baptismal_certificate_attributes_church_name").value = name_dv;
-        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_street_1").value = street1_dv;
-        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_street_2").value = street2_dv;
-        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_city").value = city_dv;
-        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_state").value = state_dv;
-        document.getElementById("candidate_baptismal_certificate_attributes_church_address_attributes_zip_code").value = zip_code_dv;
+        document.getElementById( "candidate_baptismal_certificate_attributes_church_name" ).value = name_dv;
+        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_street_1" ).value = street1_dv;
+        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_street_2" ).value = street2_dv;
+        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_city" ).value = city_dv;
+        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_state" ).value = state_dv;
+        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_zip_code" ).value = zip_code_dv;
     }
 
     function baptized_yes() {
@@ -176,7 +187,7 @@ confirmation_toggle = function () {
         toggle_top( '#baptized-catholic-info', 'show' )
         toggle_top( '#profession-of-faith-info', 'hide' )
         update_show_empty_radio( 'baptism' );
-        update_church_default_values(true);
+        update_church_default_values( true );
     }
 
     function baptized_no() {
@@ -190,7 +201,7 @@ confirmation_toggle = function () {
             baptized_catholic_no();
         }
         update_show_empty_radio( 'baptism' );
-        update_church_default_values(false);
+        update_church_default_values( false );
     }
 
     function baptized_catholic_yes() {

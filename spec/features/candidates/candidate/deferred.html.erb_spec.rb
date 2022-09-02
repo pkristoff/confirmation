@@ -2,7 +2,7 @@
 
 Warden.test_mode!
 
-describe 'Candidate note', :devise do
+describe 'Candidate sheet candidate', :devise do
   include Warden::Test::Helpers
 
   before do
@@ -11,9 +11,9 @@ describe 'Candidate note', :devise do
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
 
-    @path = candidate_note_path(@cand_id)
+    @path = deferred_path(@cand_id)
 
-    @path_str = 'candidate_note'
+    @path_str = 'deferred'
     @update_id = 'top-update'
     cand_name = 'Sophia Augusta'
     @updated_message = I18n.t('messages.updated', cand_name: cand_name)
@@ -25,14 +25,14 @@ describe 'Candidate note', :devise do
     Warden.test_reset!
   end
 
-  it 'admin logs in, selects candidate note' do
+  it 'admin logs in, selects deferred' do
     cand = Candidate.find(@cand_id)
     cand.candidate_sheet.candidate_email = 'm'
     cand.save(validate: false)
 
     visit @path
 
-    expect_candidate_note_form(@cand_id, @path_str, @update_id)
+    expect_deferred_form(@cand_id, @path_str, @update_id)
   end
 
   it 'admin logs in, selects candidate note, changes it and saves' do
@@ -42,35 +42,40 @@ describe 'Candidate note', :devise do
 
     visit @path
 
-    updated_text = 'The new admin message'
-    fill_in I18n.t('activerecord.attributes.candidate.candidate_note'), with: updated_text
+    expect_deferred_form(@cand_id,
+                         @path_str,
+                         @update_id,
+                         deferred: false)
+
+    check(I18n.t('activerecord.attributes.candidate.deferred'))
 
     click_button @update_id
 
     candidate = Candidate.find(@cand_id)
 
-    expect(candidate.candidate_note).to eq(updated_text)
+    expect(candidate.deferred).to be(true)
 
-    expect_candidate_note_form(@cand_id,
-                               @path_str,
-                               @update_id,
-                               text_area_text: updated_text,
-                               expected_messages: [[:flash_notice, @updated_message]])
+    expect_deferred_form(@cand_id,
+                         @path_str,
+                         @update_id,
+                         deferred: true,
+                         expected_messages: [[:flash_notice, @updated_message]])
   end
 
   private
 
-  def expect_candidate_note_form(cand_id, path_str, update_id, values = {})
+  def expect_deferred_form(cand_id, path_str, update_id, values = {})
     cand = Candidate.find(cand_id)
     expect_messages(values[:expected_messages]) unless values[:expecteded_messages].nil?
-    expected_text = values[:text_area_text].nil? ? 'Admin note' : values[:text_area_text]
+    deferred_value = values[:deferred].nil? ? false : values[:deferred]
 
-    expect_heading(cand, I18n.t('activerecord.attributes.candidate.candidate_note'))
+    expect_heading(cand, I18n.t('label.sidebar.deferred'))
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{path_str}.#{cand_id}\"]")
-
-    expect(page).to have_field(I18n.t('activerecord.attributes.candidate.candidate_note'),
-                               with: cand.candidate_note, type: 'textarea', text: expected_text)
+    puts page.html
+    expect(page).to have_field(I18n.t('activerecord.attributes.candidate.deferred'), type: 'checkbox')
+    expect(page).to have_unchecked_field(I18n.t('activerecord.attributes.candidate.deferred')) unless deferred_value
+    expect(page).to have_checked_field(I18n.t('activerecord.attributes.candidate.deferred')) if deferred_value
 
     expect(page).to have_button(update_id)
   end

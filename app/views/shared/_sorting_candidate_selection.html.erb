@@ -62,6 +62,8 @@
         <% case column_headers_in_order[index] %>
       <% when t('views.nav.edit') %>
           <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-false edit_column_header"><%= column_headers_in_order[index] %></th>
+      <% when t('views.nav.deferred') %>
+          <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-true filter-true"><%= column_headers_in_order[index] %></th>
         <% when t('views.nav.note') %>
           <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-false"><%= column_headers_in_order[index] %></th>
         <% when I18n.t('label.candidate_event.select') %>
@@ -74,7 +76,7 @@
     </thead>
     <tbody>
     <%= collection_check_boxes(:candidate, :candidate_ids, candidate_info, :id, :account_name, checked: selected_candidate_ids) do |b| %>
-      <% candidate_info = b.object %>
+.      <% candidate_info = b.object %>
       <% candidate_id = candidate_info.id %>
       <% confirmed = candidate_info.confirmed? %>
       <% password_changed = candidate_info.password_changed %>
@@ -89,7 +91,7 @@
         <% td_index += 1 %>
         <% if other_columns %>
           <% other_columns[:rows].each do |cell_gen| %>
-            <td id="tr<%= candidate_id %>_td<%= td_index %>"><%= cell_gen.call(candidate_id) %></td>
+            <td id="tr<%= candidate_id %>_td<%= td_index %>"><%= cell_gen.call(candidate_info) %></td>
             <% td_index += 1 %>
           <% end %>
         <% end %>
@@ -132,7 +134,7 @@
           <% when Candidate.parent_meeting_event_key %>
             <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= link_to "#{candidate_info.status(candidate_id, Candidate.parent_meeting_event_key, attending)}", event_candidate_path(candidate_id, anchor: "event_id_#{candidate_info.conf_event_id(candidate_id, Candidate.parent_meeting_event_key)}") %></td>
           <% else %>
-            <%= "unknown-event_key: #{ confirmation_event.event_key}"%>
+            <%= "unknown-event_key: #{ confirmation_event.event_key}" %>
           <% end %>
         <% else %>
           <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= grade %></td>

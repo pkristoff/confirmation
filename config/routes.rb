@@ -97,6 +97,11 @@ Rails.application.routes.draw do
     get 'candidate_note.:id', to: 'candidates#candidate_note', as: 'candidate_note'
     put 'candidate_note.:id', to: 'candidates#candidate_note_update', as: 'candidate_note_update'
 
+    # deferred - admin only
+
+    get 'deferred.:id', to: 'candidates#deferred', as: 'deferred'
+    put 'deferred.:id', to: 'candidates#deferred_update', as: 'deferred_update'
+
     # candidate sheet
 
     get 'dev/candidate_sheet.:id', to: 'dev/candidates#candidate_sheet', as: 'dev_candidate_sheet'
