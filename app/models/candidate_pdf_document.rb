@@ -183,10 +183,6 @@ class CandidatePDFDocument < Prawn::Document
     grid_label_value([6, 0], "#{I18n.t('activerecord.attributes.candidate_sheet.candidate_email')}:", cs.candidate_email)
     grid_label_value([6, 2], "#{I18n.t('activerecord.attributes.candidate_sheet.parent_email_1')}:", cs.parent_email_1)
     grid_label_value([7, 0], "#{I18n.t('activerecord.attributes.candidate_sheet.parent_email_2')}:", cs.parent_email_2)
-
-    # address
-    grid_label([8, 0], [8, 0], 'Address')
-    grid_address([9, 0], 'activerecord.attributes.candidate_sheet.address', cs.address, false)
   end
 
   # Generate Christian Ministry

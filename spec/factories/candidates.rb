@@ -19,9 +19,6 @@ FactoryBot.define do
       candidate.candidate_sheet.last_name = 'Augusta'
       candidate.candidate_sheet.grade = 10
       candidate.candidate_sheet.attending = Candidate::THE_WAY
-      # overwrite the already created address
-      candidate.candidate_sheet.address&.destroy
-      candidate.candidate_sheet.address = FactoryBot.create(:address)
       pred = evaluator.add_new_confirmation_events && candidate.candidate_events.size <= 0
       candidate.candidate_events = create_candidate_events if pred
 

@@ -47,12 +47,6 @@ en:
       candidate_sheet:
         attending: Attending
         candidate_email: Candidate email
-        church_address/address:
-          city: City
-          state: State
-          street_1: Street 1
-          street_2: Street 2
-          zip_code: Zip code
         first_name: First name
         grade: Grade
         last_name: Last name
@@ -181,7 +175,6 @@ en:
       question: Question
       scan: Baptismal certificate
     candidate_sheet:
-      address: Candidate's Address
       email: Email Addresses - Do NOT enter the same address on more than one line.
       name: 'Candidate''s name (as it appears on your Baptismal Certificate):'
       other: Other

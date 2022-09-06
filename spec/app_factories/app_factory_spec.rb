@@ -21,7 +21,6 @@ describe AppFactory do
     it 'create an empty candidate' do
       candidate = AppFactory.create_candidate
       expect(candidate.account_name).to eq('')
-      expect(candidate.candidate_sheet.address.street_1).to eq('')
       expect(candidate.candidate_events.size).to eq(0)
     end
 

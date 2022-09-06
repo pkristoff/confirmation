@@ -3,6 +3,7 @@ $(document).ready ->
     textMatcher = (e, n, f, i, $r, c, data) ->
       e.toLowerCase() == f.toLowerCase()
     $("#candidate_list_table").tablesorter({
+# https://forum.jquery.com/topic/tablesorter-filter-functions-external-select-box-to-filter-by-column
 
 # this will apply the bootstrap theme if "uitheme" widget is included
 # the widgetOptions.uitheme is no longer required to be set

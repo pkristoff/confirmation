@@ -140,17 +140,6 @@ shared_context 'candidate_sheet_html_erb' do
     expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.last_name'),
                                with: candidate_sheet.last_name, type: 'text')
 
-    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.street_1'),
-                               with: candidate_sheet.address.street_1, type: 'text')
-    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.street_2'),
-                               with: candidate_sheet.address.street_2, type: 'text')
-    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.city'),
-                               with: candidate_sheet.address.city, type: 'text')
-    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.state'),
-                               with: candidate_sheet.address.state, type: 'text')
-    expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.zip_code'),
-                               with: candidate_sheet.address.zip_code, type: 'text')
-
     expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.grade'),
                                with: candidate_sheet.grade, type: 'number')
     expect(page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.program_year'),
@@ -173,13 +162,6 @@ shared_context 'candidate_sheet_html_erb' do
     fill_in(I18n.t('activerecord.attributes.candidate_sheet.first_name'), with: candidate_sheet.first_name)
     fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: candidate_sheet.middle_name)
     fill_in(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: candidate_sheet.last_name)
-
-    address = candidate_sheet.address
-    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.street_1'), with: address.street_1)
-    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.street_2'), with: address.street_2)
-    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.city'), with: address.city)
-    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.state'), with: address.state)
-    fill_in(I18n.t('activerecord.attributes.candidate_sheet.church_address/address.zip_code'), with: address.zip_code)
 
     fill_in(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), with: candidate_sheet.candidate_email)
     fill_in(I18n.t('activerecord.attributes.candidate_sheet.parent_email_1'), with: candidate_sheet.parent_email_1)

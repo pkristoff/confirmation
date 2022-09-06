@@ -48,8 +48,8 @@ def expect_no_orphaned_associations
   orphaneds = Orphaneds.new
   orphaneds.add_orphaned_table_rows
   orphaned_table_rows = orphaneds.orphaned_table_rows
-  orphaned_table_rows.each do |_key, orphan_ids|
-    expect(orphan_ids).to be_empty
+  orphaned_table_rows.each do |key, orphan_ids|
+    expect(orphan_ids).to be_empty, "#{key} expected to be empty but was not: ids: #{orphan_ids}"
   end
 end
 

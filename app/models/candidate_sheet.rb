@@ -4,9 +4,6 @@
 # Basic information about candidate.
 #
 class CandidateSheet < ApplicationRecord
-  belongs_to(:address, class_name: 'Address', validate: true, dependent: :destroy)
-  accepts_nested_attributes_for :address, allow_destroy: true
-
   after_initialize :build_associations, if: :new_record?
 
   validates :first_name, presence: true
@@ -68,9 +65,7 @@ class CandidateSheet < ApplicationRecord
     event_complete_validator = EventCompleteValidator.new(self)
     event_complete_validator.validate(CandidateSheet.basic_validation_params)
     validate_emails
-    event_complete = errors.none?
-    address.validate_event_complete
-    propagate_errors_up(address, event_complete)
+    errors.none?
   end
 
   # Validate if event is complete by adding validation errors to active record
@@ -98,7 +93,7 @@ class CandidateSheet < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    CandidateSheet.basic_permitted_params.concat([{ address_attributes: Address.basic_permitted_params }])
+    CandidateSheet.basic_permitted_params
   end
 
   # Editable attributes
@@ -169,9 +164,7 @@ class CandidateSheet < ApplicationRecord
 
   # build address
   #
-  def build_associations
-    address || build_address
-  end
+  def build_associations; end
 
   # returns the parent_1's email - used by Factory Girl
   #
@@ -257,12 +250,7 @@ class CandidateSheet < ApplicationRecord
   def verifiable_info
     { name: first_middle_last_name,
       grade: grade,
-      program_year: 2,
-      street_1: address.street_1,
-      street_2: address.street_2,
-      city: address.city,
-      state: address.state,
-      zipcode: address.zip_code }
+      program_year: 2 }
   end
 
   # Attempts to guarentee that there is always a 'to' email

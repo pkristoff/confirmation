@@ -591,13 +591,7 @@ shared_context 'candidate_information_sheet' do
                         program_year: 2,
                         candidate_email: 'foo@bar.com',
                         parent_email_1: 'baz@bar.com',
-                        attending: Candidate::THE_WAY,
-                        address_attributes: {
-                          street_1: 'the way way',
-                          city: 'wayville',
-                          state: 'WA',
-                          zip_code: '27502'
-                        } }
+                        attending: Candidate::THE_WAY }
                   } }
 
     candidate = Candidate.find(@candidate.id)
@@ -605,7 +599,6 @@ shared_context 'candidate_information_sheet' do
     expect(response.status).to eq(200)
     expect(candidate.candidate_sheet.first_name).to eq('Paul')
     expect(candidate.candidate_sheet.middle_name).to eq('Richard')
-    expect(candidate.candidate_sheet.address.city).to eq('wayville')
     expect(candidate_event.completed_date).to eq(@today)
   end
 end

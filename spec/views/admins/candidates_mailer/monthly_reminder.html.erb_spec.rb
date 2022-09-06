@@ -101,11 +101,6 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:name, 'Sophia Saraha Augusta']
         info << [:grade, '10']
         info << [:program_year, '2']
-        info << [:street_1, '2120 Frissell Ave.']
-        info << [:street_2, 'Apt. 456']
-        info << [:city, 'Apex']
-        info << [:state, 'NC']
-        info << [:zipcode, '27502']
       when ChristianMinistry.event_key
         'no info' # rubiocop
       when Candidate.parent_meeting_event_key
@@ -161,11 +156,6 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
         info << [:name, 'Sophia Saraha Augusta']
         info << [:grade, '10']
         info << [:program_year, '2']
-        info << [:street_1, '2120 Frissell Ave.']
-        info << [:street_2, 'Apt. 456']
-        info << [:city, 'Apex']
-        info << [:state, 'NC']
-        info << [:zipcode, '27502']
       when ChristianMinistry.event_key
         'no info' # rubiocop
       when Candidate.parent_meeting_event_key
@@ -321,17 +311,14 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
     @candidate.candidate_events.each do |ce|
       ce.verified = false
       ce.completed_date = date
-      # puts "yyy: #{ce.name}: #{ce.due_date}"
     end
   end
 
   def change_due_date(date)
     ConfirmationEvent.all.each do |ce|
-      # puts "xxx: #{ce.name}: #{ce.chs_due_date}"
       ce.chs_due_date = date
       ce.the_way_due_date = date
       ce.save
-      # puts "yyy: #{ce.name}: #{ce.chs_due_date}"
     end
   end
 end

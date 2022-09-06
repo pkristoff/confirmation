@@ -65,12 +65,6 @@ module ViewsHelpers
     expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: (candidate ? candidate.candidate_sheet.middle_name : ''), type: 'text')
     expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: (candidate ? candidate.candidate_sheet.last_name : ''), type: 'text')
 
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.street_1'), with: (candidate ? candidate.candidate_sheet.address.street_1 : ''), type: 'text')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.street_2'), with: (candidate ? candidate.candidate_sheet.address.street_2 : ''), type: 'text')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.city'), with: (candidate ? candidate.candidate_sheet.address.city : ''), type: 'text')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.state'), with: (candidate ? candidate.candidate_sheet.address.state : ''), type: 'text')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.address.zip_code'), with: (candidate ? candidate.candidate_sheet.address.zip_code : ''), type: 'text')
-
     if candidate
       expect(rendered_or_page).to have_field('Grade', with: candidate.candidate_sheet.grade, type: 'number')
     else
@@ -257,7 +251,7 @@ module ViewsHelpers
     expect(SponsorCovenant.all.size).to eq(candidate_size), "SponsorCovenant size #{SponsorCovenant.all.size} did not meet expected #{candidate_size}"
 
     # each candidate has 3 + the home parish
-    expeced_address_size = candidate_size * 3 + (Visitor.first.nil? ? 0 : 1)
+    expeced_address_size = candidate_size * 2 + (Visitor.first.nil? ? 0 : 1)
     expect(Address.all.size).to eq(expeced_address_size), "Address size #{Address.all.size} did not meet expected #{expeced_address_size}"
     expect(CandidateEvent.all.size).to eq(candidate_size * conf_event_size), "CandidateEvent size #{CandidateEvent.all.size} did not meet expected #{candidate_size * conf_event_size}"
     expect(ToDo.all.size).to eq(CandidateEvent.all.size), "ToDo size #{ToDo.all.size} did not meet expected #{CandidateEvent.all.size}"

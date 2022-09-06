@@ -51,14 +51,14 @@ class Orphaneds
   #
   def add_orphaned_table_rows
     begin
-      cand_ids = ids(Candidate)
-      add_orphan_entry(:BaptismalCertificate, orphaned_baptismal_certificates(cand_ids))
-      add_orphan_entry(:CandidateSheet, orphaned_candidate_sheets(cand_ids))
-      add_orphan_entry(:ChristianMinistry, orphaned_christian_ministry(cand_ids))
-      add_orphan_entry(:PickConfirmationName, orphaned_pick_name(cand_ids))
-      add_orphan_entry(:RetreatVerification, orphaned_retreat_verification(cand_ids))
-      add_orphan_entry(:SponsorCovenant, orphaned_sponsor_covenant(cand_ids))
-      add_orphan_entry(:SponsorEligibility, orphaned_sponsor_eligibility(cand_ids))
+      cand_assoc_ids = ids(Candidate)
+      add_orphan_entry(:BaptismalCertificate, orphaned_baptismal_certificates(cand_assoc_ids))
+      add_orphan_entry(:CandidateSheet, orphaned_candidate_sheets(cand_assoc_ids))
+      add_orphan_entry(:ChristianMinistry, orphaned_christian_ministry(cand_assoc_ids))
+      add_orphan_entry(:PickConfirmationName, orphaned_pick_name(cand_assoc_ids))
+      add_orphan_entry(:RetreatVerification, orphaned_retreat_verification(cand_assoc_ids))
+      add_orphan_entry(:SponsorCovenant, orphaned_sponsor_covenant(cand_assoc_ids))
+      add_orphan_entry(:SponsorEligibility, orphaned_sponsor_eligibility(cand_assoc_ids))
       add_orphan_entry(:Address, orphaned_addresses)
       add_orphan_entry(:ScannedImage, orphaned_scanned_image)
       add_orphan_entry(:ToDo, orphaned_to_do)
@@ -128,12 +128,15 @@ class Orphaneds
   # Finds all the Address's that have been orphaned.
   #
   def orphaned_addresses
-    ids(Address).select do |ar_id|
-      ids(BaptismalCertificate).map { |bc_info| bc_info[1] }.select { |church_address_id| church_address_id == ar_id }.empty? &&
-        ids(BaptismalCertificate).map { |bc_info| bc_info[2] }
-                                 .select { |prof_church_address_id| prof_church_address_id == ar_id }.empty? &&
-        ids(CandidateSheet).map { |bc_info| bc_info[1] }.select { |address_id| address_id == ar_id }.empty? &&
-        ids(Visitor).map { |visitor_info| visitor_info[1] }.select { |address_id| address_id == ar_id }.empty?
+    class_ids(Address).select do |ar_id|
+      church_address = ids(BaptismalCertificate).map { |bc_info| bc_info[1] }
+                                                .select { |church_address_id| church_address_id == ar_id }
+      prof_address = ids(BaptismalCertificate).map { |bc_info| bc_info[2] }
+                                              .select { |prof_church_address_id| prof_church_address_id == ar_id }
+      visitor_address = ids(Visitor).map { |visitor_info| visitor_info[1] }.select { |address_id| address_id == ar_id }
+      church_address.empty? &&
+        prof_address.empty? &&
+        visitor_address.empty?
     end
   end
 
@@ -147,8 +150,9 @@ class Orphaneds
   #
   # * <tt>Array</tt> ids
   #
-  def orphaned_baptismal_certificates(used_cand_ids)
-    orphaned_ids(BaptismalCertificate, (used_cand_ids.map { |x| x[1] }), 0)
+  def orphaned_baptismal_certificates(used_cand_assoc_ids)
+    used_bc_ids = used_cand_assoc_ids.map { |x| x[1] }
+    orphaned_ids(BaptismalCertificate, used_bc_ids)
   end
 
   # Finds all the ChristianMinistry's that have been orphaned.
@@ -161,8 +165,9 @@ class Orphaneds
   #
   # * <tt>Array</tt> ids
   #
-  def orphaned_christian_ministry(cand_ids)
-    orphaned_ids(ChristianMinistry, cand_ids.map { |x| x[3] })
+  def orphaned_christian_ministry(used_cand_assoc_ids)
+    used_christian_ministry_ids = used_cand_assoc_ids.map { |x| x[3] }
+    orphaned_ids(ChristianMinistry, used_christian_ministry_ids)
   end
 
   # Finds all the CandidateSheet's that have been orphaned.
@@ -175,8 +180,9 @@ class Orphaneds
   #
   # * <tt>Array</tt> ids
   #
-  def orphaned_candidate_sheets(used_cand_ids)
-    orphaned_ids(CandidateSheet, used_cand_ids.map { |x| x[2] }, 0)
+  def orphaned_candidate_sheets(used_cand_assoc_ids)
+    used_cand_sheet_ids = used_cand_assoc_ids.map { |x| x[2] }
+    orphaned_ids(CandidateSheet, used_cand_sheet_ids)
   end
 
   # Finds all the PickConfirmationName's that have been orphaned.
@@ -189,8 +195,9 @@ class Orphaneds
   #
   # * <tt>Array</tt> ids
   #
-  def orphaned_pick_name(cand_ids)
-    orphaned_ids(PickConfirmationName, cand_ids.map { |x| x[4] })
+  def orphaned_pick_name(used_cand_assoc_ids)
+    used_pick_name_ids = used_cand_assoc_ids.map { |x| x[4] }
+    orphaned_ids(PickConfirmationName, used_pick_name_ids)
   end
 
   # Finds all the RetreatVerification's that have been orphaned.
@@ -203,8 +210,9 @@ class Orphaneds
   #
   # * <tt>Array</tt> ids
   #
-  def orphaned_retreat_verification(cand_ids)
-    orphaned_ids(RetreatVerification, cand_ids.map { |x| x[5] }, 0)
+  def orphaned_retreat_verification(used_cand_assoc_ids)
+    used_retreat_verification_ids = used_cand_assoc_ids.map { |x| x[5] }
+    orphaned_ids(RetreatVerification, used_retreat_verification_ids)
   end
 
   # Finds all the SponsorCovenant's that have been orphaned.
@@ -217,8 +225,9 @@ class Orphaneds
   #
   # * <tt>Array</tt> ids
   #
-  def orphaned_sponsor_covenant(cand_ids)
-    orphaned_ids(SponsorCovenant, cand_ids.map { |x| x[6] }, 0)
+  def orphaned_sponsor_covenant(used_cand_assoc_ids)
+    used_sponsor_covenant_ids = used_cand_assoc_ids.map { |x| x[6] }
+    orphaned_ids(SponsorCovenant, used_sponsor_covenant_ids)
   end
 
   # Finds all the SponsorCovenant's that have been orphaned.
@@ -231,14 +240,15 @@ class Orphaneds
   #
   # * <tt>Array</tt> ids
   #
-  def orphaned_sponsor_eligibility(cand_ids)
-    orphaned_ids(SponsorEligibility, cand_ids.map { |x| x[7] }, 0)
+  def orphaned_sponsor_eligibility(used_cand_assoc_ids)
+    used_sponsor_eligibility_ids = used_cand_assoc_ids.map { |x| x[7] }
+    orphaned_ids(SponsorEligibility, used_sponsor_eligibility_ids)
   end
 
   # Finds all the ScannedImage's that have been orphaned.
   #
   def orphaned_scanned_image
-    ids(ScannedImage).select do |ar_id|
+    class_ids(ScannedImage).select do |ar_id|
       ids(BaptismalCertificate).map { |x| x[3] }.select { |scanned_certificate_id| scanned_certificate_id == ar_id }.empty? &&
         ids(BaptismalCertificate).map { |x| x[4] }.select { |scanned_prof_id| scanned_prof_id == ar_id }.empty? &&
         ids(RetreatVerification).map { |x| x[1] }.select { |scanned_retreat_id| scanned_retreat_id == ar_id }.empty? &&
@@ -251,8 +261,8 @@ class Orphaneds
   #
   def orphaned_to_do
     orphaned = ids(ToDo).select do |_todo_id, confirmation_event_id, candidate_event_id|
-      ids(ConfirmationEvent).select { |ce_id| confirmation_event_id == ce_id }.empty? &&
-        ids(CandidateEvent).select { |ce_id| candidate_event_id == ce_id }.empty?
+      class_ids(ConfirmationEvent).select { |ce_id| confirmation_event_id == ce_id }.empty? &&
+        class_ids(CandidateEvent).select { |ce_id| candidate_event_id == ce_id }.empty?
     end
     orphaned.map { |id, _ce_id, _cand_id| id }
   end
@@ -265,7 +275,7 @@ class Orphaneds
   #
   # === Returns:
   #
-  # * <tt>Array</tt> ids or Array of ids
+  # * <tt>Array</tt> [...[class_id, assoc_ids...]...]
   #
   def ids(clazz)
     class_sym = clazz.name.to_sym
@@ -282,7 +292,11 @@ class Orphaneds
             BaptismalCertificate.pluck(:id, :church_address_id, :prof_church_address_id,
                                        :scanned_certificate_id, :scanned_prof_id)
           when :CandidateSheet
-            CandidateSheet.pluck(:id, :address_id)
+            CandidateSheet.pluck(:id).map { |id| [id] }
+          when :ChristianMinistry
+            ChristianMinistry.pluck(:id).map { |id| [id] }
+          when :PickConfirmationName
+            PickConfirmationName.pluck(:id).map { |id| [id] }
           when :RetreatVerification
             RetreatVerification.pluck(:id, :scanned_retreat_id)
           when :SponsorCovenant
@@ -293,12 +307,26 @@ class Orphaneds
             Visitor.pluck(:id, :home_parish_address_id)
           when :ToDo
             ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id)
+          when :Address
+            Address.pluck(:id).map { |id| [id] }
+          when :ScannedImage
+            ScannedImage.pluck(:id).map { |id| [id] }
+          when :ConfirmationEvent
+            # [ConfirmationEvent.pluck(:id)]
+            ConfirmationEvent.pluck(:id).map { |id| [id] }
+          when :CandidateEvent
+            # [CandidateEvent.pluck(:id)]
+            CandidateEvent.pluck(:id).map { |id| [id] }
           else
             clazz.pluck(:id)
           end
     @cache[class_sym] = ids
     Rails.logger.info "class_sym=#{class_sym}:  ids=#{ids}"
     ids
+  end
+
+  def class_ids(clazz)
+    ids(clazz).map { |arr_ids| arr_ids[0] }
   end
 
   # Orphaned ids for clazz
@@ -313,13 +341,13 @@ class Orphaneds
   #
   # * <tt>Array</tt> ids
   #
-  def orphaned_ids(clazz, used_ids, offset = nil)
-    Rails.logger.info "orphaned_ids-offset=#{offset}:  used_ids=#{used_ids}" if clazz == ScannedImage
+  def orphaned_ids(clazz, used_assoc_ids, offset = nil)
+    Rails.logger.info "orphaned_ids-offset=#{offset}:  used_ids=#{used_assoc_ids}" if clazz == ScannedImage
     if offset.nil?
-      ans = ids(clazz).select { |bc_id| used_ids.select { |used_id| used_id == bc_id }.empty? }
+      ans = class_ids(clazz).select { |bc_id| used_assoc_ids.select { |used_id| used_id == bc_id }.empty? }
     else
-      ans = ids(clazz).select do |clazz_id|
-        used_ids.select do |used_id|
+      ans = class_ids(clazz).select do |clazz_id|
+        used_assoc_ids.select do |used_id|
           used_id == clazz_id[offset]
         end.empty?
       end

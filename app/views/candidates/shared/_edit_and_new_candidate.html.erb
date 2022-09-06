@@ -27,33 +27,6 @@
         </div>
     <% end %>
 
-    <%= field_set_tag t('field_set.candidate_sheet.address'), class: 'fieldset' do %>
-        <div class="fieldset-div">
-          <%= cs_fields.fields_for :address do |address_fields| %>
-              <div class="field">
-                <%= address_fields.label :street_1 %><br/>
-                <%= address_fields.text_field :street_1 %>
-              </div>
-              <div class="field">
-                <%= address_fields.label :street_2 %><br/>
-                <%= address_fields.text_field :street_2 %>
-              </div>
-              <div class="field">
-                <%= address_fields.label :city %><br/>
-                <%= address_fields.text_field :city %>
-              </div>
-              <div class="field">
-                <%= address_fields.label :state %><br/>
-                <%= address_fields.text_field :state %>
-              </div>
-              <div class="field">
-                <%= address_fields.label :zip_code %><br/>
-                <%= address_fields.text_field :zip_code %>
-              </div>
-          <% end %>
-        </div>
-    <% end %>
-
     <%= field_set_tag t('field_set.candidate_sheet.email'), class: 'fieldset' do %>
         <div class="fieldset-div">
           <div class="field">

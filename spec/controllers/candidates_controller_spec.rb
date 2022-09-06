@@ -582,13 +582,7 @@ describe CandidatesController do
                                      grade: 10,
                                      candidate_email: 'foo@bar.com',
                                      parent_email_1: 'baz@bar.com',
-                                     attending: Candidate::THE_WAY,
-                                     address_attributes: {
-                                       street_1: 'the way way',
-                                       city: 'wayville',
-                                       state: 'WA',
-                                       zip_code: '27502'
-                                     } } } }
+                                     attending: Candidate::THE_WAY } } }
 
       cand = Candidate.find(@c0_id)
       expect(cand.candidate_sheet.candidate_email).to eq('foo@bar.com')

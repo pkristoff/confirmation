@@ -115,7 +115,6 @@ describe CandidateImportsController do
 
       post :export_to_excel, params: { commit: 'bad commit', format: 'xlsx' }
 
-      puts response.body
       expect(response.body).to have_link('', href: 'http://test.host/candidate_imports/new')
     end
   end

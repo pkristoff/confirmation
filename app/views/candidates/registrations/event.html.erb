@@ -1,6 +1,6 @@
 <div>
   <h2><%= t('views.common.status') %> <%= "#{current_candidate.account_name}" %></h2>
 
-  <%= render 'candidates/shared/event.html.erb', candidate: current_candidate, by_candidate: true %>
+  <%= render('candidates/shared/event', formats: [:html], candidate: current_candidate, by_candidate: true) %>
 
 </div>

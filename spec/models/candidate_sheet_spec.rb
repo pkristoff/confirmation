@@ -21,7 +21,6 @@ describe CandidateSheet, type: :model do
       expect(candidate_sheet.first_name).to match 'Sophia'
       expect(candidate_sheet.middle_name).to match 'Saraha'
       expect(candidate_sheet.last_name).to match 'Young'
-      expect(candidate_sheet.address).not_to be_nil
     end
   end
 
@@ -30,12 +29,7 @@ describe CandidateSheet, type: :model do
       verifiables = FactoryBot.create(:candidate_sheet).verifiable_info
       expected_verifiables = { name: 'Sophia Saraha Young',
                                grade: 10,
-                               program_year: 2,
-                               street_1: '555 Xxx Ave.',
-                               street_2: '<nothing>',
-                               city: 'Clarksville',
-                               state: 'IN',
-                               zipcode: '47529' }
+                               program_year: 2 }
       expect(verifiables).to eq(expected_verifiables)
     end
   end

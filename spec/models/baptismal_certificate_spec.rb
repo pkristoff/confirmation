@@ -289,7 +289,7 @@ describe BaptismalCertificate, type: :model do
         expect(msgs.size).to eq(2)
       end
 
-      it 'fail validation - have not filled in church name snd address' do
+      it 'fail validation - have not filled in church name and address' do
         @baptismal_certificate.church_name = ''
         @baptismal_certificate.church_address.street_1 = ''
         @baptismal_certificate.church_address.zip_code = ''
@@ -335,7 +335,7 @@ describe BaptismalCertificate, type: :model do
         expect(msgs.size).to eq(2)
       end
 
-      it 'fail validation - have not filled in church name snd address' do
+      it 'fail validation - have not filled in church name and address' do
         @baptismal_certificate.prof_church_name = ''
         @baptismal_certificate.prof_church_address.street_1 = ''
         @baptismal_certificate.prof_church_address.zip_code = ''

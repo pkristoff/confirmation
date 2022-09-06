@@ -36,12 +36,6 @@ describe Candidate do
       expect(candidate.candidate_sheet.parent_email_1).to match 'test@example.com'
       expect(candidate.deferred).to be(true)
 
-      expect(candidate.candidate_sheet.address.street_1).to match '2120 Frissell Ave.'
-      expect(candidate.candidate_sheet.address.street_2).to match 'Apt. 456'
-      expect(candidate.candidate_sheet.address.city).to match 'Apex'
-      expect(candidate.candidate_sheet.address.state).to match 'NC'
-      expect(candidate.candidate_sheet.address.zip_code).to match '27502'
-
       expect(candidate.candidate_events.size).to eq 2
     end
 
@@ -50,12 +44,6 @@ describe Candidate do
       expect(candidate.account_name).to match ''
       expect(candidate.deferred).to be(false)
       expect(candidate.candidate_sheet.parent_email_1).to match ''
-
-      expect(candidate.candidate_sheet.address.street_1).to match ''
-      expect(candidate.candidate_sheet.address.street_2).to match ''
-      expect(candidate.candidate_sheet.address.city).to match ''
-      expect(candidate.candidate_sheet.address.state).to match ''
-      expect(candidate.candidate_sheet.address.zip_code).to match ''
 
       expect(candidate.candidate_events.size).to eq 0
     end

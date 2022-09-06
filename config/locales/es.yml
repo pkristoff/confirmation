@@ -47,12 +47,6 @@ es:
       candidate_sheet:
         attending: Asistiendo
         candidate_email: Correo electrónico del candidato
-        church_address/address:
-          city: Ciudad
-          state: Estado
-          street_1: Calle 1
-          street_2: Calle 2
-          zip_code: Código postal
         first_name: Nombre de pila
         grade: Grado
         last_name: Apellido
@@ -181,7 +175,6 @@ es:
       question: Pregunta
       scan: Certificado de bautismo
     candidate_sheet:
-      address: Dirección del candidato
       email: 'Direcciones de correo electrónico: NO ingrese la misma dirección en más de una línea.'
       name: 'Nombre del candidato (como aparece en su Certificado de Bautismo):'
       other: Otro

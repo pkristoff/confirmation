@@ -3,6 +3,7 @@
 # SortingCandListHelpers
 #
 module SortingCandListHelpers
+  # https://forum.jquery.com/topic/tablesorter-filter-functions-external-select-box-to-filter-by-column
   # expects sorting columns
   #
   # === Parameters:

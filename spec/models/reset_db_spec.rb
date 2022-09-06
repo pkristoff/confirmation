@@ -46,7 +46,7 @@ describe ResetDB, type: :model do
 
       expect(Admin.all.size).to eq(1)
 
-      cand_assoc = { Address: 10,
+      cand_assoc = { Address: 7,
                      BaptismalCertificate: 3,
                      Candidate: 3,
                      CandidateEvent: 27,
@@ -66,7 +66,7 @@ describe ResetDB, type: :model do
 
       expect(Admin.all.size).to eq(1)
 
-      cand_assoc = { Address: 3,
+      cand_assoc = { Address: 2,
                      BaptismalCertificate: 1,
                      Candidate: 1,
                      CandidateEvent: 9,
@@ -135,7 +135,7 @@ describe ResetDB, type: :model do
       expect(ConfirmationEvent.all.size).to eq(9)
       expect(Candidate.all.size).to eq(3)
 
-      cand_assoc = { Address: 14,
+      cand_assoc = { Address: 10,
                      BaptismalCertificate: 4,
                      Candidate: 3,
                      CandidateEvent: 28,
@@ -157,7 +157,7 @@ describe ResetDB, type: :model do
       expect(ConfirmationEvent.all.size).to eq(9)
       expect(Candidate.all.size).to eq(1) # vickikristoff the seed
 
-      cand_assoc = { Address: 3,
+      cand_assoc = { Address: 2,
                      BaptismalCertificate: 1,
                      Candidate: 1,
                      CandidateEvent: 9,

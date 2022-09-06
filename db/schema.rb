@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_20_185750) do
+ActiveRecord::Schema.define(version: 2022_09_03_200610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,10 +94,8 @@ ActiveRecord::Schema.define(version: 2022_08_20_185750) do
     t.string "attending", default: "The Way", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "address_id"
     t.string "middle_name", default: "", null: false
     t.decimal "program_year", precision: 1, default: "2", null: false
-    t.index ["address_id"], name: "index_candidate_sheets_on_address_id"
   end
 
   create_table "candidates", id: :serial, force: :cascade do |t|

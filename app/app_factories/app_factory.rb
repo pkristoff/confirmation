@@ -188,10 +188,6 @@ class AppFactory
       candidate.candidate_sheet.middle_name = 'Anne'
       candidate.candidate_sheet.last_name = 'Kristoff'
       candidate.candidate_sheet.grade = 10
-      candidate.candidate_sheet.address.street_1 = '2120 Frissell Ave.'
-      candidate.candidate_sheet.address.city = 'Apex'
-      candidate.candidate_sheet.address.state = 'NC'
-      candidate.candidate_sheet.address.zip_code = '27502'
       self.add_candidate_events(candidate)
     end
   end

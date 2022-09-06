@@ -464,11 +464,6 @@ def expect_candidates(wks, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.program_year')].value).to eq(2)
   expected_msg = I18n.t('model.candidate.attending_the_way')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.attending')].value).to eq(expected_msg)
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_1')].value).to eq('2120 Frissell Ave.')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_2')].value).to eq('Apt. 456')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.city')].value).to eq('Apex')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.state')].value).to eq('NC')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.zip_code')].value).to eq(27_502)
 
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.birth_date')].value.to_s).to eq('1983-08-20')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.baptismal_date')].value.to_s).to eq('1983-10-20')
@@ -546,11 +541,6 @@ def expect_candidates_empty(wks, candidate_import)
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.program_year')].value).to eq(2)
   expected_msg = I18n.t('model.candidate.attending_the_way')
   expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.attending')].value).to eq(expected_msg)
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_1')].value).to eq('2120 Frissell Ave.')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.street_2')].value).to eq('Apt. 456')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.city')].value).to eq('Apex')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.state')].value).to eq('NC')
-  expect(c1_row.cells[find_cell_offset(header_row, 'candidate_sheet.address.zip_code')].value).to eq(27_502)
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.birth_date')].value.to_s).to eq('')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.baptismal_date')].value.to_s).to eq('')
   expect(c1_row.cells[find_cell_offset(header_row, 'baptismal_certificate.church_name')].value).to be_nil
@@ -588,7 +578,7 @@ def expect_candidates_empty(wks, candidate_import)
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.completed_date")].value).to be_nil
     expect(c1_row.cells[find_cell_offset(header_row, "candidate_events.#{index}.verified")].value).to eq(0)
   end
-  expect(c1_row.size).to eq(85)
+  expect(c1_row.size).to eq(80)
 end
 
 # expect_confirmation_events_empty

@@ -149,7 +149,7 @@ describe 'Sign in', :devise do
     orphaneds.add_orphaned_table_rows
     orphaned_table_rows = orphaneds.orphaned_table_rows
     orphaned_table_rows.each do |key, orphan_ids|
-      expect(orphan_ids).to be_empty, "#{key} has orphans"
+      expect(orphan_ids).to be_empty, "#{key} has orphans ids: #{orphan_ids}"
     end
   end
 end

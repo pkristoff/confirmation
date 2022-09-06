@@ -72,7 +72,7 @@ describe 'Candidate sheet candidate', :devise do
     expect_heading(cand, I18n.t('label.sidebar.deferred'))
 
     expect(page).to have_selector("form[id=edit_candidate][action=\"/#{path_str}.#{cand_id}\"]")
-    puts page.html
+
     expect(page).to have_field(I18n.t('activerecord.attributes.candidate.deferred'), type: 'checkbox')
     expect(page).to have_unchecked_field(I18n.t('activerecord.attributes.candidate.deferred')) unless deferred_value
     expect(page).to have_checked_field(I18n.t('activerecord.attributes.candidate.deferred')) if deferred_value

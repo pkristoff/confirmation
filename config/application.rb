@@ -33,7 +33,7 @@ module Confirmation
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-
+    config.i18n.raise_on_missing_translations = true
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # No need for Rails 5.0
     # config.active_record.raise_in_transactional_callbacks = true
