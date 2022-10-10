@@ -197,6 +197,8 @@ en:
       baptismal_certificate:
         neg: 'No'
         pos: 'Yes'
+    candidate_event:
+      select: all/none
     mail:
       attach_file: Attach file
     sidebar:

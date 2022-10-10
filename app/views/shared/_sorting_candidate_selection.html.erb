@@ -12,6 +12,7 @@
 <% show_password_changed = route && route === :candidates %>
 <% show_account_confirmed = route && route === :candidates %>
 <% column_headers_in_order = [] %>
+<% column_headers_in_order.push(t('views.nav.deferred')) %>
 <% if other_columns %>
   <% other_columns[:headers].each do |i18n_header| %>
     <% column_headers_in_order.push(i18n_header) %>
@@ -55,14 +56,15 @@
   <table id="candidate_list_table" class="tablesorter">
     <thead>
     <tr id="candidate_list_header">
-      <th id="candidate_list_header_th_1" class="sorter-false filter-false select_column_header">
+      <th id="candidate_list_header_th_1" title="<%= t('label.candidate_event.select') %>" class="sorter-false filter-false select_column_header">
         <a onclick="select_all_none('select_all_none_input');" href="#"><input type="checkbox" id="select_all_none_input"></a>
+        <%= t('label.candidate_event.select') %>
       </th>
       <% column_headers_in_order.each_with_index do |sort_header, index| %>
         <% case column_headers_in_order[index] %>
       <% when t('views.nav.edit') %>
           <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-false edit_column_header"><%= column_headers_in_order[index] %></th>
-      <% when t('views.nav.deferred') %>
+        <% when t('views.nav.deferred') %>
           <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-true filter-true"><%= column_headers_in_order[index] %></th>
         <% when t('views.nav.note') %>
           <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-false"><%= column_headers_in_order[index] %></th>
@@ -76,8 +78,9 @@
     </thead>
     <tbody>
     <%= collection_check_boxes(:candidate, :candidate_ids, candidate_info, :id, :account_name, checked: selected_candidate_ids) do |b| %>
-.      <% candidate_info = b.object %>
+      <% candidate_info = b.object %>
       <% candidate_id = candidate_info.id %>
+      <% deferred = candidate_info.deferred %>
       <% confirmed = candidate_info.confirmed? %>
       <% password_changed = candidate_info.password_changed %>
       <% last_name = candidate_info.last_name %>
@@ -88,6 +91,7 @@
       <tr id="candidate_list_tr_<%= candidate_id %>">
         <% td_index = 0 %>
         <td id="tr<%= candidate_id %>_td<%= td_index %>" onclick="update_total_selections()"><%= b.check_box %></td>
+        <td id="tr<%= candidate_id %>_td<%= td_index += 1 %>"><%= deferred %></td>
         <% td_index += 1 %>
         <% if other_columns %>
           <% other_columns[:rows].each do |cell_gen| %>
