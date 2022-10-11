@@ -68,7 +68,7 @@ en:
         saint_name: Saint name
       retreat_verification:
         end_date: Retreat end date
-        retreat_held_at_home_parish: Did you attend a %{home_parish} confirmation retreat?
+        retreat_held_at_home_parish: Check if you attended a retreat held by %{home_parish}.
         retreat_verification_picture: Scanned retreat verification
         start_date: Retreat start date
         where_held_retreat: Where was the retreat held?
@@ -81,7 +81,7 @@ en:
         sponsor_covenant_picture: Scanned sponsor Covenant
         sponsor_name: Sponsor's Name
       sponsor_eligibility:
-        sponsor_attends_home_parish: Sponsor is registered at %{home_parish}
+        sponsor_attends_home_parish: Check if sponsor is registered at %{home_parish}
         sponsor_attends_home_parish_note: "(We will verify with office and get back with you if there any problems)"
         sponsor_church: Sponsor's church
         sponsor_eligibility_picture: Scanned sponsor's eligibility
@@ -186,6 +186,7 @@ en:
       dates: Dates
       info: Info
       scan: Retreat Verification Form
+      where_attended: Where attended
     sponsor_covenant: Sponsor covenant
     sponsor_eligibility: Sponsor eligibility
   label:

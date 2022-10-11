@@ -68,7 +68,7 @@ es:
         saint_name: Santo nombre
       retreat_verification:
         end_date: Fecha de finalización del retiro
-        retreat_held_at_home_parish: "¿Asistió a un retiro de confirmación de %{home_parish}?"
+        retreat_held_at_home_parish: Compruebe si asistió a un retiro organizado por %{home_parish}.
         retreat_verification_picture: Verificación de retirada escaneada
         start_date: Fecha de inicio del retiro
         where_held_retreat: "¿Dónde se realizó el retiro?"
@@ -81,7 +81,7 @@ es:
         sponsor_covenant_picture: Pacto patrocinador escaneado
         sponsor_name: Nombre del patrocinador
       sponsor_eligibility:
-        sponsor_attends_home_parish: El patrocinador está registrado en %{home_parish}
+        sponsor_attends_home_parish: Compruebe si el patrocinador está registrado en %{home_parish}
         sponsor_attends_home_parish_note: "(Verificaremos con la oficina y nos comunicaremos con usted si hay algún problema)"
         sponsor_church: La iglesia del patrocinador
         sponsor_eligibility_picture: Elegibilidad escaneada del patrocinador
@@ -186,6 +186,7 @@ es:
       dates: fechas
       info: Informacion
       scan: Formulario de verificación de retiro
+      where_attended: Donde asistieron
     sponsor_covenant: Pacto del patrocinador
     sponsor_eligibility: Elegibilidad del patrocinador
   label:
