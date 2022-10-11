@@ -296,16 +296,19 @@ describe Candidate do
     end
   end
 
+  # require 'bcrypt'
+
   describe 'password' do
-    it 'return false if password is not initial password' do
+    # include BCrypt
+    it 'return true if password is not initial password' do
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
-      c1.password = 'abcdefghij'
+      c1.password = BCrypt::Password.create('abcdefghij')
       expect(c1.password_changed?).to be(true)
     end
 
     it 'return false if password is initial password' do
       c1 = create_candidate_local('c1', 'Paul', 'Kristoff')
-      c1.password = Event::Other::INITIAL_PASSWORD
+      c1.password = BCrypt::Password.create(Event::Other::INITIAL_PASSWORD)
       expect(c1.password_changed?).to be(false)
     end
   end

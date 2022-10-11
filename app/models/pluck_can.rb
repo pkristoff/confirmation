@@ -272,8 +272,9 @@ class PluckCan
   # * <tt>Boolean</tt>
   #
   def password_changed
-    encrypted_password = encrypted_password
+    Candidate.password_changed?(@encrypted_password)
+    # encrypted_password = @encrypted_password
     # Copied from database_authenticatable.rb - valid_Password?
-    !Devise::Encryptor.compare(Candidate, encrypted_password, Event::Other::INITIAL_PASSWORD)
+    # !Devise::Encryptor.compare(Candidate, encrypted_password, Event::Other::INITIAL_PASSWORD)
   end
 end

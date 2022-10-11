@@ -310,7 +310,23 @@ class Candidate < ApplicationRecord
   # * <tt>Boolean</tt>
   #
   def password_changed?
-    !valid_password?(Event::Other::INITIAL_PASSWORD)
+    Candidate.password_changed?(password)
+    # !valid_password?(Event::Other::INITIAL_PASSWORD)
+  end
+
+  # whether the password has been changed - allows admin to know whether the candidate has
+  # changed original password.
+  #
+  # === Parameters:
+  #
+  # * <tt>:encrypted_password</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>Boolean</tt>
+  #
+  def self.password_changed?(encrypted_password)
+    !Devise::Encryptor.compare(Candidate, encrypted_password, Event::Other::INITIAL_PASSWORD)
   end
 
   # returns whether the User account has been confirmed
