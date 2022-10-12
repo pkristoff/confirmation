@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_03_200610) do
+ActiveRecord::Schema.define(version: 2022_10_11_213130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,7 +190,7 @@ ActiveRecord::Schema.define(version: 2022_09_03_200610) do
   end
 
   create_table "sponsor_eligibilities", force: :cascade do |t|
-    t.boolean "sponsor_attends_home_parish", default: true, null: false
+    t.boolean "sponsor_attends_home_parish", default: false, null: false
     t.string "sponsor_church", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
