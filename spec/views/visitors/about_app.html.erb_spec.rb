@@ -23,7 +23,7 @@ describe 'visitors/about_app.html.erb' do
       end
     else
       minor_version = split_v[1]
-      n = Integer(split_v[2]) + 1
+      n = Integer(split_v[2], 10) + 1
       next_version = n.to_s if split_v.size == 3 && n > 9
       next_version = "0#{n}" if split_v.size == 3 && n <= 9
     end
@@ -58,6 +58,6 @@ describe 'visitors/about_app.html.erb' do
     expect(rendered).to have_css('p', text: t('views.top_bar.aboutApp'))
     expect(rendered).to have_css('li', count: 2)
     expect(rendered).to have_css('li', text: "Version: #{@next_minor_version}")
-    expect(rendered).to have_css('li', text: 'Date: 10/11/2022')
+    expect(rendered).to have_css('li', text: 'Date: 10/12/2022')
   end
 end
