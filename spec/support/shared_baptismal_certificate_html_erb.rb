@@ -581,6 +581,7 @@ shared_context 'baptismal_certificate_html_erb' do
             end
 
             visit @path
+
             candidate = Candidate.find(@candidate.id)
             expect_baptismal_certificate_form(candidate.id, @dev, @path_str, @button_name, @is_verify,
                                               @bc_form_info.show_info(true, true, false), false,
@@ -679,7 +680,9 @@ shared_context 'baptismal_certificate_html_erb' do
                                   text: I18n.t('views.common.image_upload_file_types'))
     expect_field(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), nil)
     begin
-      div = page.find '#div-scanned-image-certificate_picture'
+      # rubocop:disable Rails/DynamicFindBy
+      div = page.find_by_id('div-scanned-image-certificate_picture')
+      # rubocop:enable Rails/DynamicFindBy
     rescue Capybara::ElementNotFound
       div = nil
     end
@@ -692,7 +695,9 @@ shared_context 'baptismal_certificate_html_erb' do
                                   text: I18n.t('views.common.image_upload_file_types'))
     expect_field(I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'), nil)
     begin
-      div = page.find '#div-scanned-image-prof_picture'
+      # rubocop:disable Rails/DynamicFindBy
+      div = page.find_by_id('div-scanned-image-prof_picture')
+      # rubocop:enable Rails/DynamicFindBy
     rescue Capybara::ElementNotFound
       div = nil
     end
@@ -704,7 +709,9 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(page).to have_selector('div[id=div-scanned-image-certificate_picture][class=show-div]')
     expect(page).to have_selector('div[id=file-type-message_certificate_picture]',
                                   text: I18n.t('views.common.image_upload_file_types'))
-    si = page.find '#img-scanned-image-certificate_picture'
+    # rubocop:disable Rails/DynamicFindBy
+    si = page.find_by_id('img-scanned-image-certificate_picture')
+    # rubocop:enable Rails/DynamicFindBy
     expect(si[:src]).to eq("/#{dev}event_with_picture_image/#{candidate_id}/baptismal_certificate/is_other/false")
     expect(si[:alt]).to eq("Did not receive the file: #{filename} of type #{file_type}")
   end
@@ -713,7 +720,10 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(page).to have_selector('div[id=div-scanned-image-prof_picture][class=show-div]')
     expect(page).to have_selector('div[id=file-type-message_prof_picture]',
                                   text: I18n.t('views.common.image_upload_file_types'))
-    si = page.find '#img-scanned-image-prof_picture'
+
+    # rubocop:disable Rails/DynamicFindBy
+    si = page.find_by_id('img-scanned-image-prof_picture')
+    # rubocop:enable Rails/DynamicFindBy
     expect(si[:src]).to eq("/#{dev}event_with_picture_image/#{candidate_id}/baptismal_certificate/is_other/true")
     expect(si[:alt]).to eq("Did not receive the file: #{filename} of type #{file_type}")
   end

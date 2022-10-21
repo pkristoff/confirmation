@@ -18,7 +18,7 @@ class OrphanedsController < ApplicationController
   def remove
     @orphaneds = Orphaneds.remove_orphaned_table_rows
     no_orphans = t('messages.orphaneds.check.no_orphans_found')
-    flash[:notice] = @orphaneds.orphaned_table_rows.empty? ? no_orphans : t('messages.orphaneds.check.orphans_found')
+    flash.now[:notice] = @orphaneds.orphaned_table_rows.empty? ? no_orphans : t('messages.orphaneds.check.orphans_found')
     render orphaneds_check_path
   end
 end
