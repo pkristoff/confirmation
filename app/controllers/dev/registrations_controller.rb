@@ -7,6 +7,13 @@ module Dev
   class RegistrationsController < Devise::RegistrationsController
     before_action :authenticate_candidate!
 
+    # candidate cannot new a candidate
+    #
+    def new
+      redirect_back fallback_location: root_url,
+                    alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_candidate'))
+    end
+
     # candidate cannot create a candidate
     #
     def create
@@ -17,13 +24,6 @@ module Dev
     #
     def destroy
       redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.remove_candidate'))
-    end
-
-    # candidate cannot new a candidate
-    #
-    def new
-      redirect_back fallback_location: root_url,
-                    alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.another_candidate'))
     end
 
     # candidate cannot create a candidate

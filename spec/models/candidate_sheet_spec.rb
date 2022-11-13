@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe CandidateSheet, type: :model do
+describe CandidateSheet do
   describe 'basic creation' do
     it 'new can retrieve a CandidateSheet\'s info' do
       candidate_sheet = CandidateSheet.new

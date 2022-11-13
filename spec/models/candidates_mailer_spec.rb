@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe CandidatesMailer, type: :model do
+describe CandidatesMailer do
   include ViewsHelpers
   describe 'monthly_reminder testing' do
     before do

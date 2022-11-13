@@ -7,6 +7,18 @@ class RegistrationsController < Devise::RegistrationsController
   before_action :authenticate_admin!
   skip_before_action :require_no_authentication, only: [:new]
 
+  # new Candidate
+  #
+  def new
+    if admin_signed_in?
+      super
+    else
+      redirect_back fallback_location: new_admin_registration_path,
+                    alert: I18n.t('messages.admin_login_needed',
+                                  message: I18n.t('messages.another_admin'))
+    end
+  end
+
   # create Candidate
   #
   def create
@@ -42,18 +54,6 @@ class RegistrationsController < Devise::RegistrationsController
       super
     else
       redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.remove_candidate'))
-    end
-  end
-
-  # new Candidate
-  #
-  def new
-    if admin_signed_in?
-      super
-    else
-      redirect_back fallback_location: new_admin_registration_path,
-                    alert: I18n.t('messages.admin_login_needed',
-                                  message: I18n.t('messages.another_admin'))
     end
   end
 

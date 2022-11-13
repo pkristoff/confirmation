@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe ResetDB, type: :model do
+describe ResetDB do
   before do
     FactoryBot.create(:visitor)
   end

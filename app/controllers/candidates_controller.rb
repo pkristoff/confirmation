@@ -78,6 +78,28 @@ class CandidatesController < CommonCandidatesController
     render :candidate_note
   end
 
+  # show candidates
+  #
+  def index
+    candidates_info(direction: :asc, sort: :account_name)
+  end
+
+  # show candidate
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> Candidate id
+  #
+  def show
+    @candidate = Candidate.find(params[:id])
+  end
+
+  # create new Candidate
+  #
+  def new
+    @resource = AppFactory.create_candidate
+  end
+
   # edit candidate
   #
   # === Attributes:
@@ -99,12 +121,6 @@ class CandidatesController < CommonCandidatesController
     @resource = Candidate.find(params[:id])
   end
 
-  # show candidates
-  #
-  def index
-    candidates_info(direction: :asc, sort: :account_name)
-  end
-
   # show candidate
   #
   # === Returns:
@@ -113,22 +129,6 @@ class CandidatesController < CommonCandidatesController
   #
   def admin?
     true
-  end
-
-  # create new Candidate
-  #
-  def new
-    @resource = AppFactory.create_candidate
-  end
-
-  # show candidate
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> Candidate id
-  #
-  def show
-    @candidate = Candidate.find(params[:id])
   end
 
   # update candidate - only update password if filled in

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ConfirmationEvent, type: :model do
+RSpec.describe ConfirmationEvent do
   it 'basic creation' do
     confirmation_event = FactoryBot.create(:confirmation_event)
     expect(confirmation_event.event_key).to eq('Going out to eat')

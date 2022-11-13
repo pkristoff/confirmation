@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SponsorCovenant, type: :model do
+describe SponsorCovenant do
   before do
     @candidate = FactoryBot.create(:candidate)
   end

@@ -25,7 +25,7 @@ describe AppFactory do
     end
 
     context 'with a CandidateEvent' do
-      let!(:confirmation_event) { FactoryBot.create :confirmation_event }
+      let!(:confirmation_event) { FactoryBot.create(:confirmation_event) }
 
       it 'create an admin with email and name' do
         candidate = AppFactory.create_candidate

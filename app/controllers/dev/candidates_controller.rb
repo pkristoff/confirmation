@@ -23,6 +23,19 @@ module Dev
 
     # Should never be called
     #
+    def index
+      redirect_back fallback_location: ref_url, alert: 'Please login as admin to see list of candidates.' unless admin_signed_in?
+    end
+
+    # Should never be called
+    #
+    def show
+      @candidate = Candidate.find(params[:id])
+      redirect_back fallback_location: ref_url, alert: I18n.t('messages.accessed_denied') unless @candidate == current_candidate
+    end
+
+    # Should never be called
+    #
     def edit
       @candidate = Candidate.find(params[:id])
     end
@@ -33,23 +46,10 @@ module Dev
       @candidate = Candidate.find(params[:id])
     end
 
-    # Should never be called
-    #
-    def index
-      redirect_back fallback_location: ref_url, alert: 'Please login as admin to see list of candidates.' unless admin_signed_in?
-    end
-
     # returns false
     #
     def admin?
       false
-    end
-
-    # Should never be called
-    #
-    def show
-      @candidate = Candidate.find(params[:id])
-      redirect_back fallback_location: ref_url, alert: I18n.t('messages.accessed_denied') unless @candidate == current_candidate
     end
 
     private

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Visitor, type: :model do
+RSpec.describe Visitor do
   before do
     @visitor = FactoryBot.create(:visitor)
   end

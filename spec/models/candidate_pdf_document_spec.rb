@@ -62,7 +62,7 @@ def setup_candidate4
   ev.save
 end
 
-describe 'CandidatePDFDocument', type: :model do
+describe 'CandidatePDFDocument' do
   before do
     FactoryBot.create(:visitor)
     @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
@@ -97,13 +97,6 @@ describe 'CandidatePDFDocument', type: :model do
     expect(pdf.plucked_bap_candidates[2].first_name).to eq('cc4')
     pdf
   end
-end
-
-describe 'CandidatePDFDocument 2', type: :model do
-  before do
-    FactoryBot.create(:visitor)
-    AppFactory.add_confirmation_events
-  end
 
   describe 'other tests that dont generate the file' do
     it 'generate document name' do
@@ -137,6 +130,7 @@ describe 'CandidatePDFDocument 2', type: :model do
     end
 
     it 'generate a pdf with a pdf image and no traceback.' do
+      AppFactory.add_confirmation_events
       CandidatePDFDocument.new(Candidate.find(@candidate.id))
     end
   end

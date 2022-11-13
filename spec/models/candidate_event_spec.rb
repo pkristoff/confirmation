@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 xxx = 0
-describe CandidateEvent, type: :model do
+describe CandidateEvent do
   before do
     @today = Time.zone.today
   end

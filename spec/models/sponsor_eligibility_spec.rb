@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SponsorEligibility, type: :model do
+RSpec.describe SponsorEligibility do
   it 'check permitted_params' do
     xxx = [:sponsor_attends_home_parish,
            :id,

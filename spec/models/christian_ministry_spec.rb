@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ChristianMinistry, type: :model do
+describe ChristianMinistry do
   describe 'basic creation' do
     it 'new can retrieve a ChristianMinistry\'s info' do
       christian_ministry = ChristianMinistry.new

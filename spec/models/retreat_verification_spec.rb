@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe RetreatVerification, type: :model do
+describe RetreatVerification do
   describe 'basic creation' do
     it 'new can retrieve a RetreatVerification\'s info' do
       retreat_verification = RetreatVerification.new

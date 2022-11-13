@@ -13,7 +13,7 @@ end
 # * <tt>:rendered_page</tt>
 #
 def expect_messages(messages, rendered_page = page)
-  ids = messages.map { |mp| mp[0] }
+  ids = messages.pluck(0)
   %i[flash_alert flash_notice error_explanation].each do |my_id|
     expect(rendered_page).not_to have_selector("div[id=#{my_id}]") unless ids.include? my_id
   end

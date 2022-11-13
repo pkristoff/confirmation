@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PickConfirmationName, type: :model do
+describe PickConfirmationName do
   describe 'basic creation' do
     it 'new can retrieve a PickConfirmationName\'s info' do
       pick_confirmation_name = PickConfirmationName.new

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe BaptismalCertificate, type: :model do
+describe BaptismalCertificate do
   describe 'factories' do
     it 'can retrieve info if baptized_at_home_parish=true' do
       baptismal_certificate = FactoryBot.create(:baptismal_certificate)

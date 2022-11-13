@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe PluckCan, type: :model do
+describe PluckCan do
   before do
     AppFactory.add_confirmation_events
   end

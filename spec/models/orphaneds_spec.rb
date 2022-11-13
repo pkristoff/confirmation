@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Orphaneds, type: :model do
+describe Orphaneds do
   describe 'orphaned associations errors' do
     it 'login should not cause orphaned associations' do
       FactoryBot.create(:candidate)

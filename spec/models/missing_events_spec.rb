@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe MissingEvents, type: :model do
+describe MissingEvents do
   describe 'check_missing_events' do
     include ViewsHelpers
     it 'show "Sponsor Covenant" is missing.' do
