@@ -22,7 +22,6 @@ gem 'pg'
 gem 'prawn'
 gem 'puma'
 gem 'rails', '6.1.6.1'
-gem 'rmagick'
 gem 'roo', '~> 2.8.0'
 gem 'sass-rails'
 gem 'sdoc'
@@ -61,6 +60,9 @@ group :production do
   gem 'matrix'
   gem 'rails_12factor'
   gem 'unicorn'
+end
+group :production, :development, :test do
+  gem 'rmagick'
 end
 group :test do
   gem 'capybara'
