@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'RMagick'
+require 'rmagick'
 
 #
 # Generate PDF for candidate info
