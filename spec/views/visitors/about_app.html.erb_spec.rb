@@ -58,6 +58,6 @@ describe 'visitors/about_app.html.erb' do
     expect(rendered).to have_css('p', text: t('views.top_bar.aboutApp'))
     expect(rendered).to have_css('li', count: 2)
     expect(rendered).to have_css('li', text: "Version: #{@next_minor_version}")
-    expect(rendered).to have_css('li', text: 'Date: 11/13/2022')
+    expect(rendered).to have_css('li', text: 'Date: 11/19/2022')
   end
 end
