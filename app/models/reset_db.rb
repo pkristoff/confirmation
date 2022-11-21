@@ -84,7 +84,12 @@ class ResetDB
 
     checked << clazz
     begin
-      clazz.destroy_all
+      if clazz == Address
+        home_parish_address_id = Visitor.visitor.home_parish_address_id
+        clazz.where('id != ? ', home_parish_address_id).destroy_all
+      else
+        clazz.destroy_all
+      end
     rescue StandardError => e
       Rails.logger.info "cleaning association error when destroying #{clazz}"
       Rails.logger.info e.message

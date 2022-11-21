@@ -12,6 +12,9 @@ describe ResetDB do
 
       expect(Admin.all.size).to eq(1)
 
+      expect(Visitor.visitor.home_parish_address_id).not_to be_nil,
+                                                            'Visitor address is missing.'
+
       cand_assoc = { Address: 1,
                      BaptismalCertificate: 0,
                      Candidate: 0,
@@ -62,11 +65,17 @@ describe ResetDB do
 
       expect_table_rows(Candidate, cand_assoc)
 
+      expect(Visitor.visitor.home_parish_address_id).not_to be_nil,
+                                                            'Visitor address is missing.'
+
       ResetDB.start_new_year
+
+      expect(Visitor.visitor.home_parish_address_id).not_to be_nil,
+                                                            'Visitor address is missing.'
 
       expect(Admin.all.size).to eq(1)
 
-      cand_assoc = { Address: 2,
+      cand_assoc = { Address: 3,
                      BaptismalCertificate: 1,
                      Candidate: 1,
                      CandidateEvent: 9,
@@ -157,7 +166,7 @@ describe ResetDB do
       expect(ConfirmationEvent.all.size).to eq(9)
       expect(Candidate.all.size).to eq(1) # vickikristoff the seed
 
-      cand_assoc = { Address: 2,
+      cand_assoc = { Address: 3, # 2 for seed + 1 for visitor
                      BaptismalCertificate: 1,
                      Candidate: 1,
                      CandidateEvent: 9,

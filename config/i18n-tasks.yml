@@ -142,11 +142,6 @@ ignore_unused:
   - 'email.reset_password_subject'
   - 'email.salutation_input_label'
   - 'views.top_bar.contact_admin_mail'
-
-  #  - 'views.reset_db.reset_database.message'
-  #  - 'views.reset_db.start_new_year.message'
-  #  - 'views.reset_db.reset_database.message'
-  #  - 'views.reset_db.start_new_year.message'
   - 'views.top_bar.contact_admin_mail'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
