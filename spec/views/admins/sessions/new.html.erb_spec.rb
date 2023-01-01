@@ -31,7 +31,8 @@ describe 'admins/sessions/new.html.erb' do
 
     expect(rendered).to have_field(I18n.t('views.admins.account_name'), with: 'Admin', type: 'text')
     expect(rendered).to have_field(I18n.t('views.common.password'), type: 'password')
-    expect(rendered).to have_unchecked_field(I18n.t('views.common.remember_me'))
+    # turned off remember_me
+    expect(rendered).not_to have_unchecked_field(I18n.t('views.common.remember_me'))
     expect(rendered).to have_button(I18n.t('views.top_bar.sign_in', name: 'admin'))
   end
 end

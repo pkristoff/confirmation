@@ -41,8 +41,11 @@ describe 'admins/index.html.erb' do
   private
 
   def expect_admin(rendered, admin)
-    expect(rendered).to have_link("delete_#{admin.id}", text: 'Delete')
-    expect(rendered).to have_link("edit_#{admin.id}", text: admin.name)
-    expect(rendered).to have_selector("td[id='email_#{admin.id}']", text: admin.email)
+    expect(rendered).to have_selector("tr[id=admin-#{admin.id}]", count: 1)
+    expect(rendered).to have_link("delete-#{admin.id}", text: 'Delete')
+    expect(rendered).to have_link("edit-#{admin.id}", text: admin.name)
+    expect(rendered).to have_selector("td[id='contact_name-#{admin.id}']", text: admin.contact_name)
+    expect(rendered).to have_selector("td[id='contact_phone-#{admin.id}']", text: admin.contact_phone)
+    expect(rendered).to have_selector("td[id='email-#{admin.id}']", text: admin.email)
   end
 end

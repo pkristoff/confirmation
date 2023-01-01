@@ -39,7 +39,7 @@ module Features
     #
     def signin_candidate(account_name, password)
       visit new_candidate_session_path
-      fill_in I18n.t('views.candidates.account_name'), with: account_name
+      fill_in I18n.t('activerecord.attributes.admin.account_name'), with: account_name
       fill_in I18n.t('views.common.password'), with: password
       click_button I18n.t('views.top_bar.sign_in', name: '')
     end

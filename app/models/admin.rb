@@ -7,7 +7,7 @@ class Admin < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :timeoutable,
-         :recoverable, :rememberable, :trackable, :validatable,
+         :recoverable, :trackable, :validatable,
          authentication_keys: [:account_name],
          reset_password_keys: [:account_name]
 
@@ -36,7 +36,18 @@ class Admin < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    %i[email contact_name contact_phone account_name]
+    %i[email contact_name contact_phone account_name password password_confirmation]
+  end
+
+  # next_available_account_name
+  #   account_name Admin, Admin_1 ...
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> [account_name, name]
+  #
+  def self.next_available_account_name
+    ["Admin #{Admin.count}", "Admin_#{Admin.count}"]
   end
 
   private

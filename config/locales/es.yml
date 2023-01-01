@@ -8,6 +8,14 @@ es:
         street_1: Calle 1
         street_2: Calle 2
         zip_code: Código postal
+      admin:
+        account_name: Nombre de la cuenta
+        contact_name: Nombre de contacto
+        contact_phone: Teléfono de contacto
+        email: Correo electrónico
+        name: Nombre
+        password: Clave
+        password_confirmation: Contraseña de confirmación
       baptismal_certificate:
         baptismal_date: Fecha bautismal
         baptized_at_home_parish: "¿Te bautizaron en %{home_parish}"
@@ -99,6 +107,7 @@ es:
           zip_code: Código postal
     models:
       address: Address
+      admin: Administradora
       baptismal_certificate: Certificado de bautismo
       candidate: Candidata
       candidate_sheet: Hoja de candidato
@@ -192,8 +201,6 @@ es:
   label:
     admin:
       admins: Administradoras
-      contact_name: Nombre de contacto
-      contact_phone: Teléfono de contacto
     baptismal_certificate:
       baptismal_certificate:
         neg: 'No'
@@ -225,9 +232,6 @@ es:
     adhoc_mailing_progress: Envío ad hoc en curso
     adhoc_mailing_test_sent: Prueba de envío ad hoc enviada
     admin_login_needed: Por favor, inicie sesión como administrador para %{message}.
-    alert:
-      common:
-        update: La actualización de atributos falla
     another_admin: crear otro administrador
     another_candidate: crear otro candidato
     cand_account_confirmed_next: El siguiente paso es configurar su contraseña. Otro solo se envió un correo electrónico explicando cómo hacer esto.
@@ -249,7 +253,6 @@ es:
       paragraph_2: Elegiré participar en todas las sesiones con un corazón abierto y dar el 100% de mí mismo a mi grupo pequeño y a mis líderes de grupos pequeños. Estoy de acuerdo en cultivar una relación con mi patrocinador para aprender de su guía espiritual.
       paragraph_3: Lo que es más importante, prometo recibir todo lo que Dios tiene guardado para mí este año y dejar que los dones y frutos del Espíritu Santo cobren vida en mi vida.
     database_reset: La base de datos se restableció correctamente.
-    disabled: Esto está apagado
     error:
       baptized_catholic_should_be_checked: "¿Fuiste católico bautizado? debe comprobarse."
       baptized_should_be_checked: "¿Te bautizaron en %{home_parish}? debe comprobarse."
@@ -260,6 +263,16 @@ es:
       one_email: se debe proporcionar al menos un correo electrónico.
       unknown_show_empty_radio: 'Valor desconocido de show_empty_radio: %{show_empty_radio}'
     export_to_excel: Trabajan en segundo plano. Se enviará un correo electrónico con hoja de cálculo. al finalizar con %{commit}.
+    flash:
+      alert:
+        admin:
+          not_updated: Administrador no actualizado
+          reset_password_failed: 'El administrador no existe con la dirección de correo electrónico: %{email}'
+        common:
+          update: La actualización de atributos falla
+      notice:
+        common:
+          updated: Recurso actualizado
     generate_pdf_error: Solo seleccione un candidato
     home_parish_updated: Parroquia local actualizada
     home_updated: Inicio actualizado
@@ -304,9 +317,13 @@ es:
     admins:
       account_name: Nombre de la cuenta
       admin: Administración
-      contact_phone: Teléfono de contacto
+      button:
+        create: Crear administrador
       current_password: Contraseña actual
       email: Email
+      heading:
+        edit: editar administrador
+        new: nuevo administrador
       sign_in: Iniciar sesión admin
     candidates:
       account_confirmed: Cuenta confirmada
@@ -333,7 +350,6 @@ es:
       image_upload_file_types: Solo puede cargar un tipo de archivo de .pdf, .jpg, .jpeg, .png
       initial_email: Correo electrónico inicial
       mail_upload_file_types: Solo puede cargar un tipo de archivo de .pdf, .docx, xlsx
-      name: Nombre
       password: Contraseña
       password_confirmation: confirmación de contraseña
       remember_me: Recuérdame

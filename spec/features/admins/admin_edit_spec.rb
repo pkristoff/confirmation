@@ -17,75 +17,83 @@ describe 'Admin edit', :devise do
     Warden.test_reset!
   end
 
-  # it: Admin changes email address
-  #   Given I am signed in
-  #   When I change my email address
-  #   Then I see an account updated message
-  it 'admin changes email address' do
-    admin = FactoryBot.create(:admin)
-    login_as(admin, scope: :admin)
-    visit edit_admin_registration_path(admin)
-    fill_in I18n.t('views.admins.email'), with: 'newemail@example.com'
-    fill_in I18n.t('views.admins.current_password'), with: admin.password
-    click_button I18n.t('views.common.update')
-    txts = [I18n.t('devise.registrations.updated'), I18n.t('devise.registrations.update_needs_confirmation')]
-    expect_message(:flash_notice, /.*#{txts[0]}.*|.*#{txts[1]}.*/)
-  end
-
-  # it: Admin cannot edit another admin's profile
-  #   Given I am signed in
-  #   When I try to edit another admin's profile
-  #   Then I see my own 'edit profile' page
-
   it 'edit myself' do
     me = FactoryBot.create(:admin)
     login_as(me, scope: :admin)
-    visit edit_admin_registration_path(me)
-    fill_in(I18n.t('label.admin.contact_name'), with: 'Paul')
-    fill_in(I18n.t('label.admin.contact_phone'), with: '919-555-5555')
-    fill_in(I18n.t('views.admins.email'), with: 'xxx@yyy.com')
+    visit edit_admin_path(me)
+    fill_in(I18n.t('activerecord.attributes.admin.contact_name'), with: 'Paul')
+    fill_in(I18n.t('activerecord.attributes.admin.contact_phone'), with: '919-555-5555')
+    fill_in(I18n.t('activerecord.attributes.admin.email'), with: 'xxx@yyy.com')
     click_button('update')
 
-    expect(page).to have_selector('p', text: "#{I18n.t('label.admin.contact_name')}: Paul")
+    # check edit admin is showing
+    expect_edit_page(page, Admin.find_by(id: me.id), {})
+    expect_messages([[:flash_notice, I18n.t('messages.flash.notice.common.updated')]])
   end
 
   it 'validation Contact name' do
     me = FactoryBot.create(:admin)
     login_as(me, scope: :admin)
-    visit edit_admin_registration_path(me)
-    fill_in(I18n.t('label.admin.contact_name'), with: '')
+    visit edit_admin_path(me)
+    fill_in(I18n.t('activerecord.attributes.admin.contact_name'), with: '')
     click_button('update')
 
-    expect_messages([[:error_explanation, ['1 error prohibited this admin from being saved:', 'Contact name can\'t be blank']]])
+    expect_messages([[:flash_alert, I18n.t('messages.flash.alert.admin.not_updated')],
+                     [:error_explanation, ['1 error prohibited this admin from being saved:', 'Contact name can\'t be blank']]])
+    expect_edit_page(page, Admin.find_by(id: me.id),
+                     { contact_name: '' })
   end
 
   it 'validation Contact phone' do
     me = FactoryBot.create(:admin)
     login_as(me, scope: :admin)
-    visit edit_admin_registration_path(me)
-    fill_in(I18n.t('label.admin.contact_phone'), with: '')
+    visit edit_admin_path(me)
+    fill_in(I18n.t('activerecord.attributes.admin.contact_phone'), with: '')
     click_button('update')
 
-    expect_messages([[:error_explanation, ['1 error prohibited this admin from being saved:', 'Contact phone can\'t be blank']]])
+    expect_edit_page(page, Admin.find_by(id: me.id), { contact_phone: '' })
+    expect_messages([[:flash_alert, I18n.t('messages.flash.alert.admin.not_updated')],
+                     [:error_explanation, ['1 error prohibited this admin from being saved:', 'Contact phone can\'t be blank']]])
   end
 
   it 'validation email presence' do
     me = FactoryBot.create(:admin)
     login_as(me, scope: :admin)
-    visit edit_admin_registration_path(me)
-    fill_in(I18n.t('views.admins.email'), with: '')
+    visit edit_admin_path(me)
+    fill_in(I18n.t('activerecord.attributes.admin.email'), with: '')
     click_button('update')
 
-    expect_messages([[:error_explanation, ['1 error prohibited this admin from being saved:', 'Email can\'t be blank']]])
+    expect_edit_page(page, Admin.find_by(id: me.id), { email: '' })
+    expect_messages([[:flash_alert, I18n.t('messages.flash.alert.admin.not_updated')],
+                     [:error_explanation, ['1 error prohibited this admin from being saved:', 'Email can\'t be blank']]])
   end
 
   it 'validation bad email' do
     me = FactoryBot.create(:admin)
     login_as(me, scope: :admin)
-    visit edit_admin_registration_path(me)
-    fill_in(I18n.t('views.admins.email'), with: '@ddd.com')
+    visit edit_admin_path(me)
+    fill_in(I18n.t('activerecord.attributes.admin.email'), with: '@ddd.com')
     click_button('update')
 
-    expect_messages([[:error_explanation, ['1 error prohibited this admin from being saved:', 'Email is invalid']]])
+    expect_edit_page(page, Admin.find_by(id: me.id), { email: '@ddd.com' })
+    expect_messages([[:flash_alert, I18n.t('messages.flash.alert.admin.not_updated')],
+                     [:error_explanation, ['1 error prohibited this admin from being saved:', 'Email is invalid']]])
+  end
+
+  private
+
+  def expect_edit_page(page, admin, values)
+    account_name_value = values[:account_name].nil? ? admin.account_name : values[:account_name]
+    name_value = values[:name].nil? ? admin.name : values[:name]
+    contact_name_value = values[:contact_name].nil? ? admin.contact_name : values[:contact_name]
+    contact_phone_value = values[:contact_phone].nil? ? admin.contact_phone : values[:contact_phone]
+    email_value = values[:email].nil? ? admin.email : values[:email]
+    expect(page).to have_selector('h2', count: 1, text: I18n.t('views.admins.heading.edit'))
+    expect(page).to have_selector("input[type=text][id='admin_account_name'][value='#{account_name_value}']", count: 1)
+    expect(page).to have_selector("input[type=text][id='admin_name'][value='#{name_value}']", count: 1)
+    expect(page).to have_selector("input[type=text][id='admin_contact_name'][value='#{contact_name_value}']", count: 1)
+    expect(page).to have_selector("input[type=text][id='admin_contact_phone'][value='#{contact_phone_value}']", count: 1)
+    expect(page).to have_selector("input[type=email][id='admin_email'][value='#{email_value}']", count: 1)
+    expect(page).to have_selector("input[type=submit][id='update'][value='Update']", count: 1)
   end
 end

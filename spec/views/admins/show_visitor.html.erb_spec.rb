@@ -20,7 +20,8 @@ feature 'admins/show_visitor.html.erb' do
   include Warden::Test::Helpers
 
   before do
-    @visitor = FactoryBot.create(:visitor)
+    FactoryBot.create(:visitor) if Visitor.count.zero?
+    @visitor = Visitor.visitor
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)
   end
