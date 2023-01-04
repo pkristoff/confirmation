@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <h3><%= t('label.admin.admins') %></h3>
+    <h3><%= t('views.admins.heading.index') %></h3>
     <div class="column">
       <table class="table" id="admins_table">
         <tbody>
@@ -9,7 +9,7 @@
         <% end %>
         </tbody>
       </table>
-      <%= link_to 'create new admin', new_admin_registration_path, id: "create-admin" %>
+      <%= link_to t('views.admins.label.create'), new_admin_path, id: "create-admin" %>
     </div>
   </div>
 </div>

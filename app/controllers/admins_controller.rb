@@ -754,7 +754,7 @@ class AdminsController < ApplicationController
       # set_minimum_password_length
       @resource = admin
       respond_with admin,
-                   location: new_admin_registration_path,
+                   location: new_admin_path,
                    alert: I18n.t('views.common.save_failed', failee: admin.account_name)
     end
   end

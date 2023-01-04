@@ -14,7 +14,7 @@ class RegistrationsController < Devise::RegistrationsController
       super
     else
       # if use new_admin_registration_path then get
-      # in an infintem redirect loop
+      # in an infinite redirect loop
       redirect_back fallback_location: show_visitor_path,
                     alert: I18n.t('messages.admin_login_needed',
                                   message: I18n.t('messages.another_admin'))

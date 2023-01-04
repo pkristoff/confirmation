@@ -199,8 +199,6 @@ en:
     sponsor_covenant: Sponsor covenant
     sponsor_eligibility: Sponsor eligibility
   label:
-    admin:
-      admins: Admins
     baptismal_certificate:
       baptismal_certificate:
         neg: 'No'
@@ -323,7 +321,10 @@ en:
       email: Email
       heading:
         edit: Edit admin
+        index: Admins
         new: New admin
+      label:
+        create: Create new admin
       sign_in: Sign in admin
     candidates:
       account_confirmed: Account Confirmed
@@ -392,7 +393,6 @@ en:
       missing: Missing
       unknown: Unknown
     nav:
-      add_new_admin: Add new admin
       add_new_candidate: Add new candidate
       adhoc_mailing: Adhoc Mailing
       admins: Admins

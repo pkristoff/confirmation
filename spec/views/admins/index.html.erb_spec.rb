@@ -13,8 +13,7 @@ describe 'admins/index.html.erb' do
     assign(:admins, [])
 
     render
-
-    expect(rendered).to have_selector('tr', count: 0)
+    expect_index_page(rendered, [])
   end
 
   it 'display @admins 1' do
@@ -22,6 +21,7 @@ describe 'admins/index.html.erb' do
 
     render
 
+    expect_index_page(rendered, [@admin2])
     expect(rendered).to have_selector('tr', count: 1)
 
     expect_admin(rendered, @admin2)
@@ -32,6 +32,7 @@ describe 'admins/index.html.erb' do
 
     render
 
+    expect_index_page(rendered, [@admin1, @admin2])
     expect(rendered).to have_selector('tr', count: 2)
 
     expect_admin(rendered, @admin1)
@@ -39,6 +40,13 @@ describe 'admins/index.html.erb' do
   end
 
   private
+
+  def expect_index_page(rendered, admins)
+    expect(rendered).to have_selector('h3', text: I18n.t('views.admins.heading.index'), count: 1)
+    expect(rendered).to have_selector('tr', count: admins.size)
+    admins.each { |admin| expect_admin(rendered, admin) }
+    expect(rendered).to have_link('create-admin', text: I18n.t('views.admins.label.create'))
+  end
 
   def expect_admin(rendered, admin)
     expect(rendered).to have_selector("tr[id=admin-#{admin.id}]", count: 1)

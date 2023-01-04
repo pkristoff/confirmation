@@ -1,8 +1,8 @@
-<h3>views/admins/new - is this used?</h3>
-<h2><%= I18n.t('views.admins.heading.new') %></h2>
+
 
 <%= form_for(@resource, as: 'admin', url: create_admin_path, html: { method: :post }) do |f| %>
-
+  <h3>views/admins/new</h3>
+  <h2><%= I18n.t('views.admins.heading.new') %></h2>
   <%= render 'devise/shared/error_messages', resource: @resource, for_reset_password: false %>
 
   <div class="field">

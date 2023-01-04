@@ -199,8 +199,6 @@ es:
     sponsor_covenant: Pacto del patrocinador
     sponsor_eligibility: Elegibilidad del patrocinador
   label:
-    admin:
-      admins: Administradoras
     baptismal_certificate:
       baptismal_certificate:
         neg: 'No'
@@ -323,7 +321,10 @@ es:
       email: Email
       heading:
         edit: editar administrador
+        index: Admins
         new: nuevo administrador
+      label:
+        create: Create new admin
       sign_in: Iniciar sesión admin
     candidates:
       account_confirmed: Cuenta confirmada
@@ -392,7 +393,6 @@ es:
       missing: Desaparecida
       unknown: Desconocida
     nav:
-      add_new_admin: Agregar nuevo administrador
       add_new_candidate: Añadir nuevo candidato
       adhoc_mailing: Envío ad hoc
       admins: Administradoras
