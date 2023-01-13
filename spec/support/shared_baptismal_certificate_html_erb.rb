@@ -667,6 +667,43 @@ shared_context 'baptismal_certificate_html_erb' do
             end
           end
         end
+
+        describe 'reproduce runtime errors' do
+          it 'User scans in profession of faith image, but when it is updated it disappears' do
+            update_baptismal_certificate(home_parish_fields: true, baptized_catholic: true, prof_of_faith: true)
+
+            visit @path
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'),
+                        'spec/fixtures/files/actions.png')
+            click_button @update_id
+            i18n_prof_picture = I18n.t('activerecord.attributes.baptismal_certificate.prof_picture')
+            i18n_missing_attribute = I18n.t('messages.error.missing_attribute', err_count: 1)
+            expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                              @bc_form_info.show_info(true, true, true), false,
+                                              expected_messages: [[:flash_notice, @updated_failed_verification],
+                                                                  [:error_explanation, [i18n_missing_attribute,
+                                                                                        I18n.t('errors.format_blank',
+                                                                                               attribute: i18n_prof_picture)]]],
+                                              expect_scanned_image: true,
+                                              expect_prof_scanned_image: false)
+            attach_file(I18n.t('activerecord.attributes.baptismal_certificate.prof_picture'),
+                        'spec/fixtures/files/actions.png')
+            click_button @update_id
+
+            if @is_verify
+              expect_mass_edit_candidates_event(ConfirmationEvent.find_by(event_key: BaptismalCertificate.event_key),
+                                                @candidate.id, I18n.t('messages.updated_verified',
+                                                                      cand_name: @candidate.first_last_name),
+                                                is_unverified: false)
+            else
+              expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
+                                                @bc_form_info.show_info(true, true, true), false,
+                                                expected_messages: [[:flash_notice, @updated_message]],
+                                                expect_scanned_image: true,
+                                                expect_prof_scanned_image: true)
+            end
+          end
+        end
       end
     end
   end
@@ -674,6 +711,14 @@ shared_context 'baptismal_certificate_html_erb' do
   private
 
   include ExpectAddress
+
+  def img_src_selector(is_other: nil)
+    return "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/baptismal_certificate\"]" if is_other.nil?
+
+    # rubocop:disable Layout/LineLength
+    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/baptismal_certificate/is_other/#{is_other}\"]" unless is_other.nil?
+    # rubocop:enable Layout/LineLength
+  end
 
   def expect_no_scanned_image
     expect(page).to have_selector('div[id=file-type-message_certificate_picture]',
@@ -761,43 +806,6 @@ shared_context 'baptismal_certificate_html_erb' do
     expect(page).to have_button(I18n.t('views.common.replace_image'), count: 1)
     expect(page).to have_button(I18n.t('views.common.un_verify'), count: 2) if is_verify
     expect_download_button(Event::Document::BAPTISMAL_CERTIFICATE, cand_id, dev_path)
-    # rubocop:enable Layout/LineLength
-  end
-
-  def fill_in_form(attach_file: true)
-    # basic_info
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), with: BIRTH_DATE)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), with: BAPTISMAL_DATE)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_first'), with: FATHER_FIRST)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), with: FATHER_MIDDLE)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_last'), with: LAST_NAME)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), with: MOTHER_FIRST)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), with: MOTHER_MIDDLE)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), with: MOTHER_MAIDEN)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), with: LAST_NAME)
-
-    fill_in(I18n.t('activerecord.attributes.candidate_sheet.first_name'), with: FIRST_NAME)
-    fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: MIDDLE_NAME)
-    fill_in(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: LAST_NAME)
-
-    # baptized catholic info
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_name'), with: CHURCH_NAME)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), with: STREET_1)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_2'), with: STREET_2)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), with: CITY)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), with: STATE)
-    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), with: ZIP_CODE)
-
-    # rubocop:disable Layout/LineLength
-    attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/files/actions.png') if attach_file
-    # rubocop:enable Layout/LineLength
-  end
-
-  def img_src_selector(is_other: nil)
-    return "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/baptismal_certificate\"]" if is_other.nil?
-
-    # rubocop:disable Layout/LineLength
-    "img[src=\"/#{@dev}event_with_picture_image/#{@candidate.id}/baptismal_certificate/is_other/#{is_other}\"]" unless is_other.nil?
     # rubocop:enable Layout/LineLength
   end
 
@@ -1036,6 +1044,35 @@ shared_context 'baptismal_certificate_html_erb' do
         vis
       )
     end
+  end
+
+  def fill_in_form(attach_file: true)
+    # basic_info
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.birth_date'), with: BIRTH_DATE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.baptismal_date'), with: BAPTISMAL_DATE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_first'), with: FATHER_FIRST)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_middle'), with: FATHER_MIDDLE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.father_last'), with: LAST_NAME)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_first'), with: MOTHER_FIRST)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_middle'), with: MOTHER_MIDDLE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden'), with: MOTHER_MAIDEN)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.mother_last'), with: LAST_NAME)
+
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.first_name'), with: FIRST_NAME)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), with: MIDDLE_NAME)
+    fill_in(I18n.t('activerecord.attributes.candidate_sheet.last_name'), with: LAST_NAME)
+
+    # baptized catholic info
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_name'), with: CHURCH_NAME)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_1'), with: STREET_1)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.street_2'), with: STREET_2)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.city'), with: CITY)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state'), with: STATE)
+    fill_in(I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'), with: ZIP_CODE)
+
+    # rubocop:disable Layout/LineLength
+    attach_file(I18n.t('activerecord.attributes.baptismal_certificate.certificate_picture'), 'spec/fixtures/files/actions.png') if attach_file
+    # rubocop:enable Layout/LineLength
   end
 end
 

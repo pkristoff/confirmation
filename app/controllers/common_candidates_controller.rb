@@ -684,11 +684,21 @@ class CommonCandidatesController < ApplicationController
     scanned_content_type = nil
     scanned_content = nil
     scanned_image_id = nil
-    if !file.nil? && association.scanned_image.nil?
-      scanned_image_id = association.scanned_image_id
-      scanned_filename = file ? File.basename(file.original_filename) : association.scanned_image.filename
-      scanned_content_type = file ? file.content_type : association.scanned_image.content_type
-      scanned_content = file ? file.read : association.scanned_image.content
+
+    assoc_scanned_image = association.scanned_prof_image if scanned_image_attributes == :scanned_prof_attributes
+    assoc_scanned_image = association.scanned_image unless scanned_image_attributes == :scanned_prof_attributes
+    if !file.nil? && assoc_scanned_image.nil?
+      if scanned_image_attributes == :scanned_prof_attributes
+        scanned_image_id = association.scanned_prof_id
+        scanned_filename = file ? File.basename(file.original_filename) : association.scanned_prof_image.filename
+        scanned_content_type = file ? file.content_type : association.scanned_prof_image.content_type
+        scanned_content = file ? file.read : association.scanned_prof_image.content
+      else
+        scanned_image_id = association.scanned_image_id
+        scanned_filename = file ? File.basename(file.original_filename) : association.scanned_image.filename
+        scanned_content_type = file ? file.content_type : association.scanned_image.content_type
+        scanned_content = file ? file.read : association.scanned_image.content
+      end
     end
     return if scanned_filename.nil?
 
