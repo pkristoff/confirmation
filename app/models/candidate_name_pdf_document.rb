@@ -80,7 +80,7 @@ class CandidateNamePDFDocument < Prawn::Document
       end
       # convert pdf to jpg which Prawn handles.
     elsif scanned_image.content_type == 'application/pdf'
-      Dir.mkdir('tmp')
+      FileUtils.mkdir_p('tmp')
       pdf_file_path = "tmp/#{scanned_image.filename}".downcase
       jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
       File.binwrite(pdf_file_path, scanned_image.content)
