@@ -36,6 +36,34 @@ class PluckCanEvent
   #
   # * <tt>Array</tt> of candidate_event information
   #
+  def self.pluck_awaiting_admin_cand_events
+    cand_event_info = {}
+    ToDo.joins(:confirmation_event, :candidate_event)
+        .where(confirmation_event: { event_key: BaptismalCertificate.event_key })
+        .where(candidate_event: { verified: false })
+        .where.not(confirmation_event: { chs_due_date: nil })
+        .where.not(candidate_event: { completed_date: nil })
+        .pluck(:candidate_id,
+               :confirmation_event_id,
+               :candidate_event_id,
+               :event_key,
+               :verified,
+               :completed_date,
+               :the_way_due_date,
+               :chs_due_date).each do |info|
+      pluck_cand_event = PluckCanEvent.new(info)
+      cand_info = cand_event_info[pluck_cand_event.candidate_id]
+      if cand_info.nil?
+        cand_info = []
+        cand_event_info[pluck_cand_event.candidate_id] = cand_info
+      end
+      cand_info << pluck_cand_event
+    end
+    cand_event_info
+  end
+
+  # generate info for showing candidates
+  #
   def self.pluck_cand_events
     cand_event_info = {}
     ToDo.joins(:confirmation_event, :candidate_event).pluck(:candidate_id,

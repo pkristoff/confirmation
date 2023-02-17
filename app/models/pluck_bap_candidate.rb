@@ -22,6 +22,23 @@ class PluckBapCandidate
     @plucked_can_events = plucked_candidate_events
   end
 
+  # used for sorting
+  #
+  # === Parameters:
+  #
+  # * <tt>:other</tt> another PluckBapCandidate
+  #
+  # === Returns:
+  #
+  # * <tt>Integer</tt> -1, 0, or 1
+  #
+  def <=>(other)
+    ans = last_name <=> other.last_name
+    return first_name <=> other.first_name if ans.zero?
+
+    ans
+  end
+
   # Returns Date the candidate event has been completed
   #
   # === Returns:
@@ -37,28 +54,18 @@ class PluckBapCandidate
   # * <tt>Array</tt> of baptismal certificate information
   #
   def self.pluck_bap_candidates
-    pluck_candidate_events = PluckCanEvent.pluck_cand_events
-    Rails.logger.info("plucked_can_events=#{pluck_candidate_events}")
-    join = Candidate.joins(:candidate_sheet)
-    sorted = join.order('account_name asc')
-    sorted.pluck(:id, :first_name, :middle_name, :last_name, :baptismal_certificate_id).map do |cand_info|
-      bap_pluck = PluckBapCandidate.new(cand_info, pluck_candidate_events)
-      candidate_id = bap_pluck.id
-      event = pluck_candidate_events[candidate_id].find do |cand_event_for_cand|
-        cand_event_for_cand.event_key == BaptismalCertificate.event_key
+    awaiting_admin_cand_events = PluckCanEvent.pluck_awaiting_admin_cand_events
+    baptist_candidates = awaiting_admin_cand_events.map do |awaiting_admin_cand_event|
+      pluck_bap_candidate = nil
+      candidate_id = awaiting_admin_cand_event[0]
+      pluck_can_event = awaiting_admin_cand_event[1]
+      join = Candidate.joins(:candidate_sheet).where(id: candidate_id)
+      join.pluck(:id, :first_name, :middle_name, :last_name, :baptismal_certificate_id).each do |cand_info|
+        pluck_bap_candidate = PluckBapCandidate.new(cand_info, pluck_can_event)
       end
-      bap_pluck.event = event
-      accept = if bap_pluck.completed_date.nil?
-                 false
-               else
-                 baptismal_certificate = BaptismalCertificate.find_by(id: bap_pluck.baptismal_certificate_id)
-                 if baptismal_certificate.baptized_at_home_parish
-                   false
-                 else
-                   true
-                 end
-               end
-      bap_pluck if accept
+      pluck_bap_candidate
     end
+    baptist_candidates.sort!
+    baptist_candidates
   end
 end

@@ -92,9 +92,10 @@ describe 'CandidatePDFDocument' do
   it 'generate a document' do
     pdf = CandidateNamePDFDocument.new
     expect(pdf.plucked_bap_candidates.size).to eq(3)
-    expect(pdf.plucked_bap_candidates[0].first_name).to eq('cc2')
-    expect(pdf.plucked_bap_candidates[1].first_name).to eq('cc3')
-    expect(pdf.plucked_bap_candidates[2].first_name).to eq('cc4')
+    # should be sorted.
+    expect(pdf.plucked_bap_candidates[0].first_name).to eq('cc1')
+    expect(pdf.plucked_bap_candidates[1].first_name).to eq('cc2')
+    expect(pdf.plucked_bap_candidates[2].first_name).to eq('cc3')
     pdf
   end
 

@@ -32,7 +32,7 @@ class CandidateNamePDFDocument < Prawn::Document
     end
   end
 
-  # Generate title page
+  # Generate page
   #
   # === Parameters:
   #
