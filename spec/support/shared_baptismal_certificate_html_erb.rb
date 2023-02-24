@@ -81,6 +81,8 @@ shared_context 'baptismal_certificate_html_erb' do
                                                               [:error_explanation, [I18n.t('messages.error.missing_attribute', err_count: 1),
                                                                                     I18n.t('messages.error.baptized_should_be_checked', home_parish: Visitor.home_parish)]]])
         # rubocop:enable Layout/LineLength
+        expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_at_home_parish).to be(false)
+        expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_catholic).to be(false)
       end
     end
   end
@@ -109,6 +111,8 @@ shared_context 'baptismal_certificate_html_erb' do
 
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             @bc_form_info.show_info(true, true, false), false)
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_at_home_parish).to be(true)
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_catholic).to be(false)
         end
       end
 
@@ -140,6 +144,8 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                                       I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.state')),
                                                                                       I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code'))]]])
           # rubocop:enable Layout/LineLength
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_at_home_parish).to be(true)
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_catholic).to be(true)
         end
 
         it 'scanned_certificate is blank but update passes' do
@@ -194,6 +200,9 @@ shared_context 'baptismal_certificate_html_erb' do
           end
           # rubocop:enable Layout/LineLength
 
+          expect(candidate.baptismal_certificate.baptized_at_home_parish).to be(true)
+          expect(candidate.baptismal_certificate.baptized_catholic).to be(false)
+
           expect(candidate.get_candidate_event(event_key).completed_date).to eq(@today)
           expect(candidate.get_candidate_event(event_key).verified).to eq(!@is_verify)
         end
@@ -218,6 +227,8 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                                       I18n.t('messages.error.baptized_catholic_should_be_checked')]]],
                                             expect_scanned_image: true)
           # rubocop:enable Layout/LineLength
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_at_home_parish).to be(false)
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_catholic).to be(false)
         end
       end
     end
@@ -238,6 +249,9 @@ shared_context 'baptismal_certificate_html_erb' do
 
           expect_baptismal_certificate_form(@candidate.id, @dev, @path_str, @button_name, @is_verify,
                                             @bc_form_info.show_info(true, true, false), false)
+
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_at_home_parish).to be(false)
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_catholic).to be(false)
         end
       end
 
@@ -270,6 +284,8 @@ shared_context 'baptismal_certificate_html_erb' do
                                                                                       I18n.t('errors.format_blank', attribute: I18n.t('activerecord.attributes.baptismal_certificate.church_address/address.zip_code')),
                                                                                       I18n.t('messages.error.baptized_catholic_should_be_checked')]]])
           # rubocop:enable Layout/LineLength
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_at_home_parish).to be(false)
+          expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_catholic).to be(false)
         end
       end
     end
@@ -331,6 +347,8 @@ shared_context 'baptismal_certificate_html_erb' do
                                                 expected_messages: [[:flash_notice, @updated_message]],
                                                 expect_scanned_image: true)
             end
+            expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_at_home_parish).to be(false)
+            expect(Candidate.find(@candidate.id).baptismal_certificate.baptized_catholic).to be(true)
           end
 
           it 'admin logs in and selects a candidate, unchecks baptized_at_home_parish, fills in template' do

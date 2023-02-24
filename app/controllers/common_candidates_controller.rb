@@ -481,6 +481,12 @@ class CommonCandidatesController < ApplicationController
     event_with_picture_update_private(BaptismalCertificate, admin_verified: is_verify)
   end
 
+  def update_baptized_catholic(candidate)
+    bc = candidate.baptismal_certificate
+    bc.update_baptized_catholic
+    bc.save!
+  end
+
   def handle_scanned_prof(baptismal_certificate_params)
     baptized_at_home_parish = baptismal_certificate_params[:baptized_at_home_parish] == '1'
     baptized_catholic = baptismal_certificate_params[:baptized_catholic] == '1'
@@ -621,6 +627,9 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find_by(id: @candidate.id)
     if @candidate.update(candidate_params)
       adjust_for_attributes(clazz)
+
+      update_baptized_catholic(@candidate) if clazz == BaptismalCertificate
+
       candidate_event = @candidate.get_candidate_event(event_key)
       candidate_event.mark_completed(@candidate.validate_event_complete(clazz), clazz)
       if candidate_event.save

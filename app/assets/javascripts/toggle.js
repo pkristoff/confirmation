@@ -189,6 +189,7 @@ confirmation_toggle = function () {
     }
 
     function baptized_yes() {
+        // just checked "baptized_at_home_parish_yes_checked"
         toggle_top( '#baptized-at-home-parish-info', 'show' )
         toggle_top( '#baptized-catholic-radios-fieldset', 'hide' )
         toggle_top( '#baptized-catholic-info', 'show' )
@@ -198,6 +199,7 @@ confirmation_toggle = function () {
     }
 
     function baptized_no() {
+        // just checked "baptized_at_home_parish_no_checked"
         toggle_top( '#baptized-at-home-parish-info', 'show' )
         toggle_top( '#baptized-catholic-info', 'show' )
         toggle_top( '#baptized-catholic-radios-fieldset ', 'show' )
@@ -212,12 +214,14 @@ confirmation_toggle = function () {
     }
 
     function baptized_catholic_yes() {
+        // just checked "baptized_catholic_yes_checked"
         toggle_top( '#baptized-catholic-info', 'show' )
         toggle_top( '#profession-of-faith-info', 'hide' );
         update_show_empty_radio( 'catholic' );
     }
 
     function baptized_catholic_no() {
+        // just checked "baptized_catholic_no_checked"
         toggle_top( '#baptized-catholic-info', 'hide' )
         toggle_top( '#profession-of-faith-info', 'show' );
         update_show_empty_radio( 'catholic' );

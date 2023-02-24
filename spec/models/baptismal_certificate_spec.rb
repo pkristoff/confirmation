@@ -421,6 +421,42 @@ describe BaptismalCertificate do
         expect_validation_params(baptismal_certificate.prof_of_faith_validation_params, expected)
       end
     end
+
+    describe 'update_baptized_catholic' do
+      before do
+        @baptismal_certificate = FactoryBot.create(:baptismal_certificate)
+      end
+
+      it 'baptized_at_home_parish=true' do
+        @baptismal_certificate.baptized_at_home_parish = true
+        expect(@baptismal_certificate.baptized_catholic).to be(false)
+
+        @baptismal_certificate.update_baptized_catholic
+        expect(@baptismal_certificate.baptized_catholic).to be(true)
+      end
+
+      it 'baptized_at_home_parish=true then canged to false' do
+        @baptismal_certificate.baptized_at_home_parish = true
+        expect(@baptismal_certificate.baptized_catholic).to be(false)
+        @baptismal_certificate.update_baptized_catholic
+
+        expect(@baptismal_certificate.baptized_catholic).to be(true)
+
+        @baptismal_certificate.baptized_at_home_parish = false
+        @baptismal_certificate.update_baptized_catholic
+
+        expect(@baptismal_certificate.baptized_catholic).to be(true)
+      end
+
+      it 'baptized_at_home_parish=false' do
+        @baptismal_certificate.baptized_at_home_parish = false
+        expect(@baptismal_certificate.baptized_catholic).to be(false)
+
+        @baptismal_certificate.update_baptized_catholic
+
+        expect(@baptismal_certificate.baptized_at_home_parish).to be(false)
+      end
+    end
   end
 
   private

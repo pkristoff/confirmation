@@ -22,6 +22,15 @@ class BaptismalCertificate < ApplicationRecord
 
   validate :validate_show_empty_radio
 
+  # A special case where user selects baptized_at_home_parish then
+  # baptized_catholic is set to true.  This is called from the controller.
+  # I could not figure out how to do it when the baptized_at_home_parish is set
+  # to true.
+  #
+  def update_baptized_catholic
+    self.baptized_catholic = true if baptized_at_home_parish
+  end
+
   # A common method for retrieving the scanned image for this
   # event.
   #
