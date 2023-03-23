@@ -327,7 +327,7 @@ class CandidatePDFDocument < Prawn::Document
         File.delete(jpg_file_path)
       end
     else
-      Dir.mkdir_p('tmp')
+      FileUtils.mkdir_p('tmp')
       file_path = "tmp/#{scanned_image.filename}"
       File.binwrite(file_path, scanned_image.content)
       begin
