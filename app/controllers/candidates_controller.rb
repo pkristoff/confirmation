@@ -54,7 +54,7 @@ class CandidatesController < CommonCandidatesController
       cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
       flash['notice'] = I18n.t('messages.updated', cand_name: cand_name)
     else
-      flash['alert'] = I18n.t('messages.alert.common.update')
+      flash['alert'] = I18n.t('messages.flash.alert.common.update')
     end
     @resource = @candidate
     render :deferred
@@ -72,7 +72,7 @@ class CandidatesController < CommonCandidatesController
       cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
       flash['notice'] = I18n.t('messages.updated', cand_name: cand_name)
     else
-      flash['alert'] = I18n.t('messages.alert.common.update')
+      flash['alert'] = I18n.t('messages.flash.alert.common.update')
     end
     @resource = @candidate
     render :candidate_note

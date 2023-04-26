@@ -1,0 +1,48 @@
+
+
+<%= form_for(@resource, as: 'admin', url: create_admin_path, html: { method: :post }) do |f| %>
+  <h3>views/admins/new</h3>
+  <h2><%= I18n.t('views.admins.heading.new') %></h2>
+  <%= render 'devise/shared/error_messages', resource: @resource, for_reset_password: false %>
+
+  <div class="field">
+    <%= f.label :account_name %><br/>
+    <%= f.text_field :account_name, disabled: true %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br/>
+    <%= f.text_field :name, disabled: true %>
+  </div>
+
+  <%= field_set_tag t('field_set.admin.contact'), class: 'fieldset' do %>
+
+    <div class="field">
+      <%= f.label :contact_name %><br/>
+      <%= f.text_field :contact_name, autofocus: true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :contact_phone %><br/>
+      <%= f.text_field :contact_phone, autofocus: false %>
+    </div>
+
+    <div class="field">
+      <%= f.label :email %><br/>
+      <%= f.email_field :email, autofocus: false %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %><br/>
+      <%= f.password_field :password, autofocus: false %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation %><br/>
+      <%= f.password_field :password_confirmation, autofocus: false %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit t('views.admins.button.create'), id: 'Create' %>
+  </div>
+<% end %>

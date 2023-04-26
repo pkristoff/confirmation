@@ -3,7 +3,7 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <h2><%= t('views.top_bar.sign_in', name: '') %></h2>
   <div class="field">
-    <%= f.label :account_name, I18n.t('views.admins.account_name') %><br />
+    <%= f.label :account_name, I18n.t('views.candidates.account_name') %><br />
     <%= f.text_field :account_name, autofocus: true %>
   </div>
 

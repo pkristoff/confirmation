@@ -26,15 +26,19 @@ describe 'Admin index page', :devise do
     login_as(admin, scope: :admin)
     visit admins_path
 
-    expect(page).to have_selector('tr', count: 1)
-    expect_admin(admin)
+    expect(page).to have_selector('h3', text: 'Admins', count: 1)
+    expect_admin(page, admin)
   end
 
   private
 
-  def expect_admin(admin)
-    expect(page).to have_link("delete_#{admin.id}", text: 'Delete')
-    expect(page).to have_link("edit_#{admin.id}", text: admin.name)
-    expect(page).to have_selector("td[id='email_#{admin.id}']", text: admin.email)
+  def expect_admin(page, admin)
+    expect(page).to have_selector("tr[id=admin-#{admin.id}]", count: 1)
+    expect(page).to have_link("delete-#{admin.id}", text: 'Delete')
+    expect(page).to have_link("edit-#{admin.id}", text: admin.name)
+    expect(page).to have_selector("td[id='account_name-#{admin.id}']", text: admin.account_name)
+    expect(page).to have_selector("td[id='contact_name-#{admin.id}']", text: admin.contact_name)
+    expect(page).to have_selector("td[id='contact_phone-#{admin.id}']", text: admin.contact_phone)
+    expect(page).to have_selector("td[id='email-#{admin.id}']", text: admin.email)
   end
 end

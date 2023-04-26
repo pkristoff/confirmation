@@ -26,7 +26,7 @@
 
   <%= field_set_tag t('field_set.admin.change_password'), class: 'fieldset' do %>
     <div class="field">
-      <%= f.label :password, I18n.t('views.common.password') %> <i>(<%= t('messages.password.leave_blank') %>t)</i><br/>
+      <%= f.label :password, I18n.t('activerecord.attributes.admin.password') %> <i>(<%= t('messages.password.leave_blank') %>t)</i><br/>
       <%= f.password_field :password, autocomplete: 'off' %>
     </div>
 
@@ -36,7 +36,7 @@
     </div>
 
     <div class="field">
-      <%= f.label :current_password %> (<i><%= t('messages.password.confirm_changes') %></i>)<br/>
+      <%= f.label :current_password, I18n.t('views.admins.current_password') %> (<i><%= t('messages.password.confirm_changes') %></i>)<br/>
       <%= f.password_field :current_password, autocomplete: 'off' %>
     </div>
   <% end %>

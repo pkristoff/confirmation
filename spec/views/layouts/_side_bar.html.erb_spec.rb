@@ -3,9 +3,8 @@
 describe 'layouts/_side_bar.html.erb' do
   include DeviseHelpers
   before do
-    FactoryBot.create(:visitor)
+    FactoryBot.create(:visitor) unless Visitor.count > 0
     @admin_link_names_in_order = [
-      [I18n.t('views.nav.add_new_admin'), '/admins/sign_up'],
       [I18n.t('views.nav.edit_account'), '/admins/edit'],
       [I18n.t('views.nav.candidates'), '/candidates'],
       [I18n.t('views.nav.adhoc_mailing'), '/adhoc_mailing'],
@@ -90,7 +89,7 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 23)
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 22)
 
       expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5)
 
@@ -110,7 +109,7 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 35) # +1 is for candidate
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 34) # +1 is for candidate
 
       expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5) # +1 is for candidate
 

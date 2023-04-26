@@ -8,6 +8,14 @@ en:
         street_1: Street 1
         street_2: Street 2
         zip_code: Zip code
+      admin:
+        account_name: Account name
+        contact_name: Contact name
+        contact_phone: Contact phone
+        email: Email
+        name: Name
+        password: Password
+        password_confirmation: Confirmation password
       baptismal_certificate:
         baptismal_date: Baptismal date
         baptized_at_home_parish: Were you baptized at %{home_parish}?
@@ -99,6 +107,7 @@ en:
           zip_code: Zip code
     models:
       address: Address
+      admin: Admin
       baptismal_certificate: Baptismal certificate
       candidate: Candidate
       candidate_sheet: Candidate sheet
@@ -161,7 +170,7 @@ en:
     sponsor_eligibility: Sponsor's Eligibility
   field_set:
     admin:
-      change_password: Change Password
+      change_password: Change password
       contact: Contact Information
     attach_file: Attach file to email
     baptismal_certificate:
@@ -190,10 +199,6 @@ en:
     sponsor_covenant: Sponsor covenant
     sponsor_eligibility: Sponsor eligibility
   label:
-    admin:
-      admins: Admins
-      contact_name: Contact name
-      contact_phone: Contact phone
     baptismal_certificate:
       baptismal_certificate:
         neg: 'No'
@@ -225,9 +230,6 @@ en:
     adhoc_mailing_progress: Adhoc mailing in progress
     adhoc_mailing_test_sent: Adhoc mailing test sent
     admin_login_needed: Please login as admin to %{message}.
-    alert:
-      common:
-        update: Update_attributes fails
     another_admin: create another admin
     another_candidate: create another candidate
     cand_account_confirmed_next: The next step is to setup your password. Another email was just sent explaining how to do this.
@@ -249,7 +251,6 @@ en:
       paragraph_2: I will choose to participate in all sessions with an open heart and give 100% of myself to my small group and my small group leaders. I agree to cultivate a relationship with my sponsor to learn from their spiritual guidance.
       paragraph_3: Most importantly, I promise to receive all that God has in store for me this year and to let the gifts and fruits of the Holy Spirit come alive in my life.
     database_reset: Database successfully reset.
-    disabled: This is turned off
     error:
       baptized_catholic_should_be_checked: Were you baptized Catholic? should be checked.
       baptized_should_be_checked: Were you baptized at %{home_parish}? should be checked.
@@ -260,6 +261,16 @@ en:
       one_email: at least one email must be supplied.
       unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
     export_to_excel: Working in background.  An email with spreadsheet will be sent upon completion with %{commit}.
+    flash:
+      alert:
+        admin:
+          not_updated: Admin not updated
+          reset_password_failed: 'Admin does not exists with email address: %{email}'
+        common:
+          update: Update_attributes fails
+      notice:
+        common:
+          updated: Resource updated
     generate_pdf_error: Only select one candidate
     home_parish_updated: Home parish updated
     home_updated: Home updated
@@ -304,9 +315,16 @@ en:
     admins:
       account_name: Account name
       admin: Admin
-      contact_phone: Contact phone
+      button:
+        create: Create Admin
       current_password: Current password
       email: Email
+      heading:
+        edit: Edit admin
+        index: Admins
+        new: New admin
+      label:
+        create: Create new admin
       sign_in: Sign in admin
     candidates:
       account_confirmed: Account Confirmed
@@ -333,7 +351,6 @@ en:
       image_upload_file_types: You can only upload a file type of .pdf, .jpg, .jpeg, .png
       initial_email: Initial email
       mail_upload_file_types: You can only upload a file type of .pdf, .docx, xlsx
-      name: Name
       password: Password
       password_confirmation: Password confirmation
       remember_me: Remember me
@@ -376,7 +393,6 @@ en:
       missing: Missing
       unknown: Unknown
     nav:
-      add_new_admin: Add new admin
       add_new_candidate: Add new candidate
       adhoc_mailing: Adhoc Mailing
       admins: Admins

@@ -34,14 +34,12 @@ gem 'sinatra'
 gem 'sucker_punch'
 group :development do
   gem 'better_errors'
-  gem 'debase', '~>0.2.5.beta2'
   gem 'hub', require: nil
   # does not exist in rails 5.0
   # gem 'quiet_assets'
   gem 'rails_layout'
   gem 'rubocop'
   gem 'rubocop-publicdoc2', '~>0.1.4', require: false
-  gem 'ruby-debug-ide'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'web-console'

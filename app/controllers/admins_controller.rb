@@ -12,6 +12,7 @@ class AdminsController < ApplicationController
   attr_accessor :admins, :confirmation_events, :candidate_info # for testing
 
   before_action :authenticate_admin!
+  respond_to :html if mimes_for_respond_to.empty?
 
   # button values
   AdminsController::DELETE = 'Delete'
@@ -519,7 +520,7 @@ class AdminsController < ApplicationController
       visitor = visitor_db_or_new
       flash[:notice] = t('messages.home_parish_updated') if visitor.update(visitor_param.permit(Visitor.permitted_params))
     else
-      flash[:alert] = "Unkown commit param: #{commit}"
+      flash[:alert] = "Unknown commit param: #{commit}"
     end
     @visitor = visitor_db_or_new
     render :show_visitor
@@ -533,6 +534,70 @@ class AdminsController < ApplicationController
   #
   def show
     @admin = Admin.find(params[:id])
+  end
+
+  # new admin
+  #
+  def new
+    @resource = Admin.new
+  end
+
+  # edit admin
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> admin id
+  #
+  def edit
+    @resource = Admin.find(params[:id])
+  end
+
+  # create admin
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> admin id
+  #
+  def create
+    create_admin if params[:admin]
+    raise("unknown params resourse: #{params}") unless params[:admin]
+  end
+
+  # update admin
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> admin id
+  #
+  def update
+    @resource = Admin.find(params[:id])
+    if @resource.update(required_admin_params)
+      flash[:notice] = t('messages.flash.notice.common.updated')
+      redirect_to edit_admin_path(@resource)
+    else
+      flash[:alert] = I18n.t('messages.flash.alert.admin.not_updated')
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  # required params for candidate
+  #
+  # === return:
+  #
+  # * <tt>:params</tt>
+  #
+  def required_admin_params
+    params.require(:admin).permit(Admin.permitted_params)
+  end
+
+  # required params for candidate
+  #
+  # === return:
+  #
+  # * <tt>:params</tt>
+  #
+  def required_candidate_params
+    params.require(:candidate).permit(Candidate.permitted_params)
   end
 
   # updates ConfirmationEvents
@@ -661,7 +726,56 @@ class AdminsController < ApplicationController
     end
   end
 
+  protected
+
+  def after_update_path_for(resource)
+    if resource.errors.any?
+      current_admin
+    else
+      request.referer || edit_admin_path(resource)
+    end
+  end
+
   private
+
+  # This is a modified copy of super for create
+  #
+  def super_create(resource_params)
+    admin = Admin.new(resource_params)
+    yield admin if block_given?
+    if admin.persisted?
+      expire_data_after_sign_in!
+      redirect_to edit_admin_path(admin),
+                  notice: I18n.t('views.candidates.created',
+                                 account: admin.account_name,
+                                 name: admin.name)
+    else
+      admin.clean_up_passwords if admin.respond_to?(:clean_up_passwords)
+      # set_minimum_password_length
+      @resource = admin
+      respond_with admin,
+                   location: new_admin_path,
+                   alert: I18n.t('views.common.save_failed', failee: admin.account_name)
+    end
+  end
+
+  def create_admin
+    admin_params = required_admin_params
+    name, account_name = Admin.next_available_account_name
+    admin_params[:account_name] = account_name
+    admin_params[:name] = name
+    super_create(admin_params) do |new_admin|
+      new_admin.save
+      @admin = new_admin
+      if new_admin.errors.any?
+        flash.now.alert = I18n.t('views.common.save_failed', failee: new_admin.account_name)
+      else
+        flash.now.notice = I18n.t('views.candidates.created',
+                                  account: new_admin.account_name,
+                                  name: new_admin.name)
+      end
+    end
+  end
 
   def cands
     candidate_ids = params[:candidate_ids].nil? ? [] : params[:candidate_ids]

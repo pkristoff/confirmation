@@ -644,7 +644,7 @@ class CommonCandidatesController < ApplicationController
         flash['alert'] = "Save of #{event_key} failed"
       end
     else
-      flash['alert'] = I18n.t('messages.alert.common.update')
+      flash['alert'] = I18n.t('messages.flash.alert.common.update')
     end
     render_called
   end

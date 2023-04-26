@@ -2,7 +2,6 @@
 
 <% if admin_signed_in? %>
   <% admin_info = [
-    [I18n.t('views.nav.add_new_admin'), new_admin_registration_path, I18n.t('views.nav.add_new_admin')],
     [I18n.t('views.nav.edit_account'), edit_admin_registration_path, I18n.t('views.nav.edit_account')],
     [I18n.t('views.nav.candidates'), candidates_path, I18n.t('views.nav.candidates')],
     [I18n.t('views.nav.adhoc_mailing'), adhoc_mailing_path, I18n.t('views.nav.adhoc_mailing')],

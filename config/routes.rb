@@ -26,7 +26,8 @@ Rails.application.routes.draw do
                sign_out: 'logout'
              },
              controllers: {registrations: 'registrations',
-                           confirmations: 'confirmations'
+                           confirmations: 'confirmations',
+                           passwords: 'admins/passwords'
                            }
 
   resources :admins
@@ -165,4 +166,11 @@ Rails.application.routes.draw do
   get 'contact', to: 'visitors#contact'
   get 'about', to: 'visitors#about'
   get 'about_app', to: 'visitors#about_app'
+
+  devise_scope :admins do
+    # get 'edit/:id', to: 'registrations#edit_1', as: 'edit_admin_registration_1'
+    # get 'edit/:id', to: 'registrations#edit', as: 'edit_admin_registration'
+    # post 'create', to: 'admins#create', as: 'create_admin_1'
+    post 'admins/create', to: 'admins#create', as: 'create_admin'
+  end
 end
