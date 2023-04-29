@@ -151,6 +151,12 @@ class AppFactory
       admin.password = Rails.application.secrets.admin_password
       admin.password_confirmation = Rails.application.secrets.admin_password
     end
+    # clean out Visitor
+    Visitor.find_each(&:destroy)
+    Visitor.create!(home_parish: 'Change to home parish of confirmation',
+                    home: 'HTML for home page',
+                    about: 'HTML for about page',
+                    contact: 'HTML for contact page')
     create_seed_candidate
   end
 

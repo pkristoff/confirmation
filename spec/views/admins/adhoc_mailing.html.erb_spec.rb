@@ -35,6 +35,7 @@ describe 'admins/adhoc_mailing.html.erb' do
     expect(rendered).to have_field(I18n.t('email.subject_label'), text: I18n.t('email.subject_initial_input'))
 
     expect(rendered).to have_field(I18n.t('email.body_label'), text: '')
+    expect(rendered).to have_css("textarea[id='mail_body_input'][cols=25][rows=10]")
 
     expect_sorting_candidate_list(common_columns,
                                   candidates,

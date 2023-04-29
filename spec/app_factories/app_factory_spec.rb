@@ -101,6 +101,27 @@ describe AppFactory do
       expect(candidate.candidate_events[0].event_key).to eq(RetreatVerification.event_key)
     end
 
+    it 'create a confirmation_event, an admin, a candidate and a Visitor' do
+      AppFactory.add_confirmation_event(BaptismalCertificate.event_key)
+
+      AppFactory.generate_seed
+
+      candidates = Candidate.all
+      candidate = candidates[0]
+      expect(candidate.candidate_events.size).to eq(1)
+      expect(candidate.account_name).to eq('vickikristoff')
+      expect(candidate.candidate_events.size).to eq(1)
+      expect(candidate.candidate_events[0].event_key).to eq(BaptismalCertificate.event_key)
+
+      expect(Visitor.count).to be(1)
+      visitor = Visitor.first
+      expect(visitor.home_parish).to eq('Change to home parish of confirmation')
+      expect(visitor.home).to eq('HTML for home page')
+      expect(visitor.about).to eq('HTML for about page')
+      expect(visitor.contact).to eq('HTML for contact page')
+      expect(visitor.home_parish_address.instance_of?(Address)).to be(true)
+    end
+
     it 'add all confirmation events' do
       every_event_names = AppFactory.all_i18n_confirmation_event_keys
       AppFactory.add_confirmation_events

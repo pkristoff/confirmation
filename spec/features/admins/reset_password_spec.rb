@@ -17,7 +17,6 @@ RSpec.describe 'Reset Admins password' do
     go_to_reset_password_page
     fill_in I18n.t('views.admins.email'), with: 'retail@kristoffs.com'
     click_button('Reset Password')
-    puts page.html
     expect_messages([[:flash_alert, I18n.t('messages.flash.alert.admin.reset_password_failed', email: 'retail@kristoffs.com')],
                      [:error_explanation, ['1 error prohibited reset password from being sent:', 'Account name not found']]])
   end

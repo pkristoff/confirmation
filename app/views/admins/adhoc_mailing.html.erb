@@ -9,8 +9,8 @@
   <%= label_tag('mail[subject]', t('email.subject_label')) %>:
   <%= text_area_tag('mail[subject]', @subject.text) %> <br/>
 
-  <%= label_tag('mail[body_input]', t('email.body_label')) %>:
-  <%= text_area_tag('mail[body_input]', @body.text) %> <br/>
+  <%= label_tag('mail[body_input]', t('email.body_label')) %>:<br/>
+  <%= text_area_tag('mail[body_input]', @body.text, size: "25x10") %> <br/>
 
   <%= render 'shared/sorting_candidate_selection',
              candidate_info: @candidate_info,

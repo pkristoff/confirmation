@@ -22,7 +22,7 @@ class CandidatePDFDocument < Prawn::Document
   # * <tt>String</tt>
   #
   def self.document_name(candidate)
-    "2022-2023 #{candidate.candidate_sheet.last_name} #{candidate.candidate_sheet.first_name}.pdf"
+    "2023-2024 #{candidate.candidate_sheet.last_name} #{candidate.candidate_sheet.first_name}.pdf"
   end
 
   # Instantiation
@@ -493,7 +493,7 @@ class CandidatePDFDocument < Prawn::Document
   def title_page
     bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height do
       bounding_box [bounds.left, bounds.top], width: bounds.width, height: bounds.height / 3 do
-        text '2022-2023 Confirmation booklet', size: 30, style: :bold, align: :center, valign: :bottom
+        text '2023-2024 Confirmation booklet', size: 30, style: :bold, align: :center, valign: :bottom
       end
       bounding_box [bounds.left, bounds.top - (bounds.height / 3)], width: bounds.width, height: bounds.height / 3 do
         text 'for', size: 30, style: :bold, align: :center, valign: :center

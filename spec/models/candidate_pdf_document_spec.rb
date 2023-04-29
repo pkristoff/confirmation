@@ -103,7 +103,7 @@ describe 'CandidatePDFDocument' do
     it 'generate document name' do
       candidate = FactoryBot.create(:candidate)
       document_name = CandidatePDFDocument.document_name(Candidate.find(candidate.id))
-      expect(document_name).to eq('2022-2023 Augusta Sophia.pdf')
+      expect(document_name).to eq('2023-2024 Augusta Sophia.pdf')
     end
   end
 
