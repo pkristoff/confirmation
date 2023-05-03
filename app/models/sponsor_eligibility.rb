@@ -84,8 +84,8 @@ class SponsorEligibility < ApplicationRecord
   #
   def self.permitted_params
     SponsorEligibility.attends_home_parish_params.concat(
-      SponsorEligibility.not_attends_home_parish_params.concat(
-        [{ scanned_eligibility_attributes: ScannedImage.permitted_params }]
+      SponsorEligibility.not_attends_home_parish_params.push(
+        { scanned_eligibility_attributes: ScannedImage.permitted_params }
       )
     ) <<
       :sponsor_eligibility_picture <<

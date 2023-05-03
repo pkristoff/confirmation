@@ -56,7 +56,7 @@ class RetreatVerification < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    RetreatVerification.basic_permitted_params.concat([{ scanned_retreat_attributes: ScannedImage.permitted_params }])
+    RetreatVerification.basic_permitted_params.push({ scanned_retreat_attributes: ScannedImage.permitted_params })
   end
 
   # Editable attributes

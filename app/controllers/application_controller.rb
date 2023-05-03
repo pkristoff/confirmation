@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
     args = args.merge(sort: params[:sort]) unless params[:sort].nil?
     @confirmation_event = args[:confirmation_event]
     @selected_candidate_ids = args[:selected_candidate_ids]
-    ce_id = @confirmation_event.nil? ? nil : @confirmation_event.id
+    ce_id = @confirmation_event&.id
     args[:event_id] = ce_id
     @candidate_info = PluckCan.pluck_candidates(args)
   end
@@ -124,7 +124,7 @@ class ApplicationController < ActionController::Base
   private
 
   def extract_locale_from_accept_language_header
-    request.env['HTTP_ACCEPT_LANGUAGE'].nil? ? nil : request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+    request.env['HTTP_ACCEPT_LANGUAGE']&.scan(/^[a-z]{2}/)&.first
   end
 
   def set_locale

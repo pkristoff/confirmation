@@ -170,11 +170,11 @@ class BaptismalCertificate < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    BaptismalCertificate.basic_permitted_params.concat(
-      [{ church_address_attributes: Address.basic_permitted_params,
-         prof_church_address_attributes: Address.basic_permitted_params,
-         scanned_certificate_attributes: ScannedImage.permitted_params,
-         scanned_prof_attributes: ScannedImage.permitted_params }]
+    BaptismalCertificate.basic_permitted_params.push(
+      { church_address_attributes: Address.basic_permitted_params,
+        prof_church_address_attributes: Address.basic_permitted_params,
+        scanned_certificate_attributes: ScannedImage.permitted_params,
+        scanned_prof_attributes: ScannedImage.permitted_params }
     )
   end
 

@@ -27,8 +27,8 @@ class Visitor < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    Visitor.basic_permitted_params.concat(
-      [{ home_parish_address_attributes: Address.basic_permitted_params }]
+    Visitor.basic_permitted_params.push(
+      { home_parish_address_attributes: Address.basic_permitted_params }
     )
   end
 

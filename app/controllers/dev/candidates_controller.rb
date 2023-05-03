@@ -24,7 +24,9 @@ module Dev
     # Should never be called
     #
     def index
+      # rubocop:disable Rails/I18nLocaleTexts
       redirect_back fallback_location: ref_url, alert: 'Please login as admin to see list of candidates.' unless admin_signed_in?
+      # rubocop:enable Rails/I18nLocaleTexts
     end
 
     # Should never be called

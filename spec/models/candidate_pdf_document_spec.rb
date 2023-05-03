@@ -24,7 +24,7 @@ def setup_candidate2
     picture = f.read
   end
   bc.baptized_at_home_parish = false
-  bc.scanned_certificate = ::ScannedImage.new(
+  bc.scanned_certificate = ScannedImage.new(
     filename: filename,
     content_type: 'image/png',
     content: picture
@@ -53,7 +53,7 @@ def setup_candidate4
     picture = f.read
   end
   bc.baptized_at_home_parish = false
-  bc.scanned_certificate = ::ScannedImage.new(
+  bc.scanned_certificate = ScannedImage.new(
     filename: filename,
     content_type: 'image/png',
     content: picture
