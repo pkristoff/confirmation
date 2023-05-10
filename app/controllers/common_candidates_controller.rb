@@ -495,7 +495,8 @@ class CommonCandidatesController < ApplicationController
 
     if baptismal_certificate_params[:remove_prof_picture] == 'Remove'
       baptismal_certificate.scanned_prof.destroy
-      baptismal_certificate.scanned_certificate_id = nil
+      # destroy does not set scanned_prof_id to nil
+      baptismal_certificate.scanned_prof_id = nil
       baptismal_certificate.save!
     else
       setup_file_params(

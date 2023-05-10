@@ -480,7 +480,7 @@ RSpec/SubjectDeclaration: # new in 2.5
   Enabled: true
 RSpec/VerifiedDoubleReference: # new in 2.10.0
   Enabled: true
-RSpec/Capybara/SpecificMatcher: # new in 2.12
+Capybara/SpecificMatcher: # new in 2.12
   Enabled: false
 RSpec/FactoryBot/SyntaxMethods: # new in 2.7
   Enabled: false
@@ -531,7 +531,7 @@ RSpec/ClassCheck: # new in 2.13
   Enabled: true
 RSpec/NoExpectationExample: # new in 2.13
   Enabled: false
-RSpec/Capybara/SpecificFinders: # new in 2.13 does not work with page
+Capybara/SpecificFinders: # new in 2.13 does not work with page
   Enabled: true
 # For more information: https://docs.rubocop.org/rubocop/versioning.html
 
@@ -551,9 +551,9 @@ Rails/WhereNotWithMultipleConditions: # new in 2.17
   Enabled: true
 RSpec/SortMetadata: # new in 2.14
   Enabled: true
-RSpec/Capybara/NegationMatcher: # new in 2.14
+Capybara/NegationMatcher: # new in 2.14
   Enabled: true
-RSpec/Capybara/SpecificActions: # new in 2.14
+Capybara/SpecificActions: # new in 2.14
   Enabled: true
 RSpec/FactoryBot/ConsistentParenthesesStyle: # new in 2.14
   Enabled: true
