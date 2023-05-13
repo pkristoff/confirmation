@@ -129,8 +129,7 @@ shared_context 'baptismal_certificate' do
         update_event(candidate, @today, false, BaptismalCertificate.event_key)
         candidate.save
 
-        expect(baptismal_certificate.scanned_certificate).not_to be_nil
-        expect(baptismal_certificate.scanned_certificate_id).not_to be_nil
+        expect_scanned_pictures(baptismal_certificate, true, false)
 
         cand_bc_params = valid_parameters_bc(baptismal_certificate.id)
 
@@ -142,10 +141,8 @@ shared_context 'baptismal_certificate' do
 
         candidate = Candidate.find(@candidate.id)
         baptismal_certificate = candidate.baptismal_certificate
-        expect(baptismal_certificate.scanned_certificate).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-        expect(baptismal_certificate.scanned_certificate_id).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-        expect(baptismal_certificate.scanned_prof).to be_nil if commit_value == I18n.t('views.common.un_verify')
-        expect(baptismal_certificate.scanned_prof_id).to be_nil if commit_value == I18n.t('views.common.un_verify')
+
+        expect_scanned_pictures(baptismal_certificate, commit_value == I18n.t('views.common.un_verify'), false)
         candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
         expect(candidate_event.completed_date).to be_nil unless commit_value == I18n.t('views.common.un_verify')
         expect(candidate_event.completed_date).to eq(@today) if commit_value == I18n.t('views.common.un_verify')
@@ -159,7 +156,7 @@ shared_context 'baptismal_certificate' do
         update_event(candidate, @today, true, BaptismalCertificate.event_key)
         candidate.save
 
-        expect(baptismal_certificate.scanned_certificate).not_to be_nil
+        expect_scanned_pictures(baptismal_certificate, true, false)
 
         cand_bc_params = valid_parameters_bc(baptismal_certificate.id)
 
@@ -170,8 +167,7 @@ shared_context 'baptismal_certificate' do
 
         candidate = Candidate.find(@candidate.id)
         baptismal_certificate = candidate.baptismal_certificate
-        expect(baptismal_certificate.scanned_certificate).to be_nil unless commit_value == I18n.t('views.common.un_verify')
-        expect(baptismal_certificate.scanned_certificate).to be_nil if commit_value == I18n.t('views.common.un_verify')
+        expect_scanned_pictures(baptismal_certificate, false, false)
         candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
         expect(candidate_event.completed_date).to be_nil
         expect(candidate_event.verified).to be(false)
@@ -186,8 +182,7 @@ shared_context 'baptismal_certificate' do
         update_event(candidate, @today, true, BaptismalCertificate.event_key)
         candidate.save
 
-        expect(baptismal_certificate.scanned_prof).not_to be_nil
-        expect(baptismal_certificate.scanned_certificate).not_to be_nil
+        expect_scanned_pictures(baptismal_certificate, true, true)
 
         cand_bc_params = valid_parameters_prof_bc(baptismal_certificate.id, false)
 
@@ -198,10 +193,7 @@ shared_context 'baptismal_certificate' do
 
         candidate = Candidate.find(@candidate.id)
         baptismal_certificate = candidate.baptismal_certificate
-        expect(baptismal_certificate.scanned_certificate).not_to be_nil
-        expect(baptismal_certificate.scanned_certificate_id).not_to be_nil
-        expect(baptismal_certificate.scanned_prof_id).to be_nil
-        expect(baptismal_certificate.scanned_prof).to be_nil
+        expect_scanned_pictures(baptismal_certificate, true, false)
         candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
         expect(candidate_event.completed_date).to be_nil
         expect(candidate_event.verified).to be(false)
@@ -216,8 +208,7 @@ shared_context 'baptismal_certificate' do
         update_event(candidate, @today, true, BaptismalCertificate.event_key)
         candidate.save
 
-        expect(baptismal_certificate.scanned_prof).not_to be_nil
-        expect(baptismal_certificate.scanned_certificate).not_to be_nil
+        expect_scanned_pictures(baptismal_certificate, true, true)
 
         cand_bc_params = valid_parameters_prof_bc(baptismal_certificate.id, true)
 
@@ -228,12 +219,7 @@ shared_context 'baptismal_certificate' do
 
         candidate = Candidate.find(@candidate.id)
         baptismal_certificate = candidate.baptismal_certificate
-        expect(baptismal_certificate.scanned_certificate).to be_nil if commit_value == I18n.t('views.common.un_verify')
-        expect(baptismal_certificate.scanned_certificate_id).to be_nil if commit_value == I18n.t('views.common.un_verify')
-        expect(baptismal_certificate.scanned_prof_id).to be_nil if commit_value == I18n.t('views.common.un_verify')
-        expect(baptismal_certificate.scanned_prof_id).to be_nil if commit_value == I18n.t('views.common.un_verify')
-        puts "commit_value=#{commit_value}  commit_value == I18n.t('views.common.un_verify')=#{commit_value == I18n.t('views.common.un_verify')}"
-        expect_scanned_pictures(baptismal_certificate, commit_value == I18n.t('views.common.un_verify'), commit_value == I18n.t('views.common.un_verify'))
+        expect_scanned_pictures(baptismal_certificate, false, false)
         candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
         expect(candidate_event.completed_date).to be_nil
         expect(candidate_event.verified).to be(false)
@@ -246,8 +232,7 @@ shared_context 'baptismal_certificate' do
         update_event(candidate, @today, true, BaptismalCertificate.event_key)
         candidate.save
 
-        expect(baptismal_certificate.scanned_prof).not_to be_nil
-        expect(baptismal_certificate.scanned_certificate).not_to be_nil
+        expect_scanned_pictures(baptismal_certificate, true, true)
 
         cand_bc_params = valid_parameters_prof_bc(baptismal_certificate.id, true)
 
@@ -258,10 +243,34 @@ shared_context 'baptismal_certificate' do
 
         candidate = Candidate.find(@candidate.id)
         baptismal_certificate = candidate.baptismal_certificate
-        expect(baptismal_certificate.scanned_certificate).to be_nil
-        expect(baptismal_certificate.scanned_certificate_id).to be_nil
-        expect(baptismal_certificate.scanned_prof_id).to be_nil
-        expect(baptismal_certificate.scanned_prof).to be_nil
+        expect_scanned_pictures(baptismal_certificate, false, false)
+        candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
+        expect(candidate_event.completed_date).to be_nil
+        expect(candidate_event.verified).to be(false)
+      end
+
+      it "Admin removes scanned_certificate and undoes events completed state. commit = #{commit_value}" do
+        candidate = Candidate.find(@candidate.id)
+        baptismal_certificate = make_valid_prof_bc(candidate)
+
+        update_event(candidate, @today, true, BaptismalCertificate.event_key)
+        candidate.save
+
+        expect_scanned_pictures(baptismal_certificate, true, true)
+
+        cand_prof_bc_params = valid_parameters_prof_bc(baptismal_certificate.id, true)
+        cand_prof_bc_params[:remove_prof_picture] = nil
+
+        put :event_with_picture_update,
+            params: { id: candidate.id,
+                      event_route: Event::Route::BAPTISMAL_CERTIFICATE,
+                      candidate: { baptismal_certificate_attributes: cand_prof_bc_params } }
+
+        candidate = Candidate.find(@candidate.id)
+        baptismal_certificate = candidate.baptismal_certificate
+        expect_scanned_pictures(baptismal_certificate, false, true)
+        # expect(baptismal_certificate.scanned_prof_id).to be_nil
+        # expect(baptismal_certificate.scanned_prof).to be_nil
         candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
         expect(candidate_event.completed_date).to be_nil
         expect(candidate_event.verified).to be(false)
@@ -334,15 +343,16 @@ shared_context 'baptismal_certificate' do
                                                                   content: 'vvv')
     baptismal_certificate
   end
-  def expect_scanned_pictures(baptismal_certificate, is_scanned_certificate, is_scanned_prof)
-    expect(baptismal_certificate.scanned_certificate).to be_nil unless is_scanned_certificate
-    expect(baptismal_certificate.scanned_certificate).not_to be_nil if is_scanned_certificate
-    expect(baptismal_certificate.scanned_certificate_id).to be_nil unless is_scanned_certificate
-    expect(baptismal_certificate.scanned_certificate_id).not_to be_nil if is_scanned_certificate
-    expect(baptismal_certificate.scanned_prof).to be_nil unless is_scanned_prof
-    expect(baptismal_certificate.scanned_prof).not_to be_nil if is_scanned_prof
-    expect(baptismal_certificate.scanned_prof_id).to be_nil unless is_scanned_prof
-    expect(baptismal_certificate.scanned_prof_id).not_to be_nil if is_scanned_prof
+
+  def expect_scanned_pictures(baptismal_certificate, should_have_scanned_certificate, should_have_scanned_prof)
+    expect(baptismal_certificate.scanned_certificate).to be_nil unless should_have_scanned_certificate
+    expect(baptismal_certificate.scanned_certificate).not_to be_nil if should_have_scanned_certificate
+    expect(baptismal_certificate.scanned_certificate_id).to be_nil unless should_have_scanned_certificate
+    expect(baptismal_certificate.scanned_certificate_id).not_to be_nil if should_have_scanned_certificate
+    expect(baptismal_certificate.scanned_prof).to be_nil unless should_have_scanned_prof
+    expect(baptismal_certificate.scanned_prof).not_to be_nil if should_have_scanned_prof
+    expect(baptismal_certificate.scanned_prof_id).to be_nil unless should_have_scanned_prof
+    expect(baptismal_certificate.scanned_prof_id).not_to be_nil if should_have_scanned_prof
   end
 
   def make_valid_prof_bc(candidate)
