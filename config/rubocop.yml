@@ -1,5 +1,6 @@
-require: rubocop-rspec
-
+require:
+  - rubocop-rspec
+  - rubocop-capybara
 #
 # This file is called via the .rubocop.yml "inherit_from: config/rubocop.yml"
 #

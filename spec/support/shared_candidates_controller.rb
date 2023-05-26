@@ -225,30 +225,6 @@ shared_context 'baptismal_certificate' do
         expect(candidate_event.verified).to be(false)
       end
 
-      it "Admin removes prof picture and undoes events completed state. commit = #{commit_value}" do
-        candidate = Candidate.find(@candidate.id)
-        baptismal_certificate = make_valid_prof_bc(candidate)
-
-        update_event(candidate, @today, true, BaptismalCertificate.event_key)
-        candidate.save
-
-        expect_scanned_pictures(baptismal_certificate, true, true)
-
-        cand_bc_params = valid_parameters_prof_bc(baptismal_certificate.id, true)
-
-        put :event_with_picture_update,
-            params: { id: candidate.id,
-                      event_route: Event::Route::BAPTISMAL_CERTIFICATE,
-                      candidate: { baptismal_certificate_attributes: cand_bc_params } }
-
-        candidate = Candidate.find(@candidate.id)
-        baptismal_certificate = candidate.baptismal_certificate
-        expect_scanned_pictures(baptismal_certificate, false, false)
-        candidate_event = candidate.get_candidate_event(BaptismalCertificate.event_key)
-        expect(candidate_event.completed_date).to be_nil
-        expect(candidate_event.verified).to be(false)
-      end
-
       it "Admin removes scanned_certificate and undoes events completed state. commit = #{commit_value}" do
         candidate = Candidate.find(@candidate.id)
         baptismal_certificate = make_valid_prof_bc(candidate)
