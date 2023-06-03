@@ -65,7 +65,6 @@
     <% if defined?(resource) && (!resource.nil?) && (!resource.new_record?) && (resource.is_a? Candidate) %>
 
       <% candidate_info = [
-        [I18n.t('label.sidebar.deferred'), deferred_path(resource.id), I18n.t('label.sidebar.deferred')],
         [I18n.t('label.sidebar.candidate_note'), candidate_note_path(resource.id), I18n.t('label.sidebar.candidate_note')],
         [Candidate.covenant_agreement_event_key, *candidate_event_to_path(Candidate.covenant_agreement_event_key, resource.id)],
         [CandidateSheet.event_key, *candidate_event_to_path(CandidateSheet.event_key, resource.id)],

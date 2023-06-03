@@ -31,35 +31,6 @@ class CandidatesController < CommonCandidatesController
     @resource = @candidate
   end
 
-  # edit deferred
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> Candidate id
-  #
-  def deferred
-    @candidate = Candidate.find(params[:id])
-    @resource = @candidate
-  end
-
-  # update deferred
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> Candidate id
-  #
-  def deferred_update
-    @candidate = Candidate.find(params[:id])
-    if @candidate.update(candidate_params)
-      cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
-      flash['notice'] = I18n.t('messages.updated', cand_name: cand_name)
-    else
-      flash['alert'] = I18n.t('messages.flash.alert.common.update')
-    end
-    @resource = @candidate
-    render :deferred
-  end
-
   # update candidate note
   #
   # === Attributes:

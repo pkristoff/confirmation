@@ -105,11 +105,10 @@ describe 'layouts/_side_bar.html.erb' do
 
       @resource = FactoryBot.create(:candidate)
       @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.candidate_note'), '/candidate_note.<id>'])
-      @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.deferred'), '/deferred.<id>'])
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 34) # +1 is for candidate
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 33) # +1 is for candidate
 
       expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5) # +1 is for candidate
 

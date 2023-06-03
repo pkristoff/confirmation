@@ -51,7 +51,6 @@ en:
       candidate:
         account_name: Account name
         candidate_note: Note
-        deferred: Deferred
       candidate_sheet:
         attending: Attending
         candidate_email: Candidate email
@@ -214,7 +213,6 @@ en:
       candidate_note: Note
       christian_ministry: Christian Ministry
       confirmation_name: Confirmation Name
-      deferred: Deferred
       parent_meeting: Parent Information Meeting
       retreat_verification: Attend Retreat
       sponsor_covenant: Sponsor's Covenant
@@ -397,7 +395,6 @@ en:
       adhoc_mailing: Adhoc Mailing
       admins: Admins
       candidates: Candidates
-      deferred: Deferred
       edit: Edit
       edit_account: Edit account
       events: Events

@@ -238,14 +238,14 @@ class CandidateImport
     wb = p.workbook
     create_confirmation_event(wb)
 
-    candidate_columns = xlsx_columns
+    the_candidate_columns = xlsx_columns
     wb.add_worksheet(name: @worksheet_name) do |sheet|
-      sheet.add_row candidate_columns
+      sheet.add_row the_candidate_columns
       candidate_order = Candidate.order(:account_name)
       expected_rows = candidate_order.size + 1
       candidate_order.each do |candidate|
-        ExportExcelCandJob.new.perform(candidate.id, sheet, candidate_columns, dir) if from_spec
-        ExportExcelCandJob.perform_async(candidate.id, sheet, candidate_columns, dir) unless from_spec
+        ExportExcelCandJob.new.perform(candidate.id, sheet, the_candidate_columns, dir) if from_spec
+        ExportExcelCandJob.perform_async(candidate.id, sheet, the_candidate_columns, dir) unless from_spec
       end
       sleep(2) while !from_spec && jobs_left(expected_rows, sheet.rows.size)
     end

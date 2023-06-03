@@ -15,26 +15,11 @@ describe Candidate do
     end
   end
 
-  describe 'deferred' do
-    it 'can retrieve deferred' do
-      candidate = FactoryBot.create(:candidate)
-
-      expect(candidate.deferred).to be false
-    end
-
-    it 'can change deferred to true and retrieve deferred' do
-      candidate = FactoryBot.create(:candidate, deferred: true)
-
-      expect(candidate.deferred).to be true
-    end
-  end
-
   describe 'address' do
     it 'can retrieve a candiadate\'s address' do
-      candidate = FactoryBot.create(:candidate, deferred: true)
+      candidate = FactoryBot.create(:candidate)
       expect(candidate.account_name).to match 'sophiaagusta'
       expect(candidate.candidate_sheet.parent_email_1).to match 'test@example.com'
-      expect(candidate.deferred).to be(true)
 
       expect(candidate.candidate_events.size).to eq 2
     end
@@ -42,7 +27,6 @@ describe Candidate do
     it 'can retrieve a new candiadate\'s address' do
       candidate = Candidate.new
       expect(candidate.account_name).to match ''
-      expect(candidate.deferred).to be(false)
       expect(candidate.candidate_sheet.parent_email_1).to match ''
 
       expect(candidate.candidate_events.size).to eq 0
