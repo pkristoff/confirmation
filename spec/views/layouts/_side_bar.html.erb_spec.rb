@@ -13,6 +13,7 @@ describe 'layouts/_side_bar.html.erb' do
       [I18n.t('views.nav.admins'), '/admins'],
       [I18n.t('views.nav.events'), '/edit_multiple_confirmation_events'],
       [I18n.t('views.nav.users'), '/show_visitor'],
+      [I18n.t('views.nav.statuses'), '/statuses'],
       [I18n.t('views.nav.other'), '#collapseOther'],
       [I18n.t('views.nav.export')]
     ]
@@ -89,7 +90,7 @@ describe 'layouts/_side_bar.html.erb' do
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 22)
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 23)
 
       expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5)
 
@@ -105,10 +106,11 @@ describe 'layouts/_side_bar.html.erb' do
 
       @resource = FactoryBot.create(:candidate)
       @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.candidate_note'), '/candidate_note.<id>'])
+      @candidate_link_names_in_order.insert(0, [I18n.t('label.sidebar.status'), candidate_status_update_path(@resource)])
 
       render
 
-      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 33) # +1 is for candidate
+      expect_links_in_order(@admin_link_names_in_order, 'admin-sidebar', '', 35) # +1 is for candidate
 
       expect_links_in_order(@admin_other_link_names_in_order, 'other-sidebar', '', 5) # +1 is for candidate
 

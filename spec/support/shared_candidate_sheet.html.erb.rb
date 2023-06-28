@@ -46,7 +46,7 @@ shared_context 'candidate_sheet_html_erb' do
   end
 
   # rubocop:disable Layout/LineLength
-  it 'candidate logs in, selects candidate sheet, has filled out candidate sheet previsouly puts in invalid email, attempts to save an invalid sheet' do
+  it 'candidate logs in, selects candidate sheet, has filled out candidate sheet previously puts in invalid email, attempts to save an invalid sheet' do
     # rubocop:enable Layout/LineLength
     visit @path
     fill_in(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), with: 'mm')

@@ -20,13 +20,15 @@ describe PluckCan do
     end
 
     it 'be late for CATHOLIC_HIGH_SCHOOL' do
-      expect(@plucked_can.status(@cand_id,
-                                 RetreatVerification.event_key, Candidate::CATHOLIC_HIGH_SCHOOL)).to eq(I18n.t('status.late'))
+      expect(@plucked_can.event_status(@cand_id,
+                                       RetreatVerification.event_key,
+                                       Candidate::CATHOLIC_HIGH_SCHOOL)).to eq(I18n.t('status.late'))
     end
 
     it 'be coming due for THE_WAY' do
-      expect(@plucked_can.status(@cand_id,
-                                 RetreatVerification.event_key, Candidate::THE_WAY)).to eq(I18n.t('status.coming_due'))
+      expect(@plucked_can.event_status(@cand_id,
+                                       RetreatVerification.event_key,
+                                       Candidate::THE_WAY)).to eq(I18n.t('status.coming_due'))
     end
   end
 end

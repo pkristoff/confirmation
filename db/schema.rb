@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 2023_05_26_165042) do
     t.datetime "confirmation_sent_at"
     t.text "candidate_note", default: "", null: false
     t.integer "sponsor_eligibility_id"
+    t.bigint "status_id"
     t.index ["account_name"], name: "index_candidates_on_account_name", unique: true
     t.index ["baptismal_certificate_id"], name: "index_candidates_on_baptismal_certificate_id"
     t.index ["candidate_sheet_id"], name: "index_candidates_on_candidate_sheet_id"
@@ -133,6 +134,7 @@ ActiveRecord::Schema.define(version: 2023_05_26_165042) do
     t.index ["retreat_verification_id"], name: "index_candidates_on_retreat_verification_id"
     t.index ["sponsor_covenant_id"], name: "index_candidates_on_sponsor_covenant_id"
     t.index ["sponsor_eligibility_id"], name: "index_candidates_on_sponsor_eligibility_id"
+    t.index ["status_id"], name: "index_candidates_on_status_id"
   end
 
   create_table "christian_ministries", id: :serial, force: :cascade do |t|
@@ -195,6 +197,13 @@ ActiveRecord::Schema.define(version: 2023_05_26_165042) do
     t.datetime "updated_at", null: false
     t.integer "scanned_eligibility_id"
     t.index ["scanned_eligibility_id"], name: "index_sponsor_eligibilities_on_scanned_eligibility_id"
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "to_dos", id: :serial, force: :cascade do |t|

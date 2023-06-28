@@ -1,0 +1,29 @@
+<div>
+  <h2 id="heading">
+    <% first = @candidate.candidate_sheet.first_name %>
+    <% last = @candidate.candidate_sheet.last_name %>
+    <%= "#{I18n.t('views.events.heading', event_name: I18n.t('label.sidebar.status'), first: first, last: last)}" %>
+  </h2>
+
+  <%= render 'candidates/shared/show_error_message',
+             event_association: local_assigns[:error_msgs] ? error_msgs : @candidate
+  %>
+
+  <%= form_for(@candidate, as: :candidate, url: candidate_status_update_path, html: { method: :put}) do |f| %>
+
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'top-update' %>
+    </div>
+    <br/>
+
+    <div class = "field" >
+      <%= f.label 'status_id', I18n.t('activerecord.attributes.candidate.candidate_status')%>
+      <%= f.collection_select :status_id, Status.all, :id, :name %>
+    </div >
+
+    <div class="actions">
+      <%= f.submit t('views.common.update'), id: 'bottom-update' %>
+    </div>
+
+  <% end %>
+</div>

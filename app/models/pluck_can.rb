@@ -15,6 +15,7 @@
 class PluckCan
   attr_accessor :id,
                 :account_name,
+                :status_id,
                 :confirmed_at,
                 :encrypted_password,
                 :last_name,
@@ -38,13 +39,14 @@ class PluckCan
   def initialize(cand_info, cand_event_info, candidate_event = nil)
     @id = cand_info[0]
     @account_name = cand_info[1]
-    @confirmed_at = cand_info[2]
-    @encrypted_password = cand_info[3]
-    @last_name = cand_info[4]
-    @first_name = cand_info[5]
-    @grade = cand_info[6]
-    @program_year = cand_info[7]
-    @attending = cand_info[8]
+    @status_id = cand_info[2]
+    @confirmed_at = cand_info[3]
+    @encrypted_password = cand_info[4]
+    @last_name = cand_info[5]
+    @first_name = cand_info[6]
+    @grade = cand_info[7]
+    @program_year = cand_info[8]
+    @attending = cand_info[9]
     @cand_info = cand_info
     @cand_event_info = cand_event_info
     @plucked_can_event = candidate_event
@@ -175,6 +177,7 @@ class PluckCan
     sorted = args[:sort].nil? ? join : join.order(Arel.sql("#{args[:sort]} #{args[:direction]}"))
     sorted.pluck(:id,
                  :account_name,
+                 :status_id,
                  :confirmed_at,
                  :encrypted_password,
                  :last_name,
@@ -219,6 +222,19 @@ class PluckCan
     cand_event_info
   end
 
+  # status_column
+  #
+  # === Returns:
+  #
+  # * <tt>String</tt> name of status
+  #
+  def status_column
+    status = Status.find_by(id: @status_id)
+    return status.name if status
+
+    "unknown for id = #{@status_id}"
+  end
+
   # Calculate status of candidate_event
   #
   # === Parameters:
@@ -227,7 +243,7 @@ class PluckCan
   # * <tt>:event_key</tt> DB name.
   # * <tt>:attending</tt> The way or catholic hs.
   #
-  def status(cand_id, event_key, attending)
+  def event_status(cand_id, event_key, attending)
     event_info = @cand_event_info[cand_id].find do |cand_event_for_cand|
       cand_event_for_cand.event_key == event_key
     end

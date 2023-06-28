@@ -11,6 +11,8 @@ FactoryBot.define do
     password { 'please123' }
     candidate_note { 'Admin note' }
     after(:build) do |candidate, evaluator|
+      candidate.status_id = Status.active.id if Status.active
+      candidate.status_id = FactoryBot.create(:status).id unless Status.active
       candidate.confirm if evaluator.should_confirm
       candidate.candidate_sheet.parent_email_1 = 'test@example.com'
       candidate.candidate_sheet.first_name = 'Sophia'

@@ -189,6 +189,24 @@ module ViewsHelpers
   #
   # * <tt>Lambda</tt> candidate_id, rendered_or_page, td_index
   #
+  # returns lambda
+  #
+  # === Returns:
+  #
+  # * <tt>Lambda</tt> candidate_id, rendered_or_page, td_index
+  #
+  def expect_status
+    lambda { |cand_id, rendered_or_page, td_index|
+      expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: I18n.t('label.sidebar.status')
+    }
+  end
+
+  # expect_note
+  #
+  # === Returns:
+  #
+  # * <tt>Lambda</tt> candidate_id, rendered_or_page, td_index
+  #
   def expect_note
     lambda { |cand_id, rendered_or_page, td_index|
       expect(rendered_or_page).to have_css "td[id=tr#{cand_id}_td#{td_index}]", text: I18n.t('label.sidebar.candidate_note')

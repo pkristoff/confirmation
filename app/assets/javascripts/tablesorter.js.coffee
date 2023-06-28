@@ -40,5 +40,4 @@ $(document).ready ->
         filter_columnFilters: true,
       }
     })
-    init_deferred_filter();
     update_total_selections();

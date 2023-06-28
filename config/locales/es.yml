@@ -51,6 +51,7 @@ es:
       candidate:
         account_name: Nombre de la cuenta
         candidate_note: Nota
+        candidate_status: Estado
       candidate_sheet:
         attending: Asistiendo
         candidate_email: Correo electrónico del candidato
@@ -217,6 +218,7 @@ es:
       retreat_verification: Asistir al retiro
       sponsor_covenant: Pacto del patrocinador
       sponsor_eligibility: Elegibilidad del patrocinador
+      status: Estado
     sign_agreement:
       signed_agreement: Al marcar está de acuerdo con lo anterior.
     sorting:
@@ -409,12 +411,14 @@ es:
       monthly_mass_mailing: Correo mensual
       note: Nota
       orphaneds: Huérfana
-      other: Otra
+      other: Ota
       pdf_baptismal_name: PDF para hacer coincidir el nombre del candidato con el bap. nombre
       reset_db:
         reset_database: Reset database
         start_new_year: Start new year
-      users: Los usuarios
+      status: Estado
+      statuses: Estates
+      users: Los usurious
     orphaneds:
       check_orphaned_table_rows: Verificar filas de tablas huérfanas
       missing: Huérfana

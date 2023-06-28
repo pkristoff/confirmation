@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :statuses
   get 'reset_db/show_reset_database'
   post 'reset_db/reset_database'
   get 'reset_db/show_start_new_year'
@@ -63,7 +64,7 @@ Rails.application.routes.draw do
 
     post 'mass_edit_candidates_update', to: 'admins#mass_edit_candidates_update', as: 'mass_edit_candidates_update'
 
-    # email list of candidates there current status
+    # email list of candidates there current event status
     get 'monthly_mass_mailing', to: 'admins#monthly_mass_mailing', as: 'monthly_mass_mailing'
     put 'monthly_mass_mailing_update', to: 'admins#monthly_mass_mailing_update', as: 'monthly_mass_mailing_update'
 
@@ -97,6 +98,11 @@ Rails.application.routes.draw do
 
     get 'candidate_note.:id', to: 'candidates#candidate_note', as: 'candidate_note'
     put 'candidate_note.:id', to: 'candidates#candidate_note_update', as: 'candidate_note_update'
+
+    # candidate status - admin only
+
+    get 'status.:id', to: 'candidates#status', as: 'candidate_status'
+    put 'status.:id', to: 'candidates#status_update', as: 'candidate_status_update'
 
     # deferred - admin only
 

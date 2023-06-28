@@ -33,12 +33,7 @@ describe PluckBapCandidate do
       bap_event.completed_date = Time.zone.today
       bap_event.verified = true
       bap_event.save
-      # puts "before test - MEMORY USAGE(MB): #{ GetProcessMem.new.mb.round }"
     end
-
-    # after do
-    #   puts "after test - MEMORY USAGE(MB): #{ GetProcessMem.new.mb.round }"
-    # end
 
     it 'pluck_bap_candidate only has awaiting admin on baptsmal event' do
       expect(PluckBapCandidate.pluck_bap_candidates.size).to eq(1)

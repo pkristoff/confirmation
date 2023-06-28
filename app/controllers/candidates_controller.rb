@@ -31,6 +31,26 @@ class CandidatesController < CommonCandidatesController
     @resource = @candidate
   end
 
+  # status
+  #
+  def status
+    @candidate = Candidate.find(params[:id])
+  end
+
+  # status_update
+  #
+  def status_update
+    @candidate = Candidate.find(params[:id])
+    if @candidate.update(candidate_params)
+      cand_name = "#{@candidate.candidate_sheet.first_name} #{@candidate.candidate_sheet.last_name}"
+      flash['notice'] = I18n.t('messages.updated', cand_name: cand_name)
+    else
+      flash['alert'] = I18n.t('messages.flash.alert.common.update')
+    end
+    @resource = @candidate
+    render :status
+  end
+
   # update candidate note
   #
   # === Attributes:

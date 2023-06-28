@@ -158,6 +158,9 @@ class AppFactory
                     about: 'HTML for about page',
                     contact: 'HTML for contact page')
     create_seed_candidate
+    # add default statuses
+    Status.create(name: 'Active', description: 'some description')
+    Status.create(name: 'Deferred', description: 'some description')
   end
 
   # Create CandidateEvent based on confirmation_event

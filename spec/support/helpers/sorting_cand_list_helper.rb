@@ -16,7 +16,6 @@ module SortingCandListHelpers
   def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, rendered_or_page, confirmation_event = nil)
     table_id = "table[id='candidate_list_table']"
     tr_header_id = "tr[id='candidate_list_header']"
-
     expect(rendered_or_page).to have_css(table_id.to_s)
     expect(rendered_or_page).to have_css("#{table_id} #{tr_header_id}")
     column_headers_in_order.each_with_index do |info, index|
@@ -30,6 +29,8 @@ module SortingCandListHelpers
         expect(rendered_or_page).to have_css basic_th_css, text: i18n_name
       else
         case i18n_name
+        when I18n.t('views.nav.status')
+          expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-true']"
         when I18n.t('views.nav.edit')
           expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false edit_column_header']"
         when I18n.t('views.nav.note')
@@ -123,8 +124,8 @@ module SortingCandListHelpers
   def candidates_columns
     # rubocop:disable Layout/LineLength
     cols = common_columns
-    cols.insert(1, [I18n.t('views.nav.edit'), false, '', ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id='tr#{cand_id}_td#{td_index}']" }])
-    cols.insert(2, [I18n.t('views.nav.note'), false, '', ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id='tr#{cand_id}_td#{td_index}']" }])
+    cols.insert(2, [I18n.t('views.nav.edit'), false, '', ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id='tr#{cand_id}_td#{td_index}']" }])
+    cols.insert(3, [I18n.t('views.nav.note'), false, '', expect_note])
     cols << [I18n.t('views.candidates.account_confirmed'), true, '', expect_account_confirmed]
     cols << [I18n.t('views.candidates.password_changed'), true, '', expect_password_changed]
     cols
@@ -144,7 +145,7 @@ module SortingCandListHelpers
   def candidate_events_columns(confirmation_event = nil)
     cols = confirmation_event.nil? ? common_columns : common_non_event_columns
 
-    cols.insert(1,
+    cols.insert(2,
                 [I18n.t('views.events.completed_date'), true, [:completed_date]],
                 [I18n.t('views.events.verified'), true, [:verified]])
     unless confirmation_event.nil?
@@ -168,7 +169,7 @@ module SortingCandListHelpers
   def confirmation_events_columns(event_key)
     cols = common_non_event_columns
     cols.insert(
-      1,
+      2,
       [I18n.t('views.events.completed_date'), true, [:candidate_event, event_key, :completed_date]],
       [I18n.t('views.events.verified'), true, [:candidate_event, event_key, :verified]]
     )
@@ -324,6 +325,9 @@ module SortingCandListHelpers
   def common_non_event_columns
     [
       [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
+      [I18n.t('views.nav.status'), false, '',
+       ->(cand_id, rendered, td_index) { expect(rendered).to have_css "td[id='tr#{cand_id}_td#{td_index}']" }],
+      # [I18n.t('label.candidate_event.select'), false, '', expect_select_checkbox],
       [I18n.t('activerecord.attributes.candidate_sheet.last_name'), true, %i[candidate_sheet last_name]],
       [I18n.t('activerecord.attributes.candidate_sheet.first_name'), true, %i[candidate_sheet first_name]],
       [I18n.t('activerecord.attributes.candidate_sheet.attending'), true, %i[candidate_sheet attending]]

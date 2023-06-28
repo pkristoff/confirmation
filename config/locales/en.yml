@@ -51,6 +51,7 @@ en:
       candidate:
         account_name: Account name
         candidate_note: Note
+        candidate_status: Status
       candidate_sheet:
         attending: Attending
         candidate_email: Candidate email
@@ -217,6 +218,7 @@ en:
       retreat_verification: Attend Retreat
       sponsor_covenant: Sponsor's Covenant
       sponsor_eligibility: Sponsor's Eligibility
+      status: Status
     sign_agreement:
       signed_agreement: By checking you agree to the above.
     sorting:
@@ -414,6 +416,8 @@ en:
       reset_db:
         reset_database: Reset database
         start_new_year: Start new year
+      status: Status
+      statuses: Statuses
       users: Users
     orphaneds:
       check_orphaned_table_rows: Check orphaned table rows

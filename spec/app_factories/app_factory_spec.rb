@@ -67,6 +67,9 @@ describe AppFactory do
       expect(candidate.candidate_events_sorted[0].event_key).to eq(RetreatVerification.event_key)
       expect(candidate.candidate_events_sorted[1].event_key).to eq(Candidate.covenant_agreement_event_key)
       expect(candidate.candidate_events_sorted[2].event_key).to eq(Candidate.parent_meeting_event_key)
+
+      expect(Status.find_by(name: 'Active')).not_to be_nil
+      expect(Status.find_by(name: 'Deferred')).not_to be_nil
     end
 
     it 'create 2 confirmation_event, an admin and a candidate then remove retreat_weekend event' do
