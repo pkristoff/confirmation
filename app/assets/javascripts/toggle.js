@@ -46,6 +46,24 @@ update_total_selections = function () {
     }
 };
 
+// Set the default filter to false for the deferred filter
+// https://forum.jquery.com/topic/tablesorter-filter-functions-external-select-box-to-filter-by-column
+init_status_filter = function () {
+    let candidate_list_table = $( "#candidate_list_table" )
+    if ( candidate_list_table.length > 0 ) {
+        console.log( 'candidate list table exists now' )
+        let statusColumnInput = document.querySelector( 'thead>tr>td>input[data-column="1"]' );
+        let val = 'Active';
+        statusColumnInput.value = val;
+        // table.config.widgetOptions.filter_initialized
+        $( 'table' )[ 0 ].config.widgetOptions.filter_initialized = true
+        candidate_list_table.trigger( 'search', [val] );
+    }
+    else {
+        console.log( 'candidate list table does not exist now' )
+    }
+}
+
 confirmation_toggle = function () {
 
     function instructions( e ) {

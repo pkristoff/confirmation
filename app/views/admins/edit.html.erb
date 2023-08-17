@@ -1,3 +1,5 @@
+<% puts 'edit.html.erb' %>
+
 <h2><%= I18n.t('views.admins.heading.edit') %></h2>
 
 <%= form_for(@resource, as: 'admin', url: admin_path(@resource), html: { method: :put }) do |f| %>
@@ -10,7 +12,7 @@
   </div>
   <div class="field">
     <%= f.label :name %><br/>
-    <%= f.text_field :name, disabled: true %>
+      <%= f.text_field :name, disabled: false %>
   </div>
 
   <%= field_set_tag t('field_set.admin.contact'), class: 'fieldset' do %>

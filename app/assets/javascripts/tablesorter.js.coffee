@@ -40,4 +40,5 @@ $(document).ready ->
         filter_columnFilters: true,
       }
     })
+    init_status_filter();
     update_total_selections();

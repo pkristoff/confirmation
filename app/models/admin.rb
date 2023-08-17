@@ -36,7 +36,7 @@ class Admin < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    %i[email contact_name contact_phone account_name password password_confirmation]
+    %i[email contact_name contact_phone account_name name password password_confirmation]
   end
 
   # next_available_account_name

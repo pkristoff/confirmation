@@ -209,7 +209,7 @@ GEM
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
-    psych (5.1.0)
+    psych (4.0.3)
       stringio
     public_suffix (5.0.1)
     puma (6.2.2)
@@ -357,7 +357,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stringio (3.0.6)
+    stringio (3.0.7)
     sucker_punch (3.1.0)
       concurrent-ruby (~> 1.0)
     terminal-table (3.0.2)

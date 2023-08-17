@@ -197,7 +197,7 @@ describe 'Admin sign up', :devise do
 
     def expect_new_admin(page, values = {})
       account_name_value = values[:account_name].nil? ? 'Admin' : values[:account_name]
-      name_value = values[:name].nil? ? '' : values[:name]
+      # name_value = values[:name].nil? ? '' : values[:name]
       contact_name_value = values[:contact_name].nil? ? '' : values[:contact_name]
       contact_phone_value = values[:contact_phone].nil? ? '' : values[:contact_phone]
       email_value = values[:email].nil? ? '' : values[:email]
@@ -205,8 +205,7 @@ describe 'Admin sign up', :devise do
       expect(page).to have_selector('h2', text: I18n.t('views.admins.heading.new'))
       admin_name_selector = "input[type=text][id='admin_account_name'][value='#{account_name_value}'][disabled='disabled']"
       expect(page).to have_selector(admin_name_selector, count: 1)
-      expect(page).to have_selector("input[type=text][id='admin_name'][value='#{name_value}'][disabled='disabled']",
-                                    count: 1)
+      expect(page).to have_field(I18n.t('activerecord.attributes.admin.name'), count: 1, disabled: false)
       expect(page).to have_field(I18n.t('activerecord.attributes.admin.contact_name'),
                                  text: contact_name_value, count: 1, disabled: false)
       expect(page).to have_field(I18n.t('activerecord.attributes.admin.email'), text: email_value, count: 1, disabled: false)
