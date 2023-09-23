@@ -7,7 +7,7 @@
                   id: "delete-#{admin.id}" %></td>
   <td><%= link_to admin.name,
                   edit_admin_path(admin),
-                  id: "edit-#{admin.id}", title: I18n.t('views.nav.edit') %></td>
+                  id: "edit-#{admin.id}", title: admin.name %></td>
   <td id="account_name-<%= admin.id %>"><%= admin.account_name %></td>
   <td id="contact_name-<%= admin.id %>"><%= admin.contact_name %></td>
   <td id="contact_phone-<%= admin.id %>"><%= admin.contact_phone %></td>

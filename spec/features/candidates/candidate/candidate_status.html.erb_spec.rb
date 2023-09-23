@@ -43,8 +43,7 @@ describe 'Candidate status', :devise do
 
     # puts page.html
     select 'Deferred',
-           from: I18n.t('activerecord.attributes.candidate.candidate_status')
-    # fill_in :candidate_status_status_id, with: updated_text
+           from: I18n.t('activerecord.attributes.candidate.status_id')
 
     click_button @update_id
 
@@ -59,32 +58,17 @@ describe 'Candidate status', :devise do
 
   private
 
-  def expect_candidate_note_form(cand_id, path_str, update_id, values = {})
-    cand = Candidate.find(cand_id)
-    expect_messages(values[:expected_messages]) unless values[:expecteded_messages].nil?
-    expected_text = values[:text_area_text].nil? ? 'Admin note' : values[:text_area_text]
-
-    expect_heading(cand, I18n.t('activerecord.attributes.candidate.candidate_status'))
-
-    expect(page).to have_selector("form[id=edit_candidate][action=\"/#{path_str}.#{cand_id}\"]")
-
-    expect(page).to have_field(I18n.t('activerecord.attributes.candidate.candidate_note'),
-                               with: cand.candidate_note, type: 'textarea', text: expected_text)
-
-    expect(page).to have_button(update_id)
-  end
-
   def expect_candidate_status_form(cand_id, path_str, update_id, values = {})
     cand = Candidate.find(cand_id)
     expect_messages(values[:expected_messages]) unless values[:expecteded_messages].nil?
     expected_selection = values[:expected_selection].nil? ? nil : values[:expected_selection]
 
-    expect_heading(cand, I18n.t('activerecord.attributes.candidate.candidate_status'))
-    puts page.html
+    expect_heading(cand, I18n.t('activerecord.attributes.candidate.status_id'))
+
     expect(page).to have_selector("form[id=\"edit_candidate\"][action=\"/#{path_str}.#{cand_id}\"]")
 
     expect(page).to have_select(
-      I18n.t('activerecord.attributes.candidate.candidate_status'), # locator
+      I18n.t('activerecord.attributes.candidate.status_id'), # locator
       selected: expected_selection # option
     )
 

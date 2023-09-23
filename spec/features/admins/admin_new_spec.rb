@@ -71,7 +71,7 @@ describe 'Admin sign up', :devise do
       expect_edit_admin(page, Admin.find_by(account_name: 'Admin_1'), {})
     end
 
-    it 'admin can not create a new admin with out ny fiels filled in' do
+    it 'admin can not create a new admin with out any fields filled in' do
       visit new_admin_path(Admin.new)
       expect_new_admin(page)
 
@@ -189,6 +189,7 @@ describe 'Admin sign up', :devise do
 
     def fill_in_legal_values
       fill_in(I18n.t('activerecord.attributes.admin.contact_name'), with: 'george smith')
+      fill_in(I18n.t('activerecord.attributes.admin.name'), with: 'george Geee')
       fill_in(I18n.t('activerecord.attributes.admin.email'), with: 'retail@ddd.com')
       fill_in(I18n.t('activerecord.attributes.admin.contact_phone'), with: '919-919-9999')
       fill_in(I18n.t('activerecord.attributes.admin.password'), with: 'abcdefgh')

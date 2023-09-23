@@ -8,7 +8,8 @@ describe 'export_excel_job' do
     candidate = create_candidate('Paul', 'Richard', 'Kristoff')
     AppFactory.add_confirmation_events
   end
-  it 'should raise unknow type message' do
+
+  it 'raises unknown type message' do
     export_excel_job_spec = ExportExcelJobSpec.new
 
     status_code = export_excel_job_spec.perform('foo', @admin).status_code
@@ -19,7 +20,8 @@ describe 'export_excel_job' do
     expect(export_excel_job_spec.backtrace).to eq('ExportExcelJob#perform')
     expect(export_excel_job_spec.email_error_message_called).to be(true)
   end
-  it 'should attach file without scanned pictures' do
+
+  it 'attaches file without scanned pictures' do
     export_excel_job_spec = ExportExcelJobSpec.new
     expect(export_excel_job_spec.perform(I18n.t('views.imports.excel_no_pict'), @admin).status_code.start_with?('20')).to be(true)
     expect(export_excel_job_spec.admin).to eq(@admin)

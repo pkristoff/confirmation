@@ -2,6 +2,11 @@
 
 <%= render 'devise/shared/error_messages', resource: resource, for_reset_password: false %>
 
+<div class = "field" >
+  <%= f.label :status_id %>
+  <%= f.collection_select :status_id, Status.all, :id, :name %>
+</div >
+
 <div class="field">
   <%= f.label :account_name %><br/>
   <%= f.text_field :account_name, readonly: is_candidate_signed_in_and_not_new, autofocus: !is_candidate_signed_in_and_not_new %>

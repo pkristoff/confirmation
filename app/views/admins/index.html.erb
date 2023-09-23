@@ -3,9 +3,20 @@
     <h3><%= t('views.admins.heading.index') %></h3>
     <div class="column">
       <table class="table" id="admins_table">
+        <thead>
+          <tr>
+            <th id='name'><%= I18n.t('activerecord.attributes.admin.name') %></th>
+            <th id='delete'><%= I18n.t('views.admins.heading.delete') %></th>
+            <th><%= I18n.t('views.admins.heading.edit') %></th>
+            <th><%= I18n.t('activerecord.attributes.admin.account_name') %></th>
+            <th><%= I18n.t('activerecord.attributes.admin.contact_name') %></th>
+            <th><%= I18n.t('activerecord.attributes.admin.contact_phone') %></th>
+            <th><%= I18n.t('activerecord.attributes.admin.email') %></th>
+          </tr>
+        </thead>
         <tbody>
         <% @admins.each do |admin| %>
-              <%= render admin %>
+          <%= render admin %>
         <% end %>
         </tbody>
       </table>

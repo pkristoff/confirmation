@@ -1,4 +1,5 @@
 <%= form_with(model: status) do |form| %>
+  <h2 id='header'><%= status.new_record? ? I18n.t('views.statuses.heading.new') : I18n.t('views.statuses.heading.edit') %></h2>
   <% if status.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(status.errors.count, "error") %> prohibited this status from being saved:</h2>
@@ -13,7 +14,7 @@
 
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, disabled: false %>
   </div>
 
   <div class="field">
@@ -23,5 +24,9 @@
 
   <div class="actions">
     <%= form.submit %>
+  </div>
+  <div>
+    <%= link_to 'Show', @status %> |
+    <%= link_to 'Back', statuses_path %>
   </div>
 <% end %>

@@ -17,7 +17,7 @@
     <br/>
 
     <div class = "field" >
-      <%= f.label 'status_id', I18n.t('activerecord.attributes.candidate.candidate_status')%>
+      <%= f.label 'status_id', I18n.t('activerecord.attributes.candidate.status_id')%>
       <%= f.collection_select :status_id, Status.all, :id, :name %>
     </div >
 

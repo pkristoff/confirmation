@@ -10,14 +10,14 @@ describe CandidatesMailer do
       @candidate = Candidate.find_by(account_name: candidate.account_name)
       @text = CandidatesMailerText.new(
         candidate: @candidate, subject: MailPart.new_subject(ViewsHelpers::SUBJECT),
-        body_text: { pre_late_input: MailPart.new_pre_late_input(ViewsHelpers::LATE_INITIAL_INPUT),
-                     pre_coming_due_input: MailPart.new_pre_coming_due_input(ViewsHelpers::COMING_DUE_INITIAL_INPUT),
+        body_text: { pre_late_input: MailPart.new_pre_late_input(I18n.t('email.late_initial_input')),
+                     pre_coming_due_input: MailPart.new_pre_coming_due_input(I18n.t('email.coming_due_initial_input')),
                      completed_awaiting_input: MailPart.new_completed_awaiting_input(
-                       ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT
+                       I18n.t('email.completed_awaiting_initial_input')
                      ),
-                     completed_input: MailPart.new_completed_input(ViewsHelpers::COMPLETE_INITIAL_INPUT),
+                     completed_input: MailPart.new_completed_input(I18n.t('email.completed_initial_input')),
                      closing_input: MailPart.new_closing_input(ViewsHelpers::CLOSING_INITIAL_INPUT),
-                     salutation_input: MailPart.new_salutation_input(ViewsHelpers::SALUTATION_INITIAL_INPUT),
+                     salutation_input: MailPart.new_salutation_input(I18n.t('email.salutation_initial_input')),
                      from_input: MailPart.new_from_input(I18n.t(ViewsHelpers::FROM_EMAIL_INPUT_I18N,
                                                                 name: admin.contact_name,
                                                                 email: admin.email,
@@ -46,9 +46,9 @@ describe CandidatesMailer do
         expect_view(body, [], coming_due_values, [], [])
 
         expect(body).to have_css('p[id=past_due_input][ style="white-space: pre;"]',
-                                 text: ViewsHelpers::LATE_INITIAL_INPUT)
+                                 text: I18n.t('email.late_initial_input'))
         expect(body).to have_css('p[id=coming_due_events_input][ style="white-space: pre;"]',
-                                 text: ViewsHelpers::COMING_DUE_INITIAL_INPUT)
+                                 text: I18n.t('email.coming_due_initial_input'))
         expect_closing(body)
       end
     end
@@ -140,20 +140,20 @@ describe CandidatesMailer do
   def expect_view(body, late_values, coming_due_values, completed_awaiting_values, completed_values)
     expect(body).to have_selector('p', text: "#{@candidate.candidate_sheet.first_name},")
 
-    expect_table(body, 'past_due_input', ViewsHelpers::LATE_INITIAL_INPUT, 'past_due',
+    expect_table(body, 'past_due_input', I18n.t('email.late_initial_input'), 'past_due',
                  [],
                  late_values)
 
-    expect_table(body, I18n.t('email.coming_due_label'), ViewsHelpers::COMING_DUE_INITIAL_INPUT, 'coming_due_events',
+    expect_table(body, I18n.t('email.coming_due_label'), I18n.t('email.coming_due_initial_input'), 'coming_due_events',
                  [I18n.t('email.events'), I18n.t('email.due_date')],
                  coming_due_values)
 
-    expect_table(body, I18n.t('email.completed_awaiting_input_label'), ViewsHelpers::COMPLETE_AWAITING_INITIAL_INPUT,
+    expect_table(body, I18n.t('email.completed_awaiting_input_label'), I18n.t('email.completed_awaiting_initial_input'),
                  'completed_awaiting_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_awaiting_values)
 
-    expect_table(body, I18n.t('email.completed_input_label'), ViewsHelpers::COMPLETE_INITIAL_INPUT, 'completed_events',
+    expect_table(body, I18n.t('email.completed_input_label'), I18n.t('email.completed_initial_input'), 'completed_events',
                  [I18n.t('email.completed_events'), I18n.t('email.information_entered')],
                  completed_values)
   end

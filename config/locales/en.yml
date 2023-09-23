@@ -51,7 +51,7 @@ en:
       candidate:
         account_name: Account name
         candidate_note: Note
-        candidate_status: Status
+        status_id: Status
       candidate_sheet:
         attending: Attending
         candidate_email: Candidate email
@@ -94,6 +94,9 @@ en:
         sponsor_church: Sponsor's church
         sponsor_eligibility_picture: Scanned sponsor's eligibility
         sponsor_name: Sponsor's Name
+      status:
+        description: Description
+        name: Name
       visitor:
         about: About
         contact: Contact
@@ -117,6 +120,7 @@ en:
       retreat_verification: Retreat verification
       sponsor_covenant: Sponsor Covenant
       sponsor_eligibility: Sponsor eligibility
+      status: Status
       visitor: Visitor
   devise:
     failure:
@@ -268,6 +272,9 @@ en:
           reset_password_failed: 'Admin does not exists with email address: %{email}'
         common:
           update: Update_attributes fails
+        status:
+          not_updated: Status not updated
+          updated: Status updated
       notice:
         common:
           updated: Resource updated
@@ -293,6 +300,8 @@ en:
     save_failed: Save failed
     select_excel_file: Please select a zipped excel file to upload.
     signed_agreement_val: "%{field_name} needs to be checked"
+    status_successfully_created: Status successfully created.
+    status_successfully_destroyed: Status was successfully destroyed.
     unknown_parameter: 'Unknown Parameter: %{name}'
     unknown_parameter_commit: 'Unknown Parameter value: %{commit} params: %{params}'
     update_candidate_event: Updated CandidateEvent! for candidates.
@@ -320,6 +329,7 @@ en:
       current_password: Current password
       email: Email
       heading:
+        delete: Delete
         edit: Edit admin
         index: Admins
         new: New admin
@@ -342,7 +352,7 @@ en:
       password_changed: Password Changed
     common:
       are_you_sure: Are you sure?
-      clear_attach_file: Clear choosen file
+      clear_attach_file: Clear chosen file
       confirm_account: Confirm Account
       delete: Delete
       download: Download document
@@ -440,6 +450,11 @@ en:
         bullet_4: 'Remain logged in: yes'
         confirm: Are you sure?
         title: Start new year
+    statuses:
+      heading:
+        edit: Edit Status
+        new: New Status
+        show: Show Status
     title:
       instruction_link: Show/hide instructions
     top_bar:

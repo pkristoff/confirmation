@@ -3,12 +3,12 @@
 # ViewsHelpers
 #
 module ViewsHelpers
-  LATE_INITIAL_INPUT = I18n.t('email.late_initial_input')
-  COMING_DUE_INITIAL_INPUT = I18n.t('email.coming_due_initial_input')
-  COMPLETE_AWAITING_INITIAL_INPUT = I18n.t('email.completed_awaiting_initial_input')
-  COMPLETE_INITIAL_INPUT = I18n.t('email.completed_initial_input')
+  # LATE_INITIAL_INPUT = I18n.t('email.late_initial_input')
+  # COMING_DUE_INITIAL_INPUT = I18n.t('email.coming_due_initial_input')
+  # COMPLETE_AWAITING_INITIAL_INPUT = I18n.t('email.completed_awaiting_initial_input')
+  # COMPLETE_INITIAL_INPUT = I18n.t('email.completed_initial_input')
   CLOSING_INITIAL_INPUT = I18n.t('email.closing_initial_input')
-  SALUTATION_INITIAL_INPUT = I18n.t('email.salutation_initial_input')
+  # SALUTATION_INITIAL_INPUT = I18n.t('email.salutation_initial_input')
   FROM_EMAIL_INPUT_I18N = 'email.from_initial_input_html'
   SUBJECT = I18n.t('email.subject_initial_input')
   FROM_EMAIL_I18N = 'views.top_bar.contact_admin_mail_text'
@@ -21,17 +21,39 @@ module ViewsHelpers
   # * <tt>:rendered_or_page</tt>
   #
   def expect_create_candidate(rendered_or_page)
-    expect(rendered_or_page).to have_selector('h2', text: I18n.t('views.candidates.create_new_candidate'))
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.first_name'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.middle_name'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.last_name'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.parent_email_1'), text: '')
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.parent_email_2'), text: '')
+    I18n.t('email.salutation_initial_input')
+    expect(rendered_or_page).to have_selector(
+      'h2',
+      text: I18n.t('views.candidates.create_new_candidate')
+    )
+    expect(rendered_or_page).to have_field(
+      I18n.t('activerecord.attributes.candidate_sheet.first_name'), text: ''
+    )
+    expect(rendered_or_page).to have_field(
+      I18n.t('activerecord.attributes.candidate_sheet.middle_name'), text: ''
+    )
+    expect(rendered_or_page).to have_field(
+      I18n.t('activerecord.attributes.candidate_sheet.last_name'), text: ''
+    )
+    expect(rendered_or_page).to have_field(
+      I18n.t('activerecord.attributes.candidate_sheet.candidate_email'), text: ''
+    )
+    expect(rendered_or_page).to have_field(
+      I18n.t('activerecord.attributes.candidate_sheet.parent_email_1'), text: ''
+    )
+    expect(rendered_or_page).to have_field(
+      I18n.t('activerecord.attributes.candidate_sheet.parent_email_2'), text: ''
+    )
 
-    expect(rendered_or_page).to have_field(I18n.t('activerecord.attributes.candidate_sheet.grade'), text: '')
-    expect(rendered_or_page).to have_unchecked_field(I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio')
-    expect(rendered_or_page).to have_checked_field(I18n.t('views.candidates.attending_the_way'), type: 'radio')
+    expect(rendered_or_page).to have_field(
+      I18n.t('activerecord.attributes.candidate_sheet.grade'), text: ''
+    )
+    expect(rendered_or_page).to have_unchecked_field(
+      I18n.t('views.candidates.attending_catholic_high_school'), type: 'radio'
+    )
+    expect(rendered_or_page).to have_checked_field(
+      I18n.t('views.candidates.attending_the_way'), type: 'radio'
+    )
   end
 
   # expect edit or new view.

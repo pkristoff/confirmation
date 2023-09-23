@@ -1,14 +1,16 @@
-<p id="notice"><%= notice %></p>
+<%= form_with(model: @status) do |form| %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @status.name %>
-</p>
+  <h2 id='header'><%= I18n.t('views.statuses.heading.show') %></h2>
 
-<p>
-  <strong>Description:</strong>
-  <%= @status.description %>
-</p>
+<div class="field">
+  <%= form.label :name %>
+  <%= form.text_field :name, disabled: true %>
+</div>
 
-<%= link_to 'Edit', edit_status_path(@status) %> |
-<%= link_to 'Back', statuses_path %>
+<div class="field">
+  <%= form.label :description %>
+  <%= form.text_area :description, disabled: true %>
+</div>
+  <%= link_to 'Edit', edit_status_path(@status) %> |
+  <%= link_to 'Back', statuses_path %>
+<% end %>

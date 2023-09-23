@@ -51,7 +51,7 @@ es:
       candidate:
         account_name: Nombre de la cuenta
         candidate_note: Nota
-        candidate_status: Estado
+        status_id: Estados
       candidate_sheet:
         attending: Asistiendo
         candidate_email: Correo electrónico del candidato
@@ -94,6 +94,9 @@ es:
         sponsor_church: La iglesia del patrocinador
         sponsor_eligibility_picture: Elegibilidad escaneada del patrocinador
         sponsor_name: Nombre del patrocinador
+      status:
+        description: Descripción
+        name: Nombre
       visitor:
         about: Acerca de
         contact: Contacto
@@ -117,6 +120,7 @@ es:
       retreat_verification: Verificación de retiro
       sponsor_covenant: Pacto del patrocinador y elegibilidad del patrocinador
       sponsor_eligibility: Elegibilidad del patrocinador
+      status: Estado
       visitor: Visitante
   devise:
     failure:
@@ -268,6 +272,9 @@ es:
           reset_password_failed: 'El administrador no existe con la dirección de correo electrónico: %{email}'
         common:
           update: La actualización de atributos falla
+        status:
+          not_updated: Estado no actualizado
+          updated: Estado actualizado
       notice:
         common:
           updated: Recurso actualizado
@@ -293,6 +300,8 @@ es:
     save_failed: Error al guardar
     select_excel_file: Seleccione un archivo de Excel comprimido para cargar.
     signed_agreement_val: "%{field_name} necesita ser revisado"
+    status_successfully_created: Estado creado exitosamente.
+    status_successfully_destroyed: El estado fue destruido con éxito.
     unknown_parameter: Parámetro desconocido %{name}
     unknown_parameter_commit: 'Valor de parámetro desconocido: %{commit} params: %{params}'
     update_candidate_event: CandidateEvent actualizado! para candidatos
@@ -318,13 +327,14 @@ es:
       button:
         create: Crear administrador
       current_password: Contraseña actual
-      email: Email
+      email: Correo electrónico
       heading:
-        edit: editar administrador
-        index: Admins
-        new: nuevo administrador
+        delete: Borrar
+        edit: editor administrator
+        index: Administrators
+        new: nuevo administrator
       label:
-        create: Create new admin
+        create: Carer nuevo administrator
       sign_in: Iniciar sesión admin
     candidates:
       account_confirmed: Cuenta confirmada
@@ -440,6 +450,11 @@ es:
         bullet_4: 'Permanecer conectado: sí'
         confirm: "¿Estás seguro?"
         title: Comienza año nuevo
+    statuses:
+      heading:
+        edit: Editar estado
+        new: Nuevo Nuevo estado
+        show: Mostrar estado
     title:
       instruction_link: Mostrar/ocultar instrucciones
     top_bar:

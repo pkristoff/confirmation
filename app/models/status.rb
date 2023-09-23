@@ -4,7 +4,8 @@
 #
 class Status < ApplicationRecord
   has_many(:candidates, dependent: :destroy)
-  validates :name, :description, presence: true
+  validates :name, presence: true, uniqueness: true
+  validates :description, presence: true
 
   # Looks up 'Active status'
   #

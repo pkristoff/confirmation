@@ -21,8 +21,9 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect_index_page(rendered, [@admin2])
-    expect(rendered).to have_selector('tr', count: 1)
+    admins = [@admin2]
+    expect_index_page(rendered, admins)
+    expect(rendered).to have_selector('tr', count: admins.size + 1)
 
     expect_admin(rendered, @admin2)
   end
@@ -32,8 +33,9 @@ describe 'admins/index.html.erb' do
 
     render
 
-    expect_index_page(rendered, [@admin1, @admin2])
-    expect(rendered).to have_selector('tr', count: 2)
+    admins = [@admin1, @admin2]
+    expect_index_page(rendered, admins)
+    expect(rendered).to have_selector('tr', count: admins.size + 1)
 
     expect_admin(rendered, @admin1)
     expect_admin(rendered, @admin2)
@@ -43,14 +45,14 @@ describe 'admins/index.html.erb' do
 
   def expect_index_page(rendered, admins)
     expect(rendered).to have_selector('h3', text: I18n.t('views.admins.heading.index'), count: 1)
-    expect(rendered).to have_selector('tr', count: admins.size)
+    expect(rendered).to have_selector('tr', count: admins.size + 1)
     admins.each { |admin| expect_admin(rendered, admin) }
     expect(rendered).to have_link('create-admin', text: I18n.t('views.admins.label.create'))
   end
 
   def expect_admin(rendered, admin)
     expect(rendered).to have_selector("tr[id=admin-#{admin.id}]", count: 1)
-    expect(rendered).to have_link("delete-#{admin.id}", text: 'Delete')
+    expect(rendered).to have_link("delete-#{admin.id}", text: I18n.t('views.common.delete'))
     expect(rendered).to have_link("edit-#{admin.id}", text: admin.name)
     expect(rendered).to have_selector("td[id='contact_name-#{admin.id}']", text: admin.contact_name)
     expect(rendered).to have_selector("td[id='contact_phone-#{admin.id}']", text: admin.contact_phone)
