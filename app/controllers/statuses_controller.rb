@@ -32,7 +32,7 @@ class StatusesController < ApplicationController
 
     respond_to do |format|
       if @status.save
-        format.html { redirect_to status_url(@status), notice: I18n..t('messages.status_successfully_created') }
+        format.html { redirect_to status_url(@status), notice: I18n.t('messages.status_successfully_created') }
         # format.json { render :show, status: :created, location: @status }
       else
         format.html { render :new, status: :unprocessable_entity }
