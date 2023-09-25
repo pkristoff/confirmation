@@ -18,6 +18,7 @@ class ResetDB
   #
   def start_new_year
     clean_associations(Candidate)
+    create_seed_statuses
     AppFactory.create_seed_candidate
     today = Time.zone.today
     ConfirmationEvent.find_each do |ce|
@@ -29,6 +30,13 @@ class ResetDB
     Rails.logger.info 'done start new year'
   end
 
+  # Create Standard Status
+  #
+  def create_seed_statuses
+    Status.create(name: 'Active', description: 'some description') unless Status.exists?({ name: 'Active' })
+    Status.create(name: 'Deferred', description: 'some description') unless Status.exists?({ name: 'Deferred' })
+  end
+
   # Reset the database.  End up with only an admin + confirmation events and the candidate vickikristoff
   #
   def self.reset_database
@@ -38,6 +46,10 @@ class ResetDB
   # Reset the database.  End up with only an admin + confirmation events and the candidate vickikristoff
   #
   def reset_database
+    # clean statuses out
+    Status.find_each(&:destroy)
+    create_seed_statuses
+
     start_new_year
 
     remove_all_confirmation_events

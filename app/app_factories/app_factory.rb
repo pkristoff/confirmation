@@ -158,9 +158,6 @@ class AppFactory
                     about: 'HTML for about page',
                     contact: 'HTML for contact page')
     create_seed_candidate
-    # add default statuses
-    Status.create(name: 'Active', description: 'some description')
-    Status.create(name: 'Deferred', description: 'some description')
   end
 
   # Create CandidateEvent based on confirmation_event
@@ -190,6 +187,7 @@ class AppFactory
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.password = Event::Other::INITIAL_PASSWORD
       candidate.password_confirmation = Event::Other::INITIAL_PASSWORD
+      candidate.status_id = Status.active.id
       # Rails 5.2 - create would have errored about not doing a save on parent.
       candidate.build_candidate_sheet if candidate.candidate_sheet.nil?
       candidate.candidate_sheet.parent_email_1 = 'stmm.confirmation@kristoffs.com'

@@ -48,6 +48,12 @@ describe AppFactory do
   end
 
   context 'with confirmation events' do
+    before do
+      # clean statuses out
+      Status.find_each(&:destroy)
+      ResetDB.new.create_seed_statuses
+    end
+
     it 'create a confirmation_event, an admin and a candidate' do
       AppFactory.add_confirmation_event(Candidate.parent_meeting_event_key)
       AppFactory.add_confirmation_event(RetreatVerification.event_key)
