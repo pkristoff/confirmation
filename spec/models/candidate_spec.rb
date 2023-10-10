@@ -340,12 +340,12 @@ describe Candidate do
     end
   end
 
-  describe 'genertate_account_name' do
+  describe 'generate_account_name' do
     it 'combos' do
-      expect(Candidate.genertate_account_name('', '')).to eq('')
-      expect(Candidate.genertate_account_name('', 'First')).to eq('first')
-      expect(Candidate.genertate_account_name('Last', '')).to eq('last')
-      expect(Candidate.genertate_account_name('Last', 'First')).to eq('lastfirst')
+      expect(Candidate.generate_account_name('', '')).to eq('')
+      expect(Candidate.generate_account_name('', 'First')).to eq('first')
+      expect(Candidate.generate_account_name('Last', '')).to eq('last')
+      expect(Candidate.generate_account_name('Last', 'First')).to eq('lastfirst')
     end
   end
 

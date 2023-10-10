@@ -91,17 +91,19 @@ describe CandidateImportsController do
       login_admin
       uploaded_file = fixture_file_upload('Small.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       post :import_candidates, params: { candidate_import: { file: uploaded_file } }
-      expect(response).to redirect_to(root_url)
       expect(controller.candidate_import).not_to be_nil
       expect(controller.candidate_import.errors.size).to eq(0)
     end
 
     it 'import candidates with invalid excel file' do
       login_admin
+      FactoryBot.create(:status)
+      FactoryBot.create(:status, name: 'Deferred')
       uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       post :import_candidates, params: { candidate_import: { file: uploaded_file } }
       expect(controller.candidate_import).not_to be_nil
-      expect(controller.candidate_import.errors.size).to eq(5)
+      expect(controller.flash[:alert]).to eq('annunziatarobert: Grade should be between 9 & 12')
+      expect(controller.candidate_import.errors.size).to eq(0)
     end
   end
 

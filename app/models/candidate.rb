@@ -128,7 +128,7 @@ class Candidate < ApplicationRecord
   #
   # * <tt>CandidateEvent</tt>
   #
-  def self.genertate_account_name(last_name, first_name)
+  def self.generate_account_name(last_name, first_name)
     "#{last_name}#{first_name}".downcase
   end
 

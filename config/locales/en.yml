@@ -311,6 +311,7 @@ en:
     updated_verified: Updated and Verified for %{cand_name}
   model:
     candidate:
+      abbreviated: Abbreviated
       attending_catholic_high_school: Catholic High School
       attending_the_way: The Way
   status:

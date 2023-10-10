@@ -3,6 +3,11 @@
 describe 'candidate_imports/new.html.erb' do
   include ViewsHelpers
   describe 'Non-orphaned tests' do
+    before do
+      FactoryBot.create(:status)
+      FactoryBot.create(:status, name: 'Deferred')
+    end
+
     it 'layout with no errors' do
       @candidate_import = CandidateImport.new
 
@@ -29,16 +34,12 @@ describe 'candidate_imports/new.html.erb' do
     it 'layout with errors' do
       uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       @candidate_import = CandidateImport.new
-      @candidate_import.load_initial_file(uploaded_file)
+      expect(Candidate.count).to be(0)
+      expect { @candidate_import.load_initial_file(uploaded_file) }.to raise_error(RuntimeError)
 
       render
 
-      expect_message(:error_explanation, ['5 errors prohibited this import from completing:',
-                                          'Row 2: Last name can\'t be blank',
-                                          'Row 3: First name can\'t be blank',
-                                          'Row 6: Parent email 1 is an invalid email',
-                                          'Row 6: Parent email 2 is an invalid email',
-                                          'Row 7: Parent email 1 can\'t be blank'], rendered)
+      expect(Candidate.count).to be(0)
     end
   end
 end

@@ -104,9 +104,7 @@ class CandidateImport
   def load_initial_file(file)
     @uploaded_file = file
     @imported_candidates = load_imported_candidates
-    ans = validate_and_save_import
-    Rails.logger.info "done load_initial_file: #{file.original_filename}"
-    ans
+    validate_and_save_import
   end
 
   # needed to expand _candidate_import.html.erb
@@ -536,15 +534,17 @@ class CandidateImport
   # Array: candidates
   #
   def process_initial_xlsx(candidates, spreadsheet)
-    legal_headers = ['Last Name', 'First Name', 'Grade', 'Teen Email', 'Parent Email Address(es)', 'Cardinal Gibbons HS Group']
+    legal_headers = ['Last Name', 'First Name', 'Grade', 'Teen Email', 'Parent Email Address(es)',
+                     'Attending', 'Program Year', 'Status']
     header_row = spreadsheet.first
-    if header_row[0].strip == legal_headers[0] &&
-       header_row[1].strip == legal_headers[1] &&
-       header_row[2].strip == legal_headers[2] &&
-       header_row[3].strip == legal_headers[3] &&
-       header_row[4].strip == legal_headers[4] &&
-       header_row[5].strip == legal_headers[5]
-
+    if header_row[0].strip.casecmp?(legal_headers[0]) &&
+       header_row[1].strip.casecmp?(legal_headers[1]) &&
+       header_row[2].strip.casecmp?(legal_headers[2]) &&
+       header_row[3].strip.casecmp?(legal_headers[3]) &&
+       header_row[4].strip.casecmp?(legal_headers[4]) &&
+       header_row[5].strip.casecmp?(legal_headers[5]) &&
+       header_row[6].strip.casecmp?(legal_headers[6]) &&
+       header_row[7].strip.casecmp?(legal_headers[7])
       (2..spreadsheet.last_row).each do |i|
         spreadsheet_row = spreadsheet.row(i)
         # skip empty row
@@ -552,24 +552,32 @@ class CandidateImport
 
         last_name = spreadsheet_row[0].nil? ? '' : spreadsheet_row[0].strip
         first_name = spreadsheet_row[1].nil? ? '' : spreadsheet_row[1].strip
-        # ruby fixnum is deprecating
-        grade = if spreadsheet_row[2].instance_of?(::Integer)
-                  (spreadsheet_row[2].nil? ? '10th' : "#{spreadsheet_row[2]}th")
-                else
-                  (spreadsheet_row[2].nil? ? '10th' : spreadsheet_row[2].strip)
-                end
+
         candidate_email = spreadsheet_row[3].nil? ? '' : spreadsheet_row[3].strip
         parent_email = spreadsheet_row[4].nil? ? '' : spreadsheet_row[4].strip
-        cardinal_gibbons = spreadsheet_row[5].nil? ? '' : spreadsheet_row[5].strip
 
         candidate_sheet_params = ActionController::Parameters.new
         params = ActionController::Parameters.new(
           candidate: ActionController::Parameters.new(candidate_sheet_attributes: candidate_sheet_params)
         )
 
+        # last_name
         candidate_sheet_params[:last_name] = last_name
+
+        # first_name
         candidate_sheet_params[:first_name] = first_name
-        candidate_sheet_params[:grade] = grade.empty? ? 10 : grade.slice(/^\D*\d*/)
+
+        # account_name
+        account_name = Candidate.generate_account_name(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '',
+                                                       candidate_sheet_params[:first_name].gsub(/\s+/, '') || '')
+
+        # program_year
+        candidate_sheet_params[:program_year] = import_program_year(spreadsheet_row, account_name)
+
+        # grade
+        candidate_sheet_params[:grade] = import_grade(spreadsheet_row, account_name)
+
+        # email
         clean_item = ActionView::Base.full_sanitizer.sanitize(candidate_email)
 
         candidate_sheet_params[:candidate_email] = clean_item unless clean_item.empty?
@@ -580,17 +588,22 @@ class CandidateImport
           candidate_sheet_params[:parent_email_1] = item_split[0].strip
           candidate_sheet_params[:parent_email_2] = item_split[1].strip if item_split.size > 1
         end
-        attending_way = I18n.t('views.candidates.attending_the_way')
-        attending_chs = I18n.t('model.candidate.attending_catholic_high_school')
-        candidate_sheet_params[:attending] = cardinal_gibbons.empty? ? attending_way : attending_chs
 
-        account_name = Candidate.genertate_account_name(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '',
-                                                        candidate_sheet_params[:first_name].gsub(/\s+/, '') || '')
+        # attending
+        candidate_sheet_params[:attending] = import_attending(spreadsheet_row, account_name)
+
+        # account_name
         params[:candidate][:account_name] = account_name
+
+        # password
         params[:candidate][:password] = Event::Other::INITIAL_PASSWORD
+
+        # status
+        params[:candidate][:status_id] = import_status(spreadsheet_row, account_name)
 
         candidate = Candidate.find_by(account_name: account_name) || ::AppFactory.create_candidate
         candidate.update(params.require(:candidate).permit(Candidate.permitted_params))
+
         candidates.push(candidate)
         @candidate_to_row[candidate] = i
       end
@@ -598,6 +611,62 @@ class CandidateImport
     else
       raise "Unknown spread sheet column: #{header_row} expected in order: #{legal_headers}"
     end
+  end
+
+  def import_status(spreadsheet_row, account_name)
+    status_name = spreadsheet_row[7].nil? ? '' : spreadsheet_row[7].strip
+
+    raise "#{account_name} Status cannot be blank." if status_name.blank?
+
+    status = Status.find_by(name: status_name)
+
+    raise "#{account_name} Illegal status: #{status_name}" if status.nil?
+
+    status.id
+  end
+
+  def import_attending(spreadsheet_row, account_name)
+    attending = spreadsheet_row[5].nil? ? '' : spreadsheet_row[5].strip
+
+    attending_way = I18n.t('views.candidates.attending_the_way')
+    attending_chs = I18n.t('model.candidate.abbreviated')
+
+    raise "#{account_name} Attending cell cannot be empty" if attending.empty?
+
+    foo = I18n.t('model.candidate.attending_the_way') if attending.strip.casecmp?(attending_way)
+    foo = I18n.t('model.candidate.attending_catholic_high_school') if attending.strip.casecmp?(attending_chs)
+    raise "#{account_name} Illegal Attending value: #{attending}" if foo.nil?
+
+    foo
+  end
+
+  def import_grade(spreadsheet_row, account_name)
+    grade = if spreadsheet_row[2].instance_of?(::Integer)
+              (spreadsheet_row[2].nil? ? '' : "#{spreadsheet_row[2]}th")
+            else
+              (spreadsheet_row[2].nil? ? '' : spreadsheet_row[2].strip)
+            end
+    digi_grade = ''
+    digi_grade = grade.slice(/^\D*\d*/) unless grade.empty?
+    raise "#{account_name}: Grade should be between 9 & 12" if digi_grade.empty?
+
+    if digi_grade.instance_of?(::String) && %w[9 10 11 12].exclude?(digi_grade)
+      raise "#{account_name} Illegal grade=#{digi_grade}.  It should be between 9 & 12"
+    end
+
+    digi_grade
+  end
+
+  def import_program_year(spreadsheet_row, account_name)
+    program_year = (spreadsheet_row[6].presence || '')
+
+    raise "#{account_name} program year cannot blank" unless program_year.presence
+
+    if program_year.instance_of?(::Integer) && [1, 2].exclude?(program_year)
+      raise "#{account_name} program year should be 1 or 2 : #{program_year}"
+    end
+
+    program_year
   end
 
   # Make sure all candidates are valid before saving.

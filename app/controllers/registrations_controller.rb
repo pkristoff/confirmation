@@ -25,7 +25,7 @@ class RegistrationsController < Devise::RegistrationsController
   #
   def create
     cs = params['candidate']['candidate_sheet_attributes']
-    params['candidate'][:account_name] = Candidate.genertate_account_name(cs['last_name'], cs['first_name'])
+    params['candidate'][:account_name] = Candidate.generate_account_name(cs['last_name'], cs['first_name'])
     params['candidate'][:password] = '12345678'
     params['candidate'][:password_confirmation] = '12345678'
     super_create do |res|

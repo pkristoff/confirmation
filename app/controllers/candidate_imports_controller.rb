@@ -21,10 +21,15 @@ class CandidateImportsController < ApplicationController
     if import_file_param.nil?
       redirect_to new_candidate_import_url, alert: I18n.t('messages.select_excel_file')
     else
-      @candidate_import = CandidateImport.new
-      if @candidate_import.load_initial_file(import_file_param.values.first)
-        redirect_to root_url, notice: I18n.t('messages.import_successful')
-      else
+      begin
+        @candidate_import = CandidateImport.new
+        if @candidate_import.load_initial_file(import_file_param.values.first)
+          redirect_to root_url, notice: I18n.t('messages.import_successful')
+        else
+          render :new
+        end
+      rescue StandardError => e
+        flash.now[:alert] = e.message
         render :new
       end
     end
