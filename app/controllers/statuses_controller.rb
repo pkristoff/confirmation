@@ -64,7 +64,7 @@ class StatusesController < ApplicationController
       respond_to do |format|
         format.html do
           redirect_to statuses_url,
-                      notice: I18n.t('messages.status_not_destroyed')
+                      alert: I18n.t('messages.status_not_destroyed')
         end
       end
     else
