@@ -300,6 +300,7 @@ en:
     save_failed: Save failed
     select_excel_file: Please select a zipped excel file to upload.
     signed_agreement_val: "%{field_name} needs to be checked"
+    status_not_destroyed: Status not destroyed because it is used by a Candidate.
     status_successfully_created: Status successfully created.
     status_successfully_destroyed: Status was successfully destroyed.
     unknown_parameter: 'Unknown Parameter: %{name}'

@@ -300,6 +300,7 @@ es:
     save_failed: Error al guardar
     select_excel_file: Seleccione un archivo de Excel comprimido para cargar.
     signed_agreement_val: "%{field_name} necesita ser revisado"
+    status_not_destroyed: Estado no destruido porque es utilizado por una candidata.
     status_successfully_created: Estado creado exitosamente.
     status_successfully_destroyed: El estado fue destruido con éxito.
     unknown_parameter: Parámetro desconocido %{name}

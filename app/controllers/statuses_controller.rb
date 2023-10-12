@@ -60,14 +60,21 @@ class StatusesController < ApplicationController
   # DELETE /statuses/1 or /statuses/1.json
   #
   def destroy
-    @status.destroy
-
-    respond_to do |format|
-      format.html do
-        redirect_to statuses_url,
-                    notice: I18n.t('messages.status_successfully_destroyed')
+    if @status.used_by_candidate?
+      respond_to do |format|
+        format.html do
+          redirect_to statuses_url,
+                      notice: I18n.t('messages.status_not_destroyed')
+        end
       end
-      # format.json { head :no_content }
+    else
+      @status.destroy
+      respond_to do |format|
+        format.html do
+          redirect_to statuses_url,
+                      notice: I18n.t('messages.status_successfully_destroyed')
+        end
+      end
     end
   end
 

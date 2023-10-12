@@ -28,4 +28,22 @@ RSpec.describe Status do
     expect(status.errors.size).to be(1)
     expect(status.errors.full_messages).to eq(["Description can't be blank"])
   end
+
+  describe 'used_by_candidate?' do
+    it 'return false if Status is not used' do
+      lll_status = FactoryBot.create(:status, name: 'lll')
+      active_status = FactoryBot.create(:status)
+      candidate = FactoryBot.create(:candidate)
+      expect(candidate.status_id).to eq(active_status.id)
+      expect(lll_status.used_by_candidate?).to be(false)
+    end
+
+    it 'return true if Status is used' do
+      FactoryBot.create(:status, name: 'lll')
+      active_status = FactoryBot.create(:status)
+      candidate = FactoryBot.create(:candidate)
+      expect(candidate.status_id).to eq(active_status.id)
+      expect(active_status.used_by_candidate?).to be(true)
+    end
+  end
 end

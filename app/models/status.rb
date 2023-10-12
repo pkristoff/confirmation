@@ -12,4 +12,10 @@ class Status < ApplicationRecord
   def self.active
     Status.find_by(name: 'Active')
   end
+
+  # Used when deciding whether a Status can be deleted.
+  #
+  def used_by_candidate?
+    Candidate.where(status_id: id).count.positive?
+  end
 end
