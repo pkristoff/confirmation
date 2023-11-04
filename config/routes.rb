@@ -26,19 +26,18 @@ Rails.application.routes.draw do
              path_names: {
                sign_out: 'logout'
              },
-             controllers: {registrations: 'registrations',
-                           confirmations: 'confirmations',
-                           passwords: 'admins/passwords'
-                           }
+             controllers: { registrations: 'registrations',
+                            confirmations: 'confirmations',
+                            passwords: 'admins/passwords' }
 
   resources :admins
 
   # Sign in CANDIDATE
-  devise_for :candidates, :path_prefix => 'dev',
-             controllers: {registrations: 'dev/registrations',
-                           confirmations: 'dev/cand_account_confirmations',
-                           passwords: 'dev/passwords'
-             }
+  devise_for :candidates,
+             :path_prefix => 'dev',
+             controllers: { registrations: 'dev/registrations',
+                            confirmations: 'dev/cand_account_confirmations',
+                            passwords: 'dev/passwords' }
   devise_scope :candidates do
     get 'show/:id', to: 'dev/candidates#show', as: 'dev_candidate'
     get 'event/:id', to: 'candidates#event', as: 'event_candidate'
@@ -54,7 +53,7 @@ Rails.application.routes.draw do
 
     put 'update_created_candidate', to: 'cadidates#update_created_candidate', as: 'update_created_candidate'
 
-      # visitors
+    # visitors
     get 'show_visitor', to: 'admins#show_visitor', as: 'show_visitor'
     post 'update_visitor/:id', to: 'admins#update_visitor', as: 'update_visitor'
 
@@ -174,9 +173,7 @@ Rails.application.routes.draw do
   get 'about_app', to: 'visitors#about_app'
 
   devise_scope :admins do
-    # get 'edit/:id', to: 'registrations#edit_1', as: 'edit_admin_registration_1'
-    # get 'edit/:id', to: 'registrations#edit', as: 'edit_admin_registration'
-    # post 'create', to: 'admins#create', as: 'create_admin_1'
     post 'admins/create', to: 'admins#create', as: 'create_admin'
+    post 'admins/destroy/:id', to: 'admins#destroy', as: 'destroy_admin'
   end
 end

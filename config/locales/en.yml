@@ -268,6 +268,7 @@ en:
     flash:
       alert:
         admin:
+          delete: cannot delete only admin or logged in admin
           not_updated: Admin not updated
           reset_password_failed: 'Admin does not exists with email address: %{email}'
         common:
@@ -276,6 +277,8 @@ en:
           not_updated: Status not updated
           updated: Status updated
       notice:
+        admin:
+          deleted: Admin deleted
         common:
           updated: Resource updated
     generate_pdf_error: Only select one candidate

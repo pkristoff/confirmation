@@ -268,6 +268,7 @@ es:
     flash:
       alert:
         admin:
+          delete: No se puede eliminar solo el administrador o el administrador que inició sesión.
           not_updated: Administrador no actualizado
           reset_password_failed: 'El administrador no existe con la dirección de correo electrónico: %{email}'
         common:
@@ -276,6 +277,8 @@ es:
           not_updated: Estado no actualizado
           updated: Estado actualizado
       notice:
+        admin:
+          deleted: Administrador eliminado
         common:
           updated: Recurso actualizado
     generate_pdf_error: Solo seleccione un candidato

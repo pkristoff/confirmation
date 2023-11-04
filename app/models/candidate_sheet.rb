@@ -176,7 +176,7 @@ class CandidateSheet < ApplicationRecord
     parent_email_1
   end
 
-  # sets canidates email to value - used by Factory Girl
+  # sets candidates email to value - used by Factory Girl
   #
   # === Parameters:
   #
@@ -206,7 +206,7 @@ class CandidateSheet < ApplicationRecord
     false
   end
 
-  # Validate if email addrresses are either nil or a valid email syntax.
+  # Validate if email addresses are either nil or a valid email syntax.
   #
   def validate_emails
     valid_can_email = validate_email(candidate_email)
@@ -216,7 +216,7 @@ class CandidateSheet < ApplicationRecord
     validate_email_two = validate_email(parent_email_2)
     errors.add(:parent_email_2, I18n.t('messages.error.invalid_email', email: parent_email_2)) unless validate_email_two
 
-    candidate_email_blank = candidate_email.blank? & parent_email_1.blank? & parent_email_2
+    candidate_email_blank = candidate_email.blank? & parent_email_1.blank? & parent_email_2.blank?
     errors.add(:candidate_email, I18n.t('messages.error.one_email')) if candidate_email_blank
 
     # Do not allow duplicate emails for a candidate
@@ -253,7 +253,7 @@ class CandidateSheet < ApplicationRecord
       program_year: 2 }
   end
 
-  # Attempts to guarentee that there is always a 'to' email
+  # Attempts to guarantee that there is always a 'to' email
   #   1. if candidate_email is not nil then return it.
   #   2. if parent_1 email is not nil then return it.
   #   3. if parent_2 email is not nil then return it.

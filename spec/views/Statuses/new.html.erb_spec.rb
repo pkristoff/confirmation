@@ -29,9 +29,10 @@ describe 'statuses/new.html.erb' do
     # page.driver.header 'Accept-Language', locale
     I18n.locale = locale
     @status = Status.new
+
     render
-    puts rendered
-    # check to see if gone to admin sign in page
+
+    # check to see if going to admin sign in page
     expect(rendered).to have_selector("h2[id='header']", text: I18n.t('views.statuses.heading.new'))
 
     expect(rendered).to have_field('status[name]',

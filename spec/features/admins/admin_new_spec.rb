@@ -66,7 +66,7 @@ describe 'Admin sign up', :devise do
 
       expect_messages([[:flash_notice, I18n.t('views.candidates.created',
                                               account: 'Admin_1',
-                                              name: 'Admin 1')]])
+                                              name: 'george Geee')]])
       expect(Admin.count).to be(2)
       expect_edit_admin(page, Admin.find_by(account_name: 'Admin_1'), {})
     end

@@ -1,10 +1,17 @@
 <tr id="admin-<%= admin.id %>">
   <td><%= admin.name %></td>
-  <td><%= link_to t('views.common.delete'),
-                  registration_path(:admin),
-                  data: { confirm: t('views.common.are_you_sure') },
-                  method: :delete,
-                  id: "delete-#{admin.id}" %></td>
+  <td>
+    <% if Admin.count == 1 || current_admin.id == admin.id %>
+      <p id='<%= "delete-#{admin.id}" %>'>  <%= t('views.common.delete') %></p>
+    <% else %>
+      <%= form_for(admin, as: :admin, id: "form-for-delete-#{admin.id}", url: destroy_admin_path(admin), html: { method: :post }) do |f| %>
+        <div class="actions">
+          <%= f.submit t('views.common.delete'), id: "submit-delete-#{admin.id}",
+              data: { confirm: t('views.common.are_you_sure') } %>
+        </div>
+      <% end %>
+    <% end %>
+  </td>
   <td><%= link_to admin.name,
                   edit_admin_path(admin),
                   id: "edit-#{admin.id}", title: admin.name %></td>

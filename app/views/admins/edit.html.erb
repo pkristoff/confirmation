@@ -1,5 +1,3 @@
-<% puts 'edit.html.erb' %>
-
 <h2><%= I18n.t('views.admins.heading.edit') %></h2>
 
 <%= form_for(@resource, as: 'admin', url: admin_path(@resource), html: { method: :put }) do |f| %>

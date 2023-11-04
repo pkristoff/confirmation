@@ -454,4 +454,23 @@ describe AdminsController do
     candidate.save
     candidate
   end
+
+  describe 'destroy admin' do
+    it 'not destroy the only admin' do
+      # admin = FactoryBot.create(:admin)
+      sign_in(@admin)
+      params = { commit: :destroy, controller: :admins, action: :destroy, id: @admin.id.to_s }
+      delete :destroy, params: params
+      expect_message(:alert, I18n.t('messages.flash.alert.admin.delete'))
+    end
+
+    it 'not destroy the only logged in admin' do
+      admin2 = FactoryBot.create(:admin, account_name: 'Admin1', name: 'foo', email: 'paul@kristoffs.com')
+      sign_in(admin2)
+      params = { commit: :destroy, controller: :admins, action: :destroy, id: admin2.id.to_s }
+      delete :destroy, params: params
+      expect_message(:alert, I18n.t('messages.flash.alert.admin.delete'))
+    end
+    # write more tests that delete admins
+  end
 end

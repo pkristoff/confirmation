@@ -184,6 +184,10 @@ class AppFactory
   # Candidate: new instance
   #
   def self.create_seed_candidate
+    if Status.count == 0
+      Status.create(name: 'Active', description: 'active this year')
+      Status.create(name: 'Deferred', description: 'deferred to next year')
+    end
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.password = Event::Other::INITIAL_PASSWORD
       candidate.password_confirmation = Event::Other::INITIAL_PASSWORD

@@ -129,6 +129,76 @@ class AdminsController < ApplicationController
     @admins = Admin.all
   end
 
+  # show admin
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> admin id
+  #
+  def show
+    @admin = Admin.find(params[:id])
+  end
+
+  # new admin
+  #
+  def new
+    @resource = Admin.new
+  end
+
+  # edit admin
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> admin id
+  #
+  def edit
+    @resource = Admin.find(params[:id])
+  end
+
+  # create admin
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> admin id
+  #
+  def create
+    create_admin if params[:admin]
+    raise("unknown params resourse: #{params}") unless params[:admin]
+  end
+
+  # update admin
+  #
+  # === Attributes:
+  #
+  # * <tt>:id</tt> admin id
+  #
+  def update
+    @resource = Admin.find(params[:id])
+    if @resource.update(required_admin_params)
+      flash[:notice] = t('messages.flash.notice.common.updated')
+      redirect_to edit_admin_path(@resource)
+    else
+      flash[:alert] = I18n.t('messages.flash.alert.admin.not_updated')
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  # destroy selected admin
+  #
+  def destroy
+    if admin_signed_in?
+      destroy_admin = Admin.find(params[:id])
+      if Admin.count == 1 || current_admin.id == destroy_admin.id
+        redirect_to admins_path, alert: I18n.t('messages.flash.alert.admin.delete')
+      else
+        destroy_admin.destroy
+        redirect_to admins_path, notice: I18n.t('messages.flash.notice.admin.deleted')
+      end
+    else
+      redirect_to :back, alert: I18n.t('messages.flash.notice.admin.deleted')
+    end
+  end
+
   # edit mass candidate events
   #
   # === Attributes:
@@ -526,60 +596,6 @@ class AdminsController < ApplicationController
     render :show_visitor
   end
 
-  # show admin
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> admin id
-  #
-  def show
-    @admin = Admin.find(params[:id])
-  end
-
-  # new admin
-  #
-  def new
-    @resource = Admin.new
-  end
-
-  # edit admin
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> admin id
-  #
-  def edit
-    @resource = Admin.find(params[:id])
-  end
-
-  # create admin
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> admin id
-  #
-  def create
-    create_admin if params[:admin]
-    raise("unknown params resourse: #{params}") unless params[:admin]
-  end
-
-  # update admin
-  #
-  # === Attributes:
-  #
-  # * <tt>:id</tt> admin id
-  #
-  def update
-    @resource = Admin.find(params[:id])
-    if @resource.update(required_admin_params)
-      flash[:notice] = t('messages.flash.notice.common.updated')
-      redirect_to edit_admin_path(@resource)
-    else
-      flash[:alert] = I18n.t('messages.flash.alert.admin.not_updated')
-      render :edit, status: :unprocessable_entity
-    end
-  end
-
   # required params for candidate
   #
   # === return:
@@ -761,9 +777,9 @@ class AdminsController < ApplicationController
 
   def create_admin
     admin_params = required_admin_params
-    name, account_name = Admin.next_available_account_name
-    admin_params[:account_name] = account_name
-    admin_params[:name] = name
+    unique_name, unique_account_name = Admin.next_available_account_name
+    admin_params[:name] = unique_name unless admin_params[:name]
+    admin_params[:account_name] = unique_account_name
     super_create(admin_params) do |new_admin|
       new_admin.save
       @admin = new_admin

@@ -41,7 +41,6 @@ describe 'Candidate status', :devise do
     visit @path
     expect(Status.count).to be(2)
 
-    # puts page.html
     select 'Deferred',
            from: I18n.t('activerecord.attributes.candidate.status_id')
 

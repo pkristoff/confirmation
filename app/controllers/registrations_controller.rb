@@ -52,8 +52,21 @@ class RegistrationsController < Devise::RegistrationsController
   # destroy Candidate
   #
   def destroy
+    an errror should happen
     if admin_signed_in?
-      super
+      if resource_name == :admin
+        if Admin.count == 1 || current_admin.id == resource.id
+          redirect_to admins_path, alert: I18n.t('messages.flash.alert.admin.delete')
+          kkk
+        else
+          ggg
+          @admin.destroy
+          redirect_to admins_path, notice: I18n.t('messages.flash.notice.admin.deleted')
+        end
+      else
+        jjj # candidate
+        super
+      end
     else
       redirect_to :back, alert: I18n.t('messages.admin_login_needed', message: I18n.t('messages.remove_candidate'))
     end

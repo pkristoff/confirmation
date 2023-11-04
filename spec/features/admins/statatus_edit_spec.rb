@@ -58,7 +58,6 @@ describe 'Status edit', :devise do
 
   def expect_edit_page(page, values)
     is_new_record = false
-    puts page.html
     expected_messages = values[:expected_messages]
     expect_messages(expected_messages) unless expected_messages.nil?
     expected_name = values[:expected_name].nil? ? '' : values[:expected_name]
@@ -76,7 +75,6 @@ describe 'Status edit', :devise do
 
   def expect_show_page(page, status, values)
     is_new_record = false
-    puts page.html
     expected_messages = values[:expected_messages]
     expect_messages(expected_messages) unless expected_messages.nil?
     expected_name = values[:expected_name].nil? ? '' : values[:expected_name]

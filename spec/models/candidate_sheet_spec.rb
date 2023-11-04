@@ -126,7 +126,7 @@ describe CandidateSheet do
         fill_in_cand(candidate_sheet)
         candidate_sheet.parent_email_2 = 'foo'
         candidate_sheet.validate_emails
-        expect(candidate_sheet.errors.full_messages.size).to eq(2)
+        expect(candidate_sheet.errors.full_messages.size).to eq(1)
         expect(candidate_sheet.errors.full_messages[0]).to eq('Parent email 2 is an invalid email: foo')
       end
 
@@ -196,6 +196,16 @@ describe CandidateSheet do
         expected_msg = 'Parent email 2 is a duplicate email, which is not allowed for a candidate - x x x.'
         expect(candidate_sheet.errors.full_messages[1]).to eq(expected_msg)
         expect(candidate_sheet.errors.full_messages[2]).to eq(expected_msg)
+      end
+
+      it 'candidate email & parent email one are blank is valid' do
+        candidate_sheet = CandidateSheet.new
+        fill_in_cand(candidate_sheet)
+        candidate_sheet.candidate_email = ''
+        candidate_sheet.parent_email_1 = ''
+        candidate_sheet.parent_email_2 = 'baz@bar.com'
+        candidate_sheet.validate_emails
+        expect(candidate_sheet.errors.full_messages.size).to eq(0)
       end
     end
 

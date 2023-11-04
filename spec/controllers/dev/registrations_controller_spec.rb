@@ -10,4 +10,12 @@ describe Dev::RegistrationsController do
 
     expect(response.body).to have_css("a[href='#{root_url}']", text: 'redirected')
   end
+
+  describe 'delete admin' do
+    it 'cannot delete the only admin' do
+      FactoryBot.create(:admin)
+      expect(Admin.count).to be(1)
+      # delete
+    end
+  end
 end
