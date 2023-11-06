@@ -33,7 +33,7 @@ describe 'layouts/_navigation.html.erb' do
     num_of_common_links = expect_common_links
     expect(rendered).to have_link(I18n.t('views.top_bar.sign_out'), href: '/dev/candidates/sign_out')
     expect(rendered).to have_link(I18n.t('views.top_bar.candidate_checklist'),
-                                  href: download_document_path(candidate.id, Event::Document::CANDIDATE_CHECKLIST))
+                                  href: dev_download_document_path(candidate.id, Event::Document::CANDIDATE_CHECKLIST))
 
     expect(rendered).to have_selector('li', count: num_of_common_links + 2)
   end

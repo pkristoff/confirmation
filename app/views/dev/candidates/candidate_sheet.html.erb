@@ -5,7 +5,7 @@
            event_association: @candidate.candidate_sheet,
            shared_html_file: 'candidate_sheet',
            candidate_event: @candidate.get_candidate_event(CandidateSheet.event_key),
-           download_doc: download_document_path(@candidate.id, Event::Document::CANDIDATE_INFORMATION_SHEET),
+           download_doc: dev_download_document_path(@candidate.id, Event::Document::CANDIDATE_INFORMATION_SHEET),
            update_name: I18n.t('views.common.update'),
            id_postfix: '',
            is_dev: true,
