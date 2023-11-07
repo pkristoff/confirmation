@@ -1,21 +1,19 @@
+<div xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+  <p><%= t('messages.covenant_agreement.paragraph_1') %>
+  <ul>
+    <li><%= t('messages.covenant_agreement.item_1') %></li>
+    <li><%= t('messages.covenant_agreement.item_2') %></li>
+    <li><%= t('messages.covenant_agreement.item_3') %></li>
+    <li><%= t('messages.covenant_agreement.item_4') %></li>
+    <li><%= t('messages.covenant_agreement.item_5') %></li>
+  </ul>
+  </p>
+  <p><%= t('messages.covenant_agreement.paragraph_2') %></p>
+  <p><%= t('messages.covenant_agreement.paragraph_3') %></p>
+</div>
 
 
-    <div xmlns = "http://www.w3.org/1999/html" xmlns = "http://www.w3.org/1999/html" >
-      <p ><%= t('messages.covenant_agreement.paragraph_1') %>
-      <ul >
-        <li ><%= t('messages.covenant_agreement.item_1') %>,</li >
-        <li ><%= t('messages.covenant_agreement.item_2') %>,</li >
-        <li ><%= t('messages.covenant_agreement.item_3') %>, <%= t('messages.covenant_agreement.and') %></li >
-        <li ><%= t('messages.covenant_agreement.item_4') %>.</li >
-        <li ><%= t('messages.covenant_agreement.item_5') %></li >
-      </ul >
-      </p>
-      <p ><%= t('messages.covenant_agreement.paragraph_2') %></p >
-      <p ><%= t('messages.covenant_agreement.paragraph_3') %></p>
-    </div >
-
-
-    <div class = "field" >
-      <%= f.check_box :signed_agreement %>
-      <%= f.label :signed_agreement, t('label.sign_agreement.signed_agreement') %>
-    </div >
+<div class="field">
+  <%= f.check_box :signed_agreement %>
+  <%= f.label :signed_agreement, t('label.sign_agreement.signed_agreement') %>
+</div>

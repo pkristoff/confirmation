@@ -246,12 +246,12 @@ en:
     contact_updated: Contact updated
     covenant_agreement:
       and: and
-      item_1: the Confirmation Retreat
-      item_2: Confirmation classes
-      item_3: Confirmation practice
-      item_4: the Confirmation Mass
-      item_5: I will attend at least one other Youth Group session per month or attend Catholic High School.
-      paragraph_1: I am committed to this year of preparation for Confirmation. I agree to attend all of the required sessions which include
+      item_1: To attend one retreat (either the Spring or Fall retreat) held by St MM.
+      item_2: To attend The Way sessions, and
+      item_3: To attend the Confirmation Mass
+      item_4: I will watch the Confirmation Rehearsal video and pass this on to my sponsor to view.
+      item_5: If you attend Catholic High School, I will attend the Way sessions specified in the Youth Ministry calendar as the “abbreviated track”.
+      paragraph_1: 'I am committed to this year of preparation for Confirmation.  I agree to the following:'
       paragraph_2: I will choose to participate in all sessions with an open heart and give 100% of myself to my small group and my small group leaders. I agree to cultivate a relationship with my sponsor to learn from their spiritual guidance.
       paragraph_3: Most importantly, I promise to receive all that God has in store for me this year and to let the gifts and fruits of the Holy Spirit come alive in my life.
     database_reset: Database successfully reset.

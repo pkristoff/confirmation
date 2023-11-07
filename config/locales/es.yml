@@ -246,13 +246,13 @@ es:
     contact_updated: Contacto actualizada
     covenant_agreement:
       and: "y"
-      item_1: el retiro de confirmación
-      item_2: Clases de confirmacion
-      item_3: Práctica de confirmación
-      item_4: La misa de confirmación
-      item_5: Asistiré al menos a otra sesión del Grupo de Jóvenes por mes o asistiré a la Escuela Secundaria Católica.
-      paragraph_1: Estoy comprometido con este año de preparación para la Confirmación. Acepto asistir a todas las sesiones requeridas que incluyen
-      paragraph_2: Elegiré participar en todas las sesiones con un corazón abierto y dar el 100% de mí mismo a mi grupo pequeño y a mis líderes de grupos pequeños. Estoy de acuerdo en cultivar una relación con mi patrocinador para aprender de su guía espiritual.
+      item_1: Para asistir a un retiro (ya sea el de primavera o el de otoño) realizado por St MM.
+      item_2: Para asistir a las sesiones de Camino, y
+      item_3: Para asistir a la Misa de Confirmación
+      item_4: Veré el video del ensayo de confirmación y se lo pasaré a mi patrocinador para que lo vea.
+      item_5: Lo más importante es que prometo recibir todo lo que Dios tiene reservado para mí este año y dejar que los dones y frutos del Espíritu Santo cobren vida en mi vida.
+      paragraph_1: 'Me comprometo en este año de preparación a la Confirmación. Acepto lo siguiente:'
+      paragraph_2: Elegiré participar en todas las sesiones con el corazón abierto y dar el 100% de mí a mi grupo pequeño y a mis líderes de grupo pequeño. Acepto cultivar una relación con mi padrino para aprender de su guía espiritual.
       paragraph_3: Lo que es más importante, prometo recibir todo lo que Dios tiene guardado para mí este año y dejar que los dones y frutos del Espíritu Santo cobren vida en mi vida.
     database_reset: La base de datos se restableció correctamente.
     error:
