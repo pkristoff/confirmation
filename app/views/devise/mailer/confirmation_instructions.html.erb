@@ -2,11 +2,9 @@
 
 <p>
   I am Vicki Kristoff and I track all the data/forms for the Confirmation Candidates.
-  I received your name from Niki Bordelon indicating that you will be going through Confirmation preparation this school year
-  and be Confirmed on April 20, 2023.
-  If this is not your plan, please email me and I will remove you from the list.
-  This year, all Confirmation information will be entered on line and/or uploaded by you.
-  If you are planning on being Confirmed, please click this link below. Confirming your account, lets me and the system know that your email address is correct.
+  I received your name indicating that you will be going through either year 1 or year 2 of Confirmation preparation this year.
+  All Confirmation information and required documents will be entered on line and/or uploaded by you.
+  Please click this link below. Confirming your account, lets me and the system know that your email address is correct.
 </p>
 
 <%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %>
@@ -31,6 +29,7 @@
   For example, if you were NOT baptized at StMM, the baptismal certificate information needs to be entered and a copy of
   your baptismal certificate needs to be uploaded.
   If you have any questions or need help, I can be reached at stmm.confirmation@kristoffs.com or 919-607-1120.
+  Year 1 candidates should ignore the due dates on the website. These are due dates for year 2 candidates.
 </p>
 
 <%= render 'shared/mailer/basic_candidate_info',
