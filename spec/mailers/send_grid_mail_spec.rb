@@ -4,6 +4,7 @@ describe SendGridMail, type: :model do
   include ViewsHelpers
 
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
   end
 

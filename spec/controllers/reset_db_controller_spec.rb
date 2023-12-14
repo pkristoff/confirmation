@@ -3,6 +3,7 @@
 describe ResetDbController do
   describe 'reset_database' do
     it 'reset database' do
+      AppFactory.generate_default_status
       expect(Candidate.all.size).to eq(0)
       FactoryBot.create(:candidate, account_name: 'a1')
       FactoryBot.create(:candidate, account_name: 'a2')
@@ -90,6 +91,7 @@ describe ResetDbController do
       expect(CandidateEvent.all.size).to eq(0)
       expect(ToDo.all.size).to eq(0)
 
+      AppFactory.generate_default_status
       FactoryBot.create(:candidate, account_name: 'a1', add_candidate_events: true, add_new_confirmation_events: false)
 
       expect(Candidate.all.size).to eq(1)

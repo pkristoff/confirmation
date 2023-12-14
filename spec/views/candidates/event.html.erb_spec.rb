@@ -4,8 +4,8 @@ describe 'candidates/event.html.erb' do
   include DeviseHelpers
   include ViewsHelpers
   before do
+    AppFactory.generate_default_status
     @resource_class = Candidate
-
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @resource = Candidate.find(candidate.id)

@@ -18,7 +18,6 @@ class ResetDB
   #
   def start_new_year
     clean_associations(Candidate)
-    create_seed_statuses
     AppFactory.create_seed_candidate
     today = Time.zone.today
     ConfirmationEvent.find_each do |ce|
@@ -48,7 +47,8 @@ class ResetDB
   def reset_database
     # clean statuses out
     Status.find_each(&:destroy)
-    create_seed_statuses
+    # create_seed_statuses
+    AppFactory.generate_default_status
 
     start_new_year
 

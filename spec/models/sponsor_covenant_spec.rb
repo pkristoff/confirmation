@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe SponsorCovenant do
   before do
+    AppFactory.generate_default_status
     @candidate = FactoryBot.create(:candidate)
   end
 

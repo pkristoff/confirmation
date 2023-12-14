@@ -2,6 +2,10 @@
 
 describe MissingEvents do
   describe 'check_missing_events' do
+    before do
+      AppFactory.generate_default_status
+    end
+
     include ViewsHelpers
     it 'show "Sponsor Covenant" is missing.' do
       ResetDB.start_new_year

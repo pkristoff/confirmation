@@ -6,6 +6,7 @@ describe 'Candidate status', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     @cand_id = FactoryBot.create(:candidate).id
     admin = FactoryBot.create(:admin)
@@ -36,7 +37,7 @@ describe 'Candidate status', :devise do
   end
 
   it 'admin logs in, selects candidate status, changes it and saves to Deferred' do
-    FactoryBot.create(:status, name: 'Deferred')
+    # FactoryBot.create(:status, name: 'Deferred')
 
     visit @path
     expect(Status.count).to be(2)

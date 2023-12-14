@@ -2,6 +2,7 @@
 
 describe CandidatesController do
   before do
+    AppFactory.generate_default_status
     @admdin = login_admin
     @today = Time.zone.today
   end

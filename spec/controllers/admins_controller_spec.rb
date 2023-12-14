@@ -427,6 +427,7 @@ describe AdminsController do
   end
 
   def create_candidate(prefix, should_confirm: true)
+    AppFactory.generate_default_status if Status.count == 0
     candidate = FactoryBot.create(:candidate, account_name: prefix, should_confirm: should_confirm)
     candidate_event = candidate.add_candidate_event(@confirmation_event)
     case prefix

@@ -64,6 +64,7 @@ end
 
 describe 'CandidatePDFDocument' do
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     @candidate1 = FactoryBot.create(:candidate, account_name: 'c1', add_new_confirmation_events: false)
     @candidate1.candidate_sheet.first_name = 'cc1'

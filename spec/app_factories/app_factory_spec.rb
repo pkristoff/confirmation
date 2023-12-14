@@ -51,7 +51,7 @@ describe AppFactory do
     before do
       # clean statuses out
       Status.find_each(&:destroy)
-      ResetDB.new.create_seed_statuses
+      AppFactory.generate_default_status
     end
 
     it 'create a confirmation_event, an admin and a candidate' do

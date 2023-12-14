@@ -2,6 +2,7 @@
 
 describe Dev::RegistrationsController do
   it 'take you back to the home page' do
+    AppFactory.generate_default_status
     candidate = FactoryBot.create(:candidate)
 
     get :event, params: { id: candidate.id }

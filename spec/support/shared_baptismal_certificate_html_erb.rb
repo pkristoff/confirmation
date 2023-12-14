@@ -29,6 +29,7 @@ shared_context 'baptismal_certificate_html_erb' do
   # rubocop:enable RSpec/ContextWording
   include ViewsHelpers
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     event_with_picture_setup(Event::Route::BAPTISMAL_CERTIFICATE, is_verify: @is_verify)
     AppFactory.add_confirmation_events

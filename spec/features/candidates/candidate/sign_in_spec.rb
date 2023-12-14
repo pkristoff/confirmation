@@ -6,6 +6,7 @@
 #   So I can visit protected areas of the site
 describe 'Sign in', :devise do
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
   end
 

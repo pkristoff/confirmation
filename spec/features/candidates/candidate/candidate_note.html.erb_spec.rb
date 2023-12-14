@@ -6,6 +6,7 @@ describe 'Candidate note', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     @cand_id = FactoryBot.create(:candidate).id
     admin = FactoryBot.create(:admin)

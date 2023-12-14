@@ -2,6 +2,7 @@
 
 describe 'visitors/cand_account_confirmation.html.erb' do
   it 'candidate is confirmed.' do
+    AppFactory.generate_default_status
     @candidate = FactoryBot.create(:candidate)
     @errors = 'noerrors'
 
@@ -15,6 +16,7 @@ describe 'visitors/cand_account_confirmation.html.erb' do
   end
 
   it 'candidate not confirmed.' do
+    AppFactory.generate_default_status
     @candidate = FactoryBot.create(:candidate)
     @errors = 'this is an error message'
 

@@ -3,6 +3,7 @@
 describe 'shared/sorting_candidate_selection' do
   include ViewsHelpers
   before do
+    AppFactory.generate_default_status
     @candidate1 = Candidate.find_by(account_name: create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
     @candidate2 = Candidate.find_by(account_name: create_candidate('Paul', 'Richard', 'Kristoff').account_name)
     @candidates = [@candidate1, @candidate2]

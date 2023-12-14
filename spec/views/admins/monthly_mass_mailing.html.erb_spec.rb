@@ -3,6 +3,7 @@
 describe 'admins/monthly_mass_mailing.html.erb' do
   include ViewsHelpers
   before do
+    AppFactory.generate_default_status
     @admin = FactoryBot.create(:admin)
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')

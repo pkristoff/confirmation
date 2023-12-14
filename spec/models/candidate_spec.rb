@@ -4,6 +4,7 @@ describe Candidate do
   include ActionDispatch::TestProcess
 
   before do
+    AppFactory.generate_default_status
     @today = Time.zone.today
   end
 

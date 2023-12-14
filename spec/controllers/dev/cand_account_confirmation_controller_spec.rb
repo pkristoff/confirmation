@@ -2,6 +2,10 @@
 
 describe Dev::CandAccountConfirmationsController do
   describe 'show' do
+    before do
+      AppFactory.generate_default_status
+    end
+
     it 'show an error message that the token is invalid' do
       candidate = FactoryBot.create(:candidate)
       token = 'xxx'

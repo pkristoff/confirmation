@@ -4,6 +4,7 @@ describe CandidatesMailer do
   include ViewsHelpers
   describe 'monthly_reminder testing' do
     before do
+      AppFactory.generate_default_status
       admin = FactoryBot.create(:admin)
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
@@ -85,6 +86,7 @@ describe CandidatesMailer do
 
   describe 'adhoc mail' do
     before do
+      AppFactory.generate_default_status
       candidate = create_candidate('Paul', 'Richard', 'Kristoff')
       AppFactory.add_confirmation_events
       @candidate = Candidate.find_by(account_name: candidate.account_name)

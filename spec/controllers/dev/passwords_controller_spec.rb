@@ -3,6 +3,7 @@
 describe Dev::PasswordsController do
   before do
     FactoryBot.create(:visitor)
+    AppFactory.generate_default_status
   end
 
   describe 'edit' do

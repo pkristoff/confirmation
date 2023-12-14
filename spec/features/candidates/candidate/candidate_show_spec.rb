@@ -9,6 +9,10 @@ Warden.test_mode!
 describe 'Candidate profile page', :devise do
   include Warden::Test::Helpers
 
+  before do
+    AppFactory.generate_default_status
+  end
+
   after do
     Warden.test_reset!
   end

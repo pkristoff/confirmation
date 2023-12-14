@@ -8,6 +8,7 @@ describe 'Sign Covenant Agreement candidate login in', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     @candidate = FactoryBot.create(:candidate)
     login_as(@candidate, scope: :candidate)
 

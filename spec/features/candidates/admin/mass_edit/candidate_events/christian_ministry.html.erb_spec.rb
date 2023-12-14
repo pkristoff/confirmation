@@ -7,6 +7,7 @@ describe 'Admin verifies christian ministry from Mass Edit Candidates Event', :d
   Warden.test_mode!
 
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     @update_id = 'top-update-verify'
     @path_str = 'christian_ministry_verify'

@@ -3,6 +3,7 @@
 describe Orphaneds do
   describe 'orphaned associations errors' do
     it 'login should not cause orphaned associations' do
+      AppFactory.generate_default_status
       FactoryBot.create(:candidate)
       expect_no_orphaned_associations
     end
@@ -10,11 +11,13 @@ describe Orphaneds do
 
   describe 'orphaned associations' do
     it 'No orphaned associations' do
+      AppFactory.generate_default_status
       FactoryBot.create(:candidate)
       expect_no_orphaned_associations
     end
 
     it 'orphaned associations' do
+      AppFactory.generate_default_status
       orphans = expected_orphans
       FactoryBot.create(:candidate)
       orphaneds = Orphaneds.new
@@ -23,6 +26,7 @@ describe Orphaneds do
     end
 
     it 'destroy orphaned associations' do
+      AppFactory.generate_default_status
       orphans = expected_orphans
 
       FactoryBot.create(:candidate)

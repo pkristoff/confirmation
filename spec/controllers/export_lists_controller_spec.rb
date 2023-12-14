@@ -3,6 +3,7 @@
 describe ExportListsController do
   before do
     FactoryBot.create(:visitor)
+    AppFactory.generate_default_status
 
     c1 = FactoryBot.create(:candidate, account_name: 'c1')
     c1.candidate_sheet.first_name = 'Paul'

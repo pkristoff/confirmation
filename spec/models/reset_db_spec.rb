@@ -2,6 +2,7 @@
 
 describe ResetDB do
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
   end
 
@@ -181,6 +182,17 @@ describe ResetDB do
                      ToDo: 9 }
 
       expect_table_rows(Candidate, cand_assoc)
+    end
+
+    it 'start a new year will keep candidates without status of Active and clean out all other candidates.' do
+      # AppFactory.generate_default_status
+      FactoryBot.create(:candidate)
+      puts 'aaa'
+      expect(Candidate.count).to eq(1)
+      puts 'bbb'
+      ResetDB.start_new_year
+      puts 'ccc'
+      expect(Candidate.count).to eq(1)
     end
   end
 

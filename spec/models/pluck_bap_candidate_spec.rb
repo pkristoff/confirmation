@@ -2,6 +2,7 @@
 
 describe PluckBapCandidate do
   before do
+    AppFactory.generate_default_status
     AppFactory.add_confirmation_events
   end
 

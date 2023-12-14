@@ -11,6 +11,7 @@ describe 'ResetDB', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     @today = Time.zone.today
   end

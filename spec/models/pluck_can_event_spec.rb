@@ -2,6 +2,7 @@
 
 describe PluckCanEvent do
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
 
     create_candidate_bap('c1', 'Paul')

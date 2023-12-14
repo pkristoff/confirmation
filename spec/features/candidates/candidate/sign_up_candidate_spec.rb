@@ -3,6 +3,10 @@
 # Feature: Sign up
 #   only Admin can signup a candidate
 describe 'Sign Up', :devise do
+  before do
+    AppFactory.generate_default_status
+  end
+
   # it: Candidate cannot sign up another candidate
   #   Given I am not signed in
   #   When I sign up with a valid account_name and password

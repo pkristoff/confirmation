@@ -11,6 +11,7 @@ describe 'Candidate index page', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
   end
 

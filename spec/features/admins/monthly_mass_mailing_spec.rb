@@ -39,6 +39,7 @@ describe 'Check boxes', :devise do
   end
 
   it 'uncheck candidates checked' do
+    AppFactory.generate_default_status
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
     admin = FactoryBot.create(:admin)
@@ -89,6 +90,7 @@ describe 'Admin monthly mass mailing', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
   end
 

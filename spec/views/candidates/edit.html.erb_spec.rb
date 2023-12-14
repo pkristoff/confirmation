@@ -5,8 +5,8 @@ include DeviseRails5Helpers
 describe 'candidates/edit.html.erb' do
   include ViewsHelpers
   before do
+    AppFactory.generate_default_status
     @resource_class = Candidate
-
     @resource = FactoryBot.create(:candidate)
   end
 

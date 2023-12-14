@@ -3,6 +3,7 @@
 describe 'export_excel_job' do
   include ViewsHelpers
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     @admin = FactoryBot.create(:admin)
     candidate = create_candidate('Paul', 'Richard', 'Kristoff')

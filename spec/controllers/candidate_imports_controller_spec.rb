@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 describe CandidateImportsController do
+  before do
+    AppFactory.generate_default_status
+  end
+
   describe 'new' do
     it 'fail authentication' do
       login_candidate
@@ -97,8 +101,6 @@ describe CandidateImportsController do
 
     it 'import candidates with invalid excel file' do
       login_admin
-      FactoryBot.create(:status)
-      FactoryBot.create(:status, name: 'Deferred')
       uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       post :import_candidates, params: { candidate_import: { file: uploaded_file } }
       expect(controller.candidate_import).not_to be_nil

@@ -3,6 +3,7 @@
 describe 'layouts/_side_bar.html.erb' do
   include DeviseHelpers
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor) unless Visitor.count > 0
     @admin_link_names_in_order = [
       [I18n.t('views.nav.edit_account'), '/admins/edit'],

@@ -7,6 +7,7 @@ describe ApplicationController do
       let(:confirmation_event) { FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
 
       it 'always return event-unitialized' do
+        AppFactory.generate_default_status if Status.count == 0
         candidate = FactoryBot.create(:candidate)
         candidate_event = candidate.add_candidate_event(confirmation_event)
         expect(controller.event_class(candidate_event)).to eq('event-unitialized')
@@ -14,6 +15,7 @@ describe ApplicationController do
     end
 
     context 'when confirmation due_date is set' do
+      AppFactory.generate_default_status if Status.count == 0
       index += 1 while Candidate.find_by(account_name: "bar_#{index}")
 
       candidate = FactoryBot.create(:candidate, account_name: "bar_#{index}")
@@ -110,6 +112,7 @@ describe ApplicationController do
 
   context 'when candidates_info' do
     before do
+      AppFactory.generate_default_status
       @c3 = create_candidate('c3')
       @c2 = create_candidate('c2')
       @c1 = create_candidate('c1')

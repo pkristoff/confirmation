@@ -36,6 +36,7 @@ describe 'Admin sign up', :devise do
   #   When i click sign up
   #   Then I am blocked from creating an admin
   it 'only an admin can sign up another admin' do
+    AppFactory.generate_default_status
     candidate = FactoryBot.create(:candidate)
     login_as(candidate, scope: :candidate)
     referer = '/admins/sign_in'

@@ -2,6 +2,7 @@
 
 describe CandidatesController do
   before do
+    AppFactory.generate_default_status
     @candidate = FactoryBot.create(:candidate)
     login_admin
   end

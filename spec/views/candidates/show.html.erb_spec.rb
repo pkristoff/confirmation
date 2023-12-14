@@ -2,6 +2,7 @@
 
 describe 'candidates/show.html.erb' do
   before do
+    AppFactory.generate_default_status
     assign(:candidate, FactoryBot.create(:candidate))
   end
 

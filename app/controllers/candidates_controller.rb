@@ -250,6 +250,17 @@ class CandidatesController < CommonCandidatesController
     render :pick_confirmation_name_verify unless render_called
   end
 
+  # def download_signed_document
+  #   doc_name = Event::Document::MAPPING[params[:name].to_sym]
+  #   pdf = File.new("public/documents/#{doc_name}")
+  #   pdf_data = File.read(pdf.path)
+  #   begin
+  #     send_data(pdf_data, type: 'application/pdf', filename: doc_name)
+  #   ensure
+  #     pdf.close
+  #   end
+  # end
+
   protected
 
   def resource_class

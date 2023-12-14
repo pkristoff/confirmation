@@ -5,6 +5,7 @@ require 'rails_helper'
 xxx = 0
 describe CandidateEvent do
   before do
+    AppFactory.generate_default_status
     @today = Time.zone.today
   end
 
@@ -116,6 +117,7 @@ describe CandidateEvent do
 
   describe 'state model' do
     context 'when confirmation event not started' do
+      AppFactory.generate_default_status if Status.count == 0
       xxx += 1
       candidate = nil
       candidate = FactoryBot.create(:candidate, account_name: "foo_#{xxx}") unless Candidate.find_by(account_name: "foo_#{xxx}")

@@ -177,6 +177,17 @@ class AppFactory
     candidate_event
   end
 
+  # generate Active and Deferred status
+  #
+  def self.generate_default_status
+    if Status.count == 0
+      Status.create(name: 'Active', description: 'active this year')
+      Status.create(name: 'Deferred', description: 'deferred to next year')
+    else
+      raise(RuntimeError, 'Status already generated')
+    end
+  end
+
   # Create seed Candidate
   #
   # === Returns:
@@ -184,10 +195,7 @@ class AppFactory
   # Candidate: new instance
   #
   def self.create_seed_candidate
-    if Status.count == 0
-      Status.create(name: 'Active', description: 'active this year')
-      Status.create(name: 'Deferred', description: 'deferred to next year')
-    end
+    # self.generate_default_status
     Candidate.find_or_create_by!(account_name: 'vickikristoff') do |candidate|
       candidate.password = Event::Other::INITIAL_PASSWORD
       candidate.password_confirmation = Event::Other::INITIAL_PASSWORD

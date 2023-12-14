@@ -6,6 +6,7 @@
 #   So I can protect my account from unauthorized access
 describe 'Sign out', :devise do
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
   end
 

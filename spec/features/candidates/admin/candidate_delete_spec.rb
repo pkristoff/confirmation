@@ -11,6 +11,7 @@ describe 'Candidate delete', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     admin = FactoryBot.create(:admin)
     login_as(admin, scope: :admin)

@@ -16,6 +16,7 @@ module ControllerMacros
   #
   def login_candidate
     @request.env['devise.mapping'] = Devise.mappings[:candidate]
+    AppFactory.generate_default_status if Status.count == 0
     xxxcandidate = FactoryBot.create(:candidate)
     sign_in xxxcandidate
     xxxcandidate

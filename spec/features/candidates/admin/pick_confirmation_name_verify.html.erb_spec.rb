@@ -8,6 +8,7 @@ describe 'Pick confirmation name verify admin', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     @admin = FactoryBot.create(:admin)
     @candidate = FactoryBot.create(:candidate)
     login_as(@admin, scope: :admin)

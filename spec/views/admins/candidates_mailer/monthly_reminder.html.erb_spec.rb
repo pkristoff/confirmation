@@ -2,6 +2,7 @@
 
 describe 'candidates_mailer/monthly_reminder.html.erb' do
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
     @today = Time.zone.today
     @render_mail_text = true

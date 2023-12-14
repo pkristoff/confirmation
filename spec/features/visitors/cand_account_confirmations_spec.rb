@@ -6,6 +6,7 @@
 #   So I can learn more about the website
 describe 'Home page' do
   before do
+    AppFactory.generate_default_status
     FactoryBot.create(:visitor)
   end
 

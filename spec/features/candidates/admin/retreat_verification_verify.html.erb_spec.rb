@@ -8,6 +8,7 @@ describe 'Retreat Verification admin verify', :devise do
   include Warden::Test::Helpers
 
   before do
+    AppFactory.generate_default_status
     @is_dev = false
     @is_verify = true
     @path_str = 'event_with_picture_verify'
