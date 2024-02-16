@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :status do
-    name { 'Active' }
+    name { Status::ACTIVE }
     description { 'factory bot creation' }
   end
 end

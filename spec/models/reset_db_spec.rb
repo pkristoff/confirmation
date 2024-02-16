@@ -11,7 +11,7 @@ describe ResetDB do
       FactoryBot.create(:admin, email: 'paul@kristoffs.com', name: 'Paul')
       AppFactory.add_confirmation_events
 
-      expect(Admin.all.size).to eq(1)
+      expect(Admin.count).to eq(1)
 
       expect(Visitor.visitor.home_parish_address_id).not_to be_nil,
                                                             'Visitor address is missing.'
@@ -74,7 +74,7 @@ describe ResetDB do
       expect(Visitor.visitor.home_parish_address_id).not_to be_nil,
                                                             'Visitor address is missing.'
 
-      expect(Admin.all.size).to eq(1)
+      expect(Admin.count).to eq(1)
 
       cand_assoc = { Address: 3,
                      BaptismalCertificate: 1,
@@ -141,9 +141,9 @@ describe ResetDB do
       AppFactory.add_candidate_events(c2)
       c2.save
 
-      expect(Admin.all.size).to eq(1)
-      expect(ConfirmationEvent.all.size).to eq(9)
-      expect(Candidate.all.size).to eq(3)
+      expect(Admin.count).to eq(1)
+      expect(ConfirmationEvent.count).to eq(9)
+      expect(Candidate.count).to eq(3)
 
       cand_assoc = { Address: 10,
                      BaptismalCertificate: 4,
@@ -162,11 +162,9 @@ describe ResetDB do
       expect_table_rows(Candidate, cand_assoc)
 
       reset_db.start_new_year
-
       expect(Admin.all.size).to eq(1)
       expect(ConfirmationEvent.all.size).to eq(9)
-      expect(Candidate.all.size).to eq(1) # vickikristoff the seed
-
+      expect(Candidate.count).to eq(1) # vickikristoff the seed
       cand_assoc = { Address: 3, # 2 for seed + 1 for visitor
                      BaptismalCertificate: 1,
                      Candidate: 1,
@@ -184,15 +182,74 @@ describe ResetDB do
       expect_table_rows(Candidate, cand_assoc)
     end
 
-    it 'start a new year will keep candidates without status of Active and clean out all other candidates.' do
-      # AppFactory.generate_default_status
-      FactoryBot.create(:candidate)
-      puts 'aaa'
-      expect(Candidate.count).to eq(1)
-      puts 'bbb'
+    it 'start a new year will keep candidates in program_year == 1 and move candidate program_year to 2.' do
+      active_cand_year1 = FactoryBot.create(:candidate, account_name: 'active_cand_year1')
+      active_cand_year1.candidate_sheet.program_year = 1
+      active_cand_year1.save
+      active_cand_year2 = FactoryBot.create(:candidate, account_name: 'active_cand_year2')
+      active_cand_year2.candidate_sheet.program_year = 2
+      cand_event_size = active_cand_year1.candidate_events.size
+      expect(cand_event_size).to eq(ConfirmationEvent.count)
+      active_cand_year2.save
+      expect(Candidate.count).to eq(2)
+
+      error_msg = "before candidate_events(#{cand_event_size}) does not match ConfirmationEvent(#{ConfirmationEvent.count})"
+      expect(cand_event_size).to eq(ConfirmationEvent.count), error_msg
+
       ResetDB.start_new_year
-      puts 'ccc'
-      expect(Candidate.count).to eq(1)
+
+      vicki_candidate = Candidate.find_by(account_name: 'vickikristoff')
+      expect(vicki_candidate).not_to be_nil
+      expect(vicki_candidate.candidate_events.size).to eq(ConfirmationEvent.count)
+
+      # active_cand_year2 is removed
+      active_cand_year2 = Candidate.find_by(id: active_cand_year2.id)
+      expect(active_cand_year2).to be_nil
+
+      # active_cand_year1 kept & moved to program year 2.
+      active_cand_year1 = Candidate.find_by(id: active_cand_year1.id)
+      expect(active_cand_year1.candidate_events).not_to be_nil
+      cnt = ConfirmationEvent.count
+      error_msg =
+        "candidate_events(#{active_cand_year1.candidate_events.size}) does not match ConfirmationEvent(#{cnt})"
+      expect(active_cand_year1.candidate_events.size).to eq(ConfirmationEvent.count), error_msg
+      expect(active_cand_year1).not_to be_nil
+      expect(active_cand_year1.candidate_sheet.program_year).to eq(2)
+      expect(Candidate.count).to eq(2)
+      expect(Address.count).to eq(3)
+      expect(CandidateEvent.count).to eq(4)
+      expect(ToDo.count).to eq(4)
+      expect(CandidateSheet.count).to eq(2)
+      expect(BaptismalCertificate.count).to eq(2)
+      expect(ScannedImage.count).to eq(0)
+    end
+
+    it 'start a new year will keep candidates with status of Deferred.' do
+      deferred_cand_year2 = FactoryBot.create(:candidate, account_name: 'deferred_cand_year2')
+      deferred_cand_year2.candidate_sheet.program_year = 2
+      deferred_cand_year2.status_id = Status.deferred.id
+      deferred_cand_year2.save
+
+      active_cand_year2 = FactoryBot.create(:candidate, account_name: 'active_cand_year2')
+      active_cand_year2.candidate_sheet.program_year = 2
+      active_cand_year2.status_id = Status.active.id
+      active_cand_year2.save
+      expect(Candidate.count).to eq(2)
+
+      ResetDB.start_new_year
+
+      vicki_candidate = Candidate.find_by(account_name: 'vickikristoff')
+      expect(vicki_candidate).not_to be_nil
+
+      # active_cand_year2 is removed
+      active_cand_year2 = Candidate.find_by(account_name: 'active_cand_year2')
+      expect(active_cand_year2).to be_nil
+
+      # deferred_cand_year2 kept & moved to program year 2.
+      deferred_cand_year2 = Candidate.find_by(account_name: 'deferred_cand_year2')
+      expect(deferred_cand_year2).not_to be_nil
+      expect(deferred_cand_year2.candidate_sheet.program_year).to eq(2)
+      expect(Candidate.count).to eq(2)
     end
   end
 
@@ -238,11 +295,11 @@ def expect_table_rows(clazz, expected_sizes, checked = [], do_not_include = [Adm
   class_sym = clazz.to_s.to_sym
   unless checked.include?(class_sym) || do_not_include.include?(clazz)
     checked << class_sym
-    expected = "Association(#{clazz}) size #{clazz.all.size} does mot match expected size #{expected_sizes[class_sym]}"
-    expect(clazz.all.size).to eq(expected_sizes[class_sym]), expected
+    expected = "Association(#{clazz}) size #{clazz.count} does mot match expected size #{expected_sizes[class_sym]}"
+    expect(expected_sizes[class_sym]).to eq(clazz.count), expected
     clazz.reflect_on_all_associations.each do |assoc_reflect|
       assoc_class = assoc_reflect.klass
-      expect_table_rows(assoc_class, expected_sizes, checked)
+      expect_table_rows(assoc_class, expected_sizes, checked, do_not_include)
     end
   end
   return unless top

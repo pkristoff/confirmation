@@ -18,6 +18,8 @@ class ResetDB
   #
   def start_new_year
     clean_associations(Candidate)
+    Orphaneds.remove_orphaned_table_rows
+
     AppFactory.create_seed_candidate
     today = Time.zone.today
     ConfirmationEvent.find_each do |ce|
@@ -27,13 +29,6 @@ class ResetDB
     end
 
     Rails.logger.info 'done start new year'
-  end
-
-  # Create Standard Status
-  #
-  def create_seed_statuses
-    Status.create(name: 'Active', description: 'some description') unless Status.exists?({ name: 'Active' })
-    Status.create(name: 'Deferred', description: 'some description') unless Status.exists?({ name: 'Deferred' })
   end
 
   # Reset the database.  End up with only an admin + confirmation events and the candidate vickikristoff
@@ -83,6 +78,12 @@ class ResetDB
 
   private
 
+  def clean_addresses(_cands_)
+    home_parish_address_id = Visitor.visitor.home_parish_address_id
+    address_ids_keep = home_parish_address_id.to_s
+    Address.where('id != ? ', address_ids_keep).destroy_all
+  end
+
   # Used to start a new year - cleans out tables for new year.
   #
   # === Parameters:
@@ -96,9 +97,20 @@ class ResetDB
 
     checked << clazz
     begin
-      if clazz == Address
-        home_parish_address_id = Visitor.visitor.home_parish_address_id
-        clazz.where('id != ? ', home_parish_address_id).destroy_all
+      if clazz == Candidate
+        candidates_to_keep = []
+        Candidate.all.find_each do |candidate|
+          if !Status.active? candidate.status_id
+            candidates_to_keep.push(candidate)
+          elsif candidate.candidate_sheet.program_year == 1
+            candidates_to_keep.push(candidate)
+            candidate.candidate_sheet.program_year = 2
+            candidate.save
+          else
+            candidate.destroy
+          end
+          clean_addresses(candidates_to_keep)
+        end
       else
         clazz.destroy_all
       end
@@ -106,9 +118,6 @@ class ResetDB
       Rails.logger.info "cleaning association error when destroying #{clazz}"
       Rails.logger.info e.message
       Rails.logger.info e.backtrace.inspect
-    end
-    clazz.reflect_on_all_associations.each do |assoc|
-      clean_associations(assoc.klass, checked)
     end
   end
 end

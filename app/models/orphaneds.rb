@@ -62,6 +62,7 @@ class Orphaneds
       add_orphan_entry(:Address, orphaned_addresses)
       add_orphan_entry(:ScannedImage, orphaned_scanned_image)
       add_orphan_entry(:ToDo, orphaned_to_do)
+      add_orphan_entry(:CandidateEvent, orphaned_candidate_event(cand_assoc_ids))
     rescue StandardError => e
       Rails.logger.info 'error while looking for orphans'
       Rails.logger.info e.message
@@ -111,6 +112,8 @@ class Orphaneds
       ScannedImage.destroy(orphaned_rows) unless orphaned_rows.empty?
       orphaned_rows = orphaned_to_do
       ToDo.destroy(orphaned_rows) unless orphaned_rows.empty?
+      orphaned_rows = orphaned_candidate_event(cand_ids)
+      CandidateEvent.destroy(orphaned_rows) unless orphaned_rows.empty?
     rescue StandardError => e
       Rails.logger.info e.message
       Rails.logger.info "SQL error in #{__method__}"
@@ -257,14 +260,21 @@ class Orphaneds
     end
   end
 
-  # Finds all the ScannedImage's that have been orphaned.
-  #
+  # Finds all the ToDo's that have been orphaned.
+  # clazz_ids
   def orphaned_to_do
     orphaned = ids(ToDo).select do |_todo_id, confirmation_event_id, candidate_event_id|
       class_ids(ConfirmationEvent).select { |ce_id| confirmation_event_id == ce_id }.empty? &&
         class_ids(CandidateEvent).select { |ce_id| candidate_event_id == ce_id }.empty?
     end
     orphaned.map { |id, _ce_id, _cand_id| id }
+  end
+
+  def orphaned_candidate_event(cand_ids)
+    orphaned = CandidateEvent.select do |ce|
+      cand_ids.select { |cand_id| cand_id[0] == ce.candidate_id }.empty?
+    end
+    orphaned.map(&:id)
   end
 
   # get & cache ids of clazz
@@ -280,49 +290,47 @@ class Orphaneds
   def ids(clazz)
     class_sym = clazz.name.to_sym
     @cache = {} if @cache.nil?
-    ids = @cache[class_sym]
-    return ids unless ids.nil?
+    clazz_ids = @cache[class_sym]
+    return clazz_ids unless clazz_ids.nil?
 
-    ids = case class_sym
-          when :Candidate
-            Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id,
-                            :pick_confirmation_name_id, :retreat_verification_id,
-                            :sponsor_covenant_id, :sponsor_eligibility_id)
-          when :BaptismalCertificate
-            BaptismalCertificate.pluck(:id, :church_address_id, :prof_church_address_id,
-                                       :scanned_certificate_id, :scanned_prof_id)
-          when :CandidateSheet
-            CandidateSheet.pluck(:id).map { |id| [id] }
-          when :ChristianMinistry
-            ChristianMinistry.pluck(:id).map { |id| [id] }
-          when :PickConfirmationName
-            PickConfirmationName.pluck(:id).map { |id| [id] }
-          when :RetreatVerification
-            RetreatVerification.pluck(:id, :scanned_retreat_id)
-          when :SponsorCovenant
-            SponsorCovenant.pluck(:id, :scanned_covenant_id)
-          when :SponsorEligibility
-            SponsorEligibility.pluck(:id, :scanned_eligibility_id)
-          when :Visitor
-            Visitor.pluck(:id, :home_parish_address_id)
-          when :ToDo
-            ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id)
-          when :Address
-            Address.pluck(:id).map { |id| [id] }
-          when :ScannedImage
-            ScannedImage.pluck(:id).map { |id| [id] }
-          when :ConfirmationEvent
-            # [ConfirmationEvent.pluck(:id)]
-            ConfirmationEvent.pluck(:id).map { |id| [id] }
-          when :CandidateEvent
-            # [CandidateEvent.pluck(:id)]
-            CandidateEvent.pluck(:id).map { |id| [id] }
-          else
-            clazz.pluck(:id)
-          end
-    @cache[class_sym] = ids
-    Rails.logger.info "class_sym=#{class_sym}:  ids=#{ids}"
-    ids
+    clazz_ids = case class_sym
+                when :Candidate
+                  Candidate.pluck(:id, :baptismal_certificate_id, :candidate_sheet_id, :christian_ministry_id,
+                                  :pick_confirmation_name_id, :retreat_verification_id,
+                                  :sponsor_covenant_id, :sponsor_eligibility_id)
+                when :BaptismalCertificate
+                  BaptismalCertificate.pluck(:id, :church_address_id, :prof_church_address_id,
+                                             :scanned_certificate_id, :scanned_prof_id)
+                when :CandidateSheet
+                  CandidateSheet.pluck(:id).map { |id| [id] }
+                when :ChristianMinistry
+                  ChristianMinistry.pluck(:id).map { |id| [id] }
+                when :PickConfirmationName
+                  PickConfirmationName.pluck(:id).map { |id| [id] }
+                when :RetreatVerification
+                  RetreatVerification.pluck(:id, :scanned_retreat_id)
+                when :SponsorCovenant
+                  SponsorCovenant.pluck(:id, :scanned_covenant_id)
+                when :SponsorEligibility
+                  SponsorEligibility.pluck(:id, :scanned_eligibility_id)
+                when :Visitor
+                  Visitor.pluck(:id, :home_parish_address_id)
+                when :ToDo
+                  ToDo.pluck(:id, :confirmation_event_id, :candidate_event_id)
+                when :Address
+                  Address.pluck(:id).map { |id| [id] }
+                when :ScannedImage
+                  ScannedImage.pluck(:id).map { |id| [id] }
+                when :ConfirmationEvent
+                  ConfirmationEvent.pluck(:id).map { |id| [id] }
+                when :CandidateEvent
+                  CandidateEvent.pluck(:id).map { |id| [id] }
+                else
+                  clazz.pluck(:id)
+                end
+    @cache[class_sym] = clazz_ids
+    Rails.logger.info "class_sym=#{class_sym}:  clazz_ids=#{clazz_ids}"
+    clazz_ids
   end
 
   def class_ids(clazz)

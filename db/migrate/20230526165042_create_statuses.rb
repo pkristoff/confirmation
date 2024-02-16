@@ -14,11 +14,11 @@ class CreateStatuses < ActiveRecord::Migration[6.1]
       t.timestamps
     end
     # create default Statuses
-    return unless Status.find_by(name: 'Active').nil?
+    return unless Status.find_by(name: Status::ACTIVE).nil?
 
-    active = Status.create(name: 'Active', description: 'Currently participating')
+    active = Status.create(name: Status::ACTIVE, description: 'Currently participating')
     active.save!
-    deferred = Status.create(name: 'Deferred', description: 'Deferring participation from this year')
+    deferred = Status.create(name: Status::DEFERRED, description: 'Deferring participation from this year')
     deferred.save!
 
   end

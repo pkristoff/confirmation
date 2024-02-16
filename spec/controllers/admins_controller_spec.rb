@@ -323,29 +323,29 @@ describe AdminsController do
     end
 
     it 'confirm all accounts' do
-      ids = [@c1.id, @c2.id, @c3.id]
+      clazz_ids = [@c1.id, @c2.id, @c3.id]
       request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
 
       put :mass_edit_candidates_update,
           params: { button: AdminsController::CONFIRM_ACCOUNT,
-                    candidate: { candidate_ids: ids } }
+                    candidate: { candidate_ids: clazz_ids } }
 
-      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size, number_not_confirmed: 0))
-      ids.each do |id|
+      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: clazz_ids.size, number_not_confirmed: 0))
+      clazz_ids.each do |id|
         expect(Candidate.find(id).account_confirmed?).to be(true)
       end
     end
 
     it 'confirm all accounts sent' do
-      ids = [@c1.id, @c3.id]
+      clazz_ids = [@c1.id, @c3.id]
       request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
 
       put :mass_edit_candidates_update,
           params: { button: AdminsController::CONFIRM_ACCOUNT,
-                    candidate: { candidate_ids: ids } }
+                    candidate: { candidate_ids: clazz_ids } }
 
-      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size, number_not_confirmed: 0))
-      ids.each do |id|
+      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: clazz_ids.size, number_not_confirmed: 0))
+      clazz_ids.each do |id|
         expect(Candidate.find(id).account_confirmed?).to be(true)
       end
       expect(Candidate.find(@c2.id).account_confirmed?).to be(false)
@@ -356,15 +356,15 @@ describe AdminsController do
       c2.confirm_account
       c2.save
 
-      ids = [@c1.id, @c2.id, @c3.id]
+      clazz_ids = [@c1.id, @c2.id, @c3.id]
       request.env['HTTP_REFERER'] = mass_edit_candidates_update_path
 
       put :mass_edit_candidates_update,
           params: { button: AdminsController::CONFIRM_ACCOUNT,
-                    candidate: { candidate_ids: ids } }
+                    candidate: { candidate_ids: clazz_ids } }
 
-      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: ids.size - 1, number_not_confirmed: 1))
-      ids.each do |id|
+      expect_message(:notice, I18n.t('messages.account_confirmed', number_confirmed: clazz_ids.size - 1, number_not_confirmed: 1))
+      clazz_ids.each do |id|
         expect(Candidate.find(id).account_confirmed?).to be(true)
       end
     end

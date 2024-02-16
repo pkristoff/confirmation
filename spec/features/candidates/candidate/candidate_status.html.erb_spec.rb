@@ -33,7 +33,7 @@ describe 'Candidate status', :devise do
 
     visit @path
 
-    expect_candidate_status_form(@cand_id, @path_str, @update_id, { expected_selection: 'Active' })
+    expect_candidate_status_form(@cand_id, @path_str, @update_id, { expected_selection: Status::ACTIVE })
   end
 
   it 'admin logs in, selects candidate status, changes it and saves to Deferred' do

@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 
-xxx = 0
 describe CandidateEvent do
   before do
     AppFactory.generate_default_status
@@ -11,52 +10,52 @@ describe CandidateEvent do
 
   describe 'relationship with ConfirmationEvent' do
     it 'basic creation' do
-      confirmation_event = FactoryBot.create(:confirmation_event)
-      candidate_event = FactoryBot.create(:candidate_event,
-                                          completed_date: '2016-05-23',
-                                          verified: true,
-                                          confirmation_event: confirmation_event)
+      @confirmation_event = FactoryBot.create(:confirmation_event)
+      @candidate_event = FactoryBot.create(:candidate_event,
+                                           completed_date: '2016-05-23',
+                                           verified: true,
+                                           confirmation_event: @confirmation_event)
 
-      expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
-      expect(candidate_event.verified).to be(true)
+      expect(@candidate_event.completed_date.to_s).to eq('2016-05-23')
+      expect(@candidate_event.verified).to be(true)
 
-      expect(candidate_event.event_key).to eq('Going out to eat')
-      expect(candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
-      expect(candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
-      expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+      expect(@candidate_event.event_key).to eq('Going out to eat')
+      expect(@candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
+      expect(@candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
+      expect(@candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
-      expect_confirmation_event(confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+      expect_confirmation_event(@confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
     end
 
     it 'two candidate_events same confirmation_event' do
-      confirmation_event = FactoryBot.create(:confirmation_event)
-      candidate_event = FactoryBot.create(:candidate_event,
-                                          completed_date: '2016-05-23',
-                                          verified: true,
-                                          confirmation_event: confirmation_event)
-      candidate_event2 = FactoryBot.create(:candidate_event,
-                                           completed_date: '2016-05-22',
-                                           verified: false,
-                                           confirmation_event: confirmation_event)
+      @confirmation_event = FactoryBot.create(:confirmation_event)
+      @candidate_event = FactoryBot.create(:candidate_event,
+                                           completed_date: '2016-05-23',
+                                           verified: true,
+                                           confirmation_event: @confirmation_event)
+      @candidate_event2 = FactoryBot.create(:candidate_event,
+                                            completed_date: '2016-05-22',
+                                            verified: false,
+                                            confirmation_event: @confirmation_event)
 
-      expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
-      expect(candidate_event.verified).to be(true)
+      expect(@candidate_event.completed_date.to_s).to eq('2016-05-23')
+      expect(@candidate_event.verified).to be(true)
 
-      expect(candidate_event.event_key).to eq('Going out to eat')
-      expect(candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
-      expect(candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
-      expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+      expect(@candidate_event.event_key).to eq('Going out to eat')
+      expect(@candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
+      expect(@candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
+      expect(@candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
-      expect(candidate_event2.completed_date.to_s).to eq('2016-05-22')
-      expect(candidate_event2.verified).to be(false)
+      expect(@candidate_event2.completed_date.to_s).to eq('2016-05-22')
+      expect(@candidate_event2.verified).to be(false)
 
-      expect(candidate_event2.event_key).to eq('Going out to eat')
-      expect(candidate_event2.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
-      expect(candidate_event2.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
-      expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+      expect(@candidate_event2.event_key).to eq('Going out to eat')
+      expect(@candidate_event2.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
+      expect(@candidate_event2.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
+      expect(@candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
-      expect_confirmation_event(confirmation_event, 2, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
-      expect(candidate_event.confirmation_event).to eq(candidate_event2.confirmation_event)
+      expect_confirmation_event(@confirmation_event, 2, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+      expect(@candidate_event.confirmation_event).to eq(@candidate_event2.confirmation_event)
     end
 
     it 'two candidate_events with different confirmation_events' do
@@ -65,29 +64,29 @@ describe CandidateEvent do
                                               event_key: 'Staying home',
                                               the_way_due_date: '2016-04-01',
                                               chs_due_date: '2016-04-02')
-      candidate_event = FactoryBot.create(:candidate_event,
-                                          completed_date: '2016-05-23',
-                                          verified: true,
-                                          confirmation_event: confirmation_event)
-      candidate_event2 = FactoryBot.create(:candidate_event,
-                                           completed_date: '2016-05-22',
-                                           verified: false,
-                                           confirmation_event: confirmation_event2)
+      @candidate_event = FactoryBot.create(:candidate_event,
+                                           completed_date: '2016-05-23',
+                                           verified: true,
+                                           confirmation_event: confirmation_event)
+      @candidate_event2 = FactoryBot.create(:candidate_event,
+                                            completed_date: '2016-05-22',
+                                            verified: false,
+                                            confirmation_event: confirmation_event2)
 
-      expect(candidate_event.completed_date.to_s).to eq('2016-05-23')
-      expect(candidate_event.verified).to be(true)
+      expect(@candidate_event.completed_date.to_s).to eq('2016-05-23')
+      expect(@candidate_event.verified).to be(true)
 
-      expect(candidate_event.event_key).to eq('Going out to eat')
-      expect(candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
-      expect(candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
-      expect(candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
+      expect(@candidate_event.event_key).to eq('Going out to eat')
+      expect(@candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
+      expect(@candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
+      expect(@candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
-      expect(candidate_event2.completed_date.to_s).to eq('2016-05-22')
-      expect(candidate_event2.verified).to be(false)
+      expect(@candidate_event2.completed_date.to_s).to eq('2016-05-22')
+      expect(@candidate_event2.verified).to be(false)
 
-      expect(candidate_event2.confirmation_event.the_way_due_date.to_s).to eq('2016-04-01')
-      expect(candidate_event2.confirmation_event.chs_due_date.to_s).to eq('2016-04-02')
-      expect(candidate_event2.event_key).to eq('Staying home')
+      expect(@candidate_event2.confirmation_event.the_way_due_date.to_s).to eq('2016-04-01')
+      expect(@candidate_event2.confirmation_event.chs_due_date.to_s).to eq('2016-04-02')
+      expect(@candidate_event2.event_key).to eq('Staying home')
 
       expect_confirmation_event(confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
       expect_confirmation_event(confirmation_event2,
@@ -96,7 +95,7 @@ describe CandidateEvent do
                                 '2016-04-01',
                                 '2016-04-02',
                                 'Staying home')
-      expect(candidate_event.confirmation_event).not_to eq(candidate_event2.confirmation_event)
+      expect(@candidate_event.confirmation_event).not_to eq(@candidate_event2.confirmation_event)
     end
 
     private
@@ -117,122 +116,130 @@ describe CandidateEvent do
 
   describe 'state model' do
     context 'when confirmation event not started' do
-      AppFactory.generate_default_status if Status.count == 0
-      xxx += 1
-      candidate = nil
-      candidate = FactoryBot.create(:candidate, account_name: "foo_#{xxx}") unless Candidate.find_by(account_name: "foo_#{xxx}")
-      candidate ||= Candidate.find_by(account_name: "foo_#{xxx}")
-      confirmation_event_not_started = FactoryBot.create(:confirmation_event, the_way_due_date: '', chs_due_date: '')
-      candidate_event = candidate.add_candidate_event(confirmation_event_not_started)
-      candidate_event.completed_date = ''
-      candidate_event.verified = false
+      before do
+        AppFactory.generate_default_status if Status.count == 0
+        candidate = nil
+        candidate = FactoryBot.create(:candidate, account_name: 'foo_0') unless Candidate.find_by(account_name: 'foo_0')
+        candidate ||= Candidate.find_by(account_name: 'foo_0')
+        confirmation_event_not_started = FactoryBot.create(:confirmation_event, the_way_due_date: '', chs_due_date: '')
+        @candidate_event = candidate.add_candidate_event(confirmation_event_not_started)
+        @candidate_event.completed_date = ''
+        @candidate_event.verified = false
+      end
 
       it 'not be started' do
-        expect(candidate_event.started?).to be(false)
+        expect(@candidate_event.started?).to be(false)
       end
 
       it 'not be awaiting_candidate?' do
-        expect(candidate_event.awaiting_candidate?).to be(false)
+        expect(@candidate_event.awaiting_candidate?).to be(false)
       end
 
       it 'not be late?' do
-        expect(candidate_event.late?).to be(false)
+        expect(@candidate_event.late?).to be(false)
       end
     end
 
     context 'when confirmation event started' do
-      xxx += 1
-      candidate = FactoryBot.create(:candidate, account_name: "baz_#{xxx}") unless Candidate.find_by(account_name: "baz_#{xxx}")
-      candidate ||= Candidate.find_by(account_name: "baz_#{xxx}")
-      confirmation_event_started = FactoryBot.create(:confirmation_event,
-                                                     the_way_due_date: '2016-04-01',
-                                                     chs_due_date: '2016-04-02')
+      before do
+        AppFactory.generate_default_status if Status.count == 0
+        @candidate = FactoryBot.create(:candidate, account_name: 'baz_0') unless Candidate.find_by(account_name: 'baz_0')
+        @candidate ||= Candidate.find_by(account_name: 'baz_0')
+        @confirmation_event_started = FactoryBot.create(:confirmation_event,
+                                                        the_way_due_date: '2016-04-01',
+                                                        chs_due_date: '2016-04-02')
+      end
 
       context 'when candidate has done nothing' do
-        candidate.candidate_events.clear
-        candidate_event = candidate.add_candidate_event(confirmation_event_started)
-        candidate_event.completed_date = ''
-        candidate_event.verified = false
+        before do
+          @candidate.candidate_events.clear
+          @candidate_event = @candidate.add_candidate_event(@confirmation_event_started)
+          @candidate_event.completed_date = ''
+          @candidate_event.verified = false
+        end
 
         it 'be started' do
-          expect(candidate_event.started?).to be(true)
+          expect(@candidate_event.started?).to be(true)
         end
 
         it 'be awaiting_candidate?' do
-          expect(candidate_event.awaiting_candidate?).to be(true)
+          expect(@candidate_event.awaiting_candidate?).to be(true)
         end
 
         it 'not be completed' do
-          expect(candidate_event.completed?).to be(false)
+          expect(@candidate_event.completed?).to be(false)
         end
 
         it 'be late?' do
-          expect(candidate_event.late?).to be(true)
+          expect(@candidate_event.late?).to be(true)
         end
 
         it 'not be late? - due today' do
-          confirmation_event_started.chs_due_date = @today
-          confirmation_event_started.the_way_due_date = @today
-          expect(candidate_event.late?).to be(false)
+          @confirmation_event_started.chs_due_date = @today
+          @confirmation_event_started.the_way_due_date = @today
+          expect(@candidate_event.late?).to be(false)
         end
 
         it 'not be late? - due in the future' do
-          confirmation_event_started.chs_due_date = @today + 1
-          confirmation_event_started.the_way_due_date = @today + 1
-          expect(candidate_event.late?).to be(false)
+          @confirmation_event_started.chs_due_date = @today + 1
+          @confirmation_event_started.the_way_due_date = @today + 1
+          expect(@candidate_event.late?).to be(false)
         end
       end
 
       context 'when candidate has done the event awaiting admin approval' do
-        xxx += 1
-        candidate = nil
-        candidate = FactoryBot.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by(account_name: "bag_#{xxx}")
-        candidate ||= Candidate.find_by(account_name: "bag_#{xxx}")
-        candidate.candidate_events.clear
-        candidate_event = candidate.add_candidate_event(confirmation_event_started)
-        candidate_event.completed_date = '2016-03-29'
-        candidate_event.verified = false
+        before do
+          @candidate = nil
+          @candidate = FactoryBot.create(:candidate, account_name: 'bag_0') unless Candidate.find_by(account_name: 'bag_0')
+          @candidate ||= Candidate.find_by(account_name: 'bag_0')
+          @candidate.candidate_events.clear
+          @candidate_event = @candidate.add_candidate_event(@confirmation_event_started)
+          @candidate_event.completed_date = '2016-03-29'
+          @candidate_event.verified = false
+        end
 
         it 'be started' do
-          expect(candidate_event.started?).to be(true)
+          expect(@candidate_event.started?).to be(true)
         end
 
         it 'not be awaiting candidate' do
-          expect(candidate_event.awaiting_candidate?).to be(false)
+          expect(@candidate_event.awaiting_candidate?).to be(false)
         end
 
         it 'not be completed' do
-          expect(candidate_event.completed?).to be(false)
+          expect(@candidate_event.completed?).to be(false)
         end
 
         it 'not be late?' do
-          expect(candidate_event.late?).to be(false)
+          expect(@candidate_event.late?).to be(false)
         end
       end
 
       context 'when candidate has done the event and admin has approved' do
-        xxx += 1
-        candidate = nil
-        candidate = FactoryBot.create(:candidate, account_name: "bag_#{xxx}") unless Candidate.find_by(account_name: "bag_#{xxx}")
-        candidate ||= Candidate.find_by(account_name: "bag_#{xxx}")
-        candidate.candidate_events.clear
-        candidate_event = candidate.add_candidate_event(confirmation_event_started)
-        candidate_event.completed_date = '2016-03-29'
-        candidate_event.verified = true
+        before do
+          @candidate = nil
+          @candidate = FactoryBot.create(:candidate, account_name: 'bag_0') unless Candidate.find_by(account_name: 'bag_0')
+          @candidate ||= Candidate.find_by(account_name: 'bag_0')
+          @candidate.candidate_events.clear
+          @candidate_event = @candidate.add_candidate_event(@confirmation_event_started)
+          @candidate_event.completed_date = '2016-03-29'
+          @candidate_event.verified = true
+        end
+
         it 'be started' do
-          expect(candidate_event.started?).to be(true)
+          expect(@candidate_event.started?).to be(true)
         end
 
         it 'not be awaiting candidate' do
-          expect(candidate_event.awaiting_candidate?).to be(false)
+          expect(@candidate_event.awaiting_candidate?).to be(false)
         end
 
         it 'not be completed' do
-          expect(candidate_event.completed?).to be(true)
+          expect(@candidate_event.completed?).to be(true)
         end
 
         it 'not be late?' do
-          expect(candidate_event.late?).to be(false)
+          expect(@candidate_event.late?).to be(false)
         end
       end
     end
@@ -240,10 +247,10 @@ describe CandidateEvent do
 
   describe 'status' do
     before do
-      candidate = FactoryBot.create(:candidate)
+      @candidate = FactoryBot.create(:candidate)
       event_key = Candidate.covenant_agreement_event_key
       AppFactory.add_confirmation_event(event_key)
-      @candidate = Candidate.find_by(account_name: candidate.account_name)
+      @candidate = Candidate.find_by(account_name: @candidate.account_name)
       @candidate_event = @candidate.get_candidate_event(event_key)
     end
 
@@ -296,63 +303,63 @@ describe CandidateEvent do
 
   describe 'mark_completed' do
     it 'validated event will be completed and verified.' do
-      candidate = FactoryBot.create(:candidate)
+      @candidate = FactoryBot.create(:candidate)
       event_key = BaptismalCertificate.event_key
       AppFactory.add_confirmation_event(event_key)
-      candidate = Candidate.find_by(account_name: candidate.account_name)
-      candidate_event = candidate.get_candidate_event(event_key)
+      @candidate = Candidate.find_by(account_name: @candidate.account_name)
+      @candidate_event = @candidate.get_candidate_event(event_key)
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
        [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, true],
        [SponsorEligibility, false]].each do |association_class_pair|
-        candidate_event.completed_date = nil
-        candidate_event.verified = false
+        @candidate_event.completed_date = nil
+        @candidate_event.verified = false
 
-        candidate_event.mark_completed(true, association_class_pair[0])
+        @candidate_event.mark_completed(true, association_class_pair[0])
 
-        expect(candidate_event.completed_date).to eq(@today)
+        expect(@candidate_event.completed_date).to eq(@today)
         # rubocop:disable Layout/LineLength
-        expect(candidate_event.verified).to eq(association_class_pair[1]), "Verification does not match for association #{association_class_pair[0]} expected: #{association_class_pair[1]}"
+        expect(@candidate_event.verified).to eq(association_class_pair[1]), "Verification does not match for association #{association_class_pair[0]} expected: #{association_class_pair[1]}"
         # rubocop:enable Layout/LineLength
       end
     end
 
     it 'validated event will be uncompleted and unverified.' do
-      candidate = FactoryBot.create(:candidate)
+      @candidate = FactoryBot.create(:candidate)
       event_key = BaptismalCertificate.event_key
       AppFactory.add_confirmation_event(event_key)
-      candidate = Candidate.find_by(account_name: candidate.account_name)
-      candidate_event = candidate.get_candidate_event(event_key)
+      @candidate = Candidate.find_by(account_name: @candidate.account_name)
+      @candidate_event = @candidate.get_candidate_event(event_key)
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
        [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]].each do |association_class_pair|
-        candidate_event.completed_date = @today
-        candidate_event.verified = true
+        @candidate_event.completed_date = @today
+        @candidate_event.verified = true
 
-        candidate_event.mark_completed(false, association_class_pair[0])
+        @candidate_event.mark_completed(false, association_class_pair[0])
 
-        expect(candidate_event.completed_date).to be_nil
+        expect(@candidate_event.completed_date).to be_nil
         expected_msg = "Verification does not match for association #{association_class_pair[0]} expected: false"
-        expect(candidate_event.verified).to be(false), expected_msg
+        expect(@candidate_event.verified).to be(false), expected_msg
       end
     end
 
     it 'validated event will be uncompleted and unverified. 2' do
-      candidate = FactoryBot.create(:candidate)
+      @candidate = FactoryBot.create(:candidate)
       event_key = BaptismalCertificate.event_key
       AppFactory.add_confirmation_event(event_key)
-      candidate = Candidate.find_by(account_name: candidate.account_name)
-      candidate_event = candidate.get_candidate_event(event_key)
+      @candidate = Candidate.find_by(account_name: @candidate.account_name)
+      @candidate_event = @candidate.get_candidate_event(event_key)
 
       [[BaptismalCertificate, false], [CandidateSheet, true], [ChristianMinistry, true],
        [PickConfirmationName, false], [RetreatVerification, false], [SponsorCovenant, false]].each do |association_class_pair|
-        candidate_event.completed_date = nil
-        candidate_event.verified = false
-        candidate_event.mark_completed(false, association_class_pair[0])
+        @candidate_event.completed_date = nil
+        @candidate_event.verified = false
+        @candidate_event.mark_completed(false, association_class_pair[0])
 
-        expect(candidate_event.completed_date).to be_nil
+        expect(@candidate_event.completed_date).to be_nil
         expected_msg = "Verification does not match for association #{association_class_pair[0]} expected: false"
-        expect(candidate_event.verified).to be(false), expected_msg
+        expect(@candidate_event.verified).to be(false), expected_msg
       end
     end
   end

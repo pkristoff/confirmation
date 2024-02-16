@@ -24,7 +24,7 @@ describe 'ResetDB', :devise do
     it 'admin will start a new year, which will cleanup the DB' do
       FactoryBot.create(:candidate)
       FactoryBot.create(:candidate, account_name: 'a1')
-      expect(Candidate.all.size).to eq(2) # prove there are only 2
+      expect(Candidate.count).to eq(2) # prove there are only 2
       admin = FactoryBot.create(:admin)
       login_as(admin, scope: :admin)
 
@@ -34,8 +34,8 @@ describe 'ResetDB', :devise do
       expect_message(:flash_notice, I18n.t('messages.candidates_removed'))
       expected_msg = 'Could not find candidate seed: vickikristoff'
       expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be_nil, expected_msg
-      expect(Candidate.all.size).to eq(1), "Should only have the candidate seed: #{Candidate.all.size}"
-      expect(ConfirmationEvent.all.size).not_to eq(0)
+      expect(Candidate.count).to eq(1), "Should only have the candidate seed: #{Candidate.count}"
+      expect(ConfirmationEvent.count).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
         expect(ce.chs_due_date).to eq(@today)
         expect(ce.the_way_due_date).to eq(@today)
