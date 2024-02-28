@@ -3,9 +3,7 @@
 #
 # Generate PDF for comparing candidate name with baptismal name
 #
-class CandidateNamePDFDocument < Prawn::Document
-  include Magick
-
+class CandidateNamePDFDocument < PDFImage
   attr_accessor :plucked_bap_candidates
 
   # init
@@ -65,55 +63,6 @@ class CandidateNamePDFDocument < Prawn::Document
   #
   # * <tt>:scanned_image</tt> scanned image
   #
-  def common_image(scanned_image)
-    namea_offset = 60
-
-    image_x = bounds.left
-    image_y = bounds.top - namea_offset - 25
-    image_width = bounds.width - 20
-    image_height = bounds.height - 20
-
-    if scanned_image.nil?
-      bounding_box([image_x, image_y], width: image_width, height: bounds.height - 25) do
-        text '<No Image Provided>', align: :center, valign: :center
-        # stroke_bounds
-      end
-      # convert pdf to jpg which Prawn handles.
-    elsif scanned_image.content_type == 'application/pdf'
-      FileUtils.mkdir_p('tmp')
-      pdf_file_path = "tmp/#{scanned_image.filename}".downcase
-      jpg_file_path = pdf_file_path.gsub('.pdf', '.jpg')
-      File.binwrite(pdf_file_path, scanned_image.content)
-      begin
-        pdf = Magick::ImageList.new(pdf_file_path)
-
-        pdf.each do |page_img|
-          page_img.write jpg_file_path
-
-          bounding_box([image_x, image_y], width: image_width, height: image_height) do
-            # stroke_bounds
-            image jpg_file_path, width: image_width, height: image_height
-          end
-        end
-      ensure
-        File.delete(pdf_file_path)
-        File.delete(jpg_file_path)
-      end
-    else
-      FileUtils.mkdir_p('tmp')
-      file_path = "tmp/#{scanned_image.filename}"
-      File.binwrite(file_path, scanned_image.content)
-      begin
-        # bc_bc = Prawn::Images::PNG.new(bc.certificate_file_contents)
-        bounding_box([image_x, image_y], width: image_width, height: image_height) do
-          # stroke_bounds
-          image file_path, width: image_width, height: image_height
-        end
-      ensure
-        File.delete(file_path)
-      end
-    end
-  end
 
   # Generate label-value for a cell for cell width 2
   #
