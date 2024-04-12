@@ -55,11 +55,12 @@ module Dev
       end
 
       if params[:commit] == I18n.t('views.common.reset_password') && resource.errors.any?
-        flash[:alert] = I18n.t('alert.reset_password', account_name: parms[:account_name], contact_info: Visitor.visitor.contact)
+        flash[:alert] =
+          I18n.t('alert.reset_password_with_help', account_name: parms[:account_name], contact_name: 'Vicki Kristoff',
+                                                   contact_email: 'stmm.confirmation@kristoffs.com')
         resource.errors.delete(:account_name) if resource.errors[:account_name]
         resource.errors.add(:account_name, :not_found,
-                            message: I18n.t('errors.messages.account_name_not_found',
-                                            attribute: parms[:account_name], contact_info: Visitor.visitor.contact))
+                            message: I18n.t('errors.messages.account_name_not_found', attribute: parms[:account_name]))
       end
       super
     end

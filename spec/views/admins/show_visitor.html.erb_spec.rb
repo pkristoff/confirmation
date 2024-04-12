@@ -35,14 +35,14 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502' })
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502' })
   end
 
   it 'edit the visitor home page change home parish' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [] })
 
     fill_in(I18n.t('activerecord.attributes.visitor.home_parish'), with: HOME_PARISH_CHANGED_VALUE)
@@ -50,7 +50,7 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_CHANGED_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [[:flash_notice, I18n.t('messages.home_parish_updated')]] })
   end
 
@@ -58,17 +58,17 @@ feature 'admins/show_visitor.html.erb' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [] })
 
-    street1_change = '1212 victory way'
-    street2_change = 'apt 2'
+    street_1_change = '1212 victory way'
+    street_2_change = 'apt 2'
     city_change = 'georgeville'
     state_change = 'WY'
     zip_code_change = '95036'
 
-    fill_in(I18n.t('activerecord.attributes.visitor.home_parish_address/address.street_1'), with: street1_change)
-    fill_in(I18n.t('activerecord.attributes.visitor.home_parish_address/address.street_2'), with: street2_change)
+    fill_in(I18n.t('activerecord.attributes.visitor.home_parish_address/address.street_1'), with: street_1_change)
+    fill_in(I18n.t('activerecord.attributes.visitor.home_parish_address/address.street_2'), with: street_2_change)
     fill_in(I18n.t('activerecord.attributes.visitor.home_parish_address/address.city'), with: city_change)
     fill_in(I18n.t('activerecord.attributes.visitor.home_parish_address/address.state'), with: state_change)
     fill_in(I18n.t('activerecord.attributes.visitor.home_parish_address/address.zip_code'), with: zip_code_change)
@@ -76,7 +76,7 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: street1_change, street2: street2_change, city: city_change,
+                          street_1: street_1_change, street_2: street_2_change, city: city_change,
                           state: state_change, zip_code: zip_code_change,
                           expected_messages: [[:flash_notice, I18n.t('messages.home_parish_updated')]] })
   end
@@ -85,7 +85,7 @@ feature 'admins/show_visitor.html.erb' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [] })
 
     fill_in(I18n.t('activerecord.attributes.visitor.home'), with: HOME_CHANGED_VALUE)
@@ -93,7 +93,7 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: HOME_CHANGED_VALUE, about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [[:flash_notice, I18n.t('messages.home_updated')]] })
   end
 
@@ -101,7 +101,7 @@ feature 'admins/show_visitor.html.erb' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [] })
 
     fill_in(I18n.t('activerecord.attributes.visitor.about'), with: ABOUT_CHANGED_VALUE)
@@ -109,7 +109,7 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: ABOUT_CHANGED_VALUE, contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [[:flash_notice, I18n.t('messages.about_updated')]] })
   end
 
@@ -117,7 +117,7 @@ feature 'admins/show_visitor.html.erb' do
     visit show_visitor_path
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: '<p>contact me</p>',
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [] })
 
     fill_in(I18n.t('activerecord.attributes.visitor.contact'), with: CONTACT_CHANGED_VALUE)
@@ -125,7 +125,7 @@ feature 'admins/show_visitor.html.erb' do
 
     expect_show_visitor({ home_parish: HOME_PARISH_INIT_VALUE,
                           home: '<p>home text</p>', about: '<p>about text</p>', contact: CONTACT_CHANGED_VALUE,
-                          street1: '555 MM Way', street2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
+                          street_1: '555 MM Way', street_2: '<nothing>', city: 'Apex', state: 'NC', zip_code: '27502',
                           expected_messages: [[:flash_notice, I18n.t('messages.contact_updated')]] })
   end
 
@@ -183,7 +183,7 @@ feature 'admins/show_visitor.html.erb' do
       page,
       I18n.t('activerecord.attributes.visitor.home_parish_address/address.street_1'),
       'visitor_home_parish_address_attributes_street_1',
-      values[:street1],
+      values[:street_1],
       false,
       true,
       ''
@@ -192,7 +192,7 @@ feature 'admins/show_visitor.html.erb' do
       page,
       I18n.t('activerecord.attributes.visitor.home_parish_address/address.street_2'),
       'visitor_home_parish_address_attributes_street_2',
-      values[:street2],
+      values[:street_2],
       false,
       true,
       ''

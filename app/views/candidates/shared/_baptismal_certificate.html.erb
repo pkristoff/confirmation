@@ -33,13 +33,13 @@
               <%= address_fields.label :street_1 %>
               <br/>
               <%= address_fields.text_field(:street_1, autocomplete: 'address-line1') %>
-              <input type="hidden" name="default_value_street_1" id="dv-street1" value="<%= Visitor.visitor.home_parish_address.street_1 %>">
+              <input type="hidden" name="default_value_street_1" id="dv-street_1" value="<%= Visitor.visitor.home_parish_address.street_1 %>">
             </div>
             <div class="field">
               <%= address_fields.label :street_2 %>
               <br/>
               <%= address_fields.text_field :street_2, autocomplete: 'address-line2' %>
-              <input type="hidden" name="default_value_street_2" id="dv-street2" value="<%= Visitor.visitor.home_parish_address.street_2 %>">
+              <input type="hidden" name="default_value_street_2" id="dv-street_2" value="<%= Visitor.visitor.home_parish_address.street_2 %>">
             </div>
             <div class="field">
               <%= address_fields.label :city %>

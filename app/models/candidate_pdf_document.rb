@@ -128,28 +128,29 @@ class CandidatePDFDocument < PDFImage
       grid_label_value([8, 2], "#{I18n.t('activerecord.attributes.baptismal_certificate.mother_maiden')}:", bc.mother_maiden)
       grid_label_value([9, 2], "#{I18n.t('activerecord.attributes.baptismal_certificate.mother_last')}:", bc.mother_last)
 
+      # baptised catholic
+      if bc.info_show_baptized_catholic
+        grid_label_value([10, 0], "#{I18n.t('activerecord.attributes.baptismal_certificate.church_name')}:", bc.church_name)
+        grid_address([11, 0], 'activerecord.attributes.baptismal_certificate.church_address/address', bc.church_address, false)
+      end
+
       common_image(bc.scanned_certificate, I18n.t('field_set.baptismal_certificate.scan'))
 
       if bc.chosen_baptized_catholic?
-        start_new_page
         grid_label_value2([2, 0], I18n.t('activerecord.attributes.baptismal_certificate.baptized_catholic'),
                           bc.baptized_catholic)
-        # baptised catholic
-        if bc.info_show_baptized_catholic
-          grid_label_value([5, 1], "#{I18n.t('activerecord.attributes.baptismal_certificate.church_name')}:", bc.church_name)
-          grid_address([6, 0], 'activerecord.attributes.baptismal_certificate.church_address/address', bc.church_address, false)
-        end
         # profession of faith
         return unless bc.info_show_profession_of_faith
 
+        start_new_page
         grid_label([3, 0], [3, 3], 'Profession of Faith')
         grid_label_value([5, 0], "#{I18n.t('activerecord.attributes.baptismal_certificate.prof_date')}:", bc.prof_date)
-        grid_label_value([6, 1], "#{I18n.t('activerecord.attributes.baptismal_certificate.prof_church_name')}:",
+        grid_label_value([6, 0], "#{I18n.t('activerecord.attributes.baptismal_certificate.prof_church_name')}:",
                          bc.prof_church_name)
         grid_address([7, 0], 'activerecord.attributes.baptismal_certificate.prof_church_address/address',
                      bc.prof_church_address, true)
 
-        common_image(bc.scanned_certificate, I18n.t('field_set.baptismal_certificate.prof_scan'))
+        common_image(bc.scanned_prof, I18n.t('field_set.baptismal_certificate.prof_scan'))
       else
         grid_label([2, 0], [2, 2], 'Baptised Catholic not chosen') unless bc.baptized_at_home_parish
       end
@@ -193,7 +194,8 @@ class CandidatePDFDocument < PDFImage
     grid_label_value2([2, 0], "#{I18n.t('activerecord.attributes.christian_ministry.what_service')}:", cm.what_service)
     grid_label_value2([3, 0], "#{I18n.t('activerecord.attributes.christian_ministry.where_service')}:", cm.where_service)
     grid_label_value2([4, 0], "#{I18n.t('activerecord.attributes.christian_ministry.when_service')}:", cm.when_service)
-    grid_label_value2([5, 0], "#{I18n.t('activerecord.attributes.christian_ministry.helped_me')}:", cm.helped_me)
+    grid_label([6, 0], [6, 1], "#{I18n.t('activerecord.attributes.christian_ministry.helped_me')}:")
+    grid_value([6, 2], [30, 3], cm.helped_me)
   end
 
   # Generate confirmation name

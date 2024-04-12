@@ -65,3 +65,4 @@ es:
       account_name_not_found: "no fue encontrado: %{attribute}"
   alert:
     reset_password: "No se encontró el nombre de la cuenta (%{account_name}). Si tiene problemas, comuníquese con  %{contact_info}"
+    reset_password_with_help: "Nombre de cuenta (%{account_name}) no encontrado. Si tiene problemas, comuníquese con %{contact_name} al %{contact_email}"

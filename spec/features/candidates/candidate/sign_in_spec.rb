@@ -73,11 +73,15 @@ describe 'Sign in', :devise do
     click_link 'Forgot your password?'
     expect_field('Account name', '')
 
-    fill_in('Account name', with: 'xxx')
+    fill_in('Account name', with: 'abc')
     click_button('Reset Password')
-    expect_messages([[:flash_alert, 'Account name (xxx) not found. If you are having problems please contact <p>contact me</p>'],
+
+    expect_messages([[:flash_alert,
+                      # rubocop:disable Layout/LineLength
+                      'Account name (abc) not found. If you are having problems please contact Vicki Kristoff at stmm.confirmation@kristoffs.com'],
+                     # rubocop:enable Layout/LineLength
                      [:error_explanation, ['1 error prohibited reset password from being sent:',
-                                           'Account name was not found: xxx']]])
+                                           'Account name was not found: abc']]])
   end
 
   # it: Candidate can't login decides to 'Resend confirmation instructions'

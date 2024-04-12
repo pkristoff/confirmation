@@ -1191,11 +1191,9 @@ class ExpectBCFormInfo
         # baptized catholic info
         church_name: !show_baptized_catholic_info ? nil : CHURCH_NAME,
         dv_church_name: Visitor.home_parish,
-        street1: !show_baptized_catholic_info ? nil : STREET_1,
-        "dv-street1": Visitor.visitor.home_parish_address.street_1,
-        street_1: !show_baptized_catholic_info ? nil : STREET_1, # remove
-        street2: !show_baptized_catholic_info ? nil : STREET_2,
-        "dv-street2": Visitor.visitor.home_parish_address.street_2,
+        street_1: !show_baptized_catholic_info ? nil : STREET_1,
+        "dv-street_1": Visitor.visitor.home_parish_address.street_1,
+        "dv-street_2": Visitor.visitor.home_parish_address.street_2,
         street_2: !show_baptized_catholic_info ? nil : STREET_2, # remove
         city: !show_baptized_catholic_info ? nil : CITY,
         "dv-city": Visitor.visitor.home_parish_address.city,
@@ -1207,9 +1205,7 @@ class ExpectBCFormInfo
         # profession of faith info
         prof_date: !show_profession_of_faith_info ? nil : PROF_DATE,
         prof_church_name: !show_profession_of_faith_info ? nil : PROF_CHURCH_NAME,
-        prof_street1: !show_profession_of_faith_info ? nil : PROF_STREET_1,
         prof_street_1: !show_profession_of_faith_info ? nil : PROF_STREET_1, # remove
-        prof_street2: !show_profession_of_faith_info ? nil : PROF_STREET_2,
         prof_street_2: !show_profession_of_faith_info ? nil : PROF_STREET_2, # remove
         prof_city: !show_profession_of_faith_info ? nil : PROF_CITY,
         prof_state: !show_profession_of_faith_info ? nil : PROF_STATE,

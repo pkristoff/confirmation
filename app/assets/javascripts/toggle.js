@@ -174,15 +174,15 @@ confirmation_toggle = function () {
 
     function update_church_default_values( use_home_parish ) {
         var name_dv = use_home_parish ? document.getElementById( 'dv-home-parish' ).value : ""
-        var street1_dv = use_home_parish ? document.getElementById( 'dv-street1' ).value : ""
-        var street2_dv = use_home_parish ? document.getElementById( 'dv-street2' ).value : ""
+        var street_1_dv = use_home_parish ? document.getElementById( 'dv-street_1' ).value : ""
+        var street_2_dv = use_home_parish ? document.getElementById( 'dv-street_2' ).value : ""
         var city_dv = use_home_parish ? document.getElementById( 'dv-city' ).value : ""
         var state_dv = use_home_parish ? document.getElementById( 'dv-state' ).value : ""
         var zip_code_dv = use_home_parish ? document.getElementById( 'dv-zip_code' ).value : ""
         // document.getElementById("candidate_baptismal_certificate_attributes_church_name").defaultValue = name_dv;
         document.getElementById( "candidate_baptismal_certificate_attributes_church_name" ).value = name_dv;
-        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_street_1" ).value = street1_dv;
-        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_street_2" ).value = street2_dv;
+        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_street_1" ).value = street_1_dv;
+        document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_street_2" ).value = street_2_dv;
         document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_city" ).value = city_dv;
         document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_state" ).value = state_dv;
         document.getElementById( "candidate_baptismal_certificate_attributes_church_address_attributes_zip_code" ).value = zip_code_dv;

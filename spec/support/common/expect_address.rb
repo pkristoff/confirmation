@@ -13,7 +13,7 @@ module ExpectAddress
     # list address fields
     #
     def address_fields
-      %i[street1 street2 city state zip_code]
+      %i[street_1 street_2 city state zip_code]
     end
 
     # expect address fields
@@ -31,11 +31,11 @@ module ExpectAddress
       text_fields = address_fields
       text_fields.each do |sym|
         str = sym
-        str = 'street_1' if sym == :street1
-        str = 'street_2' if sym == :street2
+        # str = 'street_1' if sym == :street1
+        # str = 'street_2' if sym == :street2
         val = bc_form_info.field_value(str.to_sym, 'activerecord.attributes.baptismal_certificate.church_address/address')
-        street1_i18_path = 'activerecord.attributes.baptismal_certificate.church_address/address.street_1'
-        val = '' if sym == :street2 && bc_form_info.blank_field?(street1_i18_path)
+        street_1_i18_path = 'activerecord.attributes.baptismal_certificate.church_address/address.street_1'
+        val = '' if sym == :street_2 && bc_form_info.blank_field?(street_1_i18_path)
         ExpectFields.expect_have_field_text(
           rendered_or_page,
           I18n.t("activerecord.attributes.baptismal_certificate.church_address/address.#{str}"),
@@ -60,17 +60,17 @@ module ExpectAddress
     #
     def expect_prof_address_fields(rendered_or_page, bc_form_info, disabled, visible, form_txt_address = '')
       include ExpectFields
-      text_fields = %i[street1 street2 city state zip_code]
+      text_fields = %i[street_1 street_2 city state zip_code]
       text_fields.each do |sym|
         str = sym
-        str = 'street_1' if sym == :street1
-        str = 'street_2' if sym == :street2
+        # str = 'street_1' if sym == :street1
+        # str = 'street_2' if sym == :street2
         # rubocop:disable Layout/LineLength
         val = bc_form_info.field_value("prof_#{str}".to_sym, 'activerecord.attributes.baptismal_certificate.prof_church_address/address')
         # rubocop:enable Layout/LineLength
-        # if street1 is blank then assume street2 is blank.
-        prof_street1_i18_path = 'activerecord.attributes.baptismal_certificate.prof_church_address/address.street_1'
-        val = '' if sym == :street2 && bc_form_info.blank_field?(prof_street1_i18_path)
+        # if street_1 is blank then assume street_2 is blank.
+        prof_street_1_i18_path = 'activerecord.attributes.baptismal_certificate.prof_church_address/address.prof_street_1'
+        val = '' if sym == :street_2 && bc_form_info.blank_field?(prof_street_1_i18_path)
         ExpectFields.expect_have_field_text(
           rendered_or_page,
           I18n.t("activerecord.attributes.baptismal_certificate.prof_church_address/address.#{str}"),
