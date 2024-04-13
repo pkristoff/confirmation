@@ -295,20 +295,12 @@ class CandidatePDFDocument < PDFImage
   # * <tt>:address_association</tt> address information
   # * <tt>:is_prof</tt> whether address of profession of faith
   #
-  def grid_address(cell, label_base, address_association, is_prof)
-    if is_prof
-      grid_label_value([cell[0], 0], "#{I18n.t("#{label_base}.prof_street_1")}:", address_association.street_1)
-      grid_label_value([cell[0], 2], "#{I18n.t("#{label_base}.prof_street_2")}:", address_association.street_2)
-      grid_label_value([cell[0] + 1, 0], "#{I18n.t("#{label_base}.prof_city")}:", address_association.city)
-      grid_label_value([cell[0] + 1, 2], "#{I18n.t("#{label_base}.prof_state")}:", address_association.state)
-      grid_label_value([cell[0] + 2, 0], "#{I18n.t("#{label_base}.prof_zip_code")}:", address_association.zip_code)
-    else
-      grid_label_value([cell[0], 0], "#{I18n.t("#{label_base}.street_1")}:", address_association.street_1)
-      grid_label_value([cell[0], 2], "#{I18n.t("#{label_base}.street_2")}:", address_association.street_2)
-      grid_label_value([cell[0] + 1, 0], "#{I18n.t("#{label_base}.city")}:", address_association.city)
-      grid_label_value([cell[0] + 1, 2], "#{I18n.t("#{label_base}.state")}:", address_association.state)
-      grid_label_value([cell[0] + 2, 0], "#{I18n.t("#{label_base}.zip_code")}:", address_association.zip_code)
-    end
+  def grid_address(cell, label_base, address_association, _is_prof)
+    grid_label_value([cell[0], 0], "#{I18n.t("#{label_base}.street_1")}:", address_association.street_1)
+    grid_label_value([cell[0], 2], "#{I18n.t("#{label_base}.street_2")}:", address_association.street_2)
+    grid_label_value([cell[0] + 1, 0], "#{I18n.t("#{label_base}.city")}:", address_association.city)
+    grid_label_value([cell[0] + 1, 2], "#{I18n.t("#{label_base}.state")}:", address_association.state)
+    grid_label_value([cell[0] + 2, 0], "#{I18n.t("#{label_base}.zip_code")}:", address_association.zip_code)
   end
 
   # Generate label-value for a cell
