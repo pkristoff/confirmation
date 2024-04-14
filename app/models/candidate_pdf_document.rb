@@ -136,13 +136,13 @@ class CandidatePDFDocument < PDFImage
 
       common_image(bc.scanned_certificate, I18n.t('field_set.baptismal_certificate.scan'))
 
+      start_new_page
       if bc.chosen_baptized_catholic?
         grid_label_value2([2, 0], I18n.t('activerecord.attributes.baptismal_certificate.baptized_catholic'),
                           bc.baptized_catholic)
         # profession of faith
         return unless bc.info_show_profession_of_faith
 
-        start_new_page
         grid_label([3, 0], [3, 3], 'Profession of Faith')
         grid_label_value([5, 0], "#{I18n.t('activerecord.attributes.baptismal_certificate.prof_date')}:", bc.prof_date)
         grid_label_value([6, 0], "#{I18n.t('activerecord.attributes.baptismal_certificate.prof_church_name')}:",
