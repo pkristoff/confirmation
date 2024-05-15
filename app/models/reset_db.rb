@@ -101,10 +101,14 @@ class ResetDB
         candidates_to_keep = []
         Candidate.all.find_each do |candidate|
           if !Status.active? candidate.status_id
+            candidate.status_id = Status.active.id
+            candidate.candidate_sheet.grade += 1
+            candidate.save
             candidates_to_keep.push(candidate)
           elsif candidate.candidate_sheet.program_year == 1
             candidates_to_keep.push(candidate)
             candidate.candidate_sheet.program_year = 2
+            candidate.candidate_sheet.grade += 1
             candidate.save
           else
             candidate.destroy
