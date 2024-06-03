@@ -182,7 +182,9 @@ class AppFactory
   def self.generate_default_status
     if Status.count == 0
       Status.create(name: Status::ACTIVE, description: 'active this year')
+      Status.create(name: Status::CONFIRMED_ELSEWHERE, description: 'deferred to next year')
       Status.create(name: Status::DEFERRED, description: 'deferred to next year')
+      Status.create(name: Status::FROM_ANOTHER_PARISH, description: 'deferred to next year')
     else
       raise(RuntimeError, 'Status already generated')
     end

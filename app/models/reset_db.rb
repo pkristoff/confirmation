@@ -96,25 +96,29 @@ class ResetDB
     return if (checked.include? clazz) || (do_not_destroy.include? clazz)
 
     checked << clazz
-    begin
-      if clazz == Candidate
-        candidates_to_keep = []
-        Candidate.all.find_each do |candidate|
-          if !Status.active? candidate.status_id
-            candidate.status_id = Status.active.id
-            candidate.candidate_sheet.grade += 1
-            candidate.save
-            candidates_to_keep.push(candidate)
-          elsif candidate.candidate_sheet.program_year == 1
-            candidates_to_keep.push(candidate)
-            candidate.candidate_sheet.program_year = 2
-            candidate.candidate_sheet.grade += 1
-            candidate.save
-          else
-            candidate.destroy
-          end
-          clean_addresses(candidates_to_keep)
+    return unless clazz == Candidate
+
+    candidates_to_keep = []
+    Candidate.all.find_each do |candidate|
+      if Status.from_another_parish? candidate.status_id
+        candidate.destroy
+      elsif Status.confirmed_elsewhere? candidate.status_id
+        candidate.destroy
+      elsif Status.deferred? candidate.status_id
+        candidate.status_id = Status.active.id
+        candidate.candidate_sheet.grade += 1
+        candidate.save
+        candidates_to_keep.push(candidate)
+      elsif Status.active? candidate.status_id
+        if candidate.candidate_sheet.program_year == 1
+          candidate.candidate_sheet.program_year = 2
+          candidate.candidate_sheet.grade += 1
+          candidate.save
+          candidates_to_keep.push(candidate)
+        else
+          candidate.destroy
         end
+        clean_addresses(candidates_to_keep)
       else
         clazz.destroy_all
       end

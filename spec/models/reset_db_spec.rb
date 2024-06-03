@@ -258,6 +258,66 @@ describe ResetDB do
                                      ToDo: 4 })
     end
 
+    it 'start a new year will remove candidates with status of Getting Confirmed elsewhere.' do
+      getting_confirmed_elsewhere = FactoryBot.create(:candidate, account_name: 'Getting_Confirmed_elsewhere_cand_year2')
+      getting_confirmed_elsewhere.candidate_sheet.program_year = 2
+      getting_confirmed_elsewhere.status_id = Status.confirmed_elsewhere.id
+      getting_confirmed_elsewhere.save
+      expect(Candidate.count).to eq(1)
+
+      ResetDB.start_new_year
+
+      vicki_candidate = Candidate.find_by(account_name: 'vickikristoff')
+      expect(vicki_candidate).not_to be_nil
+
+      # getting_confirmed_elsewhere is removed
+      getting_confirmed_elsewhere = Candidate.find_by(account_name: 'Getting_Confirmed_elsewhere_cand_year2')
+      expect(getting_confirmed_elsewhere).to be_nil
+      expect_table_rows(Candidate, { Address: 3, # 2 for seed + 1 for visitor
+                                     BaptismalCertificate: 1,
+                                     Candidate: 1,
+                                     CandidateEvent: 2,
+                                     CandidateSheet: 1,
+                                     ChristianMinistry: 1,
+                                     ConfirmationEvent: 2,
+                                     PickConfirmationName: 1,
+                                     RetreatVerification: 1,
+                                     SponsorCovenant: 1,
+                                     SponsorEligibility: 1,
+                                     ScannedImage: 0,
+                                     ToDo: 2 })
+    end
+
+    it 'start a new year will remove candidates with status of From another parish.' do
+      from_another_parish = FactoryBot.create(:candidate, account_name: 'Getting_Confirmed_elsewhere')
+      from_another_parish.candidate_sheet.program_year = 2
+      from_another_parish.status_id = Status.from_another_parish.id
+      from_another_parish.save
+      expect(Candidate.count).to eq(1)
+
+      ResetDB.start_new_year
+
+      vicki_candidate = Candidate.find_by(account_name: 'vickikristoff')
+      expect(vicki_candidate).not_to be_nil
+
+      # getting_confirmed_elsewhere is removed
+      from_another_parish = Candidate.find_by(account_name: 'Getting_Confirmed_elsewhere')
+      expect(from_another_parish).to be_nil
+      expect_table_rows(Candidate, { Address: 3, # 2 for seed + 1 for visitor
+                                     BaptismalCertificate: 1,
+                                     Candidate: 1,
+                                     CandidateEvent: 2,
+                                     CandidateSheet: 1,
+                                     ChristianMinistry: 1,
+                                     ConfirmationEvent: 2,
+                                     PickConfirmationName: 1,
+                                     RetreatVerification: 1,
+                                     SponsorCovenant: 1,
+                                     SponsorEligibility: 1,
+                                     ScannedImage: 0,
+                                     ToDo: 2 })
+    end
+
     describe 'reset system back to original state' do
       it 'reset after adding in some candidates' do
         expect(Candidate.all.size).to eq(0)
@@ -277,6 +337,7 @@ describe ResetDB do
         expect(Candidate.find_by(account_name: 'vickikristoff')).not_to be_nil
         expect(Admin.count).to eq(1)
         expect(Admin.find_by(email: Admin.first.email)).not_to be_nil
+        expect(Status.count).to be(4)
       end
     end
   end

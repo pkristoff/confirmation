@@ -36,13 +36,11 @@ describe 'Candidate status', :devise do
     expect_candidate_status_form(@cand_id, @path_str, @update_id, { expected_selection: Status::ACTIVE })
   end
 
-  it 'admin logs in, selects candidate status, changes it and saves to Deferred' do
-    # FactoryBot.create(:status, name: 'Deferred')
-
+  it 'admin logs in, selects candidate status, changes it to DEFERRED and saves' do
     visit @path
-    expect(Status.count).to be(2)
+    expect(Status.count).to be(4)
 
-    select 'Deferred',
+    select Status::DEFERRED,
            from: I18n.t('activerecord.attributes.candidate.status_id')
 
     click_button @update_id
@@ -52,6 +50,42 @@ describe 'Candidate status', :devise do
                                  @update_id,
                                  {
                                    expected_selection: 'Deferred',
+                                   expected_messages: [[:flash_notice, @updated_message]]
+                                 })
+  end
+
+  it 'admin logs in, selects candidate status, changes it to CONFIRMED_ELSEWHERE and saves' do
+    visit @path
+    expect(Status.count).to be(4)
+
+    select Status::CONFIRMED_ELSEWHERE,
+           from: I18n.t('activerecord.attributes.candidate.status_id')
+
+    click_button @update_id
+
+    expect_candidate_status_form(@cand_id,
+                                 @path_str,
+                                 @update_id,
+                                 {
+                                   expected_selection: Status::CONFIRMED_ELSEWHERE,
+                                   expected_messages: [[:flash_notice, @updated_message]]
+                                 })
+  end
+
+  it 'admin logs in, selects candidate status, changes it to FROM_ANOTHER_PARISH and saves' do
+    visit @path
+    expect(Status.count).to be(4)
+
+    select Status::FROM_ANOTHER_PARISH,
+           from: I18n.t('activerecord.attributes.candidate.status_id')
+
+    click_button @update_id
+
+    expect_candidate_status_form(@cand_id,
+                                 @path_str,
+                                 @update_id,
+                                 {
+                                   expected_selection: Status::FROM_ANOTHER_PARISH,
                                    expected_messages: [[:flash_notice, @updated_message]]
                                  })
   end

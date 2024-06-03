@@ -46,4 +46,38 @@ RSpec.describe Status do
       expect(active_status.used_by_candidate?).to be(true)
     end
   end
+
+  describe 'predicate' do
+    it 'active? is true' do
+      status = FactoryBot.create(:status)
+      expect(Status.active?(status.id)).to be true
+      expect(Status.confirmed_elsewhere?(status.id)).to be false
+      expect(Status.deferred?(status.id)).to be false
+      expect(Status.from_another_parish?(status.id)).to be false
+    end
+
+    it 'confirmed_elsewhere? is true' do
+      status = FactoryBot.create(:status, name: Status::CONFIRMED_ELSEWHERE)
+      expect(Status.active?(status.id)).to be false
+      expect(Status.confirmed_elsewhere?(status.id)).to be true
+      expect(Status.deferred?(status.id)).to be false
+      expect(Status.from_another_parish?(status.id)).to be false
+    end
+
+    it 'deferred? is true' do
+      status = FactoryBot.create(:status, name: Status::DEFERRED)
+      expect(Status.active?(status.id)).to be false
+      expect(Status.confirmed_elsewhere?(status.id)).to be false
+      expect(Status.deferred?(status.id)).to be true
+      expect(Status.from_another_parish?(status.id)).to be false
+    end
+
+    it 'from_another_parish? is true' do
+      status = FactoryBot.create(:status, name: Status::FROM_ANOTHER_PARISH)
+      expect(Status.active?(status.id)).to be false
+      expect(Status.confirmed_elsewhere?(status.id)).to be false
+      expect(Status.deferred?(status.id)).to be false
+      expect(Status.from_another_parish?(status.id)).to be true
+    end
+  end
 end
