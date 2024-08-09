@@ -28,7 +28,9 @@ Rails.application.routes.draw do
              },
              controllers: { registrations: 'registrations',
                             confirmations: 'confirmations',
-                            passwords: 'admins/passwords' }
+                            passwords: 'admins/passwords',
+                            sessions: 'sessions'
+             }
 
   resources :admins
 

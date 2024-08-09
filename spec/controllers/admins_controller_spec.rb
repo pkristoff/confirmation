@@ -6,6 +6,10 @@ describe AdminsController do
     @admin = login_admin
   end
 
+  it 'login as admin sets table_filter to initial filter' do
+    expect(@admin.table_filter).to eq Admin.initial_sorting_settings
+  end
+
   it 'NOT have a current_candidate' do
     expect(subject.current_candidate).to be_nil
   end

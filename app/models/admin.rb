@@ -50,6 +50,90 @@ class Admin < ApplicationRecord
     ["Admin #{Admin.count}", "Admin_#{Admin.count}"]
   end
 
+  def after_database_authentication
+    super
+    self.update_attribute(:table_filter, Admin.initial_sorting_settings)
+
+    # self.save
+  end
+
+  def sorting_settings
+    Admin.initial_sorting_settings
+  end
+
+  def self.initial_sorting_settings
+    [
+      { "column_name": 'Status',
+        "data_column_offset": 1,
+        "filter": 'Active',
+        "Sort": 'asc' },
+      { "column_name": 'Last name',
+        "data_column_offset": 4,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'First name',
+        "data_column_offset": 5,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Grade',
+        "data_column_offset": 6,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Program Year',
+        "data_column_offset": 7,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Attending',
+        "data_column_offset": 8,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Covenant Agreement',
+        "data_column_offset": 9,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Information Sheet',
+        "data_column_offset": 10,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Baptismal Certificate',
+        "data_column_offset": 11,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Sponsor\'s Covenant',
+        "data_column_offset": 12,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Sponsor\'s Eligibility',
+        "data_column_offset": 13,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Confirmation Name',
+        "data_column_offset": 14,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Christian Ministry',
+        "data_column_offset": 15,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Attend Retreat',
+        "data_column_offset": 16,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Parent Information Meeting',
+        "data_column_offset": 17,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Account Confirma†ion',
+        "data_column_offset": 18,
+        "filter": '',
+        "sort": 'asc' },
+      { "column_name": 'Password Changed',
+        "data_column_offset": 19,
+        "filter": '',
+        "sort": 'asc' }
+    ].to_json
+  end
+
   private
 
   def validate_email_address(email)

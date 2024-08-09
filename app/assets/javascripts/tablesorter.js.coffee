@@ -17,7 +17,6 @@ $(document).ready ->
 # use the zebra stripe widget if you plan on hiding any rows (filter widget)
       widgets: ["uitheme", "filter", "columns", "zebra"],
 
-
       sortList: [[2, 0]],
       widthFixed: false,
       widgetOptions: {
@@ -40,5 +39,7 @@ $(document).ready ->
         filter_columnFilters: true,
       }
     })
-    init_status_filter();
+    update_filters(column_filters8);
     update_total_selections();
+
+    setup_filter();

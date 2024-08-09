@@ -65,17 +65,24 @@
       <% when t('views.nav.edit') %>
           <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-false edit_column_header"><%= column_headers_in_order[index] %></th>
         <% when t('views.nav.status') %>
-          <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-true"><%= column_headers_in_order[index] %></th>
+          <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-true filter-true" onclick="column_sorting('sort_happening')"><%= column_headers_in_order[index] %></th>
         <% when t('views.nav.note') %>
           <th id="candidate_list_header_th_<%= index + 2 %>" class="sorter-false filter-false"><%= column_headers_in_order[index] %></th>
         <% when I18n.t('label.candidate_event.select') %>
           <th id="candidate_list_header_th_<%= index + 2 %>"><%= column_headers_in_order[index] %></th>
         <% else %>
-          <th id="candidate_list_header_th_<%= index + 2 %>"><%= column_headers_in_order[index] %></th>
+          <% column = column_headers_in_order[index] %>
+          <% oc = "onclick=sort_happening(\"#{column}\");" %>
+          <th id="candidate_list_header_th_<%= index + 2 %>" onclick="column_sorting('sort_happening')"><%= column %></th>
         <% end %>
       <% end %>
     </tr>
     </thead>
+    <script>
+        $(function() {
+            // $("#candidate_list_table").disableSelection();
+        });
+    </script>
     <tbody>
     <%= collection_check_boxes(:candidate, :candidate_ids, candidate_info, :id, :account_name, checked: selected_candidate_ids) do |b| %>
       <% candidate_info = b.object %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_07_082037) do
+ActiveRecord::Schema.define(version: 2024_07_12_081423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2023_09_07_082037) do
     t.string "contact_name", default: "", null: false
     t.string "contact_phone", default: "", null: false
     t.string "account_name", default: "Admin", null: false
+    t.json "table_filter", default: "\"\"", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["name"], name: "index_admins_on_name", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
