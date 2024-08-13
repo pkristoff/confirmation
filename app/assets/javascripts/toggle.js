@@ -89,6 +89,11 @@ setup_filter = function () {
     })
 }
 
+save_filters_and_sorting = function (){
+    console.log('saving filters to admin')
+    console.log('implement me.')
+}
+
 update_filters = function (columns) {
 
     columns.forEach(myFunction);

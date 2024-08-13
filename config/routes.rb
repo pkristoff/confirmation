@@ -34,6 +34,10 @@ Rails.application.routes.draw do
 
   resources :admins
 
+  resources :admins do
+    put 'update_filter_and_sorting', on: :member
+  end
+
   # Sign in CANDIDATE
   devise_for :candidates,
              :path_prefix => 'dev',

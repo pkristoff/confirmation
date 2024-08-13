@@ -113,6 +113,17 @@ class AdminsController < ApplicationController
     render :adhoc_mailing
   end
 
+  def update_filter_and_sorting
+    if # some condition
+    current_admin.table_filter =
+    respond_to do |format|
+      format.js { flash[:info] = "The user with an ID of #{@user.id} has had their admin attribute toggled!" }
+    end
+    else
+      redirect_to admin_list_path, danger: "You tried to make yourself a normal user! Don't do that!"
+    end
+  end
+
   # edit ConfirmationEvents
   #
   # === Attributes:
@@ -275,6 +286,8 @@ class AdminsController < ApplicationController
       redirect_back fallback_location: ref_url, alert: t('messages.no_candidate_selected')
     else
       case params[:button]
+      when 'Save'
+        current_admin
       when AdminsController::DELETE
         candidates.each(&:destroy)
         flash[:notice] = t('messages.candidates_deleted')
