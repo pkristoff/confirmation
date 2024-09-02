@@ -52,10 +52,10 @@ class Admin < ApplicationRecord
 
   # Update table_filter upon login (sign_in)
   #
-  def after_database_authentication
-    super
-    update(table_filter: Admin.initial_sorting_settings)
-  end
+  # def after_database_authentication
+  #   super
+  #   update(table_filter: Admin.initial_sorting_settings)
+  # end
 
   # sorting and filter values
   #

@@ -117,7 +117,7 @@ class AdminsController < ApplicationController
   #
   def update_filter_and_sorting
     if params[:_json]
-      current_admin.table_filter = params[:_json]
+      # current_admin.table_filter = params[:_json]
       respond_to do |format|
         format.js { flash[:info] = "The user with an ID of #{@user.id} has had their admin attribute toggled!" }
       end
