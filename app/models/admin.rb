@@ -50,17 +50,21 @@ class Admin < ApplicationRecord
     ["Admin #{Admin.count}", "Admin_#{Admin.count}"]
   end
 
+  # Update table_filter upon login (sign_in)
+  #
   def after_database_authentication
     super
-    self.update_attribute(:table_filter, Admin.initial_sorting_settings)
-
-    # self.save
+    update(table_filter: Admin.initial_sorting_settings)
   end
 
+  # sorting and filter values
+  #
   def sorting_settings
     Admin.initial_sorting_settings
   end
 
+  # initial sorting and filter values
+  #
   def self.initial_sorting_settings
     [
       { "column_name": 'Status',

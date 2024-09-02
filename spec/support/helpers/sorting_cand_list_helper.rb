@@ -30,7 +30,7 @@ module SortingCandListHelpers
       else
         case i18n_name
         when I18n.t('views.nav.status')
-          expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-true']"
+          expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-true filter-true']"
         when I18n.t('views.nav.edit')
           expect(rendered_or_page).to have_css "#{basic_th_css}[class='sorter-false filter-false edit_column_header']"
         when I18n.t('views.nav.note')

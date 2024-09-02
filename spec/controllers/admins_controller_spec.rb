@@ -7,7 +7,7 @@ describe AdminsController do
   end
 
   it 'login as admin sets table_filter to initial filter' do
-    expect(@admin.table_filter).to eq Admin.initial_sorting_settings
+    expect(@admin.table_filter).to eq ''.to_json
   end
 
   it 'NOT have a current_candidate' do

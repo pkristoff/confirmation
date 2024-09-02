@@ -113,12 +113,14 @@ class AdminsController < ApplicationController
     render :adhoc_mailing
   end
 
+  # update_filter_and_sorting
+  #
   def update_filter_and_sorting
-    if # some condition
-    current_admin.table_filter =
-    respond_to do |format|
-      format.js { flash[:info] = "The user with an ID of #{@user.id} has had their admin attribute toggled!" }
-    end
+    if params[:_json]
+      current_admin.table_filter = params[:_json]
+      respond_to do |format|
+        format.js { flash[:info] = "The user with an ID of #{@user.id} has had their admin attribute toggled!" }
+      end
     else
       redirect_to admin_list_path, danger: "You tried to make yourself a normal user! Don't do that!"
     end
