@@ -52,6 +52,6 @@ describe 'candidates/index.html.erb' do
     expect(rendered).to have_button(I18n.t('views.common.initial_email'), count: 2)
     expect(rendered).to have_button(I18n.t('views.common.generate_pdf'), count: 2)
     expect(rendered).to have_button(I18n.t('views.common.confirm_account'), count: 2)
-    expect(rendered).to have_button(I18n.t('views.common.unconfirm_account'), count: 2)
+    expect(rendered).to have_button(I18n.t('views.common.unconfirmed_account'), count: 2)
   end
 end

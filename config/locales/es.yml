@@ -346,6 +346,22 @@ es:
       attending_catholic_high_school: Escuela secundaria católica
       attending_the_way: La manera
       candidate: Candidata
+      confirm_account:
+        resend:
+          email:
+            not_valid:
+              flash:
+                alert: 'Por favor proporcione una dirección de correo electrónico válida: %{email}'
+            notice:
+              confirmation_sent: Instrucciones de confirmación enviadas.
+            no†_found:
+              flash:
+                alert: Candidata para correo electrónico (%{email}) no encontrada
+          label: Proporcione la dirección de correo electrónico y presione Enviar
+          link: "¿Reenviar instrucciones de confirmación?"
+          page: Reenviar instrucciones de confirmación
+          place_holder: ddd@ejemplo.com
+          submit: Entregar
       create_new_candidate: Crear nuevo candidato
       created: 'Cuenta creada: %{account} con nombre %{name}'
       edit_candidate: Editar candidato
@@ -374,7 +390,7 @@ es:
       save_failed: 'Error al guardar: %{failee}'
       status: Estado
       un_verify: No verificar
-      unconfirm_account: Cuenta no confirmada
+      unconfirmed_account: Cuenta no confirmada
       update: Actualizar
       update_about: Actualización sobre
       update_candidates_event: Evento de actualización para candidatos

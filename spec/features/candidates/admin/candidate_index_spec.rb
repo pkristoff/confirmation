@@ -42,7 +42,7 @@ describe 'Candidate index page', :devise do
       [AdminsController::INITIAL_EMAIL, 'initial_email', I18n.t('views.common.initial_email')],
       [AdminsController::GENERATE_PDF, 'generate_pdf', I18n.t('views.common.generate_pdf')],
       [AdminsController::CONFIRM_ACCOUNT, 'confirm_account', I18n.t('views.common.confirm_account')],
-      [AdminsController::UNCONFIRM_ACCOUNT, 'unconfirm_account', I18n.t('views.common.unconfirm_account')]
+      [AdminsController::UNCONFIRM_ACCOUNT, 'unconfirmed_account', I18n.t('views.common.unconfirmed_account')]
     ]
 
     buttons.each do |button_info|

@@ -3,16 +3,16 @@
 
 
 <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <h2>Resend confirmation instructions</h2>
+  <h2><%= t('views.candidates.confirm_account.resend.page') %></h2>
   <%= render 'devise/shared/error_messages', resource: resource, for_reset_password: false %>
 
-  <div class="field">
+  <div class="field"><%= t('views.candidates.confirm_account.resend.page') %>
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
   </div>
 
   <div class="actions">
-    <%= f.submit 'Resend confirmation instructions' %>
+    <%= f.submit t('views.candidates.confirm_account.resend.submit') %>
   </div>
 <% end %>
 

@@ -12,17 +12,17 @@ describe 'candidates/sessions/new.html.erb' do
 
   it 'Form layout English' do
     I18n.locale = 'en'
-    run_test
+    run_test1
   end
 
   it 'Form layout Spanish' do
     I18n.locale = 'es'
-    run_test
+    run_test1
   end
 
   private
 
-  def run_test
+  def run_test1
     render
 
     expect(rendered).to have_selector('h2', text: I18n.t('views.top_bar.sign_in', name: ''))

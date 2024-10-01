@@ -346,6 +346,22 @@ en:
       attending_catholic_high_school: Catholic High School
       attending_the_way: The Way
       candidate: Candidate
+      confirm_account:
+        resend:
+          email:
+            not_valid:
+              flash:
+                alert: 'Please provide a valid email address: %{email}'
+            notice:
+              confirmation_sent: Confirmation instructions sent.
+            no†_found:
+              flash:
+                alert: Candidate for email (%{email}) not found
+          label: Provide email address and press Submit
+          link: Resend confirmation instructions?
+          page: Resend confirmation instructions
+          place_holder: ddd@example.com
+          submit: Submit
       create_new_candidate: Create new Candidate
       created: 'Created account: %{account} with name %{name}'
       edit_candidate: Edit Candidate
@@ -374,7 +390,7 @@ en:
       save_failed: Save failed %{failee}
       status: Status
       un_verify: Unverify
-      unconfirm_account: Unconfirm Account
+      unconfirmed_account: Unconfirmed Account
       update: Update
       update_about: Update about
       update_candidates_event: Update event for candidates

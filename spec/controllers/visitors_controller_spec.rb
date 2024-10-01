@@ -49,4 +49,21 @@ describe VisitorsController do
       expect(response).to have_http_status(:ok)
     end
   end
+
+  describe 'VisitorsController.validate_email(email)' do
+    it 'No email' do
+      expect(VisitorsController.validate_email('')).to be_falsey
+    end
+
+    it 'Bad email form' do
+      expect(VisitorsController.validate_email('foo')).to be_falsey
+      expect(VisitorsController.validate_email('@bbb.com')).to be_falsey
+      expect(VisitorsController.validate_email('bbb.com')).to be_falsey
+    end
+
+    it 'Good email form' do
+      expect(VisitorsController.validate_email('foo@ccc.com')).to be_truthy
+      expect(VisitorsController.validate_email('foo@gmail.com')).to be_truthy
+    end
+  end
 end

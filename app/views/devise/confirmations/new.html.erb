@@ -1,11 +1,9 @@
-<h2>Resend confirmation instructions</h2>
 
 <%= render 'devise/shared/error_messages', resource: resource, for_reset_password: false %>
 
 <%= form_tag(resend_confirmation_instructions_path, method: "post") do %>
-  <%= label_tag(:email, "Email") %>
-  <%= email_field_tag(:email) %>
-  <%= submit_tag("Resend confirmation instructions") %>
+  <h2><%= t('views.candidates.confirm_account.resend.page') %>></h2>
+  <%= label_tag(:email, t('views.candidates.confirm_account.resend.label')) %>
+  <%= email_field_tag(:email, nil, placeholder: t('views.candidates.confirm_account.resend.place_holder')) %>
+  <div><%= submit_tag(t('views.candidates.confirm_account.resend.submit')) %></div>
 <% end %>
-
-<%= render "devise/shared/links" %>
