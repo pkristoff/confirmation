@@ -15,10 +15,10 @@
         <h3><%= legend_object %></h3>
       </div>
       <div id="<%= "candidate_event_#{confirmation_event_id}_section_left" %>" class="left-col">
-        <% if candidate.candidate_sheet.attending == t('model.candidate.attending_the_way') %>
-            <div id="<%= "candidate_event_#{confirmation_event_id}_the_way_due_date" %>"><%= t('views.events.the_way_due_date') %>: <%= l confirmation_event.the_way_due_date, format: :default %></div>
+        <% if candidate.candidate_sheet.program_year == 1 %>
+            <div id="<%= "candidate_event_#{confirmation_event_id}_program_year1_due_date" %>"><%= t('views.events.program_year1_due_date') %>: <%= l confirmation_event.program_year1_due_date, format: :default %></div>
         <% else %>
-            <div id="<%= "candidate_event_#{confirmation_event_id}_chs_due_date" %>"><%= t('views.events.chs_due_date') %>: <%= l confirmation_event.chs_due_date, format: :default %></div>
+            <div id="<%= "candidate_event_#{confirmation_event_id}_program_year2_due_date" %>"><%= t('views.events.program_year2_due_date') %>: <%= l confirmation_event.program_year2_due_date, format: :default %></div>
         <% end %>
         <div id="<%= "candidate_event_#{confirmation_event_id}_verified" %>">
           <%= t('views.events.verified') %>: <%= candidate_event.verified %>

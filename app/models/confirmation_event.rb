@@ -19,7 +19,7 @@ class ConfirmationEvent < ApplicationRecord
   # * <tt>Array</tt> of permitted params
   #
   def self.permitted_params
-    %i[id name the_way_due_date instructions chs_due_date]
+    %i[id name program_year1_due_date instructions program_year2_due_date]
   end
 
   private

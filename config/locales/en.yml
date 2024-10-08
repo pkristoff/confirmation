@@ -68,9 +68,9 @@ en:
         when_service: When did you do the service?
         where_service: Where did the service take place?
       confirmation_event:
-        chs_due_date: Catholic high school due date
         instructions: Instructions
-        the_way_due_date: The Way due date
+        program_year1_due_date: Program year 1 due date
+        program_year2_due_date: Program year 2 due date
       pick_confirmation_name:
         saint: Saint
         saint_name: Saint name
@@ -399,11 +399,11 @@ en:
       update_home_parish: Update home parish
       update_verify: Update & Verify
     events:
-      chs_due_date: Catholic High School Due date
       completed_date: Completed date
       heading: "%{event_name} for %{first} %{last}"
       instructions: Instructions
-      the_way_due_date: The Way Due date
+      program_year1_due_date: Program Year 1 Due date
+      program_year2_due_date: Program Year 2 Due date
       verified: Verified
     imports:
       candidates_export: Export Candidates

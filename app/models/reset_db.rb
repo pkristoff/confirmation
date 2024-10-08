@@ -23,8 +23,8 @@ class ResetDB
     AppFactory.create_seed_candidate
     today = Time.zone.today
     ConfirmationEvent.find_each do |ce|
-      ce.chs_due_date = today
-      ce.the_way_due_date = today
+      ce.program_year2_due_date = today
+      ce.program_year1_due_date = today
       ce.save
     end
 

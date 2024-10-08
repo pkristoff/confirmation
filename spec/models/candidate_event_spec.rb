@@ -20,8 +20,8 @@ describe CandidateEvent do
       expect(@candidate_event.verified).to be(true)
 
       expect(@candidate_event.event_key).to eq('Going out to eat')
-      expect(@candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
-      expect(@candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
+      expect(@candidate_event.confirmation_event.program_year1_due_date.to_s).to eq('2016-05-31')
+      expect(@candidate_event.confirmation_event.program_year2_due_date.to_s).to eq('2016-05-24')
       expect(@candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
       expect_confirmation_event(@confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
@@ -42,16 +42,16 @@ describe CandidateEvent do
       expect(@candidate_event.verified).to be(true)
 
       expect(@candidate_event.event_key).to eq('Going out to eat')
-      expect(@candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
-      expect(@candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
+      expect(@candidate_event.confirmation_event.program_year2_due_date.to_s).to eq('2016-05-24')
+      expect(@candidate_event.confirmation_event.program_year1_due_date.to_s).to eq('2016-05-31')
       expect(@candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
       expect(@candidate_event2.completed_date.to_s).to eq('2016-05-22')
       expect(@candidate_event2.verified).to be(false)
 
       expect(@candidate_event2.event_key).to eq('Going out to eat')
-      expect(@candidate_event2.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
-      expect(@candidate_event2.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
+      expect(@candidate_event2.confirmation_event.program_year2_due_date.to_s).to eq('2016-05-24')
+      expect(@candidate_event2.confirmation_event.program_year1_due_date.to_s).to eq('2016-05-31')
       expect(@candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
       expect_confirmation_event(@confirmation_event, 2, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
@@ -62,8 +62,8 @@ describe CandidateEvent do
       confirmation_event = FactoryBot.create(:confirmation_event)
       confirmation_event2 = FactoryBot.create(:confirmation_event,
                                               event_key: 'Staying home',
-                                              the_way_due_date: '2016-04-01',
-                                              chs_due_date: '2016-04-02')
+                                              program_year1_due_date: '2016-04-01',
+                                              program_year2_due_date: '2016-04-02')
       @candidate_event = FactoryBot.create(:candidate_event,
                                            completed_date: '2016-05-23',
                                            verified: true,
@@ -77,15 +77,15 @@ describe CandidateEvent do
       expect(@candidate_event.verified).to be(true)
 
       expect(@candidate_event.event_key).to eq('Going out to eat')
-      expect(@candidate_event.confirmation_event.the_way_due_date.to_s).to eq('2016-05-31')
-      expect(@candidate_event.confirmation_event.chs_due_date.to_s).to eq('2016-05-24')
+      expect(@candidate_event.confirmation_event.program_year1_due_date.to_s).to eq('2016-05-31')
+      expect(@candidate_event.confirmation_event.program_year2_due_date.to_s).to eq('2016-05-24')
       expect(@candidate_event.instructions).to eq("<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
 
       expect(@candidate_event2.completed_date.to_s).to eq('2016-05-22')
       expect(@candidate_event2.verified).to be(false)
 
-      expect(@candidate_event2.confirmation_event.the_way_due_date.to_s).to eq('2016-04-01')
-      expect(@candidate_event2.confirmation_event.chs_due_date.to_s).to eq('2016-04-02')
+      expect(@candidate_event2.confirmation_event.program_year1_due_date.to_s).to eq('2016-04-01')
+      expect(@candidate_event2.confirmation_event.program_year2_due_date.to_s).to eq('2016-04-02')
       expect(@candidate_event2.event_key).to eq('Staying home')
 
       expect_confirmation_event(confirmation_event, 1, "<h3>Do this</h3><ul>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ul>")
@@ -103,11 +103,11 @@ describe CandidateEvent do
     def expect_confirmation_event(confirmation_event,
                                   events_size,
                                   instructions,
-                                  the_way_due_date = '2016-05-31',
-                                  chs_due_date = '2016-05-24',
+                                  program_year1_due_date = '2016-05-31',
+                                  program_year2_due_date = '2016-05-24',
                                   event_key = 'Going out to eat')
-      expect(confirmation_event.the_way_due_date.to_s).to eq(the_way_due_date)
-      expect(confirmation_event.chs_due_date.to_s).to eq(chs_due_date)
+      expect(confirmation_event.program_year1_due_date.to_s).to eq(program_year1_due_date)
+      expect(confirmation_event.program_year2_due_date.to_s).to eq(program_year2_due_date)
       expect(confirmation_event.event_key).to eq(event_key)
       expect(confirmation_event.instructions).to eq(instructions)
       expect(confirmation_event.candidate_events.size).to eq(events_size)
@@ -121,7 +121,8 @@ describe CandidateEvent do
         candidate = nil
         candidate = FactoryBot.create(:candidate, account_name: 'foo_0') unless Candidate.find_by(account_name: 'foo_0')
         candidate ||= Candidate.find_by(account_name: 'foo_0')
-        confirmation_event_not_started = FactoryBot.create(:confirmation_event, the_way_due_date: '', chs_due_date: '')
+        confirmation_event_not_started = FactoryBot.create(:confirmation_event, program_year1_due_date: '',
+                                                                                program_year2_due_date: '')
         @candidate_event = candidate.add_candidate_event(confirmation_event_not_started)
         @candidate_event.completed_date = ''
         @candidate_event.verified = false
@@ -146,8 +147,8 @@ describe CandidateEvent do
         @candidate = FactoryBot.create(:candidate, account_name: 'baz_0') unless Candidate.find_by(account_name: 'baz_0')
         @candidate ||= Candidate.find_by(account_name: 'baz_0')
         @confirmation_event_started = FactoryBot.create(:confirmation_event,
-                                                        the_way_due_date: '2016-04-01',
-                                                        chs_due_date: '2016-04-02')
+                                                        program_year1_due_date: '2016-04-01',
+                                                        program_year2_due_date: '2016-04-02')
       end
 
       context 'when candidate has done nothing' do
@@ -175,14 +176,14 @@ describe CandidateEvent do
         end
 
         it 'not be late? - due today' do
-          @confirmation_event_started.chs_due_date = @today
-          @confirmation_event_started.the_way_due_date = @today
+          @confirmation_event_started.program_year2_due_date = @today
+          @confirmation_event_started.program_year1_due_date = @today
           expect(@candidate_event.late?).to be(false)
         end
 
         it 'not be late? - due in the future' do
-          @confirmation_event_started.chs_due_date = @today + 1
-          @confirmation_event_started.the_way_due_date = @today + 1
+          @confirmation_event_started.program_year2_due_date = @today + 1
+          @confirmation_event_started.program_year1_due_date = @today + 1
           expect(@candidate_event.late?).to be(false)
         end
       end
@@ -255,46 +256,46 @@ describe CandidateEvent do
     end
 
     it 'if nothing started then return "Not Started"' do
-      @candidate_event.confirmation_event.chs_due_date = nil
-      @candidate_event.confirmation_event.the_way_due_date = nil
+      @candidate_event.confirmation_event.program_year2_due_date = nil
+      @candidate_event.confirmation_event.program_year1_due_date = nil
       expect(@candidate_event.status).to eq('Not Started')
     end
 
     it 'if confirmation event due date set for today and < 30 days in future but candidate has done nothing "Coming Due"' do
-      @candidate_event.confirmation_event.chs_due_date = @today
-      @candidate_event.confirmation_event.the_way_due_date = @today
+      @candidate_event.confirmation_event.program_year2_due_date = @today
+      @candidate_event.confirmation_event.program_year1_due_date = @today
       expect(@candidate_event.status).to eq('Coming Due')
     end
 
     it 'if confirmation event due date set < 30 days in the future but candidate has done nothing "Coming Due"' do
-      @candidate_event.confirmation_event.chs_due_date = @today + 29
-      @candidate_event.confirmation_event.the_way_due_date = @today + 29
+      @candidate_event.confirmation_event.program_year2_due_date = @today + 29
+      @candidate_event.confirmation_event.program_year1_due_date = @today + 29
       expect(@candidate_event.status).to eq('Coming Due')
     end
 
     it 'if confirmation event due date set >= to 30 days in future but candidate has done nothing "Awaiting Candidate"' do
-      @candidate_event.confirmation_event.chs_due_date = @today + 30
-      @candidate_event.confirmation_event.the_way_due_date = @today + 30
+      @candidate_event.confirmation_event.program_year2_due_date = @today + 30
+      @candidate_event.confirmation_event.program_year1_due_date = @today + 30
       expect(@candidate_event.status).to eq('Awaiting Candidate')
     end
 
     it 'if confirmation event due date set before today but candidate has done nothing "Late"' do
-      @candidate_event.confirmation_event.chs_due_date = @today - 1
-      @candidate_event.confirmation_event.the_way_due_date = @today - 1
+      @candidate_event.confirmation_event.program_year2_due_date = @today - 1
+      @candidate_event.confirmation_event.program_year1_due_date = @today - 1
       expect(@candidate_event.status).to eq('Late')
     end
 
     it 'if confirmation event due date set, candidate completes event and admin has not verified "Awaiting Admin"' do
-      @candidate_event.confirmation_event.chs_due_date = @today
-      @candidate_event.confirmation_event.the_way_due_date = @today
+      @candidate_event.confirmation_event.program_year2_due_date = @today
+      @candidate_event.confirmation_event.program_year1_due_date = @today
       @candidate_event.completed_date = @today
       @candidate_event.verified = false
       expect(@candidate_event.status).to eq('Awaiting Admin')
     end
 
     it 'if confirmation event due date set, candidate completes event and admin verified "Completed"' do
-      @candidate_event.confirmation_event.chs_due_date = @today
-      @candidate_event.confirmation_event.the_way_due_date = @today
+      @candidate_event.confirmation_event.program_year2_due_date = @today
+      @candidate_event.confirmation_event.program_year1_due_date = @today
       @candidate_event.completed_date = @today
       @candidate_event.verified = true
       expect(@candidate_event.status).to eq('Verified')

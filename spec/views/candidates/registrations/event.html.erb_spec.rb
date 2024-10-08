@@ -9,7 +9,11 @@ describe 'candidates/registrations/event.html.erb' do
       AppFactory.add_confirmation_events
     end
 
-    it 'attending == The Way' do
+    it 'program_year == 1' do
+      program_year = 1
+      candidate = Candidate.find_by account_name: 'sophiaagusta'
+      candidate.candidate_sheet.program_year = program_year
+      candidate.save
       allow(controller).to receive(:event_class) { '' }
 
       render
@@ -17,9 +21,10 @@ describe 'candidates/registrations/event.html.erb' do
       expect_confirmation_events(false)
     end
 
-    it 'attending == Catholic High School' do
+    it 'program_year = 2' do
+      program_year = 2
       candidate = Candidate.find_by account_name: 'sophiaagusta'
-      candidate.candidate_sheet.attending = Candidate::CATHOLIC_HIGH_SCHOOL
+      candidate.candidate_sheet.program_year = program_year
       candidate.save
       allow(controller).to receive(:event_class) { '' }
 
@@ -48,8 +53,10 @@ describe 'candidates/registrations/event.html.erb' do
 
   def expect_confirmation_events(is_chs)
     ConfirmationEvent.all.each_with_index do |ce, index|
-      expect_candidate_event(index + 3, ce.id, ce.event_key, (is_chs ? nil : ce.the_way_due_date),
-                             (is_chs ? ce.chs_due_date : nil), ce.instructions, false, '', 'div')
+      expect_candidate_event(index + 3, ce.id, ce.event_key,
+                             (is_chs ? nil : ce.program_year1_due_date),
+                             (is_chs ? ce.program_year2_due_date : nil),
+                             ce.instructions, false, '', 'div')
     end
   end
 end

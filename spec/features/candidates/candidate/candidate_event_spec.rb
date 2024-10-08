@@ -22,34 +22,26 @@ describe 'Candidate event', :devise do
   end
 
   it 'candidate changes email address - 2' do
-    visit event_candidate_registration_path(@candidate.id)
-
-    # if this passes then going to wrong controller
-    expect(page).not_to have_selector('form[id=new_admin]')
-
-    expect_confirmation_events(false)
-  end
-
-  it 'candidate changes email address - 3' do
-    @candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_catholic_high_school')
+    program_year = 1
+    @candidate.candidate_sheet.program_year = program_year
     @candidate.save
     visit event_candidate_registration_path(@candidate.id)
 
     # if this passes then going to wrong controller
     expect(page).not_to have_selector('form[id=new_admin]')
 
-    expect_confirmation_events(true)
+    expect_confirmation_events(program_year)
   end
 
   private
 
-  def expect_confirmation_events(is_chs)
+  def expect_confirmation_events(program_year)
     ConfirmationEvent.all.each_with_index do |ce, index|
       expect_candidate_event(index + 3,
                              ce.id,
                              ce.event_key,
-                             (is_chs ? nil : ce.the_way_due_date),
-                             (is_chs ? ce.chs_due_date : nil),
+                             (program_year == 2 ? nil : ce.program_year1_due_date),
+                             (program_year == 2 ? ce.program_year2_due_date : nil),
                              ce.instructions,
                              false,
                              '',

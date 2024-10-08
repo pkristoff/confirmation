@@ -34,7 +34,7 @@ describe AdminsController do
     end
 
     it 'is sorted one event' do
-      ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
+      ce1 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-31', program_year2_due_date: '2016-05-24')
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce1)
@@ -42,8 +42,8 @@ describe AdminsController do
     end
 
     it 'is sorted two event' do
-      ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
-      ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
+      ce1 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-31', program_year2_due_date: '2016-05-24')
+      ce2 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-30', program_year2_due_date: '2016-05-23')
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce2)
@@ -52,9 +52,9 @@ describe AdminsController do
     end
 
     it 'is sorted three event' do
-      ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
-      ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
-      ce3 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-29', chs_due_date: '2016-05-22')
+      ce1 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-31', program_year2_due_date: '2016-05-24')
+      ce2 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-30', program_year2_due_date: '2016-05-23')
+      ce3 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-29', program_year2_due_date: '2016-05-22')
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce3)
@@ -64,9 +64,9 @@ describe AdminsController do
     end
 
     it 'is sorted three event: one nil' do
-      ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
-      ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
-      ce3 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-29', chs_due_date: '2016-05-22')
+      ce1 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-31', program_year2_due_date: '2016-05-24')
+      ce2 = FactoryBot.create(:confirmation_event, program_year1_due_date: nil, program_year2_due_date: nil)
+      ce3 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-29', program_year2_due_date: '2016-05-22')
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce2)
@@ -76,9 +76,9 @@ describe AdminsController do
     end
 
     it 'is sorted three event: two nil' do
-      ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-31', chs_due_date: '2016-05-24')
-      ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
-      ce3 = FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
+      ce1 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-31', program_year2_due_date: '2016-05-24')
+      ce2 = FactoryBot.create(:confirmation_event, program_year1_due_date: nil, program_year2_due_date: nil)
+      ce3 = FactoryBot.create(:confirmation_event, program_year1_due_date: nil, program_year2_due_date: nil)
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce2)
@@ -88,9 +88,9 @@ describe AdminsController do
     end
 
     it 'is sorted three event: two nil 2' do
-      ce1 = FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
-      ce2 = FactoryBot.create(:confirmation_event, the_way_due_date: '2016-05-30', chs_due_date: '2016-05-23')
-      ce3 = FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil)
+      ce1 = FactoryBot.create(:confirmation_event, program_year1_due_date: nil, program_year2_due_date: nil)
+      ce2 = FactoryBot.create(:confirmation_event, program_year1_due_date: '2016-05-30', program_year2_due_date: '2016-05-23')
+      ce3 = FactoryBot.create(:confirmation_event, program_year1_due_date: nil, program_year2_due_date: nil)
       controller.set_confirmation_events
       confirmation_events = controller.confirmation_events
       expect(confirmation_events.first).to eq(ce1)

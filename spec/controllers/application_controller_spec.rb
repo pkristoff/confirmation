@@ -4,7 +4,9 @@ describe ApplicationController do
   index = 0
   describe 'event_class' do
     context 'when confirmation due_date not set' do
-      let(:confirmation_event) { FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
+      let(:confirmation_event) do
+        FactoryBot.create(:confirmation_event, program_year1_due_date: nil, program_year2_due_date: nil)
+      end
 
       it 'always return event-unitialized' do
         AppFactory.generate_default_status if Status.count == 0
@@ -20,15 +22,17 @@ describe ApplicationController do
 
       candidate = FactoryBot.create(:candidate, account_name: "bar_#{index}")
       today = Time.zone.today
-      let(:confirmation_event_no_due_date) { FactoryBot.create(:confirmation_event, the_way_due_date: nil, chs_due_date: nil) }
+      let(:confirmation_event_no_due_date) do
+        FactoryBot.create(:confirmation_event, program_year1_due_date: nil, program_year2_due_date: nil)
+      end
       let(:confirmation_event_today) do
-        FactoryBot.create(:confirmation_event, the_way_due_date: today, chs_due_date: today)
+        FactoryBot.create(:confirmation_event, program_year1_due_date: today, program_year2_due_date: today)
       end
       let(:confirmation_event_today_plus40) do
-        FactoryBot.create(:confirmation_event, the_way_due_date: today + 40, chs_due_date: today + 40)
+        FactoryBot.create(:confirmation_event, program_year1_due_date: today + 40, program_year2_due_date: today + 40)
       end
       let(:confirmation_event_today_minus40) do
-        FactoryBot.create(:confirmation_event, the_way_due_date: today - 40, chs_due_date: today - 40)
+        FactoryBot.create(:confirmation_event, program_year1_due_date: today - 40, program_year2_due_date: today - 40)
       end
       let(:candidate_event_not_completed_no_due_date) do
         create_candidate_event(candidate, nil, false, confirmation_event_no_due_date)

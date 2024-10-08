@@ -37,8 +37,8 @@ describe 'ResetDB', :devise do
       expect(Candidate.count).to eq(1), "Should only have the candidate seed: #{Candidate.count}"
       expect(ConfirmationEvent.count).not_to eq(0)
       ConfirmationEvent.all.each do |ce|
-        expect(ce.chs_due_date).to eq(@today)
-        expect(ce.the_way_due_date).to eq(@today)
+        expect(ce.program_year2_due_date).to eq(@today)
+        expect(ce.program_year1_due_date).to eq(@today)
       end
     end
   end

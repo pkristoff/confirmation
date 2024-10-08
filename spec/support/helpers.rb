@@ -103,14 +103,14 @@ end
 # * <tt>:index</tt>
 # * <tt>:confirmation_event_id</tt>
 # * <tt>:event_key</tt>
-# * <tt>:the_way_due_date</tt>
-# * <tt>:chs_due_date</tt>
+# * <tt>:program_year1_due_date</tt>
+# * <tt>:program_year2_due_date</tt>
 # * <tt>:instructions</tt>
 # * <tt>:verified</tt>
 # * <tt>:completed_date</tt>
 # * <tt>:id_css</tt>
 #
-def expect_candidate_event(index, confirmation_event_id, event_key, the_way_due_date, chs_due_date, instructions, verified, completed_date, id_css = 'fieldset')
+def expect_candidate_event(index, confirmation_event_id, event_key, program_year1_due_date, program_year2_due_date, instructions, verified, completed_date, id_css = 'fieldset')
   page_or_rendered = respond_to?(:page) ? page : rendered
 
   if id_css == 'fieldset'
@@ -125,16 +125,17 @@ def expect_candidate_event(index, confirmation_event_id, event_key, the_way_due_
   end
 
   expect(page_or_rendered).to have_selector(name_selector, text: Candidate.i18n_event_name(event_key))
-  if the_way_due_date.nil?
-    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: I18n.t('views.events.the_way_due_date'))
-    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: the_way_due_date.nil? ? nil : I18n.l(the_way_due_date))
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: I18n.t('views.events.chs_due_date'))
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: the_way_due_date.nil? ? nil : I18n.l(chs_due_date))
+  if program_year1_due_date.nil?
+    puts page_or_rendered
+    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year1_due_date]", text: I18n.t('views.events.program_year1_due_date'))
+    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year1_due_date]", text: program_year1_due_date.nil? ? nil : I18n.l(program_year1_due_date))
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year2_due_date]", text: I18n.t('views.events.program_year2_due_date'))
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year2_due_date]", text: program_year1_due_date.nil? ? nil : I18n.l(program_year2_due_date))
   else
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: I18n.t('views.events.the_way_due_date'))
-    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_the_way_due_date]", text: the_way_due_date.nil? ? nil : I18n.l(the_way_due_date))
-    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: I18n.t('views.events.chs_due_date'))
-    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_chs_due_date]", text: chs_due_date.nil? ? nil : I18n.l(chs_due_date))
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year1_due_date]", text: I18n.t('views.events.program_year1_due_date'))
+    expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year1_due_date]", text: program_year1_due_date.nil? ? nil : I18n.l(program_year1_due_date))
+    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year2_due_date]", text: I18n.t('views.events.program_year2_due_date'))
+    expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year2_due_date]", text: program_year2_due_date.nil? ? nil : I18n.l(program_year2_due_date))
   end
   # expect(page_or_rendered).to have_selector("div[id=candidate_event_#{index}_instructions]", text: "#{I18n.t('views.events.instructions')}: #{instructions}")
   expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_instructions]", text: "#{I18n.t('views.events.instructions')}:")

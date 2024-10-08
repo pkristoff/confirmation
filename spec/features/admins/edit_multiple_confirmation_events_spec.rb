@@ -29,19 +29,19 @@ describe 'Admin edit_multiple_confirmation_events', :devise do
 
     confirmation_event = ConfirmationEvent.find_by(event_key: PickConfirmationName.event_key)
 
-    the_way_due_date_id = "confirmation_events_#{confirmation_event.id}_the_way_due_date"
-    chs_due_date_id = "confirmation_events_#{confirmation_event.id}_chs_due_date"
+    program_year1_due_date_id = "confirmation_events_#{confirmation_event.id}_program_year1_due_date"
+    program_year2_due_date_id = "confirmation_events_#{confirmation_event.id}_program_year2_due_date"
     instructions_id = "confirmation_events_#{confirmation_event.id}_instructions"
 
-    fill_in the_way_due_date_id, with: @today - 10
-    fill_in chs_due_date_id, with: @today - 8
+    fill_in program_year1_due_date_id, with: @today - 10
+    fill_in program_year2_due_date_id, with: @today - 8
     fill_in instructions_id, with: 'Very important instructions'
 
     click_button("update-#{confirmation_event.id}")
 
     expect_message(:flash_notice, I18n.t('messages.confirmation_events_updated'))
-    expect(page).to have_css("input[id=#{the_way_due_date_id}][value='#{@today - 10}']")
-    expect(page).to have_css("input[id=#{chs_due_date_id}][value='#{@today - 8}']")
+    expect(page).to have_css("input[id=#{program_year1_due_date_id}][value='#{@today - 10}']")
+    expect(page).to have_css("input[id=#{program_year2_due_date_id}][value='#{@today - 8}']")
     expect(page).to have_css("textarea[id=#{instructions_id}]", text: 'Very important instructions')
   end
 

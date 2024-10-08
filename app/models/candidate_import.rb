@@ -169,7 +169,7 @@ class CandidateImport
   # * <tt>Array</tt> String
   #
   def xlsx_conf_event_columns
-    %w[event_key index the_way_due_date chs_due_date instructions]
+    %w[event_key index program_year1_due_date program_year2_due_date instructions]
   end
 
   private

@@ -66,7 +66,7 @@ describe PluckCanEvent do
 
   def expect_awaiting_admin(bap_certificate_event, awaiting_admin)
     expect(bap_certificate_event.event_key).to eq(BaptismalCertificate.event_key)
-    expect(CandidateEvent.awaiting_admin?(bap_certificate_event.the_way_due_date,
+    expect(CandidateEvent.awaiting_admin?(bap_certificate_event.program_year1_due_date,
                                           bap_certificate_event.completed_date,
                                           bap_certificate_event.verified)).to eq(awaiting_admin)
   end

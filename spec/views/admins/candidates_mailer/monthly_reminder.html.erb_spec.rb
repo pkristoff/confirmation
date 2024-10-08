@@ -180,8 +180,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
   it 'display with mixture of events' do
     late_events_event = @candidate.get_candidate_event(Candidate.parent_meeting_event_key)
-    late_events_event.confirmation_event.chs_due_date = @today - 2
-    late_events_event.confirmation_event.the_way_due_date = @today - 2
+    late_events_event.confirmation_event.program_year2_due_date = @today - 2
+    late_events_event.confirmation_event.program_year1_due_date = @today - 2
     late_events_event.save
     late_events_values = [[late_events_event.event_key, late_events_event.id]]
 
@@ -317,8 +317,8 @@ describe 'candidates_mailer/monthly_reminder.html.erb' do
 
   def change_due_date(date)
     ConfirmationEvent.all.each do |ce|
-      ce.chs_due_date = date
-      ce.the_way_due_date = date
+      ce.program_year2_due_date = date
+      ce.program_year1_due_date = date
       ce.save
     end
   end

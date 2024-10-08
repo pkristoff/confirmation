@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_07_12_081423) do
+ActiveRecord::Schema.define(version: 2024_10_02_080927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 2024_07_12_081423) do
     t.string "contact_name", default: "", null: false
     t.string "contact_phone", default: "", null: false
     t.string "account_name", default: "Admin", null: false
-    t.json "table_filter", default: "\"\"", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["name"], name: "index_admins_on_name", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
@@ -149,11 +148,11 @@ ActiveRecord::Schema.define(version: 2024_07_12_081423) do
 
   create_table "confirmation_events", id: :serial, force: :cascade do |t|
     t.string "event_key"
-    t.date "the_way_due_date"
+    t.date "program_year1_due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "instructions", default: "", null: false
-    t.date "chs_due_date"
+    t.date "program_year2_due_date"
     t.index ["event_key"], name: "index_confirmation_events_on_event_key"
   end
 

@@ -19,10 +19,12 @@ describe 'admins/edit_multiple_confirmation_events.html.erb' do
     @confirmation_events.each do |confirmation_event|
       expect(rendered).to have_css('legend', text: Candidate.i18n_event_name(confirmation_event.event_key))
       id = confirmation_event.id
-      the_way_due_date = confirmation_event.the_way_due_date
-      expect(rendered).to have_css("input[id=confirmation_events_#{id}_the_way_due_date][value='#{the_way_due_date}']")
-      chs_due_date = confirmation_event.chs_due_date
-      expect(rendered).to have_css("input[id=confirmation_events_#{id}_chs_due_date][value='#{chs_due_date}']")
+      program_year1_due_date = confirmation_event.program_year1_due_date
+      css = "input[id=confirmation_events_#{id}_program_year1_due_date][value='#{program_year1_due_date}']"
+      expect(rendered).to have_css(css)
+      program_year2_due_date = confirmation_event.program_year2_due_date
+      css = "input[id=confirmation_events_#{id}_program_year2_due_date][value='#{program_year2_due_date}']"
+      expect(rendered).to have_css(css)
       expect(rendered).to have_css("span[id=instruction-area-#{id}][class=hide-div]", text: '')
       expect(rendered).to have_css("textarea[id=confirmation_events_#{id}_instructions][class=tinymce_#{id}]", text: '')
 

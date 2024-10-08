@@ -210,8 +210,8 @@ class PluckCan
                                                             :event_key,
                                                             :verified,
                                                             :completed_date,
-                                                            :the_way_due_date,
-                                                            :chs_due_date).each do |info|
+                                                            :program_year1_due_date,
+                                                            :program_year2_due_date).each do |info|
       cand_info = cand_event_info[info[0]]
       if cand_info.nil?
         cand_info = []
@@ -241,14 +241,14 @@ class PluckCan
   #
   # * <tt>:cand_id</tt> Candidate id.
   # * <tt>:event_key</tt> DB name.
-  # * <tt>:attending</tt> The way or catholic hs.
+  # * <tt>:program_year</tt> 1 or 2
   #
-  def event_status(cand_id, event_key, attending)
+  def event_status(cand_id, event_key, program_year)
     event_info = @cand_event_info[cand_id].find do |cand_event_for_cand|
       cand_event_for_cand.event_key == event_key
     end
-    due_date = event_info.chs_due_date
-    due_date = event_info.the_way_due_date if attending == Candidate::THE_WAY
+    due_date = event_info.program_year2_due_date
+    due_date = event_info.program_year1_due_date if program_year == 1
     CandidateEvent.status(due_date,
                           event_info.completed_date,
                           event_info.verified)

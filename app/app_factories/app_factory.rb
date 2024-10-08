@@ -101,8 +101,8 @@ class AppFactory
     event = ConfirmationEvent.find_or_create_by!(event_key: event_key) do |confirmation_event|
       confirmation_event.event_key = event_key
       today = Time.zone.today
-      confirmation_event.the_way_due_date = today
-      confirmation_event.chs_due_date = today
+      confirmation_event.program_year1_due_date = today
+      confirmation_event.program_year2_due_date = today
       new_confirmation_event = confirmation_event
     end
     unless new_confirmation_event.nil?

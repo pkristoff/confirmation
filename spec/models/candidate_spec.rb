@@ -48,78 +48,93 @@ describe Candidate do
           result: [] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+            { event_key: 'a', program_year1_due_date: nil, program_year2_due_date: nil, completed_date: nil }
           ]
         ),
           result: %w[a] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: nil, chs_due_date: nil, completed_date: nil },
-            { event_key: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+            { event_key: 'a', program_year1_due_date: nil, program_year2_due_date: nil, completed_date: nil },
+            { event_key: 'b', program_year1_due_date: nil, program_year2_due_date: nil, completed_date: nil }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
-            { event_key: 'b', the_way_due_date: nil, chs_due_date: nil, completed_date: nil }
+            { event_key: 'a', program_year1_due_date: '2016-05-01', program_year2_due_date: '2016-05-01', completed_date: nil },
+            { event_key: 'b', program_year1_due_date: nil, program_year2_due_date: nil, completed_date: nil }
           ]
         ),
           result: %w[b a] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
-            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+            { event_key: 'a', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: nil },
+            { event_key: 'b', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: nil }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
-            { event_key: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil }
+            { event_key: 'a', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: nil },
+            { event_key: 'b', program_year1_due_date: '2016-05-02',
+              program_year2_due_date: '2016-05-02', completed_date: nil }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: nil },
-            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+            { event_key: 'a', program_year1_due_date: '2016-05-02',
+              program_year2_due_date: '2016-05-02', completed_date: nil },
+            { event_key: 'b', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: nil }
           ]
         ),
           result: %w[b a] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' },
-            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil }
+            { event_key: 'a', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: '2016-05-05' },
+            { event_key: 'b', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: nil }
           ]
         ),
           result: %w[b a] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: nil },
-            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+            { event_key: 'a', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: nil },
+            { event_key: 'b', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: '2016-05-05' }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-01',
-              chs_due_datechs_due_date: '2016-05-01', completed_date: '2016-05-06' },
-            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+            { event_key: 'a', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: '2016-05-06' },
+            { event_key: 'b', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: '2016-05-05' }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-06' },
-            { event_key: 'b', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-05' }
+            { event_key: 'a', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: '2016-05-06' },
+            { event_key: 'b', program_year1_due_date: '2016-05-02',
+              program_year2_due_date: '2016-05-02', completed_date: '2016-05-05' }
           ]
         ),
           result: %w[a b] },
         { candidate: setup_candidate(
           [
-            { event_key: 'a', the_way_due_date: '2016-05-02', chs_due_date: '2016-05-02', completed_date: '2016-05-06' },
-            { event_key: 'b', the_way_due_date: '2016-05-01', chs_due_date: '2016-05-01', completed_date: '2016-05-05' }
+            { event_key: 'a', program_year1_due_date: '2016-05-02',
+              program_year2_due_date: '2016-05-02', completed_date: '2016-05-06' },
+            { event_key: 'b', program_year1_due_date: '2016-05-01',
+              program_year2_due_date: '2016-05-01', completed_date: '2016-05-05' }
           ]
         ),
           result: %w[b a] }
@@ -153,8 +168,10 @@ describe Candidate do
         confirmation_event = FactoryBot.create(
           :confirmation_event,
           event_key: candidate_data[:event_key],
-          the_way_due_date: (candidate_data[:the_way_due_date].nil? ? nil : Date.parse(candidate_data[:the_way_due_date])),
-          chs_due_date: (candidate_data[:chs_due_date].nil? ? nil : Date.parse(candidate_data[:chs_due_date]))
+          program_year1_due_date:
+            (candidate_data[:program_year1_due_date].nil? ? nil : Date.parse(candidate_data[:program_year1_due_date])),
+          program_year2_due_date:
+            (candidate_data[:program_year2_due_date].nil? ? nil : Date.parse(candidate_data[:program_year2_due_date]))
         )
         candidate_event = candidate.add_candidate_event(confirmation_event)
         candidate_event.completed_date = candidate_data[:completed_date]

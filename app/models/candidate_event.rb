@@ -21,9 +21,9 @@ class CandidateEvent < ApplicationRecord
   #
   def due_date
     if candidate.candidate_sheet.attending == Attending::THE_WAY
-      confirmation_event.the_way_due_date
+      confirmation_event.program_year1_due_date
     else
-      confirmation_event.chs_due_date
+      confirmation_event.program_year2_due_date
     end
   end
 

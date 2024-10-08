@@ -24,33 +24,37 @@ describe 'Candidate event', :devise do
   end
 
   it 'candidate changes email address' do
-    visit event_candidate_path(@candidate.id)
-
-    # if this fails then going to wrong controller
-    expect(page).not_to have_selector('form[id=new_admin]')
-    expect_confirmation_events(false)
-  end
-
-  it 'candidate changes email address - 2' do
-    @candidate.candidate_sheet.attending = I18n.t('model.candidate.attending_catholic_high_school')
+    program_year = 1
+    @candidate.candidate_sheet.program_year = program_year
     @candidate.save
     visit event_candidate_path(@candidate.id)
 
     # if this fails then going to wrong controller
     expect(page).not_to have_selector('form[id=new_admin]')
-    expect_confirmation_events(true)
+    expect_confirmation_events(program_year)
+  end
+
+  it 'candidate changes email address - 2' do
+    program_year = 2
+    @candidate.candidate_sheet.program_year = program_year
+    @candidate.save
+    visit event_candidate_path(@candidate.id)
+
+    # if this fails then going to wrong controller
+    expect(page).not_to have_selector('form[id=new_admin]')
+    expect_confirmation_events(program_year)
   end
 
   private
 
-  def expect_confirmation_events(is_chs)
+  def expect_confirmation_events(program_year)
     @candidate.candidate_events_sorted.each_with_index do |ce, index|
       conf_e = ce.confirmation_event
       expect_candidate_event(index,
                              conf_e.id,
                              conf_e.event_key,
-                             (is_chs ? nil : conf_e.the_way_due_date),
-                             (is_chs ? conf_e.chs_due_date : nil),
+                             (program_year == 2 ? nil : conf_e.program_year1_due_date),
+                             (program_year == 2 ? conf_e.program_year2_due_date : nil),
                              conf_e.instructions,
                              false,
                              '',

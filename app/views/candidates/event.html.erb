@@ -16,15 +16,15 @@
       <%= field_set_tag legend_object, class: "fieldset #{controller.event_class(candidate_event_fields.object)}", id: "event_id_#{confirmation_event_id}" do %>
         <div class="fieldset-div">
           <div class="left-col">
-            <% if resource.candidate_sheet.attending === t('model.candidate.attending_the_way') %>
-              <div class="field" id='<%= "candidate_event_#{confirmation_event_id}_the_way_due_date" %>'>
-                <%= t('views.events.the_way_due_date') %>
-                : <%= l confirmation_event_fields.object.the_way_due_date, format: :default %>
+            <% if resource.candidate_sheet.program_year == 1 %>
+              <div class="field" id='<%= "candidate_event_#{confirmation_event_id}_program_year1_due_date" %>'>
+                <%= t('views.events.program_year1_due_date') %>
+                : <%= l confirmation_event_fields.object.program_year1_due_date, format: :default %>
               </div>
             <% else %>
-              <div class="field" id='<%= "candidate_event_#{confirmation_event_id}_chs_due_date" %>'>
-                <%= t('views.events.chs_due_date') %>
-                : <%= l confirmation_event_fields.object.chs_due_date, format: :default %>
+              <div class="field" id='<%= "candidate_event_#{confirmation_event_id}_program_year2_due_date" %>'>
+                <%= t('views.events.program_year2_due_date') %>
+                : <%= l confirmation_event_fields.object.program_year2_due_date, format: :default %>
               </div>
             <% end %>
             <div class="field" id='<%= "candidate_event_#{confirmation_event_id}_verified" %>'>

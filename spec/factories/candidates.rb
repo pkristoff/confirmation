@@ -39,8 +39,8 @@ def create_candidate_events
   confirmation_event_home =
     ConfirmationEvent.find_by(event_key: 'Staying home') || FactoryBot.create(:confirmation_event,
                                                                               event_key: 'Staying home',
-                                                                              the_way_due_date: '2016-04-30',
-                                                                              chs_due_date: '2016-04-01',
+                                                                              program_year1_due_date: '2016-04-30',
+                                                                              program_year2_due_date: '2016-04-01',
                                                                               instructions: instructions)
   [FactoryBot.create(:candidate_event,
                      confirmation_event: confirmation_event_eat),
