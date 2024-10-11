@@ -263,7 +263,7 @@ en:
       missing_attributes: 'Your changes were saved!! %{err_count} empty fields need to be filled in on the form to be verified:'
       one_email: at least one email must be supplied.
       unknown_show_empty_radio: 'Unknown show_empty_radio value: %{show_empty_radio}'
-    export_to_excel: Working in background.  An email with spreadsheet will be sent upon completion with %{commit}.
+    export_to_excel: Working in background.  An email to %{email} with spreadsheet will be sent upon completion with %{commit}.
     flash:
       alert:
         admin:

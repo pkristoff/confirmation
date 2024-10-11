@@ -140,7 +140,12 @@ class ExportExcelCandJob
         if candidate_send0.nil?
           nil
         else
-          candidate_send0.send(split[1]).send(split[2])
+          candidate_send1 = candidate_send0.send(split[1])
+          if candidate_send1.nil?
+            nil
+          else
+            candidate_send1.send(split[2])
+          end
         end
       else
         confirmation_event = confirmation_events[split[1].to_i]

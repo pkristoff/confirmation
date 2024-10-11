@@ -263,7 +263,7 @@ es:
       missing_attributes: "¡Tus cambios fueron guardados! Deben completarse %{err_count} campos vacíos en el formulario para ser verificado:"
       one_email: se debe proporcionar al menos un correo electrónico.
       unknown_show_empty_radio: 'Valor desconocido de show_empty_radio: %{show_empty_radio}'
-    export_to_excel: Trabajan en segundo plano. Se enviará un correo electrónico con hoja de cálculo. al finalizar con %{commit}.
+    export_to_excel: Trabajando en segundo plano. Se enviará un correo electrónico a %{email} con una hoja de cálculo una vez finalizado el proceso con %{commit}.
     flash:
       alert:
         admin:

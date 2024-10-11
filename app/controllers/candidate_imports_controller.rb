@@ -45,7 +45,9 @@ class CandidateImportsController < ApplicationController
   def export_to_excel
     ExportExcelJob.perform_async(params[:commit], current_admin)
 
-    redirect_to new_candidate_import_path, notice: t('messages.export_to_excel', commit: params[:commit])
+    redirect_to new_candidate_import_path, notice: t('messages.export_to_excel',
+                                                     email: current_admin.email,
+                                                     commit: params[:commit])
   rescue StandardError => e
     redirect_to new_candidate_import_path, alert: e.message
   end

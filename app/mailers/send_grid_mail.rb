@@ -153,7 +153,7 @@ class SendGridMail
       mail_settings.sandbox_mode = SendGrid::SandBoxMode.new(enable: true)
       mail.mail_settings = mail_settings
     end
-    mail.from = SendGrid::Email.new(email: @admin.email, name: "#{Visitor.home_parish} Confirmation")
+    mail.from = SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: "#{Visitor.home_parish} Confirmation")
     mail.subject = subject_mail_part.text
     cat_env = ''
     cat_env = 'test' if Rails.env.test?
