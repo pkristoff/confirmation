@@ -11,7 +11,7 @@ describe 'candidates/registrations/event.html.erb' do
 
     it 'program_year == 1' do
       program_year = 1
-      candidate = Candidate.find_by account_name: 'sophiaagusta'
+      candidate = Candidate.find_by account_name: 'augustasophia'
       candidate.candidate_sheet.program_year = program_year
       candidate.save
       allow(controller).to receive(:event_class) { '' }
@@ -23,7 +23,7 @@ describe 'candidates/registrations/event.html.erb' do
 
     it 'program_year = 2' do
       program_year = 2
-      candidate = Candidate.find_by account_name: 'sophiaagusta'
+      candidate = Candidate.find_by account_name: 'augustasophia'
       candidate.candidate_sheet.program_year = program_year
       candidate.save
       allow(controller).to receive(:event_class) { '' }

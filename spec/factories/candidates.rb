@@ -7,7 +7,7 @@ FactoryBot.define do
       add_candidate_events { false }
       add_new_confirmation_events { true }
     end
-    account_name { 'sophiaagusta' }
+    account_name { 'augustasophia' }
     password { 'please123' }
     candidate_note { 'Admin note' }
     after(:build) do |candidate, evaluator|

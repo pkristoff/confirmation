@@ -10,7 +10,7 @@ describe 'candidates/show.html.erb' do
     render
 
     expect(rendered).to have_selector('p', count: 10)
-    expect(rendered).to have_selector('p', text: 'Id: sophiaagusta')
+    expect(rendered).to have_selector('p', text: 'Id: augustasophia')
     expect(rendered).to have_selector('p', text: 'First name: Sophia')
     expect(rendered).to have_selector('p', text: 'Middle name: Saraha')
     expect(rendered).to have_selector('p', text: 'Last name: Augusta')

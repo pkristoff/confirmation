@@ -99,13 +99,128 @@ describe CandidateImportsController do
       expect(controller.candidate_import.errors.size).to eq(0)
     end
 
-    it 'import candidates with invalid excel file' do
+    it 'import candidates with invalid excel file: last name can\'t be blank' do
       login_admin
-      uploaded_file = fixture_file_upload('Invalid.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      uploaded_file = fixture_file_upload('/Import candidates tests/Invalid.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       post :import_candidates, params: { candidate_import: { file: uploaded_file } }
       expect(controller.candidate_import).not_to be_nil
-      expect(controller.flash[:alert]).to eq('annunziatarobert: Grade should be between 9 & 12')
+      expect(controller.flash[:alert]).to eq('Validation failed: Last name can\'t be blank')
       expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: illegal attending' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload illegal attending.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('donethpeyton Illegal Attending value: The foo')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: illegal grade' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload illegal grade.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('donethpeyton Illegal grade=5.  It should be between 9 & 12')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: illegal program year' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload Illegal program year.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('donethpeyton program year should be 1 or 2 : 3')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: illegal status' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload illegal status.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('donethpeyton Illegal status: Foo')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: missing email' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload missing email.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      error_message = 'Row 2: Candidate email at least one email must be supplied.'
+      expect(controller.candidate_import.errors.full_messages[0]).to eq(error_message)
+      expect(controller.candidate_import.errors.size).to eq(1)
+    end
+
+    it 'import candidates with invalid excel file: missing first name' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload missing first name.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('Validation failed: First_name can\'t be blank')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: missing grade' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload missing grade.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('donethpeyton: Grade should be between 9 & 12')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: missing last name' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload missing last name.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('Validation failed: Last name can\'t be blank')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: missing program year' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload missing program year.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('donethpeyton program year cannot blank')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates with invalid excel file: missing status' do
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Test upload missing status.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.flash[:alert]).to eq('donethpeyton Status cannot be blank.')
+      expect(controller.candidate_import.errors.size).to eq(0)
+    end
+
+    it 'import candidates existing middle_name' do
+      cand = FactoryBot.create(:candidate)
+      expect(cand.candidate_sheet.middle_name).to eq('Saraha')
+      login_admin
+      uploaded_file = fixture_file_upload('/Import candidates tests/Existing Middle name.xlsx',
+                                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      post :import_candidates, params: { candidate_import: { file: uploaded_file } }
+      expect(controller.candidate_import).not_to be_nil
+      expect(controller.candidate_import.errors.size).to eq(0)
+      cand = Candidate.first
+      expect(cand.candidate_sheet.middle_name).to eq('Saraha')
     end
   end
 
@@ -121,13 +236,5 @@ describe CandidateImportsController do
 
       expect(response.body).to have_link('', href: 'http://test.host/candidate_imports/new')
     end
-  end
-
-  private
-
-  def expect_event_association_local(assoc_from_candidate)
-    event_assoc = assoc_from_candidate.class.all
-    expect(event_assoc.size).to eq(1)
-    expect(assoc_from_candidate).to eq(event_assoc.first)
   end
 end

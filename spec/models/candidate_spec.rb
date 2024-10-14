@@ -19,7 +19,7 @@ describe Candidate do
   describe 'address' do
     it 'can retrieve a candiadate\'s address' do
       candidate = FactoryBot.create(:candidate)
-      expect(candidate.account_name).to match 'sophiaagusta'
+      expect(candidate.account_name).to match 'augustasophia'
       expect(candidate.candidate_sheet.parent_email_1).to match 'test@example.com'
 
       expect(candidate.candidate_events.size).to eq 2

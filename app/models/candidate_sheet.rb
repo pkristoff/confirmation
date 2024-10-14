@@ -96,6 +96,16 @@ class CandidateSheet < ApplicationRecord
     CandidateSheet.basic_permitted_params
   end
 
+  # imported attributes
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of attributes that can be imported
+  #
+  def self.import_candidate_permitted_params
+    CandidateSheet.basic_import_candidate_permitted_params
+  end
+
   # Editable attributes
   #
   # === Returns:
@@ -104,6 +114,16 @@ class CandidateSheet < ApplicationRecord
   #
   def self.basic_permitted_params
     %i[first_name middle_name last_name candidate_email parent_email_1 parent_email_2 grade program_year attending id]
+  end
+
+  # imported attributes
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of attributes that can be imported
+  #
+  def self.basic_import_candidate_permitted_params
+    %i[first_name last_name candidate_email parent_email_1 parent_email_2 grade program_year attending id]
   end
 
   # Required attributes

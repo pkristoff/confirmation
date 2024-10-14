@@ -102,7 +102,6 @@ shared_context 'when locale_changed' do
         setup_resend_conformation_instructions
         fill_in(I18n.t('views.candidates.confirm_account.resend.label'), with: '@bbb.com')
         click_button('Submit')
-        puts page.html
         expect_messages([
                           [:flash_alert,
                            I18n.t('views.candidates.confirm_account.resend.email.no†_found.flash.alert', email: '@bbb.com')]

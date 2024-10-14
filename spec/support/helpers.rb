@@ -126,7 +126,6 @@ def expect_candidate_event(index, confirmation_event_id, event_key, program_year
 
   expect(page_or_rendered).to have_selector(name_selector, text: Candidate.i18n_event_name(event_key))
   if program_year1_due_date.nil?
-    puts page_or_rendered
     expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year1_due_date]", text: I18n.t('views.events.program_year1_due_date'))
     expect(page_or_rendered).not_to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year1_due_date]", text: program_year1_due_date.nil? ? nil : I18n.l(program_year1_due_date))
     expect(page_or_rendered).to have_selector("div[id=candidate_event_#{confirmation_event_id}_program_year2_due_date]", text: I18n.t('views.events.program_year2_due_date'))

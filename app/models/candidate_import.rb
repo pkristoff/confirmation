@@ -36,10 +36,14 @@ class CandidateImport
   #
   def self.transient_columns
     %w[
-      baptismal_certificate.certificate_picture baptismal_certificate.remove_certificate_picture
-      retreat_verification.retreat_verification_picture retreat_verification.remove_retreat_verification_picture
-      sponsor_covenant.sponsor_eligibility_picture sponsor_covenant.sponsor_covenant_picture
-      sponsor_covenant.remove_sponsor_eligibility_picture sponsor_covenant.remove_sponsor_covenant_picture
+      baptismal_certificate.certificate_picture
+      baptismal_certificate.remove_certificate_picture
+      retreat_verification.retreat_verification_picture
+      retreat_verification.remove_retreat_verification_picture
+      sponsor_covenant.sponsor_eligibility_picture
+      sponsor_covenant.sponsor_covenant_picture
+      sponsor_covenant.remove_sponsor_eligibility_picture
+      sponsor_covenant.remove_sponsor_covenant_picture
     ]
   end
 
@@ -47,7 +51,7 @@ class CandidateImport
   #
   # === Parameters:
   #
-  # * <tt>:attributes</tt> name vaue pairs
+  # * <tt>:attributes</tt> name value pairs
   #
   # === Returns:
   #
@@ -562,10 +566,10 @@ class CandidateImport
         )
 
         # last_name
-        candidate_sheet_params[:last_name] = last_name
+        candidate_sheet_params[:last_name] = import_last_name(last_name)
 
         # first_name
-        candidate_sheet_params[:first_name] = first_name
+        candidate_sheet_params[:first_name] = import_first_name(first_name)
 
         # account_name
         account_name = Candidate.generate_account_name(candidate_sheet_params[:last_name].gsub(/\s+/, '') || '',
@@ -602,7 +606,18 @@ class CandidateImport
         params[:candidate][:status_id] = import_status(spreadsheet_row, account_name)
 
         candidate = Candidate.find_by(account_name: account_name) || ::AppFactory.create_candidate
-        candidate.update(params.require(:candidate).permit(Candidate.permitted_params))
+
+        # middle_name
+        middle_name = candidate.candidate_sheet.middle_name
+
+        permitted_params = Candidate.import_candidate_permitted_params
+
+        candidate.update(params.require(:candidate).permit(permitted_params))
+
+        # handle blanking of middle_name
+        #
+        candidate.candidate_sheet.middle_name = middle_name if middle_name.present?
+        candidate.candidate_sheet.save! if middle_name.present?
 
         candidates.push(candidate)
         @candidate_to_row[candidate] = i
@@ -611,6 +626,20 @@ class CandidateImport
     else
       raise "Unknown spread sheet column: #{header_row} expected in order: #{legal_headers}"
     end
+  end
+
+  def import_last_name(last_name)
+    name = last_name.nil? ? '' : last_name.strip
+    raise 'Validation failed: Last name can\'t be blank' if name.blank?
+
+    name.presence
+  end
+
+  def import_first_name(first_name)
+    name = first_name.nil? ? '' : first_name.strip
+    raise 'Validation failed: First_name can\'t be blank' if name.blank?
+
+    name.presence
   end
 
   def import_status(spreadsheet_row, account_name)

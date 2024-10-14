@@ -215,6 +215,18 @@ class Candidate < ApplicationRecord
        retreat_verification_attributes: RetreatVerification.permitted_params }]
   end
 
+  # Editable attributes
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of attributes
+  #
+  def self.import_candidate_permitted_params
+    [:id, :account_name, :password, :password_confirmation,
+     :signed_agreement, :candidate_note, :status_id,
+     { candidate_sheet_attributes: CandidateSheet.import_candidate_permitted_params }]
+  end
+
   # Validate if association_class event is complete by adding validation errors to active record
   #
   # === Parameters:
@@ -265,7 +277,7 @@ class Candidate < ApplicationRecord
     candidate_sheet.candidate_email.to_s
   end
 
-  # sets canidates email to value - used by Factory Girl
+  # sets candidates email to value - used by Factory Girl
   #
   # === Parameters:
   #

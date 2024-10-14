@@ -31,6 +31,6 @@ describe 'Candidate edit', :devise do
     visit edit_candidate_path(candidate.id)
     fill_in 'Parent email 1', with: 'newemail@example.com'
     click_button I18n.t('views.common.update')
-    expect_message(:flash_notice, I18n.t('messages.candidate_updated', name: 'sophiaagusta'))
+    expect_message(:flash_notice, I18n.t('messages.candidate_updated', name: 'augustasophia'))
   end
 end
