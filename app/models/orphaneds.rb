@@ -27,7 +27,7 @@ class Orphaneds
   #
   # === Returns:
   #
-  # * <tt>Orphanends</tt> representing image filename
+  # * <tt>Orphaneds</tt> representing image filename
   #
   def self.add_orphaned_table_rows
     Orphaneds.new.add_orphaned_table_rows

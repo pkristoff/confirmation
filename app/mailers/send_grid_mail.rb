@@ -147,7 +147,7 @@ class SendGridMail
   #
   def create_mail(subject_mail_part, email_type, account_name)
     mail = SendGrid::Mail.new
-    # If we are testing don't actuallly send just have SendGrid validate it.
+    # If we are testing don't actually send just have SendGrid validate it.
     if Rails.env.test?
       mail_settings = SendGrid::MailSettings.new
       mail_settings.sandbox_mode = SendGrid::SandBoxMode.new(enable: true)
@@ -166,7 +166,7 @@ class SendGridMail
     mail
   end
 
-  # Create personalizations
+  # Create personalization
   #
   # === Parameters:
   #

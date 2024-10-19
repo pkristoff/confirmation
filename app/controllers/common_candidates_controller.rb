@@ -54,6 +54,12 @@ class CommonCandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     @resource = @candidate
     event_route = params[:event_route]
+    # hack to fix church_address & prof_church_address being nil
+    if event_route.to_sym == Event::Route::BAPTISMAL_CERTIFICATE
+      bc = @candidate.baptismal_certificate
+      bc.build_church_address if bc.church_address.nil?
+      bc.build_prof_church_address if bc.prof_church_address.nil?
+    end
     render_event_with_picture(false, event_route)
   end
 
