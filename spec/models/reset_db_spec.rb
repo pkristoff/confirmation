@@ -202,7 +202,7 @@ describe ResetDB do
       expect(active_cand_year1).not_to be_nil
       expect_cand_values(active_cand_year1, { program_year: 2,
                                               grade: 10 })
-      expect_table_rows(Candidate, { Address: 3, # 2 for seed + 1 for visitor
+      expect_table_rows(Candidate, { Address: 5, # 2 for seed + 1 for visitor 2 for active_cand_year1
                                      BaptismalCertificate: 2,
                                      Candidate: 2,
                                      CandidateEvent: 4,
@@ -243,7 +243,59 @@ describe ResetDB do
       expect(deferred_cand_year2).not_to be_nil
       expect_cand_values(deferred_cand_year2, { program_year: 2,
                                                 grade: 11 })
-      expect_table_rows(Candidate, { Address: 3, # 2 for seed + 1 for visitor
+      expect_table_rows(Candidate, { Address: 5, # 2 for seed + 1 for visitor + 2 for deferred
+                                     BaptismalCertificate: 2,
+                                     Candidate: 2,
+                                     CandidateEvent: 4,
+                                     CandidateSheet: 2,
+                                     ChristianMinistry: 2,
+                                     ConfirmationEvent: 2,
+                                     PickConfirmationName: 2,
+                                     RetreatVerification: 2,
+                                     SponsorCovenant: 2,
+                                     SponsorEligibility: 2,
+                                     ScannedImage: 0,
+                                     ToDo: 4 })
+    end
+
+    it 'start a new year will only delete addresses of deleted candidates' do
+      deferred_cand_year2 = FactoryBot.create(:candidate, account_name: 'deferred_cand_year2')
+      deferred_cand_year2.candidate_sheet.program_year = 2
+      deferred_cand_year2.status_id = Status.deferred.id
+      deferred_cand_year2.save
+
+      active_cand_year2 = FactoryBot.create(:candidate, account_name: 'active_cand_year2')
+      active_cand_year2.candidate_sheet.program_year = 2
+      active_cand_year2.status_id = Status.active.id
+      active_cand_year2.save
+      expect(Candidate.count).to eq(2)
+
+      church_address_active_id = active_cand_year2.baptismal_certificate.church_address_id
+      prof_address_active_id = active_cand_year2.baptismal_certificate.prof_church_address_id
+
+      church_address_deferred_id = deferred_cand_year2.baptismal_certificate.church_address_id
+      prof_church_address_deferred_id = deferred_cand_year2.baptismal_certificate.prof_church_address_id
+
+      ResetDB.start_new_year
+
+      # seed created if it does not previously exist
+      vicki_candidate = Candidate.find_by(account_name: 'vickikristoff')
+      expect(vicki_candidate).not_to be_nil
+      church_address_vicki_id = vicki_candidate.baptismal_certificate.church_address_id
+      prof_address_vicki_id = vicki_candidate.baptismal_certificate.prof_church_address_id
+
+      expect_address_exists(vicki_candidate,
+                            false, church_address_vicki_id, prof_address_vicki_id)
+
+      # deleted because confirmed
+      expect_address_exists(Candidate.find_by(account_name: 'active_cand_year2'),
+                            true, church_address_active_id, prof_address_active_id)
+
+      # decided to be confirmed this year
+      expect_address_exists(deferred_cand_year2,
+                            false, church_address_deferred_id, prof_church_address_deferred_id)
+
+      expect_table_rows(Candidate, { Address: 5, # 2 for seed + 1 for visitor + 2 for deferred
                                      BaptismalCertificate: 2,
                                      Candidate: 2,
                                      CandidateEvent: 4,
@@ -343,6 +395,18 @@ describe ResetDB do
   end
 
   private
+
+  def expect_address_exists(candidate, is_nil, church_address_cand_id, prof_address_cand_id)
+    if is_nil
+      expect(candidate).to be_nil
+      expect(Address.find_by(id: church_address_cand_id)).to be_nil
+      expect(Address.find_by(id: prof_address_cand_id)).to be_nil
+    else
+      expect(candidate).not_to be_nil
+      expect(Address.find_by(id: church_address_cand_id)).not_to be_nil
+      expect(Address.find_by(id: prof_address_cand_id)).not_to be_nil
+    end
+  end
 
   def create_scanned_image
     content = ''

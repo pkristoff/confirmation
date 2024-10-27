@@ -78,12 +78,6 @@ class ResetDB
 
   private
 
-  def clean_addresses(_cands_)
-    home_parish_address_id = Visitor.visitor.home_parish_address_id
-    address_ids_keep = home_parish_address_id.to_s
-    Address.where('id != ? ', address_ids_keep).destroy_all
-  end
-
   # Used to start a new year - cleans out tables for new year.
   #
   # === Parameters:
@@ -118,7 +112,6 @@ class ResetDB
         else
           candidate.destroy
         end
-        clean_addresses(candidates_to_keep)
       else
         clazz.destroy_all
       end
