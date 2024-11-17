@@ -153,7 +153,8 @@ class SendGridMail
       mail_settings.sandbox_mode = SendGrid::SandBoxMode.new(enable: true)
       mail.mail_settings = mail_settings
     end
-    mail.from = SendGrid::Email.new(email: 'stmm.confirmation@kristoffs.com', name: "#{Visitor.home_parish} Confirmation")
+
+    mail.from = SendGrid::Email.new(email: 'confirmation@stmm.net', name: "#{Visitor.home_parish} Confirmation")
     mail.subject = subject_mail_part.text
     cat_env = ''
     cat_env = 'test' if Rails.env.test?
@@ -200,7 +201,7 @@ class SendGridMail
   # === Parameters:
   #
   # * <tt>:emails</tt> Array of email addresses. Can be nil or ''
-  # * <tt>:used</tt> List of emai addresses alrady used for this email
+  # * <tt>:used</tt> List of email addresses already used for this email
   #
   # === Returns:
   #
