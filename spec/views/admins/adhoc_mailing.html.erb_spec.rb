@@ -3,6 +3,8 @@
 describe 'admins/adhoc_mailing.html.erb' do
   include ViewsHelpers
   before do
+    # Define current_admin for testing
+    @admin = login_admin
     AppFactory.generate_default_status
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')

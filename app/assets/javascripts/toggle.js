@@ -63,11 +63,7 @@ column_sorting = function () {
                 break;
             case 'sort_finished':
                 if (is_column_sorting) {
-                    // console.log('sorting finished:  '.concat('true'))
-                    let ans = generate_filter();
-                    update_filters(ans)
                 } else {
-                    // console.log('sorting finished:  '.concat('false'))
                 }
                 column_sorting('reset')
                 break;
@@ -76,36 +72,74 @@ column_sorting = function () {
 }
 ()
 
-setup_filter = function () {
-    // $("table").bind("sortStart",function() {
-    $("#candidate_list_table").bind("sortStart", function () {
-        column_sorting('sort_started');
-    }).bind("sortEnd", function (event, ui) {
-        column_sorting('sort_finished');
-    });
-    $("#candidate_list_table") .on('filterEnd', function () {
-        let ans = generate_filter();
-        update_filters(ans);
+setup_filter_and_sort_binding = function () {
+    let candidate_list_table = $("#candidate_list_table")
+    candidate_list_table.bind("sortStart", function () {
+            column_sorting('sort_started');
+        }).bind("sortEnd", function (event, ui) {
+            column_sorting('sort_finished');
+            console.log('sort_finished');
+            let table_info_arr = generate_filter();
+            save_filters_and_sorting(table_info_arr,
+                function (response) {
+                    console.log('success')
+                },
+                function (response) {
+                    console.log('error')
+                });
+        });
+    candidate_list_table.on('filterEnd', function () {
+        console.log('filterEnd');
+        save_filters_and_sorting(generate_filter(),
+            function (response) {
+                console.log('success')
+            },
+            function (response) {
+                console.log('error')
+            }
+        )
     })
 }
 
-save_filters_and_sorting = function (){
-    console.log('saving filters to admin')
-    console.log('implement me.')
+save_filters_and_sorting = function (table_info_arr, success, error) {
+    console.log(table_info_arr);
+    let table_info_str = JSON.stringify(table_info_arr)
+
+    let div_admin_id = document.getElementById("admin_id").innerText
+    let url = '/admins/'.concat(div_admin_id, '/update_filter_and_sorting')
+
+    $.ajax({
+        url: url,
+        type: 'PUT',
+        data: {
+            admin: {
+                id: $("#admin_id")[0].innerText,
+                table_filter_and_sorting_columns: table_info_str
+            }
+        },
+        success: function (response) {
+            console.log('success');
+            div_text = document.getElementById("table_filter_and_sorting_columns_id")
+            div_text.innerText = table_info_str;
+        },
+        error: error
+    });
 }
 
-update_filters = function (columns) {
+initialize_sorting_and_filters = function (columns) {
 
-    columns.forEach(myFunction);
+    columns.forEach(update_column);
 
-    // generate_filter();
-
-    function myFunction(column_info, index, array) {
+    function update_column(column_info) {
         let column_name = column_info['column_name'];
         let filter = column_info['filter'];
-        let data_column_offset = column_info['data_column_offset'];
+        console.log('Column_name='.concat(column_name))
+        let data_column_offset_lu = adhoc_offset[column_name];
+        console.log('   data_column_offset LU:  ('.concat(')').concat(data_column_offset_lu))
+        let data_column_offset_old = column_info['data_column_offset'];
+        console.log('   data_column_offset old: '.concat(data_column_offset_old))
         let column_sort = column_info['Sort'] || column_info['sort'];
-        update_filter(data_column_offset, column_name, filter, column_sort)
+        update_column_sorting_and_filters(data_column_offset_lu, column_name, filter, column_sort)
     }
 }
 
@@ -113,70 +147,107 @@ generate_filter = function () {
     let candidate_list_table = $("#candidate_list_table")
     let th_class;
     let th;
-    let thprime;
+    let th_prime;
     if (candidate_list_table.length > 0) {
 
         let ths = candidate_list_table.find("th");
-        let ans = [];
+        let table_info_arr = [];
         for (let i = 0; i < ths.length; i++) {
             th = ths[i];
 
-            // console.log(th)
             th_class = th.getAttribute('class');
-            // console.log(th_class)
-            // console.log(th.getAttribute('aria-label').includes('sorting is disabled'));
-            if (! th.getAttribute('aria-label').includes('sorting is disabled')) {
-                column_name = th.getElementsByClassName("tablesorter-header-inner")[0].textContent
-                thprime = candidate_list_table.find("th:contains(".concat(column_name).concat(")"))
+            if (!th.getAttribute('aria-label').includes('sorting is disabled')) {
+                let column_name = th.getElementsByClassName("tablesorter-header-inner")[0].textContent
+                th_prime = candidate_list_table.find("th:contains(".concat(column_name).concat(")"))
 
                 let entry = {}
-                ans.push(entry);
+                table_info_arr.push(entry);
                 entry["column_name"] = column_name;
                 entry['data_column_offset'] = th.getAttribute('data-column')
-                let sort = th.getAttribute('aria-sort')
-                entry['sort'] = sort;
+                entry['sort'] = th.getAttribute('aria-sort');
                 let statusColumnInput = document.querySelector('thead>tr>td>input[data-column="'.concat(entry['data_column_offset']).concat('"]'));
                 entry['filter'] = statusColumnInput.value
             }
         }
         // aaa = ths[1].getElementsByClassName("tablesorter-header-inner")[0].textContent
-        console.log('ans');
-        console.log(ans);
+        console.log('table_info_arr');
+        console.log(table_info_arr);
         let statusColumnInput = document.querySelector('thead>tr>td>input[data-column="'.concat("1").concat('"]'));
         console.log(statusColumnInput.value);
-        return ans
+        return table_info_arr
     } else {
         console.log('candidate list table does not exist now')
     }
 }
 
-update_filter = function (data_column_offset, column_name, filter, column_sort) {
+
+var candidates_offset = {}
+candidates_offset["Status "] = '1'
+candidates_offset["Last name "] = '4'
+candidates_offset["First name "] = '5'
+candidates_offset["Grade "] = '6'
+candidates_offset["Program Year "] = '7'
+candidates_offset["Attending "] = '8'
+candidates_offset["Covenant Agreement "] = '9'
+candidates_offset["Information Sheet "] = '10'
+candidates_offset["Baptismal Certificate "] = '11'
+candidates_offset["Sponsor's Covenant "] = '12'
+candidates_offset["Sponsor's Eligibility "] = '13'
+candidates_offset["Confirmation Name "] = '14'
+candidates_offset["Christian Ministry "] = '15'
+candidates_offset["Attend Retreat "] = '16'
+candidates_offset["Parent Information Meeting "] = '17'
+candidates_offset["Account Confirmed "] = '18'
+candidates_offset["Password Changed "] = '19'
+
+var adhoc_offset = {}
+adhoc_offset["Status "] = '1'
+adhoc_offset["Last name "] = '2'
+adhoc_offset["First name "] = '3'
+adhoc_offset["Grade "] = '4'
+adhoc_offset["Program Year "] = '5'
+adhoc_offset["Attending "] = '6'
+adhoc_offset["Covenant Agreement "] = '7'
+adhoc_offset["Information Sheet "] = '8'
+adhoc_offset["Baptismal Certificate "] = '9'
+adhoc_offset["Sponsor's Covenant "] = '10'
+adhoc_offset["Sponsor's Eligibility "] = '11'
+adhoc_offset["Confirmation Name "] = '12'
+adhoc_offset["Christian Ministry "] = '13'
+adhoc_offset["Attend Retreat "] = '14'
+adhoc_offset["Parent Information Meeting "] = '15'
+adhoc_offset["Account Confirmed "] = '16'
+adhoc_offset["Password Changed "] = '17'
+adhoc_offset["Attend Retreat "] = '18'
+
+update_column_sorting_and_filters = function (data_column_offset, column_name, filter, column_sort) {
     // console.log(document.cookies['x']);
     let candidate_list_table = $("#candidate_list_table")
     if (candidate_list_table.length > 0) {
         console.log('candidate list table exists now')
-        if (column_sort === 'des') {
+        if (column_sort === 'descending') {
             candidate_list_table.find("th:contains(".concat(column_name).concat(")")).trigger("sort");
             candidate_list_table.find("th:contains(".concat(column_name).concat(")")).trigger("sort");
         }
-        if (column_sort === 'asc') {
+        if (column_sort === 'ascending') {
             x = candidate_list_table.find("th:contains(".concat(column_name).concat(")"));
             x.trigger("sort")
         }
         let statusColumnInput = document.querySelector('thead>tr>td>input[data-column="'.concat(data_column_offset).concat('"]'));
-        statusColumnInput.value = filter;
-        // table.config.widgetOptions.filter_initialized
-        $('table')[0].config.widgetOptions.filter_initialized = true
-        candidate_list_table.trigger('search', [filter]);
+        if (statusColumnInput != null){
+            statusColumnInput.value = filter;
+            // table.config.widgetOptions.filter_initialized
+            $('table')[0].config.widgetOptions.filter_initialized = true
+            candidate_list_table.trigger('search', [filter]);
+        }
     } else {
         console.log('candidate list table does not exist now')
     }
-    ;
 }
 
 confirmation_toggle = function () {
 
-    function instructions( e ) {
+    function instructions(e) {
         e.preventDefault();
         // expand/collapse
         let div = $('#instructions');

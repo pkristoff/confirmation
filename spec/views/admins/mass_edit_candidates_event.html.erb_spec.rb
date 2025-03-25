@@ -8,6 +8,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
     @candidate2 = Candidate.find_by(account_name: create_candidate('Paul', 'Richard', 'Kristoff').account_name)
     @candidates = [@candidate1, @candidate2]
     AppFactory.add_confirmation_events
+    @admin = login_admin
   end
 
   AppFactory.all_i18n_confirmation_event_keys.each do |confirmation_event_key|

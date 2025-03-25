@@ -3,13 +3,16 @@
 describe 'candidates/index.html.erb' do
   include ViewsHelpers
   before do
+    @admin = login_admin
+    @admin.table_filter_and_sorting_columns = Admin.initial_sorting_settings
+    @admin.save!
     AppFactory.generate_default_status
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
 
     AppFactory.add_confirmation_events
 
-    # have to re-look up canduidates because local is diff object than db onstance
+    # have to re-look up candidates because local is diff object than db instance
     @candidates = [Candidate.find_by(account_name: candidate1.account_name),
                    Candidate.find_by(account_name: candidate2.account_name)]
     @candidate_info = PluckCan.pluck_candidates
@@ -41,6 +44,15 @@ describe 'candidates/index.html.erb' do
       @candidates,
       rendered
     )
+  end
+
+  it 'display hidden values' do
+    render
+
+    expect(rendered).to have_css('#admin_id', visible: :hidden, text: @admin.id.to_s)
+    expect(rendered).to have_css('#table_filter_and_sorting_columns_id',
+                                 visible: :hidden,
+                                 text: @admin.table_filter_and_sorting_columns)
   end
 
   private

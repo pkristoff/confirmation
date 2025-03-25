@@ -46,7 +46,7 @@
                 id: "insturction-toggle",
                 onclick: 'confirmation_toggle().instructions(event)',
                 title: t('views.title.instruction_link') do %>
-      <span id="insturction-toggle-span" class="glyphicon glyphicon-minus"></span>
+      <span id="instruction-toggle-span" class="glyphicon glyphicon-minus"></span>
     <% end %>
     <div id="instructions" class="show-div" %>
       <%= sanitize(candidate_event.confirmation_event.instructions) unless candidate_event.nil? %>

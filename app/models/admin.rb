@@ -36,7 +36,7 @@ class Admin < ApplicationRecord
   # * <tt>Array</tt> of attributes
   #
   def self.permitted_params
-    %i[email contact_name contact_phone account_name name password password_confirmation]
+    %i[email contact_name contact_phone account_name name password password_confirmation table_filter_and_sorting_columns]
   end
 
   # next_available_account_name
@@ -48,19 +48,6 @@ class Admin < ApplicationRecord
   #
   def self.next_available_account_name
     ["Admin #{Admin.count}", "Admin_#{Admin.count}"]
-  end
-
-  # Update table_filter upon login (sign_in)
-  #
-  # def after_database_authentication
-  #   super
-  #   update(table_filter: Admin.initial_sorting_settings)
-  # end
-
-  # sorting and filter values
-  #
-  def sorting_settings
-    Admin.initial_sorting_settings
   end
 
   # initial sorting and filter values

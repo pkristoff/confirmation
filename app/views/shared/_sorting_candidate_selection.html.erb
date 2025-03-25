@@ -79,7 +79,7 @@
     </tr>
     </thead>
     <script>
-        $(function() {
+        $(function () {
             // $("#candidate_list_table").disableSelection();
         });
     </script>
@@ -171,4 +171,13 @@
     <% end %>
     </tbody>
   </table>
+  <div style="display: none;">
+    <% # Saves Current Admin's id & filter and sorting column info. %>
+  <p id='admin_id'>
+    <%= current_admin.id %>
+  </p>
+  <p id="table_filter_and_sorting_columns_id" >
+    <%= current_admin.table_filter_and_sorting_columns %>
+  </p>
+  </div>
 </div>

@@ -113,16 +113,18 @@ class AdminsController < ApplicationController
     render :adhoc_mailing
   end
 
-  # update_filter_and_sorting
+  # update_column_sorting_and_filters
   #
   def update_filter_and_sorting
-    if params[:_json]
-      # current_admin.table_filter = params[:_json]
-      respond_to do |format|
-        format.js { flash[:info] = "The user with an ID of #{@user.id} has had their admin attribute toggled!" }
-      end
+    admin_params = params[:admin]
+    admin_id = admin_params.delete(:id)
+
+    admin = Admin.find(admin_id)
+    # admin.table_filter_and_sorting_columns = table_filter_and_sorting_columns_str
+    if admin.update(required_admin_params)
+      flash.now[:notice] = 'update_filter_and_sorting updated successfully'
     else
-      redirect_to admin_list_path, danger: "You tried to make yourself a normal user! Don't do that!"
+      flash.now[:alert] = 'update_filter_and_sorting FAILED'
     end
   end
 

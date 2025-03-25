@@ -39,7 +39,9 @@ $(document).ready ->
         filter_columnFilters: true,
       }
     })
-    update_filters(column_filters8);
+    tables_gb = $("#table_filter_and_sorting_columns_id");
+    if (tables_gb.length == 1)
+      table_info_arr_gb = JSON.parse(tables_gb[0].innerText);
+      initialize_sorting_and_filters(table_info_arr_gb);
+      setup_filter_and_sort_binding();
     update_total_selections();
-
-    setup_filter();
