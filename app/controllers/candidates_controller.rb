@@ -72,6 +72,8 @@ class CandidatesController < CommonCandidatesController
   # show candidates
   #
   def index
+    @offset_table_name = 'candidates_offset'
+
     candidates_info(direction: :asc, sort: :account_name)
   end
 

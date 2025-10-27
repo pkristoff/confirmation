@@ -8,5 +8,6 @@ FactoryBot.define do
     contact_name { 'Vicki Kristoff' }
     contact_phone { '919-249-5629' }
     password { 'please123' }
+    table_filter_and_sorting_columns { Admin.initial_sorting_settings }
   end
 end

@@ -13,8 +13,8 @@ describe 'Admin verifies Pick confirmation name from Mass Edit Candidates Event'
     @path_str = 'pick_confirmation_name_verify'
     @dev = ''
 
-    admin = FactoryBot.create(:admin)
-    login_as(admin, scope: :admin)
+    @admin = FactoryBot.create(:admin)
+    login_as(@admin, scope: :admin)
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @cand_id = candidate.id

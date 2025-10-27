@@ -7,6 +7,11 @@ describe 'Admin edit_multiple_confirmation_events', :devise do
   include Warden::Test::Helpers
 
   before do
+    # For RSpec >= 3
+    # allow(controller).to receive(:current_admin).and_return(admin)
+    # If using current_admin_user specifically (e.g., with Active Admin)
+    # allow(controller).to receive(:current_admin_user).and_return(admin_user)
+
     FactoryBot.create(:visitor)
     AppFactory.generate_default_status
     @candidate1 = Candidate.find_by(account_name: create_candidate('Vicki', 'Anne', 'Kristoff').account_name)
@@ -14,9 +19,11 @@ describe 'Admin edit_multiple_confirmation_events', :devise do
     @candidates = [@candidate1, @candidate2]
 
     AppFactory.add_confirmation_events
-    admin = FactoryBot.create(:admin)
-    login_as(admin, scope: :admin)
-
+    @admin = FactoryBot.create(:admin)
+    login_as(@admin, scope: :admin)
+    @admin.table_filter_and_sorting_columns = Admin.initial_sorting_settings
+    @admin.save
+    # current_admin
     @today = Time.zone.today
   end
 
@@ -53,6 +60,11 @@ describe 'Admin edit_multiple_confirmation_events', :devise do
     candidate_event.save
 
     visit edit_multiple_confirmation_events_path
+
+    admin2 = FactoryBot.create(:admin, account_name: 'Admin1', name: 'foo', email: 'paul@kristoffs.com')
+    login_as(admin2, scope: :admin)
+    admin2.table_filter_and_sorting_columns = Admin.initial_sorting_settings
+    @admin = admin2
 
     click_button("candidates-#{ConfirmationEvent.find_by(event_key: event_key).id}")
 

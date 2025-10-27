@@ -2,10 +2,13 @@
 
 module RuboCop
   module Cop
+
     # FIXME
     class Team
+
       # This is a copy of handle_error in rubocop/cop/team.rb
       # except it raises the error so my tests of my extension will fail
+      #
       def handle_error(error, location, cop)
         message = Rainbow("An XXX error occurred while #{cop.name}" \
                            " cop was inspecting #{location}.").red
@@ -16,7 +19,7 @@ module RuboCop
         else
           warn 'To see the complete backtrace run rubocop -d.'
         end
-        raise(error)
+        raise(@errors)
       end
     end
   end

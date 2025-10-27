@@ -422,6 +422,8 @@ class AdminsController < ApplicationController
                                 email: admin.email,
                                 phone: admin.contact_phone))
 
+    @offset_table_name = 'monthly_offset'
+
     setup_monthly_mailing_render(subject,
                                  pre_late_input,
                                  pre_coming_due_input,
@@ -663,7 +665,7 @@ class AdminsController < ApplicationController
       candidates_info(confirmation_event: confirmation_event)
       render :mass_edit_candidates_event
     else
-      flash[:alert] = "Unkown commit param: #{params[:commit]}"
+      flash[:alert] = "Unknown commit param: #{params[:commit]}"
       set_confirmation_events
       render :edit_multiple_confirmation_events
     end
@@ -693,6 +695,7 @@ class AdminsController < ApplicationController
     @closing_input = closing_input
     @salutation_input = salutation_input
     @from_input = from_input
+    @offset_table_name = 'monthly_offset'
     candidates_info(selected_candidate_ids: selected_ids)
   end
 
@@ -706,6 +709,7 @@ class AdminsController < ApplicationController
   def setup_adhoc_render(body_input_input, subject_input)
     @subject = subject_input
     @body = body_input_input
+    @offset_table_name = 'adhoc_offset'
     candidates_info
   end
 

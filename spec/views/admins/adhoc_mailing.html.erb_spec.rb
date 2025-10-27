@@ -5,6 +5,8 @@ describe 'admins/adhoc_mailing.html.erb' do
   before do
     # Define current_admin for testing
     @admin = login_admin
+    @admin.table_filter_and_sorting_columns = Admin.initial_sorting_settings
+    @admin.save
     AppFactory.generate_default_status
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')

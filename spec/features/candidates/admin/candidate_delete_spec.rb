@@ -13,8 +13,8 @@ describe 'Candidate delete', :devise do
   before do
     AppFactory.generate_default_status
     FactoryBot.create(:visitor)
-    admin = FactoryBot.create(:admin)
-    login_as(admin, scope: :admin)
+    @admin = FactoryBot.create(:admin)
+    login_as(@admin, scope: :admin)
 
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')

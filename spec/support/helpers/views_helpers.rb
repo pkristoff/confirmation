@@ -14,7 +14,7 @@ module ViewsHelpers
   FROM_EMAIL_I18N = 'views.top_bar.contact_admin_mail_text'
   REPLY_TO_EMAIL_I18N = 'views.top_bar.contact_admin_mail_text'
 
-  # Expect Create new Candidate
+  # Expect to Create new Candidate
   #
   # === Parameters:
   #

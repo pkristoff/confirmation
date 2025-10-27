@@ -13,8 +13,8 @@ describe 'Admin verifies christian ministry from Mass Edit Candidates Event', :d
     @path_str = 'christian_ministry_verify'
     @dev = ''
 
-    admin = FactoryBot.create(:admin)
-    login_as(admin, scope: :admin)
+    @admin = FactoryBot.create(:admin)
+    login_as(@admin, scope: :admin)
     candidate = FactoryBot.create(:candidate)
     AppFactory.add_confirmation_events
     @cand_id = candidate.id

@@ -1,4 +1,10 @@
+# frozen_string_literal: true
+
+# Migration
+#
 class CreateSponsorEligibilities < ActiveRecord::Migration[5.2]
+
+  # change
   def change
     connection.execute 'drop table if exists sponsor_eligibilities'
     create_table :sponsor_eligibilities do |t|
@@ -23,7 +29,7 @@ class CreateSponsorEligibilities < ActiveRecord::Migration[5.2]
         end
         say 'add_confirmation_event-event_keys-end'
 
-        # build new class in candidate and set new values
+        # build new class in a candidate and set new values
         Candidate.all.each do |candidate|
           say "candidate.account_name=#{candidate.account_name}"
           candidate.build_sponsor_eligibility

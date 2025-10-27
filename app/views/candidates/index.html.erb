@@ -10,7 +10,7 @@
 
 %>
 
-<%= form_tag mass_edit_candidates_update_path(), method: :post do %>
+<%= form_tag mass_edit_candidates_update_path, method: :post do %>
   <div class="btn-group" role="group" aria-label="...">
     <% buttons.each do |button_info| %>
       <% const = button_info[0] %>

@@ -28,7 +28,7 @@ describe 'shared/sorting_candidate_selection' do
       expect_sorting_candidate_list(@columns_select,
                                     @candidates,
                                     rendered,
-                                    @confirmation_event)
+                                    :confirmation_event => @confirmation_event)
     end
   end
 end

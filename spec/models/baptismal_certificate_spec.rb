@@ -463,9 +463,7 @@ describe BaptismalCertificate do
 
   def expect_validation_params(actual, expected)
     expected.each do |expected_param|
-      puts(actual) unless actual.include?(expected_param)
       expect(actual.include?(expected_param)).to be(true)
-      puts(actual) if actual.size != expected.size
       expect(actual.size).to eq(expected.size)
     end
   end

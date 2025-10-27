@@ -69,8 +69,8 @@ column_sorting = function () {
                 break;
         }
     }
-}
-()
+}()
+
 
 setup_filter_and_sort_binding = function () {
     let candidate_list_table = $("#candidate_list_table")
@@ -133,13 +133,26 @@ initialize_sorting_and_filters = function (columns) {
     function update_column(column_info) {
         let column_name = column_info['column_name'];
         let filter = column_info['filter'];
+        let offset_table_name = document.getElementById("offset_id").innerText
         console.log('Column_name='.concat(column_name))
-        let data_column_offset_lu = adhoc_offset[column_name];
-        console.log('   data_column_offset LU:  ('.concat(')').concat(data_column_offset_lu))
+        let data_column_offset_lu = column_offset(column_name, offset_table_name);
+        console.log(' ,data_column_offset LU:  ('.concat(')').concat(data_column_offset_lu))
         let data_column_offset_old = column_info['data_column_offset'];
         console.log('   data_column_offset old: '.concat(data_column_offset_old))
         let column_sort = column_info['Sort'] || column_info['sort'];
         update_column_sorting_and_filters(data_column_offset_lu, column_name, filter, column_sort)
+    }
+}
+
+function column_offset(column_name, table_name) {
+    if (table_name.includes('adhoc_offset')) {
+        return adhoc_offset[column_name];
+    } else if (table_name.includes('candidates_offset')) {
+        return candidates_offset[column_name];
+    } else if (table_name.includes('monthly_offset') ){
+        return adhoc_offset[column_name];
+    } else {
+       throw new Error('Unknown column offset table'.concat(table_name))
     }
 }
 
@@ -219,6 +232,26 @@ adhoc_offset["Parent Information Meeting "] = '15'
 adhoc_offset["Account Confirmed "] = '16'
 adhoc_offset["Password Changed "] = '17'
 adhoc_offset["Attend Retreat "] = '18'
+
+var monthly_offset = {}
+monthly_offset["Status "] = '1'
+monthly_offset["Last name "] = '2'
+monthly_offset["First name "] = '3'
+monthly_offset["Grade "] = '4'
+monthly_offset["Program Year "] = '5'
+monthly_offset["Attending "] = '6'
+monthly_offset["Covenant Agreement "] = '7'
+monthly_offset["Information Sheet "] = '8'
+monthly_offset["Baptismal Certificate "] = '9'
+monthly_offset["Sponsor's Covenant "] = '10'
+monthly_offset["Sponsor's Eligibility "] = '11'
+monthly_offset["Confirmation Name "] = '12'
+monthly_offset["Christian Ministry "] = '13'
+monthly_offset["Attend Retreat "] = '14'
+monthly_offset["Parent Information Meeting "] = '15'
+monthly_offset["Account Confirmed "] = '16'
+monthly_offset["Password Changed "] = '17'
+monthly_offset["Attend Retreat "] = '18'
 
 update_column_sorting_and_filters = function (data_column_offset, column_name, filter, column_sort) {
     // console.log(document.cookies['x']);

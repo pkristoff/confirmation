@@ -74,7 +74,8 @@ def event_with_picture_setup(route, is_verify: false)
     @path = dev_event_with_picture_path(@candidate.id, route)
     @dev = 'dev/'
   else
-    login_as(FactoryBot.create(:admin), scope: :admin)
+    @admin = FactoryBot.create(:admin) if Admin.count < 1
+    login_as(@admin, scope: :admin)
 
     @path = is_verify ? event_with_picture_verify_path(@candidate.id, route) : event_with_picture_path(@candidate.id, route)
     @dev = ''

@@ -8,7 +8,10 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
     @candidate2 = Candidate.find_by(account_name: create_candidate('Paul', 'Richard', 'Kristoff').account_name)
     @candidates = [@candidate1, @candidate2]
     AppFactory.add_confirmation_events
-    @admin = login_admin
+    @admin = FactoryBot.create(:admin)
+    login_admin(:admin => @admin)
+    @admin.table_filter_and_sorting_columns = Admin.initial_sorting_settings
+    @admin.save
   end
 
   AppFactory.all_i18n_confirmation_event_keys.each do |confirmation_event_key|
@@ -31,8 +34,7 @@ describe 'admins/mass_edit_candidates_event.html.erb' do
       expect_sorting_candidate_list(
         candidate_events_columns(@confirmation_event),
         @candidates,
-        rendered,
-        @confirmation_event
+        rendered, :confirmation_event => @confirmation_event
       )
 
       expect(rendered).to have_css("input[id='bottom-update'][type='submit'][value='#{t('views.common.update')}']")

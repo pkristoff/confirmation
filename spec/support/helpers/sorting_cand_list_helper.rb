@@ -11,13 +11,28 @@ module SortingCandListHelpers
   # * <tt>:column_headers_in_order</tt>
   # * <tt>:candidates_in_order</tt>
   # * <tt>:rendered_or_page</tt>
-  # * <tt>:confirmation_event</tt>
+  # * <tt>:other_args</tt>
   #
-  def expect_sorting_candidate_list(column_headers_in_order, candidates_in_order, rendered_or_page, confirmation_event = nil)
-    table_id = "table[id='candidate_list_table']"
-    tr_header_id = "tr[id='candidate_list_header']"
-    expect(rendered_or_page).to have_css(table_id.to_s)
-    expect(rendered_or_page).to have_css("#{table_id} #{tr_header_id}")
+  def expect_sorting_candidate_list(column_headers_in_order,
+                                    candidates_in_order,
+                                    rendered_or_page,
+                                    **other_args)
+    table_id = nil
+    tr_header_id = nil
+    confirmation_event = other_args[:confirmation_event]
+    # set initial values
+    expected_offset_table_name = '' if other_args[:expected_offset_table_name].nil?
+    expected_offset_table_name = other_args[:expected_offset_table_name] unless other_args[:expected_offset_table_name].nil?
+
+    if (expected_offset_table_name = other_args[:expected_offset_table_name])
+      expected_table_filter_and_sorting_columns_value = Admin.initial_sorting_settings
+    else
+      expected_table_filter_and_sorting_columns_value =
+        other_args[:expected_table_filter_and_sorting_columns_value]
+      other_args[:expected_table_filter_and_sorting_columns_value]
+    end
+    expect(rendered_or_page).to have_css(table_id.to_s) unless table_id.nil?
+    expect(rendered_or_page).to have_css("#{table_id} #{tr_header_id}") unless tr_header_id.nil?
     column_headers_in_order.each_with_index do |info, index|
       i18n_name = info[0]
       sort_enabled = info[1]
@@ -26,7 +41,13 @@ module SortingCandListHelpers
       basic_th_css = "#{table_id} #{tr_header_id} [id='#{th_header_id}']"
       # expect headers
       if sort_enabled
-        expect(rendered_or_page).to have_css basic_th_css, text: i18n_name
+        admin_id = @admin.id.to_s
+        # puts "expected_offset_table_name=#{expected_offset_table_name}XXX"
+        expect(rendered_or_page).to have_selector('p[id=offset_id]', visible: :hidden, count: 1, text: expected_offset_table_name)
+        expect(rendered_or_page).to have_selector('p[id=admin_id]', visible: :hidden, count: 1, text: admin_id)
+        expect(rendered_or_page).to have_selector('p[id=table_filter_and_sorting_columns_id]',
+                                                  visible: :hidden, count: 1,
+                                                  text: expected_table_filter_and_sorting_columns_value)
       else
         case i18n_name
         when I18n.t('views.nav.status')
@@ -217,11 +238,12 @@ module SortingCandListHelpers
     expect(page).to have_field(I18n.t('views.events.completed_date'))
 
     cand = Candidate.find_by(id: cand_id)
+    # thi sis broken
     expect_sorting_candidate_list(
       candidate_events_columns(confirmation_event),
       [cand],
       page,
-      confirmation_event
+      :confirmation_event => confirmation_event
     )
 
     event_key = confirmation_event.event_key
@@ -230,7 +252,7 @@ module SortingCandListHelpers
     expect(cand.get_candidate_event(event_key).verified).to be(false) if is_unverified
   end
 
-  # Expect Pick Confirmation Name
+  # Expect Pick_Confirmation_Name
   #
   # === Parameters:
   #

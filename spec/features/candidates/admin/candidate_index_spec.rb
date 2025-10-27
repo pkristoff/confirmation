@@ -13,6 +13,8 @@ describe 'Candidate index page', :devise do
   before do
     AppFactory.generate_default_status
     FactoryBot.create(:visitor)
+    @admin = FactoryBot.create(:admin)
+    login_as(@admin, scope: :admin)
   end
 
   after do
@@ -23,9 +25,8 @@ describe 'Candidate index page', :devise do
     FactoryBot.create(:candidate, account_name: 'c1')
     FactoryBot.create(:candidate, account_name: 'c3')
     FactoryBot.create(:candidate, account_name: 'c2')
-    admin = FactoryBot.create(:admin)
-    login_as(admin, scope: :admin)
-    # move after FactoryBot create otherwise the events are not picked up.
+    login_as(@admin, scope: :admin)
+    @admin.table_filter_and_sorting_columns = Admin.initial_sorting_settings
     AppFactory.add_confirmation_events
     c1 = Candidate.find_by(account_name: 'c1')
     c2 = Candidate.find_by(account_name: 'c2')
@@ -56,7 +57,6 @@ describe 'Candidate index page', :devise do
     end
 
     expect(page).to have_css("button[type='submit']", count: buttons.size * 2)
-
     expect_sorting_candidate_list(candidates_columns,
                                   [c1, c2, c3],
                                   page)

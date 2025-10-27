@@ -32,7 +32,7 @@ module ExpectAddress
       text_fields.each do |sym|
         str = sym
         # str = 'street_1' if sym == :street1
-        # str = 'street_2' if sym == :street2
+        # str = 'street_2' if sym ==: street2
         val = bc_form_info.field_value(str.to_sym, 'activerecord.attributes.baptismal_certificate.church_address/address')
         street_1_i18_path = 'activerecord.attributes.baptismal_certificate.church_address/address.street_1'
         val = '' if sym == :street_2 && bc_form_info.blank_field?(street_1_i18_path)

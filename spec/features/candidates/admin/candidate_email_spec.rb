@@ -9,8 +9,8 @@ describe 'Candidate email', :devise do
   before do
     AppFactory.generate_default_status
     FactoryBot.create(:visitor)
-    admin = FactoryBot.create(:admin)
-    login_as(admin, scope: :admin)
+    @admin = FactoryBot.create(:admin)
+    login_as(@admin, scope: :admin)
 
     candidate1 = create_candidate('Vicki', 'Anne', 'Kristoff')
     candidate2 = create_candidate('Paul', 'Richard', 'Kristoff')
@@ -37,6 +37,7 @@ describe 'Candidate email', :devise do
   end
 
   it 'admin can email candidates if they are selected' do
+    @admin.table_filter_and_sorting_columns = Admin.initial_sorting_settings
     visit candidates_path
 
     check("candidate_candidate_ids_#{@candidate1.id}")

@@ -177,7 +177,12 @@
     <%= current_admin.id %>
   </p>
   <p id="table_filter_and_sorting_columns_id" >
-    <%= current_admin.table_filter_and_sorting_columns %>
+    <%= current_admin.table_filter_and_sorting_columns.nil? ?
+          Admin.initial_sorting_settings :
+          current_admin.table_filter_and_sorting_columns%>
+  </p>
+  <p id="offset_id" >
+    <%= @offset_table_name.nil? ? '' : @offset_table_name %>
   </p>
   </div>
 </div>

@@ -32,6 +32,7 @@ describe 'admins/monthly_mass_mailing.html.erb' do
 
     render
 
-    expect_mass_mailing_html(@candidates, rendered)
+    expect_mass_mailing_html(@candidates,
+                             rendered)
   end
 end
